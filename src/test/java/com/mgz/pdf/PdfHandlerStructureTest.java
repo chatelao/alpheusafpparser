@@ -54,9 +54,13 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GSPT_SetPatternSymbol;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLT_SetLineType;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLW_SetLineWidth;
 import com.mgz.afp.goca.GAD_GraphicsData;
+import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
+import com.mgz.afp.ioca.IPD_ImagePictureData;
 import com.mgz.afp.modca.BDT_BeginDocument;
+import com.mgz.afp.modca.BIM_BeginImageObject;
 import com.mgz.afp.modca.BPG_BeginPage;
 import com.mgz.afp.modca.EDT_EndDocument;
+import com.mgz.afp.modca.EIM_EndImageObject;
 import com.mgz.afp.modca.EPG_EndPage;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format1;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
@@ -872,9 +876,56 @@ public class PdfHandlerStructureTest {
     assertEquals(0, state2.getBarcodeModifier());
   }
 
+  @Test
+  public void testIocaTracking() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    // BIM: Begin Image Object
+    BIM_BeginImageObject bim = new BIM_BeginImageObject();
+    bim.setStructuredFieldIntroducer(createSfi(SFTypeID.BIM_BeginImageObject));
+    handler.handle(bim);
+
+    assertTrue(handler.getImageState().isInImageObject());
+
+    // IDD: Image Data Descriptor
+    IDD_ImageDataDescriptor idd = new IDD_ImageDataDescriptor();
+    idd.setStructuredFieldIntroducer(createSfi(SFTypeID.IDD_ImageDataDescriptor));
+    idd.setUnitBase(AFPUnitBase.Inches10);
+    idd.setxImagePointsPerUnitBase((short) 3000);
+    idd.setyImagePointsPerUnitBase((short) 3000);
+    handler.handle(idd);
+
+    assertEquals(idd, handler.getImageState().getDescriptor());
+
+    // IPD: Image Picture Data
+    IPD_ImagePictureData ipd1 = new IPD_ImagePictureData();
+    ipd1.setStructuredFieldIntroducer(createSfi(SFTypeID.IPD_ImagePictureData));
+    handler.handle(ipd1);
+
+    IPD_ImagePictureData ipd2 = new IPD_ImagePictureData();
+    ipd2.setStructuredFieldIntroducer(createSfi(SFTypeID.IPD_ImagePictureData));
+    handler.handle(ipd2);
+
+    assertEquals(2, handler.getImageState().getImageSegments().size());
+    assertEquals(ipd1, handler.getImageState().getImageSegments().get(0));
+    assertEquals(ipd2, handler.getImageState().getImageSegments().get(1));
+
+    // EIM: End Image Object
+    EIM_EndImageObject eim = new EIM_EndImageObject();
+    eim.setStructuredFieldIntroducer(createSfi(SFTypeID.EIM_EndImageObject));
+    handler.handle(eim);
+
+    assertTrue(!handler.getImageState().isInImageObject());
+  }
+
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {
     StructuredFieldIntroducer sfi = new StructuredFieldIntroducer();
     sfi.setSFTypeID(typeID);
+    sfi.setFlagByte(java.util.EnumSet.noneOf(com.mgz.afp.enums.SFFlag.class));
     return sfi;
   }
 }
