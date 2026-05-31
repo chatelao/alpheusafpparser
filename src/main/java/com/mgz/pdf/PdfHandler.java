@@ -38,6 +38,8 @@ import com.itextpdf.layout.element.Paragraph;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.base.IRepeatingGroup;
+import com.mgz.afp.bcoca.BBC_BeginBarCodeObject;
+import com.mgz.afp.bcoca.BDA_BarCodeData;
 import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor;
 import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
@@ -183,6 +185,8 @@ public class PdfHandler implements StructuredFieldHandler {
       structureStack.push(sf);
       if (sf instanceof BIM_BeginImageObject) {
         imageState.startNewImage();
+      } else if (sf instanceof BBC_BeginBarCodeObject) {
+        barcodeState.startNewBarcode();
       } else if (sf instanceof BDT_BeginDocument || sf instanceof BNG_BeginNamedPageGroup || sf instanceof BPG_BeginPage) {
         PdfDictionary dpart = new PdfDictionary();
         dpart.makeIndirect(pdfDoc);
@@ -227,6 +231,9 @@ public class PdfHandler implements StructuredFieldHandler {
         } else if (begin instanceof BIM_BeginImageObject) {
           imageState.setInImageObject(false);
           // TODO: Trigger image conversion and placement
+        } else if (begin instanceof BBC_BeginBarCodeObject) {
+          barcodeState.setInBarcodeObject(false);
+          // TODO: Trigger barcode rendering
         }
       }
     } else if (sf instanceof TLE_TagLogicalElement tle) {
@@ -357,6 +364,10 @@ public class PdfHandler implements StructuredFieldHandler {
       barcodeState.setElementHeight(bdd.getElementHeight());
       barcodeState.setHeightMultiplier(bdd.getHeightMultiplier());
       barcodeState.setWideToNarrowRatio(bdd.getWideToNarrowRatio());
+    } else if (sf instanceof BDA_BarCodeData bda) {
+      if (barcodeState.isInBarcodeObject()) {
+        barcodeState.addBarcodeData(bda);
+      }
     } else if (sf instanceof IDD_ImageDataDescriptor idd) {
       if (imageState.isInImageObject()) {
         imageState.setDescriptor(idd);

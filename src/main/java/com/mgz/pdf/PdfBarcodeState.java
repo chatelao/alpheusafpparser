@@ -19,7 +19,10 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.pdf;
 
+import com.mgz.afp.bcoca.BDA_BarCodeData;
 import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor.BarCodeType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Tracks the active BCOCA barcode state for PDF conversion.
@@ -34,6 +37,8 @@ public class PdfBarcodeState {
   private int elementHeight;
   private short heightMultiplier;
   private int wideToNarrowRatio;
+  private final List<BDA_BarCodeData> barcodeData = new ArrayList<>();
+  private boolean inBarcodeObject = false;
 
   /**
    * Resets the barcode state to default values.
@@ -47,6 +52,8 @@ public class PdfBarcodeState {
     this.elementHeight = 0;
     this.heightMultiplier = 0;
     this.wideToNarrowRatio = 0;
+    this.barcodeData.clear();
+    this.inBarcodeObject = false;
   }
 
   public BarCodeType getBarcodeType() {
@@ -111,5 +118,29 @@ public class PdfBarcodeState {
 
   public void setWideToNarrowRatio(int wideToNarrowRatio) {
     this.wideToNarrowRatio = wideToNarrowRatio;
+  }
+
+  public List<BDA_BarCodeData> getBarcodeData() {
+    return barcodeData;
+  }
+
+  public void addBarcodeData(BDA_BarCodeData data) {
+    this.barcodeData.add(data);
+  }
+
+  public boolean isInBarcodeObject() {
+    return inBarcodeObject;
+  }
+
+  public void setInBarcodeObject(boolean inBarcodeObject) {
+    this.inBarcodeObject = inBarcodeObject;
+  }
+
+  /**
+   * Clears collected data for a new barcode object.
+   */
+  public void startNewBarcode() {
+    this.barcodeData.clear();
+    this.inBarcodeObject = true;
   }
 }

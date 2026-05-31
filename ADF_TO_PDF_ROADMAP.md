@@ -101,8 +101,11 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ⏳ **Resource Mapping**:
         - ⏳ **Segment Mapping**: Convert GOCA segments (`GBSEG`, `GESEG`) to PDF Form XObjects if they are reusable.
 - ⏳ **BCOCA Renderer**: Implement barcode drawing using vector primitives for resolution independence.
-    - ✅ **BCOCA State Tracking**: Implement tracking of barcode descriptors (`BDD`) including type, modifier, and font for HRI.
-    - ⏳ **Linear Barcode Support**: Implement rendering for common linear barcodes (Code 39, Code 128, UPC/EAN).
+    - ✅ **BCOCA State Tracking**: Implement tracking of barcode descriptors (`BDD`) and data (`BDA`) including type, modifier, and font for HRI.
+    - ⏳ **Linear Barcode Support**: Implement rendering for common linear barcodes.
+        - ⏳ **Code 39**: Implement rendering for Code 39 (3 of 9) barcodes.
+        - ⏳ **Code 128**: Implement rendering for Code 128 barcodes.
+        - ⏳ **UPC/EAN**: Implement rendering for UPC-A, UPC-E, EAN-8, and EAN-13 barcodes.
     - ⏳ **2D Barcode Support**: Implement rendering for 2D barcodes (Data Matrix, QR Code, PDF417).
     - ⏳ **Postal Barcode Support**: Implement rendering for postal codes (POSTNET, Intelligent Mail, Japan Postal).
     - ⏳ **HRI Rendering**: Implement Human Readable Interpretation (HRI) text placement and font mapping.
