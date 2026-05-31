@@ -99,6 +99,13 @@ public class MnemonicPerformanceMonitor {
     activeMeasurements.get().push(new Measurement(mnemonic, System.nanoTime(), false));
   }
 
+  public static void startWriteWithMnemonic(String mnemonic) {
+    if (!enabled || mnemonic == null) {
+      return;
+    }
+    activeMeasurements.get().push(new Measurement(mnemonic, System.nanoTime(), false));
+  }
+
   public static void endWrite() {
     if (!enabled) {
       return;
@@ -156,8 +163,14 @@ public class MnemonicPerformanceMonitor {
     return extractMnemonicFromString(simpleName);
   }
 
-  private static String extractMnemonicFromString(String name) {
+  public static String extractMnemonicFromString(String name) {
     if (name == null || name.isEmpty()) {
+      return null;
+    }
+
+    // Fast-path for non-mnemonics (starting with lowercase or digit)
+    char firstChar = name.charAt(0);
+    if (Character.isLowerCase(firstChar) || Character.isDigit(firstChar)) {
       return null;
     }
 

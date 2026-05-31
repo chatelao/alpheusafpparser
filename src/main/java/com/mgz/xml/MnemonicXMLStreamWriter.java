@@ -40,16 +40,16 @@ public class MnemonicXMLStreamWriter extends StreamWriter2Delegate {
 
   @Override
   public void writeStartElement(String localName) throws XMLStreamException {
-    String mnemonic = MnemonicPerformanceMonitor.extractMnemonic(localName);
-    MnemonicPerformanceMonitor.startWrite(localName);
+    String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(localName);
+    MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
     elementStack.push(mnemonic != null ? mnemonic : "");
     super.writeStartElement(localName);
   }
 
   @Override
   public void writeStartElement(String namespaceUri, String localName) throws XMLStreamException {
-    String mnemonic = MnemonicPerformanceMonitor.extractMnemonic(localName);
-    MnemonicPerformanceMonitor.startWrite(localName);
+    String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(localName);
+    MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
     elementStack.push(mnemonic != null ? mnemonic : "");
     super.writeStartElement(namespaceUri, localName);
   }
@@ -57,15 +57,16 @@ public class MnemonicXMLStreamWriter extends StreamWriter2Delegate {
   @Override
   public void writeStartElement(String prefix, String localName, String namespaceUri)
       throws XMLStreamException {
-    String mnemonic = MnemonicPerformanceMonitor.extractMnemonic(localName);
-    MnemonicPerformanceMonitor.startWrite(localName);
+    String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(localName);
+    MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
     elementStack.push(mnemonic != null ? mnemonic : "");
     super.writeStartElement(prefix, localName, namespaceUri);
   }
 
   @Override
   public void writeEmptyElement(String namespaceUri, String localName) throws XMLStreamException {
-    MnemonicPerformanceMonitor.startWrite(localName);
+    String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(localName);
+    MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
     super.writeEmptyElement(namespaceUri, localName);
     MnemonicPerformanceMonitor.endWrite();
   }
@@ -73,14 +74,16 @@ public class MnemonicXMLStreamWriter extends StreamWriter2Delegate {
   @Override
   public void writeEmptyElement(String prefix, String localName, String namespaceUri)
       throws XMLStreamException {
-    MnemonicPerformanceMonitor.startWrite(localName);
+    String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(localName);
+    MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
     super.writeEmptyElement(prefix, localName, namespaceUri);
     MnemonicPerformanceMonitor.endWrite();
   }
 
   @Override
   public void writeEmptyElement(String localName) throws XMLStreamException {
-    MnemonicPerformanceMonitor.startWrite(localName);
+    String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(localName);
+    MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
     super.writeEmptyElement(localName);
     MnemonicPerformanceMonitor.endWrite();
   }
