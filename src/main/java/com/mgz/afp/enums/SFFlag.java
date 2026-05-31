@@ -24,18 +24,26 @@ import java.util.EnumSet;
 public enum SFFlag {
   isSegmented,
   hasExtension,
+  isEncrypted,
   isPadded;
 
+  /**
+   * Decodes the SFI FlagByte into an {@link EnumSet} of {@link SFFlag}s.
+   * References [MODCA-3-020].
+   */
   public static EnumSet<SFFlag> valueOf(int flagByte) {
     EnumSet<SFFlag> result = EnumSet.noneOf(SFFlag.class);
 
-    if ((flagByte & 0x80) != 0) {
+    if ((flagByte & 0x80) != 0) { // Bit 0
       result.add(hasExtension);
     }
-    if ((flagByte & 0x20) != 0) {
+    if ((flagByte & 0x40) != 0) { // Bit 1
+      result.add(isEncrypted);
+    }
+    if ((flagByte & 0x20) != 0) { // Bit 2
       result.add(isSegmented);
     }
-    if ((flagByte & 0x08) != 0) {
+    if ((flagByte & 0x08) != 0) { // Bit 4
       result.add(isPadded);
     }
 
@@ -44,12 +52,16 @@ public enum SFFlag {
 
   /**
    * Converts the {@link SFFlag} in given {@link EnumSet} to AFP SF FlagByte.
+   * References [MODCA-3-020].
    */
   public static int toByte(EnumSet<SFFlag> flags) {
     int result = 0;
 
     if (flags.contains(hasExtension)) {
       result += 0x80;
+    }
+    if (flags.contains(isEncrypted)) {
+      result += 0x40;
     }
     if (flags.contains(isSegmented)) {
       result += 0x20;

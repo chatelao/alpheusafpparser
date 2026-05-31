@@ -7,6 +7,7 @@ public class PTOCARoundTripTest {
 
     @Test
     public void testBPTRoundTrip() throws Exception {
+        // [PTOCA-1-001] [PTOCA-1-028] [PTOCA-2-004]
         // BPT: D3A89B
         // Name (8): TEXTOBJ1 (E3 C5 E7 E3 D6 C2 D1 F1)
         // Triplet (6): Comment "TEST" (06 65 E3 C5 E2 E3)
@@ -21,6 +22,7 @@ public class PTOCARoundTripTest {
 
     @Test
     public void testEPTRoundTrip() throws Exception {
+        // [PTOCA-1-001] [PTOCA-1-028] [PTOCA-2-004]
         // EPT: D3A99B
         // Name (8): TEXTOBJ1
         // Triplet (6): Comment "TEST" (06 65 E3 C5 E2 E3)
@@ -35,6 +37,7 @@ public class PTOCARoundTripTest {
 
     @Test
     public void testPTXRoundTrip() throws Exception {
+        // [PTOCA-2-001] [PTOCA-2-002] [PTOCA-2-003]
         // PTX: D3EE9B
         // Control Sequence: SCFL (Set Coded Font Local) 2B D3 03 F0 01
         // Prefix: 2B, Class: D3, Len: 03, Type: F0 (SCFL), Data: 01

@@ -74,6 +74,29 @@ public class SFIExtensionsAndPaddingTest {
     }
 
     @Test
+    public void testSFIEncryption() throws IOException, AFPParserException {
+        // [MODCA-3-020] [MODCA-3-024]
+        // NOP SF with isEncrypted flag set (0x40)
+        byte[] sfBytes = new byte[] {
+            0x5A, 0x00, 0x0C, (byte)0xD3, (byte)0xEE, (byte)0xEE, 0x40, 0x00, 0x00,
+            0x01, 0x02, 0x03, 0x04
+        };
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        config.setInputStream(new ByteArrayInputStream(sfBytes));
+        AFPParser parser = new AFPParser(config);
+
+        StructuredField sf = parser.parseNextSF();
+        assertNotNull(sf);
+        assertTrue(sf.getStructuredFieldIntroducer().isFlagSet(SFFlag.isEncrypted));
+
+        // Round trip write
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        sf.writeAFP(baos, config);
+        assertArrayEquals(sfBytes, baos.toByteArray());
+    }
+
+    @Test
     public void testSFISegmentation() throws IOException, AFPParserException {
         // [MODCA-3-025]
         // NOP SF with isSegmented flag set (0x20)
