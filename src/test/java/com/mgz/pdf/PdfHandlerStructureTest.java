@@ -29,6 +29,10 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GEAR_EndArea;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCLINE_LineAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCBOX_BoxAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCFARC_FullArcAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCPARC_PartialArcAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GFARC_FullArcAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GPARC_PartialArcAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCRLINE_RelativeLineAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GLINE_LineAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GRLINE_RelativeLineAtGivenPosition;
@@ -119,6 +123,46 @@ public class PdfHandlerStructureTest {
 
     handler.handle(edt);
     assertEquals(0, handler.getStructureDepth());
+  }
+
+  @Test
+  public void testGocaArcGivenPosition() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    GAD_GraphicsData gad = new GAD_GraphicsData();
+    gad.setStructuredFieldIntroducer(createSfi(SFTypeID.GAD_GraphicsData));
+    List<GAD_DrawingOrder> orders = new ArrayList<>();
+
+    // Set Arc Parameters (P=100, S=100)
+    GSAP_SetArcParameters gsap = new GSAP_SetArcParameters();
+    gsap.setArcTransformP((short) 100);
+    gsap.setArcTransformS((short) 100);
+    orders.add(gsap);
+
+    // GPARC: Partial Arc at Given Position
+    // Line from (0,0) to (50,0), then arc centered at (150, 0)
+    GPARC_PartialArcAtGivenPosition gparc = new GPARC_PartialArcAtGivenPosition();
+    gparc.setLineStartPoint(new GAD_DrawingOrder.GOCA_Point((short) 50, (short) 0));
+    gparc.setArcCenter(new GAD_DrawingOrder.GOCA_Point((short) 150, (short) 0));
+    gparc.setMultiplierIntegerPortion((short) 1);
+    gparc.setStartAngle(180 * 65536); // Start at 180 (point (50,0) relative to center (150,0))
+    gparc.setSweepAngle(90 * 65536);  // Sweep 90 CCW to (150, -100) or (150, 100)
+    orders.add(gparc);
+
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    PdfGraphicsState state = handler.getGraphicsState();
+    // Start at 180 deg (point (-100, 0) relative to center)
+    // Sweep +90 deg CCW -> 270 deg
+    // x = cx + R*cos(270) = 150 + 100*0 = 150
+    // y = cy + R*sin(270) = 0 + 100*(-1) = -100
+    assertEquals(150, state.getCurrentX());
+    assertEquals(-100, state.getCurrentY());
   }
 
   @Test
@@ -617,6 +661,50 @@ public class PdfHandlerStructureTest {
 
     state = handler.getGraphicsState();
     assertTrue(!state.isInArea());
+  }
+
+  @Test
+  public void testGocaArcPrimitives() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    GAD_GraphicsData gad = new GAD_GraphicsData();
+    gad.setStructuredFieldIntroducer(createSfi(SFTypeID.GAD_GraphicsData));
+    List<GAD_DrawingOrder> orders = new ArrayList<>();
+
+    // Set Arc Parameters (P=100, S=100 -> Circle)
+    GSAP_SetArcParameters gsap = new GSAP_SetArcParameters();
+    gsap.setArcTransformP((short) 100);
+    gsap.setArcTransformS((short) 100);
+    orders.add(gsap);
+
+    // GCFARC: Full Arc at Current Position (at 0,0)
+    GCFARC_FullArcAtCurrentPosition gcfarc = new GCFARC_FullArcAtCurrentPosition();
+    gcfarc.setMultiplierIntegerPortion((short) 1);
+    orders.add(gcfarc);
+
+    // GCPARC: Partial Arc at Current Position (Start 0, Sweep 90*65536)
+    GCPARC_PartialArcAtCurrentPosition gcparc = new GCPARC_PartialArcAtCurrentPosition();
+    gcparc.setArcCenter(new GAD_DrawingOrder.GOCA_Point((short) 100, (short) 0));
+    gcparc.setMultiplierIntegerPortion((short) 1);
+    gcparc.setStartAngle(0);
+    gcparc.setSweepAngle(90 * 65536);
+    orders.add(gcparc);
+
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    PdfGraphicsState state = handler.getGraphicsState();
+    // After 90 degree sweep around center (100,0) starting from current position (0,0)
+    // with radius 100 (from P=100), the new current position should be around (100, 100)
+    // depending on the orientation. In GOCA, positive sweep is counter-clockwise.
+    // x = cx + R*cos(0+90) = 100 + 100*0 = 100
+    // y = cy + R*sin(0+90) = 0 + 100*1 = 100
+    assertEquals(100, state.getCurrentX());
+    assertEquals(100, state.getCurrentY());
   }
 
   @Test

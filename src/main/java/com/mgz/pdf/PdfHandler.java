@@ -44,6 +44,10 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCBOX_BoxAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBAR_BeginArea;
 import com.mgz.afp.goca.GAD_DrawingOrder.GEAR_EndArea;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCFARC_FullArcAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCPARC_PartialArcAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GFARC_FullArcAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GPARC_PartialArcAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCLINE_LineAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCRLINE_RelativeLineAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GLINE_LineAtGivenPosition;
@@ -448,7 +452,77 @@ public class PdfHandler implements StructuredFieldHandler {
         graphicsState.setCurrentX(gcbox.getDiagonalCorner().xCoordinate());
         graphicsState.setCurrentY(gcbox.getDiagonalCorner().yCoordinate());
       }
+    } else if (order instanceof GFARC_FullArcAtGivenPosition gfarc) {
+      renderArc(gfarc.getArcCenter().xCoordinate(), gfarc.getArcCenter().yCoordinate(),
+          gfarc.getMultiplierIntegerPortion(), gfarc.getMultiplierFractionalPortion(),
+          null, null, true);
+    } else if (order instanceof GCFARC_FullArcAtCurrentPosition gcfarc) {
+      renderArc(graphicsState.getCurrentX(), graphicsState.getCurrentY(),
+          gcfarc.getMultiplierIntegerPortion(), gcfarc.getMultiplierFractionalPortion(),
+          null, null, true);
+    } else if (order instanceof GPARC_PartialArcAtGivenPosition gparc) {
+      if (currentCanvas != null) {
+        applyGraphicsState();
+        currentCanvas.moveTo(graphicsState.getCurrentX(), graphicsState.getCurrentY());
+        currentCanvas.lineTo(gparc.getLineStartPoint().xCoordinate(), gparc.getLineStartPoint().yCoordinate());
+        graphicsState.setCurrentX(gparc.getLineStartPoint().xCoordinate());
+        graphicsState.setCurrentY(gparc.getLineStartPoint().yCoordinate());
+      }
+      renderArc(gparc.getArcCenter().xCoordinate(), gparc.getArcCenter().yCoordinate(),
+          gparc.getMultiplierIntegerPortion(), gparc.getMultiplierFractionalPortion(),
+          gparc.getStartAngle(), gparc.getSweepAngle(), false);
+    } else if (order instanceof GCPARC_PartialArcAtCurrentPosition gcparc) {
+      renderArc(gcparc.getArcCenter().xCoordinate(), gcparc.getArcCenter().yCoordinate(),
+          gcparc.getMultiplierIntegerPortion(), gcparc.getMultiplierFractionalPortion(),
+          gcparc.getStartAngle(), gcparc.getSweepAngle(), false);
     }
+  }
+
+  private void renderArc(float cx, float cy, short mInt, short mFrac, Integer startAngle, Integer sweepAngle, boolean isFullArc) {
+    if (currentCanvas == null) {
+      return;
+    }
+    applyGraphicsState();
+
+    double multiplier = mInt + (mFrac / 256.0);
+    if (multiplier == 0) {
+      multiplier = 1.0;
+    }
+
+    double p = graphicsState.getArcTransformP();
+    double q = graphicsState.getArcTransformQ();
+    double r = graphicsState.getArcTransformR();
+    double s = graphicsState.getArcTransformS();
+
+    // Default arc parameters if all are zero
+    if (p == 0 && q == 0 && r == 0 && s == 0) {
+      p = 1000; // Default radius approximation if not set
+      s = 1000;
+    }
+
+    currentCanvas.saveState();
+    AffineTransform at = new AffineTransform(multiplier * p, multiplier * q, multiplier * r, multiplier * s, cx, cy);
+    currentCanvas.concatMatrix(at);
+
+    if (isFullArc) {
+      currentCanvas.ellipse(-1, -1, 1, 1);
+    } else {
+      double startDeg = (startAngle != null ? startAngle : 0) / 65536.0;
+      double sweepDeg = (sweepAngle != null ? sweepAngle : 0) / 65536.0;
+      currentCanvas.arc(-1, -1, 1, 1, startDeg, sweepDeg);
+
+      // Update current position to the end of the arc
+      double endRad = Math.toRadians(startDeg + sweepDeg);
+      double endX = multiplier * (p * Math.cos(endRad) + r * Math.sin(endRad)) + cx;
+      double endY = multiplier * (q * Math.cos(endRad) + s * Math.sin(endRad)) + cy;
+      graphicsState.setCurrentX((int) Math.round(endX));
+      graphicsState.setCurrentY((int) Math.round(endY));
+    }
+
+    if (!graphicsState.isInArea()) {
+      currentCanvas.stroke();
+    }
+    currentCanvas.restoreState();
   }
 
   private void applyGraphicsState() {
