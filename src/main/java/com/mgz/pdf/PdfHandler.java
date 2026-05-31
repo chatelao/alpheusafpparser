@@ -42,6 +42,8 @@ import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.goca.GAD_DrawingOrder;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCBOX_BoxAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GBAR_BeginArea;
+import com.mgz.afp.goca.GAD_DrawingOrder.GEAR_EndArea;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCLINE_LineAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCRLINE_RelativeLineAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GLINE_LineAtGivenPosition;
@@ -315,6 +317,30 @@ public class PdfHandler implements StructuredFieldHandler {
     } else if (order instanceof GSCP_SetCurrentPosition gscp) {
       graphicsState.setCurrentX(gscp.getCoordinateX());
       graphicsState.setCurrentY(gscp.getCoordinateY());
+    } else if (order instanceof GBAR_BeginArea gbar) {
+      graphicsState.setInArea(true);
+      // Bit 1 (0x40): BOUNDARY indicator. B'1' = Draw boundary lines.
+      graphicsState.setDrawAreaBoundary((gbar.getInternalFlags() & 0x40) != 0);
+      // Bit 2 (0x20): INSIDE indicator. B'0' = Alternate (Even-Odd), B'1' = Nonzero Winding.
+      graphicsState.setEvenOddRule((gbar.getInternalFlags() & 0x20) == 0);
+    } else if (order instanceof GEAR_EndArea) {
+      if (currentCanvas != null && graphicsState.isInArea()) {
+        currentCanvas.closePath();
+        if (graphicsState.isDrawAreaBoundary()) {
+          if (graphicsState.isEvenOddRule()) {
+            currentCanvas.eoFillStroke();
+          } else {
+            currentCanvas.fillStroke();
+          }
+        } else {
+          if (graphicsState.isEvenOddRule()) {
+            currentCanvas.eoFill();
+          } else {
+            currentCanvas.fill();
+          }
+        }
+      }
+      graphicsState.setInArea(false);
     } else if (order instanceof GAD_DrawingOrder.DrawingOrder_HasPoints line && (line instanceof GLINE_LineAtGivenPosition || line instanceof GCLINE_LineAtCurrentPosition)) {
       if (currentCanvas != null) {
         applyGraphicsState();
@@ -338,7 +364,9 @@ public class PdfHandler implements StructuredFieldHandler {
             graphicsState.setCurrentY(p.yCoordinate());
           }
         }
-        currentCanvas.stroke();
+        if (!graphicsState.isInArea()) {
+          currentCanvas.stroke();
+        }
       }
     } else if (order instanceof GRLINE_RelativeLineAtGivenPosition grline) {
       if (currentCanvas != null) {
@@ -355,7 +383,9 @@ public class PdfHandler implements StructuredFieldHandler {
         }
         graphicsState.setCurrentX(curX);
         graphicsState.setCurrentY(curY);
-        currentCanvas.stroke();
+        if (!graphicsState.isInArea()) {
+          currentCanvas.stroke();
+        }
       }
     } else if (order instanceof GCRLINE_RelativeLineAtCurrentPosition gcrline) {
       if (currentCanvas != null) {
@@ -372,7 +402,9 @@ public class PdfHandler implements StructuredFieldHandler {
         }
         graphicsState.setCurrentX(curX);
         graphicsState.setCurrentY(curY);
-        currentCanvas.stroke();
+        if (!graphicsState.isInArea()) {
+          currentCanvas.stroke();
+        }
       }
     } else if (order instanceof GBOX_BoxAtGivenPosition gbox) {
       if (currentCanvas != null) {
@@ -382,7 +414,9 @@ public class PdfHandler implements StructuredFieldHandler {
         float width = Math.abs(gbox.getFirstCorner().xCoordinate() - gbox.getDiagonalCorner().xCoordinate());
         float height = Math.abs(gbox.getFirstCorner().yCoordinate() - gbox.getDiagonalCorner().yCoordinate());
         currentCanvas.rectangle(x, y, width, height);
-        currentCanvas.stroke();
+        if (!graphicsState.isInArea()) {
+          currentCanvas.stroke();
+        }
         graphicsState.setCurrentX(gbox.getDiagonalCorner().xCoordinate());
         graphicsState.setCurrentY(gbox.getDiagonalCorner().yCoordinate());
       }
@@ -394,7 +428,9 @@ public class PdfHandler implements StructuredFieldHandler {
         float width = Math.abs(graphicsState.getCurrentX() - gcbox.getDiagonalCorner().xCoordinate());
         float height = Math.abs(graphicsState.getCurrentY() - gcbox.getDiagonalCorner().yCoordinate());
         currentCanvas.rectangle(x, y, width, height);
-        currentCanvas.stroke();
+        if (!graphicsState.isInArea()) {
+          currentCanvas.stroke();
+        }
         graphicsState.setCurrentX(gcbox.getDiagonalCorner().xCoordinate());
         graphicsState.setCurrentY(gcbox.getDiagonalCorner().yCoordinate());
       }
@@ -403,11 +439,27 @@ public class PdfHandler implements StructuredFieldHandler {
 
   private void applyGraphicsState() {
     if (currentCanvas != null) {
-      currentCanvas.setStrokeColor(ColorHandler.getColor(graphicsState.getColor()));
-      // TODO: Map GOCA line width and type to PDF line width and dash pattern
+      Color color = ColorHandler.getColor(graphicsState.getColor());
+      currentCanvas.setStrokeColor(color);
+      currentCanvas.setFillColor(color);
+      // TODO: Map GOCA line type to PDF dash pattern
       currentCanvas.setLineWidth(graphicsState.getLineWidth() > 0 ? graphicsState.getLineWidth() : 1.0f);
 
-      // TODO: Map GOCA line end and join to iText 9 PdfCanvas operators
+      // Map GOCA line end to iText 9 LineCap style
+      // 0: Default, 1: Flat, 2: Square, 3: Round
+      switch (graphicsState.getLineEnd()) {
+        case Flat -> currentCanvas.setLineCapStyle(0); // BUTT
+        case Square -> currentCanvas.setLineCapStyle(2); // PROJECTING_SQUARE
+        case Round, Default -> currentCanvas.setLineCapStyle(1); // ROUND (AFP standard default)
+      }
+
+      // Map GOCA line join to iText 9 LineJoin style
+      // 0: Default, 1: Bevel, 2: Round, 3: Miter
+      switch (graphicsState.getLineJoin()) {
+        case Bevel -> currentCanvas.setLineJoinStyle(2); // BEVEL
+        case Round, Default -> currentCanvas.setLineJoinStyle(1); // ROUND (AFP standard default)
+        case Miter -> currentCanvas.setLineJoinStyle(0); // MITER
+      }
     }
   }
 
