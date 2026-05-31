@@ -52,6 +52,7 @@ public class PTOCAControlSequenceRoundTripTest {
 
     @Test
     public void testAMI_AbsoluteMoveInlineRoundTrip() throws Exception {
+        // [PTOCA-5-001] [PTOCA-5-002] [PTOCA-5-003]
         assertCSRoundTrip(new AMI_AbsoluteMoveInline(), new byte[]{0x00, 0x64}, false);
     }
 
@@ -147,6 +148,7 @@ public class PTOCAControlSequenceRoundTripTest {
 
     @Test
     public void testSTO_SetTextOrientationRoundTrip() throws Exception {
+        // [PTOCA-5-041]
         assertCSRoundTrip(new STO_SetTextOrientation(), new byte[]{0x00, 0x00, 0x2D, 0x00}, false);
     }
 

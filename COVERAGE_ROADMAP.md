@@ -67,7 +67,7 @@ Focus on branch coverage and defensive logic.
 - ✅ Create synthetic AFP streams that exercise Structured Field Introducer (SFI) extensions:
     - ✅ **Segmentation:** SFs split across multiple records (completed in `SFIExtensionsAndPaddingTest.java`).
     - ✅ **Padding:** SFs with trailing bytes (completed in `SFIExtensionsAndPaddingTest.java`).
-    - ⏳ **Encryption:** SFs with the encryption flag set.
+    - ✅ **Encryption:** SFs with the encryption flag set (completed in `SFIExtensionsAndPaddingTest.java`).
     - ✅ **Extension:** SFs with SFI extensions (completed in `SFIExtensionsAndPaddingTest.java`).
     - ✅ **Length Variations:** Test minimum, maximum, and invalid lengths for all variable-sized fields (completed in `SFIExtensionsAndPaddingTest.java`).
 
@@ -85,7 +85,7 @@ Cover remaining specialized areas and refactored logic.
 - 🚧 Verify the 1:1 mapping of normative requirements in `TEST_COVERAGE_*.md` files:
     - 🚧 **4.1.1 CMOCA Verification:** Implement and tag tests for all 1,085 CMOCA requirements (Initial verification implemented for CMR Header and Property fields).
     - ⏳ **4.1.2 BCOCA Verification:** Implement and tag tests for all 1,237 BCOCA requirements.
-    - ⏳ **4.1.3 PTOCA Verification:** Implement and tag tests for all 1,488 PTOCA requirements.
+    - 🚧 **4.1.3 PTOCA Verification:** Implement and tag tests for all 1,488 PTOCA requirements (Initial verification implemented in `TEST_COVERAGE_PTOCA.md`).
     - ⏳ **4.1.4 FOCA Verification:** Implement and tag tests for all 1,391 FOCA requirements.
     - ⏳ **4.1.5 GOCA Verification:** Implement and tag tests for all 2,144 GOCA requirements.
     - ⏳ **4.1.6 IOCA Verification:** Implement and tag tests for all 1,587 IOCA requirements.
