@@ -1,44 +1,3 @@
-# Performance Benchmark: 10x 10KB TRN-heavy AFP Files
-
-This benchmark evaluates the performance of the AFP-to-XML conversion across multiple releases, including the first (**v0.1**) and latest (**v12.0**), using a test set of 10 AFP files, each approximately 10KB, consisting primarily of Transparent Data (TRN) control sequences.
-
-## Benchmark Environment
-- **Hardware**: Sandbox Environment
-- **Java Version**: 21
-- **Test Data**: 10 files, ~10KB each, heavy TRN usage.
-- **Methodology**: Total time for 10 full iterations (converting all 10 files 10 times).
-
-## Results
-
-1.  **Massive Performance Leap (v3.4+)**: The introduction of aggressive I/O (`-a`), optimized charset decoding (`-c`), and parallel processing (`-p`) resulted in a significant performance improvement compared to earlier versions.
-2.  **Overhead in Later Versions**: There is a noticeable increase in execution time from v7.0 to v12.0. This is attributed to the increased complexity of the parser, more comprehensive validation, and the transition to the Jackson-based `AfpJacksonXmlWriter` as the primary writer.
-3.  **TRN Handling**: For TRN-heavy files of this small size (10KB), the overhead of thread orchestration and complex writer logic in newer versions outweighs the benefits for this specific tiny-payload scenario.
-4.  **Stability**: Performance is consistent across runs in newer versions, although slower for this specific test case than the highly optimized v4/v5 era.
-
-## Detailed Benchmark Results
-
-| Release | Optimization Flags | Total Time (10 runs of 10 files) | Avg Time per run |
-| :--- | :--- | :--- | :--- |
-| **v0.1** | `(None)` | 12750 ms | 1275.0 ms |
-| **v1.0** | `(None)` | 12235 ms | 1223.5 ms |
-| **v3.0** | `(None)` | 16705 ms | 1670.5 ms |
-| **v3.4** | `-p -a -c` | 877 ms | 87.7 ms |
-| **v3.5** | `-p -a -c` | 891 ms | 89.1 ms |
-| **v4.0** | `-p -a -c` | 889 ms | 88.9 ms |
-| **v4.1** | `-p -a -c` | 874 ms | 87.4 ms |
-| **v4.2** | `-p -a -c` | 858 ms | 85.8 ms |
-| **v4.3** | `-p -a -c` | 901 ms | 90.1 ms |
-| **v5.0** | `-p -a -c` | 869 ms | 86.9 ms |
-| **v5.1** | `-p -a -c` | 859 ms | 85.9 ms |
-| **v5.2** | `-p -a -c` | 862 ms | 86.2 ms |
-| **v5.3** | `-p -a -c` | 861 ms | 86.1 ms |
-| **v7.0** | `-p -a -c` | 932 ms | 93.2 ms |
-| **v9.11** | `-p -P -a -c` | 1480 ms | 148.0 ms |
-| **v12.0** | `-p -P -a -c` | 1540 ms | 154.0 ms |
-
-## Appendix: Measurement Script
-
-```bash
 #!/bin/bash
 
 # Capture current branch to return to it later
@@ -123,4 +82,3 @@ done
 rm -rf "$TEMP_TEST_DIR"
 git checkout "$INITIAL_BRANCH" --quiet
 git stash pop --quiet
-```
