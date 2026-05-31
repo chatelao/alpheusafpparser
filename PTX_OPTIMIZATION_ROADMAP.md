@@ -2,7 +2,7 @@
 
 This document tracks the implementation status of performance optimizations for the `PTX_PresentationTextData` (PTX) structured field and PTOCA control sequences.
 
-## Status Summary (May 2026)
+## Status Summary (June 2026)
 - **Bottleneck Analysis:** ✅ Completed (Audit 3)
 - **High-Frequency Fast-Paths:** ✅ Completed
 - **Instrumentation Optimization:** ✅ Completed
@@ -20,6 +20,12 @@ Bypass Jackson reflective serialization for the most common control sequences.
 - ✅ Implement `NOP_NoOperation` fast-path.
 - ✅ Implement `RPS_RepeatString` fast-path.
 - ✅ Implement `SIA_SetIntercharacterAdjustment` fast-path.
+- ✅ Implement `AMI_AbsoluteMoveInline` / `AMB_AbsoluteMoveBaseline` fast-paths.
+- ✅ Implement `SCFL_SetCodedFontLocal` fast-path.
+- ✅ Implement `TRN_TransparentData` / `GraphicCharacters` fast-paths.
+- ✅ Implement `STO_SetTextOrientation` fast-path.
+- ✅ **Compact Attribute Formatting**: Use attribute-based empty elements for high-frequency sequences (`AMI`, `AMB`, `SCFL`, `SVI`) to reduce XML size.
+- ✅ **Native Binary Encoding**: Use StAX2 `writeBinary()` for all PTOCA binary payloads (`SEC`, `NOP`, `RPS`) to avoid Hex-to-String overhead.
 
 ---
 
