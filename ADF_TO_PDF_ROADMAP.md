@@ -79,7 +79,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
 - ⏳ **GOCA Driver**: Map GOCA path drawing orders (Line, Arc, Area) to PDF path construction operators.
     - ⏳ **Graphics State Management**:
         - ✅ **Attribute Tracking**: Track active color (`GSCOL`), line width (`GSLW`), line type (`GSLT`), line end (`GSLE`), and line join (`GSLJ`).
-        - ⏳ **Mix Attribute Tracking**: Implement mix mode attributes (`GSMX`, `GSBMX`).
+        - ✅ **Mix Attribute Tracking**: Implement mix mode attributes (`GSMX`, `GSBMX`).
     - ⏳ **Path Construction**:
         - ✅ **Line Primitives**: Map `GRLINE`, `GCRLINE` and `GLINE` to PDF path operators.
         - ✅ **Box Primitives**: Map `GBOX` and `GCBOX` to `rectangle`.

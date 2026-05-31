@@ -50,9 +50,11 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GSCOL_SetColor;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSCP_SetCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSECOL_SetExtendedColor;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLE_SetLineEnd;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSBMX_SetBackgroundMix;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLJ_SetLineJoin;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLT_SetLineType;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLW_SetLineWidth;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSMX_SetMix;
 import com.mgz.afp.goca.GAD_GraphicsData;
 import com.mgz.afp.modca.BDT_BeginDocument;
 import com.mgz.afp.modca.BNG_BeginNamedPageGroup;
@@ -306,6 +308,10 @@ public class PdfHandler implements StructuredFieldHandler {
       graphicsState.setLineEnd(gsle.getLineEnd());
     } else if (order instanceof GSLJ_SetLineJoin gslj) {
       graphicsState.setLineJoin(gslj.getLineJoin());
+    } else if (order instanceof GSMX_SetMix gsmx) {
+      graphicsState.setMixMode(gsmx.getMixMode());
+    } else if (order instanceof GSBMX_SetBackgroundMix gsbmx) {
+      graphicsState.setBackgroundMixMode(gsbmx.getMixMode());
     } else if (order instanceof GSCP_SetCurrentPosition gscp) {
       graphicsState.setCurrentX(gscp.getCoordinateX());
       graphicsState.setCurrentY(gscp.getCoordinateY());
