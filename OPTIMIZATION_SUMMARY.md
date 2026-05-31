@@ -2,6 +2,55 @@
 
 This document summarizes the top 30 performance optimization techniques implemented in the Alpheus AFP Parser project, providing explanations and matching code samples.
 
+## Estimated Impact Summary
+
+The following table provides an estimated impact of each optimization on the overall parser speed and system efficiency.
+
+| Level | Symbol | Description |
+| :--- | :---: | :--- |
+| **Critical** | 🚀🚀🚀🚀🚀 | Fundamental architectural changes providing the largest performance gains. |
+| **Major** | 🚀🚀🚀🚀 | Significant optimizations for high-frequency operations and resource management. |
+| **Moderate** | 🚀🚀🚀 | Effective optimizations for specific components or reduction of common overhead. |
+| **Minor** | 🚀🚀 | Polishing optimizations with measurable but smaller cumulative impacts. |
+| **Structural** | 🛠️ | Essential for maintaining correctness, order, or system stability under heavy load. |
+
+### Optimization Impact Matrix
+
+| # | Optimization Technique | Estimated Impact | Primary Benefit |
+| :--- | :--- | :---: | :--- |
+| 1 | Manual StAX Fast-Paths | 🚀🚀🚀🚀🚀 | Bypasses Jackson overhead for >90% of data. |
+| 2 | Zero-Copy Parsing | 🚀🚀🚀🚀🚀 | Eliminates massive memory allocation and copying. |
+| 3 | Object Pooling | 🚀🚀🚀🚀 | Significantly reduces GC pressure and allocation churn. |
+| 4 | Parallel Page Parsing | 🚀🚀🚀🚀🚀 | Enables near-linear scaling on multi-core systems. |
+| 5 | Memory-Mapped I/O | 🚀🚀🚀🚀 | Offloads I/O management to the OS kernel. |
+| 6 | Asynchronous I/O | 🚀🚀🚀 | Overlaps I/O operations with CPU processing. |
+| 7 | Fast Mnemonic Lookup | 🚀🚀🚀 | O(1) resolution of Structured Field identifiers. |
+| 8 | EBCDIC Fast-Path Decoding | 🚀🚀🚀🚀 | Optimized conversion for high-frequency text. |
+| 9 | Lazy Payload Extraction | 🚀🚀🚀 | Avoids processing unused data payloads. |
+| 10 | XML Infrastructure Caching | 🚀🚀 | Reduces object instantiation overhead. |
+| 11 | O(1) Enum Resolution | 🚀🚀🚀 | Eliminates switch/loop overhead for byte fields. |
+| 12 | Aalto XML Integration | 🚀🚀🚀🚀 | High-performance StAX implementation. |
+| 13 | Jackson Generator Reuse | 🚀🚀🚀 | Minimizes allocation in fallback serialization. |
+| 14 | Shallow Field Realization | 🚀🚀🚀 | Defers full parsing until explicitly required. |
+| 15 | Indentation-Aware Fast-Paths | 🚀🚀 | Avoids expensive PrettyPrinter logic. |
+| 16 | NIO-based Human-Readable Detection | 🚀🚀🚀 | Zero-copy heuristic analysis of data. |
+| 17 | Record-Skipping Navigation | 🚀🚀🚀🚀 | High-speed scanning for page boundaries. |
+| 18 | Double-Checked Locking | 🚀🚀 | Thread-safety with minimal synchronization. |
+| 19 | Singleton XML Infrastructure | 🚀🚀 | Efficient global configuration and reuse. |
+| 20 | Specialized Triplet & PTOCA Fast-Paths | 🚀🚀🚀🚀 | Extends fast-path benefits to internal sequences. |
+| 21 | Vectorized Writes (NIO Gathering) | 🚀🚀🚀🚀 | Reduces system calls for high-volume output. |
+| 22 | [REMOVED] Tiered Buffer Pooling | N/A | (Technique deprecated for simplicity). |
+| 23 | Memory-Aware Back-pressure | 🛠️ | Prevents OOM by regulating producer speed. |
+| 24 | Heuristic XML Size Estimation | 🚀🚀🚀 | Reduces expensive buffer re-allocations. |
+| 25 | Streaming Character Sanitization | 🚀🚀🚀 | Integrated sanitization avoids string copies. |
+| 26 | Jackson Sanitization Serializer | 🚀🚀 | Ensures safety for rare fallback fields. |
+| 27 | Deterministic Parallel Sequencing | 🛠️ | Guarantees XML validity in parallel mode. |
+| 28 | Disabling StAX Structure Validation | 🚀🚀 | Reduces overhead in fragment generation mode. |
+| 29 | Fragment Mapper Reuse | 🚀🚀🚀 | Drastically speeds up small fragment creation. |
+| 30 | Orchestrated Stream Serialization | 🛠️ | Maintains multi-file output consistency. |
+
+---
+
 ## 1. Manual StAX Fast-Paths
 **Explanation:** High-frequency AFP elements (like `PTX`, `TLE`, `NOP`) are written directly to the `XMLStreamWriter`. This avoids the overhead of Jackson's object-to-XML mapping for the majority of the data.
 **Code Sample (`AfpJacksonXmlWriter.java`):**
