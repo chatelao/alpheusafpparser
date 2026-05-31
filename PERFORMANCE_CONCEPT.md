@@ -38,7 +38,8 @@ Transitioned from a "Document-at-once" model to a "Streaming" model (O(1) memory
 ### Strategy 4: Optimization & Specialized Components
 - **Pre-computed SF Mapping**: O(1) lookup via `Map<Integer, Supplier<StructuredField>>`.
 - **Fast Charset Decoders**: Optimized EBCDIC-to-UTF8 decoders (CP500/CP273).
-- **Manual StAX Fast-Paths**: Implemented for high-frequency fields (`NOP`, `PTX`) in Jackson writer to bypass reflective JAXB/Jackson overhead.
+- **Manual StAX Fast-Paths**: Implemented for high-frequency fields (`NOP`, `PTX`, `TLE`, `GAD`, `IPD`) in Jackson writer to bypass reflective JAXB/Jackson overhead.
+- **Typed Access & Native Binary**: Leverages StAX2 `writeInt`, `writeLong`, and `writeBinary` (Base64) to eliminate primitive string formatting and Hex conversion overhead.
 
 ---
 
@@ -116,6 +117,8 @@ The following table shows the performance of various mnemonics (Structured Field
 4.  **Reflection Overhead**: Resolved via pre-computed `Supplier` maps.
 5.  **Memory Pressure**: Resolved via Streaming Architecture and Object Pooling.
 6.  **I/O Latency**: Resolved via NIO and Memory-Mapped Files.
+7.  **XML Sanitization**: Resolved via optimized `SanitizingXMLStreamWriter` decorator that avoids redundant allocations.
+8.  **PTX/TLE Write Overhead**: Mitigated via manual StAX fast-paths and compact attribute-based serialization.
 
 ---
 
@@ -272,6 +275,7 @@ We use **JUnit 5 Native Parallel Execution** (Dynamic Strategy).
 
 ## 9. Future Work & Recommendations
 
-- **Further GOCA/IOCA Optimization**: Extend manual StAX fast-paths to complex GOCA orders and IOCA segments if they become dominant hotspots.
-- **Parallel Optimization**: Refine the `ParallelPageParser` for even higher core-count scalability.
-- **SIMD Integration**: Explore `simdxml` concepts for even faster XML generation if required by future throughput targets.
+- **StAX2 ByteBuffer Integration**: Refactor `AfpJacksonXmlWriter` to write directly to `ByteBuffer` instead of `OutputStream` to eliminate remaining abstraction overhead.
+- **Jackson-Only Migration**: Complete Phase 3 of the `JACK_ONLY_ROADMAP.md` to remove all remaining JAXB dependencies and annotations from the core models.
+- **SIMD Integration**: Explore `simdxml` and vectorized sanitization logic for ultra-high-speed XML generation.
+- **Parallel Optimization**: Further refine the `ParallelPageParser` and result collection for higher core-count scalability on multi-socket systems.
