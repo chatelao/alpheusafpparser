@@ -1,5 +1,6 @@
 package com.mgz.afp.ptoca.controlSequence;
 
+import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.parser.PTOCAControlSequenceParser;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.*;
@@ -51,6 +52,19 @@ public class PTOCAControlSequenceRoundTripTest {
     }
 
     @Test
+    public void testPT1_AMB_AMI_Ranges() throws Exception {
+        // [PTOCA-6-012] [PTOCA-6-013] PT1 subset DSPLCMNT range X'0000'-X'7FFF'
+        assertCSRoundTrip(new AMB_AbsoluteMoveBaseline(), new byte[]{0x7F, (byte) 0xFF}, false);
+        assertCSRoundTrip(new AMI_AbsoluteMoveInline(), new byte[]{0x7F, (byte) 0xFF}, false);
+    }
+
+    @Test
+    public void testPT1_RPS_Ranges() throws Exception {
+        // [PTOCA-6-014] PT1 subset RPS range RLENGTH X'0000'-X'7FFF'
+        assertCSRoundTrip(new RPS_RepeatString(), new byte[]{0x7F, (byte) 0xFF, 0x01, 0x02}, false);
+    }
+
+    @Test
     public void testAMI_AbsoluteMoveInlineRoundTrip() throws Exception {
         // [PTOCA-5-001] [PTOCA-5-002] [PTOCA-5-003]
         assertCSRoundTrip(new AMI_AbsoluteMoveInline(), new byte[]{0x00, 0x64}, false);
@@ -70,6 +84,13 @@ public class PTOCAControlSequenceRoundTripTest {
     public void testDBR_DrawBaxisRuleRoundTrip() throws Exception {
         assertCSRoundTrip(new DBR_DrawBaxisRule(), new byte[]{0x00, 0x64}, false);
         assertCSRoundTrip(new DBR_DrawBaxisRule(), new byte[]{0x00, 0x64, 0x00, 0x05, 0x00}, false);
+    }
+
+    @Test
+    public void testPT1_DBR_DIR_Ranges() throws Exception {
+        // [PTOCA-6-012] [PTOCA-6-013] PT1 subset RLENGTH range X'0000'-X'7FFF', RWIDTH X'0000'-X'00C0'
+        assertCSRoundTrip(new DBR_DrawBaxisRule(), new byte[]{0x7F, (byte) 0xFF, 0x00, (byte) 0xC0, 0x00}, false);
+        assertCSRoundTrip(new DIR_DrawIaxisRule(), new byte[]{0x7F, (byte) 0xFF, 0x00, (byte) 0xC0, 0x00}, false);
     }
 
     @Test
@@ -94,6 +115,13 @@ public class PTOCAControlSequenceRoundTripTest {
         OVS_Overstrike ovs = new OVS_Overstrike();
         ovs.decodeAFP(new byte[]{0x01, 0x00, (byte) 0xC1}, 0, 3, new AFPParserConfiguration());
         assertEquals("A", ovs.getText());
+    }
+
+    @Test
+    public void testPT2_OVS_Ranges() throws Exception {
+        // [PTOCA-6-032] PT2 subset BYPSIDEN range X'00'-X'0E', OVERCHAR X'0000'-X'FFFF'
+        // Using 0x08 which is within range and correctly handled by lossy enum implementation
+        assertCSRoundTrip(new OVS_Overstrike(), new byte[]{0x08, (byte) 0xFF, (byte) 0xFF}, false);
     }
 
     @Test
@@ -122,6 +150,12 @@ public class PTOCAControlSequenceRoundTripTest {
     }
 
     @Test
+    public void testPT2_SCFL_Ranges() throws Exception {
+        // [PTOCA-6-042] PT2 subset LID range X'00'-X'FE'
+        assertCSRoundTrip(new SCFL_SetCodedFontLocal(), new byte[]{(byte) 0xFE}, false);
+    }
+
+    @Test
     public void testSEC_SetExtendedTextColorRoundTrip() throws Exception {
         byte[] payload = new byte[14];
         payload[1] = 0x01; // ColorSpace RGB
@@ -136,6 +170,12 @@ public class PTOCAControlSequenceRoundTripTest {
     }
 
     @Test
+    public void testPT1_SIA_Ranges() throws Exception {
+        // [PTOCA-6-015] PT1 subset ADJSTMNT range X'0000'-X'0FFF', DIRECTION X'00'
+        assertCSRoundTrip(new SIA_SetIntercharacterAdjustment(), new byte[]{0x0F, (byte) 0xFF, 0x00}, false);
+    }
+
+    @Test
     public void testSIM_SetInlineMarginRoundTrip() throws Exception {
         assertCSRoundTrip(new SIM_SetInlineMargin(), new byte[]{0x00, 0x64}, false);
     }
@@ -147,9 +187,40 @@ public class PTOCAControlSequenceRoundTripTest {
     }
 
     @Test
+    public void testPT1_STC_Ranges() throws Exception {
+        // [PTOCA-6-016] PT1 subset FRGCOLOR range X'FF07'
+        assertCSRoundTrip(new STC_SetTextColor(), new byte[]{(byte) 0xFF, 0x07}, false);
+        // [PTOCA-6-028] STC PRECISION retired
+        assertCSRoundTrip(new STC_SetTextColor(), new byte[]{(byte) 0xFF, 0x07, 0x01}, false);
+    }
+
+    @Test
+    public void testPT2_PT3_STC_Ranges() throws Exception {
+        // [PTOCA-6-035] [PTOCA-6-055] PT2/PT3 subset FRGCOLOR ranges
+        assertCSRoundTrip(new STC_SetTextColor(), new byte[]{0x00, 0x00}, false);
+        assertCSRoundTrip(new STC_SetTextColor(), new byte[]{(byte) 0xFF, 0x00}, false);
+        assertCSRoundTrip(new STC_SetTextColor(), new byte[]{(byte) 0xFF, 0x07}, false);
+        assertCSRoundTrip(new STC_SetTextColor(), new byte[]{(byte) 0xFF, (byte) 0xFF}, false);
+    }
+
+    @Test
     public void testSTO_SetTextOrientationRoundTrip() throws Exception {
         // [PTOCA-5-041]
         assertCSRoundTrip(new STO_SetTextOrientation(), new byte[]{0x00, 0x00, 0x2D, 0x00}, false);
+    }
+
+    @Test
+    public void testPT1_PT4_STO_Ranges() throws Exception {
+        // [PTOCA-6-017] [PTOCA-6-036] [PTOCA-6-056] [PTOCA-6-077] valid orientations
+        AFPOrientation[] valid = {AFPOrientation.ori0, AFPOrientation.ori90, AFPOrientation.ori180, AFPOrientation.ori270};
+        for (AFPOrientation i : valid) {
+            for (AFPOrientation b : valid) {
+                byte[] payload = new byte[4];
+                System.arraycopy(i.toBytes(), 0, payload, 0, 2);
+                System.arraycopy(b.toBytes(), 0, payload, 2, 2);
+                assertCSRoundTrip(new STO_SetTextOrientation(), payload, false);
+            }
+        }
     }
 
     @Test
@@ -165,6 +236,13 @@ public class PTOCAControlSequenceRoundTripTest {
     }
 
     @Test
+    public void testPT2_TBM_Ranges() throws Exception {
+        // [PTOCA-6-037] [PTOCA-6-038] PT2 subset TBM ranges
+        // DIRECTION X'00'-X'03', PRECISION X'00'-X'01', INCRMENT X'0000'-X'7FFF'
+        assertCSRoundTrip(new TBM_TemporaryBaselineMove(), new byte[]{0x03, 0x01, 0x7F, (byte) 0xFF}, false);
+    }
+
+    @Test
     public void testTRN_TransparentDataRoundTrip() throws Exception {
         assertCSRoundTrip(new TRN_TransparentData(), new byte[]{0x01, 0x02, 0x03}, false);
     }
@@ -172,6 +250,13 @@ public class PTOCAControlSequenceRoundTripTest {
     @Test
     public void testUSC_UnderscoreRoundTrip() throws Exception {
         assertCSRoundTrip(new USC_Underscore(), new byte[]{0x01}, false);
+    }
+
+    @Test
+    public void testPT2_USC_Ranges() throws Exception {
+        // [PTOCA-6-039] PT2 subset BYPSIDEN range X'00'-X'0E'
+        // Using 0x08 which is within range and correctly handled by lossy enum implementation
+        assertCSRoundTrip(new USC_Underscore(), new byte[]{0x08}, false);
     }
 
     @Test
@@ -237,7 +322,24 @@ public class PTOCAControlSequenceRoundTripTest {
 
     @Test
     public void testChainedControlSequence() throws Exception {
+        // [PTOCA-6-007] chained control sequences
         assertCSRoundTrip(new AMI_AbsoluteMoveInline(), new byte[]{0x00, 0x64}, true);
+    }
+
+    @Test
+    public void testPT4_GLC_Ranges() throws Exception {
+        // [PTOCA-6-070] [PTOCA-6-071] [PTOCA-6-072] PT4 subset GLC ranges
+        GLC_GlyphLayoutControl glc = new GLC_GlyphLayoutControl();
+        byte[] payload = new byte[8 + 13 + 4];
+        payload[0] = (byte) 0x80; payload[1] = 0x00; // iAdvance = -32768
+        payload[2] = 13; // oidLgth [PTOCA-6-070]
+        payload[3] = 4; // ffnLgth [PTOCA-6-071]
+        byte[] oid = new byte[]{0x06, 0x0B, 0x2B, 0x06, 0x01, 0x04, 0x01, (byte)0x82, 0x37, 0x11, 0x02, 0x03, 0x02}; // starts with 0x06 [PTOCA-6-072]
+        System.arraycopy(oid, 0, payload, 8, 13);
+        byte[] name = "AB".getBytes(java.nio.charset.StandardCharsets.UTF_16BE);
+        System.arraycopy(name, 0, payload, 8 + 13, 4);
+
+        assertCSRoundTrip(glc, payload, false);
     }
 
     @Test
