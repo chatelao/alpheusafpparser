@@ -72,7 +72,9 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Color Mapping**: Map `STC` (Set Text Color) and `SEC` (Set Extended Color) to `DeviceRGB` or `DeviceCMYK`.
     - ✅ **Positioning Operators**:
         - ✅ **Inline Positioning**: Map `AMI` (Absolute Move Inline) and `RMI` (Relative Move Inline) to PDF.
-        - ✅ **Baseline Positioning**: Map `AMB` (Absolute Move Baseline) and `RMB` (Relative Move Baseline).
+    - ✅ **Baseline Positioning**:
+        - ✅ **Absolute & Relative**: Map `AMB` (Absolute Move Baseline) and `RMB` (Relative Move Baseline).
+        - ✅ **Temporary Baseline Move**: Map `TBM` (Temporary Baseline Move) for superscripts/subscripts.
         - ✅ **Direction Control**: Map `STOC` (Set Text Orientation) to coordinate rotation.
     - ✅ **Advanced Text Control**:
         - ✅ **Character Adjustment**: Map `SIA` (Set Intercharacter Adjustment) and `SVI` (Set Variable-space Character Increment).
