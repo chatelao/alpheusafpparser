@@ -84,6 +84,7 @@ import com.mgz.afp.modca.ENG_EndNamedPageGroup;
 import com.mgz.afp.modca.EPG_EndPage;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format1;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
+import com.mgz.afp.modca.MDR_MapDataResource;
 import com.mgz.afp.modca.MMO_MapMediumOverlay;
 import com.mgz.afp.modca.MPS_MapPageSegment;
 import com.mgz.afp.modca.PGD_PageDescriptor;
@@ -285,6 +286,28 @@ public class PdfHandler implements StructuredFieldHandler {
                 lid = rli.getResourceLocalID();
               } else if (t instanceof Triplet.FullyQualifiedName fqn
                   && fqn.getType() == Triplet.GlobalID_Use.CodedFontNameReference) {
+                name = fqn.getNameAsString();
+              }
+            }
+            if (lid != null && name != null) {
+              fontMap.put(lid, name);
+            }
+          }
+        }
+      }
+    } else if (sf instanceof MDR_MapDataResource mdr) {
+      if (mdr.getRepeatingGroups() != null) {
+        for (IRepeatingGroup irg : mdr.getRepeatingGroups()) {
+          if (irg instanceof MDR_MapDataResource.MDR_RepeatingGroup rg && rg.getTriplets() != null) {
+            Short lid = null;
+            String name = null;
+            for (Triplet t : rg.getTriplets()) {
+              if (t instanceof Triplet.ResourceLocalIdentifier rli
+                  && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
+                lid = rli.getResourceLocalID();
+              } else if (t instanceof Triplet.FullyQualifiedName fqn
+                  && (fqn.getType() == Triplet.GlobalID_Use.CodedFontNameReference
+                  || fqn.getType() == Triplet.GlobalID_Use.DataObjectExternalResourceReference)) {
                 name = fqn.getNameAsString();
               }
             }

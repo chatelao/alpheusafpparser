@@ -63,7 +63,10 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ⏳ **Font & Color Resolution**:
         - ⏳ **Font Mapping**: Resolve FOCA Local IDs (LID) to embedded `PdfFont` instances.
             - ✅ **Font Resource Tracking (MCF)**: Track LID-to-font name mappings from `MCF` (Format 1 & 2) structured fields.
-            - ⏳ **PdfFont Resolution**: Resolve tracked font names to embedded `PdfFont` instances via MCF/MDR registry.
+            - ✅ **Font Resource Tracking (MDR)**: Track LID-to-font name mappings from `MDR` (Map Data Resource) structured fields for TrueType/OpenType fonts.
+            - ⏳ **PdfFont Resolution**:
+                - ⏳ **Font Registry**: Implement a registry to map AFP font names to iText `PdfFont` instances.
+                - ⏳ **Fallback Font Strategy**: Implement logic to use a default font when a resource cannot be resolved.
         - ✅ **Color Mapping**: Map `STC` (Set Text Color) and `SEC` (Set Extended Color) to `DeviceRGB` or `DeviceCMYK`.
     - ✅ **Positioning Operators**:
         - ✅ **Inline Positioning**: Map `AMI` (Absolute Move Inline) and `RMI` (Relative Move Inline) to PDF.

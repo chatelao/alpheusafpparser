@@ -64,6 +64,7 @@ import com.mgz.afp.modca.EIM_EndImageObject;
 import com.mgz.afp.modca.EPG_EndPage;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format1;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
+import com.mgz.afp.modca.MDR_MapDataResource;
 import com.mgz.afp.modca.MMO_MapMediumOverlay;
 import com.mgz.afp.modca.MPS_MapPageSegment;
 import com.mgz.afp.modca.PGD_PageDescriptor;
@@ -135,6 +136,52 @@ public class PdfHandlerStructureTest {
 
     handler.handle(edt);
     assertEquals(0, handler.getStructureDepth());
+  }
+
+  @Test
+  public void testMdrFontTracking() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    MDR_MapDataResource mdr = new MDR_MapDataResource();
+    MDR_MapDataResource.MDR_RepeatingGroup rg = new MDR_MapDataResource.MDR_RepeatingGroup();
+
+    Triplet.ResourceLocalIdentifier rli = new Triplet.ResourceLocalIdentifier();
+    rli.setTripletID(Triplet.TripletID.ResourceLocalIdentifier);
+    rli.setResourceType(Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont);
+    rli.setResourceLocalID((short) 10);
+    rg.addTriplet(rli);
+
+    Triplet.FullyQualifiedName fqn = new Triplet.FullyQualifiedName();
+    fqn.setTripletID(Triplet.TripletID.FullyQualifiedName);
+    fqn.setType(Triplet.GlobalID_Use.CodedFontNameReference);
+    fqn.setNameAsString("TrueTypeFont");
+    rg.addTriplet(fqn);
+
+    mdr.addRepeatingGroup(rg);
+
+    // Add another RG for DataObjectExternalResourceReference (common for TrueType in MDR)
+    MDR_MapDataResource.MDR_RepeatingGroup rg2 = new MDR_MapDataResource.MDR_RepeatingGroup();
+
+    Triplet.ResourceLocalIdentifier rli2 = new Triplet.ResourceLocalIdentifier();
+    rli2.setTripletID(Triplet.TripletID.ResourceLocalIdentifier);
+    rli2.setResourceType(Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont);
+    rli2.setResourceLocalID((short) 11);
+    rg2.addTriplet(rli2);
+
+    Triplet.FullyQualifiedName fqn2 = new Triplet.FullyQualifiedName();
+    fqn2.setTripletID(Triplet.TripletID.FullyQualifiedName);
+    fqn2.setType(Triplet.GlobalID_Use.DataObjectExternalResourceReference);
+    fqn2.setNameAsString("OtherTrueTypeFont");
+    rg2.addTriplet(fqn2);
+
+    mdr.addRepeatingGroup(rg2);
+
+    handler.handle(mdr);
+
+    Map<Short, String> fontMap = handler.getFontMap();
+    assertEquals(2, fontMap.size());
+    assertEquals("TrueTypeFont", fontMap.get((short) 10));
+    assertEquals("OtherTrueTypeFont", fontMap.get((short) 11));
   }
 
   @Test
