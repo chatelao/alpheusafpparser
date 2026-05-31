@@ -93,7 +93,11 @@ public class MnemonicPerformanceMonitor {
       return;
     }
     String mnemonic = extractMnemonicFromString(name);
-    if (mnemonic == null) {
+    startWriteWithMnemonic(mnemonic);
+  }
+
+  public static void startWriteWithMnemonic(String mnemonic) {
+    if (!enabled || mnemonic == null) {
       return;
     }
     activeMeasurements.get().push(new Measurement(mnemonic, System.nanoTime(), false));
@@ -156,8 +160,14 @@ public class MnemonicPerformanceMonitor {
     return extractMnemonicFromString(simpleName);
   }
 
-  private static String extractMnemonicFromString(String name) {
+  public static String extractMnemonicFromString(String name) {
     if (name == null || name.isEmpty()) {
+      return null;
+    }
+
+    // Fast path: AFP mnemonics always start with an uppercase letter
+    char first = name.charAt(0);
+    if (first < 'A' || first > 'Z') {
       return null;
     }
 
@@ -188,12 +198,19 @@ public class MnemonicPerformanceMonitor {
   }
 
   private static boolean isLikelyMnemonic(String s) {
-    if (s.length() < 2 || s.length() > 5) {
+    if (s == null || s.length() < 2 || s.length() > 5) {
       return false;
     }
-    for (int i = 0; i < s.length(); i++) {
+    // Fast path for first char already done in extractMnemonicFromString for the whole name,
+    // but prefixes might need it too.
+    char first = s.charAt(0);
+    if (first < 'A' || first > 'Z') {
+      return false;
+    }
+
+    for (int i = 1; i < s.length(); i++) {
       char c = s.charAt(i);
-      if (!Character.isUpperCase(c) && !Character.isDigit(c)) {
+      if ((c < 'A' || c > 'Z') && (c < '0' || c > '9')) {
         return false;
       }
     }

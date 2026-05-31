@@ -629,23 +629,23 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private void writeDrawingOrderDirectly(GAD_DrawingOrder order, String indent) throws Exception {
     String childIndent = indent + "  ";
     if (order instanceof GAD_DrawingOrder.GSCP_SetCurrentPosition gcp) {
-      xsw.writeStartElement("GSCP_SetCurrentPosition");
-      writeElement(baseXsw, childIndent, "coordinateX", gcp.getCoordinateX());
-      writeElement(baseXsw, childIndent, "coordinateY", gcp.getCoordinateY());
-      baseXsw.writeCharacters(indent);
-      xsw.writeEndElement();
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GSCP");
+      baseXsw.writeEmptyElement("GSCP_SetCurrentPosition");
+      baseXsw.writeAttribute("coordinateX", String.valueOf(gcp.getCoordinateX()));
+      baseXsw.writeAttribute("coordinateY", String.valueOf(gcp.getCoordinateY()));
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSCOL_SetColor gsc) {
-      xsw.writeStartElement("GSCOL_SetColor");
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GSCOL");
+      baseXsw.writeEmptyElement("GSCOL_SetColor");
       if (gsc.getColor() != null) {
-        writeElement(baseXsw, childIndent, "color", gsc.getColor().name());
+        baseXsw.writeAttribute("color", gsc.getColor().name());
       }
-      baseXsw.writeCharacters(indent);
-      xsw.writeEndElement();
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSCS_SetCharacterSet gscs) {
-      xsw.writeStartElement("GSCS_SetCharacterSet");
-      writeElement(baseXsw, childIndent, "characterSetLocalID", gscs.getCharacterSetLocalID());
-      baseXsw.writeCharacters(indent);
-      xsw.writeEndElement();
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GSCS");
+      baseXsw.writeEmptyElement("GSCS_SetCharacterSet");
+      baseXsw.writeAttribute("characterSetLocalID", String.valueOf(gscs.getCharacterSetLocalID()));
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSGCH_SegmentCharacteristics gsgch) {
       xsw.writeStartElement("GSGCH_SegmentCharacteristics");
       writeElement(baseXsw, childIndent, "lengthOfFollowingData", gsgch.lengthOfFollowingData);
@@ -743,6 +743,227 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeElement(baseXsw, childIndent, "coordinateY", gsprp.getCoordinateY());
       baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
+    } else if (order instanceof GAD_DrawingOrder.GSPS_SetPatternSet gsps) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GSPS");
+      baseXsw.writeEmptyElement("GSPS_SetPatternSet");
+      baseXsw.writeAttribute("patternLocalID", String.valueOf(gsps.getPatternLocalID()));
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GSMX_SetMix gsmx) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GSMX");
+      baseXsw.writeEmptyElement("GSMX_SetMix");
+      baseXsw.writeAttribute("mixMode", String.valueOf(gsmx.getMixMode()));
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GSBMX_SetBackgroundMix gsbmx) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GSBMX");
+      baseXsw.writeEmptyElement("GSBMX_SetBackgroundMix");
+      baseXsw.writeAttribute("mixMode", String.valueOf(gsbmx.getMixMode()));
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GSFLW_SetFractionLineWidth gsflw) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GSFLW");
+      baseXsw.writeEmptyElement("GSFLW_SetFractionLineWidth");
+      baseXsw.writeAttribute("integralMultiplier", String.valueOf(gsflw.getIntegralMultiplier()));
+      baseXsw.writeAttribute("fractionalMultiplier", String.valueOf(gsflw.getFractionalMultiplier()));
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GSLT_SetLineType gslt) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GSLT");
+      baseXsw.writeEmptyElement("GSLT_SetLineType");
+      baseXsw.writeAttribute("lineType", String.valueOf(gslt.getLineType()));
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GSLW_SetLineWidth gslw) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GSLW");
+      baseXsw.writeEmptyElement("GSLW_SetLineWidth");
+      baseXsw.writeAttribute("lineWidth", String.valueOf(gslw.getLineWidth()));
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GSPIK_SetPickIdentifier gspik) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GSPIK");
+      baseXsw.writeEmptyElement("GSPIK_SetPickIdentifier");
+      baseXsw.writeAttribute("pickIdentifier", String.valueOf(gspik.pickIdentifier));
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GSLE_SetLineEnd gsle) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GSLE");
+      baseXsw.writeEmptyElement("GSLE_SetLineEnd");
+      if (gsle.getLineEnd() != null) {
+        baseXsw.writeAttribute("lineEnd", gsle.getLineEnd().name());
+      }
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GSLJ_SetLineJoin gslj) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GSLJ");
+      baseXsw.writeEmptyElement("GSLJ_SetLineJoin");
+      if (gslj.getLineJoin() != null) {
+        baseXsw.writeAttribute("lineJoin", gslj.getLineJoin().name());
+      }
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GSPT_SetPatternSymbol gspt) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GSPT");
+      baseXsw.writeEmptyElement("GSPT_SetPatternSymbol");
+      baseXsw.writeAttribute("patternSymbolCodePoint", String.valueOf(gspt.getPatternSymbolCodePoint()));
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GSMT_SetMarkerSymbol gsmt) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GSMT");
+      baseXsw.writeEmptyElement("GSMT_SetMarkerSymbol");
+      baseXsw.writeAttribute("markerSymbolCodePoint", String.valueOf(gsmt.getMarkerSymbolCodePoint()));
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GSCR_SetCharacterPrecision gscr) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GSCR");
+      baseXsw.writeEmptyElement("GSCR_SetCharacterPrecision");
+      baseXsw.writeAttribute("characterPrecision", String.valueOf(gscr.getCharacterPrecision()));
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GSCD_SetCharacterDirection gscd) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GSCD");
+      baseXsw.writeEmptyElement("GSCD_SetCharacterDirection");
+      baseXsw.writeAttribute("characterDirection", String.valueOf(gscd.getCharacterDirection()));
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GSMP_SetMarkerPrecision gsmp) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GSMP");
+      baseXsw.writeEmptyElement("GSMP_SetMarkerPrecision");
+      baseXsw.writeAttribute("markerPrecision", String.valueOf(gsmp.getMarkerPrecision()));
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GSMS_SetMarkerSet gsms) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GSMS");
+      baseXsw.writeEmptyElement("GSMS_SetMarkerSet");
+      baseXsw.writeAttribute("markerSetLocalID", String.valueOf(gsms.getMarkerSetLocalID()));
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GEPROL_EndProlog geprol) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GEPROL");
+      baseXsw.writeEmptyElement("GEPROL_EndProlog");
+      baseXsw.writeAttribute("reserved0", String.valueOf(geprol.getReserved0()));
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GBCP_BeginCustomPattern gbcp) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GBCP");
+      baseXsw.writeEmptyElement("GBCP_BeginCustomPattern");
+      baseXsw.writeAttribute("flags", String.valueOf(gbcp.flags));
+      baseXsw.writeAttribute("patternSet", String.valueOf(gbcp.patternSet));
+      baseXsw.writeAttribute("patternSymbol", String.valueOf(gbcp.patternSymbol));
+      baseXsw.writeAttribute("xLeftWindow", String.valueOf(gbcp.xLeftWindow));
+      baseXsw.writeAttribute("xRightWindow", String.valueOf(gbcp.xRightWindow));
+      baseXsw.writeAttribute("yBottomWindow", String.valueOf(gbcp.yBottomWindow));
+      baseXsw.writeAttribute("yTopWindow", String.valueOf(gbcp.yTopWindow));
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GDPT_DeletePattern gdpt) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GDPT");
+      baseXsw.writeEmptyElement("GDPT_DeletePattern");
+      baseXsw.writeAttribute("patternSet", String.valueOf(gdpt.patternSet));
+      if (gdpt.patternSymbol != null) {
+        baseXsw.writeAttribute("patternSymbol", String.valueOf(gdpt.patternSymbol));
+      }
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GECP_EndCustomPattern gecp) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GECP");
+      baseXsw.writeEmptyElement("GECP_EndCustomPattern");
+      baseXsw.writeAttribute("reserved0", String.valueOf(gecp.getReserved0()));
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GEIMG_EndImage geimg) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GEIMG");
+      if (geimg.getReservedData() == null || geimg.getReservedData().length == 0) {
+        baseXsw.writeEmptyElement("GEIMG_EndImage");
+      } else {
+        xsw.writeStartElement("GEIMG_EndImage");
+        writeElement(baseXsw, childIndent, "reservedData", com.mgz.util.UtilCharacterEncoding.bytesToHexString(geimg.getReservedData()));
+        baseXsw.writeCharacters(indent);
+        xsw.writeEndElement();
+      }
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GNOP1_NopOperation gnop) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GNOP");
+      baseXsw.writeEmptyElement("GNOP1_NopOperation");
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GCOMT_Comment gcomt) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GCOMT");
+      xsw.writeStartElement("GCOMT_Comment");
+      if (gcomt.getText() != null) {
+        writeElement(baseXsw, childIndent, "text", gcomt.getText());
+      } else if (gcomt.getComment() != null) {
+        writeElement(baseXsw, childIndent, "comment", com.mgz.util.UtilCharacterEncoding.bytesToHexString(gcomt.getComment()));
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GCFARC_FullArcAtCurrentPosition gcfarc) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GCFARC");
+      baseXsw.writeEmptyElement("GCFARC_FullArcAtCurrentPosition");
+      baseXsw.writeAttribute("multiplierIntegerPortion", String.valueOf(gcfarc.getMultiplierIntegerPortion()));
+      baseXsw.writeAttribute("multiplierFractionalPortion", String.valueOf(gcfarc.getMultiplierFractionalPortion()));
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GLGD_LinearGradient glgd) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GLGD");
+      xsw.writeStartElement("GLGD_LinearGradient");
+      baseXsw.writeAttribute("patternSet", String.valueOf(glgd.patternSet));
+      baseXsw.writeAttribute("patternSymbol", String.valueOf(glgd.patternSymbol));
+      baseXsw.writeAttribute("xStart", String.valueOf(glgd.xStart));
+      baseXsw.writeAttribute("yStart", String.valueOf(glgd.yStart));
+      baseXsw.writeAttribute("xEnd", String.valueOf(glgd.xEnd));
+      baseXsw.writeAttribute("yEnd", String.valueOf(glgd.yEnd));
+      baseXsw.writeAttribute("outsideStart", String.valueOf(glgd.outsideStart));
+      baseXsw.writeAttribute("outsideEnd", String.valueOf(glgd.outsideEnd));
+      if (glgd.startColorSpec != null) {
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("startColorSpec");
+        writeElement(baseXsw, childIndent + "  ", "colorSpace", glgd.startColorSpec.colorSpace.name());
+        writeElement(baseXsw, childIndent + "  ", "colorValue", com.mgz.util.UtilCharacterEncoding.bytesToHexString(glgd.startColorSpec.colorValue));
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
+      }
+      if (glgd.endColorValue != null) {
+        writeElement(baseXsw, childIndent, "endColorValue", com.mgz.util.UtilCharacterEncoding.bytesToHexString(glgd.endColorValue));
+      }
+      if (glgd.colorStops != null) {
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("colorStops");
+        for (GAD_DrawingOrder.ColorStop stop : glgd.colorStops) {
+          baseXsw.writeCharacters(childIndent + "  ");
+          baseXsw.writeStartElement("ColorStop");
+          baseXsw.writeAttribute("offset", String.valueOf(stop.offset));
+          baseXsw.writeAttribute("colorValue", com.mgz.util.UtilCharacterEncoding.bytesToHexString(stop.colorValue));
+          baseXsw.writeEndElement();
+        }
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
+    } else if (order instanceof GAD_DrawingOrder.GRGD_RadialGradient grgd) {
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GRGD");
+      xsw.writeStartElement("GRGD_RadialGradient");
+      baseXsw.writeAttribute("patternSet", String.valueOf(grgd.patternSet));
+      baseXsw.writeAttribute("patternSymbol", String.valueOf(grgd.patternSymbol));
+      baseXsw.writeAttribute("xStart", String.valueOf(grgd.xStart));
+      baseXsw.writeAttribute("yStart", String.valueOf(grgd.yStart));
+      baseXsw.writeAttribute("mhStart", String.valueOf(grgd.mhStart));
+      baseXsw.writeAttribute("mfrStart", String.valueOf(grgd.mfrStart));
+      baseXsw.writeAttribute("xEnd", String.valueOf(grgd.xEnd));
+      baseXsw.writeAttribute("yEnd", String.valueOf(grgd.yEnd));
+      baseXsw.writeAttribute("mhEnd", String.valueOf(grgd.mhEnd));
+      baseXsw.writeAttribute("mfrEnd", String.valueOf(grgd.mfrEnd));
+      baseXsw.writeAttribute("outsideStart", String.valueOf(grgd.outsideStart));
+      baseXsw.writeAttribute("outsideEnd", String.valueOf(grgd.outsideEnd));
+      if (grgd.startColorSpec != null) {
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("startColorSpec");
+        writeElement(baseXsw, childIndent + "  ", "colorSpace", grgd.startColorSpec.colorSpace.name());
+        writeElement(baseXsw, childIndent + "  ", "colorValue", com.mgz.util.UtilCharacterEncoding.bytesToHexString(grgd.startColorSpec.colorValue));
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
+      }
+      if (grgd.endColorValue != null) {
+        writeElement(baseXsw, childIndent, "endColorValue", com.mgz.util.UtilCharacterEncoding.bytesToHexString(grgd.endColorValue));
+      }
+      if (grgd.colorStops != null) {
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeStartElement("colorStops");
+        for (GAD_DrawingOrder.ColorStop stop : grgd.colorStops) {
+          baseXsw.writeCharacters(childIndent + "  ");
+          baseXsw.writeStartElement("ColorStop");
+          baseXsw.writeAttribute("offset", String.valueOf(stop.offset));
+          baseXsw.writeAttribute("colorValue", com.mgz.util.UtilCharacterEncoding.bytesToHexString(stop.colorValue));
+          baseXsw.writeEndElement();
+        }
+        baseXsw.writeCharacters(childIndent);
+        baseXsw.writeEndElement();
+      }
+      baseXsw.writeCharacters(indent);
+      xsw.writeEndElement();
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GCPARC_PartialArcAtCurrentPosition gcparc) {
       xsw.writeStartElement("GCPARC_PartialArcAtCurrentPosition");
       writeElement(baseXsw, childIndent, "lengthOfFollowingData", gcparc.lengthOfFollowingData);
@@ -873,9 +1094,14 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (order instanceof GAD_DrawingOrder.GESEG_EndSegment) {
       xsw.writeEmptyElement("GESEG_EndSegment");
     } else if (order instanceof GAD_DrawingOrder.GBSEG_BeginSegment gbseg) {
-      xsw.writeStartElement("GBSEG_BeginSegment");
-      writeElement(baseXsw, childIndent, "nameOfSegment", gbseg.getNameOfSegment());
-      writeElement(baseXsw, childIndent, "text", gbseg.getText());
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GBSEG");
+      baseXsw.writeStartElement("gocaBeginSegment");
+      if (gbseg.getNameOfSegment() != null) {
+        baseXsw.writeAttribute("nameOfSegment", gbseg.getNameOfSegment());
+      }
+      if (gbseg.getText() != null) {
+        baseXsw.writeAttribute("text", gbseg.getText());
+      }
       if (gbseg.getDrawingOrders() != null) {
         for (GAD_DrawingOrder childOrder : gbseg.getDrawingOrders()) {
           baseXsw.writeCharacters(childIndent);
@@ -883,17 +1109,23 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         }
       }
       baseXsw.writeCharacters(indent);
-      xsw.writeEndElement();
+      baseXsw.writeEndElement();
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GBAR_BeginArea gbar) {
-      xsw.writeStartElement("GBAR_BeginArea");
-      writeElement(baseXsw, childIndent, "internalFlags", gbar.getInternalFlags());
-      baseXsw.writeCharacters(indent);
-      xsw.writeEndElement();
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GBAR");
+      baseXsw.writeEmptyElement("GBAR_BeginArea");
+      baseXsw.writeAttribute("internalFlags", String.valueOf(gbar.getInternalFlags()));
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GEAR_EndArea gear) {
-      xsw.writeStartElement("GEAR_EndArea");
-      writeElement(baseXsw, childIndent, "text", gear.getText());
-      baseXsw.writeCharacters(indent);
-      xsw.writeEndElement();
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GEAR");
+      if (gear.getText() != null && !gear.getText().isEmpty()) {
+        baseXsw.writeStartElement("GEAR_EndArea");
+        baseXsw.writeAttribute("text", gear.getText());
+        baseXsw.writeEndElement();
+      } else {
+        baseXsw.writeEmptyElement("GEAR_EndArea");
+      }
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GIMD_ImageData gimd) {
       xsw.writeStartElement("GIMD_ImageData");
       if (gimd.getImageData() != null) {
@@ -902,79 +1134,76 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       baseXsw.writeCharacters(indent);
       xsw.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GCBOX_BoxAtCurrentPosition gcbox) {
-      xsw.writeStartElement("GCBOX_BoxAtCurrentPosition");
-      writeElement(baseXsw, childIndent, "reserved2_3", gcbox.getReserved2_3());
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GCBOX");
+      baseXsw.writeStartElement("GCBOX_BoxAtCurrentPosition");
+      baseXsw.writeAttribute("reserved2_3", String.valueOf(gcbox.getReserved2_3()));
       if (gcbox.getDiagonalCorner() != null) {
         baseXsw.writeCharacters(childIndent);
-        baseXsw.writeStartElement("diagonalCorner");
-        writeElement(baseXsw, childIndent + "  ", "xCoordinate", gcbox.getDiagonalCorner().xCoordinate());
-        writeElement(baseXsw, childIndent + "  ", "yCoordinate", gcbox.getDiagonalCorner().yCoordinate());
-        baseXsw.writeCharacters(childIndent);
-        baseXsw.writeEndElement();
+        baseXsw.writeEmptyElement("diagonalCorner");
+        baseXsw.writeAttribute("xCoordinate", String.valueOf(gcbox.getDiagonalCorner().xCoordinate()));
+        baseXsw.writeAttribute("yCoordinate", String.valueOf(gcbox.getDiagonalCorner().yCoordinate()));
       }
       if (gcbox.getxAxisLengthForRoundCorner() != null) {
-        writeElement(baseXsw, childIndent, "xAxisLengthForRoundCorner", gcbox.getxAxisLengthForRoundCorner());
+        baseXsw.writeAttribute("xAxisLengthForRoundCorner", String.valueOf(gcbox.getxAxisLengthForRoundCorner()));
       }
       if (gcbox.getyAxisLengthForRoundCorner() != null) {
-        writeElement(baseXsw, childIndent, "yAxisLengthForRoundCorner", gcbox.getyAxisLengthForRoundCorner());
+        baseXsw.writeAttribute("yAxisLengthForRoundCorner", String.valueOf(gcbox.getyAxisLengthForRoundCorner()));
       }
       baseXsw.writeCharacters(indent);
-      xsw.writeEndElement();
+      baseXsw.writeEndElement();
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GBOX_BoxAtGivenPosition gbox) {
-      xsw.writeStartElement("GBOX_BoxAtGivenPosition");
-      writeElement(baseXsw, childIndent, "reserved2_3", gbox.getReserved2_3());
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GBOX");
+      baseXsw.writeStartElement("GBOX_BoxAtGivenPosition");
+      baseXsw.writeAttribute("reserved2_3", String.valueOf(gbox.getReserved2_3()));
       if (gbox.getFirstCorner() != null) {
         baseXsw.writeCharacters(childIndent);
-        baseXsw.writeStartElement("firstCorner");
-        writeElement(baseXsw, childIndent + "  ", "xCoordinate", gbox.getFirstCorner().xCoordinate());
-        writeElement(baseXsw, childIndent + "  ", "yCoordinate", gbox.getFirstCorner().yCoordinate());
-        baseXsw.writeCharacters(childIndent);
-        baseXsw.writeEndElement();
+        baseXsw.writeEmptyElement("firstCorner");
+        baseXsw.writeAttribute("xCoordinate", String.valueOf(gbox.getFirstCorner().xCoordinate()));
+        baseXsw.writeAttribute("yCoordinate", String.valueOf(gbox.getFirstCorner().yCoordinate()));
       }
       if (gbox.getDiagonalCorner() != null) {
         baseXsw.writeCharacters(childIndent);
-        baseXsw.writeStartElement("diagonalCorner");
-        writeElement(baseXsw, childIndent + "  ", "xCoordinate", gbox.getDiagonalCorner().xCoordinate());
-        writeElement(baseXsw, childIndent + "  ", "yCoordinate", gbox.getDiagonalCorner().yCoordinate());
-        baseXsw.writeCharacters(childIndent);
-        baseXsw.writeEndElement();
+        baseXsw.writeEmptyElement("diagonalCorner");
+        baseXsw.writeAttribute("xCoordinate", String.valueOf(gbox.getDiagonalCorner().xCoordinate()));
+        baseXsw.writeAttribute("yCoordinate", String.valueOf(gbox.getDiagonalCorner().yCoordinate()));
       }
       if (gbox.getxAxisLengthForRoundCorner() != null) {
-        writeElement(baseXsw, childIndent, "xAxisLengthForRoundCorner", gbox.getxAxisLengthForRoundCorner());
+        baseXsw.writeAttribute("xAxisLengthForRoundCorner", String.valueOf(gbox.getxAxisLengthForRoundCorner()));
       }
       if (gbox.getyAxisLengthForRoundCorner() != null) {
-        writeElement(baseXsw, childIndent, "yAxisLengthForRoundCorner", gbox.getyAxisLengthForRoundCorner());
+        baseXsw.writeAttribute("yAxisLengthForRoundCorner", String.valueOf(gbox.getyAxisLengthForRoundCorner()));
       }
       baseXsw.writeCharacters(indent);
-      xsw.writeEndElement();
+      baseXsw.writeEndElement();
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GCRLINE_RelativeLineAtCurrentPosition gcrline) {
-      xsw.writeStartElement("GCRLINE_RelativeLineAtCurrentPosition");
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GCRLINE");
+      baseXsw.writeStartElement("GCRLINE_RelativeLineAtCurrentPosition");
       if (gcrline.relativeOffsets != null) {
         baseXsw.writeCharacters(childIndent);
         baseXsw.writeStartElement("relativeOffsets");
         String offsetIndent = childIndent + "  ";
         for (GAD_DrawingOrder.GOCA_RelativePoint rp : gcrline.relativeOffsets) {
           baseXsw.writeCharacters(offsetIndent);
-          baseXsw.writeStartElement("GOCA_RelativePoint");
-          writeElement(baseXsw, offsetIndent + "  ", "xOffset", rp.xOffset());
-          writeElement(baseXsw, offsetIndent + "  ", "yOffset", rp.yOffset());
-          baseXsw.writeCharacters(offsetIndent);
-          baseXsw.writeEndElement();
+          baseXsw.writeEmptyElement("GOCA_RelativePoint");
+          baseXsw.writeAttribute("xOffset", String.valueOf(rp.xOffset()));
+          baseXsw.writeAttribute("yOffset", String.valueOf(rp.yOffset()));
         }
         baseXsw.writeCharacters(childIndent);
         baseXsw.writeEndElement();
       }
       baseXsw.writeCharacters(indent);
-      xsw.writeEndElement();
+      baseXsw.writeEndElement();
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GRLINE_RelativeLineAtGivenPosition grline) {
-      xsw.writeStartElement("GRLINE_RelativeLineAtGivenPosition");
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic("GRLINE");
+      baseXsw.writeStartElement("GRLINE_RelativeLineAtGivenPosition");
       if (grline.startPoint != null) {
         baseXsw.writeCharacters(childIndent);
-        baseXsw.writeStartElement("startPoint");
-        writeElement(baseXsw, childIndent + "  ", "xCoordinate", grline.startPoint.xCoordinate());
-        writeElement(baseXsw, childIndent + "  ", "yCoordinate", grline.startPoint.yCoordinate());
-        baseXsw.writeCharacters(childIndent);
-        baseXsw.writeEndElement();
+        baseXsw.writeEmptyElement("startPoint");
+        baseXsw.writeAttribute("xCoordinate", String.valueOf(grline.startPoint.xCoordinate()));
+        baseXsw.writeAttribute("yCoordinate", String.valueOf(grline.startPoint.yCoordinate()));
       }
       if (grline.relativeOffsets != null) {
         baseXsw.writeCharacters(childIndent);
@@ -982,36 +1211,36 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         String offsetIndent = childIndent + "  ";
         for (GAD_DrawingOrder.GOCA_RelativePoint rp : grline.relativeOffsets) {
           baseXsw.writeCharacters(offsetIndent);
-          baseXsw.writeStartElement("GOCA_RelativePoint");
-          writeElement(baseXsw, offsetIndent + "  ", "xOffset", rp.xOffset());
-          writeElement(baseXsw, offsetIndent + "  ", "yOffset", rp.yOffset());
-          baseXsw.writeCharacters(offsetIndent);
-          baseXsw.writeEndElement();
+          baseXsw.writeEmptyElement("GOCA_RelativePoint");
+          baseXsw.writeAttribute("xOffset", String.valueOf(rp.xOffset()));
+          baseXsw.writeAttribute("yOffset", String.valueOf(rp.yOffset()));
         }
         baseXsw.writeCharacters(childIndent);
         baseXsw.writeEndElement();
       }
       baseXsw.writeCharacters(indent);
-      xsw.writeEndElement();
+      baseXsw.writeEndElement();
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.DrawingOrder_HasPoints dohp) {
-      xsw.writeStartElement(order.getClass().getSimpleName());
+      String mnemonic = com.mgz.util.MnemonicPerformanceMonitor.extractMnemonic(order);
+      com.mgz.util.MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
+      baseXsw.writeStartElement(order.getClass().getSimpleName());
       if (dohp.getPoints() != null) {
         baseXsw.writeCharacters(childIndent);
         baseXsw.writeStartElement("points");
         String pointIndent = childIndent + "  ";
         for (GAD_DrawingOrder.GOCA_Point p : dohp.getPoints()) {
           baseXsw.writeCharacters(pointIndent);
-          baseXsw.writeStartElement("GOCA_Point");
-          writeElement(baseXsw, pointIndent + "  ", "xCoordinate", p.xCoordinate());
-          writeElement(baseXsw, pointIndent + "  ", "yCoordinate", p.yCoordinate());
-          baseXsw.writeCharacters(pointIndent);
-          baseXsw.writeEndElement();
+          baseXsw.writeEmptyElement("GOCA_Point");
+          baseXsw.writeAttribute("xCoordinate", String.valueOf(p.xCoordinate()));
+          baseXsw.writeAttribute("yCoordinate", String.valueOf(p.yCoordinate()));
         }
         baseXsw.writeCharacters(childIndent);
         baseXsw.writeEndElement();
       }
-      xsw.writeCharacters(indent);
-      xsw.writeEndElement();
+      baseXsw.writeCharacters(indent);
+      baseXsw.writeEndElement();
+      com.mgz.util.MnemonicPerformanceMonitor.endWrite();
     } else {
       // Fallback to Jackson
       String rootName = order.getClass().getSimpleName();

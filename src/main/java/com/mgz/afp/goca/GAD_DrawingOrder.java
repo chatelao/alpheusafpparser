@@ -825,7 +825,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class GSPIK_SetPickIdentifier extends GAD_DrawingOrder {
     @AFPField
-    short pickIdentifier;
+    public short pickIdentifier;
 
     @Override
     public void reset() {
@@ -1789,19 +1789,19 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     @AFPField
     short reserved2_3 = 0x0000;
     @AFPField
-    short flags;
+    public short flags;
     @AFPField
-    short patternSet;
+    public short patternSet;
     @AFPField
-    short patternSymbol;
+    public short patternSymbol;
     @AFPField
-    short xLeftWindow;
+    public short xLeftWindow;
     @AFPField
-    short xRightWindow;
+    public short xRightWindow;
     @AFPField
-    short yBottomWindow;
+    public short yBottomWindow;
     @AFPField
-    short yTopWindow;
+    public short yTopWindow;
 
     @Override
     public void reset() {
@@ -1852,9 +1852,9 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     @AFPField
     short reserved2_3 = 0x0000;
     @AFPField
-    short patternSet;
+    public short patternSet;
     @AFPField(isOptional = true)
-    Short patternSymbol;
+    public Short patternSymbol;
 
     @Override
     public void reset() {
@@ -3588,27 +3588,27 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     @AFPField
     short reserved4_5 = 0x0000;
     @AFPField
-    short patternSet;
+    public short patternSet;
     @AFPField
-    short patternSymbol;
+    public short patternSymbol;
     @AFPField
-    short xStart;
+    public short xStart;
     @AFPField
-    short yStart;
+    public short yStart;
     @AFPField
-    short xEnd;
+    public short xEnd;
     @AFPField
-    short yEnd;
+    public short yEnd;
     @AFPField
-    ColorSpecification startColorSpec;
+    public ColorSpecification startColorSpec;
     @AFPField
-    byte[] endColorValue;
+    public byte[] endColorValue;
     @AFPField
-    byte outsideStart;
+    public byte outsideStart;
     @AFPField
-    byte outsideEnd;
+    public byte outsideEnd;
     @AFPField
-    List<ColorStop> colorStops;
+    public List<ColorStop> colorStops;
 
     @Override
     public void reset() {
@@ -3703,35 +3703,35 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     @AFPField
     short reserved4_5 = 0x0000;
     @AFPField
-    short patternSet;
+    public short patternSet;
     @AFPField
-    short patternSymbol;
+    public short patternSymbol;
     @AFPField
-    short xStart;
+    public short xStart;
     @AFPField
-    short yStart;
+    public short yStart;
     @AFPField
-    short mhStart;
+    public short mhStart;
     @AFPField
-    short mfrStart;
+    public short mfrStart;
     @AFPField
-    short xEnd;
+    public short xEnd;
     @AFPField
-    short yEnd;
+    public short yEnd;
     @AFPField
-    short mhEnd;
+    public short mhEnd;
     @AFPField
-    short mfrEnd;
+    public short mfrEnd;
     @AFPField
-    ColorSpecification startColorSpec;
+    public ColorSpecification startColorSpec;
     @AFPField
-    byte[] endColorValue;
+    public byte[] endColorValue;
     @AFPField
-    byte outsideStart;
+    public byte outsideStart;
     @AFPField
-    byte outsideEnd;
+    public byte outsideEnd;
     @AFPField
-    List<ColorStop> colorStops;
+    public List<ColorStop> colorStops;
 
     @Override
     public void reset() {
@@ -3836,7 +3836,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     @AFPField
     byte reserved;
     @AFPField
-    AFPColorSpace colorSpace;
+    public AFPColorSpace colorSpace;
     @AFPField
     int reserved4_7;
     @AFPField
@@ -3848,7 +3848,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     @AFPField
     byte nrOfBitsComponent4;
     @AFPField
-    byte[] colorValue;
+    public byte[] colorValue;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -3885,9 +3885,9 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
   public static final class ColorStop implements IAFPDecodeableWriteable {
     @AFPField
-    int offset;
+    public int offset;
     @AFPField
-    byte[] colorValue;
+    public byte[] colorValue;
 
     private int colorValueLen;
 
