@@ -37,7 +37,10 @@ import com.mgz.afp.ioca.IPD_Segment;
 import com.mgz.afp.lineData.LND_LineDescriptor;
 import com.mgz.afp.modca.BAG_BeginActiveEnvironmentGroup;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
+import com.mgz.afp.modca.MGO_MapGraphicsObject;
+import com.mgz.afp.modca.MDR_MapDataResource;
 import com.mgz.afp.modca.MIO_MapImageObject;
+import com.mgz.afp.modca.MPO_MapPageOverlay;
 import com.mgz.afp.modca.NOP_NoOperation;
 import com.mgz.afp.modca.OBD_ObjectAreaDescriptor;
 import com.mgz.afp.modca.OBP_ObjectAreaPosition;
@@ -232,6 +235,12 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIddDirectly(idd);
     } else if (sf instanceof MIO_MapImageObject mio) {
       writeMioDirectly(mio);
+    } else if (sf instanceof MDR_MapDataResource mdr) {
+      writeMdrDirectly(mdr);
+    } else if (sf instanceof MGO_MapGraphicsObject mgo) {
+      writeMgoDirectly(mgo);
+    } else if (sf instanceof MPO_MapPageOverlay mpo) {
+      writeMpoDirectly(mpo);
     } else if (sf instanceof com.mgz.afp.modca.BDT_BeginDocument bdt) {
       writeBdtDirectly(bdt);
     } else if (sf instanceof com.mgz.afp.modca.BNG_BeginNamedPageGroup bng) {
@@ -1812,6 +1821,81 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       for (IRepeatingGroup rg : mio.getRepeatingGroups()) {
         baseXsw.writeCharacters(indent);
         baseXsw.writeStartElement("mioRepeatingGroup");
+        if (rg instanceof RepeatingGroupWithTriplets rgt) {
+          if (rgt.getTriplets() != null) {
+            for (Triplet t : rgt.getTriplets()) {
+              baseXsw.writeCharacters(XmlIndenter.getIndent(3));
+              writeTriplet(baseXsw, t, XmlIndenter.getIndent(3));
+            }
+          }
+        }
+        baseXsw.writeCharacters(indent);
+        baseXsw.writeEndElement();
+      }
+    }
+    XmlIndenter.writeIndent(baseXsw, 1);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeMdrDirectly(MDR_MapDataResource mdr) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("MDR");
+    baseXsw.writeStartElement("MDR_MapDataResource");
+    String indent = XmlIndenter.getIndent(2);
+    if (mdr.getRepeatingGroups() != null) {
+      for (IRepeatingGroup rg : mdr.getRepeatingGroups()) {
+        baseXsw.writeCharacters(indent);
+        baseXsw.writeStartElement("mdrRepeatingGroup");
+        if (rg instanceof RepeatingGroupWithTriplets rgt) {
+          if (rgt.getTriplets() != null) {
+            for (Triplet t : rgt.getTriplets()) {
+              baseXsw.writeCharacters(XmlIndenter.getIndent(3));
+              writeTriplet(baseXsw, t, XmlIndenter.getIndent(3));
+            }
+          }
+        }
+        baseXsw.writeCharacters(indent);
+        baseXsw.writeEndElement();
+      }
+    }
+    XmlIndenter.writeIndent(baseXsw, 1);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeMgoDirectly(MGO_MapGraphicsObject mgo) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("MGO");
+    baseXsw.writeStartElement("MGO_MapGraphicsObject");
+    String indent = XmlIndenter.getIndent(2);
+    if (mgo.getRepeatingGroups() != null) {
+      for (IRepeatingGroup rg : mgo.getRepeatingGroups()) {
+        baseXsw.writeCharacters(indent);
+        baseXsw.writeStartElement("mgoRepeatingGroup");
+        if (rg instanceof RepeatingGroupWithTriplets rgt) {
+          if (rgt.getTriplets() != null) {
+            for (Triplet t : rgt.getTriplets()) {
+              baseXsw.writeCharacters(XmlIndenter.getIndent(3));
+              writeTriplet(baseXsw, t, XmlIndenter.getIndent(3));
+            }
+          }
+        }
+        baseXsw.writeCharacters(indent);
+        baseXsw.writeEndElement();
+      }
+    }
+    XmlIndenter.writeIndent(baseXsw, 1);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeMpoDirectly(MPO_MapPageOverlay mpo) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("MPO");
+    baseXsw.writeStartElement("MPO_MapPageOverlay");
+    String indent = XmlIndenter.getIndent(2);
+    if (mpo.getRepeatingGroups() != null) {
+      for (IRepeatingGroup rg : mpo.getRepeatingGroups()) {
+        baseXsw.writeCharacters(indent);
+        baseXsw.writeStartElement("mpoRepeatingGroup");
         if (rg instanceof RepeatingGroupWithTriplets rgt) {
           if (rgt.getTriplets() != null) {
             for (Triplet t : rgt.getTriplets()) {

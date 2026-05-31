@@ -42,15 +42,20 @@ This roadmap outlines the steps required to transform Alpheus into a "Jackson on
 - [x] Remove `JaxbAnnotationModule` from `JacksonXmlMapperProvider`.
 
 ## Phase 4: Test Suite Modernization 🚧
-- [ ] Refactor `Afp2XmlComparisonTest` to compare against "Gold Standard" files.
-- [x] Remove JAXB-specific tests:
-    - `src/test/java/com/mgz/xml/IllegalAnnotationExceptionTest.java`
-    - `src/test/java/com/mgz/xml/AfpStreamingXmlWriterTest.java`
-    - `src/test/java/com/mgz/xml/Afp2XmlWriterTest.java`
-    - `src/test/java/com/mgz/xml/Afp2XmlComparisonTest.java`
+- [ ] Implement `Afp2XmlGoldStandardTest` to compare against "Gold Standard" files (replaces removed `Afp2XmlComparisonTest`).
+- [x] Remove JAXB-specific tests (Completed).
 - [x] Update `JacksonSerializationTest` and others to be the primary verification suite.
 
 ## Phase 5: Verification and Finalization ⏳
-- [ ] Run full 21,000+ requirement verification suite.
-- [ ] Perform memory profiling to verify reduction in heap usage (no more JAXB contexts).
-- [ ] Finalize `AfpJacksonXmlWriter` fast-paths for any remaining slow structured fields.
+- [ ] Requirement Verification:
+    - [ ] Run full 21,000+ requirement verification suite.
+    - [ ] Verify PTOCA Chapter 6 requirements (PT1-PT4 subsets).
+    - [ ] Verify GOCA drawing order mappings.
+- [ ] Performance and Resource Profiling:
+    - [ ] Perform memory profiling to verify reduction in heap usage (no more JAXB contexts).
+    - [ ] Benchmark sequential vs parallel conversion throughput.
+- [ ] Finalize `AfpJacksonXmlWriter` fast-paths:
+    - [x] Implement fast-path for `MDR_MapDataResource`.
+    - [x] Implement fast-path for `MGO_MapGraphicsObject`.
+    - [x] Implement fast-path for `MPO_MapPageOverlay`.
+    - [ ] Identify and implement fast-paths for other high-frequency structured fields (e.g., `MSU`, `MMC`).
