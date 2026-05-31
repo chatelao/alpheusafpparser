@@ -85,7 +85,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Box Primitives**: Map `GBOX` and `GCBOX` to `rectangle`.
         - ⏳ **Arcs and Fillets**:
             - ✅ **Full Arcs**: Map `GFARC` and `GCFARC` to iText `ellipse` or `arc`.
-            - ⏳ **Partial Arcs**: Map `GPARC` and `GCPARC` to iText `arc`.
+            - ✅ **Partial Arcs**: Map `GPARC` and `GCPARC` to iText `arc`.
             - ⏳ **Fillets**: Map `GFLT` and `GCFLT` to iText `curveTo` (approximated).
     - ✅ **Area and Filling**:
         - ✅ **Area Control**: Map `GAREA` (Begin/End Area) to PDF path closing and filling.
@@ -95,6 +95,11 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ⏳ **Resource Mapping**:
         - ⏳ **Segment Mapping**: Convert GOCA segments (`GBSEG`, `GESEG`) to PDF Form XObjects if they are reusable.
 - ⏳ **BCOCA Renderer**: Implement barcode drawing using vector primitives for resolution independence.
+    - ⏳ **BCOCA State Tracking**: Implement tracking of barcode descriptors (`BDD`) including type, modifier, and font for HRI.
+    - ⏳ **Linear Barcode Support**: Implement rendering for common linear barcodes (Code 39, Code 128, UPC/EAN).
+    - ⏳ **2D Barcode Support**: Implement rendering for 2D barcodes (Data Matrix, QR Code, PDF417).
+    - ⏳ **Postal Barcode Support**: Implement rendering for postal codes (POSTNET, Intelligent Mail, Japan Postal).
+    - ⏳ **HRI Rendering**: Implement Human Readable Interpretation (HRI) text placement and font mapping.
 - ⏳ **IOCA Renderer**: Map image data to PDF Image XObjects.
     - ⏳ **Implement IOCA Segment Tracking**: Identify and group IOCA segments within the AFP stream.
     - ⏳ **Implement IOCA Data Decoding**:

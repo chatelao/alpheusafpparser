@@ -26,8 +26,10 @@ import com.mgz.afp.enums.SFTypeID;
 import com.mgz.afp.goca.GAD_DrawingOrder;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBAR_BeginArea;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCFARC_FullArcAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCPARC_PartialArcAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GEAR_EndArea;
 import com.mgz.afp.goca.GAD_DrawingOrder.GFARC_FullArcAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GPARC_PartialArcAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCLINE_LineAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCBOX_BoxAtCurrentPosition;
@@ -651,6 +653,47 @@ public class PdfHandlerStructureTest {
     handler.handle(gad);
 
     assertEquals(2, handler.getFieldCount());
+  }
+
+  @Test
+  public void testGocaPartialArcRendering() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    GAD_GraphicsData gad = new GAD_GraphicsData();
+    gad.setStructuredFieldIntroducer(createSfi(SFTypeID.GAD_GraphicsData));
+    List<GAD_DrawingOrder> orders = new ArrayList<>();
+
+    // GPARC: Partial Arc at Given Position
+    GPARC_PartialArcAtGivenPosition gparc = new GPARC_PartialArcAtGivenPosition();
+    gparc.setLineStartPoint(new GAD_DrawingOrder.GOCA_Point((short) 100, (short) 100));
+    gparc.setArcCenter(new GAD_DrawingOrder.GOCA_Point((short) 200, (short) 200));
+    gparc.setMultiplierIntegerPortion((short) 50);
+    gparc.setStartAngle(0);
+    gparc.setSweepAngle(90 * 65536); // 90 degrees
+    orders.add(gparc);
+
+    // GCPARC: Partial Arc at Current Position
+    GCPARC_PartialArcAtCurrentPosition gcparc = new GCPARC_PartialArcAtCurrentPosition();
+    gcparc.setArcCenter(new GAD_DrawingOrder.GOCA_Point((short) 300, (short) 300));
+    gcparc.setMultiplierIntegerPortion((short) 50);
+    gcparc.setStartAngle(180 * 65536);
+    gcparc.setSweepAngle(90 * 65536);
+    orders.add(gcparc);
+
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    assertEquals(2, handler.getFieldCount());
+    // Current position should be updated to the end of the second arc
+    // End angle: 180 + 90 = 270 degrees.
+    // Center (300, 300), Multiplier 50.
+    // End point: (300 + 50*cos(270), 300 + 50*sin(270)) = (300, 250)
+    assertEquals(300, handler.getGraphicsState().getCurrentX());
+    assertEquals(250, handler.getGraphicsState().getCurrentY());
   }
 
   @Test
