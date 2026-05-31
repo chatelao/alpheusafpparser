@@ -40,6 +40,8 @@ import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.base.IRepeatingGroup;
 import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.goca.GAD_DrawingOrder;
+import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCBOX_BoxAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCLINE_LineAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCRLINE_RelativeLineAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GLINE_LineAtGivenPosition;
@@ -47,6 +49,8 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GRLINE_RelativeLineAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSCOL_SetColor;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSCP_SetCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSECOL_SetExtendedColor;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSLE_SetLineEnd;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSLJ_SetLineJoin;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLT_SetLineType;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLW_SetLineWidth;
 import com.mgz.afp.goca.GAD_GraphicsData;
@@ -298,6 +302,10 @@ public class PdfHandler implements StructuredFieldHandler {
       graphicsState.setLineWidth(gslw.getLineWidth());
     } else if (order instanceof GSLT_SetLineType gslt) {
       graphicsState.setLineType(gslt.getLineType());
+    } else if (order instanceof GSLE_SetLineEnd gsle) {
+      graphicsState.setLineEnd(gsle.getLineEnd());
+    } else if (order instanceof GSLJ_SetLineJoin gslj) {
+      graphicsState.setLineJoin(gslj.getLineJoin());
     } else if (order instanceof GSCP_SetCurrentPosition gscp) {
       graphicsState.setCurrentX(gscp.getCoordinateX());
       graphicsState.setCurrentY(gscp.getCoordinateY());
@@ -360,6 +368,30 @@ public class PdfHandler implements StructuredFieldHandler {
         graphicsState.setCurrentY(curY);
         currentCanvas.stroke();
       }
+    } else if (order instanceof GBOX_BoxAtGivenPosition gbox) {
+      if (currentCanvas != null) {
+        applyGraphicsState();
+        float x = Math.min(gbox.getFirstCorner().xCoordinate(), gbox.getDiagonalCorner().xCoordinate());
+        float y = Math.min(gbox.getFirstCorner().yCoordinate(), gbox.getDiagonalCorner().yCoordinate());
+        float width = Math.abs(gbox.getFirstCorner().xCoordinate() - gbox.getDiagonalCorner().xCoordinate());
+        float height = Math.abs(gbox.getFirstCorner().yCoordinate() - gbox.getDiagonalCorner().yCoordinate());
+        currentCanvas.rectangle(x, y, width, height);
+        currentCanvas.stroke();
+        graphicsState.setCurrentX(gbox.getDiagonalCorner().xCoordinate());
+        graphicsState.setCurrentY(gbox.getDiagonalCorner().yCoordinate());
+      }
+    } else if (order instanceof GCBOX_BoxAtCurrentPosition gcbox) {
+      if (currentCanvas != null) {
+        applyGraphicsState();
+        float x = Math.min(graphicsState.getCurrentX(), gcbox.getDiagonalCorner().xCoordinate());
+        float y = Math.min(graphicsState.getCurrentY(), gcbox.getDiagonalCorner().yCoordinate());
+        float width = Math.abs(graphicsState.getCurrentX() - gcbox.getDiagonalCorner().xCoordinate());
+        float height = Math.abs(graphicsState.getCurrentY() - gcbox.getDiagonalCorner().yCoordinate());
+        currentCanvas.rectangle(x, y, width, height);
+        currentCanvas.stroke();
+        graphicsState.setCurrentX(gcbox.getDiagonalCorner().xCoordinate());
+        graphicsState.setCurrentY(gcbox.getDiagonalCorner().yCoordinate());
+      }
     }
   }
 
@@ -368,6 +400,8 @@ public class PdfHandler implements StructuredFieldHandler {
       currentCanvas.setStrokeColor(ColorHandler.getColor(graphicsState.getColor()));
       // TODO: Map GOCA line width and type to PDF line width and dash pattern
       currentCanvas.setLineWidth(graphicsState.getLineWidth() > 0 ? graphicsState.getLineWidth() : 1.0f);
+
+      // TODO: Map GOCA line end and join to iText 9 PdfCanvas operators
     }
   }
 
