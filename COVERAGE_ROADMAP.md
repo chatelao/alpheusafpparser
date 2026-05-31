@@ -12,9 +12,9 @@ This document outlines a phased, actionable plan to increase the code coverage o
 ## Phase 1: Foundation - MO:DCA & Triplets (Target: 35%) 🚧
 The goal of this phase is to cover the most frequent building blocks of AFP documents.
 
-### 1.1. Systematic Round-Trip Testing for MO:DCA 🚧
-- ⏳ Implement `RoundTripTest` classes for all 80+ Structured Fields in `com.mgz.afp.modca`.
-- ⏳ Use `RoundTripTestUtils` to verify that every SF can be decoded and encoded without data loss.
+### 1.1. Systematic Round-Trip Testing for MO:DCA ✅
+- ✅ Implement `RoundTripTest` classes for all 80+ Structured Fields in `com.mgz.afp.modca` (83 SFs verified).
+- ✅ Use `RoundTripTestUtils` to verify that every SF can be decoded and encoded without data loss.
 - **Methodology: Deep Round-Trip Verification**
     1. **Programmatic Generation:** Manually construct a `byte[]` payload that exercises all optional parameters and edge-case values.
     2. **Decoding:** Parse the payload into a high-level Java object.
@@ -85,7 +85,7 @@ Cover remaining specialized areas and refactored logic.
 - 🚧 Verify the 1:1 mapping of normative requirements in `TEST_COVERAGE_*.md` files:
     - 🚧 **4.1.1 CMOCA Verification:** Implement and tag tests for all 1,085 CMOCA requirements (Initial verification implemented for CMR Header and Property fields).
     - ⏳ **4.1.2 BCOCA Verification:** Implement and tag tests for all 1,237 BCOCA requirements.
-    - 🚧 **4.1.3 PTOCA Verification:** Implement and tag tests for all 1,488 PTOCA requirements (Initial verification implemented in `TEST_COVERAGE_PTOCA.md`).
+    - 🚧 **4.1.3 PTOCA Verification:** Implement and tag tests for all 1,488 PTOCA requirements (Initial verification and Chapter 6 PT1-PT4 subset ranges implemented in `TEST_COVERAGE_PTOCA.md`).
     - ⏳ **4.1.4 FOCA Verification:** Implement and tag tests for all 1,391 FOCA requirements.
     - ⏳ **4.1.5 GOCA Verification:** Implement and tag tests for all 2,144 GOCA requirements.
     - ⏳ **4.1.6 IOCA Verification:** Implement and tag tests for all 1,587 IOCA requirements.
