@@ -112,3 +112,4 @@ __pycache__/
 
 # Jazzer/CIFuzz corpus
 .cifuzz-corpus/
+test/big/

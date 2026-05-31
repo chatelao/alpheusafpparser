@@ -1,4 +1,6 @@
-/*
+import os
+
+content = r'''/*
 Copyright 2024 Rudolf Fiala
 
 This file is part of Alpheus AFP Parser.
@@ -166,18 +168,6 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else {
       this.baseFragmentGenerator = null;
     }
-  }
-
-  /**
-   * Writes a single structured field to the XML output.
-   *
-   * @param sf the structured field to write
-   * @throws Exception if writing fails
-   * @deprecated Use {@link #handle(StructuredField)} instead.
-   */
-  @Deprecated
-  public void writeField(StructuredField sf) throws Exception {
-    handle(sf);
   }
 
   @Override
@@ -1067,18 +1057,17 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GBAR_BeginArea gbar) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GBAR");
-      writer.writeEmptyElement("GBAR_BeginArea");
-      writer.writeAttribute("internalFlags", String.valueOf(gbar.getInternalFlags()));
+      writer.writeStartElement("GBAR_BeginArea");
+      writeElement(writer, childIndent, "internalFlags", gbar.getInternalFlags());
+      writer.writeCharacters(indent);
+      writer.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GEAR_EndArea gear) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GEAR");
-      String text = gear.getText();
-      if (text != null && !text.isEmpty()) {
-        writer.writeEmptyElement("GEAR_EndArea");
-        writer.writeAttribute("text", text);
-      } else {
-        writer.writeEmptyElement("GEAR_EndArea");
-      }
+      writer.writeStartElement("GEAR_EndArea");
+      writeElement(writer, childIndent, "text", gear.getText());
+      writer.writeCharacters(indent);
+      writer.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GIMD_ImageData gimd) {
       writer.writeStartElement("GIMD_ImageData");
@@ -1631,3 +1620,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     writer.writeEndElement();
   }
 }
+'''
+
+with open('src/main/java/com/mgz/xml/AfpJacksonXmlWriter.java', 'w') as f:
+    f.write(content)

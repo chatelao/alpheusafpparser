@@ -1,4 +1,6 @@
-/*
+import os
+
+content = r'''/*
 Copyright 2024 Rudolf Fiala
 
 This file is part of Alpheus AFP Parser.
@@ -166,18 +168,6 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else {
       this.baseFragmentGenerator = null;
     }
-  }
-
-  /**
-   * Writes a single structured field to the XML output.
-   *
-   * @param sf the structured field to write
-   * @throws Exception if writing fails
-   * @deprecated Use {@link #handle(StructuredField)} instead.
-   */
-  @Deprecated
-  public void writeField(StructuredField sf) throws Exception {
-    handle(sf);
   }
 
   @Override
@@ -1631,3 +1621,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     writer.writeEndElement();
   }
 }
+'''
+
+with open('src/main/java/com/mgz/xml/AfpJacksonXmlWriter.java', 'w') as f:
+    f.write(content)
