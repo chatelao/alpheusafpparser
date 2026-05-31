@@ -12,13 +12,13 @@ This glossary contains abbreviations and terms used throughout the Advanced Func
 | CCSID | Coded Character Set Identifier | A 16-bit number identifying a specific set consisting of an encoding scheme identifier, character set identifiers, code page identifiers, and other relevant information that uniquely identifies the coded graphic character representation used. |
 | **CMO**CA | Color Management Object Content Architecture | A resource architecture used to carry the color management information required to render presentation data. |
 | CMR | Color Management Resource | An architected object that provides color management in presentation environments. |
-| CPGID | Code Page Global Identifier | A unique code page identifier that can be expressed as either a two-byte binary or a five-digit decimal value. |
-| DCA | Document Content Architecture | A family of architectures that define the syntax and semantics of the document component. |
+| **CPG**ID | Code Page Global Identifier | A unique code page identifier that can be expressed as either a two-byte binary or a five-digit decimal value. |
+| **D**CA | Document Content Architecture | A family of architectures that define the syntax and semantics of the document component. |
 | EBCDIC | Extended Binary-Coded Decimal Interchange Code | A coded character set that consists of eight-bit coded characters. |
-| FGID | Font Typeface Global Identifier | A unique font identifier that can be expressed as either a two-byte binary or a five-digit decimal value. The FGID is used to identify a type style and characteristics such as posture, weight class, and width class. |
-| FOCA | Font Object Content Architecture | A resource architecture for describing the structure and content of fonts referenced by presentation data objects in the document. |
+| **FG**ID | Font Typeface Global Identifier | A unique font identifier that can be expressed as either a two-byte binary or a five-digit decimal value. The FGID is used to identify a type style and characteristics such as posture, weight class, and width class. |
+| **FO**CA | Font Object Content Architecture | A resource architecture for describing the structure and content of fonts referenced by presentation data objects in the document. |
 | FQN | Fully Qualified Name | A triplet used to specify a name or identifier for a resource or other document component. |
-| GCSGID | Graphic Character Set Global Identifier | A unique graphic character set identifier that can be expressed as either a two-byte binary or a five-digit decimal value. |
+| **GCSG**ID | Graphic Character Set Global Identifier | A unique graphic character set identifier that can be expressed as either a two-byte binary or a five-digit decimal value. |
 | **GO**CA | **Graphics Object** Content Architecture | An architected collection of constructs used to interchange and present graphics data. See also AFP GOCA. |
 | ICC | International Color Consortium | A group of companies chartered to develop, use, and promote cross-platform standards so that applications and devices can exchange color data without ambiguity. |
 | IDE | Image Data Element | A basic unit of image information. An image data element expresses the intensity of a signal at a corresponding image point. |
@@ -29,7 +29,7 @@ This glossary contains abbreviations and terms used throughout the Advanced Func
 | **MO**CA | **Metadata Object** Content Architecture | A resource architecture used to carry metadata in an AFP environment. |
 | OCA | Object Content Architecture | A family of architectures that define the structure and content of objects that can be embedded in a document or a printer data stream. |
 | OEG | Object Environment Group | A group of structured fields that defines the environment for a data object. |
-| OID | Object Identifier | A unique identifier for an object, based on a fixed sequence of nodes in the ISO OID naming tree. |
+| **O**ID | Object Identifier | A unique identifier for an object, based on a fixed sequence of nodes in the ISO OID naming tree. |
 | **PTO**CA | **Presentation Text Object** Content Architecture | A data architecture for describing text objects that have been formatted for all-points-addressable presentations. Specifications of fonts, text color, and other visual attributes are included in the architecture definition. |
 | SBIN | Signed Binary | A data type for architecture syntax that indicates that one or more bytes be interpreted as a signed binary number. |
 | UBIN | Unsigned Binary | A data type for architecture syntax, indicating one or more bytes to be interpreted as an unsigned binary number. |
