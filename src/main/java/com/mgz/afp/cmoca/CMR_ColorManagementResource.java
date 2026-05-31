@@ -419,7 +419,7 @@ public class CMR_ColorManagementResource extends StructuredField {
 
   @JacksonXmlProperty(localName = "text")
   public String getText() {
-    return UtilCharacterEncoding.sanitizeForXml(alias);
+    return alias;
   }
 
   public void setAlias(String alias) {

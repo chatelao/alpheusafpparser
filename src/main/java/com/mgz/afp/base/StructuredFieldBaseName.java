@@ -74,7 +74,7 @@ public abstract class StructuredFieldBaseName extends StructuredField implements
 
   @JacksonXmlProperty(localName = "text")
   public String getText() {
-    return UtilCharacterEncoding.sanitizeForXml(name);
+    return name;
   }
 
   @Override

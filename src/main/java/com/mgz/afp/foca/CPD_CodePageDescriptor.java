@@ -117,7 +117,7 @@ public class CPD_CodePageDescriptor extends StructuredField {
 
   @JacksonXmlProperty(localName = "text")
   public String getText() {
-    return UtilCharacterEncoding.sanitizeForXml(codePageDescription);
+    return codePageDescription;
   }
 
   public void setCodePageDescription(String codePageDescription) {

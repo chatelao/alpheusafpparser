@@ -22,15 +22,10 @@ package com.mgz.xml;
 import com.fasterxml.aalto.stax.InputFactoryImpl;
 import com.fasterxml.aalto.stax.OutputFactoryImpl;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
-import com.mgz.util.UtilCharacterEncoding;
 import java.io.IOException;
 
 /**
@@ -42,12 +37,8 @@ public class JacksonXmlMapperProvider {
   private static final XmlMapper FRAGMENT_MAPPER;
 
   static {
-    SimpleModule module = new SimpleModule();
-    module.addSerializer(String.class, new SanitizingStringSerializer());
-
     XML_MAPPER = XmlMapper.builder(new XmlFactory(new InputFactoryImpl(), new OutputFactoryImpl()))
         .nameForTextElement("text")
-        .addModule(module)
         .build();
     // Disable indentation for better performance in high-throughput environments
     XML_MAPPER.disable(SerializationFeature.INDENT_OUTPUT);
@@ -77,14 +68,5 @@ public class JacksonXmlMapperProvider {
    */
   public static XmlMapper getFragmentMapper() {
     return FRAGMENT_MAPPER;
-  }
-
-  private static class SanitizingStringSerializer extends JsonSerializer<String> {
-    @Override
-    public void serialize(String value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-      if (value != null) {
-        gen.writeString(UtilCharacterEncoding.sanitizeForXml(value));
-      }
-    }
   }
 }
