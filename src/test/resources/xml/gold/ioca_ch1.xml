@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<AFPDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <BDT_BeginDocument>
+    <name>DOC00001</name>
+    <text>DOC00001</text>
+  </BDT_BeginDocument>
+  <EDT_EndDocument>
+    <name>DOC00001</name>
+    <text>DOC00001</text>
+  </EDT_EndDocument>
+</AFPDocument>

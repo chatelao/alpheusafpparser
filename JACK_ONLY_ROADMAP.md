@@ -42,7 +42,7 @@ This roadmap outlines the steps required to transform Alpheus into a "Jackson on
 - [x] Remove `JaxbAnnotationModule` from `JacksonXmlMapperProvider`.
 
 ## Phase 4: Test Suite Modernization 🚧
-- [ ] Implement `Afp2XmlGoldStandardTest` to compare against "Gold Standard" files (replaces removed `Afp2XmlComparisonTest`).
+- [x] Implement `Afp2XmlGoldStandardTest` to compare against "Gold Standard" files (replaces removed `Afp2XmlComparisonTest`).
 - [x] Remove JAXB-specific tests (Completed).
 - [x] Update `JacksonSerializationTest` and others to be the primary verification suite.
 
