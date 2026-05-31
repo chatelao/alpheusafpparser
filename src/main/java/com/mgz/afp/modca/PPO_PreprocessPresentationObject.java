@@ -19,7 +19,6 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 
 package com.mgz.afp.modca;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import com.mgz.afp.base.IRepeatingGroup;
 import com.mgz.afp.base.RepeatingGroupWithTriplets;
@@ -73,7 +72,6 @@ public class PPO_PreprocessPresentationObject extends StructuredFieldBaseRepeati
     writeFullStructuredField(os, baos.toByteArray());
   }
 
-  @XmlRootElement
   public static class PPO_RepeatingGroup extends RepeatingGroupWithTriplets {
     AFPObjectType objectType;
     byte[] reserved3_4 = new byte[2];

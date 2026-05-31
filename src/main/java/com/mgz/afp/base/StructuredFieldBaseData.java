@@ -19,16 +19,15 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.base;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilCharacterEncoding;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -36,11 +35,11 @@ import java.nio.charset.Charset;
 /**
  * Base class for {@link StructuredField}s that consists only of opaque data.
  */
-@XmlAccessorType(XmlAccessType.NONE)
+
 public class StructuredFieldBaseData extends StructuredField {
   @AFPField(maxSize = 32759)
   protected byte[] data;
-  @XmlTransient
+  @JsonIgnore
   protected java.nio.ByteBuffer payloadBuffer;
   protected String text;
 
@@ -52,7 +51,7 @@ public class StructuredFieldBaseData extends StructuredField {
     text = null;
   }
 
-  @XmlElement(name = "text")
+  @JacksonXmlProperty(localName = "text")
   public String getText() {
     return UtilCharacterEncoding.sanitizeForXml(text);
   }

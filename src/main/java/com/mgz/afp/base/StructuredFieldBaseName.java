@@ -19,13 +19,14 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.base;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilCharacterEncoding;
 
-import javax.xml.bind.annotation.XmlElement;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -71,7 +72,7 @@ public abstract class StructuredFieldBaseName extends StructuredField implements
     return name;
   }
 
-  @XmlElement(name = "text")
+  @JacksonXmlProperty(localName = "text")
   public String getText() {
     return UtilCharacterEncoding.sanitizeForXml(name);
   }

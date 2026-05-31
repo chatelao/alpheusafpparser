@@ -19,13 +19,13 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.foca;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import com.mgz.afp.base.RepeatingGroupPool;
 import com.mgz.afp.base.StructuredFieldBaseRepeatingGroups;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -36,7 +36,6 @@ import java.util.List;
  * FNN - Font Name Map
  * The Font Name Map is used to map IBM character names to the character names in outline fonts.
  */
-@XmlRootElement
 public class FNN_FontNameMap extends StructuredFieldBaseRepeatingGroups {
 
   private byte ibmFormat = 0x02; // IBM character ID format: EBCDIC GCGID
@@ -129,7 +128,7 @@ public class FNN_FontNameMap extends StructuredFieldBaseRepeatingGroups {
     this.technologyFormat = technologyFormat;
   }
 
-  @XmlElement(name = "tsIdentifier")
+  @JacksonXmlProperty(localName = "tsIdentifier")
   public List<FNN_TSIdentifier> getTsIdentifiers() {
     return tsIdentifiers;
   }
