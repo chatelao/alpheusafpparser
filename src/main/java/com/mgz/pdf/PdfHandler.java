@@ -131,6 +131,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private final Set<String> mmoResources = new HashSet<>();
   private final Set<String> mpsResources = new HashSet<>();
   private final Map<Short, String> fontMap = new HashMap<>();
+  private final PdfFontRegistry fontRegistry = new PdfFontRegistry();
   private final PdfDocument pdfDoc;
   private final Document document;
   private final PdfDictionary dpartRoot;
@@ -805,10 +806,7 @@ public class PdfHandler implements StructuredFieldHandler {
     }
 
     try {
-      PdfFont font = fallbackFont;
-      if (font == null) {
-        font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
-      }
+      PdfFont font = resolveFont(textState.getFontLid());
 
       int afpX = CoordinateTransformer.getAfpX(textState.getInlinePos(), textState.getBaselinePos(),
           textState.getIOrientation(), textState.getBOrientation());
@@ -856,12 +854,55 @@ public class PdfHandler implements StructuredFieldHandler {
   }
 
   /**
+   * Resolves the font for the given Local ID (LID).
+   *
+   * @param lid the local ID
+   * @return the resolved {@link PdfFont}
+   */
+  private PdfFont resolveFont(short lid) {
+    String fontName = fontMap.get(lid);
+    if (fontName != null) {
+      PdfFont font = fontRegistry.getFont(fontName);
+      if (font != null) {
+        return font;
+      }
+    }
+
+    if (fallbackFont == null) {
+      try {
+        fallbackFont = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+      } catch (Exception e) {
+        throw new RuntimeException("Failed to create fallback font", e);
+      }
+    }
+    return fallbackFont;
+  }
+
+  /**
    * Returns an unmodifiable map of the Coded Font Local IDs to font resource names.
    *
    * @return the font map
    */
   public Map<Short, String> getFontMap() {
     return Collections.unmodifiableMap(fontMap);
+  }
+
+  /**
+   * Returns the font registry.
+   *
+   * @return the font registry
+   */
+  public PdfFontRegistry getFontRegistry() {
+    return fontRegistry;
+  }
+
+  /**
+   * Sets the fallback font.
+   *
+   * @param fallbackFont the fallback font
+   */
+  public void setFallbackFont(PdfFont fallbackFont) {
+    this.fallbackFont = fallbackFont;
   }
 
   /**
