@@ -21,6 +21,7 @@ package com.mgz.pdf;
 
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.StructuredFieldIntroducer;
+import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor;
 import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.enums.SFTypeID;
 import com.mgz.afp.goca.GAD_DrawingOrder;
@@ -736,6 +737,47 @@ public class PdfHandlerStructureTest {
     assertEquals(AFPColorSpace.RGB, state.getProcessColorSpace());
     assertEquals(8, state.getNrOfBitsComponent1());
     assertEquals((byte) 0xFF, state.getProcessColorValue()[0]);
+  }
+
+  @Test
+  public void testBcocaStateTracking() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+    bdd.setStructuredFieldIntroducer(createSfi(SFTypeID.BDD_BarCodeDataDescriptor));
+    bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode);
+    bdd.setBarcodeModifier((byte) 0x02);
+    bdd.setFontLocalIDForHRI((short) 1);
+    bdd.setColor(0x0001);
+    bdd.setModuleWidthInMils((short) 10);
+    bdd.setElementHeight(100);
+    bdd.setHeightMultiplier((short) 2);
+    bdd.setWideToNarrowRatio(250);
+
+    handler.handle(bdd);
+
+    PdfBarcodeState state = handler.getBarcodeState();
+    assertEquals(BDD_BarCodeDataDescriptor.BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode, state.getBarcodeType());
+    assertEquals((byte) 0x02, state.getBarcodeModifier());
+    assertEquals(1, state.getFontLocalIDForHRI());
+    assertEquals(0x0001, state.getColor());
+    assertEquals(10, state.getModuleWidthInMils());
+    assertEquals(100, state.getElementHeight());
+    assertEquals(2, state.getHeightMultiplier());
+    assertEquals(250, state.getWideToNarrowRatio());
+
+    // Reset on next page
+    BPG_BeginPage bpg2 = new BPG_BeginPage();
+    bpg2.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg2);
+
+    PdfBarcodeState state2 = handler.getBarcodeState();
+    assertEquals(null, state2.getBarcodeType());
+    assertEquals(0, state2.getBarcodeModifier());
   }
 
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {
