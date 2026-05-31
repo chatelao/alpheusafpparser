@@ -100,6 +100,7 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.GraphicCharacters;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMB_RelativeMoveBaseline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMI_RelativeMoveInline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SBI_SetBaselineIncrement;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.TBM_TemporaryBaselineMove;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SCFL_SetCodedFontLocal;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SEC_SetExtendedTextColor;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SIA_SetIntercharacterAdjustment;
@@ -770,8 +771,10 @@ public class PdfHandler implements StructuredFieldHandler {
       textState.setInlinePos(textState.getInlinePos() + rmi.getIncrement());
     } else if (cs instanceof AMB_AbsoluteMoveBaseline amb) {
       textState.setBaselinePos(amb.getDisplacement());
+      textState.setHasEstablishedBaseline(false);
     } else if (cs instanceof RMB_RelativeMoveBaseline rmb) {
       textState.setBaselinePos(textState.getBaselinePos() + rmb.getIncrement());
+      textState.setHasEstablishedBaseline(false);
     } else if (cs instanceof STO_SetTextOrientation sto) {
       textState.setIOrientation(sto.getxOrientation());
       textState.setBOrientation(sto.getyOrientation());
@@ -802,6 +805,27 @@ public class PdfHandler implements StructuredFieldHandler {
     } else if (cs instanceof BLN_BeginLine) {
       textState.setInlinePos(textState.getInlineMargin());
       textState.setBaselinePos(textState.getBaselinePos() + textState.getBaselineIncrement());
+      textState.setHasEstablishedBaseline(false);
+    } else if (cs instanceof TBM_TemporaryBaselineMove tbm) {
+      if (tbm.getDirection() == TBM_TemporaryBaselineMove.TBM_Direction.MoveAwayFromIAxis
+          || tbm.getDirection() == TBM_TemporaryBaselineMove.TBM_Direction.MoveTowardIAxis) {
+        if (!textState.isHasEstablishedBaseline()) {
+          textState.setEstablishedBaselinePos(textState.getBaselinePos());
+          textState.setHasEstablishedBaseline(true);
+        }
+        int increment = (tbm.getTemporaryBaselineIncrement() != null)
+            ? tbm.getTemporaryBaselineIncrement() : textState.getBaselineIncrement();
+        if (tbm.getDirection() == TBM_TemporaryBaselineMove.TBM_Direction.MoveAwayFromIAxis) {
+          textState.setBaselinePos(textState.getBaselinePos() + increment);
+        } else {
+          textState.setBaselinePos(textState.getBaselinePos() - increment);
+        }
+      } else if (tbm.getDirection() == TBM_TemporaryBaselineMove.TBM_Direction.ReturnToEstablishedBaseline) {
+        if (textState.isHasEstablishedBaseline()) {
+          textState.setBaselinePos(textState.getEstablishedBaselinePos());
+          textState.setHasEstablishedBaseline(false);
+        }
+      }
     } else if (cs instanceof TRN_TransparentData trn) {
       renderText(trn.getTransparentData());
     } else if (cs instanceof GraphicCharacters gc) {
