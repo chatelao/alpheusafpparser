@@ -38,6 +38,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.base.IRepeatingGroup;
+import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor;
 import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.goca.GAD_DrawingOrder;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
@@ -122,6 +123,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private final PdfDictionary dpartRoot;
   private final PdfTextState textState;
   private final PdfGraphicsState graphicsState;
+  private final PdfBarcodeState barcodeState;
   private PdfFont fallbackFont;
   private PdfPage currentPage;
   private PdfCanvas currentCanvas;
@@ -135,6 +137,7 @@ public class PdfHandler implements StructuredFieldHandler {
     this.document = new Document(pdfDoc);
     this.textState = new PdfTextState();
     this.graphicsState = new PdfGraphicsState();
+    this.barcodeState = new PdfBarcodeState();
 
     try {
       this.fallbackFont = PdfFontFactory.createFont(StandardFonts.HELVETICA);
@@ -185,6 +188,7 @@ public class PdfHandler implements StructuredFieldHandler {
           currentPage.put(PdfName.DPart, dpart);
           textState.reset();
           graphicsState.reset();
+          barcodeState.reset();
           currentCanvas.setFillColor(DeviceRgb.BLACK);
 
           // Apply default page size and transformation if defined (from PGD)
@@ -300,6 +304,15 @@ public class PdfHandler implements StructuredFieldHandler {
           }
         }
       }
+    } else if (sf instanceof BDD_BarCodeDataDescriptor bdd) {
+      barcodeState.setBarcodeType(bdd.getBarcodeType());
+      barcodeState.setBarcodeModifier(bdd.getBarcodeModifier());
+      barcodeState.setFontLocalIDForHRI(bdd.getFontLocalIDForHRI());
+      barcodeState.setColor(bdd.getColor());
+      barcodeState.setModuleWidthInMils(bdd.getModuleWidthInMils());
+      barcodeState.setElementHeight(bdd.getElementHeight());
+      barcodeState.setHeightMultiplier(bdd.getHeightMultiplier());
+      barcodeState.setWideToNarrowRatio(bdd.getWideToNarrowRatio());
     }
 
     // TODO: Implement iText 9 based translation logic
@@ -760,5 +773,14 @@ public class PdfHandler implements StructuredFieldHandler {
    */
   public PdfGraphicsState getGraphicsState() {
     return graphicsState;
+  }
+
+  /**
+   * Returns the current BCOCA barcode state.
+   *
+   * @return the barcode state
+   */
+  public PdfBarcodeState getBarcodeState() {
+    return barcodeState;
   }
 }
