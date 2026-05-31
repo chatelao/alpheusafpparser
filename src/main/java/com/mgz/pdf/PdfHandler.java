@@ -19,8 +19,11 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.pdf;
 
+import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.DeviceRgb;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.AffineTransform;
 import com.itextpdf.kernel.pdf.PdfArray;
 import com.itextpdf.kernel.pdf.PdfDictionary;
@@ -52,6 +55,7 @@ import com.mgz.afp.ptoca.PTX_PresentationTextData;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMB_AbsoluteMoveBaseline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMI_AbsoluteMoveInline;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.BLN_BeginLine;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMB_RelativeMoveBaseline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMI_RelativeMoveInline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SBI_SetBaselineIncrement;
@@ -62,6 +66,7 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SIM_SetInlineMargi
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.STC_SetTextColor;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.STO_SetTextOrientation;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SVI_SetVariableSpaceCharacterIncrement;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.TRN_TransparentData;
 import com.mgz.afp.triplets.Triplet;
 import java.io.OutputStream;
 import java.util.ArrayDeque;
@@ -89,6 +94,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private final Document document;
   private final PdfDictionary dpartRoot;
   private final PdfTextState textState;
+  private PdfFont fallbackFont;
   private PdfPage currentPage;
   private PdfCanvas currentCanvas;
   private float defaultPageWidth = -1;
@@ -100,6 +106,12 @@ public class PdfHandler implements StructuredFieldHandler {
     this.pdfDoc = new PdfDocument(new PdfWriter(os));
     this.document = new Document(pdfDoc);
     this.textState = new PdfTextState();
+
+    try {
+      this.fallbackFont = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+    } catch (Exception e) {
+      // Ignored for now, will fallback to iText default
+    }
 
     // Initialize DPartRoot for PDF/VT compliance (ISO 16612-2)
     this.dpartRoot = new PdfDictionary();
@@ -291,6 +303,47 @@ public class PdfHandler implements StructuredFieldHandler {
       textState.setInlineMargin(sim.getDisplacement());
     } else if (cs instanceof SBI_SetBaselineIncrement sbi) {
       textState.setBaselineIncrement(sbi.getIncrement());
+    } else if (cs instanceof BLN_BeginLine) {
+      textState.setInlinePos(textState.getInlineMargin());
+      textState.setBaselinePos(textState.getBaselinePos() + textState.getBaselineIncrement());
+    } else if (cs instanceof TRN_TransparentData trn) {
+      renderText(trn.getTransparentData());
+    }
+  }
+
+  private void renderText(String text) {
+    if (text == null || text.isEmpty() || currentCanvas == null) {
+      return;
+    }
+
+    try {
+      PdfFont font = fallbackFont;
+      if (font == null) {
+        font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+      }
+
+      int afpX = CoordinateTransformer.getAfpX(textState.getInlinePos(), textState.getBaselinePos(),
+          textState.getIOrientation(), textState.getBOrientation());
+      int afpY = CoordinateTransformer.getAfpY(textState.getInlinePos(), textState.getBaselinePos(),
+          textState.getIOrientation(), textState.getBOrientation());
+
+      // AFP coordinates are already in 1/1440 or similar, but the CTM will scale them to points.
+      // However, text must be drawn without being flipped upside down.
+      // We use a text matrix that sets the position but compensates for Y-flipping.
+      currentCanvas.beginText()
+          .setFontAndSize(font, 10)
+          .setTextMatrix(1, 0, 0, -1, afpX, afpY)
+          .showText(text)
+          .endText();
+
+      // Update inline position based on text width (approximation in AFP units)
+      float widthPoints = font.getWidth(text, 10);
+      float scaleX = currentPage.getMediaBox().getWidth() / (defaultPageWidth / defaultScaleX); // Rough scale
+      if (defaultPageWidth > 0) {
+        textState.setInlinePos(textState.getInlinePos() + (int) (widthPoints / defaultScaleX));
+      }
+    } catch (Exception e) {
+      System.err.println("Error rendering text: " + e.getMessage());
     }
   }
 

@@ -59,7 +59,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ⏳ **Text State Management**:
         - ✅ **Text State Container**: Track active font (LID), color, rotation, and current position (I,B).
         - ✅ **PTOCA State Tracking**: Update text state from positioning (`AMI`, `RMI`, `AMB`, `RMB`), orientation (`STO`), font (`SCFL`), and color (`STC`, `SEC`) control sequences.
-        - ⏳ **Coordinate Conversion**: Map (I,B) coordinates to PDF (x,y) user space.
+        - ✅ **Coordinate Conversion**: Map (I,B) coordinates to PDF (x,y) user space.
     - ⏳ **Font & Color Resolution**:
         - ⏳ **Font Mapping**: Resolve FOCA Local IDs (LID) to embedded `PdfFont` instances.
             - ✅ **Font Resource Tracking (MCF)**: Track LID-to-font name mappings from `MCF` (Format 1 & 2) structured fields.
@@ -73,7 +73,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Character Adjustment**: Map `SIA` (Set Intercharacter Adjustment) and `SVI` (Set Variable-space Character Increment).
         - ✅ **Margin Control**: Map `SIM` (Set Inline Margin).
     - ⏳ **Data Rendering**:
-        - ⏳ **Transparent Data**: Map `TRN` to UTF-8 encoded PDF strings using the resolved font.
+        - ✅ **Transparent Data**: Map `TRN` to UTF-8 encoded PDF strings using the resolved font.
         - ⏳ **Unicode Support**: Implement `UCT` (Unicode Complex Text) for UTF-16 encoding.
 - ⏳ **GOCA Driver**: Map GOCA path drawing orders (Line, Arc, Area) to PDF path construction operators.
     - ⏳ **Graphics State Management**:
