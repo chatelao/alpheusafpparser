@@ -43,7 +43,9 @@ import com.mgz.afp.goca.GAD_DrawingOrder;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCBOX_BoxAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBAR_BeginArea;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCFARC_FullArcAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GEAR_EndArea;
+import com.mgz.afp.goca.GAD_DrawingOrder.GFARC_FullArcAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCLINE_LineAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCRLINE_RelativeLineAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GLINE_LineAtGivenPosition;
@@ -291,7 +293,9 @@ public class PdfHandler implements StructuredFieldHandler {
     } else if (sf instanceof GAD_GraphicsData gad) {
       if (gad.getDrawingOrders() != null) {
         for (GAD_DrawingOrder order : gad.getDrawingOrders()) {
-          handleDrawingOrder(order);
+          if (order != null) {
+            handleDrawingOrder(order);
+          }
         }
       }
     }
@@ -356,48 +360,54 @@ public class PdfHandler implements StructuredFieldHandler {
       }
       graphicsState.setInArea(false);
     } else if (order instanceof GAD_DrawingOrder.DrawingOrder_HasPoints line && (line instanceof GLINE_LineAtGivenPosition || line instanceof GCLINE_LineAtCurrentPosition)) {
-      if (currentCanvas != null) {
+      if (currentCanvas != null && line.getPoints() != null) {
         applyGraphicsState();
         if (line instanceof GLINE_LineAtGivenPosition) {
           boolean first = true;
           for (GAD_DrawingOrder.GOCA_Point p : line.getPoints()) {
-            if (first) {
-              currentCanvas.moveTo(p.xCoordinate(), p.yCoordinate());
-              first = false;
-            } else {
-              currentCanvas.lineTo(p.xCoordinate(), p.yCoordinate());
+            if (p != null) {
+              if (first) {
+                currentCanvas.moveTo(p.xCoordinate(), p.yCoordinate());
+                first = false;
+              } else {
+                currentCanvas.lineTo(p.xCoordinate(), p.yCoordinate());
+              }
+              graphicsState.setCurrentX(p.xCoordinate());
+              graphicsState.setCurrentY(p.yCoordinate());
             }
-            graphicsState.setCurrentX(p.xCoordinate());
-            graphicsState.setCurrentY(p.yCoordinate());
           }
         } else {
           currentCanvas.moveTo(graphicsState.getCurrentX(), graphicsState.getCurrentY());
           for (GAD_DrawingOrder.GOCA_Point p : line.getPoints()) {
-            currentCanvas.lineTo(p.xCoordinate(), p.yCoordinate());
-            graphicsState.setCurrentX(p.xCoordinate());
-            graphicsState.setCurrentY(p.yCoordinate());
+            if (p != null) {
+              currentCanvas.lineTo(p.xCoordinate(), p.yCoordinate());
+              graphicsState.setCurrentX(p.xCoordinate());
+              graphicsState.setCurrentY(p.yCoordinate());
+            }
           }
         }
-        if (!graphicsState.isInArea()) {
+        if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
           currentCanvas.stroke();
         }
       }
     } else if (order instanceof GRLINE_RelativeLineAtGivenPosition grline) {
-      if (currentCanvas != null) {
+      if (currentCanvas != null && grline.startPoint != null) {
         applyGraphicsState();
         int curX = grline.startPoint.xCoordinate();
         int curY = grline.startPoint.yCoordinate();
         currentCanvas.moveTo(curX, curY);
         if (grline.relativeOffsets != null) {
           for (GAD_DrawingOrder.GOCA_RelativePoint rp : grline.relativeOffsets) {
-            curX += rp.xOffset();
-            curY += rp.yOffset();
-            currentCanvas.lineTo(curX, curY);
+            if (rp != null) {
+              curX += rp.xOffset();
+              curY += rp.yOffset();
+              currentCanvas.lineTo(curX, curY);
+            }
           }
         }
         graphicsState.setCurrentX(curX);
         graphicsState.setCurrentY(curY);
-        if (!graphicsState.isInArea()) {
+        if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
           currentCanvas.stroke();
         }
       }
@@ -409,44 +419,79 @@ public class PdfHandler implements StructuredFieldHandler {
         currentCanvas.moveTo(curX, curY);
         if (gcrline.relativeOffsets != null) {
           for (GAD_DrawingOrder.GOCA_RelativePoint rp : gcrline.relativeOffsets) {
-            curX += rp.xOffset();
-            curY += rp.yOffset();
-            currentCanvas.lineTo(curX, curY);
+            if (rp != null) {
+              curX += rp.xOffset();
+              curY += rp.yOffset();
+              currentCanvas.lineTo(curX, curY);
+            }
           }
         }
         graphicsState.setCurrentX(curX);
         graphicsState.setCurrentY(curY);
-        if (!graphicsState.isInArea()) {
+        if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
           currentCanvas.stroke();
         }
       }
     } else if (order instanceof GBOX_BoxAtGivenPosition gbox) {
-      if (currentCanvas != null) {
+      if (currentCanvas != null && gbox.getFirstCorner() != null && gbox.getDiagonalCorner() != null) {
         applyGraphicsState();
         float x = Math.min(gbox.getFirstCorner().xCoordinate(), gbox.getDiagonalCorner().xCoordinate());
         float y = Math.min(gbox.getFirstCorner().yCoordinate(), gbox.getDiagonalCorner().yCoordinate());
         float width = Math.abs(gbox.getFirstCorner().xCoordinate() - gbox.getDiagonalCorner().xCoordinate());
         float height = Math.abs(gbox.getFirstCorner().yCoordinate() - gbox.getDiagonalCorner().yCoordinate());
         currentCanvas.rectangle(x, y, width, height);
-        if (!graphicsState.isInArea()) {
+        if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
           currentCanvas.stroke();
         }
         graphicsState.setCurrentX(gbox.getDiagonalCorner().xCoordinate());
         graphicsState.setCurrentY(gbox.getDiagonalCorner().yCoordinate());
       }
     } else if (order instanceof GCBOX_BoxAtCurrentPosition gcbox) {
-      if (currentCanvas != null) {
+      if (currentCanvas != null && gcbox.getDiagonalCorner() != null) {
         applyGraphicsState();
         float x = Math.min(graphicsState.getCurrentX(), gcbox.getDiagonalCorner().xCoordinate());
         float y = Math.min(graphicsState.getCurrentY(), gcbox.getDiagonalCorner().yCoordinate());
         float width = Math.abs(graphicsState.getCurrentX() - gcbox.getDiagonalCorner().xCoordinate());
         float height = Math.abs(graphicsState.getCurrentY() - gcbox.getDiagonalCorner().yCoordinate());
         currentCanvas.rectangle(x, y, width, height);
-        if (!graphicsState.isInArea()) {
+        if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
           currentCanvas.stroke();
         }
         graphicsState.setCurrentX(gcbox.getDiagonalCorner().xCoordinate());
         graphicsState.setCurrentY(gcbox.getDiagonalCorner().yCoordinate());
+      }
+    } else if (order instanceof GFARC_FullArcAtGivenPosition gfarc) {
+      if (gfarc.getArcCenter() != null) {
+        renderFullArc(gfarc.getArcCenter().xCoordinate(), gfarc.getArcCenter().yCoordinate(),
+            gfarc.getMultiplierIntegerPortion(), gfarc.getMultiplierFractionalPortion());
+      }
+    } else if (order instanceof GCFARC_FullArcAtCurrentPosition gcfarc) {
+      renderFullArc(graphicsState.getCurrentX(), graphicsState.getCurrentY(),
+          gcfarc.getMultiplierIntegerPortion(), gcfarc.getMultiplierFractionalPortion());
+    }
+  }
+
+  private void renderFullArc(int xc, int yc, short multiplierInt, short multiplierFrac) {
+    if (currentCanvas != null) {
+      applyGraphicsState();
+      float m = multiplierInt + (multiplierFrac / 256.0f);
+
+      // Arc transformation matrix elements (P, Q, R, S)
+      float p = graphicsState.getArcTransformP();
+      float q = graphicsState.getArcTransformQ();
+      float r = graphicsState.getArcTransformR();
+      float s = graphicsState.getArcTransformS();
+
+      // Effective transformation: T = [P Q; R S] * M
+      // But we draw a unit circle at (0,0) and want it to be transformed to the ellipse.
+      // So the matrix is [p*m q*m r*m s*m xc yc]
+      currentCanvas.saveState();
+      currentCanvas.concatMatrix(p * m, q * m, r * m, s * m, xc, yc);
+      currentCanvas.circle(0, 0, 1);
+      currentCanvas.restoreState();
+
+      if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
+        currentCanvas.stroke();
       }
     }
   }
@@ -456,7 +501,18 @@ public class PdfHandler implements StructuredFieldHandler {
       Color color = ColorHandler.getColor(graphicsState.getColor());
       currentCanvas.setStrokeColor(color);
       currentCanvas.setFillColor(color);
-      // TODO: Map GOCA line type to PDF dash pattern
+
+      // Map GOCA line type to PDF dash pattern
+      switch (graphicsState.getLineType()) {
+        case 1 -> currentCanvas.setLineDash(new float[]{1, 2}, 0); // Dotted
+        case 2 -> currentCanvas.setLineDash(new float[]{3, 2}, 0); // Short Dashed
+        case 3 -> currentCanvas.setLineDash(new float[]{3, 2, 1, 2}, 0); // Dash Dot
+        case 4 -> currentCanvas.setLineDash(new float[]{1, 2, 1, 2}, 0); // Double Dotted
+        case 5 -> currentCanvas.setLineDash(new float[]{6, 2}, 0); // Long Dashed
+        case 6 -> currentCanvas.setLineDash(new float[]{6, 2, 1, 2, 1, 2}, 0); // Dash Double Dot
+        default -> currentCanvas.setLineDash(null, 0); // Solid
+      }
+
       currentCanvas.setLineWidth(graphicsState.getLineWidth() > 0 ? graphicsState.getLineWidth() : 1.0f);
 
       // Map GOCA line end to iText 9 LineCap style

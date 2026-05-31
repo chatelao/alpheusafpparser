@@ -25,7 +25,9 @@ import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.enums.SFTypeID;
 import com.mgz.afp.goca.GAD_DrawingOrder;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBAR_BeginArea;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCFARC_FullArcAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GEAR_EndArea;
+import com.mgz.afp.goca.GAD_DrawingOrder.GFARC_FullArcAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCLINE_LineAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCBOX_BoxAtCurrentPosition;
@@ -497,6 +499,7 @@ public class PdfHandlerStructureTest {
 
     // GSCP: Set Current Position
     GSCP_SetCurrentPosition gscp = new GSCP_SetCurrentPosition();
+    gscp.setLengthOfFollowingData((short) 4);
     gscp.setCoordinateX((short) 100);
     gscp.setCoordinateY((short) 200);
     orders.add(gscp);
@@ -537,12 +540,14 @@ public class PdfHandlerStructureTest {
 
     // GBOX: Box at Given Position
     GBOX_BoxAtGivenPosition gbox = new GBOX_BoxAtGivenPosition();
+    gbox.setLengthOfFollowingData((short) 10);
     gbox.setFirstCorner(new GAD_DrawingOrder.GOCA_Point((short) 100, (short) 100));
     gbox.setDiagonalCorner(new GAD_DrawingOrder.GOCA_Point((short) 200, (short) 200));
     orders.add(gbox);
 
     // GCBOX: Box at Current Position
     GCBOX_BoxAtCurrentPosition gcbox = new GCBOX_BoxAtCurrentPosition();
+    gcbox.setLengthOfFollowingData((short) 6);
     gcbox.setDiagonalCorner(new GAD_DrawingOrder.GOCA_Point((short) 300, (short) 300));
     orders.add(gcbox);
 
@@ -617,6 +622,35 @@ public class PdfHandlerStructureTest {
 
     state = handler.getGraphicsState();
     assertTrue(!state.isInArea());
+  }
+
+  @Test
+  public void testGocaArcRendering() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    GAD_GraphicsData gad = new GAD_GraphicsData();
+    gad.setStructuredFieldIntroducer(createSfi(SFTypeID.GAD_GraphicsData));
+    List<GAD_DrawingOrder> orders = new ArrayList<>();
+
+    // GFARC: Full Arc at Given Position
+    GFARC_FullArcAtGivenPosition gfarc = new GFARC_FullArcAtGivenPosition();
+    gfarc.setArcCenter(new GAD_DrawingOrder.GOCA_Point((short) 500, (short) 500));
+    gfarc.setMultiplierIntegerPortion((short) 100);
+    orders.add(gfarc);
+
+    // GCFARC: Full Arc at Current Position
+    GCFARC_FullArcAtCurrentPosition gcfarc = new GCFARC_FullArcAtCurrentPosition();
+    gcfarc.setMultiplierIntegerPortion((short) 50);
+    orders.add(gcfarc);
+
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    assertEquals(2, handler.getFieldCount());
   }
 
   @Test
