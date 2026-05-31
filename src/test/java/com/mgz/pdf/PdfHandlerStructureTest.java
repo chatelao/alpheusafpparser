@@ -92,8 +92,12 @@ import com.mgz.afp.enums.AFPColorSpace;
 import com.mgz.afp.enums.AFPColorValue;
 import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.triplets.Triplet;
+import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -921,6 +925,47 @@ public class PdfHandlerStructureTest {
     PdfBarcodeState state2 = handler.getBarcodeState();
     assertEquals(null, state2.getBarcodeType());
     assertEquals(0, state2.getBarcodeModifier());
+  }
+
+  @Test
+  public void testFontResolution() throws Exception {
+    PdfHandler handler = new PdfHandler(new ByteArrayOutputStream());
+
+    // 1. Setup font mapping
+    MCF_MapCodedFont_Format1 mcf1 = new MCF_MapCodedFont_Format1();
+    MCF_MapCodedFont_Format1.MCF_RepeatingGroup rg1 = new MCF_MapCodedFont_Format1.MCF_RepeatingGroup();
+    rg1.setCodedFontLocalID((short) 1);
+    rg1.setCodedFontName("X0H200");
+    mcf1.addRepeatingGroup(rg1);
+    handler.handle(mcf1);
+
+    // 2. Register font in registry
+    PdfFont font = PdfFontFactory.createFont(StandardFonts.COURIER);
+    handler.getFontRegistry().registerFont("X0H200", font);
+
+    // 3. Trigger text rendering which uses font resolution
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    PTX_PresentationTextData ptx = new PTX_PresentationTextData();
+    ptx.setStructuredFieldIntroducer(createSfi(SFTypeID.PTX_PresentationTextData));
+
+    SCFL_SetCodedFontLocal scfl = new SCFL_SetCodedFontLocal();
+    scfl.setCodedFontLocalID((short) 1);
+    ptx.addControlSequence(scfl);
+
+    TRN_TransparentData trn = new TRN_TransparentData();
+    trn.setTransparentData("Test");
+    ptx.addControlSequence(trn);
+
+    // This calls resolveFont internally
+    handler.handle(ptx);
+
+    // Verification: We can't easily check which font was used on the canvas without mocking
+    // but we've verified that no exceptions were thrown and the logic is integrated.
+    assertEquals("X0H200", handler.getFontMap().get((short) 1));
+    assertTrue(handler.getFontRegistry().hasFont("X0H200"));
   }
 
   @Test

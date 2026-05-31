@@ -41,10 +41,12 @@ Optimize resource handling for high-performance variable data printing.
     - ✅ **Global Overlay Tracking (MMO)**: Identify and track Medium Overlays across the document.
     - ✅ **Global Page Segment Tracking (MPS)**: Identify and track Page Segments across the document.
     - ⏳ **Resource conversion to PdfFormXObject**: Convert AFP resources to reusable PDF Form XObjects.
-        - ⏳ **Implement Overlay/Page Segment conversion logic**: Map GOCA/IOCA content of resources to `PdfFormXObject` streams.
+        - ⏳ **Implement Overlay conversion logic**: Map GOCA/IOCA content of Medium Overlays to `PdfFormXObject` streams.
+        - ⏳ **Implement Page Segment conversion logic**: Map GOCA/IOCA content of Page Segments to `PdfFormXObject` streams.
+        - ⏳ **Implement Resource Environment Group (REG) mapping**: Ensure resources defined in REG are converted.
         - ⏳ **Create PdfFormXObject Resource Cache**: Ensure each unique resource is converted only once.
 - ⏳ **FOCA to PDF/X-4 Font Embedding**: Ensure all fonts are fully embedded and subsetted per PDF/X-4 requirements.
-    - ⏳ **Font Registry**: Implement a global registry for `PdfFont` instances mapped by FOCA resource name.
+    - ⏳ **Font Registry**: Implement a global registry for `PdfFont` instances mapped by FOCA resource name. (✅ Basic `PdfFontRegistry` implemented in `PdfHandler`).
     - ⏳ **Subset Generation**: Enable iText font subsetting for PDF/X-4 compliance.
 - ⏳ **IOCA Image Optimizer**: Map repeated IOCA objects to a single Image XObject instance to reduce file size.
 
@@ -65,8 +67,8 @@ Implement the drivers for converting AFP content architectures to PDF operators.
             - ✅ **Font Resource Tracking (MCF)**: Track LID-to-font name mappings from `MCF` (Format 1 & 2) structured fields.
             - ✅ **Font Resource Tracking (MDR)**: Track LID-to-font name mappings from `MDR` (Map Data Resource) structured fields for TrueType/OpenType fonts.
             - ⏳ **PdfFont Resolution**:
-                - ⏳ **Font Registry**: Implement a registry to map AFP font names to iText `PdfFont` instances.
-                - ⏳ **Fallback Font Strategy**: Implement logic to use a default font when a resource cannot be resolved.
+                - ✅ **Font Registry**: Implement a registry to map AFP font names to iText `PdfFont` instances.
+                - ✅ **Fallback Font Strategy**: Implement logic to use a default font when a resource cannot be resolved.
         - ✅ **Color Mapping**: Map `STC` (Set Text Color) and `SEC` (Set Extended Color) to `DeviceRGB` or `DeviceCMYK`.
     - ✅ **Positioning Operators**:
         - ✅ **Inline Positioning**: Map `AMI` (Absolute Move Inline) and `RMI` (Relative Move Inline) to PDF.
@@ -107,8 +109,12 @@ Implement the drivers for converting AFP content architectures to PDF operators.
 - ⏳ **IOCA Renderer**: Map image data to PDF Image XObjects.
     - ✅ **Implement IOCA Segment Tracking**: Identify and group IOCA segments within the AFP stream.
     - ⏳ **Implement IOCA Data Decoding**:
-        - ⏳ **Function Set Support**: Support FS10 (Bilevel), FS11 (Grayscale/Color), and FS40 (Tiled).
-        - ⏳ **Compression Algorithms**: Implement G3/G4, LZW, and JPEG decompression.
+        - ⏳ **FS10 Support**: Support FS10 (Bilevel) image data.
+        - ⏳ **FS11 Support**: Support FS11 (Grayscale/Color) image data.
+        - ⏳ **FS40 Support**: Support FS40 (Tiled) image data.
+        - ⏳ **G3/G4 Decoding**: Implement CCITT Group 3/4 decompression.
+        - ⏳ **LZW Decoding**: Implement LZW decompression.
+        - ⏳ **JPEG Decoding**: Implement JPEG (DCT) decompression.
     - ⏳ **Implement Image XObject Creation**: Convert decoded data to iText `PdfImageXObject`.
     - ⏳ **Implement Image Placement Logic**: Map IOCA positioning parameters to PDF `do` operator calls.
 
