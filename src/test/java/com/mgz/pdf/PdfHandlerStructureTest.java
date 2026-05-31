@@ -23,6 +23,12 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.StructuredFieldIntroducer;
 import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.enums.SFTypeID;
+import com.mgz.afp.goca.GAD_DrawingOrder;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSCOL_SetColor;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSECOL_SetExtendedColor;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSLT_SetLineType;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSLW_SetLineWidth;
+import com.mgz.afp.goca.GAD_GraphicsData;
 import com.mgz.afp.modca.BDT_BeginDocument;
 import com.mgz.afp.modca.BPG_BeginPage;
 import com.mgz.afp.modca.EDT_EndDocument;
@@ -410,6 +416,57 @@ public class PdfHandlerStructureTest {
 
     handler.handle(ptx);
     assertEquals(2, handler.getFieldCount());
+  }
+
+  @Test
+  public void testGocaStateTracking() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    GAD_GraphicsData gad = new GAD_GraphicsData();
+    gad.setStructuredFieldIntroducer(createSfi(SFTypeID.GAD_GraphicsData));
+    List<GAD_DrawingOrder> orders = new ArrayList<>();
+
+    // GSCOL: Set Color
+    GSCOL_SetColor gscol = new GSCOL_SetColor();
+    gscol.setColor(AFPColorValue.Blue_0x01);
+    orders.add(gscol);
+
+    // GSLW: Set Line Width
+    GSLW_SetLineWidth gslw = new GSLW_SetLineWidth();
+    gslw.setLineWidth((short) 3);
+    orders.add(gslw);
+
+    // GSLT: Set Line Type
+    GSLT_SetLineType gslt = new GSLT_SetLineType();
+    gslt.setLineType((short) 2);
+    orders.add(gslt);
+
+    // GSECOL: Set Extended Color
+    GSECOL_SetExtendedColor gsecol = new GSECOL_SetExtendedColor();
+    gsecol.setColor(AFPColorValue.Red_0x02);
+    orders.add(gsecol);
+
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    PdfGraphicsState state = handler.getGraphicsState();
+    assertEquals(AFPColorValue.Red_0x02, state.getColor());
+    assertEquals(3, state.getLineWidth());
+    assertEquals(2, state.getLineType());
+
+    // Reset on next page
+    BPG_BeginPage bpg2 = new BPG_BeginPage();
+    bpg2.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg2);
+
+    PdfGraphicsState state2 = handler.getGraphicsState();
+    assertEquals(AFPColorValue.DeviceDefault_0x00, state2.getColor());
+    assertEquals(0, state2.getLineWidth());
+    assertEquals(0, state2.getLineType());
   }
 
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {
