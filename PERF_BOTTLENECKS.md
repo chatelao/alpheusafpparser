@@ -11,22 +11,24 @@ This report analyzes the performance bottlenecks in the Alpheus AFP Parser v10.0
 ## 3. Identified Hotspots
 
 ### 3.1. Excessive I/O Flushing (`--ptx-debug`)
-In `AfpJacksonXmlWriter.java`, enabling PTX debugging triggers an explicit `xsw.flush()` after every PTOCA control sequence.
-- **Impact**: In a high-volume dataset with ~300,000 control sequences, this results in an equivalent number of flushes, preventing efficient OS-level I/O buffering and increasing system call overhead significantly (~40% of total time in sequential mode).
-- **Status**: Identified as the primary regression in v10.0.
+In `AfpJacksonXmlWriter.java`, enabling PTX debugging historically triggered an explicit `xsw.flush()` after every PTOCA control sequence.
+- **Impact**: In a high-volume dataset with ~300,000 control sequences, this resulted in an equivalent number of flushes, preventing efficient OS-level I/O buffering.
+- **Status**: ✅ **Resolved** (June 2026). Flushes were removed to optimize performance, although individual `xmlSize` metrics in debug mode are now less granular.
 
 ### 3.2. Mnemonic Monitoring Instrumentation Jitter
 The `MnemonicXMLStreamWriter` decorates the StAX writer to track per-mnemonic performance.
-- **Impact**: Every XML element (millions in large documents) incurs string manipulation, cache lookups, and `System.nanoTime()` calls. This accounts for ~20% of unmeasured overhead.
-- **Root Cause**: Excessive granularity in monitoring PTOCA sub-elements.
+- **Impact**: Every XML element incurred string manipulation and `System.nanoTime()` calls.
+- **Status**: ✅ **Resolved** (June 2026). `AfpJacksonXmlWriter` now bypasses the decorator using `baseXsw` for high-frequency, low-complexity sub-elements (like PTOCA sequences and GOCA internal orders).
 
 ### 3.3. Jackson Reflective Serialization
-While high-frequency sequences (TRN, AMI) use manual StAX fast-paths, many others (GAD drawing orders, TLE triplets) still rely on Jackson's reflective `writeValue`.
-- **Impact**: Reflective introspection is significantly slower than manual writing for high-count fields like TLE (10,000+ instances).
+Many fields (GAD drawing orders, TLE triplets) previously relied on Jackson's reflective `writeValue`.
+- **Impact**: Reflective introspection was significantly slower than manual writing for high-count fields.
+- **Status**: ✅ **Resolved** (June 2026). Manual StAX fast-paths were implemented for nearly all GOCA drawing orders, IOCA segments, and common TLE triplets.
 
 ### 3.4. XML Sanitization
 The `SanitizingXMLStreamWriter` checks every character for XML 1.0 validity.
-- **Impact**: Scanning 36MB+ of XML adds ~10% overhead. While necessary for robustness, it is a significant CPU consumer.
+- **Impact**: Scanning 36MB+ of XML adds ~10% overhead.
+- **Status**: 🚧 **In Progress**. A pre-check using `needsXmlSanitization` was added to avoid re-scanning/allocating valid strings, but vectorized/SIMD sanitization remains a pending recommendation.
 
 ## 4. Recommendations
 

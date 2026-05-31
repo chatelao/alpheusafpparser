@@ -38,7 +38,7 @@ Transitioned from a "Document-at-once" model to a "Streaming" model (O(1) memory
 ### Strategy 4: Optimization & Specialized Components
 - **Pre-computed SF Mapping**: O(1) lookup via `Map<Integer, Supplier<StructuredField>>`.
 - **Fast Charset Decoders**: Optimized EBCDIC-to-UTF8 decoders (CP500/CP273).
-- **Manual StAX Fast-Paths**: Implemented for high-frequency fields (`NOP`, `PTX`) in Jackson writer to bypass reflective JAXB/Jackson overhead.
+- **Manual StAX Fast-Paths**: Implemented for high-frequency fields (`NOP`, `PTX`, `TLE`, `GAD`, `IPD`) in Jackson writer to bypass reflective JAXB/Jackson overhead.
 
 ---
 
@@ -272,6 +272,6 @@ We use **JUnit 5 Native Parallel Execution** (Dynamic Strategy).
 
 ## 9. Future Work & Recommendations
 
-- **Further GOCA/IOCA Optimization**: Extend manual StAX fast-paths to complex GOCA orders and IOCA segments if they become dominant hotspots.
-- **Parallel Optimization**: Refine the `ParallelPageParser` for even higher core-count scalability.
-- **SIMD Integration**: Explore `simdxml` concepts for even faster XML generation if required by future throughput targets.
+- **Typed Access & Binary Encoding**: Implement StAX2 `writeInt`, `writeLong`, and `writeBinary` to further reduce string allocation overhead.
+- **SIMD XML Sanitization**: Explore SIMD or vectorized approaches for XML character validation to reduce the cost of the sanitization pass in `SanitizingXMLStreamWriter`.
+- **Parallel Optimization**: Refine the `ParallelPageParser` for even higher core-count scalability and better load balancing.
