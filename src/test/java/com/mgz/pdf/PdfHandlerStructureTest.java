@@ -21,7 +21,10 @@ package com.mgz.pdf;
 
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.StructuredFieldIntroducer;
+import com.mgz.afp.bcoca.BBC_BeginBarCodeObject;
+import com.mgz.afp.bcoca.BDA_BarCodeData;
 import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor;
+import com.mgz.afp.bcoca.EBC_EndBarCodeObject;
 import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.enums.SFTypeID;
 import com.mgz.afp.goca.GAD_DrawingOrder;
@@ -1012,6 +1015,50 @@ public class PdfHandlerStructureTest {
     handler.handle(eim);
 
     assertTrue(!handler.getImageState().isInImageObject());
+  }
+
+  @Test
+  public void testBcocaDataTracking() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    // BBC: Begin Bar Code Object
+    BBC_BeginBarCodeObject bbc = new BBC_BeginBarCodeObject();
+    bbc.setStructuredFieldIntroducer(createSfi(SFTypeID.BBC_BeginBarCodeObject));
+    handler.handle(bbc);
+
+    assertTrue(handler.getBarcodeState().isInBarcodeObject());
+
+    // BDD: Bar Code Data Descriptor
+    BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+    bdd.setStructuredFieldIntroducer(createSfi(SFTypeID.BDD_BarCodeDataDescriptor));
+    bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode);
+    handler.handle(bdd);
+
+    assertEquals(BDD_BarCodeDataDescriptor.BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode, handler.getBarcodeState().getBarcodeType());
+
+    // BDA: Bar Code Data
+    BDA_BarCodeData bda1 = new BDA_BarCodeData();
+    bda1.setStructuredFieldIntroducer(createSfi(SFTypeID.BDA_BarCodeData));
+    handler.handle(bda1);
+
+    BDA_BarCodeData bda2 = new BDA_BarCodeData();
+    bda2.setStructuredFieldIntroducer(createSfi(SFTypeID.BDA_BarCodeData));
+    handler.handle(bda2);
+
+    assertEquals(2, handler.getBarcodeState().getBarcodeData().size());
+    assertEquals(bda1, handler.getBarcodeState().getBarcodeData().get(0));
+    assertEquals(bda2, handler.getBarcodeState().getBarcodeData().get(1));
+
+    // EBC: End Bar Code Object
+    EBC_EndBarCodeObject ebc = new EBC_EndBarCodeObject();
+    ebc.setStructuredFieldIntroducer(createSfi(SFTypeID.EBC_EndBarCodeObject));
+    handler.handle(ebc);
+
+    assertTrue(!handler.getBarcodeState().isInBarcodeObject());
   }
 
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {
