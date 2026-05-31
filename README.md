@@ -48,3 +48,51 @@ Videos about the standard:
 - AFP Technical Series #2 Know your OCA: https://www.youtube.com/watch?v=YaZHAKP9eDg
 - AFP Technical Series #3 AFP to PDF Conversion Demo: https://www.youtube.com/watch?v=sawL0DV67b0
 - AFP Technical Series #4 AFP Indexing Demo: https://www.youtube.com/watch?v=7kzIemQAUUk
+
+```plantuml
+@startuml
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+package "Applikationsschicht" {
+  [Java POJO] as POJO
+  [Business Logik] as App
+}
+
+package "High-Level Data-Binding" {
+  [Jackson XML\n(jackson-dataformat-xml)] as Jackson
+}
+
+package "API / Spezifikationen (Interfaces)" {
+  () "Stax2 API\n(stax2-api)" as Stax2
+  () "JSR-173 StAX\n(javax.xml.stream)" as JSR173
+  
+  ' DIE KORRIGIERTE ABHÄNGIGKEIT: Stax2 erbt von JSR173
+  Stax2 -up-> JSR173 : extends
+}
+
+package "Low-Level I/O Engine" {
+  [Woodstox\n(woodstox-core)] as Woodstox
+}
+
+database "I/O (Network / Disk)" as IO {
+  [XML Stream] as XML
+}
+
+' Abhängigkeiten und Datenfluss
+App --> Jackson : orchestriert
+App --> POJO : nutzt
+Jackson ..> POJO : transformiert (Reflection)
+
+Jackson --> Stax2 : ruft primär auf
+Jackson --> JSR173 : ruft auf (Fallback)
+
+Stax2 <|.. Woodstox : implementiert
+JSR173 <|.. Woodstox : implementiert
+
+Woodstox --> XML : liest/schreibt physische Bytes
+@enduml
+
+```plantuml
+
