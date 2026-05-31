@@ -26,7 +26,7 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -34,7 +34,7 @@ import java.io.OutputStream;
  * FNN Repeating Group (Section 2).
  * Contains the mapping between an IBM GCGID and an offset to its technology-specific identifier.
  */
-@XmlRootElement
+@JacksonXmlRootElement
 public class FNN_RepeatingGroup implements IRepeatingGroup {
 
   @AFPField(size = 8)

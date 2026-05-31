@@ -25,7 +25,7 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilCharacterEncoding;
 
-import javax.xml.bind.annotation.XmlElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -71,7 +71,7 @@ public abstract class StructuredFieldBaseName extends StructuredField implements
     return name;
   }
 
-  @XmlElement(name = "text")
+  @JacksonXmlProperty(localName = "text")
   public String getText() {
     return UtilCharacterEncoding.sanitizeForXml(name);
   }

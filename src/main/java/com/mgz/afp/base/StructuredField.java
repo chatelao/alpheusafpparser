@@ -40,9 +40,7 @@ import com.mgz.afp.triplets.Triplet;
 import com.mgz.afp.triplets.TripletPool;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -52,20 +50,19 @@ import java.io.OutputStream;
  * Base class for all {@link StructuredField}s.
  */
 @AFPType
-@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class StructuredField implements IAFPDecodeableWriteable {
 
   @AFPField
-  @XmlTransient
+  @JsonIgnore
   StructuredFieldIntroducer structuredFieldIntroducer;
   /**
    * The structured field's padding data. Contains null if this structured field has no padding
    * data.
    */
   @AFPField(isOptional = true, maxSize = 32759)
-  @XmlTransient
+  @JsonIgnore
   byte[] padding;
-  @XmlTransient
+  @JsonIgnore
   protected java.nio.ByteBuffer paddingBuffer;
 
   /**

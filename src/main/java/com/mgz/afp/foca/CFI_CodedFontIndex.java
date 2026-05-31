@@ -28,7 +28,7 @@ import com.mgz.util.Constants;
 import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -115,7 +115,7 @@ public class CFI_CodedFontIndex extends StructuredField {
   /**
    * CFI Repeating Group.
    */
-  @XmlRootElement
+  @JacksonXmlRootElement
   public static class CFIRepeatingGroup implements IAFPDecodeableWriteable {
     /**
      * Font Character Set Name.

@@ -29,7 +29,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 /**
  * MO:DCA, page 240.<br> <br> The Map Presentation Text structured field specifies the mapping
@@ -61,7 +61,7 @@ public class MPT_MapPresentationText extends StructuredFieldBaseRepeatingGroups 
     writeFullStructuredField(os, baos.toByteArray());
   }
 
-  @XmlRootElement
+  @JacksonXmlRootElement
   public static class MPT_RepeatingGroup extends RepeatingGroupWithTriplets {
   }
 }

@@ -23,11 +23,11 @@ import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 
-import javax.xml.bind.annotation.XmlType;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import java.io.IOException;
 import java.io.OutputStream;
 
-@XmlType(name = "sfUndefined")
+@JacksonXmlRootElement(localName = "sfUndefined")
 public class Undefined extends StructuredField {
   @AFPField(maxSize = 32759)
   byte[] payload;

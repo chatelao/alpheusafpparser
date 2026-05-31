@@ -26,7 +26,7 @@ import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * Font Orientation (FNO).
  */
-@XmlRootElement
+@JacksonXmlRootElement
 public class FNO_FontOrientation extends StructuredField {
 
   @AFPField

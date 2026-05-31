@@ -24,7 +24,7 @@ import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.util.UtilBinaryDecoding;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -34,7 +34,7 @@ import java.nio.charset.StandardCharsets;
  * FNN Technology-specific Identifier (Section 3).
  * Contains the length and name of a technology-specific identifier.
  */
-@XmlRootElement
+@JacksonXmlRootElement
 public class FNN_TSIdentifier {
 
   @AFPField

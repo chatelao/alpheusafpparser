@@ -17,9 +17,8 @@ You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 
-
 package com.mgz.afp.modca;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import com.mgz.afp.base.IRepeatingGroup;
 import com.mgz.afp.base.RepeatingGroupPool;
@@ -98,7 +97,7 @@ public class MPS_MapPageSegment extends StructuredFieldBaseRepeatingGroups {
     this.reserved1_3 = reserved1_3;
   }
 
-  @XmlRootElement
+  @JacksonXmlRootElement
   public static class MPS_RepeatingGroup implements IRepeatingGroup {
     byte[] reserved0_3 = new byte[4];
     String nameOfPageSegment;
