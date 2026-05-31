@@ -34,6 +34,8 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GLINE_LineAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GRLINE_RelativeLineAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSCOL_SetColor;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSCP_SetCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSAP_SetArcParameters;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSPCOL_SetProcessColor;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSECOL_SetExtendedColor;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLE_SetLineEnd;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLJ_SetLineJoin;
@@ -69,6 +71,7 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.GraphicCharacters;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.ControlSequenceIntroducer;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.ControlSequenceFunctionType;
 import com.mgz.afp.parser.AFPParserConfiguration;
+import com.mgz.afp.enums.AFPColorSpace;
 import com.mgz.afp.enums.AFPColorValue;
 import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.triplets.Triplet;
@@ -614,6 +617,48 @@ public class PdfHandlerStructureTest {
 
     state = handler.getGraphicsState();
     assertTrue(!state.isInArea());
+  }
+
+  @Test
+  public void testGocaAdvancedStateTracking() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    GAD_GraphicsData gad = new GAD_GraphicsData();
+    gad.setStructuredFieldIntroducer(createSfi(SFTypeID.GAD_GraphicsData));
+    List<GAD_DrawingOrder> orders = new ArrayList<>();
+
+    // GSAP: Set Arc Parameters
+    GSAP_SetArcParameters gsap = new GSAP_SetArcParameters();
+    gsap.setArcTransformP((short) 1);
+    gsap.setArcTransformQ((short) 2);
+    gsap.setArcTransformR((short) 3);
+    gsap.setArcTransformS((short) 4);
+    orders.add(gsap);
+
+    // GSPCOL: Set Process Color
+    GSPCOL_SetProcessColor gspcol = new GSPCOL_SetProcessColor();
+    gspcol.setColorSpace(AFPColorSpace.RGB);
+    gspcol.setNrOfBitsComponent1((byte) 8);
+    gspcol.setNrOfBitsComponent2((byte) 8);
+    gspcol.setNrOfBitsComponent3((byte) 8);
+    gspcol.setColorValue(new byte[] { (byte) 0xFF, 0x00, 0x00 });
+    orders.add(gspcol);
+
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    PdfGraphicsState state = handler.getGraphicsState();
+    assertEquals(1, state.getArcTransformP());
+    assertEquals(2, state.getArcTransformQ());
+    assertEquals(3, state.getArcTransformR());
+    assertEquals(4, state.getArcTransformS());
+    assertEquals(AFPColorSpace.RGB, state.getProcessColorSpace());
+    assertEquals(8, state.getNrOfBitsComponent1());
+    assertEquals((byte) 0xFF, state.getProcessColorValue()[0]);
   }
 
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {

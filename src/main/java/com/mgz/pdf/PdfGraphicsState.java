@@ -19,6 +19,7 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.pdf;
 
+import com.mgz.afp.enums.AFPColorSpace;
 import com.mgz.afp.enums.AFPColorValue;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLE_SetLineEnd.LineEnd;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLJ_SetLineJoin.LineJoin;
@@ -42,6 +43,18 @@ public class PdfGraphicsState {
   private boolean drawAreaBoundary = false;
   private boolean evenOddRule = true;
 
+  private short arcTransformP = 0;
+  private short arcTransformQ = 0;
+  private short arcTransformR = 0;
+  private short arcTransformS = 0;
+
+  private AFPColorSpace processColorSpace;
+  private byte nrOfBitsComponent1;
+  private byte nrOfBitsComponent2;
+  private byte nrOfBitsComponent3;
+  private byte nrOfBitsComponent4;
+  private byte[] processColorValue;
+
   /**
    * Resets the graphics state to default values.
    */
@@ -58,6 +71,16 @@ public class PdfGraphicsState {
     this.inArea = false;
     this.drawAreaBoundary = false;
     this.evenOddRule = true;
+    this.arcTransformP = 0;
+    this.arcTransformQ = 0;
+    this.arcTransformR = 0;
+    this.arcTransformS = 0;
+    this.processColorSpace = null;
+    this.nrOfBitsComponent1 = 0;
+    this.nrOfBitsComponent2 = 0;
+    this.nrOfBitsComponent3 = 0;
+    this.nrOfBitsComponent4 = 0;
+    this.processColorValue = null;
   }
 
   public AFPColorValue getColor() {
@@ -154,5 +177,85 @@ public class PdfGraphicsState {
 
   public void setEvenOddRule(boolean evenOddRule) {
     this.evenOddRule = evenOddRule;
+  }
+
+  public short getArcTransformP() {
+    return arcTransformP;
+  }
+
+  public void setArcTransformP(short arcTransformP) {
+    this.arcTransformP = arcTransformP;
+  }
+
+  public short getArcTransformQ() {
+    return arcTransformQ;
+  }
+
+  public void setArcTransformQ(short arcTransformQ) {
+    this.arcTransformQ = arcTransformQ;
+  }
+
+  public short getArcTransformR() {
+    return arcTransformR;
+  }
+
+  public void setArcTransformR(short arcTransformR) {
+    this.arcTransformR = arcTransformR;
+  }
+
+  public short getArcTransformS() {
+    return arcTransformS;
+  }
+
+  public void setArcTransformS(short arcTransformS) {
+    this.arcTransformS = arcTransformS;
+  }
+
+  public AFPColorSpace getProcessColorSpace() {
+    return processColorSpace;
+  }
+
+  public void setProcessColorSpace(AFPColorSpace processColorSpace) {
+    this.processColorSpace = processColorSpace;
+  }
+
+  public byte getNrOfBitsComponent1() {
+    return nrOfBitsComponent1;
+  }
+
+  public void setNrOfBitsComponent1(byte nrOfBitsComponent1) {
+    this.nrOfBitsComponent1 = nrOfBitsComponent1;
+  }
+
+  public byte getNrOfBitsComponent2() {
+    return nrOfBitsComponent2;
+  }
+
+  public void setNrOfBitsComponent2(byte nrOfBitsComponent2) {
+    this.nrOfBitsComponent2 = nrOfBitsComponent2;
+  }
+
+  public byte getNrOfBitsComponent3() {
+    return nrOfBitsComponent3;
+  }
+
+  public void setNrOfBitsComponent3(byte nrOfBitsComponent3) {
+    this.nrOfBitsComponent3 = nrOfBitsComponent3;
+  }
+
+  public byte getNrOfBitsComponent4() {
+    return nrOfBitsComponent4;
+  }
+
+  public void setNrOfBitsComponent4(byte nrOfBitsComponent4) {
+    this.nrOfBitsComponent4 = nrOfBitsComponent4;
+  }
+
+  public byte[] getProcessColorValue() {
+    return processColorValue;
+  }
+
+  public void setProcessColorValue(byte[] processColorValue) {
+    this.processColorValue = processColorValue;
   }
 }
