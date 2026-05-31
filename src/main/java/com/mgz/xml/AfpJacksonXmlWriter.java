@@ -262,10 +262,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         baseXsw.writeEmptyElement("NOP_NoOperation");
       } else {
         baseXsw.writeStartElement("NOP_NoOperation");
-        XmlIndenter.writeIndent(baseXsw, 2);
-        baseXsw.writeStartElement("hexData");
-        baseXsw.writeCharacters(com.mgz.util.UtilCharacterEncoding.bytesToHexString(data));
-        baseXsw.writeEndElement();
+        writeBinaryElement(baseXsw, XmlIndenter.getIndent(2), "binaryData", data);
         XmlIndenter.writeIndent(baseXsw, 1);
         baseXsw.writeEndElement();
       }
@@ -466,7 +463,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeElement(baseXsw, childIndent, "nrOfBitsComponent3", sec.getNrOfBitsComponent3());
       writeElement(baseXsw, childIndent, "nrOfBitsComponent4", sec.getNrOfBitsComponent4());
       if (sec.getColorValue() != null) {
-        writeElement(baseXsw, childIndent, "colorValue", UtilCharacterEncoding.bytesToHexString(sec.getColorValue()));
+        writeBinaryElement(baseXsw, childIndent, "colorValue", sec.getColorValue());
       }
       baseXsw.writeCharacters(indent);
       baseXsw.writeEndElement();
@@ -504,7 +501,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writeElement(baseXsw, childIndent, "text", nop.getText());
       }
       if (nop.getIgnoredData() != null) {
-        writeElement(baseXsw, childIndent, "ignoredData", UtilCharacterEncoding.bytesToHexString(nop.getIgnoredData()));
+        writeBinaryElement(baseXsw, childIndent, "ignoredData", nop.getIgnoredData());
       }
       baseXsw.writeCharacters(indent);
       baseXsw.writeEndElement();
@@ -516,7 +513,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writeElement(baseXsw, childIndent, "text", rps.getText());
       }
       if (rps.getRepeatData() != null) {
-        writeElement(baseXsw, childIndent, "repeatData", UtilCharacterEncoding.bytesToHexString(rps.getRepeatData()));
+        writeBinaryElement(baseXsw, childIndent, "repeatData", rps.getRepeatData());
       }
       baseXsw.writeCharacters(indent);
       baseXsw.writeEndElement();
@@ -574,7 +571,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     writeElement(baseXsw, indent, "shapeResolutionYUnitsPerUnitBase", fnc.getShapeResolutionYUnitsPerUnitBase());
     writeElement(baseXsw, indent, "outlinePatternDataCount", fnc.getOutlinePatternDataCount());
     if (fnc.getReserved32_34() != null) {
-      writeElement(baseXsw, indent, "reserved32_34", com.mgz.util.UtilCharacterEncoding.bytesToHexString(fnc.getReserved32_34()));
+      writeBinaryElement(baseXsw, indent, "reserved32_34", fnc.getReserved32_34());
     }
     writeElement(baseXsw, indent, "fnnRepeatingGroupLength", fnc.getFnnRepeatingGroupLength());
     writeElement(baseXsw, indent, "fnnDataCount", fnc.getFnnDataCount());
@@ -667,7 +664,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writer.writeStartElement("GCOMT_Comment");
       writeElement(writer, childIndent, "lengthOfFollowingData", gcomt.getLengthOfFollowingData());
       if (gcomt.comment != null) {
-        writeElement(writer, childIndent, "comment", UtilCharacterEncoding.bytesToHexString(gcomt.comment));
+        writeBinaryElement(writer, childIndent, "comment", gcomt.comment);
       }
       writeElement(writer, childIndent, "text", gcomt.getText());
       writer.writeCharacters(indent);
@@ -730,7 +727,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeElement(writer, childIndent, "lengthOfFollowingData", gsgch.lengthOfFollowingData);
       writeElement(writer, childIndent, "identificationCode", gsgch.getIdentificationCode());
       if (gsgch.getParameters() != null) {
-        writeElement(writer, childIndent, "parameters", com.mgz.util.UtilCharacterEncoding.bytesToHexString(gsgch.getParameters()));
+        writeBinaryElement(writer, childIndent, "parameters", gsgch.getParameters());
       }
       writer.writeCharacters(indent);
       writer.writeEndElement();
@@ -910,7 +907,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeElement(writer, childIndent, "nrOfBitsComponent3", gspcol.getNrOfBitsComponent3());
       writeElement(writer, childIndent, "nrOfBitsComponent4", gspcol.getNrOfBitsComponent4());
       if (gspcol.getColorValue() != null) {
-        writeElement(writer, childIndent, "colorValue", com.mgz.util.UtilCharacterEncoding.bytesToHexString(gspcol.getColorValue()));
+        writeBinaryElement(writer, childIndent, "colorValue", gspcol.getColorValue());
       }
       writer.writeCharacters(indent);
       writer.writeEndElement();
@@ -986,7 +983,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeElement(writer, childIndent, "qualifier", gexo.qualifier);
       writeElement(writer, childIndent, "lengthOfFollowingData", gexo.lengthOfFollowingData);
       if (gexo.getExtendedData() != null) {
-        writeElement(writer, childIndent, "extendedData", com.mgz.util.UtilCharacterEncoding.bytesToHexString(gexo.getExtendedData()));
+        writeBinaryElement(writer, childIndent, "extendedData", gexo.getExtendedData());
       }
       writer.writeCharacters(indent);
       writer.writeEndElement();
@@ -1083,7 +1080,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (order instanceof GAD_DrawingOrder.GIMD_ImageData gimd) {
       writer.writeStartElement("GIMD_ImageData");
       if (gimd.getImageData() != null) {
-        writeElement(writer, childIndent, "imageData", com.mgz.util.UtilCharacterEncoding.bytesToHexString(gimd.getImageData()));
+        writeBinaryElement(writer, childIndent, "imageData", gimd.getImageData());
       }
       writer.writeCharacters(indent);
       writer.writeEndElement();
@@ -1092,7 +1089,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writer.writeStartElement("GEIMG_EndImage");
       writeElement(writer, childIndent, "lengthOfFollowingData", geimg.getLengthOfFollowingData());
       if (geimg.reservedData != null) {
-        writeElement(writer, childIndent, "reservedData", com.mgz.util.UtilCharacterEncoding.bytesToHexString(geimg.reservedData));
+        writeBinaryElement(writer, childIndent, "reservedData", geimg.reservedData);
       }
       writer.writeCharacters(indent);
       writer.writeEndElement();
@@ -1210,7 +1207,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writeColorSpecification(writer, glgd.startColorSpec, childIndent, "startColorSpec");
       }
       if (glgd.endColorValue != null) {
-        writeElement(writer, childIndent, "endColorValue", com.mgz.util.UtilCharacterEncoding.bytesToHexString(glgd.endColorValue));
+        writeBinaryElement(writer, childIndent, "endColorValue", glgd.endColorValue);
       }
       writeElement(writer, childIndent, "outsideStart", glgd.outsideStart);
       writeElement(writer, childIndent, "outsideEnd", glgd.outsideEnd);
@@ -1247,7 +1244,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writeColorSpecification(writer, grgd.startColorSpec, childIndent, "startColorSpec");
       }
       if (grgd.endColorValue != null) {
-        writeElement(writer, childIndent, "endColorValue", com.mgz.util.UtilCharacterEncoding.bytesToHexString(grgd.endColorValue));
+        writeBinaryElement(writer, childIndent, "endColorValue", grgd.endColorValue);
       }
       writeElement(writer, childIndent, "outsideStart", grgd.outsideStart);
       writeElement(writer, childIndent, "outsideEnd", grgd.outsideEnd);
@@ -1300,7 +1297,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     if (segment instanceof IPD_Segment.ImageData id) {
       writer.writeStartElement("ImageData");
       if (id.getImageData() != null) {
-        writeElement(writer, childIndent, "imageData", UtilCharacterEncoding.bytesToHexString(id.getImageData()));
+        writeBinaryElement(writer, childIndent, "imageData", id.getImageData());
       }
       writer.writeCharacters(indent);
       writer.writeEndElement();
@@ -1308,7 +1305,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writer.writeStartElement("BandImageData");
       writeElement(writer, childIndent, "bandNumber", bid.getBandNumber());
       if (bid.getBandData() != null) {
-        writeElement(writer, childIndent, "bandData", UtilCharacterEncoding.bytesToHexString(bid.getBandData()));
+        writeBinaryElement(writer, childIndent, "bandData", bid.getBandData());
       }
       writer.writeCharacters(indent);
       writer.writeEndElement();
@@ -1439,7 +1436,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeElement(writer, childIndent, "nrOfBitsComponent3", sebic.getNrOfBitsComponent3());
       writeElement(writer, childIndent, "nrOfBitsComponent4", sebic.getNrOfBitsComponent4());
       if (sebic.getColorValue() != null) {
-        writeElement(writer, childIndent, "colorValue", UtilCharacterEncoding.bytesToHexString(sebic.getColorValue()));
+        writeBinaryElement(writer, childIndent, "colorValue", sebic.getColorValue());
       }
       writer.writeCharacters(indent);
       writer.writeEndElement();
@@ -1541,6 +1538,19 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     writeElement(xsw, indent, name, value);
   }
 
+  private void writeBinaryElement(XMLStreamWriter2 writer, String indent, String name, byte[] data) throws Exception {
+    if (data != null) {
+      writer.writeCharacters(indent);
+      writer.writeStartElement(name);
+      writer.writeBinary(data, 0, data.length);
+      writer.writeEndElement();
+    }
+  }
+
+  private void writeBinaryElement(String indent, String name, byte[] data) throws Exception {
+    writeBinaryElement(xsw, indent, name, data);
+  }
+
   private void writeFieldWithXpath(StructuredField sf) throws Exception {
     if (cachedDocumentBuilder == null) {
       cachedDocumentBuilder = DBF.newDocumentBuilder();
@@ -1614,7 +1624,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     writeElement(writer, childIndent, "nrOfBitsComponent3", cs.nrOfBitsComponent3);
     writeElement(writer, childIndent, "nrOfBitsComponent4", cs.nrOfBitsComponent4);
     if (cs.colorValue != null) {
-      writeElement(writer, childIndent, "colorValue", UtilCharacterEncoding.bytesToHexString(cs.colorValue));
+      writeBinaryElement(writer, childIndent, "colorValue", cs.colorValue);
     }
     writer.writeCharacters(indent);
     writer.writeEndElement();
@@ -1625,7 +1635,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     writer.writeStartElement("ColorStop");
     writeElement(writer, childIndent, "offset", stop.offset);
     if (stop.colorValue != null) {
-      writeElement(writer, childIndent, "colorValue", UtilCharacterEncoding.bytesToHexString(stop.colorValue));
+      writeBinaryElement(writer, childIndent, "colorValue", stop.colorValue);
     }
     writer.writeCharacters(indent);
     writer.writeEndElement();

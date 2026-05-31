@@ -15,13 +15,9 @@ StAX2 provides a "Typed Access" API that allows writing primitives directly with
 - **Status**: Completed in May 2026. `AfpJacksonXmlWriter` now uses `writeInt()` and `writeLong()` for all numeric fields.
 - **Benefit**: Eliminates redundant `String` object allocations and offloads numeric formatting to the StAX provider's optimized buffers.
 
-### 2. Native Binary Encoding (Hex/Base64)
+### 2. Native Binary Encoding (Hex/Base64) ✅
 For fields containing raw byte arrays, StAX2 supports native binary streaming.
-- **Potential**: Replace manual hex conversion (`UtilCharacterEncoding.bytesToHexString`) with `writer.writeBinary()`.
-- **Target Fields**:
-    - `SEC_SetExtendedTextColor.colorValue`
-    - `NOP_NoOperation.ignoredData`
-    - `RPS_RepeatString.repeatData`
+- **Status**: Completed in June 2026. `AfpJacksonXmlWriter` now uses `writer.writeBinary()` via `writeBinaryElement()` helpers.
 - **Benefit**: Reduces memory pressure by avoiding large temporary Hex strings and allows the writer to stream binary data directly to the output.
 
 ### 3. ByteBuffer-based Writing (Zero-Copy)
