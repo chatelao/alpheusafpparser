@@ -259,7 +259,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
     @JacksonXmlProperty(localName = "text")
     public String getText() {
-      return UtilCharacterEncoding.sanitizeForXml(text);
+      return text;
     }
   }
 
@@ -311,7 +311,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
     @JacksonXmlProperty(localName = "text")
     public String getText() {
-      return UtilCharacterEncoding.sanitizeForXml(text);
+      return text;
     }
 
     @Override
@@ -1973,7 +1973,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
     @JacksonXmlProperty(localName = "text")
     public String getText() {
-      return UtilCharacterEncoding.sanitizeForXml(text);
+      return text;
     }
 
     /**
@@ -2249,7 +2249,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
     @JacksonXmlProperty(localName = "text")
     public String getText() {
-      return UtilCharacterEncoding.sanitizeForXml(text);
+      return text;
     }
   }
 
@@ -3166,7 +3166,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
     @JacksonXmlProperty(localName = "text")
     public String getText() {
-      return UtilCharacterEncoding.sanitizeForXml(text);
+      return text;
     }
   }
 

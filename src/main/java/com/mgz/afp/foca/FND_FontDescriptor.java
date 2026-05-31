@@ -134,7 +134,7 @@ public class FND_FontDescriptor extends StructuredField {
   }
 
   public String getText() {
-    return UtilCharacterEncoding.sanitizeForXml(typefaceDescription);
+    return typefaceDescription;
   }
 
   public String getTypefaceDescription() {

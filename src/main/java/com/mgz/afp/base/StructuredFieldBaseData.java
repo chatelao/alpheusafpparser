@@ -53,7 +53,7 @@ public class StructuredFieldBaseData extends StructuredField {
 
   @JacksonXmlProperty(localName = "text")
   public String getText() {
-    return UtilCharacterEncoding.sanitizeForXml(text);
+    return text;
   }
 
   @Override

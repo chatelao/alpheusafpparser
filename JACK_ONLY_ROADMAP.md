@@ -62,11 +62,11 @@ This roadmap outlines the steps required to transform Alpheus into a "Jackson on
     - [x] Identify and implement fast-paths for other high-frequency structured fields (e.g., `MSU`, `MMC`, `BDI/EDI`, `BMO/EMO`, `BPS/EPS`, `BRG/ERG`).
 
 ## Phase 6: Best Practices and Performance Optimization ⏳
-- [ ] Consolidate Sanitization:
-    - [ ] Remove explicit `sanitizeForXml` calls from domain class getters (e.g., `Triplet.Comment`, `PTOCAControlSequence.Undefined`).
-    - [ ] Remove `SanitizingStringSerializer` from `JacksonXmlMapperProvider`.
-    - [ ] Ensure `SanitizingXMLStreamWriter` is the single source of truth for sanitization.
+- [x] Consolidate Sanitization:
+    - [x] Remove explicit `sanitizeForXml` calls from domain class getters (e.g., `Triplet.Comment`, `PTOCAControlSequence.Undefined`).
+    - [x] Remove `SanitizingStringSerializer` from `JacksonXmlMapperProvider`.
+    - [x] Ensure `SanitizingXMLStreamWriter` is the single source of truth for sanitization.
 - [ ] Standardize Polymorphic Serialization:
     - [ ] Evaluate migration of `PTOCAControlSequence` from `WRAPPER_OBJECT` to `EXISTING_PROPERTY` or `PROPERTY` to avoid brittle `withRootName` logic.
-- [ ] Performance Tuning:
-    - [ ] Disable `SerializationFeature.INDENT_OUTPUT` in `JacksonXmlMapperProvider` for production performance.
+- [x] Performance Tuning:
+    - [x] Disable `SerializationFeature.INDENT_OUTPUT` in `JacksonXmlMapperProvider` for production performance.

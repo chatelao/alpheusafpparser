@@ -150,7 +150,7 @@ public class MetadataObject {
 
   @JacksonXmlProperty(localName = "MOName")
   public String getMoName() {
-    return UtilCharacterEncoding.sanitizeForXml(moName);
+    return moName;
   }
 
   public void setMoName(String moName) {
@@ -172,6 +172,6 @@ public class MetadataObject {
       return null;
     }
     // Most MOData is XML or text-based (XMP, AFPT, etc.)
-    return UtilCharacterEncoding.sanitizeForXml(new String(moData, StandardCharsets.UTF_16BE));
+    return new String(moData, StandardCharsets.UTF_16BE);
   }
 }

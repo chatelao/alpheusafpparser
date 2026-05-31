@@ -155,7 +155,7 @@ public class BDA_BarCodeData extends StructuredField {
 
   @JacksonXmlProperty(localName = "text")
   public String getText() {
-    return UtilCharacterEncoding.sanitizeForXml(text);
+    return text;
   }
 
   public enum BarCodeFlag {

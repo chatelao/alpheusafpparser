@@ -79,7 +79,7 @@ public abstract class StructuredFieldBaseNameAndTriplets extends StructuredField
         }
       }
     }
-    return sb.length() > 0 ? UtilCharacterEncoding.sanitizeForXml(sb.toString()) : null;
+    return sb.length() > 0 ? sb.toString() : null;
   }
 
   @Override
