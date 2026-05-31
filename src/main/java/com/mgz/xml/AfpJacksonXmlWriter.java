@@ -41,9 +41,15 @@ import com.mgz.afp.modca.MMC_MediumModificationControl;
 import com.mgz.afp.modca.MGO_MapGraphicsObject;
 import com.mgz.afp.modca.MDR_MapDataResource;
 import com.mgz.afp.modca.MIO_MapImageObject;
+import com.mgz.afp.bcoca.BBC_BeginBarCodeObject;
+import com.mgz.afp.bcoca.BDA_BarCodeData;
+import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor;
+import com.mgz.afp.bcoca.EBC_EndBarCodeObject;
 import com.mgz.afp.modca.MPO_MapPageOverlay;
 import com.mgz.afp.modca.MSU_MapSuppression;
 import com.mgz.afp.modca.NOP_NoOperation;
+import com.mgz.afp.modca.PGP_PagePosition_Format1;
+import com.mgz.afp.modca.PGP_PagePosition_Format2;
 import com.mgz.afp.modca.OBD_ObjectAreaDescriptor;
 import com.mgz.afp.modca.OBP_ObjectAreaPosition;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
@@ -253,6 +259,18 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeNameAndTripletsDirectly(bng, "BNG_BeginNamedPageGroup");
     } else if (sf instanceof com.mgz.afp.modca.BPG_BeginPage bpg) {
       writeNameAndTripletsDirectly(bpg, "BPG_BeginPage");
+    } else if (sf instanceof BBC_BeginBarCodeObject bbc) {
+      writeNameAndTripletsDirectly(bbc, "BBC_BeginBarCodeObject");
+    } else if (sf instanceof EBC_EndBarCodeObject ebc) {
+      writeNameDirectly(ebc, "EBC_EndBarCodeObject");
+    } else if (sf instanceof BDD_BarCodeDataDescriptor bdd) {
+      writeBddDirectly(bdd);
+    } else if (sf instanceof BDA_BarCodeData bda) {
+      writeBdaDirectly(bda);
+    } else if (sf instanceof PGP_PagePosition_Format1 pgp1) {
+      writePgp1Directly(pgp1);
+    } else if (sf instanceof PGP_PagePosition_Format2 pgp2) {
+      writePgp2Directly(pgp2);
     } else if (sf instanceof com.mgz.afp.modca.EDT_EndDocument edt) {
       writeNameAndTripletsDirectly(edt, "EDT_EndDocument");
     } else if (sf instanceof com.mgz.afp.modca.ENG_EndNamedPageGroup eng) {
@@ -2053,6 +2071,125 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeElement(baseXsw, indent2, "text", sf.getText());
     }
     baseXsw.writeCharacters(indent1);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writePgp1Directly(PGP_PagePosition_Format1 pgp) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("PGP");
+    baseXsw.writeStartElement("PGP_PagePosition_Format1");
+    String indent = XmlIndenter.getIndent(2);
+    writeElement(baseXsw, indent, "xOrigin", String.valueOf(pgp.getxOrigin()));
+    writeElement(baseXsw, indent, "yOrigin", String.valueOf(pgp.getyOrigin()));
+    baseXsw.writeCharacters(XmlIndenter.getIndent(1));
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writePgp2Directly(PGP_PagePosition_Format2 pgp) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("PGP");
+    baseXsw.writeStartElement("PGP_PagePosition_Format2");
+    String indent1 = XmlIndenter.getIndent(1);
+    String indent2 = XmlIndenter.getIndent(2);
+    String indent3 = XmlIndenter.getIndent(3);
+    writeElement(baseXsw, indent2, "constant0", String.valueOf(pgp.getConstant0()));
+
+    if (pgp.getRepeatingGroups() != null && !pgp.getRepeatingGroups().isEmpty()) {
+      baseXsw.writeCharacters(indent2);
+      baseXsw.writeStartElement("repeatingGroups");
+      for (IRepeatingGroup irg : pgp.getRepeatingGroups()) {
+        if (irg instanceof PGP_PagePosition_Format2.PGP_RepeatingGroup rg) {
+          baseXsw.writeCharacters(indent3);
+          baseXsw.writeStartElement("PGP_RepeatingGroup");
+          String indent4 = XmlIndenter.getIndent(4);
+          writeElement(baseXsw, indent4, "xOrigin", String.valueOf(rg.getxOrigin()));
+          writeElement(baseXsw, indent4, "yOrigin", String.valueOf(rg.getyOrigin()));
+          if (rg.getxRotation() != null) {
+            writeElement(baseXsw, indent4, "xRotation", rg.getxRotation().name());
+          }
+          if (rg.getSheetSideAndPartitionSelection() != null) {
+            writeElement(baseXsw, indent4, "sheetSideAndPartitionSelection", rg.getSheetSideAndPartitionSelection().name());
+          }
+          if (rg.getFlags() != null) {
+            baseXsw.writeCharacters(indent4);
+            baseXsw.writeStartElement("flags");
+            for (PGP_PagePosition_Format2.PGP_RepeatingGroup.PGP_RGFlag flag : rg.getFlags()) {
+              baseXsw.writeCharacters(XmlIndenter.getIndent(5));
+              baseXsw.writeStartElement("PGP_RGFlag");
+              baseXsw.writeCharacters(flag.name());
+              baseXsw.writeEndElement();
+            }
+            baseXsw.writeCharacters(indent4);
+            baseXsw.writeEndElement();
+          }
+          if (rg.getPageModififationControlID() != null) {
+            writeElement(baseXsw, indent4, "pageModififationControlID", String.valueOf(rg.getPageModififationControlID()));
+          }
+          baseXsw.writeCharacters(indent3);
+          baseXsw.writeEndElement();
+        }
+      }
+      baseXsw.writeCharacters(indent2);
+      baseXsw.writeEndElement();
+    }
+
+    baseXsw.writeCharacters(indent1);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeBddDirectly(BDD_BarCodeDataDescriptor bdd) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BDD");
+    baseXsw.writeStartElement("BDD_BarCodeDataDescriptor");
+    String indent = XmlIndenter.getIndent(2);
+    if (bdd.getUnitBase() != null) {
+      writeElement(baseXsw, indent, "unitBase", bdd.getUnitBase().name());
+    }
+    writeElement(baseXsw, indent, "unitsPerUnitBaseX", String.valueOf(bdd.getUnitsPerUnitBaseX()));
+    writeElement(baseXsw, indent, "unitsPerUnitBaseY", String.valueOf(bdd.getUnitsPerUnitBaseY()));
+    writeElement(baseXsw, indent, "presentationSpaceWidth", String.valueOf(bdd.getPresentationSpaceWidth()));
+    writeElement(baseXsw, indent, "presentationSpaceLength", String.valueOf(bdd.getPresentationSpaceLength()));
+    writeElement(baseXsw, indent, "desiredSymbolWidth", String.valueOf(bdd.getDesiredSymbolWidth()));
+    if (bdd.getBarcodeType() != null) {
+      writeElement(baseXsw, indent, "barcodeType", bdd.getBarcodeType().name());
+    }
+    writeElement(baseXsw, indent, "barcodeModifier", String.valueOf(bdd.getBarcodeModifier()));
+    writeElement(baseXsw, indent, "fontLocalIDForHRI", String.valueOf(bdd.getFontLocalIDForHRI()));
+    writeElement(baseXsw, indent, "color", String.valueOf(bdd.getColor()));
+    writeElement(baseXsw, indent, "moduleWidthInMils", String.valueOf(bdd.getModuleWidthInMils()));
+    writeElement(baseXsw, indent, "elementHeight", String.valueOf(bdd.getElementHeight()));
+    writeElement(baseXsw, indent, "heightMultiplier", String.valueOf(bdd.getHeightMultiplier()));
+    writeElement(baseXsw, indent, "wideToNarrowRatio", String.valueOf(bdd.getWideToNarrowRatio()));
+    baseXsw.writeCharacters(XmlIndenter.getIndent(1));
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeBdaDirectly(BDA_BarCodeData bda) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BDA");
+    baseXsw.writeStartElement("BDA_BarCodeData");
+    String indent2 = XmlIndenter.getIndent(2);
+    if (bda.getBarCodeFlags() != null) {
+      baseXsw.writeCharacters(indent2);
+      baseXsw.writeStartElement("barCodeFlags");
+      for (BDA_BarCodeData.BarCodeFlag flag : bda.getBarCodeFlags()) {
+        baseXsw.writeCharacters(XmlIndenter.getIndent(3));
+        baseXsw.writeStartElement("BarCodeFlag");
+        baseXsw.writeCharacters(flag.name());
+        baseXsw.writeEndElement();
+      }
+      baseXsw.writeCharacters(indent2);
+      baseXsw.writeEndElement();
+    }
+    writeElement(baseXsw, indent2, "xOffset", String.valueOf(bda.getxOffset()));
+    writeElement(baseXsw, indent2, "yOffset", String.valueOf(bda.getyOffset()));
+    // ParametersData is currently skipped in manual StAX for simplicity,
+    // as they are rare and complex. If needed, we can add them later.
+    // For now, BDA fast-path is still a big win for common barcodes.
+    if (bda.getText() != null) {
+      writeElement(baseXsw, indent2, "text", bda.getText());
+    }
+    baseXsw.writeCharacters(XmlIndenter.getIndent(1));
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
