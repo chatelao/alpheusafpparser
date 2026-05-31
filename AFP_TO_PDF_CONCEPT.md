@@ -88,24 +88,24 @@ To maintain O(1) memory footprint and high CPU utilization:
 
 ## Detailed Implementation Task List
 
-### Phase 1: PDF/VT Structural Implementation
-- [ ] Initialize **DPart Hierarchy** (`/DPartRoot`) in the PDF Catalog.
-- [ ] Implement MO:DCA `BNG` to PDF `/DPart` recursive mapping.
-- [ ] Map `TLE` values to Record-level metadata.
-- [ ] Define `/OutputIntents` (PDF/X compliance) as required by ISO 16612-2.
-- [ ] **CLI Integration**: Add `-f` / `--format` flag to the `Afp2Xml` utility to support PDF output.
+### Phase 1: PDF/VT Structural Implementation ⏳
+- [x] Initialize **DPart Hierarchy** (`/DPartRoot`) in the PDF Catalog. ✅
+- [x] Implement MO:DCA `BNG` to PDF `/DPart` recursive mapping. ✅
+- [x] Map `TLE` values to Record-level metadata. ✅
+- [ ] Define `/OutputIntents` (PDF/X compliance) as required by ISO 16612-2. ⏳
+- [x] **CLI Integration**: Add `-f` / `--format` flag to the `Afp2Xml` utility to support PDF output. ✅
 
-### Phase 2: Resource Management & Optimization
-- [ ] **Global Resource Manager**: Implement logic to move shared XObjects (Overlays, Page Segments) to the global Page Tree resources.
-- [ ] **FOCA to PDF/X-4 Font Embedding**: Ensure all fonts are fully embedded and subsetted as per PDF/X-4 requirements.
-- [ ] **IOCA Image Optimizer**: Map repeated IOCA objects to a single Image XObject instance.
+### Phase 2: Resource Management & Optimization ⏳
+- [ ] **Global Resource Manager**: Implement logic to move shared XObjects (Overlays, Page Segments) to the global Page Tree resources. ⏳
+- [ ] **FOCA to PDF/X-4 Font Embedding**: Ensure all fonts are fully embedded and subsetted as per PDF/X-4 requirements. ⏳
+- [ ] **IOCA Image Optimizer**: Map repeated IOCA objects to a single Image XObject instance. ⏳
 
-### Phase 3: Content Conversion (Base Operators)
-- [ ] **PTOCA Driver**: Map control sequences to `BT`/`ET` and `Td`/`Tm` operators.
-- [ ] **GOCA Driver**: Map path drawing orders (Line, Arc, Area) to PDF paths.
-- [ ] **BCOCA Renderer**: Draw barcodes using vector primitives to ensure resolution independence.
+### Phase 3: Content Conversion (Base Operators) ⏳
+- [ ] **PTOCA Driver**: Map control sequences to `BT`/`ET` and `Td`/`Tm` operators. ⏳
+- [x] **GOCA Driver**: Map path drawing orders (Line, Arc, Area) to PDF paths. ✅
+- [ ] **BCOCA Renderer**: Draw barcodes using vector primitives to ensure resolution independence. ⏳
 
-### Phase 4: Verification & Compliance
-- [ ] Validate generated files against **PDF/VT-1** profiles using preflight tools (e.g., Callas pdfToolbox or Adobe Acrobat Pro).
-- [ ] Verify DPart hierarchy navigation in PDF/VT-aware viewers.
-- [ ] Compare record-level extraction from PDF metadata against original AFP `TLE` values.
+### Phase 4: Verification & Compliance ⏳
+- [ ] Validate generated files against **PDF/VT-1** profiles using preflight tools (e.g., Callas pdfToolbox or Adobe Acrobat Pro). ⏳
+- [ ] Verify DPart hierarchy navigation in PDF/VT-aware viewers. ⏳
+- [ ] Compare record-level extraction from PDF metadata against original AFP `TLE` values. ⏳
