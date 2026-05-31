@@ -41,6 +41,14 @@ import com.mgz.afp.modca.MMC_MediumModificationControl;
 import com.mgz.afp.modca.MGO_MapGraphicsObject;
 import com.mgz.afp.modca.MDR_MapDataResource;
 import com.mgz.afp.modca.MIO_MapImageObject;
+import com.mgz.afp.modca.BDI_BeginDocumentIndex;
+import com.mgz.afp.modca.BMO_BeginOverlay;
+import com.mgz.afp.modca.BPS_BeginPageSegment;
+import com.mgz.afp.modca.BRG_BeginResourceGroup;
+import com.mgz.afp.modca.EDI_EndDocumentIndex;
+import com.mgz.afp.modca.EMO_EndOverlay;
+import com.mgz.afp.modca.EPS_EndPageSegment;
+import com.mgz.afp.modca.ERG_EndResourceGroup;
 import com.mgz.afp.modca.MPO_MapPageOverlay;
 import com.mgz.afp.modca.MSU_MapSuppression;
 import com.mgz.afp.modca.NOP_NoOperation;
@@ -249,10 +257,26 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeMpoDirectly(mpo);
     } else if (sf instanceof com.mgz.afp.modca.BDT_BeginDocument bdt) {
       writeBdtDirectly(bdt);
+    } else if (sf instanceof BDI_BeginDocumentIndex bdi) {
+      writeNameAndTripletsDirectly(bdi, "BDI_BeginDocumentIndex");
+    } else if (sf instanceof BMO_BeginOverlay bmo) {
+      writeBmoDirectly(bmo);
+    } else if (sf instanceof BPS_BeginPageSegment bps) {
+      writeBpsDirectly(bps);
+    } else if (sf instanceof BRG_BeginResourceGroup brg) {
+      writeNameAndTripletsDirectly(brg, "BRG_BeginResourceGroup");
     } else if (sf instanceof com.mgz.afp.modca.BNG_BeginNamedPageGroup bng) {
       writeNameAndTripletsDirectly(bng, "BNG_BeginNamedPageGroup");
     } else if (sf instanceof com.mgz.afp.modca.BPG_BeginPage bpg) {
       writeNameAndTripletsDirectly(bpg, "BPG_BeginPage");
+    } else if (sf instanceof EDI_EndDocumentIndex edi) {
+      writeNameDirectly(edi, "EDI_EndDocumentIndex");
+    } else if (sf instanceof EMO_EndOverlay emo) {
+      writeNameAndTripletsDirectly(emo, "EMO_EndOverlay");
+    } else if (sf instanceof EPS_EndPageSegment eps) {
+      writeNameDirectly(eps, "EPS_EndPageSegment");
+    } else if (sf instanceof ERG_EndResourceGroup erg) {
+      writeNameAndTripletsDirectly(erg, "ERG_EndResourceGroup");
     } else if (sf instanceof com.mgz.afp.modca.EDT_EndDocument edt) {
       writeNameAndTripletsDirectly(edt, "EDT_EndDocument");
     } else if (sf instanceof com.mgz.afp.modca.ENG_EndNamedPageGroup eng) {
@@ -1992,6 +2016,46 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     if (bdt.getText() != null) {
       writeElement(baseXsw, indent2, "text", bdt.getText());
+    }
+    baseXsw.writeCharacters(indent1);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeBmoDirectly(BMO_BeginOverlay bmo) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BMO");
+    baseXsw.writeStartElement("BMO_BeginOverlay");
+    String indent2 = XmlIndenter.getIndent(2);
+    String indent1 = XmlIndenter.getIndent(1);
+    writeElement(baseXsw, indent2, "name", bmo.getName());
+    if (bmo.getTriplets() != null && !bmo.getTriplets().isEmpty()) {
+      for (Triplet triplet : bmo.getTriplets()) {
+        baseXsw.writeCharacters(indent2);
+        writeTriplet(baseXsw, triplet, indent2);
+      }
+    }
+    if (bmo.getText() != null) {
+      writeElement(baseXsw, indent2, "text", bmo.getText());
+    }
+    baseXsw.writeCharacters(indent1);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeBpsDirectly(BPS_BeginPageSegment bps) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BPS");
+    baseXsw.writeStartElement("BPS_BeginPageSegment");
+    String indent2 = XmlIndenter.getIndent(2);
+    String indent1 = XmlIndenter.getIndent(1);
+    writeElement(baseXsw, indent2, "name", bps.getName());
+    if (bps.getTriplets() != null && !bps.getTriplets().isEmpty()) {
+      for (Triplet triplet : bps.getTriplets()) {
+        baseXsw.writeCharacters(indent2);
+        writeTriplet(baseXsw, triplet, indent2);
+      }
+    }
+    if (bps.getText() != null) {
+      writeElement(baseXsw, indent2, "text", bps.getText());
     }
     baseXsw.writeCharacters(indent1);
     baseXsw.writeEndElement();
