@@ -9,7 +9,7 @@ This roadmap outlines the steps required to transform Alpheus into a "Jackson on
 - JAXB dependencies are still present for model compatibility.
 
 ## Phase 1: Infrastructure Consolidation ✅
-- [ ] Remove JAXB dependencies from `build.gradle.kts`. (Wait for Phase 3)
+- [x] Remove JAXB dependencies from `build.gradle.kts`.
 - [x] Delete JAXB-based writers:
     - `src/main/java/com/mgz/xml/Afp2XmlWriter.java`
     - `src/main/java/com/mgz/xml/AfpStreamingXmlWriter.java`
@@ -21,8 +21,8 @@ This roadmap outlines the steps required to transform Alpheus into a "Jackson on
     - Update usage instructions.
 - [x] Update `ParallelAfpConverter` to use `AfpJacksonXmlWriter` exclusively.
 
-## Phase 3: Model Refactoring ⏳
-- [ ] Remove all `javax.xml.bind` imports and annotations from the codebase.
+## Phase 3: Model Refactoring ✅
+- [x] Remove all `javax.xml.bind` imports and annotations from the codebase.
     - [x] Migrated `com.mgz.afp.ptoca`
     - [x] Migrated `com.mgz.afp.modca_L`
     - [x] Migrated `com.mgz.afp.moca`
@@ -35,11 +35,11 @@ This roadmap outlines the steps required to transform Alpheus into a "Jackson on
     - [x] Migrated `com.mgz.afp.base`
     - [x] Migrated `com.mgz.afp.foca`
     - [x] Migrated `com.mgz.afp.modca`
-- [ ] Standardize model properties for Jackson:
-    - [ ] Replace `@XmlTransient` with `@JsonIgnore`.
-    - [ ] Replace `@XmlElement(name = "...")` with `@JacksonXmlProperty(localName = "...")`.
-    - [ ] Replace `@XmlAnyElement(lax = true)` with `@JacksonXmlProperty` + custom serializers if needed for polymorphic lists.
-- [ ] Remove `JaxbAnnotationModule` from `JacksonXmlMapperProvider`.
+- [x] Standardize model properties for Jackson:
+    - [x] Replace `@XmlTransient` with `@JsonIgnore`.
+    - [x] Replace `@XmlElement(name = "...")` with `@JacksonXmlProperty(localName = "...")`.
+    - [x] Replace `@XmlAnyElement(lax = true)` with `@JacksonXmlProperty` + custom serializers if needed for polymorphic lists.
+- [x] Remove `JaxbAnnotationModule` from `JacksonXmlMapperProvider`.
 
 ## Phase 4: Test Suite Modernization 🚧
 - [ ] Refactor `Afp2XmlComparisonTest` to compare against "Gold Standard" files.

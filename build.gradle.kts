@@ -33,10 +33,7 @@ repositories {
 val checkstyleConfig: Configuration by configurations.creating
 
 dependencies {
-    implementation("javax.xml.bind:jaxb-api:2.3.1")
-    implementation("org.glassfish.jaxb:jaxb-runtime:2.3.1")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.17.2")
-    implementation("com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.17.2")
     implementation("com.fasterxml:aalto-xml:1.3.2")
     implementation("com.itextpdf:kernel:9.0.0")
     implementation("com.itextpdf:io:9.0.0")
