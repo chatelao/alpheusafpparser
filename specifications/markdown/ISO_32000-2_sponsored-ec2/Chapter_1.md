@@ -4,4 +4,8 @@ This document specifies a digital form for representing electronic documents to 
 
 This document does not specify the following:
 
-• specific processes for converting paper or electronic documents to the PDF file format; •     specific technical design, user interface implementation, or operational details of rendering; •     specific physical methods of storing these documents such as media and storage conditions; •     methods for validating the conformance of PDF files or PDF processors; •     required computer hardware and/or operating system.
+- specific processes for converting paper or electronic documents to the PDF file format;
+- specific technical design, user interface implementation, or operational details of rendering;
+- specific physical methods of storing these documents such as media and storage conditions;
+- methods for validating the conformance of PDF files or PDF processors;
+- required computer hardware and/or operating system.

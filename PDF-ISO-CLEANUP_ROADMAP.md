@@ -29,14 +29,14 @@ The following criteria must be verified for each file:
 
 ## Cleanup Phases
 
-### Phase 1: Front Matter & Intro ⏳
+### Phase 1: Front Matter & Intro 🚧
 - `Front_Matter.md`
-- `Chapter_1.md` (Scope)
+- ✅ `Chapter_1.md` (Scope)
 - `Chapter_2.md` (Normative references)
 - `Chapter_3.md` (Terms and definitions)
-- `Chapter_4.md` (Notation)
-- `Chapter_5.md` (Version designations)
-- `Chapter_6.md` (Conformance)
+- ✅ `Chapter_4.md` (Notation)
+- ✅ `Chapter_5.md` (Version designations)
+- ✅ `Chapter_6.md` (Conformance)
 
 ### Phase 2: Syntax & Graphics ⏳
 - `Chapter_7.md` (Syntax)
@@ -55,20 +55,22 @@ The following criteria must be verified for each file:
 - `Chapter_14.md` (Document interchange)
 
 ### Phase 6: Appendices & Bibliography ⏳
-- `Appendix_A.md` to `Appendix_Q.md`
-- `Bibliography.md`
+- ⏳ **6.1. Appendix A to E**: Basic structural cleanup.
+- ⏳ **6.2. Appendix F to J**: Complex tables and examples.
+- ⏳ **6.3. Appendix K to O**: Technical relationships and fragments.
+- ⏳ **6.4. Appendix P to Q & Bibliography**: Final mathematical algorithms.
 
 ## Status Summary
 
 | File | Status | Phase | Notes |
 | :--- | :--- | :--- | :--- |
 | `Front_Matter.md` | ⏳ Pending | 1 | |
-| `Chapter_1.md` | ⏳ Pending | 1 | |
+| `Chapter_1.md` | ✅ Completed | 1 | Formatted "does not specify" list. |
 | `Chapter_2.md` | ⏳ Pending | 1 | |
 | `Chapter_3.md` | ⏳ Pending | 1 | |
-| `Chapter_4.md` | ⏳ Pending | 1 | |
-| `Chapter_5.md` | ⏳ Pending | 1 | |
-| `Chapter_6.md` | ⏳ Pending | 1 | |
+| `Chapter_4.md` | ✅ Completed | 1 | Fixed headings and merged paragraphs. |
+| `Chapter_5.md` | ✅ Completed | 1 | Verified as clean. |
+| `Chapter_6.md` | ✅ Completed | 1 | Fixed paragraph breakage in 6.3.2.1. |
 | `Chapter_7.md` | ⏳ Pending | 2 | Verified: Broken tables and figures. |
 | `Chapter_8.md` | ⏳ Pending | 2 | |
 | `Chapter_9.md` | ⏳ Pending | 3 | Verified: Fragmented formulas and notes. |
@@ -77,24 +79,24 @@ The following criteria must be verified for each file:
 | `Chapter_12.md` | ⏳ Pending | 4 | |
 | `Chapter_13.md` | ⏳ Pending | 4 | |
 | `Chapter_14.md` | ⏳ Pending | 5 | Verified: Large tables and examples. |
-| `Appendix_A.md` | ⏳ Pending | 6 | |
-| `Appendix_B.md` | ⏳ Pending | 6 | |
-| `Appendix_C.md` | ⏳ Pending | 6 | |
-| `Appendix_D.md` | ⏳ Pending | 6 | |
-| `Appendix_E.md` | ⏳ Pending | 6 | |
-| `Appendix_F.md` | ⏳ Pending | 6 | |
-| `Appendix_G.md` | ⏳ Pending | 6 | |
-| `Appendix_H.md` | ⏳ Pending | 6 | |
-| `Appendix_I.md` | ⏳ Pending | 6 | |
-| `Appendix_J.md` | ⏳ Pending | 6 | |
-| `Appendix_K.md` | ⏳ Pending | 6 | |
-| `Appendix_L.md` | ⏳ Pending | 6 | |
-| `Appendix_M.md` | ⏳ Pending | 6 | |
-| `Appendix_N.md` | ⏳ Pending | 6 | |
-| `Appendix_O.md` | ⏳ Pending | 6 | |
-| `Appendix_P.md` | ⏳ Pending | 6 | |
-| `Appendix_Q.md` | ⏳ Pending | 6 | |
-| `Bibliography.md` | ⏳ Pending | 6 | |
+| `Appendix_A.md` | ⏳ Pending | 6.1 | |
+| `Appendix_B.md` | ⏳ Pending | 6.1 | |
+| `Appendix_C.md` | ⏳ Pending | 6.1 | |
+| `Appendix_D.md` | ⏳ Pending | 6.1 | |
+| `Appendix_E.md` | ⏳ Pending | 6.1 | |
+| `Appendix_F.md` | ⏳ Pending | 6.2 | |
+| `Appendix_G.md` | ⏳ Pending | 6.2 | |
+| `Appendix_H.md` | ⏳ Pending | 6.2 | |
+| `Appendix_I.md` | ⏳ Pending | 6.2 | |
+| `Appendix_J.md` | ⏳ Pending | 6.2 | |
+| `Appendix_K.md` | ⏳ Pending | 6.3 | |
+| `Appendix_L.md` | ⏳ Pending | 6.3 | |
+| `Appendix_M.md` | ⏳ Pending | 6.3 | |
+| `Appendix_N.md` | ⏳ Pending | 6.3 | |
+| `Appendix_O.md` | ⏳ Pending | 6.3 | |
+| `Appendix_P.md` | ⏳ Pending | 6.4 | |
+| `Appendix_Q.md` | ⏳ Pending | 6.4 | |
+| `Bibliography.md` | ⏳ Pending | 6.4 | |
 
 ---
 *Roadmap created June 2026.*

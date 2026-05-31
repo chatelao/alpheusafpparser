@@ -25,10 +25,7 @@ Some PDF processors may also choose to support fragment identifiers (https://www
 
 If a PDF writer creates a PDF file, the file created shall conform to this document. If a PDF writer adds or amends objects in a pre-existing PDF file then the added or amended elements shall conform to the file format requirements of this document, and shall be consistent with related existing elements.
 
-With the exception of linearized PDF files, all PDF files should be read using the trailer and crossreference table as described in 7.5, "File structure". Linearized files should be read as specified in Annex F, "Linearized PDF" and Annex G, "Linearized PDF access strategies". Reading a non-linearized file in a serial manner is not reliable because of the way objects are to be processed after an
-
-
-incremental update. A PDF processor shall respect and honour standard security (see 7.6.4, "Standard security handler") when it opens a document for processing.
+With the exception of linearized PDF files, all PDF files should be read using the trailer and crossreference table as described in 7.5, "File structure". Linearized files should be read as specified in Annex F, "Linearized PDF" and Annex G, "Linearized PDF access strategies". Reading a non-linearized file in a serial manner is not reliable because of the way objects are to be processed after an incremental update. A PDF processor shall respect and honour standard security (see 7.6.4, "Standard security handler") when it opens a document for processing.
 
 Each PDF processor chooses which subsets of PDF functionality to support. For each subset that the processor chooses to support, the processor shall comply with the applicable provisions in this document.
 
