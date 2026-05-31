@@ -1,6 +1,6 @@
 # ADF to PDF/VT Conversion Roadmap
 
-This document outlines the phased implementation plan for converting the Alpheus AFP object model (ADF) to **PDF/VT (ISO 16612-2)**, as defined in `ADF_TO_PDF_CONCEPT.md` and `ADF_TO_PDF_DESIGN.md`.
+This document outlines the phased implementation plan for converting the Alpheus AFP object model (ADF) to **PDF/VT (ISO 16612-2)**, as defined in `AFP_TO_PDF_CONCEPT.md` and `ADF_TO_PDF_DESIGN.md`.
 
 ## Status Summary
 - **Phase 0: Design & Library Selection**: ✅ Complete
