@@ -34,6 +34,8 @@ public class PdfGraphicsState {
   private short lineType = 0;
   private LineEnd lineEnd = LineEnd.Default;
   private LineJoin lineJoin = LineJoin.Default;
+  private short mixMode = 0;
+  private short backgroundMixMode = 0;
   private int currentX = 0;
   private int currentY = 0;
 
@@ -46,6 +48,8 @@ public class PdfGraphicsState {
     this.lineType = 0;
     this.lineEnd = LineEnd.Default;
     this.lineJoin = LineJoin.Default;
+    this.mixMode = 0;
+    this.backgroundMixMode = 0;
     this.currentX = 0;
     this.currentY = 0;
   }
@@ -104,5 +108,21 @@ public class PdfGraphicsState {
 
   public void setCurrentY(int currentY) {
     this.currentY = currentY;
+  }
+
+  public short getMixMode() {
+    return mixMode;
+  }
+
+  public void setMixMode(short mixMode) {
+    this.mixMode = mixMode;
+  }
+
+  public short getBackgroundMixMode() {
+    return backgroundMixMode;
+  }
+
+  public void setBackgroundMixMode(short backgroundMixMode) {
+    this.backgroundMixMode = backgroundMixMode;
   }
 }
