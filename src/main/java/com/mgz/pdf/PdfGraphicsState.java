@@ -43,10 +43,10 @@ public class PdfGraphicsState {
   private boolean drawAreaBoundary = false;
   private boolean evenOddRule = true;
 
-  private short arcTransformP = 0;
+  private short arcTransformP = 1;
   private short arcTransformQ = 0;
   private short arcTransformR = 0;
-  private short arcTransformS = 0;
+  private short arcTransformS = 1;
 
   private AFPColorSpace processColorSpace;
   private byte nrOfBitsComponent1;
@@ -71,10 +71,10 @@ public class PdfGraphicsState {
     this.inArea = false;
     this.drawAreaBoundary = false;
     this.evenOddRule = true;
-    this.arcTransformP = 0;
+    this.arcTransformP = 1;
     this.arcTransformQ = 0;
     this.arcTransformR = 0;
-    this.arcTransformS = 0;
+    this.arcTransformS = 1;
     this.processColorSpace = null;
     this.nrOfBitsComponent1 = 0;
     this.nrOfBitsComponent2 = 0;

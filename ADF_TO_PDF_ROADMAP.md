@@ -84,7 +84,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Line Primitives**: Map `GRLINE`, `GCRLINE` and `GLINE` to PDF path operators.
         - ✅ **Box Primitives**: Map `GBOX` and `GCBOX` to `rectangle`.
         - ⏳ **Arcs and Fillets**:
-            - ⏳ **Full Arcs**: Map `GFARC` and `GCFARC` to iText `ellipse` or `arc`.
+            - ✅ **Full Arcs**: Map `GFARC` and `GCFARC` to iText `ellipse` or `arc`.
             - ⏳ **Partial Arcs**: Map `GPARC` and `GCPARC` to iText `arc`.
             - ⏳ **Fillets**: Map `GFLT` and `GCFLT` to iText `curveTo` (approximated).
     - ✅ **Area and Filling**:
