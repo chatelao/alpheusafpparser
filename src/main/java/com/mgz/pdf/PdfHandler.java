@@ -44,8 +44,10 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCBOX_BoxAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBAR_BeginArea;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCFARC_FullArcAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCPARC_PartialArcAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GEAR_EndArea;
 import com.mgz.afp.goca.GAD_DrawingOrder.GFARC_FullArcAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GPARC_PartialArcAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCLINE_LineAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCRLINE_RelativeLineAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GLINE_LineAtGivenPosition;
@@ -468,6 +470,61 @@ public class PdfHandler implements StructuredFieldHandler {
     } else if (order instanceof GCFARC_FullArcAtCurrentPosition gcfarc) {
       renderFullArc(graphicsState.getCurrentX(), graphicsState.getCurrentY(),
           gcfarc.getMultiplierIntegerPortion(), gcfarc.getMultiplierFractionalPortion());
+    } else if (order instanceof GPARC_PartialArcAtGivenPosition gparc) {
+      if (gparc.getLineStartPoint() != null && gparc.getArcCenter() != null) {
+        renderPartialArc(gparc.getLineStartPoint().xCoordinate(), gparc.getLineStartPoint().yCoordinate(),
+            gparc.getArcCenter().xCoordinate(), gparc.getArcCenter().yCoordinate(),
+            gparc.getMultiplierIntegerPortion(), gparc.getMultiplierFractionalPortion(),
+            gparc.getStartAngle(), gparc.getSweepAngle());
+      }
+    } else if (order instanceof GCPARC_PartialArcAtCurrentPosition gcparc) {
+      if (gcparc.getArcCenter() != null) {
+        renderPartialArc(graphicsState.getCurrentX(), graphicsState.getCurrentY(),
+            gcparc.getArcCenter().xCoordinate(), gcparc.getArcCenter().yCoordinate(),
+            gcparc.getMultiplierIntegerPortion(), gcparc.getMultiplierFractionalPortion(),
+            gcparc.getStartAngle(), gcparc.getSweepAngle());
+      }
+    }
+  }
+
+  private void renderPartialArc(int xStart, int yStart, int xc, int yc, short multiplierInt, short multiplierFrac, int startAngle, int sweepAngle) {
+    if (currentCanvas != null) {
+      applyGraphicsState();
+      float m = multiplierInt + (multiplierFrac / 256.0f);
+      float p = graphicsState.getArcTransformP();
+      float q = graphicsState.getArcTransformQ();
+      float r = graphicsState.getArcTransformR();
+      float s = graphicsState.getArcTransformS();
+
+      double startDeg = startAngle / 65536.0;
+      double sweepDeg = sweepAngle / 65536.0;
+      double endDeg = startDeg + sweepDeg;
+
+      // Start point of the arc on the unit circle is (cos, sin)
+      // Transformed start point: [P Q; R S] * M * [cos; sin] + [xc; yc]
+      double startRad = Math.toRadians(startDeg);
+      float arcStartX = xc + (p * m * (float) Math.cos(startRad)) + (r * m * (float) Math.sin(startRad));
+      float arcStartY = yc + (q * m * (float) Math.cos(startRad)) + (s * m * (float) Math.sin(startRad));
+
+      currentCanvas.moveTo(xStart, yStart);
+      currentCanvas.lineTo(arcStartX, arcStartY);
+
+      currentCanvas.saveState();
+      currentCanvas.concatMatrix(p * m, q * m, r * m, s * m, xc, yc);
+      // Draw partial arc of unit circle
+      currentCanvas.arc(-1, -1, 1, 1, startDeg, sweepDeg);
+      currentCanvas.restoreState();
+
+      if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
+        currentCanvas.stroke();
+      }
+
+      // Update current position to the end of the arc
+      double endRad = Math.toRadians(endDeg);
+      float arcEndX = xc + (p * m * (float) Math.cos(endRad)) + (r * m * (float) Math.sin(endRad));
+      float arcEndY = yc + (q * m * (float) Math.cos(endRad)) + (s * m * (float) Math.sin(endRad));
+      graphicsState.setCurrentX(Math.round(arcEndX));
+      graphicsState.setCurrentY(Math.round(arcEndY));
     }
   }
 
@@ -510,7 +567,12 @@ public class PdfHandler implements StructuredFieldHandler {
         case 4 -> currentCanvas.setLineDash(new float[]{1, 2, 1, 2}, 0); // Double Dotted
         case 5 -> currentCanvas.setLineDash(new float[]{6, 2}, 0); // Long Dashed
         case 6 -> currentCanvas.setLineDash(new float[]{6, 2, 1, 2, 1, 2}, 0); // Dash Double Dot
-        default -> currentCanvas.setLineDash(null, 0); // Solid
+        default -> {
+          // In iText 9, passing null to setLineDash might throw NPE if not handled
+          // Use an empty array or the specific method for solid line if available.
+          // According to iText 7/8/9, setLineDash(new float[0], 0) is usually the way for solid.
+          currentCanvas.setLineDash(new float[0], 0);
+        }
       }
 
       currentCanvas.setLineWidth(graphicsState.getLineWidth() > 0 ? graphicsState.getLineWidth() : 1.0f);
