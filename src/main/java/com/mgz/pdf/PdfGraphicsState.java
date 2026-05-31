@@ -20,6 +20,8 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.pdf;
 
 import com.mgz.afp.enums.AFPColorValue;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSLE_SetLineEnd.LineEnd;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSLJ_SetLineJoin.LineJoin;
 
 /**
  * Tracks the active GOCA graphics state for PDF conversion.
@@ -30,6 +32,8 @@ public class PdfGraphicsState {
   private AFPColorValue color = AFPColorValue.DeviceDefault_0x00;
   private short lineWidth = 0;
   private short lineType = 0;
+  private LineEnd lineEnd = LineEnd.Default;
+  private LineJoin lineJoin = LineJoin.Default;
   private int currentX = 0;
   private int currentY = 0;
 
@@ -40,6 +44,8 @@ public class PdfGraphicsState {
     this.color = AFPColorValue.DeviceDefault_0x00;
     this.lineWidth = 0;
     this.lineType = 0;
+    this.lineEnd = LineEnd.Default;
+    this.lineJoin = LineJoin.Default;
     this.currentX = 0;
     this.currentY = 0;
   }
@@ -66,6 +72,22 @@ public class PdfGraphicsState {
 
   public void setLineType(short lineType) {
     this.lineType = lineType;
+  }
+
+  public LineEnd getLineEnd() {
+    return lineEnd;
+  }
+
+  public void setLineEnd(LineEnd lineEnd) {
+    this.lineEnd = lineEnd;
+  }
+
+  public LineJoin getLineJoin() {
+    return lineJoin;
+  }
+
+  public void setLineJoin(LineJoin lineJoin) {
+    this.lineJoin = lineJoin;
   }
 
   public int getCurrentX() {

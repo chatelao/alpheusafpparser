@@ -25,12 +25,16 @@ import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.enums.SFTypeID;
 import com.mgz.afp.goca.GAD_DrawingOrder;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCLINE_LineAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCBOX_BoxAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCRLINE_RelativeLineAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GLINE_LineAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GRLINE_RelativeLineAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSCOL_SetColor;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSCP_SetCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSECOL_SetExtendedColor;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSLE_SetLineEnd;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSLJ_SetLineJoin;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLT_SetLineType;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLW_SetLineWidth;
 import com.mgz.afp.goca.GAD_GraphicsData;
@@ -512,6 +516,67 @@ public class PdfHandlerStructureTest {
     PdfGraphicsState state = handler.getGraphicsState();
     assertEquals(350, state.getCurrentX());
     assertEquals(450, state.getCurrentY());
+  }
+
+  @Test
+  public void testGocaBoxPrimitives() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    GAD_GraphicsData gad = new GAD_GraphicsData();
+    gad.setStructuredFieldIntroducer(createSfi(SFTypeID.GAD_GraphicsData));
+    List<GAD_DrawingOrder> orders = new ArrayList<>();
+
+    // GBOX: Box at Given Position
+    GBOX_BoxAtGivenPosition gbox = new GBOX_BoxAtGivenPosition();
+    gbox.setFirstCorner(new GAD_DrawingOrder.GOCA_Point((short) 100, (short) 100));
+    gbox.setDiagonalCorner(new GAD_DrawingOrder.GOCA_Point((short) 200, (short) 200));
+    orders.add(gbox);
+
+    // GCBOX: Box at Current Position
+    GCBOX_BoxAtCurrentPosition gcbox = new GCBOX_BoxAtCurrentPosition();
+    gcbox.setDiagonalCorner(new GAD_DrawingOrder.GOCA_Point((short) 300, (short) 300));
+    orders.add(gcbox);
+
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    PdfGraphicsState state = handler.getGraphicsState();
+    assertEquals(300, state.getCurrentX());
+    assertEquals(300, state.getCurrentY());
+  }
+
+  @Test
+  public void testGocaAdvancedAttributes() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    GAD_GraphicsData gad = new GAD_GraphicsData();
+    gad.setStructuredFieldIntroducer(createSfi(SFTypeID.GAD_GraphicsData));
+    List<GAD_DrawingOrder> orders = new ArrayList<>();
+
+    // GSLE: Set Line End
+    GSLE_SetLineEnd gsle = new GSLE_SetLineEnd();
+    gsle.setLineEnd(GSLE_SetLineEnd.LineEnd.Round);
+    orders.add(gsle);
+
+    // GSLJ: Set Line Join
+    GSLJ_SetLineJoin gslj = new GSLJ_SetLineJoin();
+    gslj.setLineJoin(GSLJ_SetLineJoin.LineJoin.Bevel);
+    orders.add(gslj);
+
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    PdfGraphicsState state = handler.getGraphicsState();
+    assertEquals(GSLE_SetLineEnd.LineEnd.Round, state.getLineEnd());
+    assertEquals(GSLJ_SetLineJoin.LineJoin.Bevel, state.getLineJoin());
   }
 
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {
