@@ -24,6 +24,8 @@ import com.mgz.afp.base.StructuredFieldIntroducer;
 import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.enums.SFTypeID;
 import com.mgz.afp.goca.GAD_DrawingOrder;
+import com.mgz.afp.goca.GAD_DrawingOrder.GBAR_BeginArea;
+import com.mgz.afp.goca.GAD_DrawingOrder.GEAR_EndArea;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCLINE_LineAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCBOX_BoxAtCurrentPosition;
@@ -577,6 +579,41 @@ public class PdfHandlerStructureTest {
     PdfGraphicsState state = handler.getGraphicsState();
     assertEquals(GSLE_SetLineEnd.LineEnd.Round, state.getLineEnd());
     assertEquals(GSLJ_SetLineJoin.LineJoin.Bevel, state.getLineJoin());
+  }
+
+  @Test
+  public void testGocaAreaHandling() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    GAD_GraphicsData gad = new GAD_GraphicsData();
+    gad.setStructuredFieldIntroducer(createSfi(SFTypeID.GAD_GraphicsData));
+    List<GAD_DrawingOrder> orders = new ArrayList<>();
+
+    // GBAR: Begin Area (Flags 0x40 -> Draw Boundary, 0x00 -> Even-Odd)
+    GBAR_BeginArea gbar = new GBAR_BeginArea();
+    gbar.setInternalFlags((short) 0x40);
+    orders.add(gbar);
+
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    PdfGraphicsState state = handler.getGraphicsState();
+    assertTrue(state.isInArea());
+    assertTrue(state.isDrawAreaBoundary());
+    assertTrue(state.isEvenOddRule());
+
+    // GEAR: End Area
+    orders.clear();
+    orders.add(new GEAR_EndArea());
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    state = handler.getGraphicsState();
+    assertTrue(!state.isInArea());
   }
 
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {

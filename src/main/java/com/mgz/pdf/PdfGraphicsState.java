@@ -38,6 +38,9 @@ public class PdfGraphicsState {
   private short backgroundMixMode = 0;
   private int currentX = 0;
   private int currentY = 0;
+  private boolean inArea = false;
+  private boolean drawAreaBoundary = false;
+  private boolean evenOddRule = true;
 
   /**
    * Resets the graphics state to default values.
@@ -52,6 +55,9 @@ public class PdfGraphicsState {
     this.backgroundMixMode = 0;
     this.currentX = 0;
     this.currentY = 0;
+    this.inArea = false;
+    this.drawAreaBoundary = false;
+    this.evenOddRule = true;
   }
 
   public AFPColorValue getColor() {
@@ -124,5 +130,29 @@ public class PdfGraphicsState {
 
   public void setBackgroundMixMode(short backgroundMixMode) {
     this.backgroundMixMode = backgroundMixMode;
+  }
+
+  public boolean isInArea() {
+    return inArea;
+  }
+
+  public void setInArea(boolean inArea) {
+    this.inArea = inArea;
+  }
+
+  public boolean isDrawAreaBoundary() {
+    return drawAreaBoundary;
+  }
+
+  public void setDrawAreaBoundary(boolean drawAreaBoundary) {
+    this.drawAreaBoundary = drawAreaBoundary;
+  }
+
+  public boolean isEvenOddRule() {
+    return evenOddRule;
+  }
+
+  public void setEvenOddRule(boolean evenOddRule) {
+    this.evenOddRule = evenOddRule;
   }
 }

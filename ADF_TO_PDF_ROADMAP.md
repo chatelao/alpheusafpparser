@@ -84,8 +84,8 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Line Primitives**: Map `GRLINE`, `GCRLINE` and `GLINE` to PDF path operators.
         - ✅ **Box Primitives**: Map `GBOX` and `GCBOX` to `rectangle`.
         - ⏳ **Arcs and Fillets**: Map `GARC`, `GCARC` and `GFILLET` to iText curve operators.
-    - ⏳ **Area and Filling**:
-        - ⏳ **Area Control**: Map `GAREA` (Begin/End Area) to PDF path closing and filling.
+    - ✅ **Area and Filling**:
+        - ✅ **Area Control**: Map `GAREA` (Begin/End Area) to PDF path closing and filling.
         - ⏳ **Pattern Handling**: Map pattern-based fills to PDF Tiling Patterns.
     - ⏳ **Resource Mapping**:
         - ⏳ **Segment Mapping**: Convert GOCA segments (`GBSEG`, `GESEG`) to PDF Form XObjects if they are reusable.
