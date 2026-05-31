@@ -29,8 +29,8 @@ The following criteria must be verified for each file:
 
 ## Cleanup Phases
 
-### Phase 1: Front Matter & Intro 🚧
-- `Front_Matter.md`
+### Phase 1: Front Matter & Intro ✅
+- ✅ `Front_Matter.md`
 - ✅ `Chapter_1.md` (Scope)
 - ✅ `Chapter_2.md` (Normative references)
 - ✅ `Chapter_3.md` (Terms and definitions)
@@ -39,11 +39,17 @@ The following criteria must be verified for each file:
 - ✅ `Chapter_6.md` (Conformance)
 
 ### Phase 2: Syntax & Graphics ⏳
-- ⏳ **2.1. Chapter 7**: Syntax (broken tables and figures).
-- ⏳ **2.2. Chapter 8**: Graphics (coordinate systems and patterns).
+- ⏳ **2.1. Chapter 7**: Syntax.
+    - ⏳ 2.1.1. Clauses 7.1 to 7.6 (Lexical, Objects, Filters, File Structure).
+    - ⏳ 2.1.2. Clauses 7.7 to 7.12 (Document Structure, Resources, Functions, etc.).
+- ⏳ **2.2. Chapter 8**: Graphics.
+    - ⏳ 2.2.1. Clauses 8.1 to 8.5 (Graphics Objects, Coordinates, State, Paths).
+    - ⏳ 2.2.2. Clauses 8.6 to 8.11 (Colour, Patterns, Images, Form XObjects, Optional Content).
 
 ### Phase 3: Text, Rendering & Transparency ⏳
-- ⏳ **3.1. Chapter 9**: Text (fragmented formulas and notes).
+- ⏳ **3.1. Chapter 9**: Text.
+    - ⏳ 3.1.1. Clauses 9.1 to 9.5 (Organisation, State, Objects, Font Data).
+    - ⏳ 3.1.2. Clauses 9.6 to 9.10 (Simple/Composite Fonts, Descriptors, Embedded, Extraction).
 - ⏳ **3.2. Chapter 10**: Rendering.
 - ⏳ **3.3. Chapter 11**: Transparency.
 
@@ -52,19 +58,29 @@ The following criteria must be verified for each file:
 - ⏳ **4.2. Chapter 13**: Multimedia features.
 
 ### Phase 5: Document Interchange & Parts ⏳
-- ⏳ **5.1. Chapter 14**: Document interchange (large tables and examples).
+- ⏳ **5.1. Chapter 14**: Document interchange.
+    - ⏳ 5.1.1. Clauses 14.1 to 14.6 (Metadata, Identifiers, Marked Content).
+    - ⏳ 5.1.2. Clauses 14.7 to 14.13 (Logical Structure, Tagged PDF, Accessibility, etc.).
 
-### Phase 6: Appendices & Bibliography ⏳
+### Phase 6: Appendices & Bibliography 🚧
 - ⏳ **6.1. Appendix A to E**: Basic structural cleanup.
 - ⏳ **6.2. Appendix F to J**: Complex tables and examples.
 - ⏳ **6.3. Appendix K to O**: Technical relationships and fragments.
+    - ⏳ 6.3.1. Appendix K (XFA forms).
+    - ⏳ 6.3.2. Appendix L (Parent-child relationships).
+    - ✅ 6.3.3. Appendix M (Differences between namespaces).
+    - ⏳ 6.3.4. Appendix N (Best practice for halftones).
+    - ⏳ 6.3.5. Appendix O (Fragment identifiers).
 - ⏳ **6.4. Appendix P to Q & Bibliography**: Final mathematical algorithms.
+    - ✅ 6.4.1. Appendix P (Algorithm for blending colour space).
+    - ⏳ 6.4.2. Appendix Q (Determining transparency).
+    - ⏳ 6.4.3. Bibliography.
 
 ## Status Summary
 
 | File | Status | Phase | Notes |
 | :--- | :--- | :--- | :--- |
-| `Front_Matter.md` | ⏳ Pending | 1 | |
+| `Front_Matter.md` | ✅ Completed | 1 | Removed redundant text, fixed TOC and copyright. |
 | `Chapter_1.md` | ✅ Completed | 1 | Formatted "does not specify" list. |
 | `Chapter_2.md` | ✅ Completed | 1 | Merged fragmented references and fixed tables. |
 | `Chapter_3.md` | ✅ Completed | 1 | Bolded terms and fixed line breaks. |
@@ -91,12 +107,12 @@ The following criteria must be verified for each file:
 | `Appendix_J.md` | ⏳ Pending | 6.2 | |
 | `Appendix_K.md` | ⏳ Pending | 6.3 | |
 | `Appendix_L.md` | ⏳ Pending | 6.3 | |
-| `Appendix_M.md` | ⏳ Pending | 6.3 | |
+| `Appendix_M.md` | ✅ Completed | 6.3 | Standardized NOTE and list formatting. |
 | `Appendix_N.md` | ⏳ Pending | 6.3 | |
 | `Appendix_O.md` | ⏳ Pending | 6.3 | |
-| `Appendix_P.md` | ⏳ Pending | 6.4 | |
+| `Appendix_P.md` | ✅ Completed | 6.4 | Standardized NOTE and list formatting. |
 | `Appendix_Q.md` | ⏳ Pending | 6.4 | |
 | `Bibliography.md` | ⏳ Pending | 6.4 | |
 
 ---
-*Roadmap created June 2026.*
+*Roadmap updated June 2026.*
