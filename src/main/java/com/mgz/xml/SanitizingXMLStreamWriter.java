@@ -36,6 +36,28 @@ public class SanitizingXMLStreamWriter extends StreamWriter2Delegate {
 
   @Override
   public void writeCharacters(String text) throws XMLStreamException {
+    if (text != null && text.length() > 0 && text.length() <= 65) {
+      if (text.startsWith("\n")) {
+        // Fast-path for indentation strings: if it's all spaces after \n, it's safe.
+        boolean onlySpaces = true;
+        for (int i = 1; i < text.length(); i++) {
+          if (text.charAt(i) != ' ') {
+            onlySpaces = false;
+            break;
+          }
+        }
+        if (onlySpaces) {
+          super.writeCharacters(text);
+          return;
+        }
+      } else if (text.equals(XmlIndenter.LEVEL_1_PURE)
+          || text.equals(XmlIndenter.LEVEL_2_PURE)
+          || text.equals(XmlIndenter.LEVEL_3_PURE)) {
+        super.writeCharacters(text);
+        return;
+      }
+    }
+
     if (UtilCharacterEncoding.needsXmlSanitization(text)) {
       super.writeCharacters(UtilCharacterEncoding.sanitizeForXml(text));
     } else {

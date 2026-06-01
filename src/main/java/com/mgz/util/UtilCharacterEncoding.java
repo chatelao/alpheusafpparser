@@ -524,15 +524,13 @@ public class UtilCharacterEncoding {
       charset = Constants.cpIBM500;
     }
 
-    if (useOptimizations) {
-      String charsetName = charset.name();
-      if ("IBM500".equals(charsetName) || "Cp500".equals(charsetName)) {
-        return isHumanReadableCp500(data);
-      } else if ("IBM273".equals(charsetName) || "Cp273".equals(charsetName)) {
-        return isHumanReadableCp273(data);
-      } else if ("IBM01141".equals(charsetName) || "Cp1141".equals(charsetName)) {
-        return isHumanReadableCp1141(data);
-      }
+    String charsetName = charset.name();
+    if ("IBM500".equals(charsetName) || "Cp500".equals(charsetName)) {
+      return isHumanReadableCp500(data);
+    } else if ("IBM273".equals(charsetName) || "Cp273".equals(charsetName)) {
+      return isHumanReadableCp273(data);
+    } else if ("IBM01141".equals(charsetName) || "Cp1141".equals(charsetName)) {
+      return isHumanReadableCp1141(data);
     }
 
     String decoded = new String(data, charset);
@@ -602,15 +600,13 @@ public class UtilCharacterEncoding {
       charset = Constants.cpIBM500;
     }
 
-    if (useOptimizations) {
-      String charsetName = charset.name();
-      if ("IBM500".equals(charsetName) || "Cp500".equals(charsetName)) {
-        return isHumanReadableCp500(buffer, offset, actualLength);
-      } else if ("IBM273".equals(charsetName) || "Cp273".equals(charsetName)) {
-        return isHumanReadableCp273(buffer, offset, actualLength);
-      } else if ("IBM01141".equals(charsetName) || "Cp1141".equals(charsetName)) {
-        return isHumanReadableCp1141(buffer, offset, actualLength);
-      }
+    String charsetName = charset.name();
+    if ("IBM500".equals(charsetName) || "Cp500".equals(charsetName)) {
+      return isHumanReadableCp500(buffer, offset, actualLength);
+    } else if ("IBM273".equals(charsetName) || "Cp273".equals(charsetName)) {
+      return isHumanReadableCp273(buffer, offset, actualLength);
+    } else if ("IBM01141".equals(charsetName) || "Cp1141".equals(charsetName)) {
+      return isHumanReadableCp1141(buffer, offset, actualLength);
     }
 
     byte[] data = new byte[actualLength];

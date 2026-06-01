@@ -79,11 +79,13 @@ public class AFPScanner {
     int pos = Math.max(0, start);
     int actualLimit = buffer.limit();
     int searchLimit = Math.min(actualLimit, end);
+    boolean synced = (pos == 0);
 
     while (pos < searchLimit) {
       if ((buffer.get(pos) & 0xFF) == 0x5A) {
         if (pos + 8 >= actualLimit) {
           pos++;
+          synced = false;
           continue;
         }
 
@@ -92,22 +94,37 @@ public class AFPScanner {
           sfLength = UtilBinaryDecoding.parseInt(buffer, pos + 1, 2);
         } catch (Exception e) {
           pos++;
+          synced = false;
           continue;
         }
 
         if (sfLength < 8) {
           pos++;
+          synced = false;
           continue;
         }
 
         SFTypeID foundType = SFTypeID.parse(buffer, pos + 3);
-        if (foundType == typeID) {
-          offsets.add((long) pos);
+        if (foundType != SFTypeID.Undefined) {
+          if (foundType == typeID) {
+            offsets.add((long) pos);
+          }
+
+          if (synced) {
+            pos += sfLength + 1;
+            continue;
+          } else {
+            // Try to sync: check if there's a 0x5A at the expected next record start
+            if (pos + sfLength + 1 < actualLimit && (buffer.get(pos + sfLength + 1) & 0xFF) == 0x5A) {
+              synced = true;
+              pos += sfLength + 1;
+              continue;
+            }
+          }
         }
-        pos++;
-      } else {
-        pos++;
       }
+      pos++;
+      synced = false;
     }
     return offsets;
   }
@@ -118,8 +135,10 @@ public class AFPScanner {
       long fileSize = asyncChannel.size();
       long currentFilePos = 0;
       ByteBuffer chunk = ByteBuffer.allocateDirect(1024 * 1024);
+      int remainingSkip = 0;
+      boolean synced = true; // Sequential scan starts at 0, assumed synced
 
-      while (currentFilePos + 8 <= fileSize) {
+      while (currentFilePos < fileSize) {
         chunk.clear();
         Future<Integer> future = asyncChannel.read(chunk, currentFilePos);
         int bytesRead = future.get();
@@ -129,6 +148,15 @@ public class AFPScanner {
         chunk.flip();
 
         int chunkPos = 0;
+        if (remainingSkip > 0) {
+          int skipInThisChunk = Math.min(remainingSkip, bytesRead);
+          chunkPos += skipInThisChunk;
+          remainingSkip -= skipInThisChunk;
+          if (remainingSkip == 0) {
+            synced = true;
+          }
+        }
+
         while (chunkPos < bytesRead) {
           if ((chunk.get(chunkPos) & 0xFF) == 0x5A) {
             if (chunkPos + 8 > bytesRead) {
@@ -140,22 +168,40 @@ public class AFPScanner {
               sfLength = UtilBinaryDecoding.parseInt(chunk, chunkPos + 1, 2);
             } catch (Exception e) {
               chunkPos++;
+              synced = false;
               continue;
             }
 
             if (sfLength < 8) {
               chunkPos++;
+              synced = false;
               continue;
             }
 
             SFTypeID foundType = SFTypeID.parse(chunk, chunkPos + 3);
-            if (foundType == typeID) {
-              offsets.add(currentFilePos + chunkPos);
+            if (foundType != SFTypeID.Undefined) {
+              if (foundType == typeID) {
+                offsets.add(currentFilePos + chunkPos);
+              }
+
+              int skipBytes = sfLength + 1;
+              int availableInChunk = bytesRead - chunkPos;
+
+              if (synced || (skipBytes < availableInChunk && (chunk.get(chunkPos + skipBytes) & 0xFF) == 0x5A)) {
+                synced = true;
+                if (skipBytes <= availableInChunk) {
+                  chunkPos += skipBytes;
+                } else {
+                  remainingSkip = skipBytes - availableInChunk;
+                  chunkPos = bytesRead;
+                  synced = false; // Need to verify at start of next chunk
+                }
+                continue;
+              }
             }
-            chunkPos++;
-          } else {
-            chunkPos++;
           }
+          chunkPos++;
+          synced = false;
         }
         currentFilePos += chunkPos;
       }
@@ -242,11 +288,16 @@ public class AFPScanner {
     List<Long> offsets = new ArrayList<>();
     try {
       long currentFilePos = start;
+      long fileSize = asyncChannel.size();
       ByteBuffer chunk = ByteBuffer.allocateDirect(1024 * 1024);
+      int remainingSkip = 0;
+      boolean synced = (start == 0);
 
-      while (currentFilePos + 8 <= end) {
+      while (currentFilePos < end) {
         chunk.clear();
-        int toRead = (int) Math.min(chunk.capacity(), end - currentFilePos + 8);
+        int toRead = (int) Math.min(chunk.capacity(), end - currentFilePos);
+        if (toRead <= 0) break;
+
         chunk.limit(toRead);
         Future<Integer> future = asyncChannel.read(chunk, currentFilePos);
         int bytesRead = future.get();
@@ -256,6 +307,15 @@ public class AFPScanner {
         chunk.flip();
 
         int chunkPos = 0;
+        if (remainingSkip > 0) {
+          int skipInThisChunk = Math.min(remainingSkip, bytesRead);
+          chunkPos += skipInThisChunk;
+          remainingSkip -= skipInThisChunk;
+          if (remainingSkip == 0) {
+            synced = true;
+          }
+        }
+
         while (chunkPos < bytesRead) {
           if ((chunk.get(chunkPos) & 0xFF) == 0x5A) {
             if (chunkPos + 8 > bytesRead) {
@@ -266,25 +326,40 @@ public class AFPScanner {
               sfLength = UtilBinaryDecoding.parseInt(chunk, chunkPos + 1, 2);
             } catch (Exception e) {
               chunkPos++;
+              synced = false;
               continue;
             }
             if (sfLength < 8) {
               chunkPos++;
+              synced = false;
               continue;
             }
             SFTypeID foundType = SFTypeID.parse(chunk, chunkPos + 3);
-            if (foundType == typeID) {
-              offsets.add(currentFilePos + chunkPos);
+            if (foundType != SFTypeID.Undefined) {
+              if (foundType == typeID) {
+                offsets.add(currentFilePos + chunkPos);
+              }
+
+              int skipBytes = sfLength + 1;
+              int availableInChunk = bytesRead - chunkPos;
+
+              if (synced || (skipBytes < availableInChunk && (chunk.get(chunkPos + skipBytes) & 0xFF) == 0x5A)) {
+                synced = true;
+                if (skipBytes <= availableInChunk) {
+                  chunkPos += skipBytes;
+                } else {
+                  remainingSkip = skipBytes - availableInChunk;
+                  chunkPos = bytesRead;
+                  synced = false; // Need to verify at start of next chunk
+                }
+                continue;
+              }
             }
-            chunkPos++;
-          } else {
-            chunkPos++;
           }
+          chunkPos++;
+          synced = false;
         }
         currentFilePos += chunkPos;
-        if (chunkPos == 0) {
-          currentFilePos++;
-        }
       }
     } catch (Exception expected) {
       // ignored

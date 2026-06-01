@@ -184,11 +184,16 @@ public enum SFTypeID {
    */
   SFCategory sfCategory;
 
+  private static final SFTypeID[] D3_LOOKUP = new SFTypeID[65536];
   private static final Map<Integer, SFTypeID> VAL_MAP = new HashMap<>();
 
   static {
     for (SFTypeID type : values()) {
-      VAL_MAP.put(calcKey(type.sfClass.val, type.sfType.val, type.sfCategory.val), type);
+      int key = calcKey(type.sfClass.val, type.sfType.val, type.sfCategory.val);
+      if (type.sfClass.val == 0xD3) {
+        D3_LOOKUP[((type.sfType.val & 0xFF) << 8) | (type.sfCategory.val & 0xFF)] = type;
+      }
+      VAL_MAP.put(key, type);
     }
   }
 
@@ -250,6 +255,10 @@ public enum SFTypeID {
   }
 
   private static SFTypeID valueOf(int sfClass, int sfType, int sfCategory) {
+    if (sfClass == 0xD3) {
+      SFTypeID type = D3_LOOKUP[((sfType & 0xFF) << 8) | (sfCategory & 0xFF)];
+      return type != null ? type : Undefined;
+    }
     SFTypeID sfTypeID = VAL_MAP.get(calcKey(sfClass, sfType, sfCategory));
     return sfTypeID != null ? sfTypeID : Undefined;
   }
