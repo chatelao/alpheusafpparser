@@ -8,17 +8,7 @@ This annex highlights some aspects of this PDF standard which can cause portabil
 
 | Architectural limits | Memory limits | File limits |
 | --- | --- | --- |
-| The hardware on which a PDF | The amount of memory available | PDF files may be very large in size |
-| processor executes imposes | to a PDF processor limits the | and may exceed the capacity of |
-| certain constraints. For example, | number of memory-consuming | some PDF processors. |
-| an integer is usually represented | objects that can be held | Transmission of PDF documents |
-| in 32 bits, limiting the range of | simultaneously. | across devices may also cause |
-| allowed integers. In addition, the | corruption so PDF writers are |  |
-| design of the software may impose | encouraged to follow some simple |  |
-| other constraints, such as a limit to | formatting guidelines when |  |
-| the number of elements in an array | generating PDF output. |  |
-
-or string.
+| The hardware on which a PDF processor executes imposes certain constraints. For example, an integer is usually represented in 32 bits, limiting the range of allowed integers. In addition, the design of the software may impose other constraints, such as a limit to the number of elements in an array or string. | The amount of memory available to a PDF processor limits the number of memory-consuming objects that can be held simultaneously. | PDF files may be very large in size and may exceed the capacity of some PDF processors. Transmission of PDF documents across devices may also cause corruption so PDF writers are encouraged to follow some simple formatting guidelines when generating PDF output. |
 
 Because of these limits and specific PDF processor behaviours, implementers are encouraged not to rely on just one specific PDF processor to determine the validity and suitability of their PDF output.
 
@@ -41,17 +31,11 @@ Table C.1 — Architectural considerations
 | Size of dictionaries | Although a PDF dictionary object (7.3.7, "Dictionary objects") can theoretically contain any number of key/value pairs, PDF processors are likely to have some limitations. |
 | Number of spot colours | In previous versions of the PDF, it was recommended that the maximum number of colourants or tint components in a single DeviceN colour space (8.6.6.5, "DeviceN colour spaces") be limited to 32. |
 | Nested objects | As described in this PDF standard, many constructs can be nested including stitching functions, q/Q operators, XObjects, article threads, etc. However PDF processors may implement recursive algorithms which may cause issues for excessively nested constructs. |
+| Name objects | In previous versions of PDF, it was recommended that the maximum length of the internal representation of a name object was limited 127 bytes. |
+| Length of a string object in a content stream | In previous versions of PDF, it was recommended that the maximum length of a string in a content stream was limited to 32,767. This restriction applied only to strings in content streams. There were no effective restrictions on other strings in PDF files. |
+| CID | In previous versions of PDF, it was recommended that the maximum value of a CID (character identifier) was limited to 65,535. |
 
 > **NOTE** In previous versions of PDF, a maximum depth of graphics state nesting by q and Q operators was 28. This arose from the fact that q and Q can be implemented by the PostScript language gsave and grestore operators when generating PostScript language output.
-
-| Name objects | In previous versions of PDF, it was recommended that the maximum length of the internal representation of a name object was limited 127 bytes. |
-| --- | --- |
-| Length of a string object in | In previous versions of PDF, it was recommended that the maximum |
-| a content stream | length of a string in a content stream was limited to 32,767. This restriction applied only to strings in content streams. There were no effective restrictions on other strings in PDF files. |
-
-# CID In previous versions of PDF, it was recommended that the maximum
-
-value of a CID (character identifier) was limited to 65,535.
 
 ## C.3 Memory limits
 

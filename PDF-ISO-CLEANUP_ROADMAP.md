@@ -70,31 +70,49 @@ The following criteria must be verified for each file:
     - ⏳ 3.1.1. Clauses 9.1 to 9.5 (Organisation, State, Objects, Font Data).
     - ⏳ 3.1.2. Clauses 9.6 to 9.10 (Simple/Composite Fonts, Descriptors, Embedded, Extraction).
 - ⏳ **3.2. Chapter 10**: Rendering.
+    - ⏳ 3.2.1. Clauses 10.1 to 10.3 (General, Native Colour, CIE-based).
+    - ⏳ 3.2.2. Clauses 10.4 to 10.5 (Conversions, Transfer Functions).
+    - ⏳ 3.2.3. Clause 10.6 (Halftones).
+    - ⏳ 3.2.4. Clauses 10.7 to 10.8 (Scan Conversion, Separations).
 - ⏳ **3.3. Chapter 11**: Transparency.
+    - ⏳ 3.3.1. Clauses 11.1 to 11.3 (General, Overview, Basic Concepts).
+    - ⏳ 3.3.2. Clause 11.4 (Compositing Groups).
+    - ⏳ 3.3.3. Clause 11.5 (Specifying Transparency).
+    - ⏳ 3.3.4. Clause 11.6 (Transparency Group XObjects).
+    - ⏳ 3.3.5. Clause 11.7 (Rendering Parameters).
 
 ### Phase 4: Interactive & Multimedia ⏳
 - ⏳ **4.1. Chapter 12**: Interactive features.
+    - ⏳ 4.1.1. Clauses 12.1 to 12.4 (General, Preferences, Navigation).
+    - ⏳ 4.1.2. Clause 12.5 (Annotations).
+    - ⏳ 4.1.3. Clause 12.6 (Actions).
+    - ⏳ 4.1.4. Clause 12.7 (Forms).
+    - ⏳ 4.1.5. Clauses 12.8 to 12.11 (Signatures, Measurement, Geospatial, Requirements).
 - ⏳ **4.2. Chapter 13**: Multimedia features.
+    - ⏳ 4.2.1. Clauses 13.1 to 13.2 (General, Multimedia).
+    - ⏳ 4.2.2. Clauses 13.3 to 13.5 (Sounds, Movies, Alternate Presentations).
+    - ⏳ 4.2.3. Clauses 13.6 to 13.7 (3D Artwork, Rich Media).
 
 ### Phase 5: Document Interchange & Parts ⏳
 - ⏳ **5.1. Chapter 14**: Document interchange.
     - ⏳ 5.1.1. Clauses 14.1 to 14.6 (Metadata, Identifiers, Marked Content).
-    - ⏳ 5.1.2. Clauses 14.7 to 14.13 (Logical Structure, Tagged PDF, Accessibility, etc.).
+    - ⏳ 5.1.2. Clauses 14.7 to 14.9 (Logical Structure, Tagged PDF, Accessibility).
+    - ⏳ 5.1.3. Clauses 14.10 to 14.13 (Web Capture, Prepress, Document Parts, Associated Files).
 
 ### Phase 6: Appendices & Bibliography 🚧
 - 🚧 **6.1. Appendix A to E**: Basic structural cleanup.
     - ✅ 6.1.1. Appendix A (Operator Summary).
     - ✅ 6.1.2. Appendix B (Operators in Type 4 Functions).
-    - ⏳ 6.1.3. Appendix C (Maximising portability).
+    - ✅ 6.1.3. Appendix C (Maximising portability).
     - ⏳ 6.1.4. Appendix D (Character sets and encodings).
-    - ⏳ 6.1.5. Appendix E (PDF Name Registry).
+    - ✅ 6.1.5. Appendix E (PDF Name Registry).
 - ⏳ **6.2. Appendix F to J**: Complex tables and examples.
 - ⏳ **6.3. Appendix K to O**: Technical relationships and fragments.
     - ⏳ 6.3.1. Appendix K (XFA forms).
     - ⏳ 6.3.2. Appendix L (Parent-child relationships).
     - ✅ 6.3.3. Appendix M (Differences between namespaces).
-    - ⏳ 6.3.4. Appendix N (Best practice for halftones).
-    - ⏳ 6.3.5. Appendix O (Fragment identifiers).
+    - ✅ 6.3.4. Appendix N (Best practice for halftones).
+    - ✅ 6.3.5. Appendix O (Fragment identifiers).
 - ⏳ **6.4. Appendix P to Q & Bibliography**: Final mathematical algorithms.
     - ✅ 6.4.1. Appendix P (Algorithm for blending colour space).
     - ⏳ 6.4.2. Appendix Q (Determining transparency).
@@ -121,9 +139,9 @@ The following criteria must be verified for each file:
 | `Chapter_14.md` | ⏳ Pending | 5.1 | Verified: Large tables and examples. |
 | `Appendix_A.md` | ✅ Completed | 6.1 | Merged fragmented table rows and integrated operators. |
 | `Appendix_B.md` | ✅ Completed | 6.1 | Fixed table structures and merged fragmented rows. |
-| `Appendix_C.md` | ⏳ Pending | 6.1 | |
+| `Appendix_C.md` | ✅ Completed | 6.1 | Merged fragmented tables and fixed CID requirement formatting. |
 | `Appendix_D.md` | ⏳ Pending | 6.1 | |
-| `Appendix_E.md` | ⏳ Pending | 6.1 | |
+| `Appendix_E.md` | ✅ Completed | 6.1 | Standardized NOTE formatting and fixed name class merging. |
 | `Appendix_F.md` | ⏳ Pending | 6.2 | |
 | `Appendix_G.md` | ⏳ Pending | 6.2 | |
 | `Appendix_H.md` | ⏳ Pending | 6.2 | |
@@ -132,8 +150,8 @@ The following criteria must be verified for each file:
 | `Appendix_K.md` | ⏳ Pending | 6.3 | |
 | `Appendix_L.md` | ⏳ Pending | 6.3 | |
 | `Appendix_M.md` | ✅ Completed | 6.3 | Standardized NOTE and list formatting. |
-| `Appendix_N.md` | ⏳ Pending | 6.3 | |
-| `Appendix_O.md` | ⏳ Pending | 6.3 | |
+| `Appendix_N.md` | ✅ Completed | 6.3 | Fixed fragmented text blocks in N.3. |
+| `Appendix_O.md` | ✅ Completed | 6.3 | Merged fragmented rows in tables and integrated parameters. |
 | `Appendix_P.md` | ✅ Completed | 6.4 | Standardized NOTE and list formatting. |
 | `Appendix_Q.md` | ⏳ Pending | 6.4 | |
 | `Bibliography.md` | ⏳ Pending | 6.4 | |
