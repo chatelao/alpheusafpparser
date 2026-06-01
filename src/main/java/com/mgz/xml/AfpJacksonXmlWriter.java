@@ -195,6 +195,16 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
   }
 
+  @Override
+  public void flush() throws Exception {
+    if (baseFragmentGenerator != null) {
+      baseFragmentGenerator.flush();
+    }
+    if (xsw != null) {
+      xsw.flush();
+    }
+  }
+
   /**
    * Writes a single structured field to the XML output.
    *

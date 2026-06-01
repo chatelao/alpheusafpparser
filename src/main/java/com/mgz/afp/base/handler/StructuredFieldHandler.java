@@ -36,6 +36,13 @@ public interface StructuredFieldHandler extends AutoCloseable {
   void handle(StructuredField sf) throws Exception;
 
   /**
+   * Flushes any buffered output.
+   *
+   * @throws Exception if flushing fails
+   */
+  default void flush() throws Exception {}
+
+  /**
    * Closes the handler and releases any resources.
    *
    * @throws Exception if closing fails

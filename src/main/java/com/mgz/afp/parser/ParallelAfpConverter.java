@@ -118,6 +118,8 @@ public class ParallelAfpConverter {
         masterHandler.handle(sf);
         sf.release();
       }
+      // Ensure preamble and root element are flushed to output before parallel pages are written
+      masterHandler.flush();
     }
 
     if (pageOffsets.isEmpty()) {

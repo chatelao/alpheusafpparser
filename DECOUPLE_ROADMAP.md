@@ -26,6 +26,6 @@ This roadmap outlines the serial implementation plan for decoupling the parser f
   - ✅ **4.3.1.2 Thread-Safety Audit:** Verify thread-safety of shared resource pools (SFI, Triplet, SF pools).
   - ⏳ **4.3.1.3 Global State Consistency:**
     - ✅ **4.3.1.3.1 State Isolation:** Ensure `AFPParserConfiguration` clones perform deep copies of maps to prevent page-local state leakage.
-    - ⏳ **4.3.1.3.2 Resource Inheritance:** Verify that handlers correctly inherit preamble state in parallel mode.
+    - ✅ **4.3.1.3.2 Resource Inheritance:** Verify that handlers correctly inherit preamble state in parallel mode.
   - ⏳ **4.3.2.1 Heap Dump Analysis:** Perform memory analysis on 100MB+ file conversions to ensure no leaks.
   - ✅ **4.3.2.2 Native Memory Tracking:** Monitor DirectBuffer usage when `--aggressive-io` is enabled.
