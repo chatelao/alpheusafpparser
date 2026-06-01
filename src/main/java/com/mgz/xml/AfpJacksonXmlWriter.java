@@ -54,6 +54,8 @@ import com.mgz.afp.modca.MSU_MapSuppression;
 import com.mgz.afp.modca.NOP_NoOperation;
 import com.mgz.afp.modca.OBD_ObjectAreaDescriptor;
 import com.mgz.afp.modca.OBP_ObjectAreaPosition;
+import com.mgz.afp.modca.PGP_PagePosition_Format1;
+import com.mgz.afp.modca.PGP_PagePosition_Format2;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
 import com.mgz.afp.ptoca.PTX_PresentationTextData;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
@@ -293,6 +295,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeTripletsAndTextDirectly(ipg, "IPG_IncludePage");
     } else if (sf instanceof com.mgz.afp.modca.PGD_PageDescriptor pgd) {
       writePgdDirectly(pgd);
+    } else if (sf instanceof PGP_PagePosition_Format1 pgp) {
+      writePgpFormat1Directly(pgp);
+    } else if (sf instanceof PGP_PagePosition_Format2 pgp) {
+      writePgpFormat2Directly(pgp);
     } else if (sf instanceof com.mgz.afp.modca.MDD_MediumDescriptor mdd) {
       writeMddDirectly(mdd);
     } else if (sf instanceof com.mgz.afp.modca.IMM_InvokeMediumMap imm) {
@@ -329,7 +335,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       String rootName = sf.getClass().getSimpleName();
       String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
       MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
-      fragmentMapper.writer().withRootName(rootName).writeValue(baseFragmentGenerator, sf);
+      fragmentMapper.writer().writeValue(baseFragmentGenerator, sf);
       MnemonicPerformanceMonitor.endWrite();
     }
 
@@ -378,6 +384,62 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeElement(baseXsw, indent2, "text", tle.getText());
     }
     baseXsw.writeCharacters(indent1);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writePgpFormat1Directly(PGP_PagePosition_Format1 pgp) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("PGP");
+    baseXsw.writeStartElement("PGP_PagePosition_Format1");
+    String indent = XmlIndenter.getIndent(2);
+    writeElement(baseXsw, indent, "xOrigin", pgp.getxOrigin());
+    writeElement(baseXsw, indent, "yOrigin", pgp.getyOrigin());
+    XmlIndenter.writeIndent(baseXsw, 1);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writePgpFormat2Directly(PGP_PagePosition_Format2 pgp) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("PGP");
+    baseXsw.writeStartElement("PGP_PagePosition_Format2");
+    String indent2 = XmlIndenter.getIndent(2);
+    String indent3 = XmlIndenter.getIndent(3);
+    writeElement(baseXsw, indent2, "constant0", pgp.getConstant0());
+    if (pgp.getRepeatingGroups() != null) {
+      for (IRepeatingGroup rg : pgp.getRepeatingGroups()) {
+        if (rg instanceof PGP_PagePosition_Format2.PGP_RepeatingGroup pgpRg) {
+          baseXsw.writeCharacters(indent2);
+          baseXsw.writeStartElement("pgpRepeatingGroup");
+          writeElement(baseXsw, indent3, "repeatingGroupLength", pgpRg.getRepeatingGroupLength());
+          writeElement(baseXsw, indent3, "xOrigin", pgpRg.getxOrigin());
+          writeElement(baseXsw, indent3, "yOrigin", pgpRg.getyOrigin());
+          if (pgpRg.getxRotation() != null) {
+            writeElement(baseXsw, indent3, "xRotation", pgpRg.getxRotation().name());
+          }
+          if (pgpRg.getSheetSideAndPartitionSelection() != null) {
+            writeElement(baseXsw, indent3, "sheetSideAndPartitionSelection", pgpRg.getSheetSideAndPartitionSelection().name());
+          }
+          if (pgpRg.getFlags() != null) {
+            baseXsw.writeCharacters(indent3);
+            baseXsw.writeStartElement("flags");
+            for (PGP_PagePosition_Format2.PGP_RepeatingGroup.PGP_RGFlag flag : pgpRg.getFlags()) {
+              baseXsw.writeCharacters(XmlIndenter.getIndent(4));
+              baseXsw.writeStartElement("pgpRgFlag");
+              baseXsw.writeCharacters(flag.name());
+              baseXsw.writeEndElement();
+            }
+            baseXsw.writeCharacters(indent3);
+            baseXsw.writeEndElement();
+          }
+          if (pgpRg.getPageModififationControlID() != null) {
+            writeElement(baseXsw, indent3, "pageModififationControlID", pgpRg.getPageModififationControlID());
+          }
+          baseXsw.writeCharacters(indent2);
+          baseXsw.writeEndElement();
+        }
+      }
+    }
+    XmlIndenter.writeIndent(baseXsw, 1);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
@@ -724,7 +786,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writer.writeCharacters(indent);
       writer.writeEndElement();
     } else {
-      fragmentMapper.writer().withRootName(triplet.getClass().getSimpleName()).writeValue(baseFragmentGenerator, triplet);
+      fragmentMapper.writer().writeValue(baseFragmentGenerator, triplet);
     }
   }
 
@@ -911,7 +973,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       String simpleName = cs.getClass().getSimpleName();
       String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(simpleName);
       MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
-      fragmentMapper.writer().withRootName(simpleName).writeValue(baseFragmentGenerator, cs);
+      fragmentMapper.writer().writeValue(baseFragmentGenerator, cs);
       MnemonicPerformanceMonitor.endWrite();
     }
   }
@@ -1717,7 +1779,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       String rootName = order.getClass().getSimpleName();
       String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
       MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
-      fragmentMapper.writer().withRootName(rootName).writeValue(baseFragmentGenerator, order);
+      fragmentMapper.writer().writeValue(baseFragmentGenerator, order);
       MnemonicPerformanceMonitor.endWrite();
     }
   }
@@ -1771,8 +1833,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writer.writeCharacters(indent);
       writer.writeEndElement();
     } else {
-      String rootName = segment.getClass().getSimpleName();
-      fragmentMapper.writer().withRootName(rootName).writeValue(baseFragmentGenerator, segment);
+      fragmentMapper.writer().writeValue(baseFragmentGenerator, segment);
     }
   }
 
@@ -1879,8 +1940,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writer.writeCharacters(indent);
       writer.writeEndElement();
     } else {
-      String rootName = sdf.getClass().getSimpleName();
-      fragmentMapper.writer().withRootName(rootName).writeValue(baseFragmentGenerator, sdf);
+      fragmentMapper.writer().writeValue(baseFragmentGenerator, sdf);
     }
   }
 
