@@ -99,3 +99,48 @@
 | BCOCA-3-046 | For QR Code with Image, linear measurements can be specified as percentages (unit base X'64'). | ❓ |
 | BCOCA-3-047 | Table 7 shows HRI recommendations for various bar code types. | ❓ |
 | BCOCA-3-048 | Check digits are not always presented in the HRI. | ❓ |
+| BCOCA-4-001 | BCD2 subset includes additional bar code types (Australia Post, Codabar, Code 93, Code 128 (modifiers X'02', X'03'), Data Matrix (modifier X'00'), Intelligent Mail, Japan Postal, MaxiCode, PDF417, QR Code (modifier X'02'), RM4SCC). | ❓ |
+| BCOCA-4-002 | BCD2 subset adds support for bar code symbol suppression. | ❓ |
+| BCOCA-4-003 | BCD2 subset adds support for the Color Specification triplet in the Bar Code Data Descriptor. | ❓ |
+| BCOCA-4-004 | BCD2 subset supports the full range for font local IDs. | ✅ |
+| BCOCA-4-005 | BCD2 subset supports the full range for units per unit base. | ❓ |
+| BCOCA-4-023 | It is good practice to specify the size of the bar code presentation space large enough to include plenty of white space around the expected symbols and HRI. | ❓ |
+| BCOCA-4-024 | For desired symbol width, the specified module width value (byte 17) is ignored. | ❓ |
+| BCOCA-4-025 | BCOCA receiver calculates an optimal module width value to produce the widest symbol that fits into the desired width. | ❓ |
+| BCOCA-4-026 | For fixed-size symbols, the optimal-symbol-size value is used unless the receiver provides small-symbol support. | ❓ |
+| BCOCA-4-027 | Fixed-size bar code types include: Australia Post, Dutch KIX, Intelligent Mail Barcode, MaxiCode, PLANET, POSTNET, RM4SCC, Royal Mail RED TAG, and Royal Mail Mailmark. | ❓ |
+| BCOCA-4-028 | For UPC or EAN symbols with a supplemental, the desired symbol width includes both the base symbol and the supplemental. | ❓ |
+| BCOCA-4-029 | The module-width value is used when the printer cannot generate a symbol that fits within the desired width (standard action for EC-0611). | ❓ |
+| BCOCA-4-030 | The module-width value is used when the bar code object is sent to a BCOCA receiver that does not support the desired-symbol-width parameter. | ❓ |
+| BCOCA-4-031 | The module-width value is used when X'0000' is specified in the desired-symbol-width field. | ✅ |
+| BCOCA-4-032 | Byte 12 (Type) indicates the type of bar code symbol to be generated. | ✅ |
+| BCOCA-4-033 | Bar Code Type X'01' (Code 39) is in BCD1 and BCD2 subsets. | ✅ |
+| BCOCA-4-034 | Bar Code Type X'02' (MSI) is in BCD1 and BCD2 subsets. | ✅ |
+| BCOCA-4-035 | Bar Code Type X'03' (UPC-A) is in BCD1 and BCD2 subsets. | ✅ |
+| BCOCA-4-036 | Bar Code Type X'05' (UPC-E) is in BCD1 and BCD2 subsets. | ✅ |
+| BCOCA-4-037 | Bar Code Type X'06' (UPC 2-Digit Supplemental) is in BCD1 and BCD2 subsets. | ✅ |
+| BCOCA-4-038 | Bar Code Type X'07' (UPC 5-Digit Supplemental) is in BCD1 and BCD2 subsets. | ✅ |
+| BCOCA-4-039 | Bar Code Type X'08' (EAN-8) is in BCD1 and BCD2 subsets. | ✅ |
+| BCOCA-4-040 | Bar Code Type X'09' (EAN-13) is in BCD1 and BCD2 subsets. | ✅ |
+| BCOCA-4-041 | Bar Code Type X'0A' (Industrial 2-of-5) is not in BCD1 or BCD2 subsets. | ✅ |
+| BCOCA-4-042 | Bar Code Type X'0B' (Matrix 2-of-5) is not in BCD1 or BCD2 subsets. | ✅ |
+| BCOCA-4-043 | Bar Code Type X'0C' (Interleaved 2-of-5) is in BCD1 and BCD2 subsets. | ✅ |
+| BCOCA-4-044 | Bar Code Type X'0D' (Codabar) is not in BCD1 but is in BCD2 subset. | ✅ |
+| BCOCA-4-045 | Bar Code Type X'11' (Code 128) is not in BCD1 but is in BCD2 subset. | ✅ |
+| BCOCA-4-046 | Bar Code Type X'16' (EAN 2-Digit Supplemental) is in BCD1 and BCD2 subsets. | ✅ |
+| BCOCA-4-047 | Bar Code Type X'17' (EAN 5-Digit Supplemental) is in BCD1 and BCD2 subsets. | ✅ |
+| BCOCA-4-048 | Bar Code Type X'18' (POSTNET/PLANET) is not in BCD1 or BCD2 subsets. | ✅ |
+| BCOCA-4-049 | Bar Code Type X'1A' (RM4SCC/Dutch KIX) is not in BCD1 but is in BCD2 subset. | ✅ |
+| BCOCA-4-050 | Bar Code Type X'1B' (Japan Postal) is not in BCD1 but is in BCD2 subset. | ✅ |
+| BCOCA-4-051 | Bar Code Type X'1C' (Data Matrix) is not in BCD1 but is in BCD2 subset. | ✅ |
+| BCOCA-4-052 | Bar Code Type X'1D' (MaxiCode) is not in BCD1 but is in BCD2 subset. | ✅ |
+| BCOCA-4-053 | Bar Code Type X'1E' (PDF417) is not in BCD1 but is in BCD2 subset. | ✅ |
+| BCOCA-4-054 | Bar Code Type X'1F' (Australia Post) is not in BCD1 but is in BCD2 subset. | ✅ |
+| BCOCA-4-055 | Bar Code Type X'20' (QR Code) is not in BCD1 but is in BCD2 subset. | ✅ |
+| BCOCA-4-056 | Bar Code Type X'21' (Code 93) is not in BCD1 but is in BCD2 subset. | ✅ |
+| BCOCA-4-057 | Bar Code Type X'22' (Intelligent Mail Barcode) is not in BCD1 but is in BCD2 subset. | ✅ |
+| BCOCA-4-058 | Bar Code Type X'23' (Royal Mail RED TAG) is not in BCD1 or BCD2 subsets. | ✅ |
+| BCOCA-4-059 | Bar Code Type X'24' (GS1 DataBar) is not in BCD1 or BCD2 subsets. | ✅ |
+| BCOCA-4-060 | Bar Code Type X'25' (Royal Mail Mailmark) is not in BCD1 or BCD2 subsets. | ✅ |
+| BCOCA-4-061 | Bar Code Type X'26' (Aztec Code) is not in BCD1 or BCD2 subsets. | ✅ |
+| BCOCA-4-062 | Bar Code Type X'27' (Han Xin Code) is not in BCD1 or BCD2 subsets. | ✅ |
