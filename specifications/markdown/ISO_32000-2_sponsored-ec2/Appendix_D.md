@@ -13,6 +13,7 @@ All characters listed in D.2, "Latin character set and encodings" shall be suppo
 D.4, "Expert set and MacExpert encoding" describes the "expert" character set, which contains additional characters useful for sophisticated typography, such as small capitals, ligatures, and fractions. For each named character, an octal character code is given in MacExpertEncoding.
 
 > **NOTE** The built-in encoding in an expert font program can be different from MacExpertEncoding.
+
 D.5, "Symbol set and encoding" and D.6, "ZapfDingbats set and encoding" describe the character sets and built-in encodings for the Symbol and ZapfDingbats (ITC Zapf Dingbats) font programs, which belong to the standard 14 predefined fonts. These fonts have built-in encodings that are unique to each font. The characters for ZapfDingbats are ordered by code instead of by name, since the names in that font are meaningless.
 
 Table D.1 — Latin-text encodings
@@ -21,10 +22,6 @@ Table D.1 — Latin-text encodings
 | --- | --- |
 | StandardEncoding | Standard Latin-text encoding. This is the built-in encoding defined in Type 1 Latin-text font programs (but generally not in TrueType font programs). PDF processors shall not have a predefined encoding named StandardEncoding. However, it is necessary to describe this encoding, since a font’s built-in encoding can be used as the base encoding from which differences may be specified in an encoding dictionary. |
 | MacRomanEncoding | Mac OS standard encoding for Latin text in Western writing systems. PDF processors shall have a predefined encoding named MacRomanEncoding that may be used with both Type 1 and TrueType fonts. |
-
-
-| Encoding | Description |
-| --- | --- |
 | WinAnsiEncoding | Windows Code Page 1252, often called the "Windows ANSI" encoding. This is the standard Microsoft WindowsTM specific encoding for Latin text in Western writing systems. PDF processors shall have a predefined encoding named WinAnsiEncoding that may be used with both Type 1 and TrueType fonts. |
 | PDFDocEncoding | Encoding for text strings in a PDF document outside the document’s content streams. This is one of two encodings (the other being Unicode) that may be used to represent text strings; see 7.9.2.2, "Text string type". PDF does not have a predefined encoding named PDFDocEncoding; it is not customary to use this encoding to show text from fonts. |
 | MacExpertEncoding | An encoding for use with expert fonts — ones containing the expert character set. PDF processors shall have a predefined encoding named MacExpertEncoding. Despite its name, it is not a platform-specific encoding; however, only certain fonts have the appropriate character set for use with this encoding. No such fonts are among the standard 14 predefined fonts. |
@@ -33,88 +30,49 @@ Table D.1 — Latin-text encodings
 
 Table D.2 — Latin character set and encodings
 
-| CHAR | NAME | CHAR CODE (OCTAL) | CHAR | NAME | CHAR CODE (OCTAL) |  |  |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| STD | MAC | WIN | PDF | STD | MAC | WIN | PDF |
-
-# A A 101 101 101 101 Œ OE 352 316 214 226
-
-| Æ | AE | 341 | 256 | 306 | 306 | Ó | Oacute | — | 356 | 323 | 323 |
+| CHAR | NAME | STD | MAC | WIN | PDF | CHAR | NAME | STD | MAC | WIN | PDF |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| A | A | 101 | 101 | 101 | 101 | Œ | OE | 352 | 316 | 214 | 226 |
+| Æ | AE | 341 | 256 | 306 | 306 | Ó | Oacute | — | 356 | 323 | 323 |
 | Á | Aacute | — | 347 | 301 | 301 | Ô | Ocircumflex | — | 357 | 324 | 324 |
 | Â | Acircumflex | — | 345 | 302 | 302 | Ö | Odieresis | — | 205 | 326 | 326 |
 | Ä | Adieresis | — | 200 | 304 | 304 | Ò | Ograve | — | 361 | 322 | 322 |
 | À | Agrave | — | 313 | 300 | 300 | Ø | Oslash | 351 | 257 | 330 | 330 |
 | Å | Aring | — | 201 | 305 | 305 | Õ | Otilde | — | 315 | 325 | 325 |
 | Ã | Atilde | — | 314 | 303 | 303 | P | P | 120 | 120 | 120 | 120 |
-
-# B B 102 102 102 102 Q Q 121 121 121 121
-
-# C C 103 103 103 103 R R 122 122 122 122
-
-Ç Ccedilla — 202 307 307 S S 123 123 123 123
-
-# D D 104 104 104 104 Š Scaron — — 212 227
-
-# E E 105 105 105 105 T T 124 124 124 124
-
-É Eacute — 203 311 311 Þ Thorn — — 336 336
-
-
-| CHAR | NAME | CHAR CODE (OCTAL) | CHAR | NAME | CHAR CODE (OCTAL) |  |  |  |  |  |  |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| STD | MAC | WIN | PDF | STD | MAC | WIN | PDF |  |  |  |  |
+| B | B | 102 | 102 | 102 | 102 | Q | Q | 121 | 121 | 121 | 121 |
+| C | C | 103 | 103 | 103 | 103 | R | R | 122 | 122 | 122 | 122 |
+| Ç | Ccedilla | — | 202 | 307 | 307 | S | S | 123 | 123 | 123 | 123 |
+| D | D | 104 | 104 | 104 | 104 | Š | Scaron | — | — | 212 | 227 |
+| E | E | 105 | 105 | 105 | 105 | T | T | 124 | 124 | 124 | 124 |
+| É | Eacute | — | 203 | 311 | 311 | Þ | Thorn | — | — | 336 | 336 |
 | Ê | Ecircumflex | — | 346 | 312 | 312 | U | U | 125 | 125 | 125 | 125 |
 | Ë | Edieresis | — | 350 | 313 | 313 | Ú | Uacute | — | 362 | 332 | 332 |
 | È | Egrave | — | 351 | 310 | 310 | Û | Ucircumflex | — | 363 | 333 | 333 |
 | Ð | Eth | — | — | 320 | 320 | Ü | Udieresis | — | 206 | 334 | 334 |
 | € | Euro1 | — | — | 200 | 240 | Ù | Ugrave | — | 364 | 331 | 331 |
-
-# F F 106 106 106 106 V V 126 126 126 126
-
-# G G 107 107 107 107 W W 127 127 127 127
-
-# H H 110 110 110 110 X X 130 130 130 130
-
-# I I 111 111 111 111 Y Y 131 131 131 131
-
+| F | F | 106 | 106 | 106 | 106 | V | V | 126 | 126 | 126 | 126 |
+| G | G | 107 | 107 | 107 | 107 | W | W | 127 | 127 | 127 | 127 |
+| H | H | 110 | 110 | 110 | 110 | X | X | 130 | 130 | 130 | 130 |
+| I | I | 111 | 111 | 111 | 111 | Y | Y | 131 | 131 | 131 | 131 |
 | Í | Iacute | — | 352 | 315 | 315 | Ý | Yacute | — | — | 335 | 335 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Î | Icircumflex | — | 353 | 316 | 316 | Ÿ | Ydieresis | — | 331 | 237 | 230 |
 | Ï | Idieresis | — | 354 | 317 | 317 | Z | Z | 132 | 132 | 132 | 132 |
 | Ì | Igrave | — | 355 | 314 | 314 | Ž | Zcaron2 | — | — | 216 | 231 |
-
-# J J 112 112 112 112 a a 141 141 141 141
-
-# K K 113 113 113 113 á aacute — 207 341 341
-
-# L L 114 114 114 114 â acircumflex — 211 342 342
-
-Ł Lslash 350 — — 225 ´ acute 302 253 264 264
-
-# M M 115 115 115 115 ä adieresis — 212 344 344
-
-# N N 116 116 116 116 æ ae 361 276 346 346
-
-Ñ Ntilde — 204 321 321 à agrave — 210 340 340
-
-# O O 117 117 117 117 & ampersand 046 046 046 046
-
+| J | J | 112 | 112 | 112 | 112 | a | a | 141 | 141 | 141 | 141 |
+| K | K | 113 | 113 | 113 | 113 | á | aacute | — | 207 | 341 | 341 |
+| L | L | 114 | 114 | 114 | 114 | â | acircumflex | — | 211 | 342 | 342 |
+| Ł | Lslash | 350 | — | — | 225 | ´ | acute | 302 | 253 | 264 | 264 |
+| M | M | 115 | 115 | 115 | 115 | ä | adieresis | — | 212 | 344 | 344 |
+| N | N | 116 | 116 | 116 | 116 | æ | ae | 361 | 276 | 346 | 346 |
+| Ñ | Ntilde | — | 204 | 321 | 321 | à | agrave | — | 210 | 340 | 340 |
+| O | O | 117 | 117 | 117 | 117 | & | ampersand | 046 | 046 | 046 | 046 |
 | å | aring | — | 214 | 345 | 345 | ð | eth | — | — | 360 | 360 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | ^ | asciicircum | 136 | 136 | 136 | 136 | ! | exclam | 041 | 041 | 041 | 041 |
 | ~ | asciitilde | 176 | 176 | 176 | 176 | ¡ | exclamdown | 241 | 301 | 241 | 241 |
-
-* asterisk 052 052 052 052 f f 146 146 146 146
-
+| * | asterisk | 052 | 052 | 052 | 052 | f | f | 146 | 146 | 146 | 146 |
 | @ | at | 100 | 100 | 100 | 100 | fi | fi | 256 | 336 | — | 223 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | ã | atilde | — | 213 | 343 | 343 | 5 | five | 065 | 065 | 065 | 065 |
-
-
-| CHAR | NAME | CHAR CODE (OCTAL) | CHAR | NAME | CHAR CODE (OCTAL) |  |  |  |  |  |  |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| STD | MAC | WIN | PDF | STD | MAC | WIN | PDF |  |  |  |  |
 | b | b | 142 | 142 | 142 | 142 | fl | fl | 257 | 337 | — | 224 |
 | \ | backslash | 134 | 134 | 134 | 134 | ƒ | florin | 246 | 304 | 203 | 206 |
 | | | bar | 174 | 174 | 174 | 174 | 4 | four | 064 | 064 | 064 | 064 |
@@ -124,11 +82,8 @@ Table D.2 — Latin character set and encodings
 | ] | bracketright | 135 | 135 | 135 | 135 | ` | grave | 301 | 140 | 140 | 140 |
 | ˘ | breve | 306 | 371 | — | 030 | > | greater | 076 | 076 | 076 | 076 |
 | ¦ | brokenbar | — | — | 246 | 246 | « | guillemotleft4 | 253 | 307 | 253 | 253 |
-
-• bullet3 267 245 225 200 » guillemotright4 273 310 273 273
-
+| • | bullet3 | 267 | 245 | 225 | 200 | » | guillemotright4 | 273 | 310 | 273 | 273 |
 | c | c | 143 | 143 | 143 | 143 | ‹ | guilsinglleft | 254 | 334 | 213 | 210 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | ˇ | caron | 317 | 377 | — | 031 | › | guilsinglright | 255 | 335 | 233 | 211 |
 | ç | ccedilla | — | 215 | 347 | 347 | h | h | 150 | 150 | 150 | 150 |
 | ¸ | cedilla | 313 | 374 | 270 | 270 | ˝ | hungarumlaut | 315 | 375 | — | 034 |
@@ -145,11 +100,6 @@ Table D.2 — Latin character set and encodings
 | ¨ | dieresis | 310 | 254 | 250 | 250 | ¬ | logicalnot | — | 302 | 254 | 254 |
 | ÷ | divide | — | 326 | 367 | 367 | ł | lslash | 370 | — | — | 233 |
 | $ | dollar | 044 | 044 | 044 | 044 | m | m | 155 | 155 | 155 | 155 |
-
-
-| CHAR | NAME | CHAR CODE (OCTAL) | CHAR | NAME | CHAR CODE (OCTAL) |  |  |  |  |  |  |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| STD | MAC | WIN | PDF | STD | MAC | WIN | PDF |  |  |  |  |
 | ˙ | dotaccent | 307 | 372 | — | 033 | ¯ | macron | 305 | 370 | 257 | 257 |
 | ı | dotlessi | 365 | 365 | — | 232 | − | minus | — | — | — | 212 |
 | e | e | 145 | 145 | 145 | 145 | µ | mu | — | 265 | 265 | 265 |
@@ -177,11 +127,6 @@ Table D.2 — Latin character set and encodings
 | ¶ | paragraph | 266 | 246 | 266 | 266 | ¾ | threequarters | — | — | 276 | 276 |
 | ( | parenleft | 050 | 050 | 050 | 050 | ³ | threesuperior | — | — | 263 | 263 |
 | ) | parenright | 051 | 051 | 051 | 051 | ˜ | tilde | 304 | 367 | 230 | 037 |
-
-
-| CHAR | NAME | CHAR CODE (OCTAL) | CHAR | NAME | CHAR CODE (OCTAL) |  |  |  |  |  |  |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| STD | MAC | WIN | PDF | STD | MAC | WIN | PDF |  |  |  |  |
 | % | percent | 045 | 045 | 045 | 045 | ™ | trademark | — | 252 | 231 | 222 |
 | . | period | 056 | 056 | 056 | 056 | 2 | two | 062 | 062 | 062 | 062 |
 | · | periodcentered | 264 | 341 | 267 | 267 | ² | twosuperior | — | — | 262 | 262 |
@@ -204,19 +149,19 @@ Table D.2 — Latin character set and encodings
 | ˚ | ring | 312 | 373 | — | 036 |  |  |  |  |  |  |
 
 | 1. | In PDF 1.3, the euro character was added to the Adobe standard Latin character set. It is encoded as 200 in WinAnsiEncoding and 240 in PDFDocEncoding, assigning codes that were previously unused. Apple changed the Mac OS Latin-text encoding for code 333 from the currency character to the euro character. However, this incompatible change has not been reflected in PDF’s MacRomanEncoding, which continues to map code 333 to currency. If the euro character is desired, an encoding dictionary can be used to specify this single difference from MacRomanEncoding. |
-| --- | --- |
 | 2. | In PDF 1.3, the existing Zcaron and zcaron characters were added to WinAnsiEncoding as the previously unused codes 216 and 236. |
-
-
 | 3. | In WinAnsiEncoding, all unused codes greater than 40 map to the bullet character. However, only code 225 is specifically assigned to the bullet character; other codes are subject to future reassignment. |
-| --- | --- |
 | 4. | The character names guillemotleft and guillemotright are misspelled. The correct spelling for this punctuation character is guillemet. However, the misspelled names are the ones actually used in the fonts and encodings containing these characters. |
 | 5. | The hyphen (U+002D) character is also encoded as 255 (octal) in WinAnsiEncoding. Windows Code Page 1252 associates this character code with the soft hyphen (U+00AD) character. If the PDF producer intends to map this character code to the "softhyphen" character from the Adobe Glyph List, this may be specified using a Differences array in the encoding dictionary as shown in the example below. |
 | 6. | The space (U+0020) character is also encoded as 312 (octal) in MacRomanEncoding and as 240 (octal) in WinAnsiEncoding. Windows Code Page 1252 associates this character code with the non-breaking space (U+00A0) character. If the PDF producer intends to map this character code to the "nonbreakingspace" character from the Adobe Glyph List, this may be specified using a Differences array in the encoding dictionary as shown in the example below. |
 
 > **EXAMPLE** Encoding dictionaries use decimal numbers for character codes, instead of octal values.
 
-<< /Type /Encoding /BaseEncoding /WinAnsiEncoding /Differences [ 160 /nonbreakingspace 173 /softhyphen ] >> NOTE         This document clarifies list items 5 and 6 above (2020).
+```
+<< /Type /Encoding /BaseEncoding /WinAnsiEncoding /Differences [ 160 /nonbreakingspace 173 /softhyphen ] >>
+```
+
+> **NOTE** This document clarifies list items 5 and 6 above (2020).
 
 ## D.3 PDFDocEncoding character set
 
@@ -584,33 +529,20 @@ Table D.4 — Expert set and MacExpert encoding
 | È | Egravesmall | 217 | S | Ssmall |
 | --- | --- | --- | --- | --- |
 | ᴇ | Esmall | 145 | þ | Thornsmall |
-| ᴆ | Ethsmall | 104 | ˜ | Tildesmall |
-
-# F Fsmall 146 ᴛ Tsmall
-
-` Gravesmall 140 Ú Uacutesmall
-
-# G Gsmall 147 Û Ucircumflexsmall 236
-
-| ʜ | Hsmall | 150 | Ü | Udieresissmall |
-| --- | --- | --- | --- | --- |
-| ˝ | Hungarumlautsmall | 042 | Ù | Ugravesmall |
-
-Í Iacutesmall 222 ᴜ Usmall
-
-Î Icircumflexsmall 224 ᴠ Vsmall
-
-Ï Idieresissmall 225 ᴡ Wsmall
-
-Ì Igravesmall 223 X Xsmall
-
-# I Ismall 151 Ý Yacutesmall
-
-Ÿ Ydieresissmall 330 4 fouroldstyle
-
-Y Ysmall 171 ⁴ foursuperior
-
-Ž Zcaronsmall 275 ⁄ fraction
+| ᴆ | Ethsmall | 104 | ˜ | Tildesmall |  |
+| F | Fsmall | 146 | ᴛ | Tsmall |  |
+| ` | Gravesmall | 140 | Ú | Uacutesmall |  |
+| G | Gsmall | 147 | Û | Ucircumflexsmall | 236 |
+| ʜ | Hsmall | 150 | Ü | Udieresissmall |  |
+| ˝ | Hungarumlautsmall | 042 | Ù | Ugravesmall |  |
+| Í | Iacutesmall | 222 | ᴜ | Usmall |  |
+| Î | Icircumflexsmall | 224 | ᴠ | Vsmall |  |
+| Ï | Idieresissmall | 225 | ᴡ | Wsmall |  |
+| Ì | Igravesmall | 223 | X | Xsmall |  |
+| I | Ismall | 151 | Ý | Yacutesmall |  |
+| Ÿ | Ydieresissmall | 330 | 4 | fouroldstyle |  |
+| Y | Ysmall | 171 | ⁴ | foursuperior |  |
+| Ž | Zcaronsmall | 275 | ⁄ | fraction |  |
 
 
 | CHAR | NAME | CODE | CHAR | NAME | CODE |
