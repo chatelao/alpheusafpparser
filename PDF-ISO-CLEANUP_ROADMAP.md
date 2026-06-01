@@ -40,11 +40,30 @@ The following criteria must be verified for each file:
 
 ### Phase 2: Syntax & Graphics ⏳
 - ⏳ **2.1. Chapter 7**: Syntax.
-    - ⏳ 2.1.1. Clauses 7.1 to 7.6 (Lexical, Objects, Filters, File Structure).
-    - ⏳ 2.1.2. Clauses 7.7 to 7.12 (Document Structure, Resources, Functions, etc.).
+    - ⏳ 2.1.1. Clause 7.1 (General).
+    - ⏳ 2.1.2. Clause 7.2 (Lexical conventions).
+    - ⏳ 2.1.3. Clause 7.3 (Objects).
+    - ⏳ 2.1.4. Clause 7.4 (Filters).
+    - ⏳ 2.1.5. Clause 7.5 (File structure).
+    - ⏳ 2.1.6. Clause 7.6 (Encryption).
+    - ⏳ 2.1.7. Clause 7.7 (Document structure).
+    - ⏳ 2.1.8. Clause 7.8 (Content streams and resources).
+    - ⏳ 2.1.9. Clause 7.9 (Common data structures).
+    - ⏳ 2.1.10. Clause 7.10 (Functions).
+    - ⏳ 2.1.11. Clause 7.11 (File specifications).
+    - ⏳ 2.1.12. Clause 7.12 (Extensions dictionary).
 - ⏳ **2.2. Chapter 8**: Graphics.
-    - ⏳ 2.2.1. Clauses 8.1 to 8.5 (Graphics Objects, Coordinates, State, Paths).
-    - ⏳ 2.2.2. Clauses 8.6 to 8.11 (Colour, Patterns, Images, Form XObjects, Optional Content).
+    - ⏳ 2.2.1. Clause 8.1 (General).
+    - ⏳ 2.2.2. Clause 8.2 (Graphics objects).
+    - ⏳ 2.2.3. Clause 8.3 (Coordinate systems).
+    - ⏳ 2.2.4. Clause 8.4 (Graphics state).
+    - ⏳ 2.2.5. Clause 8.5 (Path construction and painting).
+    - ⏳ 2.2.6. Clause 8.6 (Colour spaces).
+    - ⏳ 2.2.7. Clause 8.7 (Patterns).
+    - ⏳ 2.2.8. Clause 8.8 (External objects).
+    - ⏳ 2.2.9. Clause 8.9 (Images).
+    - ⏳ 2.2.10. Clause 8.10 (Form XObjects).
+    - ⏳ 2.2.11. Clause 8.11 (Optional content).
 
 ### Phase 3: Text, Rendering & Transparency ⏳
 - ⏳ **3.1. Chapter 9**: Text.
@@ -63,7 +82,12 @@ The following criteria must be verified for each file:
     - ⏳ 5.1.2. Clauses 14.7 to 14.13 (Logical Structure, Tagged PDF, Accessibility, etc.).
 
 ### Phase 6: Appendices & Bibliography 🚧
-- ⏳ **6.1. Appendix A to E**: Basic structural cleanup.
+- 🚧 **6.1. Appendix A to E**: Basic structural cleanup.
+    - ✅ 6.1.1. Appendix A (Operator Summary).
+    - ✅ 6.1.2. Appendix B (Operators in Type 4 Functions).
+    - ⏳ 6.1.3. Appendix C (Maximising portability).
+    - ⏳ 6.1.4. Appendix D (Character sets and encodings).
+    - ⏳ 6.1.5. Appendix E (PDF Name Registry).
 - ⏳ **6.2. Appendix F to J**: Complex tables and examples.
 - ⏳ **6.3. Appendix K to O**: Technical relationships and fragments.
     - ⏳ 6.3.1. Appendix K (XFA forms).
@@ -95,8 +119,8 @@ The following criteria must be verified for each file:
 | `Chapter_12.md` | ⏳ Pending | 4.1 | |
 | `Chapter_13.md` | ⏳ Pending | 4.2 | |
 | `Chapter_14.md` | ⏳ Pending | 5.1 | Verified: Large tables and examples. |
-| `Appendix_A.md` | ⏳ Pending | 6.1 | |
-| `Appendix_B.md` | ⏳ Pending | 6.1 | |
+| `Appendix_A.md` | ✅ Completed | 6.1 | Merged fragmented table rows and integrated operators. |
+| `Appendix_B.md` | ✅ Completed | 6.1 | Fixed table structures and merged fragmented rows. |
 | `Appendix_C.md` | ⏳ Pending | 6.1 | |
 | `Appendix_D.md` | ⏳ Pending | 6.1 | |
 | `Appendix_E.md` | ⏳ Pending | 6.1 | |
