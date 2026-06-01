@@ -99,26 +99,26 @@
 | BCOCA-3-046 | For QR Code with Image, linear measurements can be specified as percentages (unit base X'64'). | ❓ |
 | BCOCA-3-047 | Table 7 shows HRI recommendations for various bar code types. | ❓ |
 | BCOCA-3-048 | Check digits are not always presented in the HRI. | ❓ |
-| BCOCA-4-001 | BCD2 subset includes additional bar code types (Australia Post, Codabar, Code 93, Code 128 (modifiers X'02', X'03'), Data Matrix (modifier X'00'), Intelligent Mail, Japan Postal, MaxiCode, PDF417, QR Code (modifier X'02'), RM4SCC). | ❓ |
+| BCOCA-4-001 | BCD2 subset includes additional bar code types (Australia Post, Codabar, Code 93, Code 128 (modifiers X'02', X'03'), Data Matrix (modifier X'00'), Intelligent Mail, Japan Postal, MaxiCode, PDF417, QR Code (modifier X'02'), RM4SCC). | ✅ |
 | BCOCA-4-002 | BCD2 subset adds support for bar code symbol suppression. | ❓ |
 | BCOCA-4-003 | BCD2 subset adds support for the Color Specification triplet in the Bar Code Data Descriptor. | ❓ |
 | BCOCA-4-004 | BCD2 subset supports the full range for font local IDs. | ✅ |
 | BCOCA-4-005 | BCD2 subset supports the full range for units per unit base. | ❓ |
-| BCOCA-4-008 | Byte 0 Unit base: Indicates the length of the measurement unit base. | ❓ |
-| BCOCA-4-009 | Byte 1: Reserved. | ❓ |
-| BCOCA-4-010 | Bytes 2–3 Xupub: Specifies the number of units per unit base in the Xbc direction. | ❓ |
-| BCOCA-4-011 | Bytes 4–5 Yupub: Specifies the number of units per unit base in the Ybc direction and must be equal to Xupub. | ❓ |
-| BCOCA-4-012 | Bytes 6–7 X extent: Width of bar code presentation space in L-units. | ❓ |
-| BCOCA-4-013 | Bytes 8–9 Y extent: Length of bar code presentation space in L-units. | ❓ |
-| BCOCA-4-014 | Bytes 10–11 Symbol width: Desired symbol width. | ❓ |
-| BCOCA-4-015 | Byte 12 Type: Bar code type. | ❓ |
-| BCOCA-4-016 | Byte 13 Modifier: Bar code modifier. | ❓ |
-| BCOCA-4-017 | Byte 14 Local ID: Font Local ID for HRI. | ❓ |
-| BCOCA-4-018 | Bytes 15–16 Color: Bar code color. | ❓ |
-| BCOCA-4-019 | Byte 17 Module width: Module width in mils. | ❓ |
-| BCOCA-4-020 | Bytes 18–19 Element height: Element height in L-units. | ❓ |
-| BCOCA-4-021 | Byte 20 Multiplier: Height multiplier. | ❓ |
-| BCOCA-4-022 | Bytes 21–22 WE:NE: Wide-to-narrow ratio. | ❓ |
+| BCOCA-4-008 | Byte 0 Unit base: Indicates the length of the measurement unit base. | ✅ |
+| BCOCA-4-009 | Byte 1: Reserved. | ✅ |
+| BCOCA-4-010 | Bytes 2–3 Xupub: Specifies the number of units per unit base in the Xbc direction. | ✅ |
+| BCOCA-4-011 | Bytes 4–5 Yupub: Specifies the number of units per unit base in the Ybc direction and must be equal to Xupub. | ✅ |
+| BCOCA-4-012 | Bytes 6–7 X extent: Width of bar code presentation space in L-units. | ✅ |
+| BCOCA-4-013 | Bytes 8–9 Y extent: Length of bar code presentation space in L-units. | ✅ |
+| BCOCA-4-014 | Bytes 10–11 Symbol width: Desired symbol width. | ✅ |
+| BCOCA-4-015 | Byte 12 Type: Bar code type. | ✅ |
+| BCOCA-4-016 | Byte 13 Modifier: Bar code modifier. | ✅ |
+| BCOCA-4-017 | Byte 14 Local ID: Font Local ID for HRI. | ✅ |
+| BCOCA-4-018 | Bytes 15–16 Color: Bar code color. | ✅ |
+| BCOCA-4-019 | Byte 17 Module width: Module width in mils. | ✅ |
+| BCOCA-4-020 | Bytes 18–19 Element height: Element height in L-units. | ✅ |
+| BCOCA-4-021 | Byte 20 Multiplier: Height multiplier. | ✅ |
+| BCOCA-4-022 | Bytes 21–22 WE:NE: Wide-to-narrow ratio. | ✅ |
 | BCOCA-4-023 | It is good practice to specify the size of the bar code presentation space large enough to include plenty of white space around the expected symbols and HRI. | ❓ |
 | BCOCA-4-024 | For desired symbol width, the specified module width value (byte 17) is ignored. | ❓ |
 | BCOCA-4-025 | BCOCA receiver calculates an optimal module width value to produce the widest symbol that fits into the desired width. | ❓ |
@@ -159,17 +159,38 @@
 | BCOCA-4-060 | Bar Code Type X'25' (Royal Mail Mailmark) is not in BCD1 or BCD2 subsets. | ✅ |
 | BCOCA-4-061 | Bar Code Type X'26' (Aztec Code) is not in BCD1 or BCD2 subsets. | ✅ |
 | BCOCA-4-062 | Bar Code Type X'27' (Han Xin Code) is not in BCD1 or BCD2 subsets. | ✅ |
-| BCOCA-4-307 | Bar Code Symbol Data (BSA) data structure. | ❓ |
-| BCOCA-4-308 | Byte 0: Bar code flags. | ❓ |
-| BCOCA-4-309 | Bit 0: HRI presentation. | ❓ |
-| BCOCA-4-310 | Bits 1–2: Position of HRI. | ❓ |
-| BCOCA-4-311 | Bit 3: SSCAST asterisk presentation. | ❓ |
-| BCOCA-4-312 | Bit 4: Reserved/Retired. | ❓ |
-| BCOCA-4-313 | Bit 5: Suppress bar code symbol. | ❓ |
-| BCOCA-4-314 | Bit 6: Suppress trailing blanks. | ❓ |
-| BCOCA-4-315 | Bit 7: Reserved/Retired. | ❓ |
-| BCOCA-4-316 | Bytes 1–2: X offset of the symbol origin. | ❓ |
-| BCOCA-4-317 | Bytes 3–4: Y offset of the symbol origin. | ❓ |
-| BCOCA-4-318 | Bytes 5–n: Special-function information. | ❓ |
-| BCOCA-4-319 | Bytes n+1 to end: Bar code data. | ❓ |
-| BCOCA-4-320 | Bar Code Symbol Data (BSA) description and exceptions. | ❓ |
+| BCOCA-4-307 | Bar Code Symbol Data (BSA) data structure. | ✅ |
+| BCOCA-4-308 | Byte 0: Bar code flags. | ✅ |
+| BCOCA-4-309 | Bit 0: HRI presentation. | ✅ |
+| BCOCA-4-310 | Bits 1–2: Position of HRI. | ✅ |
+| BCOCA-4-311 | Bit 3: SSCAST asterisk presentation. | ✅ |
+| BCOCA-4-312 | Bit 4: Reserved/Retired. | ✅ |
+| BCOCA-4-313 | Bit 5: Suppress bar code symbol. | ✅ |
+| BCOCA-4-314 | Bit 6: Suppress trailing blanks. | ✅ |
+| BCOCA-4-315 | Bit 7: Reserved/Retired. | ✅ |
+| BCOCA-4-316 | Bytes 1–2: X offset of the symbol origin. | ✅ |
+| BCOCA-4-317 | Bytes 3–4: Y offset of the symbol origin. | ✅ |
+| BCOCA-4-318 | Bytes 5–n: Special-function information. | ✅ |
+| BCOCA-4-319 | Bytes n+1 to end: Bar code data. | ✅ |
+| BCOCA-4-320 | Bar Code Symbol Data (BSA) description and exceptions. | ✅ |
+| BCOCA-5-001 | EC-0611: A desired symbol width was specified, but a bar code symbol cannot be generated that fits within the specified width. | ❓ |
+| BCOCA-5-002 | Specification-Check Exceptions overview. | ✅ |
+| BCOCA-5-003 | EC-0F0A: Incompatible Data Matrix parameters: structured append with reader programming or macro. | ❓ |
+| BCOCA-5-004 | EC-0F0A: Incompatible Data Matrix parameters: GS1 FNC1 with industry FNC1, reader programming or macro. | ❓ |
+| BCOCA-5-005 | EC-0F0A: Incompatible Data Matrix parameters: industry FNC1 with GS1 FNC1, reader programming or macro. | ❓ |
+| BCOCA-5-006 | EC-0F0A: Incompatible Data Matrix parameters: reader programming with structured append, FNC1 or macro. | ❓ |
+| BCOCA-5-007 | EC-0F0A: Incompatible Data Matrix parameters: macro with structured append, FNC1 or reader programming. | ❓ |
+| BCOCA-5-008 | Specification-Check Exceptions cont. | ❓ |
+| BCOCA-5-009 | Specification-Check Exceptions cont. | ❓ |
+| BCOCA-5-010 | Specification-Check Exceptions cont. | ❓ |
+| BCOCA-5-011 | EC-1100: Bar code extends outside the bar code presentation space. | ❓ |
+| BCOCA-5-012 | EC-1100: Bar code extends outside the intersection of the mapped bar code presentation space and the controlling environment object area. | ❓ |
+| BCOCA-5-013 | EC-1100: Bar code extends outside the maximum presentation area. | ❓ |
+| BCOCA-5-014 | EC-1200: FNC1 is not the first data character (for UCC/EAN 128 symbols only). | ❓ |
+| BCOCA-5-015 | EC-1200: Invalid application identifier (ai) value encountered. | ❓ |
+| BCOCA-5-016 | EC-1200: Data for an ai doesn't match the ai definition. | ❓ |
+| BCOCA-5-017 | EC-1200: Insufficient (or no) data following an ai. | ❓ |
+| BCOCA-5-018 | EC-1200: Too much data for an ai. | ❓ |
+| BCOCA-5-019 | EC-1200: Invalid use of FNC1 character. | ❓ |
+| BCOCA-5-020 | Specification-Check Exceptions final. | ❓ |
+| BCOCA-5-021 | Data-Check Exceptions (EC-2100): An invalid or undefined character has been detected in the bar code data. | ❓ |

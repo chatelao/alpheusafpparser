@@ -86,10 +86,10 @@ Cover remaining specialized areas and refactored logic.
     - 🚧 **4.1.1 CMOCA Verification:** Implement and tag tests for all 1,085 CMOCA requirements (Initial verification implemented for CMR Header and Property fields).
     - 🚧 **4.1.2 BCOCA Verification:** Implement and tag tests for all 1,237 BCOCA requirements.
         - ✅ **4.1.2.1 Chapters 1–3:** Initial architectural and structural verification (completed in `TEST_COVERAGE_BCOCA.md`).
-        - 🚧 **4.1.2.2 Chapter 4:** Data Structures (Syntax, Semantics, Pragmatics).
-            - ⏳ **4.1.2.2.1 BDD (BSD) Field & Subsetting (BCD1/BCD2) Verification.**
-            - ⏳ **4.1.2.2.2 BDA (BSA) Field & Data Verification.**
-        - ⏳ **4.1.2.3 Chapter 5:** Exception Handling.
+        - ✅ **4.1.2.2 Chapter 4:** Data Structures (Syntax, Semantics, Pragmatics) (completed in `BCOCAChapter4Test.java`).
+            - ✅ **4.1.2.2.1 BDD (BSD) Field & Subsetting (BCD1/BCD2) Verification.**
+            - ✅ **4.1.2.2.2 BDA (BSA) Field & Data Verification.**
+        - 🚧 **4.1.2.3 Chapter 5:** Exception Handling (Initial verification implemented in `BCOCAChapter5Test.java`).
         - ⏳ **4.1.2.4 Chapter 6:** Compliance.
     - 🚧 **4.1.3 PTOCA Verification:** Implement and tag tests for all 1,488 PTOCA requirements (Initial verification and Chapter 6 PT1-PT4 subset ranges implemented in `TEST_COVERAGE_PTOCA.md`).
     - ⏳ **4.1.4 FOCA Verification:** Implement and tag tests for all 1,391 FOCA requirements.
