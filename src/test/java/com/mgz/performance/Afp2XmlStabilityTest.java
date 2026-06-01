@@ -30,6 +30,32 @@ public class Afp2XmlStabilityTest {
         assertEquals(0, result, "Parallel conversion of 1,000 page AFP failed");
     }
 
+    @Test
+    public void test10000PageParallelStability() throws Exception {
+        File stressAfp = tempDir.resolve("stress_10000.afp").toFile();
+        generateStressAfp(stressAfp, 10000);
+
+        File outputXml = tempDir.resolve("stress_10000.xml").toFile();
+
+        // Run conversion in parallel mode
+        int result = Afp2Xml.execute(new String[]{"--parallel", stressAfp.getAbsolutePath(), outputXml.getAbsolutePath()});
+
+        assertEquals(0, result, "Parallel conversion of 10,000 page AFP failed");
+    }
+
+    @Test
+    public void test100000PageParallelStability() throws Exception {
+        File stressAfp = tempDir.resolve("stress_100000.afp").toFile();
+        generateStressAfp(stressAfp, 100000);
+
+        File outputXml = tempDir.resolve("stress_100000.xml").toFile();
+
+        // Run conversion in parallel mode
+        int result = Afp2Xml.execute(new String[]{"--parallel", stressAfp.getAbsolutePath(), outputXml.getAbsolutePath()});
+
+        assertEquals(0, result, "Parallel conversion of 100,000 page AFP failed");
+    }
+
     private void generateStressAfp(File output, int pageCount) throws IOException {
         byte[] nameEbcdic = {(byte)0xC4, (byte)0xD6, (byte)0xC3, (byte)0xF0, (byte)0xF0, (byte)0xF0, (byte)0xF0, (byte)0xF1};
         byte[] bdt = {0x5A, 0x00, 0x10, (byte)0xD3, (byte)0xA8, (byte)0xA8, 0x00, 0x00, 0x00};

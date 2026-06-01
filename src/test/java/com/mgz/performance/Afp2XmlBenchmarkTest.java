@@ -4,7 +4,12 @@ import com.mgz.cli.Afp2Xml;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import java.io.File;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryPoolMXBean;
+import java.lang.management.MemoryUsage;
 import java.nio.file.Path;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -37,6 +42,12 @@ public class Afp2XmlBenchmarkTest {
     }
 
     private void runModeBenchmark(String modeName, String[] args, long fileSize) throws Exception {
+        // Reset peak memory usage before measurement
+        List<MemoryPoolMXBean> pools = ManagementFactory.getMemoryPoolMXBeans();
+        for (MemoryPoolMXBean pool : pools) {
+            pool.resetPeakUsage();
+        }
+
         // Warm-up
         for (int i = 0; i < WARMUP_ITERATIONS; i++) {
             Afp2Xml.execute(args);
@@ -55,6 +66,18 @@ public class Afp2XmlBenchmarkTest {
         double avgDurationSeconds = (totalDuration / (double) MEASURE_ITERATIONS) / 1_000_000_000.0;
         double throughputMBs = (fileSize / (1024.0 * 1024.0)) / avgDurationSeconds;
 
-        System.out.printf("%s mode average: %.3f seconds (%.2f MB/s)%n", modeName, avgDurationSeconds, throughputMBs);
+        // Calculate peak heap usage
+        long peakHeapUsage = 0;
+        for (MemoryPoolMXBean pool : pools) {
+            if (pool.getType() == java.lang.management.MemoryType.HEAP) {
+                MemoryUsage usage = pool.getPeakUsage();
+                if (usage != null) {
+                    peakHeapUsage += usage.getUsed();
+                }
+            }
+        }
+
+        System.out.printf("%s mode average: %.3f seconds (%.2f MB/s), Peak Heap: %.2f MB%n",
+            modeName, avgDurationSeconds, throughputMBs, peakHeapUsage / (1024.0 * 1024.0));
     }
 }
