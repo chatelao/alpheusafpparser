@@ -38,8 +38,12 @@ import com.itextpdf.layout.element.Paragraph;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.base.IRepeatingGroup;
+import com.mgz.afp.bcoca.BBC_BeginBarCodeObject;
+import com.mgz.afp.bcoca.BDA_BarCodeData;
 import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor;
 import com.mgz.afp.enums.AFPUnitBase;
+import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
+import com.mgz.afp.ioca.IPD_ImagePictureData;
 import com.mgz.afp.goca.GAD_DrawingOrder;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCBOX_BoxAtCurrentPosition;
@@ -73,13 +77,16 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GSMX_SetMix;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPCOL_SetProcessColor;
 import com.mgz.afp.goca.GAD_GraphicsData;
 import com.mgz.afp.modca.BDT_BeginDocument;
+import com.mgz.afp.modca.BIM_BeginImageObject;
 import com.mgz.afp.modca.BNG_BeginNamedPageGroup;
 import com.mgz.afp.modca.BPG_BeginPage;
 import com.mgz.afp.modca.EDT_EndDocument;
+import com.mgz.afp.modca.EIM_EndImageObject;
 import com.mgz.afp.modca.ENG_EndNamedPageGroup;
 import com.mgz.afp.modca.EPG_EndPage;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format1;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
+import com.mgz.afp.modca.MDR_MapDataResource;
 import com.mgz.afp.modca.MMO_MapMediumOverlay;
 import com.mgz.afp.modca.MPS_MapPageSegment;
 import com.mgz.afp.modca.PGD_PageDescriptor;
@@ -93,6 +100,7 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.GraphicCharacters;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMB_RelativeMoveBaseline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMI_RelativeMoveInline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SBI_SetBaselineIncrement;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.TBM_TemporaryBaselineMove;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SCFL_SetCodedFontLocal;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SEC_SetExtendedTextColor;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SIA_SetIntercharacterAdjustment;
@@ -126,12 +134,14 @@ public class PdfHandler implements StructuredFieldHandler {
   private final Set<String> mmoResources = new HashSet<>();
   private final Set<String> mpsResources = new HashSet<>();
   private final Map<Short, String> fontMap = new HashMap<>();
+  private final PdfFontRegistry fontRegistry = new PdfFontRegistry();
   private final PdfDocument pdfDoc;
   private final Document document;
   private final PdfDictionary dpartRoot;
   private final PdfTextState textState;
   private final PdfGraphicsState graphicsState;
   private final PdfBarcodeState barcodeState;
+  private final PdfImageState imageState;
   private PdfFont fallbackFont;
   private PdfPage currentPage;
   private PdfCanvas currentCanvas;
@@ -146,6 +156,7 @@ public class PdfHandler implements StructuredFieldHandler {
     this.textState = new PdfTextState();
     this.graphicsState = new PdfGraphicsState();
     this.barcodeState = new PdfBarcodeState();
+    this.imageState = new PdfImageState();
 
     try {
       this.fallbackFont = PdfFontFactory.createFont(StandardFonts.HELVETICA);
@@ -173,7 +184,11 @@ public class PdfHandler implements StructuredFieldHandler {
 
     if (sf.isBeginSF()) {
       structureStack.push(sf);
-      if (sf instanceof BDT_BeginDocument || sf instanceof BNG_BeginNamedPageGroup || sf instanceof BPG_BeginPage) {
+      if (sf instanceof BIM_BeginImageObject) {
+        imageState.startNewImage();
+      } else if (sf instanceof BBC_BeginBarCodeObject) {
+        barcodeState.startNewBarcode();
+      } else if (sf instanceof BDT_BeginDocument || sf instanceof BNG_BeginNamedPageGroup || sf instanceof BPG_BeginPage) {
         PdfDictionary dpart = new PdfDictionary();
         dpart.makeIndirect(pdfDoc);
         dpart.put(PdfName.Type, PdfName.DPart);
@@ -197,6 +212,7 @@ public class PdfHandler implements StructuredFieldHandler {
           textState.reset();
           graphicsState.reset();
           barcodeState.reset();
+          imageState.reset();
           currentCanvas.setFillColor(DeviceRgb.BLACK);
 
           // Apply default page size and transformation if defined (from PGD)
@@ -213,6 +229,12 @@ public class PdfHandler implements StructuredFieldHandler {
           if (!dpartStack.isEmpty()) {
             dpartStack.pop();
           }
+        } else if (begin instanceof BIM_BeginImageObject) {
+          imageState.setInImageObject(false);
+          // TODO: Trigger image conversion and placement
+        } else if (begin instanceof BBC_BeginBarCodeObject) {
+          barcodeState.setInBarcodeObject(false);
+          // TODO: Trigger barcode rendering
         }
       }
     } else if (sf instanceof TLE_TagLogicalElement tle) {
@@ -282,6 +304,28 @@ public class PdfHandler implements StructuredFieldHandler {
           }
         }
       }
+    } else if (sf instanceof MDR_MapDataResource mdr) {
+      if (mdr.getRepeatingGroups() != null) {
+        for (IRepeatingGroup irg : mdr.getRepeatingGroups()) {
+          if (irg instanceof MDR_MapDataResource.MDR_RepeatingGroup rg && rg.getTriplets() != null) {
+            Short lid = null;
+            String name = null;
+            for (Triplet t : rg.getTriplets()) {
+              if (t instanceof Triplet.ResourceLocalIdentifier rli
+                  && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
+                lid = rli.getResourceLocalID();
+              } else if (t instanceof Triplet.FullyQualifiedName fqn
+                  && (fqn.getType() == Triplet.GlobalID_Use.CodedFontNameReference
+                  || fqn.getType() == Triplet.GlobalID_Use.DataObjectExternalResourceReference)) {
+                name = fqn.getNameAsString();
+              }
+            }
+            if (lid != null && name != null) {
+              fontMap.put(lid, name);
+            }
+          }
+        }
+      }
     } else if (sf instanceof PGD_PageDescriptor pgd) {
       float scaleX = CoordinateTransformer.getScaleFactor(pgd.getxUnitBase(), pgd.getxUnitsPerUnitBase());
       float scaleY = CoordinateTransformer.getScaleFactor(pgd.getyUnitBase(), pgd.getyUnitsPerUnitBase());
@@ -321,6 +365,18 @@ public class PdfHandler implements StructuredFieldHandler {
       barcodeState.setElementHeight(bdd.getElementHeight());
       barcodeState.setHeightMultiplier(bdd.getHeightMultiplier());
       barcodeState.setWideToNarrowRatio(bdd.getWideToNarrowRatio());
+    } else if (sf instanceof BDA_BarCodeData bda) {
+      if (barcodeState.isInBarcodeObject()) {
+        barcodeState.addBarcodeData(bda);
+      }
+    } else if (sf instanceof IDD_ImageDataDescriptor idd) {
+      if (imageState.isInImageObject()) {
+        imageState.setDescriptor(idd);
+      }
+    } else if (sf instanceof IPD_ImagePictureData ipd) {
+      if (imageState.isInImageObject()) {
+        imageState.addImageSegment(ipd);
+      }
     }
 
     // TODO: Implement iText 9 based translation logic
@@ -715,8 +771,10 @@ public class PdfHandler implements StructuredFieldHandler {
       textState.setInlinePos(textState.getInlinePos() + rmi.getIncrement());
     } else if (cs instanceof AMB_AbsoluteMoveBaseline amb) {
       textState.setBaselinePos(amb.getDisplacement());
+      textState.setHasEstablishedBaseline(false);
     } else if (cs instanceof RMB_RelativeMoveBaseline rmb) {
       textState.setBaselinePos(textState.getBaselinePos() + rmb.getIncrement());
+      textState.setHasEstablishedBaseline(false);
     } else if (cs instanceof STO_SetTextOrientation sto) {
       textState.setIOrientation(sto.getxOrientation());
       textState.setBOrientation(sto.getyOrientation());
@@ -747,6 +805,27 @@ public class PdfHandler implements StructuredFieldHandler {
     } else if (cs instanceof BLN_BeginLine) {
       textState.setInlinePos(textState.getInlineMargin());
       textState.setBaselinePos(textState.getBaselinePos() + textState.getBaselineIncrement());
+      textState.setHasEstablishedBaseline(false);
+    } else if (cs instanceof TBM_TemporaryBaselineMove tbm) {
+      if (tbm.getDirection() == TBM_TemporaryBaselineMove.TBM_Direction.MoveAwayFromIAxis
+          || tbm.getDirection() == TBM_TemporaryBaselineMove.TBM_Direction.MoveTowardIAxis) {
+        if (!textState.isHasEstablishedBaseline()) {
+          textState.setEstablishedBaselinePos(textState.getBaselinePos());
+          textState.setHasEstablishedBaseline(true);
+        }
+        int increment = (tbm.getTemporaryBaselineIncrement() != null)
+            ? tbm.getTemporaryBaselineIncrement() : textState.getBaselineIncrement();
+        if (tbm.getDirection() == TBM_TemporaryBaselineMove.TBM_Direction.MoveAwayFromIAxis) {
+          textState.setBaselinePos(textState.getBaselinePos() + increment);
+        } else {
+          textState.setBaselinePos(textState.getBaselinePos() - increment);
+        }
+      } else if (tbm.getDirection() == TBM_TemporaryBaselineMove.TBM_Direction.ReturnToEstablishedBaseline) {
+        if (textState.isHasEstablishedBaseline()) {
+          textState.setBaselinePos(textState.getEstablishedBaselinePos());
+          textState.setHasEstablishedBaseline(false);
+        }
+      }
     } else if (cs instanceof TRN_TransparentData trn) {
       renderText(trn.getTransparentData());
     } else if (cs instanceof GraphicCharacters gc) {
@@ -762,10 +841,7 @@ public class PdfHandler implements StructuredFieldHandler {
     }
 
     try {
-      PdfFont font = fallbackFont;
-      if (font == null) {
-        font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
-      }
+      PdfFont font = resolveFont(textState.getFontLid());
 
       int afpX = CoordinateTransformer.getAfpX(textState.getInlinePos(), textState.getBaselinePos(),
           textState.getIOrientation(), textState.getBOrientation());
@@ -813,12 +889,55 @@ public class PdfHandler implements StructuredFieldHandler {
   }
 
   /**
+   * Resolves the font for the given Local ID (LID).
+   *
+   * @param lid the local ID
+   * @return the resolved {@link PdfFont}
+   */
+  private PdfFont resolveFont(short lid) {
+    String fontName = fontMap.get(lid);
+    if (fontName != null) {
+      PdfFont font = fontRegistry.getFont(fontName);
+      if (font != null) {
+        return font;
+      }
+    }
+
+    if (fallbackFont == null) {
+      try {
+        fallbackFont = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+      } catch (Exception e) {
+        throw new RuntimeException("Failed to create fallback font", e);
+      }
+    }
+    return fallbackFont;
+  }
+
+  /**
    * Returns an unmodifiable map of the Coded Font Local IDs to font resource names.
    *
    * @return the font map
    */
   public Map<Short, String> getFontMap() {
     return Collections.unmodifiableMap(fontMap);
+  }
+
+  /**
+   * Returns the font registry.
+   *
+   * @return the font registry
+   */
+  public PdfFontRegistry getFontRegistry() {
+    return fontRegistry;
+  }
+
+  /**
+   * Sets the fallback font.
+   *
+   * @param fallbackFont the fallback font
+   */
+  public void setFallbackFont(PdfFont fallbackFont) {
+    this.fallbackFont = fallbackFont;
   }
 
   /**
@@ -882,5 +1001,14 @@ public class PdfHandler implements StructuredFieldHandler {
    */
   public PdfBarcodeState getBarcodeState() {
     return barcodeState;
+  }
+
+  /**
+   * Returns the current IOCA image state.
+   *
+   * @return the image state
+   */
+  public PdfImageState getImageState() {
+    return imageState;
   }
 }

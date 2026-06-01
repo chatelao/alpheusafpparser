@@ -21,7 +21,10 @@ package com.mgz.pdf;
 
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.StructuredFieldIntroducer;
+import com.mgz.afp.bcoca.BBC_BeginBarCodeObject;
+import com.mgz.afp.bcoca.BDA_BarCodeData;
 import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor;
+import com.mgz.afp.bcoca.EBC_EndBarCodeObject;
 import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.enums.SFTypeID;
 import com.mgz.afp.goca.GAD_DrawingOrder;
@@ -54,12 +57,17 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GSPT_SetPatternSymbol;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLT_SetLineType;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLW_SetLineWidth;
 import com.mgz.afp.goca.GAD_GraphicsData;
+import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
+import com.mgz.afp.ioca.IPD_ImagePictureData;
 import com.mgz.afp.modca.BDT_BeginDocument;
+import com.mgz.afp.modca.BIM_BeginImageObject;
 import com.mgz.afp.modca.BPG_BeginPage;
 import com.mgz.afp.modca.EDT_EndDocument;
+import com.mgz.afp.modca.EIM_EndImageObject;
 import com.mgz.afp.modca.EPG_EndPage;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format1;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
+import com.mgz.afp.modca.MDR_MapDataResource;
 import com.mgz.afp.modca.MMO_MapMediumOverlay;
 import com.mgz.afp.modca.MPS_MapPageSegment;
 import com.mgz.afp.modca.PGD_PageDescriptor;
@@ -87,8 +95,12 @@ import com.mgz.afp.enums.AFPColorSpace;
 import com.mgz.afp.enums.AFPColorValue;
 import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.triplets.Triplet;
+import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -131,6 +143,52 @@ public class PdfHandlerStructureTest {
 
     handler.handle(edt);
     assertEquals(0, handler.getStructureDepth());
+  }
+
+  @Test
+  public void testMdrFontTracking() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    MDR_MapDataResource mdr = new MDR_MapDataResource();
+    MDR_MapDataResource.MDR_RepeatingGroup rg = new MDR_MapDataResource.MDR_RepeatingGroup();
+
+    Triplet.ResourceLocalIdentifier rli = new Triplet.ResourceLocalIdentifier();
+    rli.setTripletID(Triplet.TripletID.ResourceLocalIdentifier);
+    rli.setResourceType(Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont);
+    rli.setResourceLocalID((short) 10);
+    rg.addTriplet(rli);
+
+    Triplet.FullyQualifiedName fqn = new Triplet.FullyQualifiedName();
+    fqn.setTripletID(Triplet.TripletID.FullyQualifiedName);
+    fqn.setType(Triplet.GlobalID_Use.CodedFontNameReference);
+    fqn.setNameAsString("TrueTypeFont");
+    rg.addTriplet(fqn);
+
+    mdr.addRepeatingGroup(rg);
+
+    // Add another RG for DataObjectExternalResourceReference (common for TrueType in MDR)
+    MDR_MapDataResource.MDR_RepeatingGroup rg2 = new MDR_MapDataResource.MDR_RepeatingGroup();
+
+    Triplet.ResourceLocalIdentifier rli2 = new Triplet.ResourceLocalIdentifier();
+    rli2.setTripletID(Triplet.TripletID.ResourceLocalIdentifier);
+    rli2.setResourceType(Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont);
+    rli2.setResourceLocalID((short) 11);
+    rg2.addTriplet(rli2);
+
+    Triplet.FullyQualifiedName fqn2 = new Triplet.FullyQualifiedName();
+    fqn2.setTripletID(Triplet.TripletID.FullyQualifiedName);
+    fqn2.setType(Triplet.GlobalID_Use.DataObjectExternalResourceReference);
+    fqn2.setNameAsString("OtherTrueTypeFont");
+    rg2.addTriplet(fqn2);
+
+    mdr.addRepeatingGroup(rg2);
+
+    handler.handle(mdr);
+
+    Map<Short, String> fontMap = handler.getFontMap();
+    assertEquals(2, fontMap.size());
+    assertEquals("TrueTypeFont", fontMap.get((short) 10));
+    assertEquals("OtherTrueTypeFont", fontMap.get((short) 11));
   }
 
   @Test
@@ -872,9 +930,141 @@ public class PdfHandlerStructureTest {
     assertEquals(0, state2.getBarcodeModifier());
   }
 
+  @Test
+  public void testFontResolution() throws Exception {
+    PdfHandler handler = new PdfHandler(new ByteArrayOutputStream());
+
+    // 1. Setup font mapping
+    MCF_MapCodedFont_Format1 mcf1 = new MCF_MapCodedFont_Format1();
+    MCF_MapCodedFont_Format1.MCF_RepeatingGroup rg1 = new MCF_MapCodedFont_Format1.MCF_RepeatingGroup();
+    rg1.setCodedFontLocalID((short) 1);
+    rg1.setCodedFontName("X0H200");
+    mcf1.addRepeatingGroup(rg1);
+    handler.handle(mcf1);
+
+    // 2. Register font in registry
+    PdfFont font = PdfFontFactory.createFont(StandardFonts.COURIER);
+    handler.getFontRegistry().registerFont("X0H200", font);
+
+    // 3. Trigger text rendering which uses font resolution
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    PTX_PresentationTextData ptx = new PTX_PresentationTextData();
+    ptx.setStructuredFieldIntroducer(createSfi(SFTypeID.PTX_PresentationTextData));
+
+    SCFL_SetCodedFontLocal scfl = new SCFL_SetCodedFontLocal();
+    scfl.setCodedFontLocalID((short) 1);
+    ptx.addControlSequence(scfl);
+
+    TRN_TransparentData trn = new TRN_TransparentData();
+    trn.setTransparentData("Test");
+    ptx.addControlSequence(trn);
+
+    // This calls resolveFont internally
+    handler.handle(ptx);
+
+    // Verification: We can't easily check which font was used on the canvas without mocking
+    // but we've verified that no exceptions were thrown and the logic is integrated.
+    assertEquals("X0H200", handler.getFontMap().get((short) 1));
+    assertTrue(handler.getFontRegistry().hasFont("X0H200"));
+  }
+
+  @Test
+  public void testIocaTracking() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    // BIM: Begin Image Object
+    BIM_BeginImageObject bim = new BIM_BeginImageObject();
+    bim.setStructuredFieldIntroducer(createSfi(SFTypeID.BIM_BeginImageObject));
+    handler.handle(bim);
+
+    assertTrue(handler.getImageState().isInImageObject());
+
+    // IDD: Image Data Descriptor
+    IDD_ImageDataDescriptor idd = new IDD_ImageDataDescriptor();
+    idd.setStructuredFieldIntroducer(createSfi(SFTypeID.IDD_ImageDataDescriptor));
+    idd.setUnitBase(AFPUnitBase.Inches10);
+    idd.setxImagePointsPerUnitBase((short) 3000);
+    idd.setyImagePointsPerUnitBase((short) 3000);
+    handler.handle(idd);
+
+    assertEquals(idd, handler.getImageState().getDescriptor());
+
+    // IPD: Image Picture Data
+    IPD_ImagePictureData ipd1 = new IPD_ImagePictureData();
+    ipd1.setStructuredFieldIntroducer(createSfi(SFTypeID.IPD_ImagePictureData));
+    handler.handle(ipd1);
+
+    IPD_ImagePictureData ipd2 = new IPD_ImagePictureData();
+    ipd2.setStructuredFieldIntroducer(createSfi(SFTypeID.IPD_ImagePictureData));
+    handler.handle(ipd2);
+
+    assertEquals(2, handler.getImageState().getImageSegments().size());
+    assertEquals(ipd1, handler.getImageState().getImageSegments().get(0));
+    assertEquals(ipd2, handler.getImageState().getImageSegments().get(1));
+
+    // EIM: End Image Object
+    EIM_EndImageObject eim = new EIM_EndImageObject();
+    eim.setStructuredFieldIntroducer(createSfi(SFTypeID.EIM_EndImageObject));
+    handler.handle(eim);
+
+    assertTrue(!handler.getImageState().isInImageObject());
+  }
+
+  @Test
+  public void testBcocaDataTracking() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    // BBC: Begin Bar Code Object
+    BBC_BeginBarCodeObject bbc = new BBC_BeginBarCodeObject();
+    bbc.setStructuredFieldIntroducer(createSfi(SFTypeID.BBC_BeginBarCodeObject));
+    handler.handle(bbc);
+
+    assertTrue(handler.getBarcodeState().isInBarcodeObject());
+
+    // BDD: Bar Code Data Descriptor
+    BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+    bdd.setStructuredFieldIntroducer(createSfi(SFTypeID.BDD_BarCodeDataDescriptor));
+    bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode);
+    handler.handle(bdd);
+
+    assertEquals(BDD_BarCodeDataDescriptor.BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode, handler.getBarcodeState().getBarcodeType());
+
+    // BDA: Bar Code Data
+    BDA_BarCodeData bda1 = new BDA_BarCodeData();
+    bda1.setStructuredFieldIntroducer(createSfi(SFTypeID.BDA_BarCodeData));
+    handler.handle(bda1);
+
+    BDA_BarCodeData bda2 = new BDA_BarCodeData();
+    bda2.setStructuredFieldIntroducer(createSfi(SFTypeID.BDA_BarCodeData));
+    handler.handle(bda2);
+
+    assertEquals(2, handler.getBarcodeState().getBarcodeData().size());
+    assertEquals(bda1, handler.getBarcodeState().getBarcodeData().get(0));
+    assertEquals(bda2, handler.getBarcodeState().getBarcodeData().get(1));
+
+    // EBC: End Bar Code Object
+    EBC_EndBarCodeObject ebc = new EBC_EndBarCodeObject();
+    ebc.setStructuredFieldIntroducer(createSfi(SFTypeID.EBC_EndBarCodeObject));
+    handler.handle(ebc);
+
+    assertTrue(!handler.getBarcodeState().isInBarcodeObject());
+  }
+
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {
     StructuredFieldIntroducer sfi = new StructuredFieldIntroducer();
     sfi.setSFTypeID(typeID);
+    sfi.setFlagByte(java.util.EnumSet.noneOf(com.mgz.afp.enums.SFFlag.class));
     return sfi;
   }
 }

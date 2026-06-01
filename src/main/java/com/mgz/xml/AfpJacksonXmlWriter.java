@@ -41,6 +41,14 @@ import com.mgz.afp.modca.MMC_MediumModificationControl;
 import com.mgz.afp.modca.MGO_MapGraphicsObject;
 import com.mgz.afp.modca.MDR_MapDataResource;
 import com.mgz.afp.modca.MIO_MapImageObject;
+import com.mgz.afp.modca.BDI_BeginDocumentIndex;
+import com.mgz.afp.modca.BMO_BeginOverlay;
+import com.mgz.afp.modca.BPS_BeginPageSegment;
+import com.mgz.afp.modca.BRG_BeginResourceGroup;
+import com.mgz.afp.modca.EDI_EndDocumentIndex;
+import com.mgz.afp.modca.EMO_EndOverlay;
+import com.mgz.afp.modca.EPS_EndPageSegment;
+import com.mgz.afp.modca.ERG_EndResourceGroup;
 import com.mgz.afp.modca.MPO_MapPageOverlay;
 import com.mgz.afp.modca.MSU_MapSuppression;
 import com.mgz.afp.modca.NOP_NoOperation;
@@ -49,6 +57,10 @@ import com.mgz.afp.modca.OBP_ObjectAreaPosition;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
 import com.mgz.afp.ptoca.PTX_PresentationTextData;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
+import com.mgz.afp.bcoca.BBC_BeginBarCodeObject;
+import com.mgz.afp.bcoca.BDA_BarCodeData;
+import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor;
+import com.mgz.afp.bcoca.EBC_EndBarCodeObject;
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.NonClosingOutputStream;
@@ -249,10 +261,26 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeMpoDirectly(mpo);
     } else if (sf instanceof com.mgz.afp.modca.BDT_BeginDocument bdt) {
       writeBdtDirectly(bdt);
+    } else if (sf instanceof BDI_BeginDocumentIndex bdi) {
+      writeNameAndTripletsDirectly(bdi, "BDI_BeginDocumentIndex");
+    } else if (sf instanceof BMO_BeginOverlay bmo) {
+      writeBmoDirectly(bmo);
+    } else if (sf instanceof BPS_BeginPageSegment bps) {
+      writeBpsDirectly(bps);
+    } else if (sf instanceof BRG_BeginResourceGroup brg) {
+      writeNameAndTripletsDirectly(brg, "BRG_BeginResourceGroup");
     } else if (sf instanceof com.mgz.afp.modca.BNG_BeginNamedPageGroup bng) {
       writeNameAndTripletsDirectly(bng, "BNG_BeginNamedPageGroup");
     } else if (sf instanceof com.mgz.afp.modca.BPG_BeginPage bpg) {
       writeNameAndTripletsDirectly(bpg, "BPG_BeginPage");
+    } else if (sf instanceof EDI_EndDocumentIndex edi) {
+      writeNameDirectly(edi, "EDI_EndDocumentIndex");
+    } else if (sf instanceof EMO_EndOverlay emo) {
+      writeNameAndTripletsDirectly(emo, "EMO_EndOverlay");
+    } else if (sf instanceof EPS_EndPageSegment eps) {
+      writeNameDirectly(eps, "EPS_EndPageSegment");
+    } else if (sf instanceof ERG_EndResourceGroup erg) {
+      writeNameAndTripletsDirectly(erg, "ERG_EndResourceGroup");
     } else if (sf instanceof com.mgz.afp.modca.EDT_EndDocument edt) {
       writeNameAndTripletsDirectly(edt, "EDT_EndDocument");
     } else if (sf instanceof com.mgz.afp.modca.ENG_EndNamedPageGroup eng) {
@@ -289,6 +317,14 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeTripletsAndTextDirectly(mfc, "MFC_MediumFinishingControl");
     } else if (sf instanceof com.mgz.afp.modca.PFC_PresentationFidelityControl pfc) {
       writeTripletsAndTextDirectly(pfc, "PFC_PresentationFidelityControl");
+    } else if (sf instanceof BBC_BeginBarCodeObject bbc) {
+      writeNameAndTripletsDirectly(bbc, "BBC_BeginBarCodeObject");
+    } else if (sf instanceof EBC_EndBarCodeObject ebc) {
+      writeNameAndTripletsDirectly(ebc, "EBC_EndBarCodeObject");
+    } else if (sf instanceof BDD_BarCodeDataDescriptor bdd) {
+      writeBddDirectly(bdd);
+    } else if (sf instanceof BDA_BarCodeData bda) {
+      writeBdaDirectly(bda);
     } else {
       String rootName = sf.getClass().getSimpleName();
       String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
@@ -1998,6 +2034,46 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.endWrite();
   }
 
+  private void writeBmoDirectly(BMO_BeginOverlay bmo) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BMO");
+    baseXsw.writeStartElement("BMO_BeginOverlay");
+    String indent2 = XmlIndenter.getIndent(2);
+    String indent1 = XmlIndenter.getIndent(1);
+    writeElement(baseXsw, indent2, "name", bmo.getName());
+    if (bmo.getTriplets() != null && !bmo.getTriplets().isEmpty()) {
+      for (Triplet triplet : bmo.getTriplets()) {
+        baseXsw.writeCharacters(indent2);
+        writeTriplet(baseXsw, triplet, indent2);
+      }
+    }
+    if (bmo.getText() != null) {
+      writeElement(baseXsw, indent2, "text", bmo.getText());
+    }
+    baseXsw.writeCharacters(indent1);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeBpsDirectly(BPS_BeginPageSegment bps) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BPS");
+    baseXsw.writeStartElement("BPS_BeginPageSegment");
+    String indent2 = XmlIndenter.getIndent(2);
+    String indent1 = XmlIndenter.getIndent(1);
+    writeElement(baseXsw, indent2, "name", bps.getName());
+    if (bps.getTriplets() != null && !bps.getTriplets().isEmpty()) {
+      for (Triplet triplet : bps.getTriplets()) {
+        baseXsw.writeCharacters(indent2);
+        writeTriplet(baseXsw, triplet, indent2);
+      }
+    }
+    if (bps.getText() != null) {
+      writeElement(baseXsw, indent2, "text", bps.getText());
+    }
+    baseXsw.writeCharacters(indent1);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
   private void writeNameAndTripletsDirectly(com.mgz.afp.base.StructuredFieldBaseNameAndTriplets sf, String rootName) throws Exception {
     String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
     MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
@@ -2259,5 +2335,121 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     writer.writeCharacters(indent);
     writer.writeEndElement();
+  }
+
+  private void writeBdaDirectly(BDA_BarCodeData bda) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BDA");
+    baseXsw.writeStartElement("BDA_BarCodeData");
+    String indent2 = XmlIndenter.getIndent(2);
+    String indent1 = XmlIndenter.getIndent(1);
+
+    if (bda.getBarCodeFlags() != null && !bda.getBarCodeFlags().isEmpty()) {
+      baseXsw.writeCharacters(indent2);
+      baseXsw.writeStartElement("barCodeFlags");
+      for (BDA_BarCodeData.BarCodeFlag flag : bda.getBarCodeFlags()) {
+        writeElement(baseXsw, indent2 + "  ", "barCodeFlag", flag.name());
+      }
+      baseXsw.writeCharacters(indent2);
+      baseXsw.writeEndElement();
+    }
+    writeElement(baseXsw, indent2, "xOffset", bda.getxOffset());
+    writeElement(baseXsw, indent2, "yOffset", bda.getyOffset());
+
+    if (bda.parametersData != null) {
+      writeBdaParametersDataDirectly(baseXsw, bda.parametersData, indent2);
+    }
+
+    if (bda.barCodeData != null && bda.barCodeData.length > 0) {
+      writeBinaryElement(baseXsw, indent2, "barCodeData", bda.barCodeData);
+    }
+    if (bda.getText() != null) {
+      writeElement(baseXsw, indent2, "text", bda.getText());
+    }
+
+    baseXsw.writeCharacters(indent1);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeBdaParametersDataDirectly(XMLStreamWriter2 writer, BDA_BarCodeData.ParametersData pd, String indent) throws Exception {
+    String indent3 = indent + "  ";
+    writer.writeCharacters(indent);
+    String rootName = pd.getClass().getSimpleName();
+    writer.writeStartElement(rootName);
+
+    if (pd.controlFlags != null && !pd.controlFlags.isEmpty()) {
+      writer.writeCharacters(indent3);
+      writer.writeStartElement("controlFlags");
+      for (BDA_BarCodeData.ParametersData.ControlFlag flag : pd.controlFlags) {
+        writeElement(writer, indent3 + "  ", "controlFlag", flag.name());
+      }
+      writer.writeCharacters(indent3);
+      writer.writeEndElement();
+    }
+    writeElement(writer, indent3, "sequenceIndicator", pd.sequenceIndicator);
+    writeElement(writer, indent3, "totalNumberOfSymbols", pd.totalNumberOfSymbols);
+
+    if (pd instanceof BDA_BarCodeData.ParametersDataMatrixBarcode m) {
+      writeElement(writer, indent3, "desiredRowSize", m.desiredRowSize);
+      writeElement(writer, indent3, "desiredNumberOfRows", m.desiredNumberOfRows);
+      writeElement(writer, indent3, "fileIDFirstByte", m.getFileIDFirstByte());
+      writeElement(writer, indent3, "fileIDSecondByte", m.getFileIDSecondByte());
+      if (m.specialFunctionFlags != null && !m.specialFunctionFlags.isEmpty()) {
+        writer.writeCharacters(indent3);
+        writer.writeStartElement("specialFunctionFlags");
+        for (BDA_BarCodeData.ParametersDataMatrixBarcode.SpecialFunctionFlag flag : m.specialFunctionFlags) {
+          writeElement(writer, indent3 + "  ", "specialFunctionFlag", flag.name());
+        }
+        writer.writeCharacters(indent3);
+        writer.writeEndElement();
+      }
+    } else if (pd instanceof BDA_BarCodeData.ParametersDataMaxiCode_2D max) {
+      writeElement(writer, indent3, "symbolMode", max.symbolMode.name());
+      writeElement(writer, indent3, "specialFunctionFlag", max.specialFunctionFlag.name());
+    } else if (pd instanceof BDA_BarCodeData.ParametersDataPDF417_2D pdf) {
+      writeElement(writer, indent3, "numberOfDataSymbolCharactersPerRow", pdf.numberOfDataSymbolCharactersPerRow);
+      writeElement(writer, indent3, "desiredNumberOfRows", pdf.desiredNumberOfRows);
+      writeElement(writer, indent3, "securityLevel", pdf.securityLevel);
+      writeElement(writer, indent3, "lengthOfMacroPDF417ControlBlock", pdf.lengthOfMacroPDF417ControlBlock);
+      if (pdf.macroPDF417ControlBlock != null && pdf.macroPDF417ControlBlock.length > 0) {
+        writeBinaryElement(writer, indent3, "macroPDF417ControlBlock", pdf.macroPDF417ControlBlock);
+      }
+    } else if (pd instanceof BDA_BarCodeData.ParametersDataQRCode_2D qr) {
+      writeElement(writer, indent3, "conversion", qr.conversion.name());
+      writeElement(writer, indent3, "versionOfSymbol", qr.versionOfSymbol);
+      writeElement(writer, indent3, "errorCorrectionLevel", qr.errorCorrectionLevel.name());
+      writeElement(writer, indent3, "parityData", qr.parityData);
+      writeElement(writer, indent3, "specialFunctionFlag", qr.specialFunctionFlag.name());
+      writeElement(writer, indent3, "applicationIndicator", qr.applicationIndicator);
+    }
+
+    writer.writeCharacters(indent);
+    writer.writeEndElement();
+  }
+
+  private void writeBddDirectly(BDD_BarCodeDataDescriptor bdd) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BDD");
+    baseXsw.writeStartElement("BDD_BarCodeDataDescriptor");
+    String indent2 = XmlIndenter.getIndent(2);
+    String indent1 = XmlIndenter.getIndent(1);
+
+    writeElement(baseXsw, indent2, "unitBase", bdd.getUnitBase().name());
+    writeElement(baseXsw, indent2, "unitsPerUnitBaseX", bdd.getUnitsPerUnitBaseX());
+    writeElement(baseXsw, indent2, "unitsPerUnitBaseY", bdd.getUnitsPerUnitBaseY());
+    writeElement(baseXsw, indent2, "presentationSpaceWidth", bdd.getPresentationSpaceWidth());
+    writeElement(baseXsw, indent2, "presentationSpaceLength", bdd.getPresentationSpaceLength());
+    writeElement(baseXsw, indent2, "desiredSymbolWidth", bdd.getDesiredSymbolWidth());
+    writeElement(baseXsw, indent2, "barcodeType", bdd.getBarcodeType().name());
+    writeElement(baseXsw, indent2, "barcodeModifier", bdd.getBarcodeModifier());
+    writeElement(baseXsw, indent2, "fontLocalIDForHRI", bdd.getFontLocalIDForHRI());
+    writeElement(baseXsw, indent2, "color", bdd.getColor());
+    writeElement(baseXsw, indent2, "moduleWidthInMils", bdd.getModuleWidthInMils());
+    writeElement(baseXsw, indent2, "elementHeight", bdd.getElementHeight());
+    writeElement(baseXsw, indent2, "heightMultiplier", bdd.getHeightMultiplier());
+    writeElement(baseXsw, indent2, "wideToNarrowRatio", bdd.getWideToNarrowRatio());
+
+    baseXsw.writeCharacters(indent1);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
   }
 }

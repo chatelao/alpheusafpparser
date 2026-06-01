@@ -38,6 +38,8 @@ public class PdfTextState {
   private AFPOrientation bOrientation = AFPOrientation.ori90;
   private int inlinePos = 0;
   private int baselinePos = 0;
+  private int establishedBaselinePos = 0;
+  private boolean hasEstablishedBaseline = false;
   private short intercharacterAdjustment = 0;
   private short variableSpaceIncrement = 0;
   private short inlineMargin = 0;
@@ -56,6 +58,8 @@ public class PdfTextState {
     this.bOrientation = AFPOrientation.ori90;
     this.inlinePos = 0;
     this.baselinePos = 0;
+    this.establishedBaselinePos = 0;
+    this.hasEstablishedBaseline = false;
     this.intercharacterAdjustment = 0;
     this.variableSpaceIncrement = 0;
     this.inlineMargin = 0;
@@ -135,6 +139,22 @@ public class PdfTextState {
 
   public void setBaselinePos(int baselinePos) {
     this.baselinePos = baselinePos;
+  }
+
+  public int getEstablishedBaselinePos() {
+    return establishedBaselinePos;
+  }
+
+  public void setEstablishedBaselinePos(int establishedBaselinePos) {
+    this.establishedBaselinePos = establishedBaselinePos;
+  }
+
+  public boolean isHasEstablishedBaseline() {
+    return hasEstablishedBaseline;
+  }
+
+  public void setHasEstablishedBaseline(boolean hasEstablishedBaseline) {
+    this.hasEstablishedBaseline = hasEstablishedBaseline;
   }
 
   public short getIntercharacterAdjustment() {

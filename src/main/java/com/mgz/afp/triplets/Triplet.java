@@ -449,7 +449,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     }
 
     public String getNameAsString() {
-      return UtilCharacterEncoding.sanitizeForXml(nameAsString);
+      return nameAsString;
     }
 
     public void setNameAsString(String nameAsString) {
@@ -458,7 +458,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
     @JacksonXmlProperty(localName = "text")
     public String getText() {
-      return UtilCharacterEncoding.sanitizeForXml(nameAsString);
+      return nameAsString;
     }
 
     @Override
@@ -1678,7 +1678,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     }
 
     public String getAttributeValue() {
-      return UtilCharacterEncoding.sanitizeForXml(attributeValue);
+      return attributeValue;
     }
 
     public void setAttributeValue(String attributeValue) {
@@ -1691,7 +1691,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
     @JacksonXmlProperty(localName = "text")
     public String getText() {
-      return UtilCharacterEncoding.sanitizeForXml(attributeValue);
+      return attributeValue;
     }
 
     @Override
@@ -3050,7 +3050,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
     @JacksonXmlProperty(localName = "text")
     public String getText() {
-      return UtilCharacterEncoding.sanitizeForXml(comment);
+      return comment;
     }
 
     @Override
@@ -4679,7 +4679,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
     @JacksonXmlProperty(localName = "text")
     public String getText() {
-      return UtilCharacterEncoding.sanitizeForXml(setupName);
+      return setupName;
     }
   }
 

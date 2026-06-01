@@ -103,5 +103,23 @@ public class PdfTextStateTest {
     assertNull(state.getExtendedColorSpace());
     assertEquals(0, state.getInlinePos());
     assertEquals(AFPOrientation.ori0, state.getIOrientation());
+    assertFalse(state.isHasEstablishedBaseline());
+    assertEquals(0, state.getEstablishedBaselinePos());
+  }
+
+  @Test
+  public void testTbmState() {
+    PdfTextState state = new PdfTextState();
+
+    state.setBaselinePos(1000);
+    state.setEstablishedBaselinePos(1000);
+    state.setHasEstablishedBaseline(true);
+
+    assertTrue(state.isHasEstablishedBaseline());
+    assertEquals(1000, state.getEstablishedBaselinePos());
+
+    state.reset();
+    assertFalse(state.isHasEstablishedBaseline());
+    assertEquals(0, state.getEstablishedBaselinePos());
   }
 }

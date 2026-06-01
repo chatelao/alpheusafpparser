@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -28,5 +29,8 @@ public class JacksonSerializationTest {
     // Verify key content exists
     assertTrue(jacksonXml.contains("BDT_BeginDocument"), "Jackson XML should contain root element");
     assertTrue(jacksonXml.contains("DOC001"), "Jackson XML should contain document name");
+
+    // Verify indentation is disabled (no newlines)
+    assertFalse(jacksonXml.contains("\n"), "Jackson XML should not contain newline characters when indentation is disabled");
   }
 }

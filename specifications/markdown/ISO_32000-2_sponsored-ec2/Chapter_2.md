@@ -4,13 +4,11 @@ The following documents are referred to in the text in such a way that some or a
 
 ISO 3166-1, Codes for the representation of names of countries and their subdivisions – Part 1: Country codes.
 
-ISO/IEC 8824-1, Information technology – Abstract Syntax Notation One (ASN.1): Specification of basic notation ISO/IEC 10646, Information technology – Universal Coded Character Set (UCS)
+ISO/IEC 8824-1, Information technology – Abstract Syntax Notation One (ASN.1): Specification of basic notation
 
-| ISO/IEC 10918 (all parts), Information Technology | – Digital Compression and Coding of Continuous | -Tone |
-| --- | --- | --- |
-| Still Images: Requirements and guidelines | (informally known as the JPEG standard, for the Joint |  |
+ISO/IEC 10646, Information technology – Universal Coded Character Set (UCS)
 
-Photographic Experts Group, the ISO group that developed the standard)
+ISO/IEC 10918 (all parts), Information Technology – Digital Compression and Coding of Continuous-Tone Still Images: Requirements and guidelines (informally known as the JPEG standard, for the Joint Photographic Experts Group, the ISO group that developed the standard)
 
 ISO/IEC 14492:2019, Information technology – Lossy/lossless coding of bi-level images
 
@@ -18,7 +16,9 @@ ISO/IEC 14496-22:2019, Information technology – Coding of audio-visual objects
 
 ISO 14739-1, Document management – 3D use of Product Representation Compact (PRC) format — Part 1: PRC 10001
 
-ISO 15076-1:2010, Image technology colour management – Architecture, profile format and data structure — Part 1: Based on ICC.1:2010 ISO/IEC 15444-1:2019, Information technology — JPEG 2000 image coding system: Core coding system
+ISO 15076-1:2010, Image technology colour management – Architecture, profile format and data structure — Part 1: Based on ICC.1:2010
+
+ISO/IEC 15444-1:2019, Information technology — JPEG 2000 image coding system: Core coding system
 
 ISO/IEC 15444-2:2004, Information technology — JPEG 2000 image coding system: Extensions
 
@@ -28,20 +28,23 @@ ISO 16684-1, Extensible metadata platform (XMP) specification — Part 1: Data m
 
 ISO 17972-4, Graphic technology — Colour data exchange format (CxF/X) — Part 4: Spot colour characterisation data (CxF/X-4)
 
-ISO 18619, Image technology colour management – Black point compensation ISO 19162, Geographic information – Well known text representation of coordinate reference systems
+ISO 18619, Image technology colour management – Black point compensation
+
+ISO 19162, Geographic information – Well known text representation of coordinate reference systems
 
 ISO 19444-1:2019, Document management – XML Forms Data Format – Part 1: Use of ISO 32000-2 (XFDF 3.0)
 
 ISO/DIS 21757-1, Document management — ECMAScript for PDF — Part 1: Use of ISO 32000-2 (PDF 2.0)
 
-IEC 61966-2-1 ed1.0 (1999-10), Multimedia systems and equipment — Colour measurement and
-
-
-management — Part 2-1: Colour management — Default RGB colour space — sRGB (with Amendment 1 IEC 61966-2-1-am1 ed1.0 (2003-01))
+IEC 61966-2-1 ed1.0 (1999-10), Multimedia systems and equipment — Colour measurement and management — Part 2-1: Colour management — Default RGB colour space — sRGB (with Amendment 1 IEC 61966-2-1-am1 ed1.0 (2003-01))
 
 ANSI X9.62-2005, Public Key Cryptography For The Financial Services Industry: The Elliptic Curve Digital Signature Algorithm (ECDSA), American National Standards Institute
 
-INCITS 4-1986 (R2017), Information Systems - Coded Character Sets - 7-Bit Standard Code for Information Interchange (7-Bit ASCII)” PostScript Language Third Edition, (February, 1999), Adobe Systems Incorporated1 Adobe Glyph List, Adobe Systems Incorporated2
+INCITS 4-1986 (R2017), Information Systems - Coded Character Sets - 7-Bit Standard Code for Information Interchange (7-Bit ASCII)
+
+PostScript Language Third Edition, (February, 1999), Adobe Systems Incorporated1
+
+Adobe Glyph List, Adobe Systems Incorporated2
 
 Adobe Glyph List for New Fonts, Adobe Systems Incorporated2
 
@@ -59,7 +62,9 @@ Adobe-GB1-5 Character Collection for CID-Keyed Fonts, https://github.com/adobe-t
 
 Adobe-CNS1-7 Character Collection for CID-Keyed Fonts, https://github.com/adobe-type-tools/cmapresources
 
-Adobe-Korea1-2 Character Collection for CID-Keyed Fonts, https://github.com/adobe-type-tools/cmapresources Adobe-Japan2-0 Character Collection for CID-Keyed Fonts, https://github.com/adobe-type-tools/cmapresources
+Adobe-Korea1-2 Character Collection for CID-Keyed Fonts, https://github.com/adobe-type-tools/cmapresources
+
+Adobe-Japan2-0 Character Collection for CID-Keyed Fonts, https://github.com/adobe-type-tools/cmapresources
 
 Adobe-KR-9 Character Collection for CID-Keyed Fonts, https://github.com/adobe-type-tools/cmapresources
 

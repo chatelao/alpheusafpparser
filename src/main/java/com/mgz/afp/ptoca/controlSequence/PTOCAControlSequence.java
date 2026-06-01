@@ -322,7 +322,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
 
     @JacksonXmlProperty(localName = "text")
     public String getText() {
-      return UtilCharacterEncoding.sanitizeForXml(text);
+      return text;
     }
 
     @Override
@@ -645,7 +645,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
 
     @JacksonXmlProperty(localName = "text")
     public String getText() {
-      return UtilCharacterEncoding.sanitizeForXml(text);
+      return text;
     }
 
     @Override
@@ -731,7 +731,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
 
     @JacksonXmlProperty(localName = "text")
     public String getText() {
-      return UtilCharacterEncoding.sanitizeForXml(text);
+      return text;
     }
   }
 
@@ -812,7 +812,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
 
     @JacksonXmlProperty(localName = "text")
     public String getText() {
-      return UtilCharacterEncoding.sanitizeForXml(text);
+      return text;
     }
 
     @Override
@@ -1416,7 +1416,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       if (transparentData == null || transparentData.isEmpty()) {
         return null;
       }
-      return UtilCharacterEncoding.sanitizeForXml(transparentData);
+      return transparentData;
     }
 
     @Override
@@ -1517,7 +1517,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       if (complexText == null || complexText.length == 0) {
         return null;
       }
-      return UtilCharacterEncoding.sanitizeForXml(new String(complexText, java.nio.charset.StandardCharsets.UTF_16BE));
+      return new String(complexText, java.nio.charset.StandardCharsets.UTF_16BE);
     }
 
     @Override
@@ -1818,7 +1818,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
 
     @JacksonXmlProperty(localName = "text")
     public String getText() {
-      return UtilCharacterEncoding.sanitizeForXml(text);
+      return text;
     }
 
     public int getReserved4_7() {
@@ -1886,7 +1886,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
 
     @JacksonXmlProperty(localName = "text")
     public String getText() {
-      return UtilCharacterEncoding.sanitizeForXml(text);
+      return text;
     }
 
     @Override
@@ -1973,7 +1973,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
 
     @JacksonXmlProperty(localName = "text")
     public String getText() {
-      return UtilCharacterEncoding.sanitizeForXml(ffontName);
+      return ffontName;
     }
 
     public short getIAdvance() {
@@ -2009,7 +2009,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     }
 
     public String getFfontName() {
-      return UtilCharacterEncoding.sanitizeForXml(ffontName);
+      return ffontName;
     }
 
     public void setFfontName(String ffontName) {

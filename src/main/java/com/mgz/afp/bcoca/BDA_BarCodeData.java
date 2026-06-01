@@ -50,9 +50,9 @@ public class BDA_BarCodeData extends StructuredField {
   @AFPField
   int yOffset;
   @AFPField(isOptional = true)
-  ParametersData parametersData;
+  public ParametersData parametersData;
   @AFPField(isOptional = true, maxSize = 32759 - 5)
-  byte[] barCodeData;
+  public byte[] barCodeData;
   String text;
 
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -155,7 +155,7 @@ public class BDA_BarCodeData extends StructuredField {
 
   @JacksonXmlProperty(localName = "text")
   public String getText() {
-    return UtilCharacterEncoding.sanitizeForXml(text);
+    return text;
   }
 
   public enum BarCodeFlag {
@@ -226,9 +226,9 @@ public class BDA_BarCodeData extends StructuredField {
 
   // Base class for all "Special-Function Parameter Data".
   public static abstract class ParametersData {
-    EnumSet<ControlFlag> controlFlags;
-    byte sequenceIndicator;
-    byte totalNumberOfSymbols;
+    public EnumSet<ControlFlag> controlFlags;
+    public byte sequenceIndicator;
+    public byte totalNumberOfSymbols;
 
     public abstract int decodeAFP(byte[] sfData, int offset, int length) throws AFPParserException;
 
@@ -302,11 +302,11 @@ public class BDA_BarCodeData extends StructuredField {
   }
 
   public static class ParametersDataMatrixBarcode extends ParametersData {
-    int desiredRowSize;
-    int desiredNumberOfRows;
+    public int desiredRowSize;
+    public int desiredNumberOfRows;
     short fileIDFirstByte;
     short fileIDSecondByte;
-    EnumSet<SpecialFunctionFlag> specialFunctionFlags;
+    public EnumSet<SpecialFunctionFlag> specialFunctionFlags;
 
     @Override
     public int decodeAFP(byte[] sfData, int offset, int length) throws AFPParserException {
@@ -510,8 +510,8 @@ public class BDA_BarCodeData extends StructuredField {
   }
 
   public static class ParametersDataMaxiCode_2D extends ParametersData {
-    SymbolMode symbolMode = SymbolMode.Mode2;
-    SpecialFunctionFlag specialFunctionFlag = SpecialFunctionFlag.NoZipperPattern;
+    public SymbolMode symbolMode = SymbolMode.Mode2;
+    public SpecialFunctionFlag specialFunctionFlag = SpecialFunctionFlag.NoZipperPattern;
 
     @Override
     public int decodeAFP(byte[] sfData, int offset, int length) throws AFPParserException {
@@ -591,11 +591,11 @@ public class BDA_BarCodeData extends StructuredField {
   }
 
   public static class ParametersDataPDF417_2D extends ParametersData {
-    byte numberOfDataSymbolCharactersPerRow;
-    byte desiredNumberOfRows;
-    byte securityLevel;
-    short lengthOfMacroPDF417ControlBlock;
-    byte[] macroPDF417ControlBlock;
+    public byte numberOfDataSymbolCharactersPerRow;
+    public byte desiredNumberOfRows;
+    public byte securityLevel;
+    public short lengthOfMacroPDF417ControlBlock;
+    public byte[] macroPDF417ControlBlock;
 
     @Override
     public int decodeAFP(byte[] sfData, int offset, int length) throws AFPParserException {
@@ -622,12 +622,12 @@ public class BDA_BarCodeData extends StructuredField {
   }
 
   public static class ParametersDataQRCode_2D extends ParametersData {
-    Conversion conversion;
-    byte versionOfSymbol;
-    ErrorCorrectionLevel errorCorrectionLevel;
-    short parityData;
-    SpecialFunctionFlag specialFunctionFlag;
-    short applicationIndicator;
+    public Conversion conversion;
+    public byte versionOfSymbol;
+    public ErrorCorrectionLevel errorCorrectionLevel;
+    public short parityData;
+    public SpecialFunctionFlag specialFunctionFlag;
+    public short applicationIndicator;
 
     @Override
     public int decodeAFP(byte[] sfData, int offset, int length) throws AFPParserException {
