@@ -41,7 +41,7 @@ A non-encrypted PDF file can be entirely represented using byte values correspon
 
 > **NOTE 1** A binary file is not portable to environments that impose reserved character codes, maximum line lengths, end-of-line conventions, or other restrictions.
 
-> **NOTE 2** In this clause, the usage of the term character is entirely indepe ndent of any logical meaning that the value can have when it is treated as data in specific contexts, such as representing human - readable text or selecting a glyph from a font.
+> **NOTE 2** In this clause, the usage of the term character is entirely independent of any logical meaning that the value can have when it is treated as data in specific contexts, such as representing human-readable text or selecting a glyph from a font.
 
 ### 7.2.3 Character set
 
@@ -159,21 +159,13 @@ A literal string shall be written as an arbitrary number of characters enclosed 
 
 (This is a string) (Strings can contain newlines and such.) (Strings can contain balanced parentheses () and special characters ( * ! & } ^ %and so on) .) (The following is an empty string .) () (It has zero (0) length.)
 
-| Within a literal string, the REVERSE SOLIDUS is used as an escape character. The cha | racter |
-| --- | --- |
-| immediately following the REVERSE SOLIDUS determines its precise interpretation as shown in | "Table |
-
-3 — Escape sequences in literal strings". If the character following the REVERSE SOLIDUS is not one of those shown in "Table 3 — Escape sequences in literal strings", the REVERSE SOLIDUS shall be ignored.
+Within a literal string, the REVERSE SOLIDUS is used as an escape character. The character immediately following the REVERSE SOLIDUS determines its precise interpretation as shown in "Table 3 — Escape sequences in literal strings". If the character following the REVERSE SOLIDUS is not one of those shown in "Table 3 — Escape sequences in literal strings", the REVERSE SOLIDUS shall be ignored.
 
 Table 3 — Escape sequences in literal strings
 
 | Sequence | Meaning |
 | --- | --- |
 | \n | LINE FEED (0Ah) (LF) |
-
-
-| Sequence | Meaning |
-| --- | --- |
 | \r | CARRIAGE RETURN (0Dh) (CR) |
 | \t | HORIZONTAL TAB (09h) (HT) |
 | \b | BACKSPACE (08h) (BS) |
@@ -258,37 +250,26 @@ or by using its 2 -digit hexadecimal code, preceded by the NUMBER SIGN.
 c) Any character that is not a regular character shall be written using its 2 -digit hexadecimal code,
 preceded by the NUMBER SIGN only.
 
-> **NOTE 1** There is not a unique encoding of names into the PDF file because regular characters can be
-| coded in either of two wa | ys. |  |
-| --- | --- | --- |
-| No token delimiter (such as white | -space) occurs between the SOLIDUS and the encoded name. White | - |
-| space used as part of a name shall always be coded using the 2 | -digit hexadecimal notation | . |
-| Regular characters that are outside the range EXCLAMATION MARK(21 | h) (!) to TILDE (7Eh) (~) |  |
-
-should be written using the hexadecimal notation.
+> **NOTE 1** There is not a unique encoding of names into the PDF file because regular characters can be coded in either of two ways. No token delimiter (such as white-space) occurs between the SOLIDUS and the encoded name. White-space used as part of a name shall always be coded using the 2-digit hexadecimal notation. Regular characters that are outside the range EXCLAMATION MARK (21h) (!) to TILDE (7Eh) (~) should be written using the hexadecimal notation.
 
 The token SOLIDUS (a slash followed by no regular characters) introduces a unique valid name defined by the empty sequence of characters.
 
-> **NOTE 2** The examples shown in "Table 4 — Examples of literal names " and containing # are not valid literal names in PDF 1.0 or 1.1.
+> **NOTE 2** The examples shown in "Table 4 — Examples of literal names" and containing # are not valid literal names in PDF 1.0 or 1.1.
 
 Table 4 — Examples of literal names
 
-| Syntax for Literal name | Resulting Name |  |
-| --- | --- | --- |
-| /Name1 | Name1 |  |
-| /ASomewhatLongerName | ASomewhatLongerName |  |
-| /A;Name_With | -Various***Characters? | A;Name_With-Various***Characters? |
-| /1.2 | 1.2 |  |
-| /$$ | $$ |  |
-| /@pattern | @pattern |  |
-| /.notdef | .notdef |  |
-| /Lime#20Green | Lime Green |  |
-| /paired#28#29parentheses | paired()parentheses |  |
-| /The_Key_of_F#23_Minor | The_Key_of_F#_Minor |  |
-
-
 | Syntax for Literal name | Resulting Name |
 | --- | --- |
+| /Name1 | Name1 |
+| /ASomewhatLongerName | ASomewhatLongerName |
+| /A;Name_With-Various***Characters? | A;Name_With-Various***Characters? |
+| /1.2 | 1.2 |
+| /$$ | $$ |
+| /@pattern | @pattern |
+| /.notdef | .notdef |
+| /Lime#20Green | Lime Green |
+| /paired#28#29parentheses | paired()parentheses |
+| /The_Key_of_F#23_Minor | The_Key_of_F#_Minor |
 | /A#42 | AB |
 
 In PDF syntax, literal names shall always be introduced by the SOLIDUS character (/), unlike keywords such as stream, endstream, and obj.

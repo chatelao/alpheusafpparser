@@ -40,9 +40,9 @@ The following criteria must be verified for each file:
 
 ### Phase 2: Syntax & Graphics ⏳
 - ⏳ **2.1. Chapter 7**: Syntax.
-    - ⏳ 2.1.1. Clause 7.1 (General).
-    - ⏳ 2.1.2. Clause 7.2 (Lexical conventions).
-    - ⏳ 2.1.3. Clause 7.3 (Objects).
+    - ✅ 2.1.1. Clause 7.1 (General).
+    - ✅ 2.1.2. Clause 7.2 (Lexical conventions).
+    - ✅ 2.1.3. Clause 7.3 (Objects).
     - ⏳ 2.1.4. Clause 7.4 (Filters).
     - ⏳ 2.1.5. Clause 7.5 (File structure).
     - ⏳ 2.1.6. Clause 7.6 (Encryption).
@@ -83,11 +83,17 @@ The following criteria must be verified for each file:
 
 ### Phase 4: Interactive & Multimedia ⏳
 - ⏳ **4.1. Chapter 12**: Interactive features.
-    - ⏳ 4.1.1. Clauses 12.1 to 12.4 (General, Preferences, Navigation).
-    - ⏳ 4.1.2. Clause 12.5 (Annotations).
-    - ⏳ 4.1.3. Clause 12.6 (Actions).
-    - ⏳ 4.1.4. Clause 12.7 (Forms).
-    - ⏳ 4.1.5. Clauses 12.8 to 12.11 (Signatures, Measurement, Geospatial, Requirements).
+    - ⏳ 4.1.1. Clause 12.1 (General).
+    - ⏳ 4.1.2. Clause 12.2 (Viewer preferences).
+    - ⏳ 4.1.3. Clause 12.3 (Document-level navigation).
+    - ⏳ 4.1.4. Clause 12.4 (Page-level navigation).
+    - ⏳ 4.1.5. Clause 12.5 (Annotations).
+    - ⏳ 4.1.6. Clause 12.6 (Actions).
+    - ⏳ 4.1.7. Clause 12.7 (Forms).
+    - ⏳ 4.1.8. Clause 12.8 (Digital signatures).
+    - ⏳ 4.1.9. Clause 12.9 (Measurement properties).
+    - ⏳ 4.1.10. Clause 12.10 (Geospatial features).
+    - ⏳ 4.1.11. Clause 12.11 (Document requirements).
 - ⏳ **4.2. Chapter 13**: Multimedia features.
     - ⏳ 4.2.1. Clauses 13.1 to 13.2 (General, Multimedia).
     - ⏳ 4.2.2. Clauses 13.3 to 13.5 (Sounds, Movies, Alternate Presentations).
@@ -95,16 +101,26 @@ The following criteria must be verified for each file:
 
 ### Phase 5: Document Interchange & Parts ⏳
 - ⏳ **5.1. Chapter 14**: Document interchange.
-    - ⏳ 5.1.1. Clauses 14.1 to 14.6 (Metadata, Identifiers, Marked Content).
-    - ⏳ 5.1.2. Clauses 14.7 to 14.9 (Logical Structure, Tagged PDF, Accessibility).
-    - ⏳ 5.1.3. Clauses 14.10 to 14.13 (Web Capture, Prepress, Document Parts, Associated Files).
+    - ⏳ 5.1.1. Clause 14.1 (General).
+    - ⏳ 5.1.2. Clause 14.2 (Procedure sets).
+    - ⏳ 5.1.3. Clause 14.3 (Metadata).
+    - ⏳ 5.1.4. Clause 14.4 (File identifiers).
+    - ⏳ 5.1.5. Clause 14.5 (Page-piece dictionaries).
+    - ⏳ 5.1.6. Clause 14.6 (Marked content).
+    - ⏳ 5.1.7. Clause 14.7 (Logical structure).
+    - ⏳ 5.1.8. Clause 14.8 (Tagged PDF).
+    - ⏳ 5.1.9. Clause 14.9 (Repurposing and accessibility support).
+    - ⏳ 5.1.10. Clause 14.10 (Web capture).
+    - ⏳ 5.1.11. Clause 14.11 (Prepress support).
+    - ⏳ 5.1.12. Clause 14.12 (Document parts).
+    - ⏳ 5.1.13. Clause 14.13 (Associated files).
 
 ### Phase 6: Appendices & Bibliography 🚧
 - 🚧 **6.1. Appendix A to E**: Basic structural cleanup.
     - ✅ 6.1.1. Appendix A (Operator Summary).
     - ✅ 6.1.2. Appendix B (Operators in Type 4 Functions).
     - ✅ 6.1.3. Appendix C (Maximising portability).
-    - ⏳ 6.1.4. Appendix D (Character sets and encodings).
+    - 🚧 6.1.4. Appendix D (Character sets and encodings).
     - ✅ 6.1.5. Appendix E (PDF Name Registry).
 - ⏳ **6.2. Appendix F to J**: Complex tables and examples.
 - ⏳ **6.3. Appendix K to O**: Technical relationships and fragments.
@@ -129,7 +145,7 @@ The following criteria must be verified for each file:
 | `Chapter_4.md` | ✅ Completed | 1 | Fixed headings and merged paragraphs. |
 | `Chapter_5.md` | ✅ Completed | 1 | Verified as clean. |
 | `Chapter_6.md` | ✅ Completed | 1 | Fixed paragraph breakage in 6.3.2.1. |
-| `Chapter_7.md` | ⏳ Pending | 2.1 | Verified: Broken tables and figures. |
+| `Chapter_7.md` | 🚧 In Progress | 2.1 | Standardized NOTE/EXAMPLE; merged Tables 3, 4; Clauses 7.1-7.3 clean. |
 | `Chapter_8.md` | ⏳ Pending | 2.2 | |
 | `Chapter_9.md` | ⏳ Pending | 3.1 | Verified: Fragmented formulas and notes. |
 | `Chapter_10.md` | ⏳ Pending | 3.2 | |
@@ -140,7 +156,7 @@ The following criteria must be verified for each file:
 | `Appendix_A.md` | ✅ Completed | 6.1 | Merged fragmented table rows and integrated operators. |
 | `Appendix_B.md` | ✅ Completed | 6.1 | Fixed table structures and merged fragmented rows. |
 | `Appendix_C.md` | ✅ Completed | 6.1 | Merged fragmented tables and fixed CID requirement formatting. |
-| `Appendix_D.md` | ⏳ Pending | 6.1 | |
+| `Appendix_D.md` | 🚧 In Progress | 6.1 | Standardized NOTES; merged Tables D.1, D.2, D.4 parts. |
 | `Appendix_E.md` | ✅ Completed | 6.1 | Standardized NOTE formatting and fixed name class merging. |
 | `Appendix_F.md` | ⏳ Pending | 6.2 | |
 | `Appendix_G.md` | ⏳ Pending | 6.2 | |
