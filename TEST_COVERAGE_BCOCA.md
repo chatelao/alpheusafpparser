@@ -104,6 +104,21 @@
 | BCOCA-4-003 | BCD2 subset adds support for the Color Specification triplet in the Bar Code Data Descriptor. | ❓ |
 | BCOCA-4-004 | BCD2 subset supports the full range for font local IDs. | ✅ |
 | BCOCA-4-005 | BCD2 subset supports the full range for units per unit base. | ❓ |
+| BCOCA-4-008 | Byte 0 Unit base: Indicates the length of the measurement unit base. | ❓ |
+| BCOCA-4-009 | Byte 1: Reserved. | ❓ |
+| BCOCA-4-010 | Bytes 2–3 Xupub: Specifies the number of units per unit base in the Xbc direction. | ❓ |
+| BCOCA-4-011 | Bytes 4–5 Yupub: Specifies the number of units per unit base in the Ybc direction and must be equal to Xupub. | ❓ |
+| BCOCA-4-012 | Bytes 6–7 X extent: Width of bar code presentation space in L-units. | ❓ |
+| BCOCA-4-013 | Bytes 8–9 Y extent: Length of bar code presentation space in L-units. | ❓ |
+| BCOCA-4-014 | Bytes 10–11 Symbol width: Desired symbol width. | ❓ |
+| BCOCA-4-015 | Byte 12 Type: Bar code type. | ❓ |
+| BCOCA-4-016 | Byte 13 Modifier: Bar code modifier. | ❓ |
+| BCOCA-4-017 | Byte 14 Local ID: Font Local ID for HRI. | ❓ |
+| BCOCA-4-018 | Bytes 15–16 Color: Bar code color. | ❓ |
+| BCOCA-4-019 | Byte 17 Module width: Module width in mils. | ❓ |
+| BCOCA-4-020 | Bytes 18–19 Element height: Element height in L-units. | ❓ |
+| BCOCA-4-021 | Byte 20 Multiplier: Height multiplier. | ❓ |
+| BCOCA-4-022 | Bytes 21–22 WE:NE: Wide-to-narrow ratio. | ❓ |
 | BCOCA-4-023 | It is good practice to specify the size of the bar code presentation space large enough to include plenty of white space around the expected symbols and HRI. | ❓ |
 | BCOCA-4-024 | For desired symbol width, the specified module width value (byte 17) is ignored. | ❓ |
 | BCOCA-4-025 | BCOCA receiver calculates an optimal module width value to produce the widest symbol that fits into the desired width. | ❓ |
@@ -144,3 +159,17 @@
 | BCOCA-4-060 | Bar Code Type X'25' (Royal Mail Mailmark) is not in BCD1 or BCD2 subsets. | ✅ |
 | BCOCA-4-061 | Bar Code Type X'26' (Aztec Code) is not in BCD1 or BCD2 subsets. | ✅ |
 | BCOCA-4-062 | Bar Code Type X'27' (Han Xin Code) is not in BCD1 or BCD2 subsets. | ✅ |
+| BCOCA-4-307 | Bar Code Symbol Data (BSA) data structure. | ❓ |
+| BCOCA-4-308 | Byte 0: Bar code flags. | ❓ |
+| BCOCA-4-309 | Bit 0: HRI presentation. | ❓ |
+| BCOCA-4-310 | Bits 1–2: Position of HRI. | ❓ |
+| BCOCA-4-311 | Bit 3: SSCAST asterisk presentation. | ❓ |
+| BCOCA-4-312 | Bit 4: Reserved/Retired. | ❓ |
+| BCOCA-4-313 | Bit 5: Suppress bar code symbol. | ❓ |
+| BCOCA-4-314 | Bit 6: Suppress trailing blanks. | ❓ |
+| BCOCA-4-315 | Bit 7: Reserved/Retired. | ❓ |
+| BCOCA-4-316 | Bytes 1–2: X offset of the symbol origin. | ❓ |
+| BCOCA-4-317 | Bytes 3–4: Y offset of the symbol origin. | ❓ |
+| BCOCA-4-318 | Bytes 5–n: Special-function information. | ❓ |
+| BCOCA-4-319 | Bytes n+1 to end: Bar code data. | ❓ |
+| BCOCA-4-320 | Bar Code Symbol Data (BSA) description and exceptions. | ❓ |

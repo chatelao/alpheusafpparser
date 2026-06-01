@@ -606,7 +606,9 @@ public class BDA_BarCodeData extends StructuredField {
       securityLevel = sfData[offset + 3];
       lengthOfMacroPDF417ControlBlock = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
       macroPDF417ControlBlock = new byte[lengthOfMacroPDF417ControlBlock];
-      System.arraycopy(sfData, offset, macroPDF417ControlBlock, 0, lengthOfMacroPDF417ControlBlock);
+      if (lengthOfMacroPDF417ControlBlock > 0) {
+        System.arraycopy(sfData, offset + 6, macroPDF417ControlBlock, 0, lengthOfMacroPDF417ControlBlock);
+      }
       return 6 + lengthOfMacroPDF417ControlBlock;
     }
 
