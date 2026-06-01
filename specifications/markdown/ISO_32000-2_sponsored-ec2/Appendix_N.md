@@ -42,16 +42,9 @@ Determining transparency and shape at the pixel resolution at which the page is 
 Together, these conditions ensure that any object that is fully transparent does not contribute to the colour at the given point and vice versa. For portions of the page that are only painted with fully
 
 
-ISO 32000-2:2020
-
 transparent objects or that are never painted at all, the default halftone and transfer function for the page is used (see "Table 52 — Device-dependent graphics state parameters").
 
-| If a graphics object is painted with overprinting enabled | — that is, if the applicable (stroking or |
-| --- | --- |
-| nonstroking) overprint parameter in the graphics state is | true — the halftone and transfer function to |
-| use at a given point is determined independently for each colour co | mponent by using the values from |
-
-the topmost object that marks that component and is not fully transparent. An object is considered fully transparent when overprinting is enabled for a given component only if overprinting yields the backdrop colour (not the source colour) for that component.
+If a graphics object is painted with overprinting enabled — that is, if the applicable (stroking or nonstroking) overprint parameter in the graphics state is true — the halftone and transfer function to use at a given point is determined independently for each colour component by using the values from the topmost object that marks that component and is not fully transparent. An object is considered fully transparent when overprinting is enabled for a given component only if overprinting yields the backdrop colour (not the source colour) for that component.
 
 If an object would be regarded as fully transparent under the rules for when overprinting is not enabled then all components will be fully transparent when overprinting is enabled.
 
