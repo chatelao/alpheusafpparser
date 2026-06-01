@@ -36,78 +36,36 @@ public class SanitizingXMLStreamWriter extends StreamWriter2Delegate {
 
   @Override
   public void writeCharacters(String text) throws XMLStreamException {
-    if (text != null && text.length() > 0 && text.length() <= 65) {
-      if (text.startsWith("\n")) {
-        // Fast-path for indentation strings: if it's all spaces after \n, it's safe.
-        boolean onlySpaces = true;
-        for (int i = 1; i < text.length(); i++) {
-          if (text.charAt(i) != ' ') {
-            onlySpaces = false;
-            break;
-          }
-        }
-        if (onlySpaces) {
-          super.writeCharacters(text);
-          return;
-        }
-      } else if (text.equals(XmlIndenter.LEVEL_1_PURE)
-          || text.equals(XmlIndenter.LEVEL_2_PURE)
-          || text.equals(XmlIndenter.LEVEL_3_PURE)) {
-        super.writeCharacters(text);
-        return;
-      }
-    }
-
-    if (UtilCharacterEncoding.needsXmlSanitization(text)) {
-      super.writeCharacters(UtilCharacterEncoding.sanitizeForXml(text));
-    } else {
-      super.writeCharacters(text);
-    }
+    super.writeCharacters(UtilCharacterEncoding.sanitizeForXml(text));
   }
 
   @Override
   public void writeCharacters(char[] text, int start, int len) throws XMLStreamException {
-    if (text == null || !UtilCharacterEncoding.needsXmlSanitization(text, start, len)) {
+    char[] sanitized = UtilCharacterEncoding.sanitizeForXml(text, start, len);
+    if (sanitized == null) {
       super.writeCharacters(text, start, len);
     } else {
-      char[] sanitized = UtilCharacterEncoding.sanitizeForXml(text, start, len);
       super.writeCharacters(sanitized, 0, sanitized.length);
     }
   }
 
   @Override
   public void writeAttribute(String localName, String value) throws XMLStreamException {
-    if (UtilCharacterEncoding.needsXmlSanitization(value)) {
-      super.writeAttribute(localName, UtilCharacterEncoding.sanitizeForXml(value));
-    } else {
-      super.writeAttribute(localName, value);
-    }
+    super.writeAttribute(localName, UtilCharacterEncoding.sanitizeForXml(value));
   }
 
   @Override
   public void writeAttribute(String namespaceURI, String localName, String value) throws XMLStreamException {
-    if (UtilCharacterEncoding.needsXmlSanitization(value)) {
-      super.writeAttribute(namespaceURI, localName, UtilCharacterEncoding.sanitizeForXml(value));
-    } else {
-      super.writeAttribute(namespaceURI, localName, value);
-    }
+    super.writeAttribute(namespaceURI, localName, UtilCharacterEncoding.sanitizeForXml(value));
   }
 
   @Override
   public void writeAttribute(String prefix, String namespaceURI, String localName, String value) throws XMLStreamException {
-    if (UtilCharacterEncoding.needsXmlSanitization(value)) {
-      super.writeAttribute(prefix, namespaceURI, localName, UtilCharacterEncoding.sanitizeForXml(value));
-    } else {
-      super.writeAttribute(prefix, namespaceURI, localName, value);
-    }
+    super.writeAttribute(prefix, namespaceURI, localName, UtilCharacterEncoding.sanitizeForXml(value));
   }
 
   @Override
   public void writeCData(String data) throws XMLStreamException {
-    if (UtilCharacterEncoding.needsXmlSanitization(data)) {
-      super.writeCData(UtilCharacterEncoding.sanitizeForXml(data));
-    } else {
-      super.writeCData(data);
-    }
+    super.writeCData(UtilCharacterEncoding.sanitizeForXml(data));
   }
 }

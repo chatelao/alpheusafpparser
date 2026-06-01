@@ -201,7 +201,7 @@ public class MnemonicPerformanceMonitor {
   }
 
   private static boolean isLikelyMnemonic(String s) {
-    if (s.length() < 2 || s.length() > 5) {
+    if (s.length() < 2 || s.length() > 8) {
       return false;
     }
     for (int i = 0; i < s.length(); i++) {

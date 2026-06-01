@@ -865,23 +865,23 @@ public class UtilCharacterEncoding {
       return s;
     }
 
-    if (!needsXmlSanitization(s)) {
-      return s;
-    }
-
-    StringBuilder sb = new StringBuilder(s.length());
+    StringBuilder sb = null;
     for (int i = 0; i < s.length(); i++) {
       int codePoint = s.codePointAt(i);
-      if (isValidXml10CodePoint(codePoint)) {
-        sb.appendCodePoint(codePoint);
-      } else {
+      if (!isValidXml10CodePoint(codePoint)) {
+        if (sb == null) {
+          sb = new StringBuilder(s.length());
+          sb.append(s, 0, i);
+        }
         sb.append(' ');
+      } else if (sb != null) {
+        sb.appendCodePoint(codePoint);
       }
       if (Character.isSupplementaryCodePoint(codePoint)) {
         i++;
       }
     }
-    return sb.toString();
+    return (sb == null) ? s : sb.toString();
   }
 
   /**
@@ -943,19 +943,14 @@ public class UtilCharacterEncoding {
    * @param text the character array to sanitize
    * @param start the start offset
    * @param len the length to sanitize
-   * @return the sanitized character array, or the original if no changes were needed
+   * @return the sanitized character array, or null if no changes were needed
    */
   public static char[] sanitizeForXml(char[] text, int start, int len) {
-    if (!needsXmlSanitization(text, start, len)) {
-      if (start == 0 && len == text.length) {
-        return text;
-      }
-      char[] result = new char[len];
-      System.arraycopy(text, start, result, 0, len);
-      return result;
+    if (text == null || len <= 0) {
+      return null;
     }
 
-    char[] result = new char[len];
+    char[] result = null;
     int resultIdx = 0;
     for (int i = start; i < start + len; i++) {
       char c = text[i];
@@ -971,18 +966,27 @@ public class UtilCharacterEncoding {
         }
       }
 
-      if (isValidXml10CodePoint(codePoint)) {
+      if (!isValidXml10CodePoint(codePoint)) {
+        if (result == null) {
+          result = new char[len];
+          System.arraycopy(text, start, result, 0, i - start);
+          resultIdx = i - start;
+        }
+        result[resultIdx++] = ' ';
+        if (isSurrogate) {
+          // Replace the whole surrogate pair with a single space
+          i++;
+        }
+      } else if (result != null) {
         result[resultIdx++] = c;
         if (isSurrogate) {
           result[resultIdx++] = text[++i];
         }
-      } else {
-        result[resultIdx++] = ' ';
-        if (isSurrogate) {
-          // Replace the whole surrogate pair with a single space and adjust length
-          i++;
-        }
       }
+    }
+
+    if (result == null) {
+      return null;
     }
 
     if (resultIdx < len) {
