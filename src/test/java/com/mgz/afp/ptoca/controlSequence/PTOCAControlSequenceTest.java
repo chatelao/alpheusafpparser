@@ -19,14 +19,20 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.afp.ptoca.controlSequence;
 
 import com.mgz.afp.exceptions.AFPParserException;
+import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.parser.PTOCAControlSequenceParser;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMB_AbsoluteMoveBaseline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.ControlSequenceFunctionType;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.ControlSequenceIntroducer;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RPS_RepeatString;
 
 import org.junit.jupiter.api.Test;
 
+import java.nio.charset.Charset;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -67,6 +73,34 @@ public class PTOCAControlSequenceTest {
       ControlSequenceFunctionType other = ControlSequenceFunctionType.valueOf((short) csft.toByte(false));
       assertTrue(csft == other);
     }
+  }
+
+  @Test
+  public void testAMBValidation() {
+    AMB_AbsoluteMoveBaseline amb = new AMB_AbsoluteMoveBaseline();
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    byte[] validData = new byte[]{0x00, 0x64}; // 100
+    byte[] invalidData = new byte[]{(byte) 0xFF, (byte) 0x9C}; // -100
+
+    assertThrows(AFPParserException.class, () -> amb.decodeAFP(invalidData, 0, 2, config), "[PTOCA-4-132]");
+  }
+
+  @Test
+  public void testRPSValidation() {
+    RPS_RepeatString rps = new RPS_RepeatString();
+    AFPParserConfiguration config = new AFPParserConfiguration();
+
+    // Single-byte font (default CP500)
+    byte[] validData = new byte[]{0x00, 0x01, 0x41}; // RLENGTH=1, RPTDATA="A"
+    assertThrows(AFPParserException.class, () -> rps.decodeAFP(new byte[]{0x00, 0x01}, 0, 2, config), "[PTOCA-4-355]");
+
+    // Double-byte font (UTF-16)
+    config.setAfpCharSet(Charset.forName("UTF-16"));
+    byte[] oddRLENGTH = new byte[]{0x00, 0x01, 0x00, 0x41}; // RLENGTH=1 (odd), RPTDATA="A"
+    assertThrows(AFPParserException.class, () -> rps.decodeAFP(oddRLENGTH, 0, 4, config), "[PTOCA-4-352]");
+
+    byte[] oddRPTDATA = new byte[]{0x00, 0x02, 0x41}; // RLENGTH=2, RPTDATA=0x41 (odd length)
+    assertThrows(AFPParserException.class, () -> rps.decodeAFP(oddRPTDATA, 0, 3, config), "[PTOCA-4-350]");
   }
 
 }

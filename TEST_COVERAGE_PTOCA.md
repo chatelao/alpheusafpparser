@@ -545,7 +545,7 @@
 | PTOCA-4-129 | stream documentation. | ❓ |
 | PTOCA-4-130 | EC-1301...The value of DSPLCMNT is not supported or is not within the range specified by PTOCA. | ❓ |
 | PTOCA-4-131 | EC-0103...The presentation position is outside the object space and presentation is attempted. | ❓ |
-| PTOCA-4-132 | EC-1403...Negative DSPLCMNT is not valid. | ❓ |
+| PTOCA-4-132 | EC-1403...Negative DSPLCMNT is not valid. | ✅ |
 | PTOCA-4-133 | The Absolute Move Inline control sequence moves the inline coordinate position relative to the B-axis. | ❓ |
 | PTOCA-4-134 | | 0 | CODE | PREFIX | X'2B' | Control sequence prefix | M | N | N | ❓ |
 | PTOCA-4-135 | | 1 | CODE | CLASS | X'D3' | Control sequence class | M | N | N | ❓ |
@@ -763,12 +763,12 @@
 | PTOCA-4-347 | RPTDATA do not accept the default indicator. | ❓ |
 | PTOCA-4-348 | data-stream documentation. | ❓ |
 | PTOCA-4-349 | RPS control sequence not be used in this manner, and that the TRN control sequence be used instead. | ❓ |
-| PTOCA-4-350 | EC-1A01...A double-byte font is active and the length of RPTDATA is an odd number. | ❓ |
+| PTOCA-4-350 | EC-1A01...A double-byte font is active and the length of RPTDATA is an odd number. | ✅ |
 | PTOCA-4-351 | EC-1A03...Invalid Unicode data. This can be caused by one of the following: | ❓ |
-| PTOCA-4-352 | EC-1B01...A double-byte font is active and RLENGTH is an odd number. | ❓ |
+| PTOCA-4-352 | EC-1B01...A double-byte font is active and RLENGTH is an odd number. | ✅ |
 | PTOCA-4-353 | EC-1901...The value of RLENGTH is not supported or is not in the range specified by PTOCA. | ❓ |
 | PTOCA-4-354 | EC-0103...A parameter value will cause part of a character's character box to be outside the object space, | ❓ |
-| PTOCA-4-355 | EC-1F01...The control sequence length parameter is four and RLENGTH is not zero. | ❓ |
+| PTOCA-4-355 | EC-1F01...The control sequence length parameter is four and RLENGTH is not zero. | ✅ |
 | PTOCA-4-356 | coordinate when a Begin Line control sequence is executed. This is a modal control sequence. | ❓ |
 | PTOCA-4-357 | CODE PREFIX X'2B' Control Sequence Prefix M N N | ❓ |
 | PTOCA-4-358 | CODE CLASS X'D3' Control sequence class M N N | ❓ |
