@@ -34,6 +34,7 @@ val checkstyleConfig: Configuration by configurations.creating
 
 dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.17.2")
+    implementation("com.fasterxml.jackson.module:jackson-module-blackbird:2.17.2")
     implementation("com.fasterxml:aalto-xml:1.3.2")
     implementation("com.fasterxml.woodstox:woodstox-core:7.0.0")
     implementation("com.itextpdf:kernel:9.0.0")

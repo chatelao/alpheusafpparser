@@ -24,11 +24,15 @@ import com.fasterxml.aalto.stax.OutputFactoryImpl;
 import com.ctc.wstx.stax.WstxInputFactory;
 import com.ctc.wstx.stax.WstxOutputFactory;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.StreamWriteFeature;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import com.fasterxml.jackson.module.blackbird.BlackbirdModule;
 import java.io.IOException;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Provides a thread-safe, singleton {@link XmlMapper} configured for AFP to XML conversion.
@@ -41,9 +45,16 @@ public class JacksonXmlMapperProvider {
   private static final XmlMapper WOODSTOX_MAPPER;
   private static final XmlMapper WOODSTOX_FRAGMENT_MAPPER;
 
+  private static final ConcurrentHashMap<Class<?>, ObjectWriter> WRITER_CACHE = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<Class<?>, ObjectWriter> FRAGMENT_WRITER_CACHE = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<Class<?>, ObjectWriter> WOODSTOX_WRITER_CACHE = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<Class<?>, ObjectWriter> WOODSTOX_FRAGMENT_WRITER_CACHE = new ConcurrentHashMap<>();
+
   static {
     XML_MAPPER = XmlMapper.builder(new XmlFactory(new InputFactoryImpl(), new OutputFactoryImpl()))
         .nameForTextElement("text")
+        .enable(StreamWriteFeature.USE_FAST_DOUBLE_WRITER)
+        .addModule(new BlackbirdModule())
         .build();
     // Disable indentation for better performance in high-throughput environments
     XML_MAPPER.disable(SerializationFeature.INDENT_OUTPUT);
@@ -58,6 +69,8 @@ public class JacksonXmlMapperProvider {
 
     WOODSTOX_MAPPER = XmlMapper.builder(new XmlFactory(new WstxInputFactory(), new WstxOutputFactory()))
         .nameForTextElement("text")
+        .enable(StreamWriteFeature.USE_FAST_DOUBLE_WRITER)
+        .addModule(new BlackbirdModule())
         .build();
     WOODSTOX_MAPPER.disable(SerializationFeature.INDENT_OUTPUT);
     WOODSTOX_MAPPER.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
@@ -104,5 +117,29 @@ public class JacksonXmlMapperProvider {
    */
   public static XmlMapper getFragmentMapper(boolean useWoodstox) {
     return useWoodstox ? WOODSTOX_FRAGMENT_MAPPER : FRAGMENT_MAPPER;
+  }
+
+  /**
+   * Returns a pre-cached {@link ObjectWriter} for the given class and configuration.
+   *
+   * @param clazz the class to get the writer for
+   * @param useWoodstox if true, use Woodstox backend
+   * @param fragment if true, use fragment configuration
+   * @return the cached ObjectWriter
+   */
+  public static ObjectWriter getCachedWriter(Class<?> clazz, boolean useWoodstox, boolean fragment) {
+    if (useWoodstox) {
+      if (fragment) {
+        return WOODSTOX_FRAGMENT_WRITER_CACHE.computeIfAbsent(clazz, WOODSTOX_FRAGMENT_MAPPER::writerFor);
+      } else {
+        return WOODSTOX_WRITER_CACHE.computeIfAbsent(clazz, WOODSTOX_MAPPER::writerFor);
+      }
+    } else {
+      if (fragment) {
+        return FRAGMENT_WRITER_CACHE.computeIfAbsent(clazz, FRAGMENT_MAPPER::writerFor);
+      } else {
+        return WRITER_CACHE.computeIfAbsent(clazz, XML_MAPPER::writerFor);
+      }
+    }
   }
 }
