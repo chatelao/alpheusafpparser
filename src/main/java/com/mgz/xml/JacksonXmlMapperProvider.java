@@ -23,6 +23,8 @@ import com.fasterxml.aalto.stax.InputFactoryImpl;
 import com.fasterxml.aalto.stax.OutputFactoryImpl;
 import com.ctc.wstx.stax.WstxInputFactory;
 import com.ctc.wstx.stax.WstxOutputFactory;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLOutputFactory;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.StreamWriteFeature;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -39,6 +41,11 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class JacksonXmlMapperProvider {
 
+  private static final InputFactoryImpl AALTO_INPUT_FACTORY = new InputFactoryImpl();
+  private static final OutputFactoryImpl AALTO_OUTPUT_FACTORY = new OutputFactoryImpl();
+  private static final WstxInputFactory WOODSTOX_INPUT_FACTORY = new WstxInputFactory();
+  private static final WstxOutputFactory WOODSTOX_OUTPUT_FACTORY = new WstxOutputFactory();
+
   private static final XmlMapper XML_MAPPER;
   private static final XmlMapper FRAGMENT_MAPPER;
 
@@ -51,7 +58,23 @@ public class JacksonXmlMapperProvider {
   private static final ConcurrentHashMap<Class<?>, ObjectWriter> WOODSTOX_FRAGMENT_WRITER_CACHE = new ConcurrentHashMap<>();
 
   static {
-    XML_MAPPER = XmlMapper.builder(new XmlFactory(new InputFactoryImpl(), new OutputFactoryImpl()))
+    AALTO_OUTPUT_FACTORY.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
+    try {
+      AALTO_OUTPUT_FACTORY.setProperty("org.codehaus.stax2.validation.checkStructure", false);
+    } catch (Exception e) {
+      // Ignore
+    }
+
+    WOODSTOX_OUTPUT_FACTORY.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
+    try {
+      WOODSTOX_OUTPUT_FACTORY.setProperty("com.ctc.wstx.addSpaceAfterEmptyElem", false);
+      WOODSTOX_OUTPUT_FACTORY.setProperty("com.ctc.wstx.outputBufferSize", 65536);
+      WOODSTOX_OUTPUT_FACTORY.setProperty("org.codehaus.stax2.validation.checkStructure", false);
+    } catch (Exception e) {
+      // Ignore
+    }
+
+    XML_MAPPER = XmlMapper.builder(new XmlFactory(AALTO_INPUT_FACTORY, AALTO_OUTPUT_FACTORY))
         .nameForTextElement("text")
         .enable(StreamWriteFeature.USE_FAST_DOUBLE_WRITER)
         .addModule(new BlackbirdModule())
@@ -67,7 +90,7 @@ public class JacksonXmlMapperProvider {
     // Avoid "Trying to output second root" in fragment mode
     FRAGMENT_MAPPER.configure(SerializationFeature.WRITE_SINGLE_ELEM_ARRAYS_UNWRAPPED, true);
 
-    WOODSTOX_MAPPER = XmlMapper.builder(new XmlFactory(new WstxInputFactory(), new WstxOutputFactory()))
+    WOODSTOX_MAPPER = XmlMapper.builder(new XmlFactory(WOODSTOX_INPUT_FACTORY, WOODSTOX_OUTPUT_FACTORY))
         .nameForTextElement("text")
         .enable(StreamWriteFeature.USE_FAST_DOUBLE_WRITER)
         .addModule(new BlackbirdModule())
@@ -141,5 +164,25 @@ public class JacksonXmlMapperProvider {
         return WRITER_CACHE.computeIfAbsent(clazz, XML_MAPPER::writerFor);
       }
     }
+  }
+
+  /**
+   * Returns the XML output factory based on the backend choice.
+   *
+   * @param useWoodstox if true, return Woodstox factory
+   * @return the XMLOutputFactory
+   */
+  public static XMLOutputFactory getOutputFactory(boolean useWoodstox) {
+    return useWoodstox ? WOODSTOX_OUTPUT_FACTORY : AALTO_OUTPUT_FACTORY;
+  }
+
+  /**
+   * Returns the XML input factory based on the backend choice.
+   *
+   * @param useWoodstox if true, return Woodstox factory
+   * @return the XMLInputFactory
+   */
+  public static XMLInputFactory getInputFactory(boolean useWoodstox) {
+    return useWoodstox ? WOODSTOX_INPUT_FACTORY : AALTO_INPUT_FACTORY;
   }
 }

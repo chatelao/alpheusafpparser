@@ -29,7 +29,7 @@ Fine-tune the Woodstox backend for maximum throughput and efficient memory usage
     - ✅ **Structure Validation**: `P_OUTPUT_VALIDATE_STRUCTURE` set to `false` (via `checkStructure`).
     - ✅ **Empty Element Handling**: Set `P_ADD_SPACE_AFTER_EMPTY_EL` to `false` to reduce output size.
     - ✅ **Buffer Optimization**: Increase `P_OUTPUT_BUFFER_SIZE` to 32KB or 64KB for high-volume I/O.
-- ⏳ **Direct Buffer Recycling**: Ensure optimal reuse of Woodstox internal buffers in parallel processing tasks.
+- ✅ **Direct Buffer Recycling**: Ensure optimal reuse of Woodstox internal buffers in parallel processing tasks by consolidating StAX factories and ensuring proper `close()` calls on stream writers.
 
 ---
 

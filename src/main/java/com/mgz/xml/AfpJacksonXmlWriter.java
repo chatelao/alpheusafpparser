@@ -93,28 +93,6 @@ import org.w3c.dom.Document;
  */
 public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
-  private static final XMLOutputFactory AALTO_XOF;
-  private static final XMLOutputFactory WOODSTOX_XOF;
-
-  static {
-    AALTO_XOF = new com.fasterxml.aalto.stax.OutputFactoryImpl();
-    AALTO_XOF.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
-    try {
-      AALTO_XOF.setProperty("org.codehaus.stax2.validation.checkStructure", false);
-    } catch (Exception e) {
-      // Ignore
-    }
-
-    WOODSTOX_XOF = new com.ctc.wstx.stax.WstxOutputFactory();
-    WOODSTOX_XOF.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
-    try {
-      WOODSTOX_XOF.setProperty("com.ctc.wstx.addSpaceAfterEmptyElem", false);
-      WOODSTOX_XOF.setProperty("com.ctc.wstx.outputBufferSize", 65536);
-      WOODSTOX_XOF.setProperty("org.codehaus.stax2.validation.checkStructure", false);
-    } catch (Exception e) {
-      // Ignore
-    }
-  }
   private static final DocumentBuilderFactory DBF = DocumentBuilderFactory.newInstance();
   private static final XPathFactory XPF = XPathFactory.newInstance();
   private static final TransformerFactory TF = TransformerFactory.newInstance();
@@ -190,7 +168,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     this.fragmentMapper = JacksonXmlMapperProvider.getFragmentMapper(useWoodstox);
 
     if (this.xpathExpression == null) {
-      XMLOutputFactory xof = useWoodstox ? WOODSTOX_XOF : AALTO_XOF;
+      XMLOutputFactory xof = JacksonXmlMapperProvider.getOutputFactory(useWoodstox);
       XMLStreamWriter2 rawXsw = (XMLStreamWriter2) xof.createXMLStreamWriter(cos, "UTF-8");
       this.baseXsw = new SanitizingXMLStreamWriter(rawXsw);
       this.xsw = MnemonicPerformanceMonitor.isEnabled() ? new MnemonicXMLStreamWriter(this.baseXsw) : this.baseXsw;
@@ -2485,9 +2463,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         xsw.writeEndElement();
       }
       xsw.flush();
-      if (!fragmentMode) {
-        xsw.close();
-      }
+      // Always close the writer to ensure that internal buffers are recycled by the factory.
+      xsw.close();
     }
   }
 
