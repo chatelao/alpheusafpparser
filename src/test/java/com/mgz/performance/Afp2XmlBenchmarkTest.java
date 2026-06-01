@@ -100,7 +100,7 @@ public class Afp2XmlBenchmarkTest {
                 if ((boolean) isSupported.invoke(baseThreadBean)) {
                     java.lang.reflect.Method setEnabled = sunBeanClass.getMethod("setThreadAllocatedMemoryEnabled", boolean.class);
                     setEnabled.invoke(baseThreadBean, true);
-                    java.lang.reflect.Method getAllocated = sunBeanClass.getMethod("getThreadAllocatedMemory", long.class);
+                    java.lang.reflect.Method getAllocated = sunBeanClass.getMethod("getThreadAllocatedBytes", long.class);
                     long[] threadIds = baseThreadBean.getAllThreadIds();
                     for (long id : threadIds) {
                         long bytes = (long) getAllocated.invoke(baseThreadBean, id);
