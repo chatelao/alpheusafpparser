@@ -62,3 +62,12 @@ Es muss verifiziert werden, ob Woodstox diese Eigenschaft unterstützt oder ob e
 ## 4. Bekannte Einschränkungen
 *   **Kein Async-Support:** Woodstox unterstützt im Gegensatz zu Aalto kein non-blocking Parsing. Die Roadmap für asynchrones I/O (siehe `STAX2_ROADMAP.md`) müsste bei einer dauerhaften Umstellung angepasst werden.
 *   **Performance:** Es wird erwartet, dass der Durchsatz bei Massendaten-Konvertierungen leicht sinkt, da Woodstox mehr Fokus auf Validierung als auf reine Geschwindigkeit legt.
+
+## 5. Optionale Unterstützung beider Implementierungen (-w Flag)
+Sollte Woodstox nicht als vollständiger Ersatz, sondern als optionale Alternative (via CLI-Flag `-w`) implementiert werden, wären an **drei** zentralen Stellen `if-then-else`-Entscheidungen notwendig:
+
+1.  **`Afp2Xml.java` (CLI Parsing):** In der `execute`-Methode muss ein neuer Case für `-w` bzw. `--woodstox` hinzugefügt werden, um die Wahl des Benutzers zu erfassen.
+2.  **`JacksonXmlMapperProvider.java` (Mapper-Initialisierung):** Im statischen Initialisierungsblock muss bei der Erzeugung des `XmlMapper` zwischen `InputFactoryImpl/OutputFactoryImpl` (Aalto) und `WstxInputFactory/WstxOutputFactory` (Woodstox) unterschieden werden.
+3.  **`AfpJacksonXmlWriter.java` (StAX-Factory):** Die Initialisierung der statischen `XOF` (XMLOutputFactory) Variable muss basierend auf dem gewählten Modus erfolgen.
+
+**Hinweis:** Da die Fabriken in `JacksonXmlMapperProvider` und `AfpJacksonXmlWriter` derzeit als `static final` Felder beim Laden der Klasse initialisiert werden, müsste entweder sichergestellt werden, dass das Flag gesetzt wird, bevor diese Klassen geladen werden, oder die Architektur müsste von statischen Singletons auf eine instanzbasierte Konfiguration umgestellt werden (z. B. via `AFPParserConfiguration`).
