@@ -118,9 +118,11 @@ public class BCOCAChapter4Test {
         //   FileID2: 0x04
         //   SpecialFlags: 0x80 (GS1)
         // Data: 0x41 0x42 0x43 (ABC)
+        // Total Payload: 5 (header) + 10 (params) + 3 (data) = 18 bytes
+        // Total SF Length: 8 (SFI) + 18 = 26 (0x001A)
 
         byte[] data = new byte[] {
-            0x5A, 0x00, 0x1B, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
+            0x5A, 0x00, 0x1A, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
             0x00, 0x01, 0x00, 0x02, 0x00,
             (byte) 0x80, 0x00, 0x20, 0x00, 0x30, 0x01, 0x02, 0x03, 0x04, (byte) 0x80,
             0x41, 0x42, 0x43
@@ -143,9 +145,12 @@ public class BCOCAChapter4Test {
         //   SeqInd: 0x01
         //   TotalSymbols: 0x02
         //   SpecialFlags: 0x80 (Zipper)
+        // Data: 0x41 0x42 0x43 (ABC)
+        // Total Payload: 5 (header) + 5 (params) + 3 (data) = 13 bytes
+        // Total SF Length: 8 (SFI) + 13 = 21 (0x0015)
 
         byte[] data = new byte[] {
-            0x5A, 0x00, 0x16, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
+            0x5A, 0x00, 0x15, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00,
             0x40, 0x02, 0x01, 0x02, (byte) 0x80,
             0x41, 0x42, 0x43
@@ -169,9 +174,12 @@ public class BCOCAChapter4Test {
         //   Security: 0x02
         //   MacroLength: 0x0002
         //   MacroData: 0xEE 0xFF
+        // Data: 0x41 0x42 0x43 (ABC)
+        // Total Payload: 5 (header) + 8 (params) + 3 (data) = 16 bytes
+        // Total SF Length: 8 (SFI) + 16 = 24 (0x0018)
 
         byte[] data = new byte[] {
-            0x5A, 0x00, 0x19, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
+            0x5A, 0x00, 0x18, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00,
             0x00, 0x05, 0x0A, 0x02, 0x00, 0x02, (byte) 0xEE, (byte) 0xFF,
             0x41, 0x42, 0x43
@@ -198,9 +206,12 @@ public class BCOCAChapter4Test {
         //   Parity: 0x06
         //   SpecialFlags: 0x80 (UCC_EAN_FNC1) [BCOCA-4-585]
         //   AppInd: 0x07
+        // Data: 0x41 0x42 0x43 (ABC)
+        // Total Payload: 5 (header) + 9 (params) + 3 (data) = 17 bytes
+        // Total SF Length: 8 (SFI) + 17 = 25 (0x0019)
 
         byte[] data = new byte[] {
-            0x5A, 0x00, 0x1A, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
+            0x5A, 0x00, 0x19, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00,
             0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, (byte) 0x80, 0x07,
             0x41, 0x42, 0x43
@@ -219,21 +230,22 @@ public class BCOCAChapter4Test {
         // [BCOCA-4-318] [BCOCA-4-633] (Table 33)
         // Common QR Parameters (9 bytes)
         // Plus QR with Image Parameters (3 bytes)
-        // Plus 1 Image Block (23 bytes)
-        // Total Params: 9 + 3 + 23 = 35 bytes
+        // Plus 1 Image Block (24 bytes)
+        // Total Params: 9 + 3 + 24 = 36 bytes
         // BDA overhead: 5 bytes
         // Data: 3 bytes (ABC)
-        // Total SF Length: 5 + 35 + 3 = 43 (0x2B)
+        // Total Payload: 5 + 36 + 3 = 44 bytes
+        // Total SF Length: 8 (SFI) + 44 = 52 (0x0034)
 
         byte[] data = new byte[] {
-            0x5A, 0x00, 0x2B, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
+            0x5A, 0x00, 0x34, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00,
             // Common QR (9 bytes)
             0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, (byte) 0x80, 0x07,
             // QR with Image (3 bytes)
             (byte) 0xC0, 0x00, 0x17,
-            // Image Information Block (23 bytes)
-            0x16, 0x00, 0x00, 0x00, 0x01, 0x64, 0x00, 0x64, 0x00, 0x2A, 0x00, 0x2A, 0x00, 0x00, (byte) 0xF0, 0x64, 0x00, 0x64, 0x00, 0x14, 0x00, 0x14, 0x10,
+            // Image Information Block (24 bytes)
+            0x17, 0x00, 0x00, 0x00, 0x01, 0x64, 0x00, 0x64, 0x00, 0x2A, 0x00, 0x2A, 0x00, 0x00, (byte) 0xF0, 0x64, 0x00, 0x64, 0x00, 0x14, 0x00, 0x14, 0x10, 0x00,
             // Barcode data
             0x41, 0x42, 0x43
         };
@@ -250,15 +262,17 @@ public class BCOCAChapter4Test {
     @Test
     public void testBDAParametersAztecCodeRoundTrip() throws Exception {
         // [BCOCA-4-318] [BCOCA-4-354] (Table 21)
-        // Parameters: 10 fixed + 2 ID + 1 length + 2 Addl
-        // Total Params: 15 bytes
-        // Total SF: 5 + 15 + 3 = 23 (0x17)
+        // Parameters: 9 fixed + 2 ID + 1 length + 2 Addl + 1 Reserved = 15 bytes
+        // BDA overhead: 5 bytes
+        // Data: 3 bytes (ABC)
+        // Total Payload: 5 + 15 + 3 = 23 bytes
+        // Total SF Length: 8 (SFI) + 23 = 31 (0x001F)
 
         byte[] data = new byte[] {
-            0x5A, 0x00, 0x17, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
+            0x5A, 0x00, 0x1F, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00,
             // Aztec (15 bytes)
-            (byte) 0xA0, 0x00, 0x05, 0x17, (byte) 0xC0, 0x01, 0x02, 0x03, 0x02, 0x58, 0x59, 0x02, 0x11, 0x22,
+            (byte) 0xA0, 0x00, 0x05, 0x17, (byte) 0xC0, 0x01, 0x02, 0x03, 0x02, 0x58, 0x59, 0x02, 0x11, 0x22, 0x00,
             // Barcode data
             0x41, 0x42, 0x43
         };
@@ -277,9 +291,10 @@ public class BCOCAChapter4Test {
         // Parameters: 7 fixed + 2 Addl
         // Total Params: 9 bytes
         // Total SF: 5 + 9 + 3 = 17 (0x11)
+        // Total SF Length: 8 (SFI) + 17 = 25 (0x0019)
 
         byte[] data = new byte[] {
-            0x5A, 0x00, 0x11, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
+            0x5A, 0x00, 0x19, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00,
             // Han Xin (9 bytes)
             (byte) 0x80, 0x00, 0x0A, 0x02, (byte) 0x80, 0x01, 0x02, 0x11, 0x22,
@@ -300,10 +315,11 @@ public class BCOCAChapter4Test {
         // [BCOCA-4-318] [BCOCA-4-521] (Table 28)
         // Parameters: 4 fixed + 4 Banner
         // Total Params: 8 bytes
-        // Total SF: 5 + 8 + 3 = 16 (0x10)
+        // Total SF: 5 (header) + 8 (params) + 3 (data) = 16 bytes
+        // Total SF Length: 8 (SFI) + 16 = 24 (0x0018)
 
         byte[] data = new byte[] {
-            0x5A, 0x00, 0x10, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
+            0x5A, 0x00, 0x18, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00,
             // IM Package (8 bytes)
             0x00, (byte) 0x80, 0x00, 0x04, 0x11, 0x22, 0x33, 0x44,
@@ -333,12 +349,17 @@ public class BCOCAChapter4Test {
 
         byte flagByte = (byte) (0x80 | 0x40 | 0x10 | 0x04 | 0x02);
         byte[] data = new byte[] {
-            0x5A, 0x00, 0x08, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
+            0x5A, 0x00, 0x0D, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
             flagByte, 0x00, 0x00, 0x00, 0x00
         };
 
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.Code39_3of9Code_AIM_USS_39);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
         BDA_BarCodeData bda = new BDA_BarCodeData();
-        bda.decodeAFP(data, 6, 8, new AFPParserConfiguration());
+        bda.decodeAFP(data, 9, 5, config);
 
         assertTrue(bda.getBarCodeFlags().contains(BDA_BarCodeData.BarCodeFlag.HRINotPresent));
         assertTrue(bda.getBarCodeFlags().contains(BDA_BarCodeData.BarCodeFlag.PositionHRIAbove));
@@ -346,14 +367,14 @@ public class BCOCAChapter4Test {
         assertTrue(bda.getBarCodeFlags().contains(BDA_BarCodeData.BarCodeFlag.SuppressBarCodeSymbol));
         assertTrue(bda.getBarCodeFlags().contains(BDA_BarCodeData.BarCodeFlag.SuppressAndAdjustBlanks));
 
-        RoundTripTestUtils.assertRoundTrip(new BDA_BarCodeData(), data);
+        RoundTripTestUtils.assertRoundTrip(new BDA_BarCodeData(), data, config);
 
         // Test the other position bit
         data[9] = 0x20; // HRI below
         bda = new BDA_BarCodeData();
-        bda.decodeAFP(data, 6, 8, new AFPParserConfiguration());
+        bda.decodeAFP(data, 9, 5, config);
         assertTrue(bda.getBarCodeFlags().contains(BDA_BarCodeData.BarCodeFlag.PositionHRIBelow));
-        RoundTripTestUtils.assertRoundTrip(new BDA_BarCodeData(), data);
+        RoundTripTestUtils.assertRoundTrip(new BDA_BarCodeData(), data, config);
     }
 
     private void assertSubsets(BDD_BarCodeDataDescriptor.BarCodeType type, boolean bcd1, boolean bcd2) {
