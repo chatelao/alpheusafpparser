@@ -362,9 +362,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (sf instanceof BDA_BarCodeData bda) {
       writeBdaDirectly(bda);
     } else {
-      String rootName = sf.getClass().getSimpleName();
-      String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
-      MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
+      MnemonicPerformanceMonitor.startWriteWithMnemonic(MnemonicPerformanceMonitor.extractMnemonic(sf));
       fragmentMapper.writer().writeValue(baseFragmentGenerator, sf);
       MnemonicPerformanceMonitor.endWrite();
     }
@@ -1097,9 +1095,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else {
-      String simpleName = cs.getClass().getSimpleName();
-      String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(simpleName);
-      MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
+      MnemonicPerformanceMonitor.startWriteWithMnemonic(MnemonicPerformanceMonitor.extractMnemonic(cs));
       fragmentMapper.writer().writeValue(baseFragmentGenerator, cs);
       MnemonicPerformanceMonitor.endWrite();
     }
@@ -1881,8 +1877,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.DrawingOrder_HasPoints dohp) {
       String rootName = order.getClass().getSimpleName();
-      String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
-      MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
+      MnemonicPerformanceMonitor.startWriteWithMnemonic(MnemonicPerformanceMonitor.extractMnemonicFromString(rootName));
       writer.writeStartElement(rootName);
       if (dohp.getPoints() != null) {
         writer.writeCharacters(childIndent);
@@ -1903,9 +1898,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writer.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else {
-      String rootName = order.getClass().getSimpleName();
-      String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
-      MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
+      MnemonicPerformanceMonitor.startWriteWithMnemonic(MnemonicPerformanceMonitor.extractMnemonic(order));
       fragmentMapper.writer().writeValue(baseFragmentGenerator, order);
       MnemonicPerformanceMonitor.endWrite();
     }
