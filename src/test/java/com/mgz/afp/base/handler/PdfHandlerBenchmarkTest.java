@@ -42,9 +42,9 @@ public class PdfHandlerBenchmarkTest {
 
   @Test
   public void testPdfParsingThroughput() throws Exception {
-    File afpFile = new File("test_dir/Chapter_1.afp");
+    File afpFile = new File("test/dir/Chapter_1.afp");
     if (!afpFile.exists()) {
-      System.out.println("Skipping benchmark: test_dir/Chapter_1.afp not found.");
+      System.out.println("Skipping benchmark: test/dir/Chapter_1.afp not found.");
       return;
     }
 

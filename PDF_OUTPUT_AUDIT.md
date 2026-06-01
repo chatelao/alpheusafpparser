@@ -50,7 +50,7 @@ There are currently no integration tests that verify the actual bytes of the gen
 ## 4. Recommendations & Next Steps
 
 1. **Implement `Afp2PdfIntegrationTest`**:
-   - Create a test that runs the converter on a small sample (e.g., `test_dir/Chapter_1.afp`) and verifies the resulting file is a valid PDF and contains expected text strings (using `PdfReader`).
+   - Create a test that runs the converter on a small sample (e.g., `test/dir/Chapter_1.afp`) and verifies the resulting file is a valid PDF and contains expected text strings (using `PdfReader`).
 2. **Prioritize Font Resolution**:
    - The inability to resolve and embed fonts is the primary blocker for creating visually meaningful PDF output.
 3. **Introduce "Gold Standard" Baselines**:
