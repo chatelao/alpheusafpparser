@@ -89,6 +89,14 @@ publishing {
                         roles.set(listOf("architect", "developer"))
                         timezone.set("Europe/Vienna")
                     }
+                    developer {
+                        id.set("chatelao")
+                        name.set("Olivier Chatelain")
+                        email.set("olivier.chatelain+afpp@gmail.com")
+                        url.set("https://github.com/chatelao")
+                        roles.set(listOf("architect", "developer"))
+                        timezone.set("Europe/Bern")
+                    }
                 }
                 scm {
                     url.set("https://github.com/chatelao/alpheusafpparser")
