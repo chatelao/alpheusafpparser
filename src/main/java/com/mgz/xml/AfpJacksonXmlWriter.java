@@ -2606,8 +2606,65 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeElement(writer, indent3, "versionOfSymbol", qr.versionOfSymbol);
       writeElement(writer, indent3, "errorCorrectionLevel", qr.errorCorrectionLevel.name());
       writeElement(writer, indent3, "parityData", qr.parityData);
-      writeElement(writer, indent3, "specialFunctionFlag", qr.specialFunctionFlag.name());
+      writeElement(writer, indent3, "qrCodeSpecialFunctionFlags", qr.qrCodeSpecialFunctionFlags.toString());
       writeElement(writer, indent3, "applicationIndicator", qr.applicationIndicator);
+      if (pd instanceof BDA_BarCodeData.ParametersDataQRCodeWithImage qri) {
+        writeElement(writer, indent3, "qrCodeWithImageFlags", qri.qrCodeWithImageFlags.toString());
+        writeElement(writer, indent3, "repeatingGroupsLength", qri.repeatingGroupsLength);
+        for (BDA_BarCodeData.ParametersDataQRCodeWithImage.ImageInformationBlock block : qri.imageInformationBlocks) {
+          writer.writeCharacters(indent3);
+          writer.writeStartElement("imageInformationBlock");
+          String indent4 = XmlIndenter.getIndent(4);
+          writeElement(writer, indent4, "length", block.length);
+          writeElement(writer, indent4, "imageLocalId", block.imageLocalId);
+          writeElement(writer, indent4, "offsetUnitBase", block.offsetUnitBase);
+          writeElement(writer, indent4, "offsetUpub", block.offsetUpub);
+          writeElement(writer, indent4, "xOffset", block.xOffset);
+          writeElement(writer, indent4, "yOffset", block.yOffset);
+          writeElement(writer, indent4, "orientation", block.orientation);
+          writeElement(writer, indent4, "coordinateSystem", block.coordinateSystem);
+          writeElement(writer, indent4, "extentUnitBase", block.extentUnitBase);
+          writeElement(writer, indent4, "extentUpub", block.extentUpub);
+          writeElement(writer, indent4, "xExtent", block.xExtent);
+          writeElement(writer, indent4, "yExtent", block.yExtent);
+          writeElement(writer, indent4, "mappingOption", block.mappingOption);
+          if (block.additionalData != null && block.additionalData.length > 0) {
+            writeBinaryElement(writer, indent4, "additionalData", block.additionalData);
+          }
+          writer.writeCharacters(indent3);
+          writer.writeEndElement();
+        }
+      }
+    } else if (pd instanceof BDA_BarCodeData.ParametersDataAztecCode aztec) {
+      writeElement(writer, indent3, "desiredNumberOfLayers", aztec.desiredNumberOfLayers);
+      writeElement(writer, indent3, "levelOfErrorCorrection", aztec.levelOfErrorCorrection);
+      writeElement(writer, indent3, "aztecSpecialFunctionFlags", aztec.aztecSpecialFunctionFlags.toString());
+      writeElement(writer, indent3, "applicationIndicator", aztec.applicationIndicator);
+      writeElement(writer, indent3, "sequenceIndicator", aztec.getSequenceIndicator());
+      writeElement(writer, indent3, "totalNumberOfSymbols", aztec.getTotalNumberOfSymbols());
+      writeElement(writer, indent3, "structuredAppendIdLength", aztec.structuredAppendIdLength);
+      if (aztec.structuredAppendId != null && aztec.structuredAppendId.length > 0) {
+        writeBinaryElement(writer, indent3, "structuredAppendId", aztec.structuredAppendId);
+      }
+      writeElement(writer, indent3, "additionalParametersLength", aztec.additionalParametersLength);
+      if (aztec.additionalParameters != null && aztec.additionalParameters.length > 0) {
+        writeBinaryElement(writer, indent3, "additionalParameters", aztec.additionalParameters);
+      }
+    } else if (pd instanceof BDA_BarCodeData.ParametersDataHanXinCode hanxin) {
+      writeElement(writer, indent3, "version", hanxin.version);
+      writeElement(writer, indent3, "errorCorrectionLevel", hanxin.errorCorrectionLevel);
+      writeElement(writer, indent3, "hanXinSpecialFunctionFlags", hanxin.hanXinSpecialFunctionFlags.toString());
+      writeElement(writer, indent3, "applicationIndicator", hanxin.applicationIndicator);
+      writeElement(writer, indent3, "additionalParametersLength", hanxin.additionalParametersLength);
+      if (hanxin.additionalParameters != null && hanxin.additionalParameters.length > 0) {
+        writeBinaryElement(writer, indent3, "additionalParameters", hanxin.additionalParameters);
+      }
+    } else if (pd instanceof BDA_BarCodeData.ParametersDataIntelligentMailPackageBarcode imp) {
+      writeElement(writer, indent3, "intelligentMailPackageBarcodeFlags", imp.intelligentMailPackageBarcodeFlags.toString());
+      writeElement(writer, indent3, "bannerLength", imp.bannerLength);
+      if (imp.bannerString != null && imp.bannerString.length > 0) {
+        writeBinaryElement(writer, indent3, "bannerString", imp.bannerString);
+      }
     }
 
     writer.writeCharacters(indent);

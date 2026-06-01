@@ -187,7 +187,7 @@ public class BCOCAChapter4Test {
 
     @Test
     public void testBDAParametersQRCodeRoundTrip() throws Exception {
-        // [BCOCA-4-318] [BCOCA-4-3903]
+        // [BCOCA-4-318] [BCOCA-4-572] (Table 31)
         // Parameters (9 bytes):
         //   Control: 0x00
         //   Conversion: 0x01
@@ -196,7 +196,7 @@ public class BCOCAChapter4Test {
         //   SeqInd: 0x04
         //   TotalSymbols: 0x05
         //   Parity: 0x06
-        //   SpecialFlags: 0x80
+        //   SpecialFlags: 0x80 (UCC_EAN_FNC1) [BCOCA-4-585]
         //   AppInd: 0x07
 
         byte[] data = new byte[] {
@@ -212,6 +212,148 @@ public class BCOCAChapter4Test {
         config.setCurrentBarCodeDataDescriptor(bdd);
 
         RoundTripTestUtils.assertRoundTrip(new BDA_BarCodeData(), data, config);
+    }
+
+    @Test
+    public void testBDAParametersQRCodeWithImageRoundTrip() throws Exception {
+        // [BCOCA-4-318] [BCOCA-4-633] (Table 33)
+        // Common QR Parameters (9 bytes)
+        // Plus QR with Image Parameters (3 bytes)
+        // Plus 1 Image Block (23 bytes)
+        // Total Params: 9 + 3 + 23 = 35 bytes
+        // BDA overhead: 5 bytes
+        // Data: 3 bytes (ABC)
+        // Total SF Length: 5 + 35 + 3 = 43 (0x2B)
+
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x2B, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00,
+            // Common QR (9 bytes)
+            0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, (byte) 0x80, 0x07,
+            // QR with Image (3 bytes)
+            (byte) 0xC0, 0x00, 0x17,
+            // Image Information Block (23 bytes)
+            0x16, 0x00, 0x00, 0x00, 0x01, 0x64, 0x00, 0x64, 0x00, 0x2A, 0x00, 0x2A, 0x00, 0x00, (byte) 0xF0, 0x64, 0x00, 0x64, 0x00, 0x14, 0x00, 0x14, 0x10,
+            // Barcode data
+            0x41, 0x42, 0x43
+        };
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.QRCode_2D);
+        bdd.setBarcodeModifier((byte) 0x12);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        RoundTripTestUtils.assertRoundTrip(new BDA_BarCodeData(), data, config);
+    }
+
+    @Test
+    public void testBDAParametersAztecCodeRoundTrip() throws Exception {
+        // [BCOCA-4-318] [BCOCA-4-354] (Table 21)
+        // Parameters: 10 fixed + 2 ID + 1 length + 2 Addl
+        // Total Params: 15 bytes
+        // Total SF: 5 + 15 + 3 = 23 (0x17)
+
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x17, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00,
+            // Aztec (15 bytes)
+            (byte) 0xA0, 0x00, 0x05, 0x17, (byte) 0xC0, 0x01, 0x02, 0x03, 0x02, 0x58, 0x59, 0x02, 0x11, 0x22,
+            // Barcode data
+            0x41, 0x42, 0x43
+        };
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.AztecCode);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        RoundTripTestUtils.assertRoundTrip(new BDA_BarCodeData(), data, config);
+    }
+
+    @Test
+    public void testBDAParametersHanXinCodeRoundTrip() throws Exception {
+        // [BCOCA-4-318] [BCOCA-4-474] (Table 26)
+        // Parameters: 7 fixed + 2 Addl
+        // Total Params: 9 bytes
+        // Total SF: 5 + 9 + 3 = 17 (0x11)
+
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x11, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00,
+            // Han Xin (9 bytes)
+            (byte) 0x80, 0x00, 0x0A, 0x02, (byte) 0x80, 0x01, 0x02, 0x11, 0x22,
+            // Barcode data
+            0x41, 0x42, 0x43
+        };
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.HanXinCode);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        RoundTripTestUtils.assertRoundTrip(new BDA_BarCodeData(), data, config);
+    }
+
+    @Test
+    public void testBDAParametersIntelligentMailPackageBarcodeRoundTrip() throws Exception {
+        // [BCOCA-4-318] [BCOCA-4-521] (Table 28)
+        // Parameters: 4 fixed + 4 Banner
+        // Total Params: 8 bytes
+        // Total SF: 5 + 8 + 3 = 16 (0x10)
+
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x10, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00,
+            // IM Package (8 bytes)
+            0x00, (byte) 0x80, 0x00, 0x04, 0x11, 0x22, 0x33, 0x44,
+            // Barcode data
+            0x41, 0x42, 0x43
+        };
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode);
+        bdd.setBarcodeModifier((byte) 0x06);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        RoundTripTestUtils.assertRoundTrip(new BDA_BarCodeData(), data, config);
+    }
+
+    @Test
+    public void testBarCodeFlagsMapping() throws Exception {
+        // [BCOCA-4-308] to [BCOCA-4-315]
+        // Flags (Byte 0):
+        //   Bit 0 (0x80): HRI not presented [BCOCA-4-309]
+        //   Bit 1 (0x40): HRI above [BCOCA-4-310]
+        //   Bit 2 (0x20): HRI below [BCOCA-4-310]
+        //   Bit 3 (0x10): SSCAST [BCOCA-4-311]
+        //   Bit 5 (0x04): Suppress symbol [BCOCA-4-313]
+        //   Bit 6 (0x02): Suppress trailing blanks [BCOCA-4-314]
+
+        byte flagByte = (byte) (0x80 | 0x40 | 0x10 | 0x04 | 0x02);
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x08, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
+            flagByte, 0x00, 0x00, 0x00, 0x00
+        };
+
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        bda.decodeAFP(data, 6, 8, new AFPParserConfiguration());
+
+        assertTrue(bda.getBarCodeFlags().contains(BDA_BarCodeData.BarCodeFlag.HRINotPresent));
+        assertTrue(bda.getBarCodeFlags().contains(BDA_BarCodeData.BarCodeFlag.PositionHRIAbove));
+        assertTrue(bda.getBarCodeFlags().contains(BDA_BarCodeData.BarCodeFlag.SSCASTAsteriskIsPresent));
+        assertTrue(bda.getBarCodeFlags().contains(BDA_BarCodeData.BarCodeFlag.SuppressBarCodeSymbol));
+        assertTrue(bda.getBarCodeFlags().contains(BDA_BarCodeData.BarCodeFlag.SuppressAndAdjustBlanks));
+
+        RoundTripTestUtils.assertRoundTrip(new BDA_BarCodeData(), data);
+
+        // Test the other position bit
+        data[9] = 0x20; // HRI below
+        bda = new BDA_BarCodeData();
+        bda.decodeAFP(data, 6, 8, new AFPParserConfiguration());
+        assertTrue(bda.getBarCodeFlags().contains(BDA_BarCodeData.BarCodeFlag.PositionHRIBelow));
+        RoundTripTestUtils.assertRoundTrip(new BDA_BarCodeData(), data);
     }
 
     private void assertSubsets(BDD_BarCodeDataDescriptor.BarCodeType type, boolean bcd1, boolean bcd2) {

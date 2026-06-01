@@ -60,9 +60,9 @@ public class BDA_BarCodeData extends StructuredField {
 
     checkDataLength(sfData, offset, length, 5);
 
-    barCodeFlags = BarCodeFlag.valueOf(sfData[0]);
-    xOffset = UtilBinaryDecoding.parseInt(sfData, 1, 2);
-    yOffset = UtilBinaryDecoding.parseInt(sfData, 3, 2);
+    barCodeFlags = BarCodeFlag.valueOf(sfData[offset]);
+    xOffset = UtilBinaryDecoding.parseInt(sfData, offset + 1, 2);
+    yOffset = UtilBinaryDecoding.parseInt(sfData, offset + 3, 2);
 
     int actualLength = length != -1 ? length : sfData.length - offset;
 
@@ -75,12 +75,23 @@ public class BDA_BarCodeData extends StructuredField {
       } else if (associatedBarCodeDataDescriptor.barcodeType == BarCodeType.PDF417_2D) {
         parametersData = new ParametersDataPDF417_2D();
       } else if (associatedBarCodeDataDescriptor.barcodeType == BarCodeType.QRCode_2D) {
-        parametersData = new ParametersDataQRCode_2D();
+        if (associatedBarCodeDataDescriptor.barcodeModifier == 0x12) {
+          parametersData = new ParametersDataQRCodeWithImage();
+        } else {
+          parametersData = new ParametersDataQRCode_2D();
+        }
+      } else if (associatedBarCodeDataDescriptor.barcodeType == BarCodeType.AztecCode) {
+        parametersData = new ParametersDataAztecCode();
+      } else if (associatedBarCodeDataDescriptor.barcodeType == BarCodeType.HanXinCode) {
+        parametersData = new ParametersDataHanXinCode();
+      } else if (associatedBarCodeDataDescriptor.barcodeType == BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode
+          && associatedBarCodeDataDescriptor.barcodeModifier == 0x06) {
+        parametersData = new ParametersDataIntelligentMailPackageBarcode();
       } else {
         parametersData = null;
       }
       if (parametersData != null) {
-        parameterDataLength = parametersData.decodeAFP(sfData, 5, -1);
+        parameterDataLength = parametersData.decodeAFP(sfData, offset + 5, actualLength - 5);
       }
     }
 
@@ -93,6 +104,140 @@ public class BDA_BarCodeData extends StructuredField {
     } else {
       barCodeData = new byte[0];
       text = null;
+    }
+  }
+
+  public static class ParametersDataIntelligentMailPackageBarcode extends ParametersData {
+    public EnumSet<IntelligentMailPackageBarcodeFlag> intelligentMailPackageBarcodeFlags;
+    public byte bannerLength;
+    public byte[] bannerString;
+
+    @Override
+    public int decodeAFP(byte[] sfData, int offset, int length) throws AFPParserException {
+      BDA_BarCodeData.checkDataLength(sfData, offset, length, 4); // minimum length up to offset 8
+      // Byte 5 is Reserved
+      intelligentMailPackageBarcodeFlags = IntelligentMailPackageBarcodeFlag.valueOf(sfData[offset + 1]);
+      // Byte 7 is Reserved
+      bannerLength = sfData[offset + 3];
+
+      if (bannerLength > 0) {
+        bannerString = new byte[bannerLength & 0xFF];
+        System.arraycopy(sfData, offset + 4, bannerString, 0, bannerString.length);
+      } else {
+        bannerString = new byte[0];
+      }
+
+      return 4 + (bannerLength & 0xFF);
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      os.write(0x00); // Reserved Byte 5
+      os.write(IntelligentMailPackageBarcodeFlag.toByte(intelligentMailPackageBarcodeFlags));
+      os.write(0x00); // Reserved Byte 7
+      os.write(bannerLength);
+      if (bannerString != null) {
+        os.write(bannerString);
+      }
+    }
+
+    public enum IntelligentMailPackageBarcodeFlag {
+      SuppressUSPS_ServiceBanner,
+      SuppressIdentificationBars;
+
+      public static EnumSet<IntelligentMailPackageBarcodeFlag> valueOf(int flagByte) {
+        EnumSet<IntelligentMailPackageBarcodeFlag> result = EnumSet.noneOf(IntelligentMailPackageBarcodeFlag.class);
+        if ((flagByte & 0x80) != 0) {
+          result.add(SuppressUSPS_ServiceBanner);
+        }
+        if ((flagByte & 0x40) != 0) {
+          result.add(SuppressIdentificationBars);
+        }
+        return result;
+      }
+
+      public static int toByte(EnumSet<IntelligentMailPackageBarcodeFlag> flags) {
+        int result = 0;
+        if (flags == null) return result;
+        if (flags.contains(SuppressUSPS_ServiceBanner)) {
+          result |= 0x80;
+        }
+        if (flags.contains(SuppressIdentificationBars)) {
+          result |= 0x40;
+        }
+        return result;
+      }
+    }
+  }
+
+  public static class ParametersDataHanXinCode extends ParametersData {
+    public byte version;
+    public byte errorCorrectionLevel;
+    public EnumSet<HanXinSpecialFunctionFlag> hanXinSpecialFunctionFlags;
+    public byte applicationIndicator;
+    public byte additionalParametersLength;
+    public byte[] additionalParameters;
+
+    @Override
+    public int decodeAFP(byte[] sfData, int offset, int length) throws AFPParserException {
+      BDA_BarCodeData.checkDataLength(sfData, offset, length, 7); // minimum length up to offset 11
+      controlFlags = ControlFlag.valueOf(UtilBinaryDecoding.parseInt(sfData, offset, 1));
+      version = sfData[offset + 2];
+      errorCorrectionLevel = sfData[offset + 3];
+      hanXinSpecialFunctionFlags = HanXinSpecialFunctionFlag.valueOf(sfData[offset + 4]);
+      applicationIndicator = sfData[offset + 5];
+      additionalParametersLength = sfData[offset + 6];
+
+      if (additionalParametersLength > 0) {
+        additionalParameters = new byte[additionalParametersLength & 0xFF];
+        System.arraycopy(sfData, offset + 7, additionalParameters, 0, additionalParameters.length);
+      } else {
+        additionalParameters = new byte[0];
+      }
+
+      return 7 + (additionalParametersLength & 0xFF);
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      os.write(ControlFlag.toByte(controlFlags));
+      os.write(0x00); // Reserved Byte 6
+      os.write(version);
+      os.write(errorCorrectionLevel);
+      os.write(HanXinSpecialFunctionFlag.toByte(hanXinSpecialFunctionFlags));
+      os.write(applicationIndicator);
+      os.write(additionalParametersLength);
+      if (additionalParameters != null) {
+        os.write(additionalParameters);
+      }
+    }
+
+    public enum HanXinSpecialFunctionFlag {
+      GS1FNC1,
+      IndustryFNC1;
+
+      public static EnumSet<HanXinSpecialFunctionFlag> valueOf(int flagByte) {
+        EnumSet<HanXinSpecialFunctionFlag> result = EnumSet.noneOf(HanXinSpecialFunctionFlag.class);
+        if ((flagByte & 0x80) != 0) {
+          result.add(GS1FNC1);
+        }
+        if ((flagByte & 0x40) != 0) {
+          result.add(IndustryFNC1);
+        }
+        return result;
+      }
+
+      public static int toByte(EnumSet<HanXinSpecialFunctionFlag> flags) {
+        int result = 0;
+        if (flags == null) return result;
+        if (flags.contains(GS1FNC1)) {
+          result |= 0x80;
+        }
+        if (flags.contains(IndustryFNC1)) {
+          result |= 0x40;
+        }
+        return result;
+      }
     }
   }
 
@@ -178,18 +323,18 @@ public class BDA_BarCodeData extends StructuredField {
       if ((flagByte & 0x80) != 0) {
         result.add(HRINotPresent);
       }
-      if ((flagByte & 0x40) != 0) {
-        result.add(PositionHRIBelow);
-      } else if ((flagByte & 0x20) != 0) {
+      if ((flagByte & 0x40) != 0) { // [BCOCA-4-310] Bits 1-2: Position B'10' = Above
         result.add(PositionHRIAbove);
+      } else if ((flagByte & 0x20) != 0) { // [BCOCA-4-310] Bits 1-2: Position B'01' = Below
+        result.add(PositionHRIBelow);
       }
-      if ((flagByte & 0x08) != 0) {
+      if ((flagByte & 0x10) != 0) { // [BCOCA-4-311] Bit 3: SSCAST
         result.add(SSCASTAsteriskIsPresent);
       }
-      if ((flagByte & 0x04) != 0) {
+      if ((flagByte & 0x04) != 0) { // [BCOCA-4-313] Bit 5: Suppress bar code symbol
         result.add(SuppressBarCodeSymbol);
       }
-      if ((flagByte & 0x02) != 0) {
+      if ((flagByte & 0x02) != 0) { // [BCOCA-4-314] Bit 6: Suppress trailing blanks
         result.add(SuppressAndAdjustBlanks);
       }
 
@@ -197,7 +342,7 @@ public class BDA_BarCodeData extends StructuredField {
     }
 
     /**
-     * Converts the {@link SFFlag} in given {@link EnumSet} to AFP SF FlagByte.
+     * Converts the {@link BarCodeFlag} in given {@link EnumSet} to AFP SF FlagByte.
      */
     public static int toByte(EnumSet<BarCodeFlag> flags) {
       int result = 0;
@@ -205,13 +350,13 @@ public class BDA_BarCodeData extends StructuredField {
       if (flags.contains(HRINotPresent)) {
         result += 0x80;
       }
-      if (flags.contains(PositionHRIBelow)) {
+      if (flags.contains(PositionHRIAbove)) {
         result += 0x40;
-      } else if (flags.contains(PositionHRIAbove)) {
+      } else if (flags.contains(PositionHRIBelow)) {
         result += 0x20;
       }
       if (flags.contains(SSCASTAsteriskIsPresent)) {
-        result += 0x08;
+        result += 0x10;
       }
       if (flags.contains(SuppressBarCodeSymbol)) {
         result += 0x04;
@@ -274,8 +419,9 @@ public class BDA_BarCodeData extends StructuredField {
     }
 
     public enum ControlFlag {
-      ConvertEBCDICToASCII,
-      IgnoreAllEscapeSequences;
+      ConvertEBCDICToASCII, // bit 0
+      IgnoreAllEscapeSequences, // bit 1
+      TooMuchDataException; // bit 2
 
       public static EnumSet<ControlFlag> valueOf(int flagByte) {
         EnumSet<ControlFlag> result = EnumSet.noneOf(ControlFlag.class);
@@ -285,16 +431,124 @@ public class BDA_BarCodeData extends StructuredField {
         if ((flagByte & 0x40) != 0) {
           result.add(IgnoreAllEscapeSequences);
         }
+        if ((flagByte & 0x20) != 0) {
+          result.add(TooMuchDataException);
+        }
         return result;
       }
 
       public static int toByte(EnumSet<ControlFlag> controlFlags) {
         int result = 0;
+        if (controlFlags == null) return result;
         if (controlFlags.contains(ConvertEBCDICToASCII)) {
-          result += 0x80;
+          result |= 0x80;
         }
         if (controlFlags.contains(IgnoreAllEscapeSequences)) {
-          result += 0x40;
+          result |= 0x40;
+        }
+        if (controlFlags.contains(TooMuchDataException)) {
+          result |= 0x20;
+        }
+        return result;
+      }
+    }
+  }
+
+  public static class ParametersDataAztecCode extends ParametersData {
+    public byte desiredNumberOfLayers;
+    public byte levelOfErrorCorrection;
+    public EnumSet<AztecSpecialFunctionFlag> aztecSpecialFunctionFlags;
+    public byte applicationIndicator;
+    public byte structuredAppendIdLength;
+    public byte[] structuredAppendId;
+    public byte additionalParametersLength;
+    public byte[] additionalParameters;
+
+    @Override
+    public int decodeAFP(byte[] sfData, int offset, int length) throws AFPParserException {
+      BDA_BarCodeData.checkDataLength(sfData, offset, length, 9);
+      controlFlags = ControlFlag.valueOf(UtilBinaryDecoding.parseInt(sfData, offset, 1));
+
+      desiredNumberOfLayers = sfData[offset + 2];
+      levelOfErrorCorrection = sfData[offset + 3];
+      aztecSpecialFunctionFlags = AztecSpecialFunctionFlag.valueOf(sfData[offset + 4]);
+      applicationIndicator = sfData[offset + 5];
+      sequenceIndicator = sfData[offset + 6];
+      totalNumberOfSymbols = sfData[offset + 7];
+      structuredAppendIdLength = sfData[offset + 8];
+
+      int currentOffset = 9;
+      if (structuredAppendIdLength > 0) {
+        structuredAppendId = new byte[structuredAppendIdLength & 0xFF];
+        System.arraycopy(sfData, offset + currentOffset, structuredAppendId, 0, structuredAppendId.length);
+        currentOffset += structuredAppendId.length;
+      } else {
+        structuredAppendId = new byte[0];
+      }
+
+      additionalParametersLength = sfData[offset + currentOffset];
+      currentOffset++;
+      if (additionalParametersLength > 0) {
+        additionalParameters = new byte[additionalParametersLength & 0xFF];
+        System.arraycopy(sfData, offset + currentOffset, additionalParameters, 0, additionalParameters.length);
+        currentOffset += additionalParameters.length;
+      } else {
+        additionalParameters = new byte[0];
+      }
+
+      return currentOffset;
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      os.write(ControlFlag.toByte(controlFlags));
+      os.write(0x00); // Reserved Byte 6
+      os.write(desiredNumberOfLayers);
+      os.write(levelOfErrorCorrection);
+      os.write(AztecSpecialFunctionFlag.toByte(aztecSpecialFunctionFlags));
+      os.write(applicationIndicator);
+      os.write(sequenceIndicator);
+      os.write(totalNumberOfSymbols);
+      os.write(structuredAppendIdLength);
+      if (structuredAppendId != null) {
+        os.write(structuredAppendId);
+      }
+      os.write(additionalParametersLength);
+      if (additionalParameters != null) {
+        os.write(additionalParameters);
+      }
+    }
+
+    public enum AztecSpecialFunctionFlag {
+      GS1FNC1,
+      IndustryFNC1,
+      ReaderInitialization;
+
+      public static EnumSet<AztecSpecialFunctionFlag> valueOf(int flagByte) {
+        EnumSet<AztecSpecialFunctionFlag> result = EnumSet.noneOf(AztecSpecialFunctionFlag.class);
+        if ((flagByte & 0x80) != 0) {
+          result.add(GS1FNC1);
+        }
+        if ((flagByte & 0x40) != 0) {
+          result.add(IndustryFNC1);
+        }
+        if ((flagByte & 0x20) != 0) {
+          result.add(ReaderInitialization);
+        }
+        return result;
+      }
+
+      public static int toByte(EnumSet<AztecSpecialFunctionFlag> flags) {
+        int result = 0;
+        if (flags == null) return result;
+        if (flags.contains(GS1FNC1)) {
+          result |= 0x80;
+        }
+        if (flags.contains(IndustryFNC1)) {
+          result |= 0x40;
+        }
+        if (flags.contains(ReaderInitialization)) {
+          result |= 0x20;
         }
         return result;
       }
@@ -627,12 +881,16 @@ public class BDA_BarCodeData extends StructuredField {
     public Conversion conversion;
     public byte versionOfSymbol;
     public ErrorCorrectionLevel errorCorrectionLevel;
-    public short parityData;
-    public SpecialFunctionFlag specialFunctionFlag;
-    public short applicationIndicator;
+    public byte parityData;
+    public EnumSet<QRCodeSpecialFunctionFlag> qrCodeSpecialFunctionFlags;
+    public byte applicationIndicator;
 
     @Override
     public int decodeAFP(byte[] sfData, int offset, int length) throws AFPParserException {
+      return decodeCommonQRCode(sfData, offset, length);
+    }
+
+    protected int decodeCommonQRCode(byte[] sfData, int offset, int length) throws AFPParserException {
       checkDataLength(sfData, offset, length, 9);
       controlFlags = ControlFlag.valueOf(UtilBinaryDecoding.parseInt(sfData, offset, 1));
       conversion = Conversion.valueOf(sfData[offset + 1]);
@@ -640,14 +898,18 @@ public class BDA_BarCodeData extends StructuredField {
       errorCorrectionLevel = ErrorCorrectionLevel.valueOf(sfData[offset + 3]);
       sequenceIndicator = sfData[offset + 4];
       totalNumberOfSymbols = sfData[offset + 5];
-      parityData = UtilBinaryDecoding.parseShort(sfData, offset + 6, 1);
-      specialFunctionFlag = SpecialFunctionFlag.valueOf(UtilBinaryDecoding.parseShort(sfData, offset + 7, 1));
-      applicationIndicator = UtilBinaryDecoding.parseShort(sfData, offset + 8, 1);
+      parityData = sfData[offset + 6];
+      qrCodeSpecialFunctionFlags = QRCodeSpecialFunctionFlag.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 7, 1));
+      applicationIndicator = sfData[offset + 8];
       return 9;
     }
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      writeCommonQRCode(os);
+    }
+
+    protected void writeCommonQRCode(OutputStream os) throws IOException {
       os.write(ControlFlag.toByte(controlFlags));
       os.write(conversion.toByte());
       os.write(versionOfSymbol);
@@ -655,7 +917,7 @@ public class BDA_BarCodeData extends StructuredField {
       os.write(sequenceIndicator);
       os.write(totalNumberOfSymbols);
       os.write(parityData);
-      os.write(specialFunctionFlag.toByte());
+      os.write(QRCodeSpecialFunctionFlag.toByte(qrCodeSpecialFunctionFlags));
       os.write(applicationIndicator);
     }
 
@@ -678,7 +940,7 @@ public class BDA_BarCodeData extends StructuredField {
 
       public static Conversion valueOf(byte conversionCode) {
         for (Conversion conversion : values()) {
-          if (conversion.code == conversionCode) {
+          if (conversion.code == (conversionCode & 0xFF)) {
             return conversion;
           }
         }
@@ -695,7 +957,7 @@ public class BDA_BarCodeData extends StructuredField {
 
       public static ErrorCorrectionLevel valueOf(byte leveCode) {
         for (ErrorCorrectionLevel level : values()) {
-          if (level.ordinal() == leveCode) {
+          if (level.ordinal() == (leveCode & 0xFF)) {
             return level;
           }
         }
@@ -707,25 +969,152 @@ public class BDA_BarCodeData extends StructuredField {
       }
     }
 
-    public enum SpecialFunctionFlag {
-      symbolConformsToUCC_EANCode,
-      symbolConformsToIndustriyStandard;
+    public enum QRCodeSpecialFunctionFlag {
+      UCC_EAN_FNC1,
+      IndustryFNC1;
 
-      public static SpecialFunctionFlag valueOf(short code) {
-        if (code == 0x80) {
-          return symbolConformsToUCC_EANCode;
-        } else {
-          return symbolConformsToIndustriyStandard;
+      public static EnumSet<QRCodeSpecialFunctionFlag> valueOf(int flagByte) {
+        EnumSet<QRCodeSpecialFunctionFlag> result = EnumSet.noneOf(QRCodeSpecialFunctionFlag.class);
+        if ((flagByte & 0x80) != 0) {
+          result.add(UCC_EAN_FNC1);
         }
+        if ((flagByte & 0x40) != 0) {
+          result.add(IndustryFNC1);
+        }
+        return result;
       }
 
-      public int toByte() {
-        if (this == symbolConformsToUCC_EANCode) {
-          return 0x80;
-        } else {
-          return 0x40;
+      public static int toByte(EnumSet<QRCodeSpecialFunctionFlag> flags) {
+        int result = 0;
+        if (flags == null) return result;
+        if (flags.contains(UCC_EAN_FNC1)) {
+          result |= 0x80;
         }
+        if (flags.contains(IndustryFNC1)) {
+          result |= 0x40;
+        }
+        return result;
+      }
+    }
+  }
 
+  public static class ParametersDataQRCodeWithImage extends ParametersDataQRCode_2D {
+    public EnumSet<QRCodeWithImageFlag> qrCodeWithImageFlags;
+    public int repeatingGroupsLength;
+    public java.util.List<ImageInformationBlock> imageInformationBlocks = new java.util.ArrayList<>();
+
+    @Override
+    public int decodeAFP(byte[] sfData, int offset, int length) throws AFPParserException {
+      int currentOffset = decodeCommonQRCode(sfData, offset, length);
+      BDA_BarCodeData.checkDataLength(sfData, offset + currentOffset, length - currentOffset, 3);
+      qrCodeWithImageFlags = QRCodeWithImageFlag.valueOf(sfData[offset + currentOffset]);
+      repeatingGroupsLength = UtilBinaryDecoding.parseInt(sfData, offset + currentOffset + 1, 2);
+      currentOffset += 3;
+
+      int remainingRepGroupsLength = repeatingGroupsLength;
+      while (remainingRepGroupsLength > 0) {
+        ImageInformationBlock block = new ImageInformationBlock();
+        int blockLength = block.decode(sfData, offset + currentOffset, remainingRepGroupsLength);
+        imageInformationBlocks.add(block);
+        currentOffset += blockLength;
+        remainingRepGroupsLength -= (blockLength);
+      }
+      return currentOffset;
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      writeCommonQRCode(os);
+      os.write(QRCodeWithImageFlag.toByte(qrCodeWithImageFlags));
+      os.write(UtilBinaryDecoding.intToByteArray(repeatingGroupsLength, 2));
+      for (ImageInformationBlock block : imageInformationBlocks) {
+        block.write(os);
+      }
+    }
+
+    public enum QRCodeWithImageFlag {
+      PresentImagesFirst,
+      PresentOnlyImages;
+
+      public static EnumSet<QRCodeWithImageFlag> valueOf(int flagByte) {
+        EnumSet<QRCodeWithImageFlag> result = EnumSet.noneOf(QRCodeWithImageFlag.class);
+        if ((flagByte & 0x80) != 0) {
+          result.add(PresentImagesFirst);
+        }
+        if ((flagByte & 0x40) != 0) {
+          result.add(PresentOnlyImages);
+        }
+        return result;
+      }
+
+      public static int toByte(EnumSet<QRCodeWithImageFlag> flags) {
+        int result = 0;
+        if (flags == null) return result;
+        if (flags.contains(PresentImagesFirst)) {
+          result |= 0x80;
+        }
+        if (flags.contains(PresentOnlyImages)) {
+          result |= 0x40;
+        }
+        return result;
+      }
+    }
+
+    public static class ImageInformationBlock {
+      public byte length;
+      public short imageLocalId;
+      public byte offsetUnitBase;
+      public short offsetUpub;
+      public short xOffset;
+      public short yOffset;
+      public short orientation;
+      public byte coordinateSystem;
+      public byte extentUnitBase;
+      public short extentUpub;
+      public short xExtent;
+      public short yExtent;
+      public byte mappingOption;
+      public byte[] additionalData;
+
+      public int decode(byte[] data, int offset, int maxLength) throws AFPParserException {
+        length = data[offset];
+        imageLocalId = UtilBinaryDecoding.parseShort(data, offset + 3, 2);
+        offsetUnitBase = data[offset + 5];
+        offsetUpub = UtilBinaryDecoding.parseShort(data, offset + 6, 2);
+        xOffset = UtilBinaryDecoding.parseShort(data, offset + 8, 2);
+        yOffset = UtilBinaryDecoding.parseShort(data, offset + 10, 2);
+        orientation = UtilBinaryDecoding.parseShort(data, offset + 12, 2);
+        coordinateSystem = data[offset + 14];
+        extentUnitBase = data[offset + 15];
+        extentUpub = UtilBinaryDecoding.parseShort(data, offset + 16, 2);
+        xExtent = UtilBinaryDecoding.parseShort(data, offset + 18, 2);
+        yExtent = UtilBinaryDecoding.parseShort(data, offset + 20, 2);
+        mappingOption = data[offset + 22];
+        if ((length & 0xFF) > 22) {
+          additionalData = new byte[(length & 0xFF) - 22];
+          System.arraycopy(data, offset + 23, additionalData, 0, additionalData.length);
+        }
+        return (length & 0xFF) + 1;
+      }
+
+      public void write(OutputStream os) throws IOException {
+        os.write(length);
+        os.write(new byte[] {0, 0});
+        os.write(UtilBinaryDecoding.shortToByteArray(imageLocalId, 2));
+        os.write(offsetUnitBase);
+        os.write(UtilBinaryDecoding.shortToByteArray(offsetUpub, 2));
+        os.write(UtilBinaryDecoding.shortToByteArray(xOffset, 2));
+        os.write(UtilBinaryDecoding.shortToByteArray(yOffset, 2));
+        os.write(UtilBinaryDecoding.shortToByteArray(orientation, 2));
+        os.write(coordinateSystem);
+        os.write(extentUnitBase);
+        os.write(UtilBinaryDecoding.shortToByteArray(extentUpub, 2));
+        os.write(UtilBinaryDecoding.shortToByteArray(xExtent, 2));
+        os.write(UtilBinaryDecoding.shortToByteArray(yExtent, 2));
+        os.write(mappingOption);
+        if (additionalData != null) {
+          os.write(additionalData);
+        }
       }
     }
   }
