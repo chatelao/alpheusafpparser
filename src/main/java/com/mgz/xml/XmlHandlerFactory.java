@@ -34,6 +34,7 @@ public class XmlHandlerFactory implements HandlerFactory {
   private static final byte[] END_TAG = "</AfpFragments>".getBytes(StandardCharsets.UTF_8);
 
   private final String xpathExpression;
+  private final boolean useWoodstox;
 
   /**
    * Default constructor.
@@ -48,12 +49,23 @@ public class XmlHandlerFactory implements HandlerFactory {
    * @param xpathExpression the XPath expression to filter fields
    */
   public XmlHandlerFactory(String xpathExpression) {
+    this(xpathExpression, false);
+  }
+
+  /**
+   * Constructor with XPath filtering and backend choice.
+   *
+   * @param xpathExpression the XPath expression to filter fields
+   * @param useWoodstox if true, use Woodstox instead of Aalto
+   */
+  public XmlHandlerFactory(String xpathExpression, boolean useWoodstox) {
     this.xpathExpression = xpathExpression;
+    this.useWoodstox = useWoodstox;
   }
 
   @Override
   public StructuredFieldHandler createHandler(OutputStream os, boolean fragmentMode) throws Exception {
-    return new AfpJacksonXmlWriter(os, xpathExpression, fragmentMode);
+    return new AfpJacksonXmlWriter(os, xpathExpression, fragmentMode, useWoodstox);
   }
 
   @Override

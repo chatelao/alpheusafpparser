@@ -21,6 +21,8 @@ package com.mgz.xml;
 
 import com.fasterxml.aalto.stax.InputFactoryImpl;
 import com.fasterxml.aalto.stax.OutputFactoryImpl;
+import com.ctc.wstx.stax.WstxInputFactory;
+import com.ctc.wstx.stax.WstxOutputFactory;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlFactory;
@@ -36,6 +38,9 @@ public class JacksonXmlMapperProvider {
   private static final XmlMapper XML_MAPPER;
   private static final XmlMapper FRAGMENT_MAPPER;
 
+  private static final XmlMapper WOODSTOX_MAPPER;
+  private static final XmlMapper WOODSTOX_FRAGMENT_MAPPER;
+
   static {
     XML_MAPPER = XmlMapper.builder(new XmlFactory(new InputFactoryImpl(), new OutputFactoryImpl()))
         .nameForTextElement("text")
@@ -50,6 +55,17 @@ public class JacksonXmlMapperProvider {
     FRAGMENT_MAPPER.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, false);
     // Avoid "Trying to output second root" in fragment mode
     FRAGMENT_MAPPER.configure(SerializationFeature.WRITE_SINGLE_ELEM_ARRAYS_UNWRAPPED, true);
+
+    WOODSTOX_MAPPER = XmlMapper.builder(new XmlFactory(new WstxInputFactory(), new WstxOutputFactory()))
+        .nameForTextElement("text")
+        .build();
+    WOODSTOX_MAPPER.disable(SerializationFeature.INDENT_OUTPUT);
+    WOODSTOX_MAPPER.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
+    WOODSTOX_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+
+    WOODSTOX_FRAGMENT_MAPPER = WOODSTOX_MAPPER.copy();
+    WOODSTOX_FRAGMENT_MAPPER.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, false);
+    WOODSTOX_FRAGMENT_MAPPER.configure(SerializationFeature.WRITE_SINGLE_ELEM_ARRAYS_UNWRAPPED, true);
   }
 
   /**
@@ -58,7 +74,17 @@ public class JacksonXmlMapperProvider {
    * @return the XmlMapper
    */
   public static XmlMapper getMapper() {
-    return XML_MAPPER;
+    return getMapper(false);
+  }
+
+  /**
+   * Returns the singleton {@link XmlMapper} instance based on the backend choice.
+   *
+   * @param useWoodstox if true, return Woodstox mapper
+   * @return the XmlMapper
+   */
+  public static XmlMapper getMapper(boolean useWoodstox) {
+    return useWoodstox ? WOODSTOX_MAPPER : XML_MAPPER;
   }
 
   /**
@@ -67,6 +93,16 @@ public class JacksonXmlMapperProvider {
    * @return the fragment XmlMapper
    */
   public static XmlMapper getFragmentMapper() {
-    return FRAGMENT_MAPPER;
+    return getFragmentMapper(false);
+  }
+
+  /**
+   * Returns the singleton {@link XmlMapper} instance configured for fragment writing based on the backend choice.
+   *
+   * @param useWoodstox if true, return Woodstox fragment mapper
+   * @return the fragment XmlMapper
+   */
+  public static XmlMapper getFragmentMapper(boolean useWoodstox) {
+    return useWoodstox ? WOODSTOX_FRAGMENT_MAPPER : FRAGMENT_MAPPER;
   }
 }
