@@ -54,10 +54,12 @@ public class AFPWriterTest {
   public void testWriteSF() throws Exception {
     AFPParserConfiguration pc = new AFPParserConfiguration();
     IAFPWriter afpWriter = new AFPWriterHumanReadable();
-    if (new File("./output/").mkdir()) {
+    File outputDir = new File("./output/");
+    if (outputDir.exists() || outputDir.mkdir()) {
       OutputStream os = new FileOutputStream("./output/" + AFPWriterTest.class.getSimpleName() + ".tmp");
 
       for (File afpFile : filesSuite) {
+        System.out.println("Executing test for file: " + afpFile.getAbsolutePath());
         LOG.log(Level.INFO, "File: {0}", afpFile.getAbsolutePath());
         pc.setInputStream(new FileInputStream(afpFile));
 

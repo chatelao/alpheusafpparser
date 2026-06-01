@@ -1,0 +1,84 @@
+Initialized native services in: /home/jules/.gradle/native
+Initialized jansi services in: /home/jules/.gradle/native
+Received JVM installation metadata from '/usr/lib/jvm/java-21-openjdk-amd64': {JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64, JAVA_VERSION=21.0.10, JAVA_VENDOR=Ubuntu, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=21.0.10+7-Ubuntu-124.04, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.10+7-Ubuntu-124.04, VM_VENDOR=Ubuntu, OS_ARCH=amd64}
+The client will now receive all logging from the daemon (pid: 4800). The daemon log file: /home/jules/.gradle/daemon/8.5/daemon-4800.out.log
+Starting 28th build in daemon [uptime: 21 mins 6.182 secs, performance: 98%, GC rate: 0.00/s, heap usage: 0% of 512 MiB, non-heap usage: 51% of 384 MiB]
+Using 4 worker leases.
+Closing daemon's stdin at end of input.
+The daemon will no longer process any standard input.
+Not watching /app since the file system is not supported
+Watching the file system is configured to be enabled if available
+File system watching is active
+Starting Build
+Settings evaluated using settings file '/app/settings.gradle.kts'.
+Projects loaded. Root project using build file '/app/build.gradle.kts'.
+Included projects: [root project 'alpheusafpparser']
+
+> Configure project :
+Evaluating root project 'alpheusafpparser' using build file '/app/build.gradle.kts'.
+Caching disabled for Kotlin DSL accessors for root project 'alpheusafpparser' because:
+  Build cache is disabled
+Skipping Kotlin DSL accessors for root project 'alpheusafpparser' as it is up-to-date.
+Source Compatibility: 21
+All projects evaluated.
+Task name matched 'test'
+Task name matched 'jacocoTestReport'
+Selected primary task 'test' from project :
+Selected primary task 'jacocoTestReport' from project :
+Tasks to be executed: [task ':compileJava', task ':processResources', task ':classes', task ':compileTestJava', task ':processTestResources', task ':testClasses', task ':test', task ':jacocoTestReport']
+Tasks that were excluded: []
+Resolve mutations for :compileJava (Thread[#1204,Execution worker,5,main]) started.
+destroyer locations for task group 0 (Thread[#1206,Execution worker Thread 3,5,main]) started.
+:compileJava (Thread[#1204,Execution worker,5,main]) started.
+
+> Task :compileJava UP-TO-DATE
+Caching disabled for task ':compileJava' because:
+  Build cache is disabled
+Skipping task ':compileJava' as it is up-to-date.
+Resolve mutations for :processResources (Thread[#1204,Execution worker,5,main]) started.
+:processResources (Thread[#1204,Execution worker,5,main]) started.
+
+> Task :processResources NO-SOURCE
+Skipping task ':processResources' as it has no source files and no previous output files.
+Resolve mutations for :classes (Thread[#1204,Execution worker,5,main]) started.
+:classes (Thread[#1204,Execution worker,5,main]) started.
+
+> Task :classes UP-TO-DATE
+Skipping task ':classes' as it has no actions.
+Resolve mutations for :compileTestJava (Thread[#1204,Execution worker,5,main]) started.
+:compileTestJava (Thread[#1204,Execution worker,5,main]) started.
+
+> Task :compileTestJava UP-TO-DATE
+Caching disabled for task ':compileTestJava' because:
+  Build cache is disabled
+Skipping task ':compileTestJava' as it is up-to-date.
+Resolve mutations for :processTestResources (Thread[#1204,Execution worker,5,main]) started.
+:processTestResources (Thread[#1204,Execution worker,5,main]) started.
+
+> Task :processTestResources UP-TO-DATE
+Caching disabled for task ':processTestResources' because:
+  Build cache is disabled
+Skipping task ':processTestResources' as it is up-to-date.
+Resolve mutations for :testClasses (Thread[#1204,Execution worker,5,main]) started.
+:testClasses (Thread[#1203,included builds,5,main]) started.
+
+> Task :testClasses UP-TO-DATE
+Skipping task ':testClasses' as it has no actions.
+Resolve mutations for :test (Thread[#1205,Execution worker Thread 2,5,main]) started.
+:test (Thread[#1205,Execution worker Thread 2,5,main]) started.
+
+> Task :test UP-TO-DATE
+Caching disabled for task ':test' because:
+  Build cache is disabled
+Skipping task ':test' as it is up-to-date.
+Resolve mutations for :jacocoTestReport (Thread[#1205,Execution worker Thread 2,5,main]) started.
+:jacocoTestReport (Thread[#1205,Execution worker Thread 2,5,main]) started.
+
+> Task :jacocoTestReport UP-TO-DATE
+Caching disabled for task ':jacocoTestReport' because:
+  Build cache is disabled
+Skipping task ':jacocoTestReport' as it is up-to-date.
+
+BUILD SUCCESSFUL in 1s
+5 actionable tasks: 5 up-to-date
+Some of the file system contents retained in the virtual file system are on file systems that Gradle doesn't support watching. The relevant state was discarded to ensure changes to these locations are properly detected. You can override this by explicitly enabling file system watching.

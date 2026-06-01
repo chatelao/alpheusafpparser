@@ -1,0 +1,324 @@
+
+> Configure project :
+Source Compatibility: 21
+
+> Task :clean
+
+> Task :compileJava
+/app/src/main/java/com/mgz/util/MMapUtil.java:54: warning: [removal] AccessController in java.security has been deprecated and marked for removal
+      AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
+      ^
+1 warning
+
+> Task :processResources NO-SOURCE
+> Task :classes
+
+> Task :compileTestJava
+/app/src/test/java/com/mgz/afp/parser/ParallelAfpConverterTest.java:31: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+        writer.writeField(sf);
+              ^
+/app/src/test/java/com/mgz/performance/MnemonicSpeedTest.java:84: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+                    writer.writeField(sf);
+                          ^
+/app/src/test/java/com/mgz/performance/PerformanceInstrumentationTest.java:60: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(ptx);
+                  ^
+/app/src/test/java/com/mgz/performance/PerformanceInstrumentationTest.java:66: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(nop);
+                  ^
+/app/src/test/java/com/mgz/performance/PerformanceRegressionTest.java:45: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+                writer.writeField(sf);
+                      ^
+/app/src/test/java/com/mgz/performance/PerformanceRegressionTest.java:131: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+                    writer.writeField(sf);
+                          ^
+/app/src/test/java/com/mgz/xml/MDRPTXXMLTest.java:55: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(ptx);
+                  ^
+/app/src/test/java/com/mgz/xml/MDRPTXXMLTest.java:100: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(ptx);
+                  ^
+/app/src/test/java/com/mgz/xml/PTXXMLTest.java:28: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(ptx);
+                  ^
+/app/src/test/java/com/mgz/xml/XMLInvalidCharTest.java:27: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+                writer.writeField(gad);
+                      ^
+/app/src/test/java/com/mgz/xml/XMLInvalidCharTest.java:39: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+                writer.writeField(bdt);
+                      ^
+/app/src/test/java/com/mgz/xml/NOPXMLTest.java:26: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(nop);
+                  ^
+/app/src/test/java/com/mgz/xml/NOPXMLTest.java:41: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(nop);
+                  ^
+/app/src/test/java/com/mgz/xml/BloatReproductionTest.java:21: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(nop);
+                  ^
+/app/src/test/java/com/mgz/xml/BloatReproductionTest.java:38: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(nop);
+                  ^
+/app/src/test/java/com/mgz/xml/BinaryEncodingTest.java:20: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(nop);
+                  ^
+/app/src/test/java/com/mgz/xml/Afp2XmlInvalidCharTest.java:27: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+                writer.writeField(nop);
+                      ^
+/app/src/test/java/com/mgz/xml/Afp2XmlInvalidCharTest.java:43: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+                writer.writeField(nop);
+                      ^
+/app/src/test/java/com/mgz/xml/CrossEncodingTest.java:84: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(ptx);
+                  ^
+/app/src/test/java/com/mgz/xml/CrossEncodingTest.java:158: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(ptx);
+                  ^
+/app/src/test/java/com/mgz/xml/StatefulEncodingTest.java:64: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(ptx);
+                  ^
+/app/src/test/java/com/mgz/xml/Afp2XmlGoldStandardTest.java:42: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+                writer.writeField(sf);
+                      ^
+22 warnings
+
+> Task :processTestResources
+> Task :testClasses
+
+> Task :test
+
+Afp2TextTest > testDirectoryModeWithTextXpath() STANDARD_OUT
+    Starting memory usage test...
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Processing 1 files using 4 threads...
+    Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_5.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:18 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_5.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_9.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_9.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_6.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_6.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_B.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_B.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_4.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_4.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_D.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_D.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_7.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_7.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_1.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_1.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Front_Matter.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Front_Matter.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_C.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_C.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_A.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_A.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_8.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_8.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_3.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_3.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_2.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_2.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/large_ibm273.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/large_ibm273.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_5.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_5.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_6.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_6.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/cmoca-reference-02/Appendix_B.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Appendix_B.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_4.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_4.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_1.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_1.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/cmoca-reference-02/Front_Matter.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Front_Matter.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/cmoca-reference-02/Appendix_C.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Appendix_C.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/cmoca-reference-02/Appendix_A.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Appendix_A.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_3.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_3.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_2.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_2.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Executing test for file: /app/./src/test/resources/afp/perf_ptx.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:51:19 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/perf_ptx.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Export successful: /tmp/afp2text-test731094161428914818/test.afp.txt
+
+Afp2TextTest > testDirectoryModeWithTextXpath() PASSED
+
+Afp2TextTest > testSingleFileModeWithTextXpathNoOutput() STANDARD_OUT
+    Export successful: /tmp/afp2text-test4512659666057093254/single.afp.txt
+
+Afp2TextTest > testSingleFileModeWithTextXpathNoOutput() PASSED
+
+SFIErrorHandlingTest > testIOExceptionExtension() PASSED
+
+SFIErrorHandlingTest > testIOExceptionHeader() PASSED
+
+SFIErrorHandlingTest > testInvalidExtensionLength() PASSED
+
+SFIErrorHandlingTest > testInvalidExtensionLengthByteBuffer() PASSED
+
+SFIErrorHandlingTest > testReachedEndOfStreamFlagByte() PASSED
+
+SFIErrorHandlingTest > testInvalidSFLengthInputStream() PASSED
+
+SFIErrorHandlingTest > testReachedEndOfStreamExtensionLength() PASSED
+
+SFIErrorHandlingTest > testNotEnoughBytesForSFIntroducerOffset() PASSED
+
+SFIErrorHandlingTest > testNotEnoughBytesRemainingInBuffer() PASSED
+
+SFIErrorHandlingTest > testFailedToReadExtensionData() STANDARD_OUT
+    Export successful: /tmp/memory-test17640741218090814544.xml
+
+SFIErrorHandlingTest > testFailedToReadExtensionData() PASSED
+
+SFIErrorHandlingTest > testInvalidSFLengthByteBuffer() PASSED
+
+SFIExtensionsAndPaddingTest > testSFIExtensionRoundTrip() PASSED
+
+AFPWriterTest > testWriteSF() SKIPPED
+
+MemoryLeakTest > testMemoryUsage() SKIPPED
+
+AFPParserTest > testAFPSerializationActualClassType() SKIPPED
+
+SFIExtensionsAndPaddingTest > testSFPaddingSingleByteFormat() SKIPPED
+
+> Task :jacocoTestReport
+
+BUILD SUCCESSFUL in 8s
+6 actionable tasks: 6 executed

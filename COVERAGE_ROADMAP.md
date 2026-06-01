@@ -1,111 +1,46 @@
 # Alpheus AFP Parser Code Coverage Roadmap
 
-This document outlines a phased, actionable plan to increase the code coverage of the Alpheus AFP Parser from its current ~15% to the target of **85%**.
+This document outlines a phased, actionable plan to increase the code coverage of the Alpheus AFP Parser from its current ~49% to the target of **85%**.
 
-## Status Summary (May 2026)
-- **Current Coverage:** 15.09% (Instruction)
+## Status Summary (June 2026)
+- **Current Coverage:** 49.00% (Instruction)
 - **Target Coverage:** 85.00%
-- **Gap:** 69.91%
+- **Gap:** 36.00%
 
 ---
 
-## Phase 1: Foundation - MO:DCA & Triplets (Target: 35%) 🚧
-The goal of this phase is to cover the most frequent building blocks of AFP documents.
-
-### 1.1. Systematic Round-Trip Testing for MO:DCA ✅
-- ✅ Implement `RoundTripTest` classes for all 80+ Structured Fields in `com.mgz.afp.modca` (83 SFs verified).
-- ✅ Use `RoundTripTestUtils` to verify that every SF can be decoded and encoded without data loss.
-- **Methodology: Deep Round-Trip Verification**
-    1. **Programmatic Generation:** Manually construct a `byte[]` payload that exercises all optional parameters and edge-case values.
-    2. **Decoding:** Parse the payload into a high-level Java object.
-    3. **Validation:** Assert that the object properties match the intended values (referencing specification IDs).
-    4. **Encoding:** Serialize the object back to a `byte[]`.
-    5. **Equality Check:** Verify that the original and re-encoded byte arrays are identical.
-- ✅ **Priority:** `BDT`, `EDT`, `BPG`, `EPG`, `BAG`, `EAG` (completed in `DocumentAndPageGroupRoundTripTest.java` and `EnvironmentAndResourceGroupRoundTripTest.java`).
-
-### 1.2. Triplet Coverage Expansion ✅
-- ✅ Implement round-trip unit tests for all 60+ Triplets in `com.mgz.afp.triplets` (completed in `TripletRoundTripTest.java`).
-- ✅ Exercise all optional parameters and varying lengths for complex triplets like `FullyQualifiedName` (X'02') and `ColorSpecification` (X'4E').
+## Phase 1: Foundation - MO:DCA & Triplets (Target: 35%) ✅
+- ✅ **1.1. Systematic Round-Trip Testing for MO:DCA** (Completed: 78% coverage)
+- ✅ **1.2. Triplet Coverage Expansion** (Completed: 74% coverage)
 
 ---
 
-## Phase 2: Architectural Depth - GOCA, IOCA, FOCA (Target: 55%) 🚧
-This phase focuses on the data-heavy sub-specifications.
-
-### 2.1. GOCA Drawing Orders ✅
-- ✅ Create a new suite for `com.mgz.afp.goca`: `GOCADrawingOrderRoundTripTest`.
-- ✅ Test Drawing Orders via round-trip logic.
-    - ✅ **Basic & Attribute Orders:** `GNOP1`, `GCOMT`, `GSCOL`, `GSMX`, `GSBMX`, `GSLT`, `GSLW`, `GSLE`, `GSLJ`, `GSPS`, `GSCS`, `GSCD`, `GSCR`, `GSMP`, `GSECOL`, `GSPT`, `GSMT`, `GSMS`, `GSFLW`.
-    - ✅ **Positioning & Control:** `GSCP`, `GSAP`, `GSCC`, `GSCA`, `GSCH`, `GSMC`, `GSPRP`, `GEPROL`, `GSPIK`, `GBSEG`, `GESEG`, `GSGCH`.
-    - ✅ **Geometric Primitives:** `GLINE`, `GRLINE`, `GCLINE`, `GCRLINE`, `GMRK`, `GCMRK`, `GBOX`, `GCBOX`.
-    - ✅ **Areas & Images:** `GBAR`, `GEAR`, `GCCHST`, `GCHST`.
-    - ✅ **Miscellaneous:** `GEXO`.
-    - ✅ **Advanced Primitives:** `GARC`, `GPARC`, `GCPARC`, `GFARC`, `GCFARC`, `GFLT`, `GCFLT`, `GCCBEZ`, `GCBEZ`.
-    - ✅ **Complex Control:** `GBCP`, `GECP`, `GDPT`, `GSPCOL`, `GLGD`, `GRGD`, `GIMD`, `GEIMG`, `GBIMG`, `GCBIMG`.
-
-### 2.2. IOCA Image Segments ✅
-- ✅ Exercise image segments in `com.mgz.afp.ioca`.
-    - ✅ **Structure & Identity:** `BeginSegment`, `EndSegment`, `BeginImageContent`, `EndImageContent`, `FunctionSetIdentification`.
-    - ✅ **Parameters:** `ImageSize`, `ImageEncoding`, `IDESize`, `IDEStructure`, `ImageLUTID`.
-    - ✅ **Advanced Features:** `BandImage`, `ExternalAlgorithmSpecification`, `ImageSubsampling`, `BeginTile`, `EndTile`, `TilePosition`, `TileSize`, `TileSetColor`, `IncludeTile`, `TileTOC`, `BeginTransparencyMask`, `EndTransparencyMask`, `SetExtendedBilevelImageColor`, `SetBilevelImageColor`.
-    - ✅ **Data:** `ImageData`, `BandImageData`, `nColorNames`.
-- ✅ Verify support for different compression types (MMR, JPEG, etc.) at the parsing level (completed in `IOCARoundTripTest.java`).
-
-### 2.3. FOCA Font Logic ✅
-- ✅ Implement tests for Font Character Sets and Code Pages in `com.mgz.afp.foca` (completed in `FOCARoundTripTest.java`).
+## Phase 2: Architectural Depth - GOCA, IOCA, FOCA (Target: 55%) 🟢
+- ✅ **2.1. GOCA Drawing Orders** (Completed: 54% coverage)
+- ✅ **2.2. IOCA Image Segments** (Completed: 67% coverage)
+- ✅ **2.3. FOCA Font Logic** (Completed: 71% coverage)
 
 ---
 
 ## Phase 3: Robustness & Edge Cases (Target: 75%) 🚧
-Focus on branch coverage and defensive logic.
-
-### 3.1. Systematic Fuzzing ⏳
-- ⏳ Integrate `AFPFuzzTest` (Jazzer) into the regular CI feedback loop.
-- ⏳ Use the discovered "crashers" and "new paths" to create regression tests for complex decoding logic.
-
-### 3.2. SFI Extensions & Padding ✅
-- ✅ Create synthetic AFP streams that exercise Structured Field Introducer (SFI) extensions:
-    - ✅ **Segmentation:** SFs split across multiple records (completed in `SFIExtensionsAndPaddingTest.java`).
-    - ✅ **Padding:** SFs with trailing bytes (completed in `SFIExtensionsAndPaddingTest.java`).
-    - ✅ **Encryption:** SFs with the encryption flag set (completed in `SFIExtensionsAndPaddingTest.java`).
-    - ✅ **Extension:** SFs with SFI extensions (completed in `SFIExtensionsAndPaddingTest.java`).
-    - ✅ **Length Variations:** Test minimum, maximum, and invalid lengths for all variable-sized fields (completed in `SFIExtensionsAndPaddingTest.java`).
-
-### 3.3. Error Handling Paths ✅
-- ✅ Explicitly test every `AFPParserException` branch in `AFPParser` and `StructuredFieldIntroducer` (completed in `SFIErrorHandlingTest.java`).
+- ⏳ **3.1. Systematic Fuzzing**
+- ✅ **3.2. SFI Extensions & Padding** (Verified in `SFIExtensionsAndPaddingTest.java`)
+- ✅ **3.3. Error Handling Paths** (Verified in `SFIErrorHandlingTest.java`)
 
 ---
 
 ## Phase 4: Full Compliance & Optimization (Target: 85%+) 🚧
-Cover remaining specialized areas and refactored logic.
-
-### 4.1. Special Specifications ✅
-- ✅ Implement tests for `com.mgz.afp.moca` (completed in `MetadataObjectTest.java` and `ObjectAndDataRoundTripTest.java`).
-- ✅ Implement tests for `com.mgz.afp.lineData`, `com.mgz.afp.cmoca`, and `com.mgz.afp.bcoca` (completed in `LineDataRoundTripTest.java`, `CMRRoundTripTest.java`, and `BCOCARoundTripTest.java`).
-- 🚧 Verify the 1:1 mapping of normative requirements in `TEST_COVERAGE_*.md` files:
-    - 🚧 **4.1.1 CMOCA Verification:** Implement and tag tests for all 1,085 CMOCA requirements (Initial verification implemented for CMR Header and Property fields).
-    - 🚧 **4.1.2 BCOCA Verification:** Implement and tag tests for all 1,237 BCOCA requirements.
-        - ✅ **4.1.2.1 Chapters 1–3:** Initial architectural and structural verification (completed in `TEST_COVERAGE_BCOCA.md`).
-        - 🚧 **4.1.2.2 Chapter 4:** Data Structures (Syntax, Semantics, Pragmatics).
-            - ⏳ **4.1.2.2.1 BDD (BSD) Field & Subsetting (BCD1/BCD2) Verification.**
-            - ⏳ **4.1.2.2.2 BDA (BSA) Field & Data Verification.**
-        - ⏳ **4.1.2.3 Chapter 5:** Exception Handling.
-        - ⏳ **4.1.2.4 Chapter 6:** Compliance.
-    - 🚧 **4.1.3 PTOCA Verification:** Implement and tag tests for all 1,488 PTOCA requirements (Initial verification and Chapter 6 PT1-PT4 subset ranges implemented in `TEST_COVERAGE_PTOCA.md`).
-    - ⏳ **4.1.4 FOCA Verification:** Implement and tag tests for all 1,391 FOCA requirements.
-    - ⏳ **4.1.5 GOCA Verification:** Implement and tag tests for all 2,144 GOCA requirements.
-    - ⏳ **4.1.6 IOCA Verification:** Implement and tag tests for all 1,587 IOCA requirements.
-
-### 4.2. Performance fast-paths ⏳
-- ⏳ Ensure that optimized fast-paths in `AfpJacksonXmlWriter` (e.g., for `PTX` and `TRN`) are verified against the generic reflective paths to ensure 100% equivalence.
-- ✅ **Performance Instrumentation Coverage:** Ensure that monitoring logic (`MnemonicPerformanceMonitor`, `PTXPerformanceMonitor`) is exercised (completed in `PerformanceInstrumentationTest.java`).
+- 🚧 **4.1. Special Specifications**
+    - 🚧 CMOCA, BCOCA, and MOCA verification (Currently 35-43% coverage).
+    - ⏳ Implementation of remaining 1,000+ normative requirements per spec.
+- ⏳ **4.2. Performance fast-paths**
+    - Verification of `AfpJacksonXmlWriter` optimized paths.
+- 🏗️ **4.3. PDF Renderer Verification**
+    - Implement tests for `com.mgz.pdf`.
 
 ---
 
 ## Implementation Strategy
-1. **Traceability:** Every new test must explicitly reference a Requirement ID from the `/specifications/markdown/` directory (e.g., `[MODCA-3-021]`).
-2. **Tooling:** Use a code generation script to create boilerplate `RoundTripTest` classes for any `StructuredField` with 0% coverage.
-3. **Acceptance Integration:** Add the synthetic files generated during unit testing to the `FilesSuite` to ensure they are also exercised in end-to-end CLI tests.
-4. **Continuous Monitoring:**
-    - Run `./gradlew jacocoTestReport` as part of every local development cycle.
-    - Update `COVERAGE_GAP.md` after every major PR to track progress against this roadmap.
+1. **Traceability:** Every new test must explicitly reference a Requirement ID from the `/specifications/markdown/` directory.
+2. **Acceptance Integration:** Ensure all round-trip tests are integrated into the default Gradle test task.
+3. **Continuous Monitoring:** Run `./gradlew jacocoTestReport` after every change.
