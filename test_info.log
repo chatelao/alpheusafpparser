@@ -1,0 +1,169 @@
+Initialized native services in: /home/jules/.gradle/native
+Initialized jansi services in: /home/jules/.gradle/native
+Received JVM installation metadata from '/usr/lib/jvm/java-21-openjdk-amd64': {JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64, JAVA_VERSION=21.0.10, JAVA_VENDOR=Ubuntu, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=21.0.10+7-Ubuntu-124.04, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.10+7-Ubuntu-124.04, VM_VENDOR=Ubuntu, OS_ARCH=amd64}
+The client will now receive all logging from the daemon (pid: 4800). The daemon log file: /home/jules/.gradle/daemon/8.5/daemon-4800.out.log
+Starting 15th build in daemon [uptime: 13 mins 43.486 secs, performance: 98%, GC rate: 0.00/s, heap usage: 0% of 512 MiB, non-heap usage: 48% of 384 MiB]
+Closing daemon's stdin at end of input.
+The daemon will no longer process any standard input.
+Using 4 worker leases.
+Not watching /app since the file system is not supported
+Watching the file system is configured to be enabled if available
+File system watching is active
+Starting Build
+Settings evaluated using settings file '/app/settings.gradle.kts'.
+Projects loaded. Root project using build file '/app/build.gradle.kts'.
+Included projects: [root project 'alpheusafpparser']
+
+> Configure project :
+Evaluating root project 'alpheusafpparser' using build file '/app/build.gradle.kts'.
+Caching disabled for Kotlin DSL accessors for root project 'alpheusafpparser' because:
+  Build cache is disabled
+Skipping Kotlin DSL accessors for root project 'alpheusafpparser' as it is up-to-date.
+Source Compatibility: 21
+All projects evaluated.
+Task name matched 'test'
+Task name matched 'jacocoTestReport'
+Selected primary task 'test' from project :
+Selected primary task 'jacocoTestReport' from project :
+Tasks to be executed: [task ':compileJava', task ':processResources', task ':classes', task ':compileTestJava', task ':processTestResources', task ':testClasses', task ':test', task ':jacocoTestReport']
+Tasks that were excluded: []
+Resolve mutations for :compileJava (Thread[#682,Execution worker,5,main]) started.
+destroyer locations for task group 0 (Thread[#681,included builds,5,main]) started.
+:compileJava (Thread[#682,Execution worker,5,main]) started.
+
+> Task :compileJava UP-TO-DATE
+Caching disabled for task ':compileJava' because:
+  Build cache is disabled
+Skipping task ':compileJava' as it is up-to-date.
+Resolve mutations for :processResources (Thread[#682,Execution worker,5,main]) started.
+:processResources (Thread[#682,Execution worker,5,main]) started.
+
+> Task :processResources NO-SOURCE
+Skipping task ':processResources' as it has no source files and no previous output files.
+Resolve mutations for :classes (Thread[#682,Execution worker,5,main]) started.
+:classes (Thread[#682,Execution worker,5,main]) started.
+
+> Task :classes UP-TO-DATE
+Skipping task ':classes' as it has no actions.
+Resolve mutations for :compileTestJava (Thread[#682,Execution worker,5,main]) started.
+:compileTestJava (Thread[#682,Execution worker,5,main]) started.
+
+> Task :compileTestJava UP-TO-DATE
+Caching disabled for task ':compileTestJava' because:
+  Build cache is disabled
+Skipping task ':compileTestJava' as it is up-to-date.
+Resolve mutations for :processTestResources (Thread[#682,Execution worker,5,main]) started.
+:processTestResources (Thread[#682,Execution worker,5,main]) started.
+
+> Task :processTestResources UP-TO-DATE
+Caching disabled for task ':processTestResources' because:
+  Build cache is disabled
+Skipping task ':processTestResources' as it is up-to-date.
+Resolve mutations for :testClasses (Thread[#682,Execution worker,5,main]) started.
+:testClasses (Thread[#682,Execution worker,5,main]) started.
+
+> Task :testClasses UP-TO-DATE
+Skipping task ':testClasses' as it has no actions.
+Resolve mutations for :test (Thread[#682,Execution worker,5,main]) started.
+:test (Thread[#682,Execution worker,5,main]) started.
+Gradle Test Executor 10 started executing tests.
+
+> Task :test
+Caching disabled for task ':test' because:
+  Build cache is disabled
+Task ':test' is not up-to-date because:
+  Value of input property 'filter.commandLineIncludePatterns' has changed for task ':test'
+Starting process 'Gradle Test Executor 10'. Working directory: /app Command: /usr/lib/jvm/java-21-openjdk-amd64/bin/java -Dorg.gradle.internal.worker.tmpdir=/app/build/tmp/test/work -Dorg.gradle.native=false -javaagent:/app/build/tmp/.cache/expanded/zip_0bd0851504e6286cb5fc6f37a81e25cc/jacocoagent.jar=destfile=build/jacoco/test.exec,append=true,inclnolocationclasses=false,dumponexit=true,output=file,jmx=false @/home/jules/.gradle/.tmp/gradle-worker-classpath15704539424632054409txt -Xmx512m -Dfile.encoding=UTF-8 -Duser.country -Duser.language=en -Duser.variant -ea worker.org.gradle.process.internal.worker.GradleWorkerMain 'Gradle Test Executor 10'
+Successfully started process 'Gradle Test Executor 10'
+
+MemoryLeakTest > testMemoryUsage() STANDARD_OUT
+    Starting memory usage test...
+    Processing 1 files using 4 threads...
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_5.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_9.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_6.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_B.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_4.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_D.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_7.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_1.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Front_Matter.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_C.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_A.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_8.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_3.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_2.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/large_ibm273.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_5.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_6.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Appendix_B.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_4.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_1.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Front_Matter.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Appendix_C.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Appendix_A.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_3.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_2.afp
+    Jun 01, 2026 5:38:13 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/perf_ptx.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Export successful: /tmp/afp2text-test3524689285556387201/test.afp.txt
+
+Afp2TextTest > testSingleFileModeWithTextXpathNoOutput() STANDARD_OUT
+    Export successful: /tmp/afp2text-test408145521499478706/single.afp.txt
+
+SFIErrorHandlingTest STANDARD_OUT
+    Export successful: /tmp/memory-test17800751315390671052.xml
+
+MemoryLeakTest > testMemoryUsage() SKIPPED
+
+AFPParserTest > testAFPSerializationActualClassType() SKIPPED
+
+SFIExtensionsAndPaddingTest > testSFIExtensionRoundTrip() SKIPPED
+
+AFPWriterTest > testWriteSF() SKIPPED
+Finished generating test XML results (0.003 secs) into: /app/build/test-results/test
+Generating HTML test report...
+Finished generating test html results (0.004 secs) into: /app/build/reports/tests/test
+Resolve mutations for :jacocoTestReport (Thread[#682,Execution worker,5,main]) started.
+:jacocoTestReport (Thread[#682,Execution worker,5,main]) started.
+
+> Task :jacocoTestReport
+Caching disabled for task ':jacocoTestReport' because:
+  Build cache is disabled
+Task ':jacocoTestReport' is not up-to-date because:
+  Input property 'executionData' file /app/build/jacoco/test.exec has changed.
+[ant:jacocoReport] Loading execution data file /app/build/jacoco/test.exec
+[ant:jacocoReport] Writing bundle 'alpheusafpparser' with 623 classes
+
+BUILD SUCCESSFUL in 6s
+5 actionable tasks: 2 executed, 3 up-to-date
+Some of the file system contents retained in the virtual file system are on file systems that Gradle doesn't support watching. The relevant state was discarded to ensure changes to these locations are properly detected. You can override this by explicitly enabling file system watching.

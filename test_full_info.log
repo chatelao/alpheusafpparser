@@ -1,0 +1,353 @@
+Initialized native services in: /home/jules/.gradle/native
+Initialized jansi services in: /home/jules/.gradle/native
+Received JVM installation metadata from '/usr/lib/jvm/java-21-openjdk-amd64': {JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64, JAVA_VERSION=21.0.10, JAVA_VENDOR=Ubuntu, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=21.0.10+7-Ubuntu-124.04, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.10+7-Ubuntu-124.04, VM_VENDOR=Ubuntu, OS_ARCH=amd64}
+The client will now receive all logging from the daemon (pid: 4800). The daemon log file: /home/jules/.gradle/daemon/8.5/daemon-4800.out.log
+Starting 20th build in daemon [uptime: 15 mins 32.5 secs, performance: 98%, GC rate: 0.00/s, heap usage: 0% of 512 MiB, non-heap usage: 50% of 384 MiB]
+Using 4 worker leases.
+Not watching /app since the file system is not supported
+Watching the file system is configured to be enabled if available
+Closing daemon's stdin at end of input.
+The daemon will no longer process any standard input.
+File system watching is active
+Starting Build
+Settings evaluated using settings file '/app/settings.gradle.kts'.
+Projects loaded. Root project using build file '/app/build.gradle.kts'.
+Included projects: [root project 'alpheusafpparser']
+
+> Configure project :
+Evaluating root project 'alpheusafpparser' using build file '/app/build.gradle.kts'.
+Caching disabled for Kotlin DSL accessors for root project 'alpheusafpparser' because:
+  Build cache is disabled
+Skipping Kotlin DSL accessors for root project 'alpheusafpparser' as it is up-to-date.
+Source Compatibility: 21
+All projects evaluated.
+Task name matched 'clean'
+Task name matched 'test'
+Task name matched 'jacocoTestReport'
+Selected primary task 'clean' from project :
+Selected primary task 'test' from project :
+Selected primary task 'jacocoTestReport' from project :
+Tasks to be executed: [task ':clean', task ':compileJava', task ':processResources', task ':classes', task ':compileTestJava', task ':processTestResources', task ':testClasses', task ':test', task ':jacocoTestReport']
+Tasks that were excluded: []
+Resolve mutations for :clean (Thread[#870,Execution worker,5,main]) started.
+:clean (Thread[#870,Execution worker,5,main]) started.
+destroyer locations for task group 0 (Thread[#871,Execution worker Thread 2,5,main]) started.
+destroyer locations for task group 1 (Thread[#871,Execution worker Thread 2,5,main]) started.
+
+> Task :clean
+Caching disabled for task ':clean' because:
+  Build cache is disabled
+Task ':clean' is not up-to-date because:
+  Task has not declared any outputs despite executing actions.
+Resolve mutations for :compileJava (Thread[#870,Execution worker,5,main]) started.
+:compileJava (Thread[#870,Execution worker,5,main]) started.
+
+> Task :compileJava
+Caching disabled for task ':compileJava' because:
+  Build cache is disabled
+Task ':compileJava' is not up-to-date because:
+  Output property 'destinationDirectory' file /app/build/classes/java/main has been removed.
+  Output property 'destinationDirectory' file /app/build/classes/java/main/com has been removed.
+  Output property 'destinationDirectory' file /app/build/classes/java/main/com/mgz has been removed.
+  Output property 'options.generatedSourceOutputDirectory' file /app/build/generated/sources/annotationProcessor/java/main has been removed.
+The input changes require a full rebuild for incremental task ':compileJava'.
+Full recompilation is required because no incremental change information is available. This is usually caused by clean builds or changing compiler arguments.
+Compiling with toolchain '/usr/lib/jvm/java-21-openjdk-amd64'.
+Compiling with JDK Java compiler API.
+/app/src/main/java/com/mgz/util/MMapUtil.java:54: warning: [removal] AccessController in java.security has been deprecated and marked for removal
+      AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
+      ^
+1 warning
+Class dependency analysis for incremental compilation took 0.031 secs.
+Created classpath snapshot for incremental compilation in 0.005 secs.
+Resolve mutations for :processResources (Thread[#870,Execution worker,5,main]) started.
+:processResources (Thread[#870,Execution worker,5,main]) started.
+
+> Task :processResources NO-SOURCE
+Skipping task ':processResources' as it has no source files and no previous output files.
+Resolve mutations for :classes (Thread[#870,Execution worker,5,main]) started.
+:classes (Thread[#870,Execution worker,5,main]) started.
+
+> Task :classes
+Skipping task ':classes' as it has no actions.
+Resolve mutations for :compileTestJava (Thread[#870,Execution worker,5,main]) started.
+:compileTestJava (Thread[#870,Execution worker,5,main]) started.
+
+> Task :compileTestJava
+Caching disabled for task ':compileTestJava' because:
+  Build cache is disabled
+Task ':compileTestJava' is not up-to-date because:
+  Output property 'destinationDirectory' file /app/build/classes/java/test has been removed.
+  Output property 'destinationDirectory' file /app/build/classes/java/test/com has been removed.
+  Output property 'destinationDirectory' file /app/build/classes/java/test/com/mgz has been removed.
+  Output property 'options.generatedSourceOutputDirectory' file /app/build/generated/sources/annotationProcessor/java/test has been removed.
+The input changes require a full rebuild for incremental task ':compileTestJava'.
+Full recompilation is required because no incremental change information is available. This is usually caused by clean builds or changing compiler arguments.
+Compiling with toolchain '/usr/lib/jvm/java-21-openjdk-amd64'.
+Compiling with JDK Java compiler API.
+/app/src/test/java/com/mgz/afp/parser/ParallelAfpConverterTest.java:31: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+        writer.writeField(sf);
+              ^
+/app/src/test/java/com/mgz/performance/MnemonicSpeedTest.java:84: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+                    writer.writeField(sf);
+                          ^
+/app/src/test/java/com/mgz/performance/PerformanceInstrumentationTest.java:60: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(ptx);
+                  ^
+/app/src/test/java/com/mgz/performance/PerformanceInstrumentationTest.java:66: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(nop);
+                  ^
+/app/src/test/java/com/mgz/performance/PerformanceRegressionTest.java:45: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+                writer.writeField(sf);
+                      ^
+/app/src/test/java/com/mgz/performance/PerformanceRegressionTest.java:131: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+                    writer.writeField(sf);
+                          ^
+/app/src/test/java/com/mgz/xml/MDRPTXXMLTest.java:55: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(ptx);
+                  ^
+/app/src/test/java/com/mgz/xml/MDRPTXXMLTest.java:100: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(ptx);
+                  ^
+/app/src/test/java/com/mgz/xml/PTXXMLTest.java:28: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(ptx);
+                  ^
+/app/src/test/java/com/mgz/xml/XMLInvalidCharTest.java:27: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+                writer.writeField(gad);
+                      ^
+/app/src/test/java/com/mgz/xml/XMLInvalidCharTest.java:39: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+                writer.writeField(bdt);
+                      ^
+/app/src/test/java/com/mgz/xml/NOPXMLTest.java:26: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(nop);
+                  ^
+/app/src/test/java/com/mgz/xml/NOPXMLTest.java:41: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(nop);
+                  ^
+/app/src/test/java/com/mgz/xml/BloatReproductionTest.java:21: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(nop);
+                  ^
+/app/src/test/java/com/mgz/xml/BloatReproductionTest.java:38: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(nop);
+                  ^
+/app/src/test/java/com/mgz/xml/BinaryEncodingTest.java:20: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(nop);
+                  ^
+/app/src/test/java/com/mgz/xml/Afp2XmlInvalidCharTest.java:27: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+                writer.writeField(nop);
+                      ^
+/app/src/test/java/com/mgz/xml/Afp2XmlInvalidCharTest.java:43: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+                writer.writeField(nop);
+                      ^
+/app/src/test/java/com/mgz/xml/CrossEncodingTest.java:84: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(ptx);
+                  ^
+/app/src/test/java/com/mgz/xml/CrossEncodingTest.java:158: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(ptx);
+                  ^
+/app/src/test/java/com/mgz/xml/StatefulEncodingTest.java:64: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+            writer.writeField(ptx);
+                  ^
+/app/src/test/java/com/mgz/xml/Afp2XmlGoldStandardTest.java:42: warning: [deprecation] writeField(StructuredField) in AfpJacksonXmlWriter has been deprecated
+                writer.writeField(sf);
+                      ^
+22 warnings
+Class dependency analysis for incremental compilation took 0.009 secs.
+Created classpath snapshot for incremental compilation in 0.009 secs.
+Resolve mutations for :processTestResources (Thread[#870,Execution worker,5,main]) started.
+:processTestResources (Thread[#870,Execution worker,5,main]) started.
+
+> Task :processTestResources
+Caching disabled for task ':processTestResources' because:
+  Build cache is disabled
+Task ':processTestResources' is not up-to-date because:
+  Output property 'destinationDir' file /app/build/resources/test has been removed.
+  Output property 'destinationDir' file /app/build/resources/test/afp has been removed.
+  Output property 'destinationDir' file /app/build/resources/test/afp/afp-goca-reference-03 has been removed.
+  Output property 'destinationDir' file /app/build/resources/test/afp/bcoca-reference-11 has been removed.
+  Output property 'destinationDir' file /app/build/resources/test/afp/cmoca-reference-02 has been removed.
+  Output property 'destinationDir' file /app/build/resources/test/afp/external has been removed.
+  Output property 'destinationDir' file /app/build/resources/test/afp/foca-reference-06 has been removed.
+  Output property 'destinationDir' file /app/build/resources/test/afp/ioca-reference-09 has been removed.
+  Output property 'destinationDir' file /app/build/resources/test/afp/ipds-reference-12 has been removed.
+  Output property 'destinationDir' file /app/build/resources/test/afp/large_ibm273.afp has been removed.
+  Output property 'destinationDir' file /app/build/resources/test/afp/linedata-reference-05 has been removed.
+  Output property 'destinationDir' file /app/build/resources/test/afp/minimal.afp has been removed.
+  Output property 'destinationDir' file /app/build/resources/test/afp/moca-reference-02 has been removed.
+  Output property 'destinationDir' file /app/build/resources/test/afp/modca-reference-10 has been removed.
+  Output property 'destinationDir' file /app/build/resources/test/afp/perf_ptx.afp has been removed.
+  Output property 'destinationDir' file /app/build/resources/test/afp/ptoca-reference-04 has been removed.
+  Output property 'destinationDir' file /app/build/resources/test/gold_standard has been removed.
+  Output property 'destinationDir' file /app/build/resources/test/junit-platform.properties has been removed.
+  Output property 'destinationDir' file /app/build/resources/test/logback-test.xml has been removed.
+  Output property 'destinationDir' file /app/build/resources/test/xml has been removed.
+Resolve mutations for :testClasses (Thread[#870,Execution worker,5,main]) started.
+:testClasses (Thread[#870,Execution worker,5,main]) started.
+
+> Task :testClasses
+Skipping task ':testClasses' as it has no actions.
+Resolve mutations for :test (Thread[#870,Execution worker,5,main]) started.
+:test (Thread[#870,Execution worker,5,main]) started.
+Gradle Test Executor 12 started executing tests.
+
+> Task :test
+Caching disabled for task ':test' because:
+  Build cache is disabled
+Task ':test' is not up-to-date because:
+  Output property 'binaryResultsDirectory' file /app/build/test-results/test/binary has been removed.
+  Output property 'binaryResultsDirectory' file /app/build/test-results/test/binary/output.bin has been removed.
+  Output property 'binaryResultsDirectory' file /app/build/test-results/test/binary/output.bin.idx has been removed.
+  Output property 'binaryResultsDirectory' file /app/build/test-results/test/binary/results.bin has been removed.
+  Output property 'jvmArgumentProviders.jacocoAgent$0.jacoco.destinationFile' file /app/build/jacoco/test.exec has been removed.
+Starting process 'Gradle Test Executor 12'. Working directory: /app Command: /usr/lib/jvm/java-21-openjdk-amd64/bin/java -Dorg.gradle.internal.worker.tmpdir=/app/build/tmp/test/work -Dorg.gradle.native=false -javaagent:/app/build/tmp/.cache/expanded/zip_0bd0851504e6286cb5fc6f37a81e25cc/jacocoagent.jar=destfile=build/jacoco/test.exec,append=true,inclnolocationclasses=false,dumponexit=true,output=file,jmx=false @/home/jules/.gradle/.tmp/gradle-worker-classpath15950814544027640521txt -Xmx512m -Dfile.encoding=UTF-8 -Duser.country -Duser.language=en -Duser.variant -ea worker.org.gradle.process.internal.worker.GradleWorkerMain 'Gradle Test Executor 12'
+Successfully started process 'Gradle Test Executor 12'
+
+Afp2TextTest > testDirectoryModeWithTextXpath() STANDARD_OUT
+    Starting memory usage test...
+    Processing 1 files using 4 threads...
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
+    Jun 01, 2026 5:40:04 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_5.afp
+    Jun 01, 2026 5:40:04 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_9.afp
+    Jun 01, 2026 5:40:04 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_6.afp
+    Jun 01, 2026 5:40:04 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_B.afp
+    Jun 01, 2026 5:40:04 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_4.afp
+    Jun 01, 2026 5:40:04 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_D.afp
+    Jun 01, 2026 5:40:04 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_7.afp
+    Jun 01, 2026 5:40:04 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_1.afp
+    Jun 01, 2026 5:40:04 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Front_Matter.afp
+    Jun 01, 2026 5:40:04 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_C.afp
+    Jun 01, 2026 5:40:04 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_A.afp
+    Jun 01, 2026 5:40:04 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_8.afp
+    Jun 01, 2026 5:40:04 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_3.afp
+    Jun 01, 2026 5:40:04 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_2.afp
+    Jun 01, 2026 5:40:04 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/large_ibm273.afp
+    Jun 01, 2026 5:40:05 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_5.afp
+    Jun 01, 2026 5:40:05 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_6.afp
+    Jun 01, 2026 5:40:05 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Appendix_B.afp
+    Jun 01, 2026 5:40:05 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_4.afp
+    Jun 01, 2026 5:40:05 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_1.afp
+    Jun 01, 2026 5:40:05 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Front_Matter.afp
+    Jun 01, 2026 5:40:05 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Appendix_C.afp
+    Jun 01, 2026 5:40:05 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Appendix_A.afp
+    Jun 01, 2026 5:40:05 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_3.afp
+    Jun 01, 2026 5:40:05 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_2.afp
+    Jun 01, 2026 5:40:05 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    INFO: File: /app/./src/test/resources/afp/perf_ptx.afp
+
+AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Export successful: /tmp/afp2text-test10802281879705941028/test.afp.txt
+
+Afp2TextTest > testSingleFileModeWithTextXpathNoOutput() STANDARD_OUT
+    Export successful: /tmp/afp2text-test2015288365656696823/single.afp.txt
+
+SFIErrorHandlingTest STANDARD_OUT
+    Export successful: /tmp/memory-test1058676626541889320.xml
+
+AFPWriterTest > testWriteSF() SKIPPED
+
+MemoryLeakTest > testMemoryUsage() SKIPPED
+
+AFPParserTest > testAFPSerializationActualClassType() SKIPPED
+Finished generating test XML results (0.002 secs) into: /app/build/test-results/test
+Generating HTML test report...
+Finished generating test html results (0.004 secs) into: /app/build/reports/tests/test
+Resolve mutations for :jacocoTestReport (Thread[#870,Execution worker,5,main]) started.
+:jacocoTestReport (Thread[#870,Execution worker,5,main]) started.
+
+> Task :jacocoTestReport
+Caching disabled for task ':jacocoTestReport' because:
+  Build cache is disabled
+Task ':jacocoTestReport' is not up-to-date because:
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/AFPDocument.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/AFPDocument.java.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/index.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/index.source.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/RepeatingGroupBase.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/RepeatingGroupBase.java.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/RepeatingGroupPool.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/RepeatingGroupPool.java.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/RepeatingGroupWithTriplets.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/RepeatingGroupWithTriplets.java.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/SfiPool.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/SfiPool.java.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/StructuredField.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/StructuredField.java.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/StructuredFieldBaseData.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/StructuredFieldBaseData.java.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/StructuredFieldBaseDataPool.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/StructuredFieldBaseDataPool.java.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/StructuredFieldBaseName.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/StructuredFieldBaseName.java.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/StructuredFieldBaseNameAndTriplets.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/StructuredFieldBaseNameAndTriplets.java.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/StructuredFieldBaseRepeatingGroups.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/StructuredFieldBaseRepeatingGroups.java.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/StructuredFieldBaseTriplets.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/StructuredFieldBaseTriplets.java.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/StructuredFieldErrornouslyBuilt.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/StructuredFieldErrornouslyBuilt.java.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/StructuredFieldIntroducer.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/StructuredFieldIntroducer.java.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/StructuredFieldPool.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/StructuredFieldPool.java.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/Undefined.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base/Undefined.java.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.base.handler has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.bcoca has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.cmoca has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.enums has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.exceptions has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.foca has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.goca has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.ioca has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.lineData has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.moca has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.modca has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.modca_L has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.parser has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.ptoca has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.ptoca.controlSequence has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.triplets has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.afp.writer has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.cli has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.pdf has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.util has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/com.mgz.xml has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/index.html has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/jacoco-resources has been removed.
+  Output property 'reports.enabledReports.html.outputLocation' file /app/build/reports/jacoco/test/html/jacoco-sessions.html has been removed.
+  Output property 'reports.enabledReports.xml.outputLocation' file /app/build/reports/jacoco/test/jacocoTestReport.xml has been removed.
+[ant:jacocoReport] Loading execution data file /app/build/jacoco/test.exec
+[ant:jacocoReport] Writing bundle 'alpheusafpparser' with 623 classes
+
+BUILD SUCCESSFUL in 8s
+6 actionable tasks: 6 executed
+Some of the file system contents retained in the virtual file system are on file systems that Gradle doesn't support watching. The relevant state was discarded to ensure changes to these locations are properly detected. You can override this by explicitly enabling file system watching.
