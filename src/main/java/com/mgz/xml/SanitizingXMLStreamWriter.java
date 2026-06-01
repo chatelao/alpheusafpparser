@@ -36,56 +36,36 @@ public class SanitizingXMLStreamWriter extends StreamWriter2Delegate {
 
   @Override
   public void writeCharacters(String text) throws XMLStreamException {
-    if (UtilCharacterEncoding.needsXmlSanitization(text)) {
-      super.writeCharacters(UtilCharacterEncoding.sanitizeForXml(text));
-    } else {
-      super.writeCharacters(text);
-    }
+    super.writeCharacters(UtilCharacterEncoding.sanitizeForXml(text));
   }
 
   @Override
   public void writeCharacters(char[] text, int start, int len) throws XMLStreamException {
-    if (text == null || !UtilCharacterEncoding.needsXmlSanitization(text, start, len)) {
+    char[] sanitized = UtilCharacterEncoding.sanitizeForXml(text, start, len);
+    if (sanitized == null) {
       super.writeCharacters(text, start, len);
     } else {
-      char[] sanitized = UtilCharacterEncoding.sanitizeForXml(text, start, len);
       super.writeCharacters(sanitized, 0, sanitized.length);
     }
   }
 
   @Override
   public void writeAttribute(String localName, String value) throws XMLStreamException {
-    if (UtilCharacterEncoding.needsXmlSanitization(value)) {
-      super.writeAttribute(localName, UtilCharacterEncoding.sanitizeForXml(value));
-    } else {
-      super.writeAttribute(localName, value);
-    }
+    super.writeAttribute(localName, UtilCharacterEncoding.sanitizeForXml(value));
   }
 
   @Override
   public void writeAttribute(String namespaceURI, String localName, String value) throws XMLStreamException {
-    if (UtilCharacterEncoding.needsXmlSanitization(value)) {
-      super.writeAttribute(namespaceURI, localName, UtilCharacterEncoding.sanitizeForXml(value));
-    } else {
-      super.writeAttribute(namespaceURI, localName, value);
-    }
+    super.writeAttribute(namespaceURI, localName, UtilCharacterEncoding.sanitizeForXml(value));
   }
 
   @Override
   public void writeAttribute(String prefix, String namespaceURI, String localName, String value) throws XMLStreamException {
-    if (UtilCharacterEncoding.needsXmlSanitization(value)) {
-      super.writeAttribute(prefix, namespaceURI, localName, UtilCharacterEncoding.sanitizeForXml(value));
-    } else {
-      super.writeAttribute(prefix, namespaceURI, localName, value);
-    }
+    super.writeAttribute(prefix, namespaceURI, localName, UtilCharacterEncoding.sanitizeForXml(value));
   }
 
   @Override
   public void writeCData(String data) throws XMLStreamException {
-    if (UtilCharacterEncoding.needsXmlSanitization(data)) {
-      super.writeCData(UtilCharacterEncoding.sanitizeForXml(data));
-    } else {
-      super.writeCData(data);
-    }
+    super.writeCData(UtilCharacterEncoding.sanitizeForXml(data));
   }
 }
