@@ -135,7 +135,7 @@ public class MnemonicPerformanceMonitor {
   }
 
   public static String extractMnemonic(Object obj) {
-    if (obj == null) {
+    if (!enabled || obj == null) {
       return null;
     }
     if (obj instanceof String s) {
@@ -164,7 +164,7 @@ public class MnemonicPerformanceMonitor {
   }
 
   public static String extractMnemonicFromString(String name) {
-    if (name == null || name.isEmpty()) {
+    if (!enabled || name == null || name.isEmpty()) {
       return null;
     }
 
@@ -201,7 +201,7 @@ public class MnemonicPerformanceMonitor {
   }
 
   private static boolean isLikelyMnemonic(String s) {
-    if (s.length() < 2 || s.length() > 5) {
+    if (s.length() < 2 || s.length() > 8) {
       return false;
     }
     for (int i = 0; i < s.length(); i++) {
