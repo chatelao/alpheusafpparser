@@ -38,6 +38,7 @@ import com.mgz.afp.lineData.LND_LineDescriptor;
 import com.mgz.afp.modca.BAG_BeginActiveEnvironmentGroup;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
 import com.mgz.afp.modca.MMC_MediumModificationControl;
+import com.mgz.afp.modca.MCD_MapContainerData;
 import com.mgz.afp.modca.MGO_MapGraphicsObject;
 import com.mgz.afp.modca.MDR_MapDataResource;
 import com.mgz.afp.modca.MIO_MapImageObject;
@@ -251,6 +252,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIddDirectly(idd);
     } else if (sf instanceof MIO_MapImageObject mio) {
       writeMioDirectly(mio);
+    } else if (sf instanceof MCD_MapContainerData mcd) {
+      writeMcdDirectly(mcd);
     } else if (sf instanceof MDR_MapDataResource mdr) {
       writeMdrDirectly(mdr);
     } else if (sf instanceof MSU_MapSuppression msu) {
@@ -384,6 +387,20 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeElement(baseXsw, indent2, "text", tle.getText());
     }
     baseXsw.writeCharacters(indent1);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeMcdDirectly(MCD_MapContainerData mcd) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("MCD");
+    baseXsw.writeStartElement("MCD_MapContainerData");
+    String indent2 = XmlIndenter.getIndent(2);
+    writeElement(baseXsw, indent2, "lengthOfRepeatingGroup", mcd.getLengthOfRepeatingGroup());
+    if (mcd.getTriplet() != null) {
+      baseXsw.writeCharacters(indent2);
+      writeTriplet(baseXsw, mcd.getTriplet(), indent2);
+    }
+    XmlIndenter.writeIndent(baseXsw, 1);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
