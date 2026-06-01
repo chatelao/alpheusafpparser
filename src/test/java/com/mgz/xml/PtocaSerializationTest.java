@@ -26,6 +26,7 @@ public class PtocaSerializationTest {
 
         // Verify that we DON'T have double nesting
         assertFalse(xml.contains("<RMI_RelativeMoveInline><RMI_RelativeMoveInline>"), "Should not have double nesting");
-        assertTrue(xml.contains("<RMI_RelativeMoveInline><increment>100</increment></RMI_RelativeMoveInline>"), "Should have correct flattened nesting");
+        // Manual fast-path uses attribute for RMI increment
+        assertTrue(xml.contains("<RMI_RelativeMoveInline increment=\"100\"/>"), "Should have correct attribute-based nesting from fast-path");
     }
 }
