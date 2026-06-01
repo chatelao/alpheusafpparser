@@ -24,10 +24,12 @@ import com.fasterxml.aalto.stax.OutputFactoryImpl;
 import com.ctc.wstx.stax.WstxInputFactory;
 import com.ctc.wstx.stax.WstxOutputFactory;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.StreamWriteFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import com.fasterxml.jackson.module.blackbird.BlackbirdModule;
 import java.io.IOException;
 
 /**
@@ -44,6 +46,8 @@ public class JacksonXmlMapperProvider {
   static {
     XML_MAPPER = XmlMapper.builder(new XmlFactory(new InputFactoryImpl(), new OutputFactoryImpl()))
         .nameForTextElement("text")
+        .addModule(new BlackbirdModule())
+        .enable(StreamWriteFeature.USE_FAST_DOUBLE_WRITER)
         .build();
     // Disable indentation for better performance in high-throughput environments
     XML_MAPPER.disable(SerializationFeature.INDENT_OUTPUT);
@@ -58,6 +62,8 @@ public class JacksonXmlMapperProvider {
 
     WOODSTOX_MAPPER = XmlMapper.builder(new XmlFactory(new WstxInputFactory(), new WstxOutputFactory()))
         .nameForTextElement("text")
+        .addModule(new BlackbirdModule())
+        .enable(StreamWriteFeature.USE_FAST_DOUBLE_WRITER)
         .build();
     WOODSTOX_MAPPER.disable(SerializationFeature.INDENT_OUTPUT);
     WOODSTOX_MAPPER.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
