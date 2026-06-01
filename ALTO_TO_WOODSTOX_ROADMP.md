@@ -50,3 +50,9 @@ Validate the migration against the test suite and evaluate performance impacts.
 ## Migration Considerations
 1. **No Async Support**: Unlike Aalto, Woodstox does not support non-blocking (async) parsing. This may impact future architectural goals described in `STAX2_ROADMAP.md`.
 2. **Standardization**: Woodstox is often preferred in enterprise environments for its strict adherence to StAX/StAX2 standards and robust validation.
+
+## Optional Woodstox Support
+If Woodstox were to be supported as an optional CLI flag (`-w`) alongside Aalto, conditional `if-then-else` logic would be required at three primary locations:
+1. **CLI Argument Parsing**: In `Afp2Xml.java`, to detect the `-w` flag and propagate the choice.
+2. **Mapper Configuration**: In `JacksonXmlMapperProvider.java`, to select between `InputFactoryImpl`/`OutputFactoryImpl` (Aalto) and `WstxInputFactory`/`WstxOutputFactory` (Woodstox) when building the `XmlMapper`.
+3. **Manual Writer Initialization**: In `AfpJacksonXmlWriter.java`, to instantiate the appropriate `XMLOutputFactory` based on the selected backend.
