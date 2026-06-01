@@ -366,6 +366,9 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       displacement = UtilBinaryDecoding.parseShort(sfData, offset, 2);
+      if (displacement < 0) {
+        throw new AFPParserException("Negative DSPLCMNT is not valid in AMB: " + displacement + " [PTOCA-4-132]");
+      }
     }
 
     @Override
@@ -818,10 +821,22 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       repeatLength = UtilBinaryDecoding.parseShort(sfData, offset, 2);
-      int actualLegth = StructuredField.getActualLength(sfData, offset, length);
-      if (actualLegth > 2) {
-        repeatData = new byte[actualLegth - 2];
+      int actualLength = StructuredField.getActualLength(sfData, offset, length);
+
+      // [PTOCA-4-352] A double-byte font is active and RLENGTH is an odd number.
+      boolean isDoubleByte = config.getAfpCharSet().newEncoder().maxBytesPerChar() > 1.0;
+      if (isDoubleByte && (repeatLength % 2 != 0)) {
+        throw new AFPParserException("Double-byte font active and RLENGTH is odd: " + repeatLength + " [PTOCA-4-352]");
+      }
+
+      if (actualLength > 2) {
+        repeatData = new byte[actualLength - 2];
         System.arraycopy(sfData, offset + 2, repeatData, 0, repeatData.length);
+
+        // [PTOCA-4-350] A double-byte font is active and the length of RPTDATA is an odd number.
+        if (isDoubleByte && (repeatData.length % 2 != 0)) {
+          throw new AFPParserException("Double-byte font active and RPTDATA length is odd: " + repeatData.length + " [PTOCA-4-350]");
+        }
 
         int len = repeatLength & 0xFFFF;
         byte[] fullData = new byte[len];
@@ -832,10 +847,14 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
           text = new String(fullData, config.getAfpCharSet());
         }
       } else {
+        // [PTOCA-4-355] The control sequence length parameter is four and RLENGTH is not zero.
+        // length is the length of the payload. csi.getLength() == 4 means payload length is 2.
+        if (repeatLength != 0) {
+          throw new AFPParserException("RPS RLENGTH must be zero if RPTDATA is missing [PTOCA-4-355]");
+        }
         repeatData = null;
         text = null;
       }
-
     }
 
     @Override
