@@ -93,15 +93,24 @@ import org.w3c.dom.Document;
  */
 public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
-  private static final XMLOutputFactory XOF;
+  private static final XMLOutputFactory AALTO_XOF;
+  private static final XMLOutputFactory WOODSTOX_XOF;
+
   static {
-    XOF = new com.fasterxml.aalto.stax.OutputFactoryImpl();
-    XOF.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
+    AALTO_XOF = new com.fasterxml.aalto.stax.OutputFactoryImpl();
+    AALTO_XOF.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
     try {
-      // Try to disable structure validation to allow multiple roots in fragment mode
-      XOF.setProperty("org.codehaus.stax2.validation.checkStructure", false);
+      AALTO_XOF.setProperty("org.codehaus.stax2.validation.checkStructure", false);
     } catch (Exception e) {
-      // Ignore if not supported
+      // Ignore
+    }
+
+    WOODSTOX_XOF = new com.ctc.wstx.stax.WstxOutputFactory();
+    WOODSTOX_XOF.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
+    try {
+      WOODSTOX_XOF.setProperty("org.codehaus.stax2.validation.checkStructure", false);
+    } catch (Exception e) {
+      // Ignore
     }
   }
   private static final DocumentBuilderFactory DBF = DocumentBuilderFactory.newInstance();
@@ -121,6 +130,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private javax.xml.parsers.DocumentBuilder cachedDocumentBuilder;
   private javax.xml.xpath.XPath cachedXpath;
   private javax.xml.transform.Transformer cachedTransformer;
+
+  private final boolean useWoodstox;
 
   /**
    * Constructor for AfpJacksonXmlWriter.
@@ -153,16 +164,32 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
    */
   public AfpJacksonXmlWriter(OutputStream os, String xpathExpression, boolean fragmentMode)
       throws Exception {
+    this(os, xpathExpression, fragmentMode, false);
+  }
+
+  /**
+   * Constructor for AfpJacksonXmlWriter.
+   *
+   * @param os the output stream to write to
+   * @param xpathExpression the XPath expression to filter fields
+   * @param fragmentMode if true, skip XML declaration and root element
+   * @param useWoodstox if true, use Woodstox instead of Aalto
+   * @throws Exception if initialization fails
+   */
+  public AfpJacksonXmlWriter(OutputStream os, String xpathExpression, boolean fragmentMode, boolean useWoodstox)
+      throws Exception {
     this.os = os;
+    this.useWoodstox = useWoodstox;
     this.cos = new com.mgz.util.CountingOutputStream(new NonClosingOutputStream(os));
     this.xpathExpression = (xpathExpression == null || xpathExpression.isBlank()) ? null : xpathExpression;
     this.fragmentMode = fragmentMode;
-    this.mapper = JacksonXmlMapperProvider.getMapper();
+    this.mapper = JacksonXmlMapperProvider.getMapper(useWoodstox);
     // Fragment mapper to avoid repeated XML declarations
-    this.fragmentMapper = JacksonXmlMapperProvider.getFragmentMapper();
+    this.fragmentMapper = JacksonXmlMapperProvider.getFragmentMapper(useWoodstox);
 
     if (this.xpathExpression == null) {
-      XMLStreamWriter2 rawXsw = (XMLStreamWriter2) XOF.createXMLStreamWriter(cos, "UTF-8");
+      XMLOutputFactory xof = useWoodstox ? WOODSTOX_XOF : AALTO_XOF;
+      XMLStreamWriter2 rawXsw = (XMLStreamWriter2) xof.createXMLStreamWriter(cos, "UTF-8");
       this.baseXsw = new SanitizingXMLStreamWriter(rawXsw);
       this.xsw = MnemonicPerformanceMonitor.isEnabled() ? new MnemonicXMLStreamWriter(this.baseXsw) : this.baseXsw;
       if (!fragmentMode) {
@@ -2415,7 +2442,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     int initialCapacity = (int) SFSizeEstimator.estimateXmlSize(sf);
     String xml;
     java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream(initialCapacity);
-    try (AfpJacksonXmlWriter tempWriter = new AfpJacksonXmlWriter(baos, null, true)) {
+    try (AfpJacksonXmlWriter tempWriter = new AfpJacksonXmlWriter(baos, null, true, useWoodstox)) {
       tempWriter.handle(sf);
     }
     xml = baos.toString(StandardCharsets.UTF_8);

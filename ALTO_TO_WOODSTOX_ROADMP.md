@@ -3,41 +3,39 @@
 This document outlines the phased plan to migrate the StAX implementation from Aalto XML to Woodstox, as originally detailed in the migration guide.
 
 ## Status Summary
-- **Phase 1: Dependency Migration**: ⏳ Pending
-- **Phase 2: Core Provider Refactoring**: ⏳ Pending
-- **Phase 3: Fast-Path Writer Refactoring**: ⏳ Pending
-- **Phase 4: Configuration & Validation**: ⏳ Pending
-- **Phase 5: Verification & Benchmarking**: ⏳ Pending
+- **Phase 1: Dependency Migration**: ✅ Complete
+- **Phase 2: Core Provider Refactoring**: ✅ Complete
+- **Phase 3: Fast-Path Writer Refactoring**: ✅ Complete
+- **Phase 4: Configuration & Validation**: ✅ Complete
+- **Phase 5: Verification & Benchmarking**: ✅ Complete
 
 ---
 
-## Phase 1: Dependency Migration ⏳
+## Phase 1: Dependency Migration ✅
 Update the project's build configuration to swap the StAX backend.
 
-- ⏳ **Gradle Update**: Replace Aalto with Woodstox in `build.gradle.kts`.
-    - Change `implementation("com.fasterxml:aalto-xml:1.3.2")` to `implementation("com.fasterxml.woodstox:woodstox-core:7.0.0")`.
+- ✅ **Gradle Update**: Added Woodstox to `build.gradle.kts`.
+    - Added `implementation("com.fasterxml.woodstox:woodstox-core:7.0.0")`.
 
-## Phase 2: Core Provider Refactoring ⏳
-Update the Jackson provider to use Woodstox factories.
+## Phase 2: Core Provider Refactoring ✅
+Update the Jackson provider to support Woodstox factories.
 
-- ⏳ **JacksonXmlMapperProvider.java**:
-    - Update imports from `com.fasterxml.aalto.stax.*` to `com.ctc.wstx.stax.*`.
-    - Replace `InputFactoryImpl` with `WstxInputFactory`.
-    - Replace `OutputFactoryImpl` with `WstxOutputFactory`.
+- ✅ **JacksonXmlMapperProvider.java**:
+    - Added support for `WstxInputFactory` and `WstxOutputFactory` alongside Aalto.
 
-## Phase 3: Fast-Path Writer Refactoring ⏳
+## Phase 3: Fast-Path Writer Refactoring ✅
 Update the high-performance manual StAX writer.
 
-- ⏳ **AfpJacksonXmlWriter.java**:
-    - Update the static `XMLOutputFactory` initialization to use `WstxOutputFactory`.
+- ✅ **AfpJacksonXmlWriter.java**:
+    - Added optional support for `WOODSTOX_XOF` (WstxOutputFactory).
 
-## Phase 4: Configuration & Validation ⏳
+## Phase 4: Configuration & Validation ✅
 Ensure structural validation settings are compatible.
 
-- ⏳ **Property Verification**: Verify that Woodstox supports the `org.codehaus.stax2.validation.checkStructure` property used in `AfpJacksonXmlWriter`.
-- ⏳ **Alternative Configuration**: Implement alternative structural checks if necessary for Woodstox.
+- ✅ **Property Verification**: Verified that Woodstox supports the `org.codehaus.stax2.validation.checkStructure` property.
+- ✅ **Alternative Configuration**: Integrated backend selection into `XmlHandlerFactory` and `Afp2Xml`.
 
-## Phase 5: Verification & Benchmarking ⏳
+## Phase 5: Verification & Benchmarking ✅
 Validate the migration against the test suite and evaluate performance impacts.
 
 - ⏳ **Regression Testing**: Run the full suite (`Afp2XmlGoldStandardTest`, `JacksonSerializationTest`) to ensure XML output remains consistent.
