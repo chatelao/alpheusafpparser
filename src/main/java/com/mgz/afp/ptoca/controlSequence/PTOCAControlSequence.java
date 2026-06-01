@@ -45,6 +45,7 @@ import java.nio.charset.Charset;
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
     include = JsonTypeInfo.As.WRAPPER_OBJECT)
+@JacksonXmlRootElement(localName = "PTOCAControlSequence")
 @JsonSubTypes({
     @JsonSubTypes.Type(value = PTOCAControlSequence.TRN_TransparentData.class, name = "TRN_TransparentData"),
     @JsonSubTypes.Type(value = PTOCAControlSequence.GraphicCharacters.class, name = "GraphicCharacters"),
