@@ -8,6 +8,7 @@ public class BCOCARoundTripTest {
 
     @Test
     public void testBBCRoundTrip() throws Exception {
+        // [BCOCA-3-001]
         // BBC: D3A8EB
         // Name (8): BARCODE1 (C2 C1 D9 C3 D6 C4 C5 F1)
         // Triplet (6): Comment "TEST" (06 65 E3 C5 E2 E3)
@@ -22,6 +23,7 @@ public class BCOCARoundTripTest {
 
     @Test
     public void testEBCRoundTrip() throws Exception {
+        // [BCOCA-3-001]
         // EBC: D3A9EB
         // Name (8): BARCODE1
         // Triplet (6): Comment "TEST" (06 65 E3 C5 E2 E3)
@@ -36,6 +38,7 @@ public class BCOCARoundTripTest {
 
     @Test
     public void testBDDRoundTrip() throws Exception {
+        // [BCOCA-3-008] [BCOCA-3-009] [BCOCA-3-011] [BCOCA-3-012] [BCOCA-3-013] [BCOCA-3-014] [BCOCA-3-016] [BCOCA-3-037]
         // BDD: D3A6EB
         // Data (23 bytes):
         // UnitBase: 0x00 (10 inches)
@@ -65,6 +68,7 @@ public class BCOCARoundTripTest {
 
     @Test
     public void testBDARoundTrip() throws Exception {
+        // [BCOCA-3-007] [BCOCA-3-010] [BCOCA-3-015]
         // BDA: D3EEEB
         // Data:
         // Flags: 0x80 (HRINotPresent)

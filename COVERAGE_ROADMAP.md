@@ -84,7 +84,11 @@ Cover remaining specialized areas and refactored logic.
 - ✅ Implement tests for `com.mgz.afp.lineData`, `com.mgz.afp.cmoca`, and `com.mgz.afp.bcoca` (completed in `LineDataRoundTripTest.java`, `CMRRoundTripTest.java`, and `BCOCARoundTripTest.java`).
 - 🚧 Verify the 1:1 mapping of normative requirements in `TEST_COVERAGE_*.md` files:
     - 🚧 **4.1.1 CMOCA Verification:** Implement and tag tests for all 1,085 CMOCA requirements (Initial verification implemented for CMR Header and Property fields).
-    - ⏳ **4.1.2 BCOCA Verification:** Implement and tag tests for all 1,237 BCOCA requirements.
+    - 🚧 **4.1.2 BCOCA Verification:** Implement and tag tests for all 1,237 BCOCA requirements.
+        - ✅ **4.1.2.1 Chapters 1–3:** Initial architectural and structural verification (completed in `TEST_COVERAGE_BCOCA.md`).
+        - ⏳ **4.1.2.2 Chapter 4:** Data Structures (Syntax, Semantics, Pragmatics).
+        - ⏳ **4.1.2.3 Chapter 5:** Exception Handling.
+        - ⏳ **4.1.2.4 Chapter 6:** Compliance.
     - 🚧 **4.1.3 PTOCA Verification:** Implement and tag tests for all 1,488 PTOCA requirements (Initial verification and Chapter 6 PT1-PT4 subset ranges implemented in `TEST_COVERAGE_PTOCA.md`).
     - ⏳ **4.1.4 FOCA Verification:** Implement and tag tests for all 1,391 FOCA requirements.
     - ⏳ **4.1.5 GOCA Verification:** Implement and tag tests for all 2,144 GOCA requirements.
