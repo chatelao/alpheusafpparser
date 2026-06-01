@@ -8,12 +8,14 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryPoolMXBean;
 import java.lang.management.MemoryUsage;
+import java.lang.management.ThreadMXBean;
 import java.nio.file.Path;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Throughput benchmark for AFP to XML conversion.
+ * Includes allocation tracking [DECOUPLE-4.2.3.2.1].
  */
 public class Afp2XmlBenchmarkTest {
 
@@ -48,6 +50,8 @@ public class Afp2XmlBenchmarkTest {
             pool.resetPeakUsage();
         }
 
+        long startAllocated = getAllocatedBytes();
+
         // Warm-up
         for (int i = 0; i < WARMUP_ITERATIONS; i++) {
             Afp2Xml.execute(args);
@@ -66,6 +70,9 @@ public class Afp2XmlBenchmarkTest {
         double avgDurationSeconds = (totalDuration / (double) MEASURE_ITERATIONS) / 1_000_000_000.0;
         double throughputMBs = (fileSize / (1024.0 * 1024.0)) / avgDurationSeconds;
 
+        // Allocation Tracking [DECOUPLE-4.2.3.2.1]
+        long totalAllocated = getAllocatedBytes() - startAllocated;
+
         // Calculate peak heap usage
         long peakHeapUsage = 0;
         for (MemoryPoolMXBean pool : pools) {
@@ -77,7 +84,35 @@ public class Afp2XmlBenchmarkTest {
             }
         }
 
-        System.out.printf("%s mode average: %.3f seconds (%.2f MB/s), Peak Heap: %.2f MB%n",
-            modeName, avgDurationSeconds, throughputMBs, peakHeapUsage / (1024.0 * 1024.0));
+        System.out.printf("%s mode average: %.3f seconds (%.2f MB/s), Peak Heap: %.2f MB, Total Allocated: %.2f MB%n",
+            modeName, avgDurationSeconds, throughputMBs, peakHeapUsage / (1024.0 * 1024.0),
+            totalAllocated / (1024.0 * 1024.0));
+    }
+
+    private long getAllocatedBytes() {
+        long totalAllocated = 0;
+        java.lang.management.ThreadMXBean baseThreadBean = ManagementFactory.getThreadMXBean();
+        try {
+            // Use reflection to access com.sun.management.ThreadMXBean methods without direct dependency
+            Class<?> sunBeanClass = Class.forName("com.sun.management.ThreadMXBean");
+            if (sunBeanClass.isInstance(baseThreadBean)) {
+                java.lang.reflect.Method isSupported = sunBeanClass.getMethod("isThreadAllocatedMemorySupported");
+                if ((boolean) isSupported.invoke(baseThreadBean)) {
+                    java.lang.reflect.Method setEnabled = sunBeanClass.getMethod("setThreadAllocatedMemoryEnabled", boolean.class);
+                    setEnabled.invoke(baseThreadBean, true);
+                    java.lang.reflect.Method getAllocated = sunBeanClass.getMethod("getThreadAllocatedMemory", long.class);
+                    long[] threadIds = baseThreadBean.getAllThreadIds();
+                    for (long id : threadIds) {
+                        long bytes = (long) getAllocated.invoke(baseThreadBean, id);
+                        if (bytes != -1) {
+                            totalAllocated += bytes;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            // Ignore reflection errors and just report 0
+        }
+        return totalAllocated;
     }
 }

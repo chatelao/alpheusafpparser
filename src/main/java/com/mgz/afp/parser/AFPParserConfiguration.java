@@ -300,7 +300,10 @@ public class AFPParserConfiguration implements Serializable, Cloneable {
   @Override
   public AFPParserConfiguration clone() {
     try {
-      return (AFPParserConfiguration) super.clone();
+      AFPParserConfiguration clone = (AFPParserConfiguration) super.clone();
+      // Perform deep copy of maps to ensure thread isolation [DECOUPLE-4.3.1.3.1]
+      clone.codedFontLocalIdToCharsetMap = new ConcurrentHashMap<>(this.codedFontLocalIdToCharsetMap);
+      return clone;
     } catch (CloneNotSupportedException e) {
       return null;
     }
