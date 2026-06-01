@@ -44,7 +44,7 @@ import java.nio.charset.Charset;
 @AFPType
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.WRAPPER_OBJECT)
+    include = JsonTypeInfo.As.EXISTING_PROPERTY)
 @JacksonXmlRootElement(localName = "PTOCAControlSequence")
 @JsonSubTypes({
     @JsonSubTypes.Type(value = PTOCAControlSequence.TRN_TransparentData.class, name = "TRN_TransparentData"),

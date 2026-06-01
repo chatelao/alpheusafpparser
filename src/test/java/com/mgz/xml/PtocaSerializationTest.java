@@ -1,7 +1,7 @@
 package com.mgz.xml;
 
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
-import com.mgz.afp.parser.AFPParserConfiguration;
+import com.mgz.afp.ptoca.PTX_PresentationTextData;
 import java.io.ByteArrayOutputStream;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,17 +16,16 @@ public class PtocaSerializationTest {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos, null, true)) {
-             // In actual use, we'd handle a PTX which contains the control sequences.
-             // But we can test the internal dispatch if we can call it.
-             // writeControlSequence is private, so we might need a PTX or use reflection for testing.
-             // Or just use the fragmentMapper directly to see what it does.
-             JacksonXmlMapperProvider.getFragmentMapper().writerFor(PTOCAControlSequence.class).writeValue(baos, rmi);
+             PTX_PresentationTextData ptx = new PTX_PresentationTextData();
+             ptx.addControlSequence(rmi);
+             writer.handle(ptx);
         }
 
         String xml = baos.toString();
         System.out.println("XML Output: " + xml);
-        // Current behavior with WRAPPER_OBJECT:
-        // <RMI_RelativeMoveInline><RMI_RelativeMoveInline increment="100"/></RMI_RelativeMoveInline>
-        // (Wait, I need to check)
+
+        // Verify that we DON'T have double nesting
+        assertFalse(xml.contains("<RMI_RelativeMoveInline><RMI_RelativeMoveInline>"), "Should not have double nesting");
+        assertTrue(xml.contains("<RMI_RelativeMoveInline><increment>100</increment></RMI_RelativeMoveInline>"), "Should have correct flattened nesting");
     }
 }
