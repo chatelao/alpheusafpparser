@@ -58,14 +58,14 @@ public class JacksonXmlMapperProvider {
   private static final ConcurrentHashMap<Class<?>, ObjectWriter> WOODSTOX_FRAGMENT_WRITER_CACHE = new ConcurrentHashMap<>();
 
   static {
-    AALTO_OUTPUT_FACTORY.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
+    AALTO_OUTPUT_FACTORY.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, false);
     try {
       AALTO_OUTPUT_FACTORY.setProperty("org.codehaus.stax2.validation.checkStructure", false);
     } catch (Exception e) {
       // Ignore
     }
 
-    WOODSTOX_OUTPUT_FACTORY.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
+    WOODSTOX_OUTPUT_FACTORY.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, false);
     try {
       WOODSTOX_OUTPUT_FACTORY.setProperty("com.ctc.wstx.addSpaceAfterEmptyElem", false);
       WOODSTOX_OUTPUT_FACTORY.setProperty("com.ctc.wstx.useDoubleQuotesInXmlDecl", true);
