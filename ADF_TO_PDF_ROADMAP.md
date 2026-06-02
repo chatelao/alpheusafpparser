@@ -106,11 +106,12 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ✅ **BCOCA State Tracking**: Implement tracking of barcode descriptors (`BDD`) and data (`BDA`) including type, modifier, and font for HRI.
     - ⏳ **Linear Barcode Support**: Implement rendering for common linear barcodes.
         - ✅ **Code 39**: Implement rendering for Code 39 (3 of 9) barcodes.
+        - ✅ **Interleaved 2 of 5**: Implement rendering for Interleaved 2 of 5 (ITF) barcodes.
         - ⏳ **Code 128**: Implement rendering for Code 128 barcodes.
         - ⏳ **UPC/EAN**: Implement rendering for UPC-A, UPC-E, EAN-8, and EAN-13 barcodes.
     - ⏳ **2D Barcode Support**: Implement rendering for 2D barcodes (Data Matrix, QR Code, PDF417).
     - ⏳ **Postal Barcode Support**: Implement rendering for postal codes (POSTNET, Intelligent Mail, Japan Postal).
-    - ⏳ **HRI Rendering**: Implement Human Readable Interpretation (HRI) text placement and font mapping.
+    - ✅ **HRI Rendering**: Implement Human Readable Interpretation (HRI) text placement and font mapping.
 - ⏳ **IOCA Renderer**: Map image data to PDF Image XObjects.
     - ✅ **Implement IOCA Segment Tracking**: Identify and group IOCA segments within the AFP stream.
     - ⏳ **Implement IOCA Data Decoding**:
