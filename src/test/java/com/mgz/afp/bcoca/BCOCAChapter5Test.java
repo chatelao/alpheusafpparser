@@ -86,4 +86,102 @@ public class BCOCAChapter5Test {
             bda.decodeAFP(shortData, 0, 9, config);
         });
     }
+
+    @Test
+    public void testBDAParametersAztecCodeInvalidLength() {
+        // [BCOCA-5-002] Specification-Check Exceptions: Invalid data parameters or values.
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] shortData = new byte[13]; // 5 bytes BDA header + 8 bytes (should be at least 9 for Aztec)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.AztecCode);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(shortData, 0, 13, config);
+        });
+    }
+
+    @Test
+    public void testBDAParametersHanXinCodeInvalidLength() {
+        // [BCOCA-5-002] Specification-Check Exceptions: Invalid data parameters or values.
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] shortData = new byte[11]; // 5 bytes BDA header + 6 bytes (should be at least 7 for Han Xin)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.HanXinCode);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(shortData, 0, 11, config);
+        });
+    }
+
+    @Test
+    public void testBDAParametersIntelligentMailPackageBarcodeInvalidLength() {
+        // [BCOCA-5-002] Specification-Check Exceptions: Invalid data parameters or values.
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] shortData = new byte[8]; // 5 bytes BDA header + 3 bytes (should be at least 4 for IM Package)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode);
+        bdd.setBarcodeModifier((byte) 0x06);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(shortData, 0, 8, config);
+        });
+    }
+
+    @Test
+    public void testBDAParametersQRCodeInvalidLength() {
+        // [BCOCA-5-002] Specification-Check Exceptions: Invalid data parameters or values.
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] shortData = new byte[13]; // 5 bytes BDA header + 8 bytes (should be at least 9 for QR)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.QRCode_2D);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(shortData, 0, 13, config);
+        });
+    }
+
+    @Test
+    public void testBDAParametersQRCodeWithImageInvalidLength() {
+        // [BCOCA-5-002] Specification-Check Exceptions: Invalid data parameters or values.
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] shortData = new byte[16]; // 5 bytes BDA header + 9 bytes (common QR) + 2 bytes (should be 3 more for Image part)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.QRCode_2D);
+        bdd.setBarcodeModifier((byte) 0x12);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(shortData, 0, 16, config);
+        });
+    }
+
+    @Test
+    public void testBDAParametersPDF417InvalidLength() {
+        // [BCOCA-5-002] Specification-Check Exceptions: Invalid data parameters or values.
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] shortData = new byte[10]; // 5 bytes BDA header + 5 bytes (should be at least 6 for PDF417)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.PDF417_2D);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(shortData, 0, 10, config);
+        });
+    }
 }

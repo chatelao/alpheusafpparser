@@ -67,8 +67,8 @@
 | BCOCA-3-014 | Input to the bar code object processor: Wide-to-narrow element ratio. | ✅ |
 | BCOCA-3-015 | Input to the bar code object processor: HRI presence, location, and type style. | ✅ |
 | BCOCA-3-016 | Input to the bar code object processor: Color of the bar code symbol elements. | ✅ |
-| BCOCA-3-017 | Input to the bar code object processor: For 2D symbologies, special functions (escape sequences, error correction, etc.). | ❓ |
-| BCOCA-3-018 | The bar code object processor validates all input parameters and generates exception conditions as appropriate. | ❓ |
+| BCOCA-3-017 | Input to the bar code object processor: For 2D symbologies, special functions (escape sequences, error correction, etc.). | ✅ |
+| BCOCA-3-018 | The bar code object processor validates all input parameters and generates exception conditions as appropriate. | ✅ |
 | BCOCA-3-019 | The bar code object processor generates the bar and space patterns according to the rules of the specified symbology. | ❓ |
 | BCOCA-3-020 | The bar code object processor generates, uses, and encodes check digit(s). | ❓ |
 | BCOCA-3-021 | The check-digit option is specified in the modifier field. | ❓ |
@@ -100,10 +100,10 @@
 | BCOCA-3-047 | Table 7 shows HRI recommendations for various bar code types. | ❓ |
 | BCOCA-3-048 | Check digits are not always presented in the HRI. | ❓ |
 | BCOCA-4-001 | BCD2 subset includes additional bar code types (Australia Post, Codabar, Code 93, Code 128 (modifiers X'02', X'03'), Data Matrix (modifier X'00'), Intelligent Mail, Japan Postal, MaxiCode, PDF417, QR Code (modifier X'02'), RM4SCC). | ✅ |
-| BCOCA-4-002 | BCD2 subset adds support for bar code symbol suppression. | ❓ |
+| BCOCA-4-002 | BCD2 subset adds support for bar code symbol suppression. | ✅ |
 | BCOCA-4-003 | BCD2 subset adds support for the Color Specification triplet in the Bar Code Data Descriptor. | ❓ |
 | BCOCA-4-004 | BCD2 subset supports the full range for font local IDs. | ✅ |
-| BCOCA-4-005 | BCD2 subset supports the full range for units per unit base. | ❓ |
+| BCOCA-4-005 | BCD2 subset supports the full range for units per unit base. | ✅ |
 | BCOCA-4-008 | Byte 0 Unit base: Indicates the length of the measurement unit base. | ✅ |
 | BCOCA-4-009 | Byte 1: Reserved. | ✅ |
 | BCOCA-4-010 | Bytes 2–3 Xupub: Specifies the number of units per unit base in the Xbc direction. | ✅ |
