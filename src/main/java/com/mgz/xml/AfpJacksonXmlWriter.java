@@ -241,7 +241,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   private void writeFieldDirectly(StructuredField sf) throws Exception {
     if (!fragmentMode) {
-      baseXsw.writeCharacters(XmlIndenter.LEVEL_1_PURE);
+      baseXsw.writeRaw(XmlIndenter.LEVEL_1_PURE);
     }
 
     if (sf instanceof NOP_NoOperation nop) {
@@ -593,17 +593,17 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private void writeTripletsAndText(XMLStreamWriter2 writer, List<Triplet> triplets, String text, String indent, String closingIndent) throws Exception {
     if (triplets != null) {
       for (Triplet triplet : triplets) {
-        writer.writeCharacters(indent);
+        writer.writeRaw(indent);
         writeTriplet(writer, triplet, indent);
       }
     }
     if (text != null && !text.isEmpty()) {
-      writer.writeCharacters(indent);
+      writer.writeRaw(indent);
       writer.writeStartElement("text");
       writer.writeCharacters(text);
       writer.writeEndElement();
     }
-    writer.writeCharacters(closingIndent);
+    writer.writeRaw(closingIndent);
   }
 
   private void writeTriplet(XMLStreamWriter2 writer, Triplet triplet, String indent) throws Exception {
@@ -898,7 +898,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       List<Triplet> triplets = rgt.getTriplets();
       if (triplets != null) {
         for (Triplet triplet : triplets) {
-          baseXsw.writeCharacters(childIndent);
+        baseXsw.writeRaw(indent);
           writeTriplet(baseXsw, triplet, childIndent);
         }
       }
@@ -914,7 +914,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     if (sequences != null) {
       boolean ptxDebug = com.mgz.util.PTXPerformanceMonitor.isEnabled();
       for (PTOCAControlSequence cs : sequences) {
-        baseXsw.writeCharacters(XmlIndenter.getIndent(2));
+        baseXsw.writeRaw(XmlIndenter.getIndent(2));
         long csStart = ptxDebug ? System.nanoTime() : 0;
         long csStartCount = ptxDebug ? cos.getCount() : 0;
         writeControlSequence(cs, XmlIndenter.getIndent(2));
@@ -2024,7 +2024,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     List<IPD_Segment> segments = ipd.getListOfSegments();
     if (segments != null) {
       for (IPD_Segment segment : segments) {
-        baseXsw.writeCharacters(indent);
+        baseXsw.writeRaw(indent);
         writeIpdSegmentDirectly(baseXsw, segment, indent);
       }
     }
