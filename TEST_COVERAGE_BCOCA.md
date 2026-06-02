@@ -104,7 +104,7 @@
 | BCOCA-4-003 | BCD2 subset adds support for the Color Specification triplet in the Bar Code Data Descriptor. | ✅ |
 | BCOCA-4-004 | BCD2 subset supports the full range for font local IDs. | ✅ |
 | BCOCA-4-005 | BCD2 subset supports the full range for units per unit base. | ✅ |
-| BCOCA-4-008 | Byte 0 Unit base: Indicates the length of the measurement unit base. | ✅ |
+| BCOCA-4-008 | Byte 0 Unit base: Indicates the length of the measurement unit base. (EC-0505 validated) | ✅ |
 | BCOCA-4-009 | Byte 1: Reserved. | ✅ |
 | BCOCA-4-010 | Bytes 2–3 Xupub: Specifies the number of units per unit base in the Xbc direction. | ✅ |
 | BCOCA-4-011 | Bytes 4–5 Yupub: Specifies the number of units per unit base in the Ybc direction and must be equal to Xupub. | ✅ |

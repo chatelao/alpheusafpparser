@@ -32,9 +32,9 @@ This document outlines a phased, actionable plan to increase the code coverage o
 ## Phase 4: Full Compliance & Optimization (Target: 85%+) 🚧
 - 🚧 **4.1. Special Specifications**
     - 🚧 CMOCA, BCOCA, and MOCA verification (Currently 35-45% coverage).
-    - ⏳ Implementation of remaining 1,000+ normative requirements per spec.
-- ⏳ **4.2. Performance fast-paths**
-    - Verification of `AfpJacksonXmlWriter` optimized paths.
+    - 🚧 Implementation of remaining 1,000+ normative requirements per spec (Progress: EC-0505 validated).
+- 🚧 **4.2. Performance fast-paths**
+    - ✅ Verification of `AfpJacksonXmlWriter` optimized paths (MetadataObject fast-path implemented).
 - 🏗️ **4.3. PDF Renderer Verification**
     - Implement tests for `com.mgz.pdf`.
 
