@@ -90,6 +90,8 @@ import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
 import com.mgz.afp.modca.MDR_MapDataResource;
 import com.mgz.afp.modca.MMO_MapMediumOverlay;
 import com.mgz.afp.modca.MPS_MapPageSegment;
+import com.mgz.afp.modca.OBD_ObjectAreaDescriptor;
+import com.mgz.afp.modca.OBP_ObjectAreaPosition;
 import com.mgz.afp.modca.PGD_PageDescriptor;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
 import com.mgz.afp.ptoca.PTX_PresentationTextData;
@@ -97,6 +99,8 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMB_AbsoluteMoveBaseline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMI_AbsoluteMoveInline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.BLN_BeginLine;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.DBR_DrawBaxisRule;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.DIR_DrawIaxisRule;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.GraphicCharacters;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMB_RelativeMoveBaseline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMI_RelativeMoveInline;
@@ -225,7 +229,10 @@ public class PdfHandler implements StructuredFieldHandler {
           }
         } else if (begin instanceof BIM_BeginImageObject) {
           imageState.setInImageObject(false);
-          // TODO: Trigger image conversion and placement
+          if (currentCanvas != null) {
+            PdfImageRenderer.render(imageState, currentCanvas);
+          }
+          imageState.reset();
         } else if (begin instanceof BBC_BeginBarCodeObject) {
           barcodeState.setInBarcodeObject(false);
           if (currentCanvas != null) {
@@ -383,6 +390,16 @@ public class PdfHandler implements StructuredFieldHandler {
       if (imageState.isInImageObject()) {
         imageState.addImageSegment(ipd);
       }
+    } else if (sf instanceof OBP_ObjectAreaPosition obp) {
+      if (imageState.isInImageObject()) {
+        imageState.setxOrigin(obp.getRepeatingGroup().getxOrigin());
+        imageState.setyOrigin(obp.getRepeatingGroup().getyOrigin());
+      } else if (barcodeState.isInBarcodeObject()) {
+        barcodeState.setxOrigin(obp.getRepeatingGroup().getxOrigin());
+        barcodeState.setyOrigin(obp.getRepeatingGroup().getyOrigin());
+      }
+    } else if (sf instanceof OBD_ObjectAreaDescriptor obd) {
+      // Currently sizes are mostly taken from image descriptor or BDD
     }
 
     // TODO: Implement iText 9 based translation logic
@@ -832,6 +849,10 @@ public class PdfHandler implements StructuredFieldHandler {
           textState.setHasEstablishedBaseline(false);
         }
       }
+    } else if (cs instanceof DIR_DrawIaxisRule dir) {
+      renderRule(dir.getLength(), dir.getWidth() != null ? dir.getWidth() : 20, true);
+    } else if (cs instanceof DBR_DrawBaxisRule dbr) {
+      renderRule(dbr.getLength(), dbr.getWidth() != null ? dbr.getWidth() : 20, false);
     } else if (cs instanceof TRN_TransparentData trn) {
       renderText(trn.getTransparentData());
     } else if (cs instanceof GraphicCharacters gc) {
@@ -877,6 +898,36 @@ public class PdfHandler implements StructuredFieldHandler {
     } catch (Exception e) {
       System.err.println("Error rendering text: " + e.getMessage());
     }
+  }
+
+  private void renderRule(int length, int width, boolean isIaxis) {
+    if (currentCanvas == null) {
+      return;
+    }
+
+    int afpX = CoordinateTransformer.getAfpX(textState.getInlinePos(), textState.getBaselinePos(),
+        textState.getIOrientation(), textState.getBOrientation());
+    int afpY = CoordinateTransformer.getAfpY(textState.getInlinePos(), textState.getBaselinePos(),
+        textState.getIOrientation(), textState.getBOrientation());
+
+    double iRad = Math.toRadians(textState.getIOrientation().getCode() / 128.0);
+    double bRad = Math.toRadians(textState.getBOrientation().getCode() / 128.0);
+
+    float cosI = (float) Math.cos(iRad);
+    float sinI = (float) Math.sin(iRad);
+    float cosB = (float) Math.cos(bRad);
+    float sinB = (float) Math.sin(bRad);
+
+    currentCanvas.saveState();
+    // Orientation matrix: [cosI sinI; cosB sinB] at (afpX, afpY)
+    currentCanvas.concatMatrix(cosI, sinI, cosB, sinB, afpX, afpY);
+
+    if (isIaxis) {
+      currentCanvas.rectangle(0, 0, length, width).fill();
+    } else {
+      currentCanvas.rectangle(0, 0, width, length).fill();
+    }
+    currentCanvas.restoreState();
   }
 
   private void applyTransformation(float heightPoints, float scaleX, float scaleY) {

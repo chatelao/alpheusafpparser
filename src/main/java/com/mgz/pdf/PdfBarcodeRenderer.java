@@ -46,6 +46,16 @@ public class PdfBarcodeRenderer {
       "nwnwn"  // 9
   };
 
+  private static final String[] UPCA_L_PATTERNS = {
+      "0001101", "0011001", "0010011", "0111101", "0100011",
+      "0110001", "0101111", "0111011", "0110111", "0001011"
+  };
+
+  private static final String[] UPCA_R_PATTERNS = {
+      "1110010", "1100110", "1101100", "1000010", "1011100",
+      "1001110", "1010000", "1000100", "1001000", "1110100"
+  };
+
   static {
     // Code 39 pattern: 5 bars, 4 spaces. 'w' for wide, 'n' for narrow.
     // Total 9 elements, 3 of which are wide (2 bars, 1 space OR 1 bar, 2 spaces).
@@ -132,8 +142,8 @@ public class PdfBarcodeRenderer {
     }
 
     float totalWidth = 0;
-    int startX = Math.max(0, xOffset);
-    int startY = Math.max(0, yOffset);
+    int startX = state.getxOrigin() + Math.max(0, xOffset);
+    int startY = state.getyOrigin() + Math.max(0, yOffset);
 
     if (!flags.contains(BarCodeFlag.SuppressBarCodeSymbol)) {
       switch (state.getBarcodeType()) {
@@ -142,6 +152,9 @@ public class PdfBarcodeRenderer {
           break;
         case Interleaved_2of5__ITF14__AIM_USS_I_2of5:
           totalWidth = renderInterleaved2of5(content, startX, startY, state, canvas);
+          break;
+        case UPC_CGPC_VersionA:
+          totalWidth = renderUpcA(content, startX, startY, state, canvas);
           break;
         default:
           // TODO: Implement other barcode types
@@ -209,6 +222,78 @@ public class PdfBarcodeRenderer {
     }
     canvas.restoreState();
     return curX - x;
+  }
+
+  private static float renderUpcA(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    // Digits only, typically 11 or 12 digits. If 11, check digit is calculated?
+    // BCOCA usually provides the full data including check digit if required.
+    String digits = content.replaceAll("[^0-9]", "");
+    if (digits.length() < 11) {
+      return 0;
+    }
+    if (digits.length() > 12) {
+      digits = digits.substring(0, 12);
+    } else if (digits.length() == 11) {
+      // Calculate check digit (Standard UPC-A)
+      int sum = 0;
+      for (int i = 0; i < 11; i++) {
+        int d = digits.charAt(i) - '0';
+        sum += (i % 2 == 0) ? d * 3 : d;
+      }
+      int check = (10 - (sum % 10)) % 10;
+      digits += check;
+    }
+
+    float narrowWidth = state.getModuleWidthInMils() * 1.44f;
+    if (narrowWidth <= 0) {
+      narrowWidth = 20.0f;
+    }
+
+    float height = state.getElementHeight();
+    if (height <= 0) {
+      height = 500.0f;
+    }
+
+    canvas.saveState();
+    float curX = x;
+    float curY = y;
+
+    // Start pattern: 101
+    renderBitPattern("101", curX, curY, height, narrowWidth, canvas);
+    curX += 3 * narrowWidth;
+
+    // First 6 digits (L-patterns)
+    for (int i = 0; i < 6; i++) {
+      String pattern = UPCA_L_PATTERNS[digits.charAt(i) - '0'];
+      renderBitPattern(pattern, curX, curY, height, narrowWidth, canvas);
+      curX += 7 * narrowWidth;
+    }
+
+    // Center guard: 01010
+    renderBitPattern("01010", curX, curY, height, narrowWidth, canvas);
+    curX += 5 * narrowWidth;
+
+    // Last 6 digits (R-patterns)
+    for (int i = 6; i < 12; i++) {
+      String pattern = UPCA_R_PATTERNS[digits.charAt(i) - '0'];
+      renderBitPattern(pattern, curX, curY, height, narrowWidth, canvas);
+      curX += 7 * narrowWidth;
+    }
+
+    // Stop pattern: 101
+    renderBitPattern("101", curX, curY, height, narrowWidth, canvas);
+    curX += 3 * narrowWidth;
+
+    canvas.restoreState();
+    return curX - x;
+  }
+
+  private static void renderBitPattern(String pattern, float x, float y, float height, float moduleWidth, PdfCanvas canvas) {
+    for (int i = 0; i < pattern.length(); i++) {
+      if (pattern.charAt(i) == '1') {
+        canvas.rectangle(x + i * moduleWidth, y - height, moduleWidth, height).fill();
+      }
+    }
   }
 
   private static float renderInterleaved2of5(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {

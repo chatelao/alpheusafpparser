@@ -33,6 +33,8 @@ public class PdfImageState {
   private IDD_ImageDataDescriptor descriptor;
   private final List<IPD_ImagePictureData> imageSegments = new ArrayList<>();
   private boolean inImageObject = false;
+  private int xOrigin;
+  private int yOrigin;
 
   /**
    * Resets the image state to default values.
@@ -41,6 +43,8 @@ public class PdfImageState {
     this.descriptor = null;
     this.imageSegments.clear();
     this.inImageObject = false;
+    this.xOrigin = 0;
+    this.yOrigin = 0;
   }
 
   public IDD_ImageDataDescriptor getDescriptor() {
@@ -65,10 +69,22 @@ public class PdfImageState {
 
   public void setInImageObject(boolean inImageObject) {
     this.inImageObject = inImageObject;
-    if (!inImageObject) {
-      // Clear segments when leaving image object context if they were already processed
-      // Or keep them until explicitly cleared? For tracking, we clear on BIM.
-    }
+  }
+
+  public int getxOrigin() {
+    return xOrigin;
+  }
+
+  public void setxOrigin(int xOrigin) {
+    this.xOrigin = xOrigin;
+  }
+
+  public int getyOrigin() {
+    return yOrigin;
+  }
+
+  public void setyOrigin(int yOrigin) {
+    this.yOrigin = yOrigin;
   }
 
   /**
@@ -78,5 +94,7 @@ public class PdfImageState {
     this.descriptor = null;
     this.imageSegments.clear();
     this.inImageObject = true;
+    this.xOrigin = 0;
+    this.yOrigin = 0;
   }
 }
