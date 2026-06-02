@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Throughput benchmark for AFP to XML conversion.
@@ -26,6 +27,14 @@ public class Afp2XmlBenchmarkTest {
     private static final int WARMUP_ITERATIONS = 3;
     private static final int MEASURE_ITERATIONS = 5;
     private static final String LARGE_AFP = "src/test/resources/afp/large_ibm273.afp";
+
+    @Test
+    public void verifyNoJaxbContext() {
+        // Verify that JAXB is not present in the runtime environment [JACK-ONLY-ROADMAP]
+        assertThrows(ClassNotFoundException.class, () -> {
+            Class.forName("javax.xml.bind.JAXBContext");
+        }, "JAXBContext should not be available in a Jackson-only environment");
+    }
 
     @Test
     public void runBenchmark() throws Exception {

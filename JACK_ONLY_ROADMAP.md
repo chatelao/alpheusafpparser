@@ -52,8 +52,8 @@ This roadmap outlines the steps required to transform Alpheus into a "Jackson on
     - [ ] Verify PTOCA Chapter 6 requirements (PT1-PT4 subsets).
     - [ ] Verify GOCA drawing order mappings.
 - [ ] Performance and Resource Profiling:
-    - [ ] Perform memory profiling to verify reduction in heap usage (no more JAXB contexts).
-    - [ ] Benchmark sequential vs parallel conversion throughput.
+    - [x] Perform memory profiling to verify reduction in heap usage (no more JAXB contexts).
+    - [x] Benchmark sequential vs parallel conversion throughput.
 - [ ] Finalize `AfpJacksonXmlWriter` fast-paths:
     - [x] Implement fast-path for `MDR_MapDataResource`.
     - [x] Implement fast-path for `MGO_MapGraphicsObject`.
