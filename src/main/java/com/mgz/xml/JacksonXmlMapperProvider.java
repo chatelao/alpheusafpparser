@@ -68,6 +68,7 @@ public class JacksonXmlMapperProvider {
     WOODSTOX_OUTPUT_FACTORY.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
     try {
       WOODSTOX_OUTPUT_FACTORY.setProperty("com.ctc.wstx.addSpaceAfterEmptyElem", false);
+      WOODSTOX_OUTPUT_FACTORY.setProperty("com.ctc.wstx.useDoubleQuotesInXmlDecl", true);
       WOODSTOX_OUTPUT_FACTORY.setProperty("com.ctc.wstx.outputBufferSize", 65536);
       WOODSTOX_OUTPUT_FACTORY.setProperty("org.codehaus.stax2.validation.checkStructure", false);
     } catch (Exception e) {
