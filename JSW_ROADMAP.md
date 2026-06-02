@@ -24,12 +24,21 @@ Leverage the StAX2 Typed Access API to eliminate intermediate string allocations
 ## Phase 3: Woodstox Specialized Tuning 🚧
 Fine-tune the Woodstox backend for maximum throughput and efficient memory usage.
 
-- ⏳ **Integrated Sanitization**: Implement a custom `EscapingWriterFactory` to move XML 1.0 sanitization directly into the Woodstox stream processing layer.
+- 🚧 **Integrated Sanitization**: Move XML 1.0 sanitization directly into the Woodstox stream processing layer.
+    - ⏳ **Sanitizing Escaping Writer**: Implement `EscapingWriterFactory` and a corresponding `Writer` that performs single-pass sanitization.
+    - ⏳ **Integration & Bypass**: Register the factory in `JacksonXmlMapperProvider` and update `AfpJacksonXmlWriter` to bypass the `SanitizingXMLStreamWriter` decorator when Woodstox is active.
 - ✅ **Property Tuning**:
     - ✅ **Structure Validation**: `P_OUTPUT_VALIDATE_STRUCTURE` set to `false` (via `checkStructure`).
     - ✅ **Empty Element Handling**: Set `P_ADD_SPACE_AFTER_EMPTY_EL` to `false` to reduce output size.
-    - ✅ **Buffer Optimization**: Increase `P_OUTPUT_BUFFER_SIZE` to 32KB or 64KB for high-volume I/O.
+    - ✅ **XML Declaration Quotes**: Set `P_USE_DOUBLE_QUOTES_IN_XML_DECL` to `true` for standard compliance.
+    - ✅ **Buffer Optimization**: Increase `P_OUTPUT_BUFFER_SIZE` to 64KB for high-volume I/O.
 - ✅ **Direct Buffer Recycling**: Ensure optimal reuse of Woodstox internal buffers in parallel processing tasks by consolidating StAX factories and ensuring proper `close()` calls on stream writers.
+
+## Phase 4: Serialization Consistency & Advanced Fast-Paths ⏳
+Standardize the serialization output and expand performance optimizations.
+
+- ⏳ **Polymorphic Serialization Standardization**: Ensure all Structured Fields and PTOCA sequences follow consistent attribute-vs-element patterns (compact attribute formatting) to reduce XML verbosity.
+- ⏳ **Expanded BCOCA Fast-Paths**: Implement manual StAX writing for missing BCOCA fields to eliminate Jackson overhead in barcoded documents.
 
 ---
 

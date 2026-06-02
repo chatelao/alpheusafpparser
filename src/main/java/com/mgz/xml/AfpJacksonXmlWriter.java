@@ -1263,13 +1263,13 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (order instanceof GAD_DrawingOrder.GCFARC_FullArcAtCurrentPosition gcfarc) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GCFARC");
       writer.writeEmptyElement("GCFARC_FullArcAtCurrentPosition");
-      writer.writeAttribute("multiplierIntegerPortion", String.valueOf(gcfarc.getMultiplierIntegerPortion()));
-      writer.writeAttribute("multiplierFractionalPortion", String.valueOf(gcfarc.getMultiplierFractionalPortion()));
+      writer.writeIntAttribute(null, null, "multiplierIntegerPortion", gcfarc.getMultiplierIntegerPortion());
+      writer.writeIntAttribute(null, null, "multiplierFractionalPortion", gcfarc.getMultiplierFractionalPortion());
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GCOMT_Comment gcomt) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GCOMT");
       writer.writeStartElement("GCOMT_Comment");
-      writer.writeAttribute("lengthOfFollowingData", String.valueOf(gcomt.getLengthOfFollowingData()));
+      writer.writeIntAttribute(null, null, "lengthOfFollowingData", gcomt.getLengthOfFollowingData());
       if (gcomt.getText() != null) {
         writer.writeAttribute("text", gcomt.getText());
       }
@@ -1333,8 +1333,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (order instanceof GAD_DrawingOrder.GSGCH_SegmentCharacteristics gsgch) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GSGCH");
       writer.writeStartElement("GSGCH_SegmentCharacteristics");
-      writer.writeAttribute("lengthOfFollowingData", String.valueOf(gsgch.lengthOfFollowingData));
-      writer.writeAttribute("identificationCode", String.valueOf(gsgch.getIdentificationCode()));
+      writer.writeIntAttribute(null, null, "lengthOfFollowingData", gsgch.lengthOfFollowingData);
+      writer.writeIntAttribute(null, null, "identificationCode", gsgch.getIdentificationCode());
       if (gsgch.getParameters() != null) {
         writeBinaryElement(writer, childIndent, "parameters", gsgch.getParameters());
       }
@@ -1619,7 +1619,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (order instanceof GAD_DrawingOrder.GEPROL_EndProlog geprol) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GEPROL");
       writer.writeEmptyElement("GEPROL_EndProlog");
-      writer.writeAttribute("reserved0", String.valueOf(geprol.getReserved0()));
+      writer.writeIntAttribute(null, null, "reserved0", geprol.getReserved0());
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GBSEG_BeginSegment gbseg) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GBSEG");
@@ -1669,7 +1669,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (order instanceof GAD_DrawingOrder.GECP_EndCustomPattern gecp) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GECP");
       writer.writeEmptyElement("GECP_EndCustomPattern");
-      writer.writeAttribute("reserved0", String.valueOf(gecp.getReserved0()));
+      writer.writeIntAttribute(null, null, "reserved0", gecp.getReserved0());
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GBAR_BeginArea gbar) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GBAR");
@@ -2361,8 +2361,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       for (GAD_DrawingOrder.GOCA_Point p : order.getPoints()) {
         writer.writeCharacters(childIndent + "  ");
         writer.writeEmptyElement("GOCA_Point");
-        writer.writeAttribute("xCoordinate", String.valueOf(p.xCoordinate()));
-        writer.writeAttribute("yCoordinate", String.valueOf(p.yCoordinate()));
+        writer.writeIntAttribute(null, null, "xCoordinate", p.xCoordinate());
+        writer.writeIntAttribute(null, null, "yCoordinate", p.yCoordinate());
       }
       writer.writeCharacters(childIndent);
       writer.writeEndElement();
