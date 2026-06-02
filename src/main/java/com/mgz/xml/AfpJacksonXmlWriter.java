@@ -58,6 +58,8 @@ import com.mgz.afp.modca.OBP_ObjectAreaPosition;
 import com.mgz.afp.modca.PGP_PagePosition_Format1;
 import com.mgz.afp.modca.PGP_PagePosition_Format2;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
+import com.mgz.afp.moca.MetadataObject;
+import com.mgz.afp.modca.OCD_ObjectContainerData;
 import com.mgz.afp.ptoca.PTX_PresentationTextData;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.bcoca.BBC_BeginBarCodeObject;
@@ -283,6 +285,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeMpoDirectly(mpo);
     } else if (sf instanceof com.mgz.afp.modca.BDT_BeginDocument bdt) {
       writeBdtDirectly(bdt);
+    } else if (sf instanceof OCD_ObjectContainerData ocd) {
+      writeOcdDirectly(ocd);
     } else if (sf instanceof BDI_BeginDocumentIndex bdi) {
       writeNameAndTripletsDirectly(bdi, "BDI_BeginDocumentIndex");
     } else if (sf instanceof BMO_BeginOverlay bmo) {
@@ -2708,5 +2712,50 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     baseXsw.writeCharacters(indent1);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeOcdDirectly(OCD_ObjectContainerData ocd) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("OCD");
+    baseXsw.writeStartElement("OCD_ObjectContainerData");
+    String indent2 = XmlIndenter.getIndent(2);
+
+    if (ocd.getMetadataObject() != null) {
+      writeMetadataObjectDirectly(ocd.getMetadataObject(), indent2);
+    }
+    if (ocd.getData() != null && ocd.getMetadataObject() == null) {
+      writeBinaryElement(baseXsw, indent2, "data", ocd.getData());
+    }
+    if (ocd.getText() != null) {
+      writeElement(baseXsw, indent2, "text", ocd.getText());
+    }
+
+    baseXsw.writeCharacters(XmlIndenter.getIndent(1));
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeMetadataObjectDirectly(MetadataObject mo, String indent) throws Exception {
+    baseXsw.writeCharacters(indent);
+    baseXsw.writeStartElement("MetadataObject");
+    String childIndent = indent + "  ";
+
+    writeElement(baseXsw, childIndent, "MOLength", mo.getMoLength());
+    writeElement(baseXsw, childIndent, "HeaderLength", mo.getHeaderLength());
+    writeElement(baseXsw, childIndent, "MOType", mo.getMoType());
+    writeElement(baseXsw, childIndent, "MOFormat", mo.getMoFormat());
+    writeElement(baseXsw, childIndent, "MOCompression", mo.getMoCompression());
+    writeElement(baseXsw, childIndent, "MONameLength", mo.getMoNameLength());
+    if (mo.getMoName() != null) {
+      writeElement(baseXsw, childIndent, "MOName", mo.getMoName());
+    }
+    if (mo.getMoData() != null) {
+      writeBinaryElement(baseXsw, childIndent, "MOData", mo.getMoData());
+    }
+    if (mo.getMoDataText() != null) {
+      writeElement(baseXsw, childIndent, "MODataText", mo.getMoDataText());
+    }
+
+    baseXsw.writeCharacters(indent);
+    baseXsw.writeEndElement();
   }
 }

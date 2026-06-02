@@ -32,6 +32,17 @@ import org.junit.jupiter.api.Test;
 public class BCOCAChapter5Test {
 
     @Test
+    public void testBDDInvalidUnitBase() {
+        // [BCOCA-4-008] EC-0505: The unit base specified in the BSD data structure is invalid or unsupported.
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        byte[] data = new byte[23];
+        data[0] = 0x03; // Invalid unit base (only 0x00 and 0x01 are valid)
+        assertThrows(AFPParserException.class, () -> {
+            bdd.decodeAFP(data, 0, 23, new AFPParserConfiguration());
+        }, "Should throw EC-0505 for invalid unit base");
+    }
+
+    @Test
     public void testBDDInvalidLength() {
         // [BCOCA-5-002] Specification-Check Exceptions: Invalid data parameters or values.
         // Verifies that BDD_BarCodeDataDescriptor throws an exception if the payload is too short (less than 23 bytes).
