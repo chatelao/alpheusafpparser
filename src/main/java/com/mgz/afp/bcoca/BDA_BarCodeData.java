@@ -473,6 +473,12 @@ public class BDA_BarCodeData extends StructuredField {
       levelOfErrorCorrection = sfData[offset + 3];
       aztecSpecialFunctionFlags = AztecSpecialFunctionFlag.valueOf(sfData[offset + 4]);
       applicationIndicator = sfData[offset + 5];
+
+      // [BCOCA-5-009] EC-0F1A validation
+      if (aztecSpecialFunctionFlags.contains(AztecSpecialFunctionFlag.GS1FNC1) &&
+          aztecSpecialFunctionFlags.contains(AztecSpecialFunctionFlag.IndustryFNC1)) {
+        throw new AFPParserException("EC-0F1A: For an Aztec Code symbol, an invalid combination of special-function flags was specified. Only one of the FNC1 flags can be B'1'.");
+      }
       sequenceIndicator = sfData[offset + 6];
       totalNumberOfSymbols = sfData[offset + 7];
       structuredAppendIdLength = sfData[offset + 8];
@@ -573,6 +579,35 @@ public class BDA_BarCodeData extends StructuredField {
       fileIDFirstByte = UtilBinaryDecoding.parseShort(sfData, offset + 7, 1);
       fileIDSecondByte = UtilBinaryDecoding.parseShort(sfData, offset + 8, 1);
       specialFunctionFlags = SpecialFunctionFlag.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 9, 1));
+
+      // [BCOCA-5-003] to [BCOCA-5-007] EC-0F0A validation
+      boolean isGS1 = specialFunctionFlags.contains(SpecialFunctionFlag.SymbolConfirmsToGS1Standard);
+      boolean isIndustry = specialFunctionFlags.contains(SpecialFunctionFlag.SymbolConfirmsToIndustryStandard);
+      boolean isRP = specialFunctionFlags.contains(SpecialFunctionFlag.SymbolEncodesAMessage);
+      boolean isMacro = specialFunctionFlags.contains(SpecialFunctionFlag.UseMacro05HeaderTrailer) ||
+                        specialFunctionFlags.contains(SpecialFunctionFlag.UseMacro06HeaderTrailer);
+      boolean isSA = (sequenceIndicator != 0);
+
+      if (isSA && (isRP || isMacro)) {
+        // [BCOCA-5-003]
+        throw new AFPParserException("EC-0F0A: Incompatible Data Matrix parameters: structured append with reader programming or macro.");
+      }
+      if (isGS1 && (isIndustry || isRP || isMacro)) {
+        // [BCOCA-5-004]
+        throw new AFPParserException("EC-0F0A: Incompatible Data Matrix parameters: GS1 FNC1 with industry FNC1, reader programming or macro.");
+      }
+      if (isIndustry && (isGS1 || isRP || isMacro)) {
+        // [BCOCA-5-005]
+        throw new AFPParserException("EC-0F0A: Incompatible Data Matrix parameters: industry FNC1 with GS1 FNC1, reader programming or macro.");
+      }
+      if (isRP && (isSA || isGS1 || isIndustry || isMacro)) {
+        // [BCOCA-5-006]
+        throw new AFPParserException("EC-0F0A: Incompatible Data Matrix parameters: reader programming with structured append, FNC1 or macro.");
+      }
+      if (isMacro && (isSA || isGS1 || isIndustry || isRP)) {
+        // [BCOCA-5-007]
+        throw new AFPParserException("EC-0F0A: Incompatible Data Matrix parameters: macro with structured append, FNC1 or reader programming.");
+      }
 
       return 10;
     }
@@ -901,6 +936,12 @@ public class BDA_BarCodeData extends StructuredField {
       parityData = sfData[offset + 6];
       qrCodeSpecialFunctionFlags = QRCodeSpecialFunctionFlag.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 7, 1));
       applicationIndicator = sfData[offset + 8];
+
+      // [BCOCA-5-011] EC-0F11 validation
+      if (qrCodeSpecialFunctionFlags.contains(QRCodeSpecialFunctionFlag.UCC_EAN_FNC1) &&
+          qrCodeSpecialFunctionFlags.contains(QRCodeSpecialFunctionFlag.IndustryFNC1)) {
+        throw new AFPParserException("EC-0F11: For a QR Code symbol, an invalid combination of special-function flags was specified. Only one of the FNC1 flags can be B'1'.");
+      }
       return 9;
     }
 

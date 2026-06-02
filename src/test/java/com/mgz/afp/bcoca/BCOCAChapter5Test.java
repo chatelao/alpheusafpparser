@@ -170,6 +170,40 @@ public class BCOCAChapter5Test {
     }
 
     @Test
+    public void testBDAParametersAztecIncompatibleFNC1() {
+        // [BCOCA-5-009] EC-0F1A: GS1 FNC1 and industry FNC1
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[15];
+        data[9] = (byte) 0xC0; // GS1FNC1 (0x80) + IndustryFNC1 (0x40)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.AztecCode);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(data, 0, 15, config);
+        });
+    }
+
+    @Test
+    public void testBDAParametersQRIncompatibleFNC1() {
+        // [BCOCA-5-009] EC-0F11: GS1 FNC1 and industry FNC1
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[15];
+        data[12] = (byte) 0xC0; // UCC_EAN_FNC1 (0x80) + IndustryFNC1 (0x40)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.QRCode_2D);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(data, 0, 15, config);
+        });
+    }
+
+    @Test
     public void testBDAParametersPDF417InvalidLength() {
         // [BCOCA-5-002] Specification-Check Exceptions: Invalid data parameters or values.
         BDA_BarCodeData bda = new BDA_BarCodeData();
@@ -182,6 +216,93 @@ public class BCOCAChapter5Test {
 
         assertThrows(AFPParserException.class, () -> {
             bda.decodeAFP(shortData, 0, 10, config);
+        });
+    }
+
+    @Test
+    public void testBDAParametersDataMatrixIncompatibleSAandRP() {
+        // [BCOCA-5-003] EC-0F0A: structured append with reader programming
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[15];
+        data[10] = 0x01; // sequenceIndicator = 1 (Structured Append)
+        data[14] = 0x20; // SymbolEncodesAMessage (Reader Programming)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.DataMatrix_GS1DataMatrix_2D);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(data, 0, 15, config);
+        });
+    }
+
+    @Test
+    public void testBDAParametersDataMatrixIncompatibleGS1andMacro() {
+        // [BCOCA-5-004] EC-0F0A: GS1 FNC1 with macro
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[15];
+        data[14] = (byte) 0x88; // SymbolConfirmsToGS1Standard (0x80) + UseMacro05HeaderTrailer (0x08)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.DataMatrix_GS1DataMatrix_2D);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(data, 0, 15, config);
+        });
+    }
+
+    @Test
+    public void testBDAParametersDataMatrixIncompatibleIndustryandGS1() {
+        // [BCOCA-5-005] EC-0F0A: industry FNC1 with GS1 FNC1
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[15];
+        data[14] = (byte) 0xC0; // SymbolConfirmsToIndustryStandard (0x40) + SymbolConfirmsToGS1Standard (0x80)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.DataMatrix_GS1DataMatrix_2D);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(data, 0, 15, config);
+        });
+    }
+
+    @Test
+    public void testBDAParametersDataMatrixIncompatibleRPandMacro() {
+        // [BCOCA-5-006] EC-0F0A: reader programming with macro
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[15];
+        data[14] = 0x30; // SymbolEncodesAMessage (0x20) + UseMacro06HeaderTrailer (0x10)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.DataMatrix_GS1DataMatrix_2D);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(data, 0, 15, config);
+        });
+    }
+
+    @Test
+    public void testBDAParametersDataMatrixIncompatibleMacroandSA() {
+        // [BCOCA-5-007] EC-0F0A: macro with structured append
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[15];
+        data[10] = 0x02; // sequenceIndicator = 2 (Structured Append)
+        data[14] = 0x08; // UseMacro05HeaderTrailer (0x08)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.DataMatrix_GS1DataMatrix_2D);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(data, 0, 15, config);
         });
     }
 }

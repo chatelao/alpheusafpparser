@@ -59,27 +59,69 @@ public class MetadataObject {
 
   public void decode(byte[] data) throws AFPParserException {
     if (data == null || data.length < 50) {
-      throw new AFPParserException("Invalid MOCA data: too short");
+      // [MOCA-4-020] [MOCA-4-030]
+      throw new AFPParserException("EC-0100 Invalid Length Value: Metadata Object data is too short, minimum length is 50 bytes.");
     }
     moLength = UtilBinaryDecoding.parseLong(data, 0, 4);
+    if (moLength < 50 || moLength > data.length) {
+      // [MOCA-4-020] [MOCA-4-030]
+      throw new AFPParserException("EC-0100 Invalid Length Value: MOLength " + moLength + " is invalid.");
+    }
+
     headerLength = UtilBinaryDecoding.parseInt(data, 4, 2);
+    if (headerLength < 46) {
+      // [MOCA-4-021] [MOCA-4-031]
+      throw new AFPParserException("EC-0200 Invalid Field Value: HeaderLength " + headerLength + " is invalid, must be at least 46.");
+    }
+
     moType = new String(data, 6, 6, StandardCharsets.UTF_16BE);
+    String type = trimMoca(moType);
+    if (!"DES".equals(type)) {
+      // [MOCA-4-022] [MOCA-4-033]
+      throw new AFPParserException("EC-0220 Invalid or Unsupported Field Value: MOType '" + type + "' is invalid or unsupported.");
+    }
+
     moFormat = new String(data, 12, 8, StandardCharsets.UTF_16BE);
+    String format = trimMoca(moFormat);
+    if (!"AFPT".equals(format) && !"XMP".equals(format)) {
+      // [MOCA-4-023] [MOCA-4-034]
+      throw new AFPParserException("EC-0230 Invalid or Unsupported Field Value: MOFormat '" + format + "' is invalid or unsupported.");
+    }
+
     moCompression = new String(data, 20, 20, StandardCharsets.UTF_16BE);
+    String compression = trimMoca(moCompression);
+    if (!"NONE".equals(compression) && !"GZIP".equals(compression) && !"EXI".equals(compression)) {
+      // [MOCA-4-024] [MOCA-4-035]
+      throw new AFPParserException("EC-0240 Invalid or Unsupported Field Value: MOCompression '" + compression + "' is invalid or unsupported.");
+    }
+
     // Offset 40-47 Reserved (8 bytes)
+
     moNameLength = UtilBinaryDecoding.parseInt(data, 48, 2);
+    if (moNameLength < 0 || moNameLength > 250 || (moNameLength % 2 != 0)) {
+      // [MOCA-4-025] [MOCA-4-036]
+      throw new AFPParserException("EC-0250 Invalid Field Value: MONameLength " + moNameLength + " is invalid, must be even and <= 250.");
+    }
 
     int currentOffset = 50;
     if (moNameLength > 0) {
+      if (currentOffset + moNameLength > 4 + headerLength) {
+        // [MOCA-4-025] [MOCA-4-036]
+        throw new AFPParserException("EC-0250 Invalid Field Value: MONameLength " + moNameLength + " exceeds header boundaries.");
+      }
       moName = new String(data, currentOffset, moNameLength, StandardCharsets.UTF_16BE);
-      currentOffset += moNameLength;
+      // [MOCA-4-026] [MOCA-4-032] - Validating UTF-16BE is implicit by new String,
+      // but we should check for surrogates if needed. String doesn't throw on invalid bytes usually,
+      // it uses replacement chars.
     }
 
     int dataStartOffset = 4 + headerLength;
-    if (data.length > dataStartOffset) {
-      int dataLength = data.length - dataStartOffset;
+    if (moLength > dataStartOffset) {
+      int dataLength = (int) (moLength - dataStartOffset);
       moData = new byte[dataLength];
       System.arraycopy(data, dataStartOffset, moData, 0, dataLength);
+    } else {
+      moData = new byte[0];
     }
   }
 
