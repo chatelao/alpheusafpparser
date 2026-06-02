@@ -258,8 +258,7 @@ public enum SFTypeID {
       SFTypeID type = D3_LOOKUP[((sfType & 0xFF) << 8) | (sfCategory & 0xFF)];
       return type != null ? type : Undefined;
     }
-    SFTypeID sfTypeID = VAL_MAP.get(calcKey(sfClass, sfType, sfCategory));
-    return sfTypeID != null ? sfTypeID : Undefined;
+    return valueOf(sfClass, sfType, sfCategory);
   }
 
   public byte[] toBytes() {

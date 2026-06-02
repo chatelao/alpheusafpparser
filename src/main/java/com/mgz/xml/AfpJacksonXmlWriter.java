@@ -272,8 +272,6 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeMioDirectly(mio);
     } else if (sf instanceof OCD_ObjectContainerData ocd) {
       writeOcdDirectly(ocd);
-    } else if (sf instanceof MCD_MapContainerData mcd) {
-      writeMcdDirectly(mcd);
     } else if (sf instanceof MDR_MapDataResource mdr) {
       writeMdrDirectly(mdr);
     } else if (sf instanceof MSU_MapSuppression msu) {
@@ -415,51 +413,6 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeOcdDirectly(OCD_ObjectContainerData ocd) throws Exception {
-    MnemonicPerformanceMonitor.startWriteWithMnemonic("OCD");
-    baseXsw.writeStartElement("OCD_ObjectContainerData");
-    String indent2 = XmlIndenter.getIndent(2);
-    if (ocd.getMetadataObject() != null) {
-      baseXsw.writeCharacters(indent2);
-      writeMetadataObjectDirectly(ocd.getMetadataObject(), indent2);
-    }
-    if (ocd.getData() != null && ocd.getData().length > 0) {
-      writeBinaryElement(baseXsw, indent2, "binaryData", ocd.getData());
-    }
-    if (ocd.getText() != null) {
-      writeElement(baseXsw, indent2, "text", ocd.getText());
-    }
-    XmlIndenter.writeIndent(baseXsw, 1);
-    baseXsw.writeEndElement();
-    MnemonicPerformanceMonitor.endWrite();
-  }
-
-  private void writeMetadataObjectDirectly(com.mgz.afp.moca.MetadataObject mo, String indent) throws Exception {
-    baseXsw.writeStartElement("MetadataObject");
-    baseXsw.writeLongAttribute(null, null, "MOLength", mo.getMoLength());
-    baseXsw.writeIntAttribute(null, null, "HeaderLength", mo.getHeaderLength());
-    if (mo.getMoType() != null) {
-      baseXsw.writeAttribute("MOType", mo.getMoType());
-    }
-    if (mo.getMoFormat() != null) {
-      baseXsw.writeAttribute("MOFormat", mo.getMoFormat());
-    }
-    if (mo.getMoCompression() != null) {
-      baseXsw.writeAttribute("MOCompression", mo.getMoCompression());
-    }
-    baseXsw.writeIntAttribute(null, null, "MONameLength", mo.getMoNameLength());
-    String childIndent = indent + "  ";
-    if (mo.getMoName() != null) {
-      writeElement(baseXsw, childIndent, "MOName", mo.getMoName());
-    }
-    if (mo.getMoData() != null && mo.getMoData().length > 0) {
-      writeBinaryElement(baseXsw, childIndent, "MOData", mo.getMoData());
-      writeElement(baseXsw, childIndent, "MODataText", mo.getMoDataText());
-    }
-    baseXsw.writeCharacters(indent);
-    baseXsw.writeEndElement();
-  }
-
   private void writeMcdDirectly(MCD_MapContainerData mcd) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("MCD");
     baseXsw.writeStartElement("MCD_MapContainerData");
@@ -598,12 +551,12 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       }
     }
     if (text != null && !text.isEmpty()) {
-      writer.writeRaw(indent);
+      writer.writeCharacters(indent);
       writer.writeStartElement("text");
       writer.writeCharacters(text);
       writer.writeEndElement();
     }
-    writer.writeRaw(closingIndent);
+    writer.writeCharacters(closingIndent);
   }
 
   private void writeTriplet(XMLStreamWriter2 writer, Triplet triplet, String indent) throws Exception {
@@ -898,7 +851,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       List<Triplet> triplets = rgt.getTriplets();
       if (triplets != null) {
         for (Triplet triplet : triplets) {
-        baseXsw.writeRaw(indent);
+          baseXsw.writeCharacters(childIndent);
           writeTriplet(baseXsw, triplet, childIndent);
         }
       }
@@ -2024,7 +1977,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     List<IPD_Segment> segments = ipd.getListOfSegments();
     if (segments != null) {
       for (IPD_Segment segment : segments) {
-        baseXsw.writeRaw(indent);
+        baseXsw.writeCharacters(indent);
         writeIpdSegmentDirectly(baseXsw, segment, indent);
       }
     }
@@ -2756,5 +2709,50 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     baseXsw.writeCharacters(indent1);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeOcdDirectly(OCD_ObjectContainerData ocd) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("OCD");
+    baseXsw.writeStartElement("OCD_ObjectContainerData");
+    String indent2 = XmlIndenter.getIndent(2);
+    if (ocd.getMetadataObject() != null) {
+      baseXsw.writeRaw(indent2);
+      writeMetadataObjectDirectly(ocd.getMetadataObject(), indent2);
+    }
+    if (ocd.getData() != null && ocd.getData().length > 0) {
+      writeBinaryElement(baseXsw, indent2, "binaryData", ocd.getData());
+    }
+    if (ocd.getText() != null) {
+      writeElement(baseXsw, indent2, "text", ocd.getText());
+    }
+    XmlIndenter.writeIndent(baseXsw, 1);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeMetadataObjectDirectly(com.mgz.afp.moca.MetadataObject mo, String indent) throws Exception {
+    baseXsw.writeStartElement("MetadataObject");
+    baseXsw.writeLongAttribute(null, null, "MOLength", mo.getMoLength());
+    baseXsw.writeIntAttribute(null, null, "HeaderLength", mo.getHeaderLength());
+    if (mo.getMoType() != null) {
+      baseXsw.writeAttribute("MOType", mo.getMoType());
+    }
+    if (mo.getMoFormat() != null) {
+      baseXsw.writeAttribute("MOFormat", mo.getMoFormat());
+    }
+    if (mo.getMoCompression() != null) {
+      baseXsw.writeAttribute("MOCompression", mo.getMoCompression());
+    }
+    baseXsw.writeIntAttribute(null, null, "MONameLength", mo.getMoNameLength());
+    String childIndent = indent + "  ";
+    if (mo.getMoName() != null) {
+      writeElement(baseXsw, childIndent, "MOName", mo.getMoName());
+    }
+    if (mo.getMoData() != null && mo.getMoData().length > 0) {
+      writeBinaryElement(baseXsw, childIndent, "MOData", mo.getMoData());
+      writeElement(baseXsw, childIndent, "MODataText", mo.getMoDataText());
+    }
+    baseXsw.writeRaw(indent);
+    baseXsw.writeEndElement();
   }
 }

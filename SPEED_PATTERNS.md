@@ -8,7 +8,7 @@ This document identifies and documents high-performance patterns reactivated in 
 | :--- | :--- | :---: | :--- |
 | **Disabled Namespace Repairing** | `JacksonXmlMapperProvider` | 🚀🚀 | Disables costly StAX namespace checking when XML structure is known and safe. |
 | **Raw Write Bypass** | `SanitizingXMLStreamWriter` | 🚀🚀🚀 | Allows pre-validated strings (like indents) to bypass XML 1.0 sanitization scans. |
-| **Optimized Indentation** | `XmlIndenter` | 🚀🚀 | Uses `writeRawCharacters` to leverage the sanitization bypass for high-frequency whitespace. |
+| **Optimized Indentation** | `XmlIndenter` | 🚀🚀 | Uses `writeRaw` to leverage the sanitization bypass for high-frequency whitespace. |
 | **Primitive-Optimized Lookup** | `SFTypeID` | 🚀🚀🚀 | Eliminates `Integer` boxing and `HashMap` overhead in the primary parsing loop. |
 | **High-Volume Fast-Paths** | `AfpJacksonXmlWriter` | 🚀🚀🚀🚀 | Manual StAX writing for `OCD` and `MOCA` fields to bypass Jackson reflection. |
 
@@ -21,12 +21,12 @@ This document identifies and documents high-performance patterns reactivated in 
 
 ## 2. Raw Write Bypass for Sanitization
 **Reactivated:** August 2026
-**Implementation:** `writeRawCharacters` overrides in `SanitizingXMLStreamWriter`.
+**Implementation:** `writeRaw` overrides in `SanitizingXMLStreamWriter`.
 **Benefit:** Previously, every character written to the XML output was scanned for XML 1.0 invalid characters. By introducing a "raw" write path, we allow components that generate known-safe strings (like the indenter) to bypass this scan, reducing CPU usage in text-heavy documents.
 
 ## 3. Optimized Indentation
 **Reactivated:** August 2026
-**Implementation:** `XmlIndenter` uses `xsw.writeRawCharacters`.
+**Implementation:** `XmlIndenter` uses `xsw.writeRaw`.
 **Benefit:** Pretty-printing adds a large number of newline and space characters. Even though these characters are safe, scanning them millions of times adds up. Using the raw bypass eliminates this overhead entirely for indentation.
 
 ## 4. Primitive-Optimized SF Identifier Resolution
