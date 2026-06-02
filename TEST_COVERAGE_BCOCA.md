@@ -175,14 +175,14 @@
 | BCOCA-4-320 | Bar Code Symbol Data (BSA) description and exceptions. | ✅ |
 | BCOCA-5-001 | EC-0611: A desired symbol width was specified, but a bar code symbol cannot be generated that fits within the specified width. | ❓ |
 | BCOCA-5-002 | Specification-Check Exceptions overview. | ✅ |
-| BCOCA-5-003 | EC-0F0A: Incompatible Data Matrix parameters: structured append with reader programming or macro. | ❓ |
-| BCOCA-5-004 | EC-0F0A: Incompatible Data Matrix parameters: GS1 FNC1 with industry FNC1, reader programming or macro. | ❓ |
-| BCOCA-5-005 | EC-0F0A: Incompatible Data Matrix parameters: industry FNC1 with GS1 FNC1, reader programming or macro. | ❓ |
-| BCOCA-5-006 | EC-0F0A: Incompatible Data Matrix parameters: reader programming with structured append, FNC1 or macro. | ❓ |
-| BCOCA-5-007 | EC-0F0A: Incompatible Data Matrix parameters: macro with structured append, FNC1 or reader programming. | ❓ |
-| BCOCA-5-008 | Specification-Check Exceptions cont. | ❓ |
-| BCOCA-5-009 | Specification-Check Exceptions cont. | ❓ |
-| BCOCA-5-010 | Specification-Check Exceptions cont. | ❓ |
+| BCOCA-5-003 | EC-0F0A: Incompatible Data Matrix parameters: structured append with reader programming or macro. | ✅ |
+| BCOCA-5-004 | EC-0F0A: Incompatible Data Matrix parameters: GS1 FNC1 with industry FNC1, reader programming or macro. | ✅ |
+| BCOCA-5-005 | EC-0F0A: Incompatible Data Matrix parameters: industry FNC1 with GS1 FNC1, reader programming or macro. | ✅ |
+| BCOCA-5-006 | EC-0F0A: Incompatible Data Matrix parameters: reader programming with structured append, FNC1 or macro. | ✅ |
+| BCOCA-5-007 | EC-0F0A: Incompatible Data Matrix parameters: macro with structured append, FNC1 or reader programming. | ✅ |
+| BCOCA-5-008 | Specification-Check Exceptions cont. | ✅ |
+| BCOCA-5-009 | Specification-Check Exceptions cont. | ✅ |
+| BCOCA-5-010 | Specification-Check Exceptions cont. | ✅ |
 | BCOCA-5-011 | EC-1100: Bar code extends outside the bar code presentation space. | ❓ |
 | BCOCA-5-012 | EC-1100: Bar code extends outside the intersection of the mapped bar code presentation space and the controlling environment object area. | ❓ |
 | BCOCA-5-013 | EC-1100: Bar code extends outside the maximum presentation area. | ❓ |
