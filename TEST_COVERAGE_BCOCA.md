@@ -101,7 +101,7 @@
 | BCOCA-3-048 | Check digits are not always presented in the HRI. | ❓ |
 | BCOCA-4-001 | BCD2 subset includes additional bar code types (Australia Post, Codabar, Code 93, Code 128 (modifiers X'02', X'03'), Data Matrix (modifier X'00'), Intelligent Mail, Japan Postal, MaxiCode, PDF417, QR Code (modifier X'02'), RM4SCC). | ✅ |
 | BCOCA-4-002 | BCD2 subset adds support for bar code symbol suppression. | ✅ |
-| BCOCA-4-003 | BCD2 subset adds support for the Color Specification triplet in the Bar Code Data Descriptor. | ❓ |
+| BCOCA-4-003 | BCD2 subset adds support for the Color Specification triplet in the Bar Code Data Descriptor. | ✅ |
 | BCOCA-4-004 | BCD2 subset supports the full range for font local IDs. | ✅ |
 | BCOCA-4-005 | BCD2 subset supports the full range for units per unit base. | ✅ |
 | BCOCA-4-008 | Byte 0 Unit base: Indicates the length of the measurement unit base. | ✅ |

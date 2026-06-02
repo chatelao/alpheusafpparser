@@ -377,6 +377,26 @@ public class BCOCAChapter4Test {
         RoundTripTestUtils.assertRoundTrip(new BDA_BarCodeData(), data, config);
     }
 
+    @Test
+    public void testBDDWithColorSpecificationTriplet() throws Exception {
+        // [BCOCA-4-003] BCD2 subset adds support for the Color Specification triplet in the BDD.
+
+        // BDD: D3A6EB with ColorSpecification Triplet (4E)
+        // Fixed data: 23 bytes
+        // Triplet: 0x06 (len), 0x4E (ID), 0x00, 0x00, 0x00, 0x08 (Black)
+        // Total SF data: 23 + 6 = 29 bytes
+        // Total SF Length: 8 (SFI) + 29 = 37 (0x0025)
+
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x25, (byte) 0xD3, (byte) 0xA6, (byte) 0xEB, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x38, 0x40, 0x38, 0x40, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00,
+            0x01, 0x00, (byte) 0xFF, 0x00, 0x07, (byte) 0xFF, 0x03, (byte) 0xFF, 0x01, (byte) 0xFF, (byte) 0xFF,
+            0x06, 0x4E, 0x00, 0x00, 0x00, 0x08
+        };
+
+        RoundTripTestUtils.assertRoundTrip(new BDD_BarCodeDataDescriptor(), data);
+    }
+
     private void assertSubsets(BDD_BarCodeDataDescriptor.BarCodeType type, boolean bcd1, boolean bcd2) {
         assertEquals(bcd1, type.isBCD1(), "Type " + type + " BCD1 mismatch");
         assertEquals(bcd2, type.isBCD2(), "Type " + type + " BCD2 mismatch");
