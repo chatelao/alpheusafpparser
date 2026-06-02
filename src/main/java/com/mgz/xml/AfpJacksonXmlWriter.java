@@ -348,9 +348,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (sf instanceof com.mgz.afp.modca.PFC_PresentationFidelityControl pfc) {
       writeTripletsAndTextDirectly(pfc, "PFC_PresentationFidelityControl");
     } else if (sf instanceof BBC_BeginBarCodeObject bbc) {
-      writeNameAndTripletsDirectly(bbc, "BBC_BeginBarCodeObject");
+      writeBbcDirectly(bbc);
     } else if (sf instanceof EBC_EndBarCodeObject ebc) {
-      writeNameAndTripletsDirectly(ebc, "EBC_EndBarCodeObject");
+      writeEbcDirectly(ebc);
     } else if (sf instanceof BDD_BarCodeDataDescriptor bdd) {
       writeBddDirectly(bdd);
     } else if (sf instanceof BDA_BarCodeData bda) {
@@ -959,27 +959,23 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.STO_SetTextOrientation sto) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("STO");
-      baseXsw.writeStartElement("STO_SetTextOrientation");
+      baseXsw.writeEmptyElement("STO_SetTextOrientation");
       if (sto.getxOrientation() != null) {
-        writeElement(baseXsw, childIndent, "xOrientation", sto.getxOrientation().name());
+        baseXsw.writeAttribute("xOrientation", sto.getxOrientation().name());
       }
       if (sto.getyOrientation() != null) {
-        writeElement(baseXsw, childIndent, "yOrientation", sto.getyOrientation().name());
+        baseXsw.writeAttribute("yOrientation", sto.getyOrientation().name());
       }
-      baseXsw.writeCharacters(indent);
-      baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.STC_SetTextColor stc) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("STC");
-      baseXsw.writeStartElement("STC_SetTextColor");
+      baseXsw.writeEmptyElement("STC_SetTextColor");
       if (stc.getForegroundColor() != null) {
-        writeElement(baseXsw, childIndent, "foregroundColor", stc.getForegroundColor().name());
+        baseXsw.writeAttribute("foregroundColor", stc.getForegroundColor().name());
       }
       if (stc.getPrecision() != null) {
-        writeElement(baseXsw, childIndent, "precision", stc.getPrecision().name());
+        baseXsw.writeAttribute("precision", stc.getPrecision().name());
       }
-      baseXsw.writeCharacters(indent);
-      baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.USC_Underscore usc) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("USC");
@@ -990,13 +986,11 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.SIA_SetIntercharacterAdjustment sia) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SIA");
-      baseXsw.writeStartElement("SIA_SetIntercharacterAdjustment");
-      writeElement(baseXsw, childIndent, "adjustment", sia.getAdjustment());
+      baseXsw.writeEmptyElement("SIA_SetIntercharacterAdjustment");
+      baseXsw.writeIntAttribute(null, null, "adjustment", sia.getAdjustment());
       if (sia.getDirection() != null) {
-        writeElement(baseXsw, childIndent, "direction", sia.getDirection().name());
+        baseXsw.writeAttribute("direction", sia.getDirection().name());
       }
-      baseXsw.writeCharacters(indent);
-      baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.SVI_SetVariableSpaceCharacterIncrement svi) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SVI");
@@ -2686,6 +2680,50 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
     writer.writeCharacters(indent);
     writer.writeEndElement();
+  }
+
+  private void writeBbcDirectly(BBC_BeginBarCodeObject bbc) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BBC");
+    baseXsw.writeStartElement("BBC_BeginBarCodeObject");
+    String indent2 = XmlIndenter.getIndent(2);
+    String indent1 = XmlIndenter.getIndent(1);
+    if (bbc.getName() != null) {
+      baseXsw.writeAttribute("name", bbc.getName());
+    }
+    if (bbc.getTriplets() != null && !bbc.getTriplets().isEmpty()) {
+      for (Triplet triplet : bbc.getTriplets()) {
+        baseXsw.writeCharacters(indent2);
+        writeTriplet(baseXsw, triplet, indent2);
+      }
+    }
+    if (bbc.getText() != null) {
+      writeElement(baseXsw, indent2, "text", bbc.getText());
+    }
+    baseXsw.writeCharacters(indent1);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeEbcDirectly(EBC_EndBarCodeObject ebc) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("EBC");
+    baseXsw.writeStartElement("EBC_EndBarCodeObject");
+    String indent2 = XmlIndenter.getIndent(2);
+    String indent1 = XmlIndenter.getIndent(1);
+    if (ebc.getName() != null) {
+      baseXsw.writeAttribute("name", ebc.getName());
+    }
+    if (ebc.getTriplets() != null && !ebc.getTriplets().isEmpty()) {
+      for (Triplet triplet : ebc.getTriplets()) {
+        baseXsw.writeCharacters(indent2);
+        writeTriplet(baseXsw, triplet, indent2);
+      }
+    }
+    if (ebc.getText() != null) {
+      writeElement(baseXsw, indent2, "text", ebc.getText());
+    }
+    baseXsw.writeCharacters(indent1);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
   }
 
   private void writeBddDirectly(BDD_BarCodeDataDescriptor bdd) throws Exception {
