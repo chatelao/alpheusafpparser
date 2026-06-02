@@ -357,6 +357,7 @@ public class PdfHandler implements StructuredFieldHandler {
       barcodeState.setBarcodeType(bdd.getBarcodeType());
       barcodeState.setBarcodeModifier(bdd.getBarcodeModifier());
       barcodeState.setFontLocalIDForHRI(bdd.getFontLocalIDForHRI());
+      barcodeState.setHriFont(resolveFont(bdd.getFontLocalIDForHRI()));
       barcodeState.setColor(bdd.getColor());
       barcodeState.setModuleWidthInMils(bdd.getModuleWidthInMils());
       barcodeState.setElementHeight(bdd.getElementHeight());
