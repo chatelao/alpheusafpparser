@@ -316,4 +316,143 @@ public class BCOCAChapter5Test {
             bda.decodeAFP(data, 0, 15, config);
         });
     }
+
+    @Test
+    public void testBDAParametersAztecInvalidLayers() {
+        // [BCOCA-5-009] EC-0F18: Number of layers (0 to 32)
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[15];
+        data[7] = 33; // Invalid (max 32)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.AztecCode);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(data, 5, 10, config);
+        });
+    }
+
+    @Test
+    public void testBDAParametersAztecInvalidEC() {
+        // [BCOCA-5-009] EC-0F19: Error correction level (5 to 95)
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[15];
+        data[8] = 4; // Invalid (min 5)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.AztecCode);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(data, 5, 10, config);
+        });
+    }
+
+    @Test
+    public void testBDAParametersHanXinInvalidVersion() {
+        // [BCOCA-5-009] EC-0F22: Version number (0 to 84)
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[15];
+        data[7] = 85; // Invalid (max 84)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.HanXinCode);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(data, 5, 10, config);
+        });
+    }
+
+    @Test
+    public void testBDAParametersHanXinInvalidAppInd() {
+        // [BCOCA-5-009] EC-0F25: Han Xin application indicator (0-99)
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[15];
+        data[9] = 0x40; // Industry FNC1
+        data[10] = 100; // Invalid (max 99)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.HanXinCode);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(data, 5, 10, config);
+        });
+    }
+
+    @Test
+    public void testBDAParametersAztecInvalidAppInd() {
+        // [BCOCA-5-009] EC-0F1B: Aztec application indicator
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[15];
+        data[9] = 0x40; // Industry FNC1
+        data[10] = (byte) 0x99; // Invalid (153)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.AztecCode);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(data, 5, 10, config);
+        });
+    }
+
+    @Test
+    public void testBDAParametersAztecInvalidAppendIDLen() {
+        // [BCOCA-5-009] EC-0F1C: Append ID length must be 0 if not part of structured append
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[15];
+        data[11] = 0x00; // Not part of structured append
+        data[13] = 0x01; // Append ID length = 1 (Invalid)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.AztecCode);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(data, 5, 10, config);
+        });
+    }
+
+    @Test
+    public void testBDAParametersHanXinInvalidEC() {
+        // [BCOCA-5-009] EC-0F23: Error correction level (1 to 4)
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[15];
+        data[8] = 5; // Invalid (max 4)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.HanXinCode);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(data, 5, 10, config);
+        });
+    }
+
+    @Test
+    public void testBDAParametersHanXinIncompatibleFNC1() {
+        // [BCOCA-5-009] EC-0F24: mutually exclusive FNC1 flags
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[15];
+        data[9] = (byte) 0xC0; // GS1FNC1 (0x80) + IndustryFNC1 (0x40)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.HanXinCode);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(data, 5, 10, config);
+        });
+    }
 }

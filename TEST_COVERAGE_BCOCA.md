@@ -181,7 +181,7 @@
 | BCOCA-5-006 | EC-0F0A: Incompatible Data Matrix parameters: reader programming with structured append, FNC1 or macro. | ✅ |
 | BCOCA-5-007 | EC-0F0A: Incompatible Data Matrix parameters: macro with structured append, FNC1 or reader programming. | ✅ |
 | BCOCA-5-008 | Specification-Check Exceptions cont. | ✅ |
-| BCOCA-5-009 | Specification-Check Exceptions cont. | ✅ |
+| BCOCA-5-009 | EC-0F18/0F19/0F1A/0F1B/0F1C (Aztec), EC-0F22/0F23/0F24/0F25 (Han Xin). | ✅ |
 | BCOCA-5-010 | Specification-Check Exceptions cont. | ✅ |
 | BCOCA-5-011 | EC-1100: Bar code extends outside the bar code presentation space. | ❓ |
 | BCOCA-5-012 | EC-1100: Bar code extends outside the intersection of the mapped bar code presentation space and the controlling environment object area. | ❓ |
