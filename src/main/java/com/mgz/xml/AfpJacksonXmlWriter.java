@@ -352,11 +352,15 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (sf instanceof BDA_BarCodeData bda) {
       writeBdaDirectly(bda);
     } else {
-      String rootName = sf.getClass().getSimpleName();
-      String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
-      MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
+      if (MnemonicPerformanceMonitor.isEnabled()) {
+        String rootName = sf.getClass().getSimpleName();
+        String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
+        MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
+      }
       JacksonXmlMapperProvider.getCachedWriter(sf.getClass(), useWoodstox, true).writeValue(baseFragmentGenerator, sf);
-      MnemonicPerformanceMonitor.endWrite();
+      if (MnemonicPerformanceMonitor.isEnabled()) {
+        MnemonicPerformanceMonitor.endWrite();
+      }
     }
 
     if (!fragmentMode) {
@@ -1087,11 +1091,15 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else {
-      String simpleName = cs.getClass().getSimpleName();
-      String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(simpleName);
-      MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
+      if (MnemonicPerformanceMonitor.isEnabled()) {
+        String simpleName = cs.getClass().getSimpleName();
+        String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(simpleName);
+        MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
+      }
       JacksonXmlMapperProvider.getCachedWriter(cs.getClass(), useWoodstox, true).writeValue(baseFragmentGenerator, cs);
-      MnemonicPerformanceMonitor.endWrite();
+      if (MnemonicPerformanceMonitor.isEnabled()) {
+        MnemonicPerformanceMonitor.endWrite();
+      }
     }
   }
 
@@ -1871,7 +1879,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.DrawingOrder_HasPoints dohp) {
       String rootName = order.getClass().getSimpleName();
-      MnemonicPerformanceMonitor.startWriteWithMnemonic(MnemonicPerformanceMonitor.extractMnemonicFromString(rootName));
+      if (MnemonicPerformanceMonitor.isEnabled()) {
+        MnemonicPerformanceMonitor.startWriteWithMnemonic(MnemonicPerformanceMonitor.extractMnemonicFromString(rootName));
+      }
       writer.writeStartElement(rootName);
       if (dohp.getPoints() != null) {
         writer.writeCharacters(childIndent);
@@ -1890,13 +1900,19 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       }
       writer.writeCharacters(indent);
       writer.writeEndElement();
-      MnemonicPerformanceMonitor.endWrite();
+      if (MnemonicPerformanceMonitor.isEnabled()) {
+        MnemonicPerformanceMonitor.endWrite();
+      }
     } else {
       String rootName = order.getClass().getSimpleName();
-      String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
-      MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
+      if (MnemonicPerformanceMonitor.isEnabled()) {
+        String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
+        MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
+      }
       JacksonXmlMapperProvider.getCachedWriter(order.getClass(), useWoodstox, true).writeValue(baseFragmentGenerator, order);
-      MnemonicPerformanceMonitor.endWrite();
+      if (MnemonicPerformanceMonitor.isEnabled()) {
+        MnemonicPerformanceMonitor.endWrite();
+      }
     }
   }
 
@@ -2251,8 +2267,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   }
 
   private void writeNameAndTripletsDirectly(com.mgz.afp.base.StructuredFieldBaseNameAndTriplets sf, String rootName) throws Exception {
-    String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
-    MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
+    if (MnemonicPerformanceMonitor.isEnabled()) {
+      String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
+      MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
+    }
     baseXsw.writeStartElement(rootName);
     String indent2 = XmlIndenter.getIndent(2);
     String indent1 = XmlIndenter.getIndent(1);
@@ -2271,12 +2289,16 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     baseXsw.writeCharacters(indent1);
     baseXsw.writeEndElement();
-    MnemonicPerformanceMonitor.endWrite();
+    if (MnemonicPerformanceMonitor.isEnabled()) {
+      MnemonicPerformanceMonitor.endWrite();
+    }
   }
 
   private void writeTripletsAndTextDirectly(com.mgz.afp.base.StructuredFieldBaseTriplets sf, String rootName) throws Exception {
-    String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
-    MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
+    if (MnemonicPerformanceMonitor.isEnabled()) {
+      String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
+      MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
+    }
     baseXsw.writeStartElement(rootName);
     String indent2 = XmlIndenter.getIndent(2);
     String indent1 = XmlIndenter.getIndent(1);
@@ -2291,12 +2313,16 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     baseXsw.writeCharacters(indent1);
     baseXsw.writeEndElement();
-    MnemonicPerformanceMonitor.endWrite();
+    if (MnemonicPerformanceMonitor.isEnabled()) {
+      MnemonicPerformanceMonitor.endWrite();
+    }
   }
 
   private void writeNameDirectly(com.mgz.afp.base.StructuredFieldBaseName sf, String rootName) throws Exception {
-    String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
-    MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
+    if (MnemonicPerformanceMonitor.isEnabled()) {
+      String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
+      MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
+    }
     baseXsw.writeStartElement(rootName);
     String indent2 = XmlIndenter.getIndent(2);
     String indent1 = XmlIndenter.getIndent(1);
@@ -2306,7 +2332,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     baseXsw.writeCharacters(indent1);
     baseXsw.writeEndElement();
-    MnemonicPerformanceMonitor.endWrite();
+    if (MnemonicPerformanceMonitor.isEnabled()) {
+      MnemonicPerformanceMonitor.endWrite();
+    }
   }
 
   private void writePgdDirectly(com.mgz.afp.modca.PGD_PageDescriptor pgd) throws Exception {

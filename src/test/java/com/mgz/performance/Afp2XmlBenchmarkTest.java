@@ -4,18 +4,19 @@ import com.mgz.cli.Afp2Xml;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryPoolMXBean;
 import java.lang.management.MemoryUsage;
-import java.lang.management.ThreadMXBean;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Throughput benchmark for AFP to XML conversion.
- * Includes allocation tracking [DECOUPLE-4.2.3.2.1].
+ * Includes allocation tracking [DECOUPLE-4.2.3.2.1] and JFR profiling [DECOUPLE-4.2.3.1.1].
  */
 public class Afp2XmlBenchmarkTest {
 
@@ -37,13 +38,35 @@ public class Afp2XmlBenchmarkTest {
         System.out.println("Starting Benchmark for " + LARGE_AFP + " (" + (afpFile.length() / 1024 / 1024) + " MB)");
 
         // 1. Sequential Mode
-        runModeBenchmark("Sequential", new String[]{afpFile.getAbsolutePath(), tempDir.resolve("seq.xml").toString()}, afpFile.length());
+        runModeBenchmark("Sequential", new String[]{afpFile.getAbsolutePath(), tempDir.resolve("seq.xml").toString()}, afpFile.length(), false);
 
         // 2. Parallel Mode
-        runModeBenchmark("Parallel", new String[]{"--parallel", afpFile.getAbsolutePath(), tempDir.resolve("par.xml").toString()}, afpFile.length());
+        runModeBenchmark("Parallel", new String[]{"--parallel", afpFile.getAbsolutePath(), tempDir.resolve("par.xml").toString()}, afpFile.length(), true);
     }
 
-    private void runModeBenchmark(String modeName, String[] args, long fileSize) throws Exception {
+    @Test
+    public void runStressTest() throws Exception {
+        File afpFile = new File(LARGE_AFP);
+        if (!afpFile.exists()) {
+            return;
+        }
+
+        // Create a ~100MB file by concatenating the 10MB file 10 times [DECOUPLE-4.3.2.1.1]
+        Path stressFile = tempDir.resolve("stress_100mb.afp");
+        try (FileOutputStream fos = new FileOutputStream(stressFile.toFile())) {
+            byte[] content = Files.readAllBytes(afpFile.toPath());
+            for (int i = 0; i < 10; i++) {
+                fos.write(content);
+            }
+        }
+
+        System.out.println("Starting Stress Test for " + stressFile + " (" + (Files.size(stressFile) / 1024 / 1024) + " MB)");
+
+        // Run with JFR enabled for hotspot identification [DECOUPLE-4.2.3.1.1]
+        runModeBenchmark("Stress-Parallel", new String[]{"--parallel", stressFile.toString(), tempDir.resolve("stress.xml").toString()}, Files.size(stressFile), true);
+    }
+
+    private void runModeBenchmark(String modeName, String[] args, long fileSize, boolean useJfr) throws Exception {
         // Reset peak memory usage before measurement
         List<MemoryPoolMXBean> pools = ManagementFactory.getMemoryPoolMXBeans();
         for (MemoryPoolMXBean pool : pools) {
@@ -57,6 +80,11 @@ public class Afp2XmlBenchmarkTest {
             Afp2Xml.execute(args);
         }
 
+        Object recording = null;
+        if (useJfr) {
+            recording = startJfr();
+        }
+
         // Measure
         long totalDuration = 0;
         for (int i = 0; i < MEASURE_ITERATIONS; i++) {
@@ -65,6 +93,10 @@ public class Afp2XmlBenchmarkTest {
             long endTime = System.nanoTime();
             assertEquals(0, result, modeName + " conversion failed during benchmark");
             totalDuration += (endTime - startTime);
+        }
+
+        if (useJfr && recording != null) {
+            stopAndSaveJfr(recording, modeName);
         }
 
         double avgDurationSeconds = (totalDuration / (double) MEASURE_ITERATIONS) / 1_000_000_000.0;
@@ -87,6 +119,32 @@ public class Afp2XmlBenchmarkTest {
         System.out.printf("%s mode average: %.3f seconds (%.2f MB/s), Peak Heap: %.2f MB, Total Allocated: %.2f MB%n",
             modeName, avgDurationSeconds, throughputMBs, peakHeapUsage / (1024.0 * 1024.0),
             totalAllocated / (1024.0 * 1024.0));
+    }
+
+    private Object startJfr() {
+        try {
+            Class<?> recordingClass = Class.forName("jdk.jfr.Recording");
+            Object recording = recordingClass.getConstructor().newInstance();
+            recordingClass.getMethod("start").invoke(recording);
+            return recording;
+        } catch (Exception e) {
+            System.err.println("Failed to start JFR: " + e.getMessage());
+            return null;
+        }
+    }
+
+    private void stopAndSaveJfr(Object recording, String modeName) {
+        try {
+            Class<?> recordingClass = Class.forName("jdk.jfr.Recording");
+            recordingClass.getMethod("stop").invoke(recording);
+            Path reportDir = Path.of("build/reports/jfr");
+            Files.createDirectories(reportDir);
+            Path jfrFile = reportDir.resolve("benchmark-" + modeName.toLowerCase() + ".jfr");
+            recordingClass.getMethod("dump", Path.class).invoke(recording, jfrFile);
+            System.out.println("JFR profile saved to: " + jfrFile.toAbsolutePath());
+        } catch (Exception e) {
+            System.err.println("Failed to stop/save JFR: " + e.getMessage());
+        }
     }
 
     private long getAllocatedBytes() {
