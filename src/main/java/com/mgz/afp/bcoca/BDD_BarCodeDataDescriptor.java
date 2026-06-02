@@ -19,18 +19,23 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.bcoca;
 
+import com.mgz.afp.base.IHasTriplets;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
+import com.mgz.afp.parser.TripletParser;
+import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.UtilBinaryDecoding;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
-public class BDD_BarCodeDataDescriptor extends StructuredField {
+public class BDD_BarCodeDataDescriptor extends StructuredField implements IHasTriplets {
   @AFPField
   static byte Reserved1 = 0x00;
   @AFPField
@@ -61,6 +66,8 @@ public class BDD_BarCodeDataDescriptor extends StructuredField {
   short heightMultiplier;
   @AFPField
   int wideToNarrowRatio;
+  @AFPField(isOptional = true)
+  List<Triplet> triplets;
 
   public static byte getReserved1() {
     return Reserved1;
@@ -89,6 +96,10 @@ public class BDD_BarCodeDataDescriptor extends StructuredField {
     heightMultiplier = UtilBinaryDecoding.parseShort(sfData, offset + 20, 1);
     wideToNarrowRatio = UtilBinaryDecoding.parseInt(sfData, offset + 21, 2);
 
+    int actualLength = getActualLength(sfData, offset, length);
+    if (actualLength > 23) {
+      triplets = TripletParser.parseTriplets(sfData, offset + 23, actualLength - 23, config);
+    }
   }
 
   @Override
@@ -110,6 +121,12 @@ public class BDD_BarCodeDataDescriptor extends StructuredField {
     baos.write(UtilBinaryDecoding.intToByteArray(elementHeight, 2));
     baos.write(UtilBinaryDecoding.shortToByteArray(heightMultiplier, 1));
     baos.write(UtilBinaryDecoding.intToByteArray(wideToNarrowRatio, 2));
+
+    if (triplets != null) {
+      for (Triplet triplet : triplets) {
+        triplet.writeAFP(baos, config);
+      }
+    }
 
     writeFullStructuredField(os, baos.toByteArray());
   }
@@ -224,6 +241,31 @@ public class BDD_BarCodeDataDescriptor extends StructuredField {
 
   public void setWideToNarrowRatio(int wideToNarrowRatio) {
     this.wideToNarrowRatio = wideToNarrowRatio;
+  }
+
+  @Override
+  public List<Triplet> getTriplets() {
+    return triplets;
+  }
+
+  @Override
+  public void setTriplets(List<Triplet> triplets) {
+    this.triplets = triplets;
+  }
+
+  @Override
+  public void addTriplet(Triplet triplet) {
+    if (triplets == null) {
+      triplets = new ArrayList<>();
+    }
+    triplets.add(triplet);
+  }
+
+  @Override
+  public void removeTriplet(Triplet triplet) {
+    if (triplets != null) {
+      triplets.remove(triplet);
+    }
   }
 
   public enum BarCodeType {
