@@ -45,6 +45,8 @@ public class PdfBarcodeState {
   private PdfFont hriFont;
   private final List<BDA_BarCodeData> barcodeData = new ArrayList<>();
   private boolean inBarcodeObject = false;
+  private int xOrigin;
+  private int yOrigin;
 
   /**
    * Resets the barcode state to default values.
@@ -64,6 +66,8 @@ public class PdfBarcodeState {
     this.unitsPerUnitBaseY = 0;
     this.barcodeData.clear();
     this.inBarcodeObject = false;
+    this.xOrigin = 0;
+    this.yOrigin = 0;
   }
 
   public BarCodeType getBarcodeType() {
@@ -178,11 +182,29 @@ public class PdfBarcodeState {
     this.inBarcodeObject = inBarcodeObject;
   }
 
+  public int getxOrigin() {
+    return xOrigin;
+  }
+
+  public void setxOrigin(int xOrigin) {
+    this.xOrigin = xOrigin;
+  }
+
+  public int getyOrigin() {
+    return yOrigin;
+  }
+
+  public void setyOrigin(int yOrigin) {
+    this.yOrigin = yOrigin;
+  }
+
   /**
    * Clears collected data for a new barcode object.
    */
   public void startNewBarcode() {
     this.barcodeData.clear();
     this.inBarcodeObject = true;
+    this.xOrigin = 0;
+    this.yOrigin = 0;
   }
 }

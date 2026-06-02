@@ -75,6 +75,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ✅ **Baseline Positioning**:
         - ✅ **Absolute & Relative**: Map `AMB` (Absolute Move Baseline) and `RMB` (Relative Move Baseline).
         - ✅ **Temporary Baseline Move**: Map `TBM` (Temporary Baseline Move) for superscripts/subscripts.
+        - ✅ **Rule Drawing**: Map `DIR` (Draw I-axis Rule) and `DBR` (Draw B-axis Rule) to PDF rectangles.
         - ✅ **Direction Control**: Map `STOC` (Set Text Orientation) to coordinate rotation.
     - ✅ **Advanced Text Control**:
         - ✅ **Character Adjustment**: Map `SIA` (Set Intercharacter Adjustment) and `SVI` (Set Variable-space Character Increment).
@@ -107,15 +108,16 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ⏳ **Linear Barcode Support**: Implement rendering for common linear barcodes.
         - ✅ **Code 39**: Implement rendering for Code 39 (3 of 9) barcodes.
         - ✅ **Interleaved 2 of 5**: Implement rendering for Interleaved 2 of 5 (ITF) barcodes.
+        - ✅ **UPC-A**: Implement rendering for UPC-A barcodes.
         - ⏳ **Code 128**: Implement rendering for Code 128 barcodes.
-        - ⏳ **UPC/EAN**: Implement rendering for UPC-A, UPC-E, EAN-8, and EAN-13 barcodes.
+        - ⏳ **UPC-E / EAN**: Implement rendering for UPC-E, EAN-8, and EAN-13 barcodes.
     - ⏳ **2D Barcode Support**: Implement rendering for 2D barcodes (Data Matrix, QR Code, PDF417).
     - ⏳ **Postal Barcode Support**: Implement rendering for postal codes (POSTNET, Intelligent Mail, Japan Postal).
     - ✅ **HRI Rendering**: Implement Human Readable Interpretation (HRI) text placement and font mapping.
 - ⏳ **IOCA Renderer**: Map image data to PDF Image XObjects.
     - ✅ **Implement IOCA Segment Tracking**: Identify and group IOCA segments within the AFP stream.
     - ⏳ **Implement IOCA Data Decoding**:
-        - ⏳ **FS10 Support**: Support FS10 (Bilevel) image data.
+        - ✅ **FS10 Support**: Support FS10 (Bilevel) image data (uncompressed).
         - ⏳ **FS11 Support**: Support FS11 (Grayscale/Color) image data.
         - ⏳ **FS40 Support**: Support FS40 (Tiled) image data.
         - ⏳ **G3/G4 Decoding**: Implement CCITT Group 3/4 decompression.
