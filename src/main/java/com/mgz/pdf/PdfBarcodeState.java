@@ -21,6 +21,7 @@ package com.mgz.pdf;
 
 import com.mgz.afp.bcoca.BDA_BarCodeData;
 import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor.BarCodeType;
+import com.mgz.afp.enums.AFPUnitBase;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,9 @@ public class PdfBarcodeState {
   private int elementHeight;
   private short heightMultiplier;
   private int wideToNarrowRatio;
+  private AFPUnitBase unitBase;
+  private int unitsPerUnitBaseX;
+  private int unitsPerUnitBaseY;
   private final List<BDA_BarCodeData> barcodeData = new ArrayList<>();
   private boolean inBarcodeObject = false;
 
@@ -52,6 +56,9 @@ public class PdfBarcodeState {
     this.elementHeight = 0;
     this.heightMultiplier = 0;
     this.wideToNarrowRatio = 0;
+    this.unitBase = null;
+    this.unitsPerUnitBaseX = 0;
+    this.unitsPerUnitBaseY = 0;
     this.barcodeData.clear();
     this.inBarcodeObject = false;
   }
@@ -118,6 +125,30 @@ public class PdfBarcodeState {
 
   public void setWideToNarrowRatio(int wideToNarrowRatio) {
     this.wideToNarrowRatio = wideToNarrowRatio;
+  }
+
+  public AFPUnitBase getUnitBase() {
+    return unitBase;
+  }
+
+  public void setUnitBase(AFPUnitBase unitBase) {
+    this.unitBase = unitBase;
+  }
+
+  public int getUnitsPerUnitBaseX() {
+    return unitsPerUnitBaseX;
+  }
+
+  public void setUnitsPerUnitBaseX(int unitsPerUnitBaseX) {
+    this.unitsPerUnitBaseX = unitsPerUnitBaseX;
+  }
+
+  public int getUnitsPerUnitBaseY() {
+    return unitsPerUnitBaseY;
+  }
+
+  public void setUnitsPerUnitBaseY(int unitsPerUnitBaseY) {
+    this.unitsPerUnitBaseY = unitsPerUnitBaseY;
   }
 
   public List<BDA_BarCodeData> getBarcodeData() {

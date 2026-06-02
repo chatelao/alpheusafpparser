@@ -19,7 +19,9 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.pdf;
 
+import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +31,15 @@ import java.util.Map;
 public class PdfFontRegistry {
 
   private final Map<String, PdfFont> registry = new HashMap<>();
+  private PdfFont defaultFont;
+
+  public PdfFontRegistry() {
+    try {
+      this.defaultFont = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+    } catch (Exception e) {
+      // Should not happen with StandardFonts
+    }
+  }
 
   /**
    * Registers a font under the given AFP font name.
@@ -53,6 +64,37 @@ public class PdfFontRegistry {
       return null;
     }
     return registry.get(fontName.trim());
+  }
+
+  /**
+   * Retrieves a font by its AFP font name, falling back to a default font if not found.
+   *
+   * @param fontName the AFP font name
+   * @return the {@link PdfFont}, or the default font if not registered
+   */
+  public PdfFont getFontWithFallback(String fontName) {
+    PdfFont font = getFont(fontName);
+    return (font != null) ? font : defaultFont;
+  }
+
+  /**
+   * Returns the default fallback font.
+   *
+   * @return the default font
+   */
+  public PdfFont getDefaultFont() {
+    return defaultFont;
+  }
+
+  /**
+   * Sets the default fallback font.
+   *
+   * @param defaultFont the new default font
+   */
+  public void setDefaultFont(PdfFont defaultFont) {
+    if (defaultFont != null) {
+      this.defaultFont = defaultFont;
+    }
   }
 
   /**

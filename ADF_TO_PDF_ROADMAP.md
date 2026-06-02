@@ -66,7 +66,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ⏳ **Font Mapping**: Resolve FOCA Local IDs (LID) to embedded `PdfFont` instances.
             - ✅ **Font Resource Tracking (MCF)**: Track LID-to-font name mappings from `MCF` (Format 1 & 2) structured fields.
             - ✅ **Font Resource Tracking (MDR)**: Track LID-to-font name mappings from `MDR` (Map Data Resource) structured fields for TrueType/OpenType fonts.
-            - ⏳ **PdfFont Resolution**:
+            - ✅ **PdfFont Resolution**:
                 - ✅ **Font Registry**: Implement a registry to map AFP font names to iText `PdfFont` instances.
                 - ✅ **Fallback Font Strategy**: Implement logic to use a default font when a resource cannot be resolved.
         - ✅ **Color Mapping**: Map `STC` (Set Text Color) and `SEC` (Set Extended Color) to `DeviceRGB` or `DeviceCMYK`.
@@ -105,7 +105,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
 - ⏳ **BCOCA Renderer**: Implement barcode drawing using vector primitives for resolution independence.
     - ✅ **BCOCA State Tracking**: Implement tracking of barcode descriptors (`BDD`) and data (`BDA`) including type, modifier, and font for HRI.
     - ⏳ **Linear Barcode Support**: Implement rendering for common linear barcodes.
-        - ⏳ **Code 39**: Implement rendering for Code 39 (3 of 9) barcodes.
+        - ✅ **Code 39**: Implement rendering for Code 39 (3 of 9) barcodes.
         - ⏳ **Code 128**: Implement rendering for Code 128 barcodes.
         - ⏳ **UPC/EAN**: Implement rendering for UPC-A, UPC-E, EAN-8, and EAN-13 barcodes.
     - ⏳ **2D Barcode Support**: Implement rendering for 2D barcodes (Data Matrix, QR Code, PDF417).

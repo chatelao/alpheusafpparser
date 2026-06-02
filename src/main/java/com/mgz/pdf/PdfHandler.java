@@ -39,6 +39,7 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.base.IRepeatingGroup;
 import com.mgz.afp.bcoca.BBC_BeginBarCodeObject;
+import com.mgz.afp.bcoca.EBC_EndBarCodeObject;
 import com.mgz.afp.bcoca.BDA_BarCodeData;
 import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor;
 import com.mgz.afp.enums.AFPUnitBase;
@@ -142,7 +143,6 @@ public class PdfHandler implements StructuredFieldHandler {
   private final PdfGraphicsState graphicsState;
   private final PdfBarcodeState barcodeState;
   private final PdfImageState imageState;
-  private PdfFont fallbackFont;
   private PdfPage currentPage;
   private PdfCanvas currentCanvas;
   private float defaultPageWidth = -1;
@@ -157,12 +157,6 @@ public class PdfHandler implements StructuredFieldHandler {
     this.graphicsState = new PdfGraphicsState();
     this.barcodeState = new PdfBarcodeState();
     this.imageState = new PdfImageState();
-
-    try {
-      this.fallbackFont = PdfFontFactory.createFont(StandardFonts.HELVETICA);
-    } catch (Exception e) {
-      // Ignored for now, will fallback to iText default
-    }
 
     // Initialize DPartRoot for PDF/VT compliance (ISO 16612-2)
     this.dpartRoot = new PdfDictionary();
@@ -234,7 +228,10 @@ public class PdfHandler implements StructuredFieldHandler {
           // TODO: Trigger image conversion and placement
         } else if (begin instanceof BBC_BeginBarCodeObject) {
           barcodeState.setInBarcodeObject(false);
-          // TODO: Trigger barcode rendering
+          if (currentCanvas != null) {
+            PdfBarcodeRenderer.render(barcodeState, currentCanvas);
+          }
+          barcodeState.reset();
         }
       }
     } else if (sf instanceof TLE_TagLogicalElement tle) {
@@ -365,10 +362,18 @@ public class PdfHandler implements StructuredFieldHandler {
       barcodeState.setElementHeight(bdd.getElementHeight());
       barcodeState.setHeightMultiplier(bdd.getHeightMultiplier());
       barcodeState.setWideToNarrowRatio(bdd.getWideToNarrowRatio());
+      barcodeState.setUnitBase(bdd.getUnitBase());
+      barcodeState.setUnitsPerUnitBaseX(bdd.getUnitsPerUnitBaseX());
+      barcodeState.setUnitsPerUnitBaseY(bdd.getUnitsPerUnitBaseY());
     } else if (sf instanceof BDA_BarCodeData bda) {
       if (barcodeState.isInBarcodeObject()) {
         barcodeState.addBarcodeData(bda);
       }
+    } else if (sf instanceof EBC_EndBarCodeObject) {
+      // EBC is handled via structureStack.pop() in isEndSF() block,
+      // but if there are multiple BDAs outside of a BBC/EBC (rare but possible),
+      // or if EBC is used to trigger rendering without a BBC.
+      // For now, BBC/EBC structure is the primary trigger.
     } else if (sf instanceof IDD_ImageDataDescriptor idd) {
       if (imageState.isInImageObject()) {
         imageState.setDescriptor(idd);
@@ -896,21 +901,7 @@ public class PdfHandler implements StructuredFieldHandler {
    */
   private PdfFont resolveFont(short lid) {
     String fontName = fontMap.get(lid);
-    if (fontName != null) {
-      PdfFont font = fontRegistry.getFont(fontName);
-      if (font != null) {
-        return font;
-      }
-    }
-
-    if (fallbackFont == null) {
-      try {
-        fallbackFont = PdfFontFactory.createFont(StandardFonts.HELVETICA);
-      } catch (Exception e) {
-        throw new RuntimeException("Failed to create fallback font", e);
-      }
-    }
-    return fallbackFont;
+    return fontRegistry.getFontWithFallback(fontName);
   }
 
   /**
@@ -937,7 +928,7 @@ public class PdfHandler implements StructuredFieldHandler {
    * @param fallbackFont the fallback font
    */
   public void setFallbackFont(PdfFont fallbackFont) {
-    this.fallbackFont = fallbackFont;
+    this.fontRegistry.setDefaultFont(fallbackFont);
   }
 
   /**
