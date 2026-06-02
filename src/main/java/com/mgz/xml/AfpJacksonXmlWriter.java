@@ -53,6 +53,7 @@ import com.mgz.afp.modca.ERG_EndResourceGroup;
 import com.mgz.afp.modca.MPO_MapPageOverlay;
 import com.mgz.afp.modca.MSU_MapSuppression;
 import com.mgz.afp.modca.NOP_NoOperation;
+import com.mgz.afp.modca.OCD_ObjectContainerData;
 import com.mgz.afp.modca.OBD_ObjectAreaDescriptor;
 import com.mgz.afp.modca.OBP_ObjectAreaPosition;
 import com.mgz.afp.modca.PGP_PagePosition_Format1;
@@ -269,6 +270,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIddDirectly(idd);
     } else if (sf instanceof MIO_MapImageObject mio) {
       writeMioDirectly(mio);
+    } else if (sf instanceof OCD_ObjectContainerData ocd) {
+      writeOcdDirectly(ocd);
     } else if (sf instanceof MCD_MapContainerData mcd) {
       writeMcdDirectly(mcd);
     } else if (sf instanceof MDR_MapDataResource mdr) {
@@ -410,6 +413,51 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     baseXsw.writeCharacters(indent1);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeOcdDirectly(OCD_ObjectContainerData ocd) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("OCD");
+    baseXsw.writeStartElement("OCD_ObjectContainerData");
+    String indent2 = XmlIndenter.getIndent(2);
+    if (ocd.getMetadataObject() != null) {
+      baseXsw.writeCharacters(indent2);
+      writeMetadataObjectDirectly(ocd.getMetadataObject(), indent2);
+    }
+    if (ocd.getData() != null && ocd.getData().length > 0) {
+      writeBinaryElement(baseXsw, indent2, "binaryData", ocd.getData());
+    }
+    if (ocd.getText() != null) {
+      writeElement(baseXsw, indent2, "text", ocd.getText());
+    }
+    XmlIndenter.writeIndent(baseXsw, 1);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeMetadataObjectDirectly(com.mgz.afp.moca.MetadataObject mo, String indent) throws Exception {
+    baseXsw.writeStartElement("MetadataObject");
+    baseXsw.writeLongAttribute(null, null, "MOLength", mo.getMoLength());
+    baseXsw.writeIntAttribute(null, null, "HeaderLength", mo.getHeaderLength());
+    if (mo.getMoType() != null) {
+      baseXsw.writeAttribute("MOType", mo.getMoType());
+    }
+    if (mo.getMoFormat() != null) {
+      baseXsw.writeAttribute("MOFormat", mo.getMoFormat());
+    }
+    if (mo.getMoCompression() != null) {
+      baseXsw.writeAttribute("MOCompression", mo.getMoCompression());
+    }
+    baseXsw.writeIntAttribute(null, null, "MONameLength", mo.getMoNameLength());
+    String childIndent = indent + "  ";
+    if (mo.getMoName() != null) {
+      writeElement(baseXsw, childIndent, "MOName", mo.getMoName());
+    }
+    if (mo.getMoData() != null && mo.getMoData().length > 0) {
+      writeBinaryElement(baseXsw, childIndent, "MOData", mo.getMoData());
+      writeElement(baseXsw, childIndent, "MODataText", mo.getMoDataText());
+    }
+    baseXsw.writeCharacters(indent);
+    baseXsw.writeEndElement();
   }
 
   private void writeMcdDirectly(MCD_MapContainerData mcd) throws Exception {

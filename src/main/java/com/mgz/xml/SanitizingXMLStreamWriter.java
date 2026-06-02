@@ -68,4 +68,14 @@ public class SanitizingXMLStreamWriter extends StreamWriter2Delegate {
   public void writeCData(String data) throws XMLStreamException {
     super.writeCData(UtilCharacterEncoding.sanitizeForXml(data));
   }
+
+  @Override
+  public void writeRaw(String text) throws XMLStreamException {
+    mDelegate2.writeRaw(text);
+  }
+
+  @Override
+  public void writeRaw(char[] text, int start, int offset) throws XMLStreamException {
+    mDelegate2.writeRaw(text, start, offset);
+  }
 }

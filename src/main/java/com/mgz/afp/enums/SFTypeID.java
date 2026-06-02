@@ -221,8 +221,7 @@ public enum SFTypeID {
       throw new IOException("Reached end of stream while parsing SFTypeID category.");
     }
 
-    SFTypeID sfTypeID = VAL_MAP.get(calcKey(sfClass, sfType, sfCategory));
-    return sfTypeID != null ? sfTypeID : Undefined;
+    return valueOf(sfClass, sfType, sfCategory);
   }
 
   /**
