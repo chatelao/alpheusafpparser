@@ -115,7 +115,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Interleaved 2 of 5**: Implement rendering for Interleaved 2 of 5 (ITF) barcodes.
         - ✅ **UPC-A**: Implement rendering for UPC-A barcodes.
         - ✅ **EAN-8 / EAN-13**: Implement rendering for EAN-8 and EAN-13 barcodes.
-        - ⏳ **Code 128**: Implement rendering for Code 128 barcodes.
+        - ✅ **Code 128 (Subset B)**: Implement rendering for Code 128 (Subset B) barcodes.
         - ✅ **UPC-E**: Implement rendering for UPC-E barcodes.
     - ⏳ **2D Barcode Support**: Implement rendering for 2D barcodes (Data Matrix, QR Code, PDF417).
     - ⏳ **Postal Barcode Support**: Implement rendering for postal codes (POSTNET, Intelligent Mail, Japan Postal).
