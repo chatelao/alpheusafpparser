@@ -29,6 +29,7 @@ import com.itextpdf.kernel.pdf.PdfArray;
 import com.itextpdf.kernel.pdf.PdfDictionary;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfName;
+import com.itextpdf.kernel.pdf.PdfOutputIntent;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfString;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -101,10 +102,18 @@ import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
 import com.mgz.afp.modca.MDR_MapDataResource;
 import com.mgz.afp.modca.MMO_MapMediumOverlay;
 import com.mgz.afp.modca.MPS_MapPageSegment;
+import com.mgz.afp.modca.BAG_BeginActiveEnvironmentGroup;
 import com.mgz.afp.modca.BMO_BeginOverlay;
+import com.mgz.afp.modca.BOG_BeginObjectEnvironmentGroup;
 import com.mgz.afp.modca.BPS_BeginPageSegment;
+import com.mgz.afp.modca.BRG_BeginResourceGroup;
+import com.mgz.afp.modca.BSG_BeginResourceEnvironmentGroup;
+import com.mgz.afp.modca.EAG_EndActiveEnvironmentGroup;
 import com.mgz.afp.modca.EMO_EndOverlay;
+import com.mgz.afp.modca.EOG_EndObjectEnvironmentGroup;
 import com.mgz.afp.modca.EPS_EndPageSegment;
+import com.mgz.afp.modca.ERG_EndResourceGroup;
+import com.mgz.afp.modca.ESG_EndResourceEnvironmentGroup;
 import com.mgz.afp.modca.OBD_ObjectAreaDescriptor;
 import com.mgz.afp.modca.OBP_ObjectAreaPosition;
 import com.mgz.afp.modca.PGD_PageDescriptor;
@@ -156,7 +165,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private final Map<String, com.itextpdf.kernel.pdf.xobject.PdfImageXObject> imageCache = new HashMap<>();
   private final Set<String> mmoResources = new HashSet<>();
   private final Set<String> mpsResources = new HashSet<>();
-  private final Map<Short, String> fontMap = new HashMap<>();
+  private final Deque<Map<Short, String>> fontMapStack = new ArrayDeque<>();
   private final PdfFontRegistry fontRegistry = new PdfFontRegistry();
   private final PdfDocument pdfDoc;
   private final Document document;
@@ -179,6 +188,7 @@ public class PdfHandler implements StructuredFieldHandler {
     this.graphicsState = new PdfGraphicsState();
     this.barcodeState = new PdfBarcodeState();
     this.imageState = new PdfImageState();
+    this.fontMapStack.push(new HashMap<>());
 
     // Initialize DPartRoot for PDF/VT compliance (ISO 16612-2)
     this.dpartRoot = new PdfDictionary();
@@ -206,9 +216,17 @@ public class PdfHandler implements StructuredFieldHandler {
         barcodeState.startNewBarcode();
       } else if (sf instanceof BMO_BeginOverlay bmo) {
         startResourceCapture(bmo.getName());
+        pushFontScope();
       } else if (sf instanceof BPS_BeginPageSegment bps) {
         startResourceCapture(bps.getName());
+        pushFontScope();
+      } else if (sf instanceof BAG_BeginActiveEnvironmentGroup || sf instanceof BSG_BeginResourceEnvironmentGroup
+          || sf instanceof BOG_BeginObjectEnvironmentGroup || sf instanceof BRG_BeginResourceGroup) {
+        pushFontScope();
       } else if (sf instanceof BDT_BeginDocument || sf instanceof BNG_BeginNamedPageGroup || sf instanceof BPG_BeginPage) {
+        if (!(sf instanceof BNG_BeginNamedPageGroup)) {
+          pushFontScope();
+        }
         PdfDictionary dpart = new PdfDictionary();
         dpart.makeIndirect(pdfDoc);
         dpart.put(PdfName.Type, PdfName.DPart);
@@ -246,11 +264,18 @@ public class PdfHandler implements StructuredFieldHandler {
       if (!structureStack.isEmpty()) {
         StructuredField begin = structureStack.pop();
         if (begin instanceof BDT_BeginDocument || begin instanceof BNG_BeginNamedPageGroup || begin instanceof BPG_BeginPage) {
+          if (!(begin instanceof BNG_BeginNamedPageGroup)) {
+            popFontScope();
+          }
           if (!dpartStack.isEmpty()) {
             dpartStack.pop();
           }
         } else if (begin instanceof BMO_BeginOverlay || begin instanceof BPS_BeginPageSegment) {
           endResourceCapture();
+          popFontScope();
+        } else if (begin instanceof BAG_BeginActiveEnvironmentGroup || begin instanceof BSG_BeginResourceEnvironmentGroup
+            || begin instanceof BOG_BeginObjectEnvironmentGroup || begin instanceof BRG_BeginResourceGroup) {
+          popFontScope();
         } else if (begin instanceof BIM_BeginImageObject) {
           imageState.setInImageObject(false);
           if (currentCanvas != null) {
@@ -308,7 +333,7 @@ public class PdfHandler implements StructuredFieldHandler {
     } else if (sf instanceof MCF_MapCodedFont_Format1 mcf1) {
       if (mcf1.getRepeatingGroups() != null) {
         for (MCF_MapCodedFont_Format1.MCF_RepeatingGroup rg : mcf1.getRepeatingGroups()) {
-          fontMap.put(rg.getCodedFontLocalID(), rg.getCodedFontName());
+          fontMapStack.peek().put(rg.getCodedFontLocalID(), rg.getCodedFontName());
         }
       }
     } else if (sf instanceof MCF_MapCodedFont_Format2 mcf2) {
@@ -327,7 +352,7 @@ public class PdfHandler implements StructuredFieldHandler {
               }
             }
             if (lid != null && name != null) {
-              fontMap.put(lid, name);
+              fontMapStack.peek().put(lid, name);
             }
           }
         }
@@ -349,7 +374,7 @@ public class PdfHandler implements StructuredFieldHandler {
               }
             }
             if (lid != null && name != null) {
-              fontMap.put(lid, name);
+              fontMapStack.peek().put(lid, name);
             }
           }
         }
@@ -1081,13 +1106,40 @@ public class PdfHandler implements StructuredFieldHandler {
   }
 
   /**
+   * Sets the output intent for the PDF document.
+   * Required for PDF/X and PDF/VT compliance.
+   *
+   * @param outputConditionIdentifier a string identifying the intended output rendering condition
+   * @param registryName              a string identifying the registry
+   * @param info                      a string containing additional information
+   * @param outputCondition           a string containing the output condition
+   * @param iccStream                 the ICC profile stream
+   */
+  public void setOutputIntent(String outputConditionIdentifier, String registryName, String info,
+      String outputCondition, java.io.InputStream iccStream) {
+    PdfOutputIntent outputIntent = new PdfOutputIntent(outputConditionIdentifier, registryName,
+        info, outputCondition, iccStream);
+    pdfDoc.addOutputIntent(outputIntent);
+  }
+
+  private void pushFontScope() {
+    fontMapStack.push(new HashMap<>(fontMapStack.peek()));
+  }
+
+  private void popFontScope() {
+    if (fontMapStack.size() > 1) {
+      fontMapStack.pop();
+    }
+  }
+
+  /**
    * Resolves the font for the given Local ID (LID).
    *
    * @param lid the local ID
    * @return the resolved {@link PdfFont}
    */
   private PdfFont resolveFont(short lid) {
-    String fontName = fontMap.get(lid);
+    String fontName = fontMapStack.peek().get(lid);
     return fontRegistry.getFontWithFallback(fontName);
   }
 
@@ -1097,7 +1149,7 @@ public class PdfHandler implements StructuredFieldHandler {
    * @return the font map
    */
   public Map<Short, String> getFontMap() {
-    return Collections.unmodifiableMap(fontMap);
+    return Collections.unmodifiableMap(fontMapStack.peek());
   }
 
   /**

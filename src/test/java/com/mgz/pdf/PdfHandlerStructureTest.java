@@ -63,9 +63,11 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GCBEZ_CubicBezierCurveAtGivenPosition;
 import com.mgz.afp.goca.GAD_GraphicsData;
 import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
 import com.mgz.afp.ioca.IPD_ImagePictureData;
+import com.mgz.afp.modca.BAG_BeginActiveEnvironmentGroup;
 import com.mgz.afp.modca.BDT_BeginDocument;
 import com.mgz.afp.modca.BIM_BeginImageObject;
 import com.mgz.afp.modca.BPG_BeginPage;
+import com.mgz.afp.modca.EAG_EndActiveEnvironmentGroup;
 import com.mgz.afp.modca.EDT_EndDocument;
 import com.mgz.afp.modca.EIM_EndImageObject;
 import com.mgz.afp.modca.EPG_EndPage;
@@ -1339,6 +1341,77 @@ public class PdfHandlerStructureTest {
     handler.handle(eim);
 
     assertEquals(4, handler.getFieldCount());
+  }
+
+  @Test
+  public void testScopedFontMapping() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    // 1. Map font in Document scope
+    BDT_BeginDocument bdt = new BDT_BeginDocument();
+    bdt.setStructuredFieldIntroducer(createSfi(SFTypeID.BDT_BeginDocument));
+    handler.handle(bdt);
+
+    MCF_MapCodedFont_Format1 mcfDoc = new MCF_MapCodedFont_Format1();
+    MCF_MapCodedFont_Format1.MCF_RepeatingGroup rgDoc = new MCF_MapCodedFont_Format1.MCF_RepeatingGroup();
+    rgDoc.setCodedFontLocalID((short) 1);
+    rgDoc.setCodedFontName("DOCFONT ");
+    mcfDoc.addRepeatingGroup(rgDoc);
+    handler.handle(mcfDoc);
+
+    assertEquals("DOCFONT ", handler.getFontMap().get((short) 1));
+
+    // 2. Enter Page scope - should inherit DOCFONT
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    assertEquals("DOCFONT ", handler.getFontMap().get((short) 1));
+
+    // 3. Map font in Page AEG scope
+    BAG_BeginActiveEnvironmentGroup bag = new BAG_BeginActiveEnvironmentGroup();
+    bag.setStructuredFieldIntroducer(createSfi(SFTypeID.BAG_BeginActiveEnvironmentGroup));
+    handler.handle(bag);
+
+    MCF_MapCodedFont_Format1 mcfPage = new MCF_MapCodedFont_Format1();
+    MCF_MapCodedFont_Format1.MCF_RepeatingGroup rgPage = new MCF_MapCodedFont_Format1.MCF_RepeatingGroup();
+    rgPage.setCodedFontLocalID((short) 2);
+    rgPage.setCodedFontName("PAGEFONT");
+    mcfPage.addRepeatingGroup(rgPage);
+    handler.handle(mcfPage);
+
+    assertEquals("DOCFONT ", handler.getFontMap().get((short) 1));
+    assertEquals("PAGEFONT", handler.getFontMap().get((short) 2));
+
+    // 4. Exit AEG - PAGEFONT should still be there because BPG pushed a scope that AEG copied.
+    // Wait, let's trace:
+    // BDT push (Scope 1: copy of 0)
+    // MCF Doc -> Scope 1 has DOCFONT
+    // BPG push (Scope 2: copy of 1) -> Scope 2 has DOCFONT
+    // BAG push (Scope 3: copy of 2) -> Scope 3 has DOCFONT
+    // MCF Page -> Scope 3 has DOCFONT, PAGEFONT
+    // EAG pop -> Scope 2 is now active, has DOCFONT (Wait, Scope 2 should NOT have PAGEFONT)
+
+    EAG_EndActiveEnvironmentGroup eag = new EAG_EndActiveEnvironmentGroup();
+    eag.setStructuredFieldIntroducer(createSfi(SFTypeID.EAG_EndActiveEnvironmentGroup));
+    handler.handle(eag);
+
+    assertEquals("DOCFONT ", handler.getFontMap().get((short) 1));
+    assertTrue(!handler.getFontMap().containsKey((short) 2), "PAGEFONT should be gone after EAG");
+
+    // 5. Exit Page - should still have DOCFONT
+    EPG_EndPage epg = new EPG_EndPage();
+    epg.setStructuredFieldIntroducer(createSfi(SFTypeID.EPG_EndPage));
+    handler.handle(epg);
+
+    assertEquals("DOCFONT ", handler.getFontMap().get((short) 1));
+
+    // 6. Exit Document
+    EDT_EndDocument edt = new EDT_EndDocument();
+    edt.setStructuredFieldIntroducer(createSfi(SFTypeID.EDT_EndDocument));
+    handler.handle(edt);
+
+    assertTrue(!handler.getFontMap().containsKey((short) 1), "DOCFONT should be gone after EDT");
   }
 
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {
