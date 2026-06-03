@@ -22,6 +22,7 @@ package com.mgz.pdf;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.kernel.pdf.xobject.PdfImageXObject;
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.io.image.RawImageHelper;
 import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
 import com.mgz.afp.ioca.IDD_SelfDefiningField;
 import com.mgz.afp.ioca.IPD_ImagePictureData;
@@ -123,16 +124,39 @@ public class PdfImageRenderer {
 
         com.itextpdf.io.image.ImageData itextImageData = ImageDataFactory.create(
             width, height, components, bitsPerComponent, data, null);
-        PdfImageXObject imageXObject = new PdfImageXObject(itextImageData);
+        renderImage(itextImageData, width, height, state, canvas);
+      } else if (compression == IPD_CompressionAlgorithm.G3_ModifiedHuffman
+          || compression == IPD_CompressionAlgorithm.G3_ModifiedREAD
+          || compression == IPD_CompressionAlgorithm.G4_ModifiedModifiedREAD) {
 
-        // Placement at (xOrigin, yOrigin) with its own size in AFP units
-        canvas.saveState();
-        canvas.concatMatrix(width, 0, 0, height, state.getxOrigin(), state.getyOrigin() - height);
-        canvas.addXObject(imageXObject);
-        canvas.restoreState();
+        int k = 0;
+        if (compression == IPD_CompressionAlgorithm.G4_ModifiedModifiedREAD) {
+          k = -1;
+        } else if (compression == IPD_CompressionAlgorithm.G3_ModifiedREAD) {
+          k = 1;
+        }
+
+        com.itextpdf.io.image.ImageData itextImageData = ImageDataFactory.createRawImage(data);
+        RawImageHelper.updateImageAttributes((com.itextpdf.io.image.RawImageData) itextImageData,
+            java.util.Map.of(
+                "Width", width,
+                "Height", height,
+                "CCITT_K", k
+            ));
+        renderImage(itextImageData, width, height, state, canvas);
       }
     } catch (Exception e) {
       System.err.println("Error rendering IOCA image: " + e.getMessage());
     }
+  }
+
+  private static void renderImage(com.itextpdf.io.image.ImageData itextImageData, int width, int height, PdfImageState state, PdfCanvas canvas) {
+    PdfImageXObject imageXObject = new PdfImageXObject(itextImageData);
+
+    // Placement at (xOrigin, yOrigin) with its own size in AFP units
+    canvas.saveState();
+    canvas.concatMatrix(width, 0, 0, height, state.getxOrigin(), state.getyOrigin() - height);
+    canvas.addXObject(imageXObject);
+    canvas.restoreState();
   }
 }
