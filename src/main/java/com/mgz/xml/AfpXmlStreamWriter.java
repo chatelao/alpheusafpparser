@@ -39,6 +39,7 @@ public class AfpXmlStreamWriter extends SanitizingXMLStreamWriter {
   private final XMLStreamWriter2 delegate;
   private final OutputStream fallbackOs;
   private OutputStream woodstoxOs;
+  private boolean needsFlush = false;
 
   public AfpXmlStreamWriter(XMLStreamWriter2 delegate, OutputStream os) {
     super(delegate);
@@ -83,6 +84,163 @@ public class AfpXmlStreamWriter extends SanitizingXMLStreamWriter {
     return null;
   }
 
+  @Override
+  public void writeStartElement(String localName) throws XMLStreamException {
+    needsFlush = true;
+    super.writeStartElement(localName);
+  }
+
+  @Override
+  public void writeStartElement(String ns, String localName) throws XMLStreamException {
+    needsFlush = true;
+    super.writeStartElement(ns, localName);
+  }
+
+  @Override
+  public void writeStartElement(String prefix, String localName, String ns) throws XMLStreamException {
+    needsFlush = true;
+    super.writeStartElement(prefix, localName, ns);
+  }
+
+  @Override
+  public void writeEmptyElement(String localName) throws XMLStreamException {
+    needsFlush = true;
+    super.writeEmptyElement(localName);
+  }
+
+  @Override
+  public void writeEmptyElement(String ns, String localName) throws XMLStreamException {
+    needsFlush = true;
+    super.writeEmptyElement(ns, localName);
+  }
+
+  @Override
+  public void writeEmptyElement(String prefix, String localName, String ns) throws XMLStreamException {
+    needsFlush = true;
+    super.writeEmptyElement(prefix, localName, ns);
+  }
+
+  @Override
+  public void writeEndElement() throws XMLStreamException {
+    needsFlush = true;
+    super.writeEndElement();
+  }
+
+  @Override
+  public void writeAttribute(String localName, String value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeAttribute(localName, value);
+  }
+
+  @Override
+  public void writeAttribute(String ns, String localName, String value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeAttribute(ns, localName, value);
+  }
+
+  @Override
+  public void writeAttribute(String prefix, String ns, String localName, String value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeAttribute(prefix, ns, localName, value);
+  }
+
+  @Override
+  public void writeCharacters(String text) throws XMLStreamException {
+    needsFlush = true;
+    super.writeCharacters(text);
+  }
+
+  @Override
+  public void writeCharacters(char[] text, int start, int len) throws XMLStreamException {
+    needsFlush = true;
+    super.writeCharacters(text, start, len);
+  }
+
+  @Override
+  public void writeCData(String data) throws XMLStreamException {
+    needsFlush = true;
+    super.writeCData(data);
+  }
+
+  @Override
+  public void writeComment(String data) throws XMLStreamException {
+    needsFlush = true;
+    super.writeComment(data);
+  }
+
+  @Override
+  public void writeRaw(String text) throws XMLStreamException {
+    needsFlush = true;
+    super.writeRaw(text);
+  }
+
+  @Override
+  public void writeRaw(String text, int start, int offset) throws XMLStreamException {
+    needsFlush = true;
+    super.writeRaw(text, start, offset);
+  }
+
+  @Override
+  public void writeRaw(char[] text, int offset, int length) throws XMLStreamException {
+    needsFlush = true;
+    super.writeRaw(text, offset, length);
+  }
+
+  @Override
+  public void writeInt(int value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeInt(value);
+  }
+
+  @Override
+  public void writeLong(long value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeLong(value);
+  }
+
+  @Override
+  public void writeBoolean(boolean value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeBoolean(value);
+  }
+
+  @Override
+  public void writeFloat(float value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeFloat(value);
+  }
+
+  @Override
+  public void writeDouble(double value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeDouble(value);
+  }
+
+  /**
+   * Writes raw bytes directly to the underlying output stream, flushing Woodstox first if necessary.
+   *
+   * @param bytes the bytes to write
+   * @param offset the offset in the byte array
+   * @param len the number of bytes to write
+   * @throws XMLStreamException if writing fails
+   */
+  public void writeRawBytes(byte[] bytes, int offset, int len) throws XMLStreamException {
+    if (len <= 0) {
+      return;
+    }
+    try {
+      if (needsFlush) {
+        delegate.writeRaw(""); // Force closure of pending start tag
+        delegate.flush();
+        needsFlush = false;
+      }
+      OutputStream target = (woodstoxOs != null) ? woodstoxOs : fallbackOs;
+      target.write(bytes, offset, len);
+    } catch (IOException e) {
+      throw new XMLStreamException("Failed to write raw bytes to stream", e);
+    }
+  }
+
   /**
    * Writes EBCDIC data directly to the stream after converting it to UTF-8 and performing XML escaping.
    *
@@ -97,10 +255,11 @@ public class AfpXmlStreamWriter extends SanitizingXMLStreamWriter {
       return;
     }
     try {
-      // Ensure any pending start tag is closed before writing raw bytes to the stream
-      delegate.writeCharacters("");
-      // Must flush delegate to ensure correct output order
-      delegate.flush();
+      if (needsFlush) {
+        delegate.writeRaw(""); // Force closure of pending start tag
+        delegate.flush();
+        needsFlush = false;
+      }
 
       OutputStream target = (woodstoxOs != null) ? woodstoxOs : fallbackOs;
       EbcdicToUtf8XmlEncoder.encodeAndWrite(data, offset, len, target, charset);
