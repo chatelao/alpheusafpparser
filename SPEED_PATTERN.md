@@ -11,6 +11,7 @@ This document identifies and documents high-performance patterns reactivated in 
 | **Optimized Indentation** | `XmlIndenter` | 🚀🚀 | Uses `writeRaw` to leverage the sanitization bypass for high-frequency whitespace. |
 | **Primitive-Optimized Lookup** | `SFTypeID` | 🚀🚀🚀 | Eliminates `Integer` boxing and `HashMap` overhead in the primary parsing loop. |
 | **High-Volume Fast-Paths** | `AfpJacksonXmlWriter` | 🚀🚀🚀🚀 | Manual StAX writing for `OCD` and `MOCA` fields to bypass Jackson reflection. |
+| **Record-Skipping Navigation** | `AFPScanner` | 🚀🚀🚀🚀 | Record-based jumping to avoid byte-by-byte scanning during page discovery. |
 
 ---
 
@@ -38,3 +39,8 @@ This document identifies and documents high-performance patterns reactivated in 
 **Reactivated:** August 2026
 **Implementation:** `writeOcdDirectly` and `writeMetadataObjectDirectly` in `AfpJacksonXmlWriter`.
 **Benefit:** Metadata Object (MOCA) data carried in Object Container Data (OCD) fields can be extremely verbose and frequent in modern AFP files. Moving these to manual StAX fast-paths with typed attribute writing eliminates Jackson's reflective overhead and intermediate string allocations for these high-volume components.
+
+## 6. Record-Skipping Navigation
+**Reactivated:** August 2026
+**Implementation:** `pos += sfLength + 1` jump logic in `AFPScanner`.
+**Benefit:** For large AFP files, this allows the scanner to jump over data payloads (like Image or Graphics data) once a record is synced. This transforms a byte-by-byte $O(N_{bytes})$ scan into a record-based $O(N_{records})$ scan, providing a critical performance boost during page boundary discovery.

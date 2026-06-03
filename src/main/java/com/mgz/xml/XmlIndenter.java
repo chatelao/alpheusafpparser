@@ -78,6 +78,6 @@ public class XmlIndenter {
    * @throws Exception if writing fails
    */
   public static void writeIndent(org.codehaus.stax2.XMLStreamWriter2 xsw, int level) throws Exception {
-    xsw.writeCharacters(getIndent(level));
+    xsw.writeRaw(getIndent(level));
   }
 }
