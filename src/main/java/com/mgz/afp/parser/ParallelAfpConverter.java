@@ -102,6 +102,10 @@ public class ParallelAfpConverter {
 
     try (StructuredFieldHandler masterHandler = handlerFactory.createHandler(out, false)) {
       processPreambleAndPages(firstPageOffset, pageOffsets, fileSize, collector, sequence, masterHandler);
+    } finally {
+      if (asyncChannel != null) {
+        config.closeAsyncFileChannel();
+      }
     }
   }
 
