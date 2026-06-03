@@ -33,6 +33,7 @@ import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfString;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.mgz.afp.base.StructuredField;
@@ -90,6 +91,10 @@ import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
 import com.mgz.afp.modca.MDR_MapDataResource;
 import com.mgz.afp.modca.MMO_MapMediumOverlay;
 import com.mgz.afp.modca.MPS_MapPageSegment;
+import com.mgz.afp.modca.BMO_BeginOverlay;
+import com.mgz.afp.modca.BPS_BeginPageSegment;
+import com.mgz.afp.modca.EMO_EndOverlay;
+import com.mgz.afp.modca.EPS_EndPageSegment;
 import com.mgz.afp.modca.OBD_ObjectAreaDescriptor;
 import com.mgz.afp.modca.OBP_ObjectAreaPosition;
 import com.mgz.afp.modca.PGD_PageDescriptor;
@@ -136,6 +141,8 @@ public class PdfHandler implements StructuredFieldHandler {
   private final AtomicLong fieldCount = new AtomicLong(0);
   private final Deque<StructuredField> structureStack = new ArrayDeque<>();
   private final Deque<PdfDictionary> dpartStack = new ArrayDeque<>();
+  private final Deque<PdfCanvas> canvasStack = new ArrayDeque<>();
+  private final Map<String, PdfFormXObject> resourceCache = new HashMap<>();
   private final Set<String> mmoResources = new HashSet<>();
   private final Set<String> mpsResources = new HashSet<>();
   private final Map<Short, String> fontMap = new HashMap<>();
@@ -186,6 +193,10 @@ public class PdfHandler implements StructuredFieldHandler {
         imageState.startNewImage();
       } else if (sf instanceof BBC_BeginBarCodeObject) {
         barcodeState.startNewBarcode();
+      } else if (sf instanceof BMO_BeginOverlay bmo) {
+        startResourceCapture(bmo.getName());
+      } else if (sf instanceof BPS_BeginPageSegment bps) {
+        startResourceCapture(bps.getName());
       } else if (sf instanceof BDT_BeginDocument || sf instanceof BNG_BeginNamedPageGroup || sf instanceof BPG_BeginPage) {
         PdfDictionary dpart = new PdfDictionary();
         dpart.makeIndirect(pdfDoc);
@@ -227,6 +238,8 @@ public class PdfHandler implements StructuredFieldHandler {
           if (!dpartStack.isEmpty()) {
             dpartStack.pop();
           }
+        } else if (begin instanceof BMO_BeginOverlay || begin instanceof BPS_BeginPageSegment) {
+          endResourceCapture();
         } else if (begin instanceof BIM_BeginImageObject) {
           imageState.setInImageObject(false);
           if (currentCanvas != null) {
@@ -928,6 +941,31 @@ public class PdfHandler implements StructuredFieldHandler {
       currentCanvas.rectangle(0, 0, width, length).fill();
     }
     currentCanvas.restoreState();
+  }
+
+  private void startResourceCapture(String name) {
+    // Default size for resources if not yet known, will be adjusted by PGD if present inside
+    float width = defaultPageWidth > 0 ? defaultPageWidth : 1000;
+    float height = defaultPageHeight > 0 ? defaultPageHeight : 1000;
+
+    PdfFormXObject xObject = new PdfFormXObject(new com.itextpdf.kernel.geom.Rectangle(width, height));
+    resourceCache.put(name, xObject);
+
+    if (currentCanvas != null) {
+      canvasStack.push(currentCanvas);
+    }
+    this.currentCanvas = new PdfCanvas(xObject, pdfDoc);
+
+    // Apply transformation to the XObject canvas
+    applyTransformation(height, defaultScaleX, defaultScaleY);
+  }
+
+  private void endResourceCapture() {
+    if (!canvasStack.isEmpty()) {
+      this.currentCanvas = canvasStack.pop();
+    } else {
+      this.currentCanvas = null;
+    }
   }
 
   private void applyTransformation(float heightPoints, float scaleX, float scaleY) {
