@@ -74,8 +74,12 @@ import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
 import com.mgz.afp.modca.MDR_MapDataResource;
 import com.mgz.afp.modca.MMO_MapMediumOverlay;
 import com.mgz.afp.modca.MPS_MapPageSegment;
+import com.mgz.afp.modca.BAG_BeginActiveEnvironmentGroup;
 import com.mgz.afp.modca.BMO_BeginOverlay;
+import com.mgz.afp.modca.BSG_BeginResourceEnvironmentGroup;
+import com.mgz.afp.modca.EAG_EndActiveEnvironmentGroup;
 import com.mgz.afp.modca.EMO_EndOverlay;
+import com.mgz.afp.modca.ESG_EndResourceEnvironmentGroup;
 import com.mgz.afp.modca.PGD_PageDescriptor;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
 import com.mgz.afp.ptoca.PTX_PresentationTextData;
@@ -1339,6 +1343,90 @@ public class PdfHandlerStructureTest {
     handler.handle(eim);
 
     assertEquals(4, handler.getFieldCount());
+  }
+
+  @Test
+  public void testScopedFontMapping() throws Exception {
+    PdfHandler handler = new PdfHandler(new ByteArrayOutputStream());
+
+    // 1. Document Scope Mapping
+    BDT_BeginDocument bdt = new BDT_BeginDocument();
+    bdt.setStructuredFieldIntroducer(createSfi(SFTypeID.BDT_BeginDocument));
+    handler.handle(bdt);
+
+    MCF_MapCodedFont_Format1 mcfDoc = new MCF_MapCodedFont_Format1();
+    MCF_MapCodedFont_Format1.MCF_RepeatingGroup rgDoc = new MCF_MapCodedFont_Format1.MCF_RepeatingGroup();
+    rgDoc.setCodedFontLocalID((short) 1);
+    rgDoc.setCodedFontName("DOCFONT ");
+    mcfDoc.addRepeatingGroup(rgDoc);
+    handler.handle(mcfDoc);
+
+    assertEquals("DOCFONT ", handler.getFontMap().get((short) 1));
+
+    // 2. Page Scope Mapping (Shadowing)
+    BPG_BeginPage bpg1 = new BPG_BeginPage();
+    bpg1.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg1);
+
+    MCF_MapCodedFont_Format1 mcfPage = new MCF_MapCodedFont_Format1();
+    MCF_MapCodedFont_Format1.MCF_RepeatingGroup rgPage = new MCF_MapCodedFont_Format1.MCF_RepeatingGroup();
+    rgPage.setCodedFontLocalID((short) 1);
+    rgPage.setCodedFontName("PAGFONT1");
+    mcfPage.addRepeatingGroup(rgPage);
+    handler.handle(mcfPage);
+
+    assertEquals("PAGFONT1", handler.getFontMap().get((short) 1));
+
+    EPG_EndPage epg1 = new EPG_EndPage();
+    epg1.setStructuredFieldIntroducer(createSfi(SFTypeID.EPG_EndPage));
+    handler.handle(epg1);
+
+    // After Page End, should revert to Document Scope
+    assertEquals("DOCFONT ", handler.getFontMap().get((short) 1));
+
+    // 3. Environment Group Scope (REG)
+    BSG_BeginResourceEnvironmentGroup bsg = new BSG_BeginResourceEnvironmentGroup();
+    bsg.setStructuredFieldIntroducer(createSfi(SFTypeID.BSG_BeginResourceEnvironmentGroup));
+    handler.handle(bsg);
+
+    MCF_MapCodedFont_Format1 mcfReg = new MCF_MapCodedFont_Format1();
+    MCF_MapCodedFont_Format1.MCF_RepeatingGroup rgReg = new MCF_MapCodedFont_Format1.MCF_RepeatingGroup();
+    rgReg.setCodedFontLocalID((short) 2);
+    rgReg.setCodedFontName("REGFONT ");
+    mcfReg.addRepeatingGroup(rgReg);
+    handler.handle(mcfReg);
+
+    assertEquals("REGFONT ", handler.getFontMap().get((short) 2));
+
+    ESG_EndResourceEnvironmentGroup esg = new ESG_EndResourceEnvironmentGroup();
+    esg.setStructuredFieldIntroducer(createSfi(SFTypeID.ESG_EndResourceEnvironmentGroup));
+    handler.handle(esg);
+
+    // After REG end, font 2 should be gone from merged view
+    assertTrue(!handler.getFontMap().containsKey((short) 2));
+    assertEquals("DOCFONT ", handler.getFontMap().get((short) 1));
+
+    // 4. Active Environment Group (AEG) inside Page
+    handler.handle(bpg1);
+    BAG_BeginActiveEnvironmentGroup bag = new BAG_BeginActiveEnvironmentGroup();
+    bag.setStructuredFieldIntroducer(createSfi(SFTypeID.BAG_BeginActiveEnvironmentGroup));
+    handler.handle(bag);
+
+    MCF_MapCodedFont_Format1 mcfAeg = new MCF_MapCodedFont_Format1();
+    MCF_MapCodedFont_Format1.MCF_RepeatingGroup rgAeg = new MCF_MapCodedFont_Format1.MCF_RepeatingGroup();
+    rgAeg.setCodedFontLocalID((short) 3);
+    rgAeg.setCodedFontName("AEGFONT ");
+    mcfAeg.addRepeatingGroup(rgAeg);
+    handler.handle(mcfAeg);
+
+    assertEquals("AEGFONT ", handler.getFontMap().get((short) 3));
+
+    EAG_EndActiveEnvironmentGroup eag = new EAG_EndActiveEnvironmentGroup();
+    eag.setStructuredFieldIntroducer(createSfi(SFTypeID.EAG_EndActiveEnvironmentGroup));
+    handler.handle(eag);
+
+    assertTrue(!handler.getFontMap().containsKey((short) 3));
+    handler.handle(epg1);
   }
 
   @Test
