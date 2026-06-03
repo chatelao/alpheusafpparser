@@ -357,7 +357,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeBdaDirectly(bda);
     } else {
       if (MnemonicPerformanceMonitor.isEnabled()) {
-        String rootName = sf.getClass().getSimpleName();
+        String rootName = MnemonicPerformanceMonitor.getSimpleName(sf.getClass());
         String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
         MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
       }
@@ -882,7 +882,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
             payloadSize = Math.max(0, cs.getCsi().getLength() - 2);
           }
           com.mgz.util.PTXPerformanceMonitor.recordPtocaWrite(
-              cs.getClass().getSimpleName(), System.nanoTime() - csStart, payloadSize, cos.getCount() - csStartCount);
+              MnemonicPerformanceMonitor.getSimpleName(cs.getClass()), System.nanoTime() - csStart, payloadSize, cos.getCount() - csStartCount);
         }
       }
     }
@@ -1090,7 +1090,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else {
       if (MnemonicPerformanceMonitor.isEnabled()) {
-        String simpleName = cs.getClass().getSimpleName();
+        String simpleName = MnemonicPerformanceMonitor.getSimpleName(cs.getClass());
         String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(simpleName);
         MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
       }
@@ -1876,7 +1876,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writer.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.DrawingOrder_HasPoints dohp) {
-      String rootName = order.getClass().getSimpleName();
+      String rootName = MnemonicPerformanceMonitor.getSimpleName(order.getClass());
       if (MnemonicPerformanceMonitor.isEnabled()) {
         MnemonicPerformanceMonitor.startWriteWithMnemonic(MnemonicPerformanceMonitor.extractMnemonicFromString(rootName));
       }
@@ -1902,8 +1902,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         MnemonicPerformanceMonitor.endWrite();
       }
     } else {
-      String rootName = order.getClass().getSimpleName();
       if (MnemonicPerformanceMonitor.isEnabled()) {
+        String rootName = MnemonicPerformanceMonitor.getSimpleName(order.getClass());
         String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
         MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
       }
@@ -2572,8 +2572,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private void writeBdaParametersDataDirectly(XMLStreamWriter2 writer, BDA_BarCodeData.ParametersData pd, String indent) throws Exception {
     String indent3 = indent + "  ";
     writer.writeRaw(indent);
-    String rootName = pd.getClass().getSimpleName();
-    writer.writeStartElement(rootName);
+    writer.writeStartElement(MnemonicPerformanceMonitor.getSimpleName(pd.getClass()));
 
     if (pd.controlFlags != null && !pd.controlFlags.isEmpty()) {
       writer.writeRaw(indent3);
