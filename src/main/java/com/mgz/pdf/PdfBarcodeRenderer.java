@@ -76,6 +76,20 @@ public class PdfBarcodeRenderer {
       "OEEOOE", "OEEEOO", "OEOEOO", "OEOOOE", "OEEOOO"
   };
 
+  private static final String[] CODE128_PATTERNS = {
+      "212222", "222122", "222221", "121223", "121322", "131222", "122213", "122312", "132212", "221213",
+      "221312", "231212", "112232", "122132", "122231", "113222", "123122", "123221", "223211", "221132",
+      "221231", "213212", "223112", "312131", "311222", "321122", "321221", "312212", "322112", "322211",
+      "212123", "212321", "232121", "111323", "131123", "131321", "112313", "132113", "132311", "211313",
+      "231113", "231311", "112133", "112331", "132131", "113123", "113321", "133121", "313121", "211331",
+      "231131", "213113", "213311", "213131", "311123", "311321", "331121", "312113", "312311", "332111",
+      "314111", "221411", "431111", "111224", "111422", "121124", "121421", "141122", "141221", "112214",
+      "112412", "122114", "122411", "142112", "142211", "241211", "221114", "413111", "241112", "134111",
+      "111242", "121142", "121241", "114212", "124112", "124211", "411212", "421112", "421211", "212141",
+      "214121", "412121", "111143", "111341", "131141", "114113", "114311", "411113", "411311", "113141",
+      "114131", "311141", "411131", "211412", "211214", "211232", "233111"
+  };
+
   static {
     // Code 39 pattern: 5 bars, 4 spaces. 'w' for wide, 'n' for narrow.
     // Total 9 elements, 3 of which are wide (2 bars, 1 space OR 1 bar, 2 spaces).
@@ -184,6 +198,9 @@ public class PdfBarcodeRenderer {
           break;
         case EAN_13_includingJANStandard:
           totalWidth = renderEan13(content, startX, startY, state, canvas);
+          break;
+        case Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode:
+          totalWidth = renderCode128(content, startX, startY, state, canvas);
           break;
         default:
           // TODO: Implement other barcode types
@@ -608,6 +625,66 @@ public class PdfBarcodeRenderer {
 
     canvas.restoreState();
     return curX - x;
+  }
+
+  private static float renderCode128(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    float narrowWidth = state.getModuleWidthInMils() * 1.44f;
+    if (narrowWidth <= 0) {
+      narrowWidth = 20.0f;
+    }
+
+    float height = state.getElementHeight();
+    if (height <= 0) {
+      height = 500.0f;
+    }
+
+    canvas.saveState();
+    float curX = x;
+    float curY = y;
+
+    // Start code for Subset B is 104.
+    int checkSum = 104;
+    renderWidthPattern(CODE128_PATTERNS[104], curX, curY, height, narrowWidth, canvas);
+    curX += 11 * narrowWidth;
+
+    int position = 1;
+    for (int i = 0; i < content.length(); i++) {
+      char c = content.charAt(i);
+      int value = c - 32;
+      if (value < 0 || value > 102) {
+        continue; // Unsupported character in Subset B
+      }
+      checkSum += value * position;
+      position++;
+      renderWidthPattern(CODE128_PATTERNS[value], curX, curY, height, narrowWidth, canvas);
+      curX += 11 * narrowWidth;
+    }
+
+    // Check digit
+    int checkDigit = checkSum % 103;
+    renderWidthPattern(CODE128_PATTERNS[checkDigit], curX, curY, height, narrowWidth, canvas);
+    curX += 11 * narrowWidth;
+
+    // Stop code (106) + final 2-unit bar
+    renderWidthPattern(CODE128_PATTERNS[106], curX, curY, height, narrowWidth, canvas);
+    curX += 11 * narrowWidth;
+    canvas.rectangle(curX, curY - height, 2 * narrowWidth, height).fill();
+    curX += 2 * narrowWidth;
+
+    canvas.restoreState();
+    return curX - x;
+  }
+
+  private static void renderWidthPattern(String widths, float x, float y, float height, float moduleWidth, PdfCanvas canvas) {
+    float curX = x;
+    for (int i = 0; i < widths.length(); i++) {
+      int w = widths.charAt(i) - '0';
+      boolean isBar = (i % 2 == 0);
+      if (isBar) {
+        canvas.rectangle(curX, y - height, w * moduleWidth, height).fill();
+      }
+      curX += w * moduleWidth;
+    }
   }
 
   private static void renderHRI(String content, int x, int y, float barcodeWidth, EnumSet<BarCodeFlag> flags, PdfBarcodeState state, PdfCanvas canvas) {

@@ -1093,6 +1093,34 @@ public class PdfHandlerStructureTest {
   }
 
   @Test
+  public void testCode128BarcodeRendering() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+    bdd.setStructuredFieldIntroducer(createSfi(SFTypeID.BDD_BarCodeDataDescriptor));
+    bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode);
+    handler.handle(bdd);
+
+    BBC_BeginBarCodeObject bbc = new BBC_BeginBarCodeObject();
+    bbc.setStructuredFieldIntroducer(createSfi(SFTypeID.BBC_BeginBarCodeObject));
+    handler.handle(bbc);
+
+    BDA_BarCodeData bda = new BDA_BarCodeData();
+    bda.setStructuredFieldIntroducer(createSfi(SFTypeID.BDA_BarCodeData));
+    bda.barCodeData = "ABC123abc".getBytes();
+    handler.handle(bda);
+
+    EBC_EndBarCodeObject ebc = new EBC_EndBarCodeObject();
+    ebc.setStructuredFieldIntroducer(createSfi(SFTypeID.EBC_EndBarCodeObject));
+    handler.handle(ebc);
+
+    assertEquals(5, handler.getFieldCount());
+  }
+
+  @Test
   public void testUpceBarcodeRendering() throws Exception {
     PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
     BPG_BeginPage bpg = new BPG_BeginPage();
