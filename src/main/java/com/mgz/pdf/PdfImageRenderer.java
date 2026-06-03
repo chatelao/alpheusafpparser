@@ -31,7 +31,10 @@ import com.mgz.afp.ioca.IPD_Segment.ImageData;
 import com.mgz.afp.ioca.IPD_Segment.ImageEncoding;
 import com.mgz.afp.ioca.IPD_Segment.IPD_CompressionAlgorithm;
 import java.io.ByteArrayOutputStream;
+import java.security.MessageDigest;
+import java.util.HexFormat;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Renders IOCA images to PDF.
@@ -44,8 +47,9 @@ public class PdfImageRenderer {
    *
    * @param state  the image state
    * @param canvas the PDF canvas
+   * @param imageCache the image cache for optimization
    */
-  public static void render(PdfImageState state, PdfCanvas canvas) {
+  public static void render(PdfImageState state, PdfCanvas canvas, Map<String, PdfImageXObject> imageCache) {
     if (state == null || canvas == null || state.getDescriptor() == null) {
       return;
     }
@@ -92,67 +96,93 @@ public class PdfImageRenderer {
         }
       }
 
-      if (compression == IPD_CompressionAlgorithm.NoCompression) {
-        int components = 1;
-        int bitsPerComponent = 1;
+      String cacheKey = generateCacheKey(data, compression, width, height);
+      PdfImageXObject imageXObject = (imageCache != null) ? imageCache.get(cacheKey) : null;
 
-        // Try to get structure from IOCA segments first
-        for (IPD_ImagePictureData ipd : state.getImageSegments()) {
-          if (ipd.getListOfSegments() != null) {
-            for (IPD_Segment segment : ipd.getListOfSegments()) {
-              if (segment instanceof IPD_Segment.IDEStructure ide) {
-                if (ide.getComponentSizes() != null && !ide.getComponentSizes().isEmpty()) {
-                  components = ide.getComponentSizes().size();
-                  bitsPerComponent = ide.getComponentSizes().get(0);
+      if (imageXObject == null) {
+        com.itextpdf.io.image.ImageData itextImageData = null;
+
+        if (compression == IPD_CompressionAlgorithm.NoCompression) {
+          int components = 1;
+          int bitsPerComponent = 1;
+
+          // Try to get structure from IOCA segments first
+          for (IPD_ImagePictureData ipd : state.getImageSegments()) {
+            if (ipd.getListOfSegments() != null) {
+              for (IPD_Segment segment : ipd.getListOfSegments()) {
+                if (segment instanceof IPD_Segment.IDEStructure ide) {
+                  if (ide.getComponentSizes() != null && !ide.getComponentSizes().isEmpty()) {
+                    components = ide.getComponentSizes().size();
+                    bitsPerComponent = ide.getComponentSizes().get(0);
+                  }
                 }
               }
             }
           }
-        }
 
-        // Fallback to descriptor's self-defining fields if not in image segments
-        if (components == 1 && bitsPerComponent == 1 && descriptor.getSelfDefiningFields() != null) {
-          for (IDD_SelfDefiningField sdf : descriptor.getSelfDefiningFields()) {
-            if (sdf instanceof IDD_SelfDefiningField.IDEStructure ide) {
-              if (ide.getComponentSizes() != null && ide.getComponentSizes().length > 0) {
-                components = ide.getComponentSizes().length;
-                bitsPerComponent = ide.getComponentSizes()[0];
+          // Fallback to descriptor's self-defining fields if not in image segments
+          if (components == 1 && bitsPerComponent == 1 && descriptor.getSelfDefiningFields() != null) {
+            for (IDD_SelfDefiningField sdf : descriptor.getSelfDefiningFields()) {
+              if (sdf instanceof IDD_SelfDefiningField.IDEStructure ide) {
+                if (ide.getComponentSizes() != null && ide.getComponentSizes().length > 0) {
+                  components = ide.getComponentSizes().length;
+                  bitsPerComponent = ide.getComponentSizes()[0];
+                }
               }
             }
           }
+
+          itextImageData = ImageDataFactory.create(
+              width, height, components, bitsPerComponent, data, null);
+        } else if (compression == IPD_CompressionAlgorithm.G3_ModifiedHuffman
+            || compression == IPD_CompressionAlgorithm.G3_ModifiedREAD
+            || compression == IPD_CompressionAlgorithm.G4_ModifiedModifiedREAD) {
+
+          int k = 0;
+          if (compression == IPD_CompressionAlgorithm.G4_ModifiedModifiedREAD) {
+            k = -1;
+          } else if (compression == IPD_CompressionAlgorithm.G3_ModifiedREAD) {
+            k = 1;
+          }
+
+          itextImageData = ImageDataFactory.createRawImage(data);
+          RawImageHelper.updateImageAttributes((com.itextpdf.io.image.RawImageData) itextImageData,
+              java.util.Map.of(
+                  "Width", width,
+                  "Height", height,
+                  "CCITT_K", k
+              ));
         }
 
-        com.itextpdf.io.image.ImageData itextImageData = ImageDataFactory.create(
-            width, height, components, bitsPerComponent, data, null);
-        renderImage(itextImageData, width, height, state, canvas);
-      } else if (compression == IPD_CompressionAlgorithm.G3_ModifiedHuffman
-          || compression == IPD_CompressionAlgorithm.G3_ModifiedREAD
-          || compression == IPD_CompressionAlgorithm.G4_ModifiedModifiedREAD) {
-
-        int k = 0;
-        if (compression == IPD_CompressionAlgorithm.G4_ModifiedModifiedREAD) {
-          k = -1;
-        } else if (compression == IPD_CompressionAlgorithm.G3_ModifiedREAD) {
-          k = 1;
+        if (itextImageData != null) {
+          imageXObject = new PdfImageXObject(itextImageData);
+          if (imageCache != null) {
+            imageCache.put(cacheKey, imageXObject);
+          }
         }
+      }
 
-        com.itextpdf.io.image.ImageData itextImageData = ImageDataFactory.createRawImage(data);
-        RawImageHelper.updateImageAttributes((com.itextpdf.io.image.RawImageData) itextImageData,
-            java.util.Map.of(
-                "Width", width,
-                "Height", height,
-                "CCITT_K", k
-            ));
-        renderImage(itextImageData, width, height, state, canvas);
+      if (imageXObject != null) {
+        renderImage(imageXObject, width, height, state, canvas);
       }
     } catch (Exception e) {
       System.err.println("Error rendering IOCA image: " + e.getMessage());
     }
   }
 
-  private static void renderImage(com.itextpdf.io.image.ImageData itextImageData, int width, int height, PdfImageState state, PdfCanvas canvas) {
-    PdfImageXObject imageXObject = new PdfImageXObject(itextImageData);
+  private static String generateCacheKey(byte[] data, IPD_CompressionAlgorithm compression, int width, int height) {
+    try {
+      MessageDigest digest = MessageDigest.getInstance("SHA-256");
+      digest.update(data);
+      digest.update((byte) compression.ordinal());
+      digest.update(java.nio.ByteBuffer.allocate(8).putInt(width).putInt(height).array());
+      return HexFormat.of().formatHex(digest.digest());
+    } catch (Exception e) {
+      return String.valueOf(java.util.Arrays.hashCode(data)) + compression + width + height;
+    }
+  }
 
+  private static void renderImage(PdfImageXObject imageXObject, int width, int height, PdfImageState state, PdfCanvas canvas) {
     // Placement at (xOrigin, yOrigin) with its own size in AFP units
     canvas.saveState();
     canvas.concatMatrix(width, 0, 0, height, state.getxOrigin(), state.getyOrigin() - height);

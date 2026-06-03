@@ -45,6 +45,7 @@ Optimize resource handling for high-performance variable data printing.
             - ✅ **Implement XObject-specific canvas and state management**: Manage independent coordinate systems and states within XObjects.
         - ⏳ **Implement Overlay conversion logic**: Map GOCA/IOCA content of Medium Overlays to `PdfFormXObject` streams.
         - ⏳ **Implement Page Segment conversion logic**: Map GOCA/IOCA content of Page Segments to `PdfFormXObject` streams.
+        - ✅ **Implement Resource Inclusion (IPO/IPS)**: Support inclusion of Overlays and Page Segments on pages.
         - ⏳ **Implement GOCA/PTOCA/IOCA/BCOCA content mapping to XObject**: Ensure all content drivers support writing to XObject streams.
         - ⏳ **Handle resource inheritance and local dictionaries**: Manage nested resource references within XObjects.
         - ⏳ **Implement Resource Environment Group (REG) mapping**: Ensure resources defined in REG are converted.
@@ -52,7 +53,7 @@ Optimize resource handling for high-performance variable data printing.
 - ⏳ **FOCA to PDF/X-4 Font Embedding**: Ensure all fonts are fully embedded and subsetted per PDF/X-4 requirements.
     - ⏳ **Font Registry**: Implement a global registry for `PdfFont` instances mapped by FOCA resource name. (✅ Basic `PdfFontRegistry` implemented in `PdfHandler`).
     - ⏳ **Subset Generation**: Enable iText font subsetting for PDF/X-4 compliance.
-- ⏳ **IOCA Image Optimizer**: Map repeated IOCA objects to a single Image XObject instance to reduce file size.
+- ✅ **IOCA Image Optimizer**: Map repeated IOCA objects to a single Image XObject instance to reduce file size.
 
 ## Phase 3: Content Conversion (Base Operators) ⏳
 Implement the drivers for converting AFP content architectures to PDF operators.

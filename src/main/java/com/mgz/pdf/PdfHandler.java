@@ -43,6 +43,7 @@ import com.mgz.afp.bcoca.BBC_BeginBarCodeObject;
 import com.mgz.afp.bcoca.EBC_EndBarCodeObject;
 import com.mgz.afp.bcoca.BDA_BarCodeData;
 import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor;
+import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
 import com.mgz.afp.ioca.IPD_ImagePictureData;
@@ -86,6 +87,8 @@ import com.mgz.afp.modca.EDT_EndDocument;
 import com.mgz.afp.modca.EIM_EndImageObject;
 import com.mgz.afp.modca.ENG_EndNamedPageGroup;
 import com.mgz.afp.modca.EPG_EndPage;
+import com.mgz.afp.modca.IPO_IncludePageOverlay;
+import com.mgz.afp.modca.IPS_IncludePageSegment;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format1;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
 import com.mgz.afp.modca.MDR_MapDataResource;
@@ -143,6 +146,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private final Deque<PdfDictionary> dpartStack = new ArrayDeque<>();
   private final Deque<PdfCanvas> canvasStack = new ArrayDeque<>();
   private final Map<String, PdfFormXObject> resourceCache = new HashMap<>();
+  private final Map<String, com.itextpdf.kernel.pdf.xobject.PdfImageXObject> imageCache = new HashMap<>();
   private final Set<String> mmoResources = new HashSet<>();
   private final Set<String> mpsResources = new HashSet<>();
   private final Map<Short, String> fontMap = new HashMap<>();
@@ -243,7 +247,7 @@ public class PdfHandler implements StructuredFieldHandler {
         } else if (begin instanceof BIM_BeginImageObject) {
           imageState.setInImageObject(false);
           if (currentCanvas != null) {
-            PdfImageRenderer.render(imageState, currentCanvas);
+            PdfImageRenderer.render(imageState, currentCanvas, imageCache);
           }
           imageState.reset();
         } else if (begin instanceof BBC_BeginBarCodeObject) {
@@ -413,9 +417,50 @@ public class PdfHandler implements StructuredFieldHandler {
       }
     } else if (sf instanceof OBD_ObjectAreaDescriptor obd) {
       // Currently sizes are mostly taken from image descriptor or BDD
+    } else if (sf instanceof IPO_IncludePageOverlay ipo) {
+      renderXObject(ipo.getOverlayName(), ipo.getxOrigin(), ipo.getyOrigin(), ipo.getxRotation());
+    } else if (sf instanceof IPS_IncludePageSegment ips) {
+      renderXObject(ips.getPageSegmentName(), ips.getxOrigin(), ips.getyOrigin(), null);
     }
 
     // TODO: Implement iText 9 based translation logic
+  }
+
+  private void renderXObject(String name, int x, int y, AFPOrientation rotation) {
+    if (currentCanvas == null || name == null) {
+      return;
+    }
+    PdfFormXObject xObject = resourceCache.get(name);
+    if (xObject != null) {
+      currentCanvas.saveState();
+      // IPO/IPS origins are in the coordinate system of the including page/overlay.
+      // Since we already applied the PGD-based transformation to currentCanvas,
+      // we can just translate to (x, y).
+      // However, PDF Y is bottom-up, and we want to position the top-left of the XObject at (x, y).
+      // The XObject itself was also created with a coordinate system flip.
+
+      float rotationDeg = 0;
+      if (rotation != null && rotation != AFPOrientation.AsDefined) {
+        rotationDeg = switch (rotation) {
+          case ori90 -> 90;
+          case ori180 -> 180;
+          case ori270 -> 270;
+          default -> 0;
+        };
+      }
+
+      if (rotationDeg != 0) {
+        double rad = Math.toRadians(rotationDeg);
+        float cos = (float) Math.cos(rad);
+        float sin = (float) Math.sin(rad);
+        currentCanvas.concatMatrix(cos, sin, -sin, cos, x, y);
+      } else {
+        currentCanvas.concatMatrix(1, 0, 0, 1, x, y);
+      }
+
+      currentCanvas.addXObject(xObject);
+      currentCanvas.restoreState();
+    }
   }
 
   private void handleDrawingOrder(GAD_DrawingOrder order) {
@@ -1091,5 +1136,14 @@ public class PdfHandler implements StructuredFieldHandler {
    */
   public PdfImageState getImageState() {
     return imageState;
+  }
+
+  /**
+   * Returns the image cache.
+   *
+   * @return the image cache
+   */
+  public Map<String, com.itextpdf.kernel.pdf.xobject.PdfImageXObject> getImageCache() {
+    return imageCache;
   }
 }
