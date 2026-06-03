@@ -19,16 +19,22 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.xml;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * Utility for pre-allocated XML indentation strings to avoid redundant allocations.
  * It provides a cache of common indentation levels (newline + spaces).
  */
 public class XmlIndenter {
   private static final String[] INDENTS;
+  private static final byte[][] INDENT_BYTES;
+  private static final byte[][] PURE_INDENT_BYTES;
   private static final int MAX_LEVEL = 32;
 
   static {
     INDENTS = new String[MAX_LEVEL];
+    INDENT_BYTES = new byte[MAX_LEVEL][];
+    PURE_INDENT_BYTES = new byte[MAX_LEVEL][];
     for (int i = 0; i < MAX_LEVEL; i++) {
       StringBuilder sb = new StringBuilder();
       sb.append("\n");
@@ -36,6 +42,13 @@ public class XmlIndenter {
         sb.append("  ");
       }
       INDENTS[i] = sb.toString();
+      INDENT_BYTES[i] = INDENTS[i].getBytes(StandardCharsets.UTF_8);
+
+      StringBuilder sbPure = new StringBuilder();
+      for (int j = 0; j < i; j++) {
+        sbPure.append("  ");
+      }
+      PURE_INDENT_BYTES[i] = sbPure.toString().getBytes(StandardCharsets.UTF_8);
     }
   }
 
@@ -79,5 +92,28 @@ public class XmlIndenter {
    */
   public static void writeIndent(org.codehaus.stax2.XMLStreamWriter2 xsw, int level) throws Exception {
     xsw.writeRaw(getIndent(level));
+  }
+
+  /**
+   * Writes the indentation (newline + spaces) for the given level to the provided writer using raw bytes.
+   *
+   * @param xsw the AFP XML stream writer
+   * @param level the indentation level
+   * @throws Exception if writing fails
+   */
+  public static void writeIndent(AfpXmlStreamWriter xsw, int level) throws Exception {
+    xsw.writeRaw(getIndent(level));
+  }
+
+  /**
+   * Writes pure indentation (spaces only) for the given level to the provided writer using raw bytes.
+   *
+   * @param xsw the AFP XML stream writer
+   * @param level the indentation level
+   * @throws Exception if writing fails
+   */
+  public static void writePureIndent(AfpXmlStreamWriter xsw, int level) throws Exception {
+    int safeLevel = Math.max(0, Math.min(level, MAX_LEVEL - 1));
+    xsw.writeRaw(new String(PURE_INDENT_BYTES[safeLevel], StandardCharsets.UTF_8));
   }
 }
