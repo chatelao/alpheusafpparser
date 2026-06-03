@@ -37,6 +37,7 @@ public class MnemonicPerformanceMonitor {
 
   private static final Map<String, MnemonicStats> globalStatsMap = new ConcurrentHashMap<>();
   private static final Map<String, LongAdder> globalCharsetMap = new ConcurrentHashMap<>();
+  private static final Map<String, GenericStats> globalGenericMap = new ConcurrentHashMap<>();
 
   private static final Map<String, String> mnemonicCache = new ConcurrentHashMap<>();
 
@@ -46,6 +47,9 @@ public class MnemonicPerformanceMonitor {
       ThreadLocal.withInitial(HashMap::new);
 
   private static final ThreadLocal<Map<String, Long>> localCharsetMap =
+      ThreadLocal.withInitial(HashMap::new);
+
+  private static final ThreadLocal<Map<String, GenericLocalStats>> localGenericMap =
       ThreadLocal.withInitial(HashMap::new);
 
   private static final ThreadLocal<Deque<Measurement>> activeMeasurements =
@@ -67,7 +71,7 @@ public class MnemonicPerformanceMonitor {
     if (mnemonic == null) {
       return;
     }
-    activeMeasurements.get().push(new Measurement(mnemonic, System.nanoTime(), true));
+    activeMeasurements.get().push(new Measurement(mnemonic, System.nanoTime(), true, false));
   }
 
   public static void endParse() {
@@ -80,7 +84,7 @@ public class MnemonicPerformanceMonitor {
       return;
     }
     Measurement m = stack.peek();
-    if (!m.isParse) {
+    if (!m.isParse || m.isGeneric) {
       return;
     }
     stack.pop();
@@ -98,14 +102,14 @@ public class MnemonicPerformanceMonitor {
     if (mnemonic == null) {
       return;
     }
-    activeMeasurements.get().push(new Measurement(mnemonic, System.nanoTime(), false));
+    activeMeasurements.get().push(new Measurement(mnemonic, System.nanoTime(), false, false));
   }
 
   public static void startWriteWithMnemonic(String mnemonic) {
     if (!enabled || mnemonic == null) {
       return;
     }
-    activeMeasurements.get().push(new Measurement(mnemonic, System.nanoTime(), false));
+    activeMeasurements.get().push(new Measurement(mnemonic, System.nanoTime(), false, false));
   }
 
   public static void endWrite() {
@@ -118,13 +122,49 @@ public class MnemonicPerformanceMonitor {
       return;
     }
     Measurement m = stack.peek();
-    if (m.isParse) {
+    if (m.isParse || m.isGeneric) {
       return;
     }
     stack.pop();
     long duration = endTime - m.startTime;
     LocalStats stats = localStatsMap.get().computeIfAbsent(m.mnemonic, k -> new LocalStats());
     stats.writeTime += duration;
+  }
+
+  public static void startGeneric(String name) {
+    if (!enabled || name == null) {
+      return;
+    }
+    activeMeasurements.get().push(new Measurement(name, System.nanoTime(), false, true));
+  }
+
+  public static void endGeneric() {
+    if (!enabled) {
+      return;
+    }
+    long endTime = System.nanoTime();
+    Deque<Measurement> stack = activeMeasurements.get();
+    if (stack.isEmpty()) {
+      return;
+    }
+    Measurement m = stack.peek();
+    if (!m.isGeneric) {
+      return;
+    }
+    stack.pop();
+    long duration = endTime - m.startTime;
+    GenericLocalStats stats = localGenericMap.get().computeIfAbsent(m.mnemonic, k -> new GenericLocalStats());
+    stats.totalTime += duration;
+    stats.count++;
+  }
+
+  public static void recordGeneric(String name, long durationNs) {
+    if (!enabled || name == null) {
+      return;
+    }
+    GenericLocalStats stats = localGenericMap.get().computeIfAbsent(name, k -> new GenericLocalStats());
+    stats.totalTime += durationNs;
+    stats.count++;
   }
 
   public static void recordCharset(Charset charset) {
@@ -235,6 +275,7 @@ public class MnemonicPerformanceMonitor {
   public static void clear() {
     globalStatsMap.clear();
     globalCharsetMap.clear();
+    globalGenericMap.clear();
   }
 
   public static long getWriteTime(String name) {
@@ -269,15 +310,40 @@ public class MnemonicPerformanceMonitor {
       });
       localCharsets.clear();
     }
+
+    Map<String, GenericLocalStats> localGeneric = localGenericMap.get();
+    if (!localGeneric.isEmpty()) {
+      localGeneric.forEach((name, stats) -> {
+        GenericStats global = globalGenericMap.computeIfAbsent(name, k -> new GenericStats());
+        global.totalTime.add(stats.totalTime);
+        global.count.add(stats.count);
+      });
+      localGeneric.clear();
+    }
   }
 
   public static void printSummary() {
     merge(); // Ensure all threads that called merge are included, but this only merges CURRENT thread.
     // In parallel mode, each thread should call merge() at the end of its task.
 
-    if (globalStatsMap.isEmpty() && globalCharsetMap.isEmpty()) {
+    if (globalStatsMap.isEmpty() && globalCharsetMap.isEmpty() && globalGenericMap.isEmpty()) {
       System.out.println("No measurements collected.");
       return;
+    }
+
+    if (!globalGenericMap.isEmpty()) {
+      System.out.println("\n### Generic Phases Performance");
+      System.out.println();
+      System.out.println("| Phase | Count | Total (ms) | Avg (ms) |");
+      System.out.println("| :--- | ---: | ---: | ---: |");
+
+      new TreeMap<>(globalGenericMap).forEach((name, stats) -> {
+        long totalMs = stats.totalTime.sum() / 1_000_000;
+        long count = stats.count.sum();
+        double avgMs = count > 0 ? (double) totalMs / count : 0;
+        System.out.println(String.format("| %-25s | %8d | %15d | %8.2f |",
+            name, count, totalMs, avgMs));
+      });
     }
 
     if (!globalStatsMap.isEmpty()) {
@@ -320,15 +386,27 @@ public class MnemonicPerformanceMonitor {
     long count = 0;
   }
 
+  private static class GenericStats {
+    final LongAdder totalTime = new LongAdder();
+    final LongAdder count = new LongAdder();
+  }
+
+  private static class GenericLocalStats {
+    long totalTime = 0;
+    long count = 0;
+  }
+
   private static class Measurement {
     final String mnemonic;
     final long startTime;
     final boolean isParse;
+    final boolean isGeneric;
 
-    Measurement(String mnemonic, long startTime, boolean isParse) {
+    Measurement(String mnemonic, long startTime, boolean isParse, boolean isGeneric) {
       this.mnemonic = mnemonic;
       this.startTime = startTime;
       this.isParse = isParse;
+      this.isGeneric = isGeneric;
     }
   }
 }
