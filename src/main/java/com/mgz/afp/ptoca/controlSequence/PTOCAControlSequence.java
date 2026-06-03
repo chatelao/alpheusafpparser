@@ -85,11 +85,15 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
   @AFPField(isHidden = true)
   ControlSequenceIntroducer csi;
 
+  @JsonIgnore
+  protected Charset encoding;
+
   /**
    * Resets the control sequence to its initial state for reuse.
    */
   public void reset() {
     csi = null;
+    encoding = null;
   }
 
   /**
@@ -1412,6 +1416,10 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       isUseEBCDICData = false;
     }
 
+    public Charset getEncoding() {
+      return encoding;
+    }
+
     @JacksonXmlProperty(localName = "text")
     public String getText() {
       if (transparentData == null || transparentData.isEmpty()) {
@@ -1422,15 +1430,12 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      encoding = config.getAfpCharSet();
       int actualLength = StructuredField.getActualLength(sfData, offset, length);
       if (actualLength > 0) {
         transparentData = UtilCharacterEncoding.decodeEbcdic(sfData, offset, length, config);
-        if (isUseEBCDICData) {
-          transparentDataEBCDIC = new byte[actualLength];
-          System.arraycopy(sfData, offset, transparentDataEBCDIC, 0, actualLength);
-        } else {
-          transparentDataEBCDIC = null;
-        }
+        transparentDataEBCDIC = new byte[actualLength];
+        System.arraycopy(sfData, offset, transparentDataEBCDIC, 0, actualLength);
       } else {
         transparentData = null;
         transparentDataEBCDIC = null;
@@ -1885,6 +1890,10 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       text = null;
     }
 
+    public Charset getEncoding() {
+      return encoding;
+    }
+
     @JacksonXmlProperty(localName = "text")
     public String getText() {
       return text;
@@ -1892,6 +1901,7 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      encoding = config.getAfpCharSet();
       int actualLength = StructuredField.getActualLength(sfData, offset, length);
       if (actualLength > 0) {
         text = UtilCharacterEncoding.decodeEbcdic(sfData, offset, length, config);
