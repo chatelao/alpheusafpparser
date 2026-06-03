@@ -63,6 +63,8 @@ public class IDD_ImageDataDescriptor extends StructuredField {
           sdf = new IDD_SelfDefiningField.SetExtendedBilevelImageColor();
         } else if (fieldType == SelfDefiningFieldType.IOCAFunctionSetIdentification) {
           sdf = new IDD_SelfDefiningField.IOCAFunctionSetIdentification();
+        } else if (fieldType == SelfDefiningFieldType.IDEStructure) {
+          sdf = new IDD_SelfDefiningField.IDEStructure();
         } else {
           sdf = new IDD_SelfDefiningField.UnknownSelfDefiningField();
         }

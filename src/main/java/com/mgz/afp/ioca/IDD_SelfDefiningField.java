@@ -55,7 +55,8 @@ public abstract class IDD_SelfDefiningField implements IAFPDecodeableWriteable {
     Unknown(0x00),
     SetBilevelImageColor(0xF6),
     SetExtendedBilevelImageColor(0xF4),
-    IOCAFunctionSetIdentification(0xF7),;
+    IOCAFunctionSetIdentification(0xF7),
+    IDEStructure(0x9B);
     int fieldType;
 
     SelfDefiningFieldType(int fieldTypeByte) {
@@ -295,6 +296,62 @@ public abstract class IDD_SelfDefiningField implements IAFPDecodeableWriteable {
       public int toByte() {
         return code;
       }
+    }
+  }
+
+  public static class IDEStructure extends IDD_SelfDefiningField {
+    private byte flags;
+    private AFPColorSpace colorSpace;
+    private byte[] componentSizes;
+
+    @Override
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+      fieldType = SelfDefiningFieldType.valueOf(UtilBinaryDecoding.parseShort(sfData, offset, 1));
+      lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+      flags = sfData[offset + 2];
+      colorSpace = AFPColorSpace.valueOf(sfData[offset + 3]);
+      // Skip 3 bytes reserved
+      int numComponents = lengthOfFollowingData - 5;
+      if (numComponents > 0) {
+        componentSizes = new byte[numComponents];
+        System.arraycopy(sfData, offset + 7, componentSizes, 0, numComponents);
+      }
+    }
+
+    @Override
+    public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      os.write(fieldType.toByte());
+      os.write(lengthOfFollowingData);
+      os.write(flags);
+      os.write(colorSpace.toByte());
+      os.write(new byte[]{0, 0, 0});
+      if (componentSizes != null) {
+        os.write(componentSizes);
+      }
+    }
+
+    public byte[] getComponentSizes() {
+      return componentSizes;
+    }
+
+    public void setComponentSizes(byte[] componentSizes) {
+      this.componentSizes = componentSizes;
+    }
+
+    public byte getFlags() {
+      return flags;
+    }
+
+    public void setFlags(byte flags) {
+      this.flags = flags;
+    }
+
+    public AFPColorSpace getColorSpace() {
+      return colorSpace;
+    }
+
+    public void setColorSpace(AFPColorSpace colorSpace) {
+      this.colorSpace = colorSpace;
     }
   }
 

@@ -1061,6 +1061,65 @@ public class PdfHandlerStructureTest {
     assertTrue(!handler.getBarcodeState().isInBarcodeObject());
   }
 
+  @Test
+  public void testEanBarcodeRendering() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+    bdd.setStructuredFieldIntroducer(createSfi(SFTypeID.BDD_BarCodeDataDescriptor));
+    bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.EAN_13_includingJANStandard);
+    handler.handle(bdd);
+
+    BBC_BeginBarCodeObject bbc = new BBC_BeginBarCodeObject();
+    bbc.setStructuredFieldIntroducer(createSfi(SFTypeID.BBC_BeginBarCodeObject));
+    handler.handle(bbc);
+
+    BDA_BarCodeData bda = new BDA_BarCodeData();
+    bda.setStructuredFieldIntroducer(createSfi(SFTypeID.BDA_BarCodeData));
+    // BDA text is typically set during decodeAFP, let's use a manual hack for testing or simulate decode
+    bda.barCodeData = "401234567890".getBytes();
+    handler.handle(bda);
+
+    EBC_EndBarCodeObject ebc = new EBC_EndBarCodeObject();
+    ebc.setStructuredFieldIntroducer(createSfi(SFTypeID.EBC_EndBarCodeObject));
+    handler.handle(ebc);
+
+    assertEquals(5, handler.getFieldCount());
+  }
+
+  @Test
+  public void testFs11ImageRendering() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    BIM_BeginImageObject bim = new BIM_BeginImageObject();
+    bim.setStructuredFieldIntroducer(createSfi(SFTypeID.BIM_BeginImageObject));
+    handler.handle(bim);
+
+    IDD_ImageDataDescriptor idd = new IDD_ImageDataDescriptor();
+    idd.setStructuredFieldIntroducer(createSfi(SFTypeID.IDD_ImageDataDescriptor));
+    idd.setWidthOfImageInImagePoints((short) 100);
+    idd.setHeightOfImageInImagePoints((short) 100);
+
+    com.mgz.afp.ioca.IDD_SelfDefiningField.IDEStructure ide = new com.mgz.afp.ioca.IDD_SelfDefiningField.IDEStructure();
+    ide.setComponentSizes(new byte[] { 8, 8, 8 }); // RGB
+    ide.setColorSpace(AFPColorSpace.RGB);
+
+    idd.addSelfDefiningFields(ide);
+    handler.handle(idd);
+
+    EIM_EndImageObject eim = new EIM_EndImageObject();
+    eim.setStructuredFieldIntroducer(createSfi(SFTypeID.EIM_EndImageObject));
+    handler.handle(eim);
+
+    assertEquals(4, handler.getFieldCount());
+  }
+
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {
     StructuredFieldIntroducer sfi = new StructuredFieldIntroducer();
     sfi.setSFTypeID(typeID);

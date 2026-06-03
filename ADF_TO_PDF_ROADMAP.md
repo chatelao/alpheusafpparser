@@ -113,8 +113,9 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Code 39**: Implement rendering for Code 39 (3 of 9) barcodes.
         - ✅ **Interleaved 2 of 5**: Implement rendering for Interleaved 2 of 5 (ITF) barcodes.
         - ✅ **UPC-A**: Implement rendering for UPC-A barcodes.
+        - ✅ **EAN-8 / EAN-13**: Implement rendering for EAN-8 and EAN-13 barcodes.
         - ⏳ **Code 128**: Implement rendering for Code 128 barcodes.
-        - ⏳ **UPC-E / EAN**: Implement rendering for UPC-E, EAN-8, and EAN-13 barcodes.
+        - ⏳ **UPC-E**: Implement rendering for UPC-E barcodes.
     - ⏳ **2D Barcode Support**: Implement rendering for 2D barcodes (Data Matrix, QR Code, PDF417).
     - ⏳ **Postal Barcode Support**: Implement rendering for postal codes (POSTNET, Intelligent Mail, Japan Postal).
     - ✅ **HRI Rendering**: Implement Human Readable Interpretation (HRI) text placement and font mapping.
@@ -122,7 +123,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ✅ **Implement IOCA Segment Tracking**: Identify and group IOCA segments within the AFP stream.
     - ⏳ **Implement IOCA Data Decoding**:
         - ✅ **FS10 Support**: Support FS10 (Bilevel) image data (uncompressed).
-        - ⏳ **FS11 Support**: Support FS11 (Grayscale/Color) image data.
+        - ✅ **FS11 Support**: Support FS11 (Grayscale/Color) image data (uncompressed).
         - ⏳ **FS40 Support**: Support FS40 (Tiled) image data.
         - ⏳ **G3/G4 Decoding**: Implement CCITT Group 3/4 decompression.
         - ⏳ **LZW Decoding**: Implement LZW decompression.

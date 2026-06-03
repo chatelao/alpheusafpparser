@@ -56,6 +56,16 @@ public class PdfBarcodeRenderer {
       "1001110", "1010000", "1000100", "1001000", "1110100"
   };
 
+  private static final String[] UPCA_G_PATTERNS = {
+      "0100111", "0110011", "0011011", "0100001", "0011101",
+      "0111001", "0000101", "0010001", "0001001", "0010111"
+  };
+
+  private static final String[] EAN13_PARITY = {
+      "LLLLLL", "LLGLGG", "LLGGLG", "LLGGGL", "LGLLGG",
+      "LGGLLG", "LGGGLL", "LGLGLG", "LGLGGL", "LGGLGL"
+  };
+
   static {
     // Code 39 pattern: 5 bars, 4 spaces. 'w' for wide, 'n' for narrow.
     // Total 9 elements, 3 of which are wide (2 bars, 1 space OR 1 bar, 2 spaces).
@@ -155,6 +165,12 @@ public class PdfBarcodeRenderer {
           break;
         case UPC_CGPC_VersionA:
           totalWidth = renderUpcA(content, startX, startY, state, canvas);
+          break;
+        case EAN_8_includingJANShort:
+          totalWidth = renderEan8(content, startX, startY, state, canvas);
+          break;
+        case EAN_13_includingJANStandard:
+          totalWidth = renderEan13(content, startX, startY, state, canvas);
           break;
         default:
           // TODO: Implement other barcode types
@@ -294,6 +310,131 @@ public class PdfBarcodeRenderer {
         canvas.rectangle(x + i * moduleWidth, y - height, moduleWidth, height).fill();
       }
     }
+  }
+
+  private static float renderEan8(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    String digits = content.replaceAll("[^0-9]", "");
+    if (digits.length() < 7) {
+      return 0;
+    }
+    if (digits.length() > 8) {
+      digits = digits.substring(0, 8);
+    } else if (digits.length() == 7) {
+      digits += calculateEanCheckDigit(digits);
+    }
+
+    float narrowWidth = state.getModuleWidthInMils() * 1.44f;
+    if (narrowWidth <= 0) {
+      narrowWidth = 20.0f;
+    }
+
+    float height = state.getElementHeight();
+    if (height <= 0) {
+      height = 500.0f;
+    }
+
+    canvas.saveState();
+    float curX = x;
+    float curY = y;
+
+    // Start pattern: 101
+    renderBitPattern("101", curX, curY, height, narrowWidth, canvas);
+    curX += 3 * narrowWidth;
+
+    // Left 4 digits (L-patterns)
+    for (int i = 0; i < 4; i++) {
+      String pattern = UPCA_L_PATTERNS[digits.charAt(i) - '0'];
+      renderBitPattern(pattern, curX, curY, height, narrowWidth, canvas);
+      curX += 7 * narrowWidth;
+    }
+
+    // Center guard: 01010
+    renderBitPattern("01010", curX, curY, height, narrowWidth, canvas);
+    curX += 5 * narrowWidth;
+
+    // Right 4 digits (R-patterns)
+    for (int i = 4; i < 8; i++) {
+      String pattern = UPCA_R_PATTERNS[digits.charAt(i) - '0'];
+      renderBitPattern(pattern, curX, curY, height, narrowWidth, canvas);
+      curX += 7 * narrowWidth;
+    }
+
+    // Stop pattern: 101
+    renderBitPattern("101", curX, curY, height, narrowWidth, canvas);
+    curX += 3 * narrowWidth;
+
+    canvas.restoreState();
+    return curX - x;
+  }
+
+  private static float renderEan13(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    String digits = content.replaceAll("[^0-9]", "");
+    if (digits.length() < 12) {
+      return 0;
+    }
+    if (digits.length() > 13) {
+      digits = digits.substring(0, 13);
+    } else if (digits.length() == 12) {
+      digits += calculateEanCheckDigit(digits);
+    }
+
+    float narrowWidth = state.getModuleWidthInMils() * 1.44f;
+    if (narrowWidth <= 0) {
+      narrowWidth = 20.0f;
+    }
+
+    float height = state.getElementHeight();
+    if (height <= 0) {
+      height = 500.0f;
+    }
+
+    canvas.saveState();
+    float curX = x;
+    float curY = y;
+
+    // Start pattern: 101
+    renderBitPattern("101", curX, curY, height, narrowWidth, canvas);
+    curX += 3 * narrowWidth;
+
+    // The first digit determines the parity of the next 6 digits
+    int firstDigit = digits.charAt(0) - '0';
+    String parity = EAN13_PARITY[firstDigit];
+
+    // Left 6 digits
+    for (int i = 0; i < 6; i++) {
+      char p = parity.charAt(i);
+      String pattern = (p == 'L') ? UPCA_L_PATTERNS[digits.charAt(i + 1) - '0'] : UPCA_G_PATTERNS[digits.charAt(i + 1) - '0'];
+      renderBitPattern(pattern, curX, curY, height, narrowWidth, canvas);
+      curX += 7 * narrowWidth;
+    }
+
+    // Center guard: 01010
+    renderBitPattern("01010", curX, curY, height, narrowWidth, canvas);
+    curX += 5 * narrowWidth;
+
+    // Right 6 digits (always R-patterns)
+    for (int i = 7; i < 13; i++) {
+      String pattern = UPCA_R_PATTERNS[digits.charAt(i) - '0'];
+      renderBitPattern(pattern, curX, curY, height, narrowWidth, canvas);
+      curX += 7 * narrowWidth;
+    }
+
+    // Stop pattern: 101
+    renderBitPattern("101", curX, curY, height, narrowWidth, canvas);
+    curX += 3 * narrowWidth;
+
+    canvas.restoreState();
+    return curX - x;
+  }
+
+  private static int calculateEanCheckDigit(String digits) {
+    int sum = 0;
+    int len = digits.length();
+    for (int i = 0; i < len; i++) {
+      int d = digits.charAt(len - 1 - i) - '0';
+      sum += (i % 2 == 0) ? d * 3 : d;
+    }
+    return (10 - (sum % 10)) % 10;
   }
 
   private static float renderInterleaved2of5(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
