@@ -1248,6 +1248,20 @@ public class PdfHandlerStructureTest {
     assertEquals(4, handler.getFieldCount());
   }
 
+  @Test
+  public void testAutoPageCreation() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    PTX_PresentationTextData ptx = new PTX_PresentationTextData();
+    ptx.setStructuredFieldIntroducer(createSfi(SFTypeID.PTX_PresentationTextData));
+
+    // Handle data without preceding BPG
+    handler.handle(ptx);
+
+    assertEquals(1, handler.getPageCount());
+    assertEquals(1, handler.getFieldCount());
+  }
+
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {
     StructuredFieldIntroducer sfi = new StructuredFieldIntroducer();
     sfi.setSFTypeID(typeID);

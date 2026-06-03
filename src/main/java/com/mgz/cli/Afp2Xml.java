@@ -179,6 +179,12 @@ public class Afp2Xml {
       return 1;
     }
 
+    if ("pdf".equals(format) && parallel) {
+      parallel = false;
+      System.err.println("Warning: Parallel processing is currently unsupported for PDF output. "
+          + "Falling back to sequential processing.");
+    }
+
     if (measure) {
       MnemonicPerformanceMonitor.setEnabled(true);
     }
