@@ -105,21 +105,19 @@ public class AFPScanner {
         }
 
         SFTypeID foundType = SFTypeID.parse(buffer, pos + 3);
-        if (foundType != SFTypeID.Undefined) {
-          if (foundType == typeID) {
-            offsets.add((long) pos);
-          }
+        if (foundType == typeID) {
+          offsets.add((long) pos);
+        }
 
-          if (synced) {
+        if (synced) {
+          pos += sfLength + 1;
+          continue;
+        } else {
+          // Try to sync: check if there's a 0x5A at the expected next record start
+          if (pos + sfLength + 1 < actualLimit && (buffer.get(pos + sfLength + 1) & 0xFF) == 0x5A) {
+            synced = true;
             pos += sfLength + 1;
             continue;
-          } else {
-            // Try to sync: check if there's a 0x5A at the expected next record start
-            if (pos + sfLength + 1 < actualLimit && (buffer.get(pos + sfLength + 1) & 0xFF) == 0x5A) {
-              synced = true;
-              pos += sfLength + 1;
-              continue;
-            }
           }
         }
       }
@@ -179,25 +177,23 @@ public class AFPScanner {
             }
 
             SFTypeID foundType = SFTypeID.parse(chunk, chunkPos + 3);
-            if (foundType != SFTypeID.Undefined) {
-              if (foundType == typeID) {
-                offsets.add(currentFilePos + chunkPos);
-              }
+            if (foundType == typeID) {
+              offsets.add(currentFilePos + chunkPos);
+            }
 
-              int skipBytes = sfLength + 1;
-              int availableInChunk = bytesRead - chunkPos;
+            int skipBytes = sfLength + 1;
+            int availableInChunk = bytesRead - chunkPos;
 
-              if (synced || (skipBytes < availableInChunk && (chunk.get(chunkPos + skipBytes) & 0xFF) == 0x5A)) {
-                synced = true;
-                if (skipBytes <= availableInChunk) {
-                  chunkPos += skipBytes;
-                } else {
-                  remainingSkip = skipBytes - availableInChunk;
-                  chunkPos = bytesRead;
-                  synced = false; // Need to verify at start of next chunk
-                }
-                continue;
+            if (synced || (skipBytes < availableInChunk && (chunk.get(chunkPos + skipBytes) & 0xFF) == 0x5A)) {
+              synced = true;
+              if (skipBytes <= availableInChunk) {
+                chunkPos += skipBytes;
+              } else {
+                remainingSkip = skipBytes - availableInChunk;
+                chunkPos = bytesRead;
+                synced = false; // Need to verify at start of next chunk
               }
+              continue;
             }
           }
           chunkPos++;
@@ -335,25 +331,23 @@ public class AFPScanner {
               continue;
             }
             SFTypeID foundType = SFTypeID.parse(chunk, chunkPos + 3);
-            if (foundType != SFTypeID.Undefined) {
-              if (foundType == typeID) {
-                offsets.add(currentFilePos + chunkPos);
-              }
+            if (foundType == typeID) {
+              offsets.add(currentFilePos + chunkPos);
+            }
 
-              int skipBytes = sfLength + 1;
-              int availableInChunk = bytesRead - chunkPos;
+            int skipBytes = sfLength + 1;
+            int availableInChunk = bytesRead - chunkPos;
 
-              if (synced || (skipBytes < availableInChunk && (chunk.get(chunkPos + skipBytes) & 0xFF) == 0x5A)) {
-                synced = true;
-                if (skipBytes <= availableInChunk) {
-                  chunkPos += skipBytes;
-                } else {
-                  remainingSkip = skipBytes - availableInChunk;
-                  chunkPos = bytesRead;
-                  synced = false; // Need to verify at start of next chunk
-                }
-                continue;
+            if (synced || (skipBytes < availableInChunk && (chunk.get(chunkPos + skipBytes) & 0xFF) == 0x5A)) {
+              synced = true;
+              if (skipBytes <= availableInChunk) {
+                chunkPos += skipBytes;
+              } else {
+                remainingSkip = skipBytes - availableInChunk;
+                chunkPos = bytesRead;
+                synced = false; // Need to verify at start of next chunk
               }
+              continue;
             }
           }
           chunkPos++;
