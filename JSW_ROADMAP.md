@@ -36,9 +36,9 @@ Fine-tune the Woodstox backend for maximum throughput and efficient memory usage
 - ✅ **Forced Woodstox Implementation**: Guarantee the use of Woodstox by explicitly passing `WstxOutputFactory` to the `XmlFactory` to avoid slower JDK default fallbacks.
     - **Reliability**: High.
     - **Collapse Condition**: Collapses if the Woodstox core dependency is missing from the classpath.
-- 🚧 **Integrated Sanitization**: Move XML 1.0 sanitization directly into the Woodstox stream processing layer.
-    - ⏳ **Sanitizing Escaping Writer**: Implement `EscapingWriterFactory` and a corresponding `Writer` that performs single-pass sanitization.
-    - ⏳ **Integration & Bypass**: Register the factory in `JacksonXmlMapperProvider` and update `AfpJacksonXmlWriter` to bypass the `SanitizingXMLStreamWriter` decorator when Woodstox is active.
+- ✅ **Integrated Sanitization & Direct Encoding**: Moved XML 1.0 sanitization and EBCDIC-to-UTF8 encoding into a specialized stream layer.
+    - ✅ **EbcdicToUtf8XmlEncoder**: Implemented a single-pass encoder with lookup tables for CP500, CP273, and CP1141 that performs conversion, escaping, and sanitization.
+    - ✅ **AfpXmlStreamWriter**: Implemented a specialized writer that writes directly to the underlying Woodstox output stream, bypassing intermediate allocations.
 - ✅ **Property Tuning**:
     - ✅ **Disable Namespace Repairing**: Evaluation complete; `IS_REPAIRING_NAMESPACES` set to `false` to save CPU cycles.
         - **Reliability**: Medium.
