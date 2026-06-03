@@ -42,7 +42,7 @@ public class PdfGraphicsStateTest {
   @Test
   public void testDefaultValues() {
     assertEquals(AFPColorValue.DeviceDefault_0x00, graphicsState.getColor());
-    assertEquals(0, graphicsState.getLineWidth());
+    assertEquals(0.0f, graphicsState.getLineWidth());
     assertEquals(0, graphicsState.getLineType());
     assertEquals(LineEnd.Default, graphicsState.getLineEnd());
     assertEquals(LineJoin.Default, graphicsState.getLineJoin());
@@ -55,7 +55,7 @@ public class PdfGraphicsStateTest {
   @Test
   public void testSettersAndGetters() {
     graphicsState.setColor(AFPColorValue.Blue_0x01);
-    graphicsState.setLineWidth((short) 5);
+    graphicsState.setLineWidth(5.5f);
     graphicsState.setLineType((short) 2);
     graphicsState.setLineEnd(LineEnd.Round);
     graphicsState.setLineJoin(LineJoin.Bevel);
@@ -65,7 +65,7 @@ public class PdfGraphicsStateTest {
     graphicsState.setCurrentY(200);
 
     assertEquals(AFPColorValue.Blue_0x01, graphicsState.getColor());
-    assertEquals(5, graphicsState.getLineWidth());
+    assertEquals(5.5f, graphicsState.getLineWidth());
     assertEquals(2, graphicsState.getLineType());
     assertEquals(LineEnd.Round, graphicsState.getLineEnd());
     assertEquals(LineJoin.Bevel, graphicsState.getLineJoin());
@@ -78,7 +78,7 @@ public class PdfGraphicsStateTest {
   @Test
   public void testReset() {
     graphicsState.setColor(AFPColorValue.Red_0x02);
-    graphicsState.setLineWidth((short) 10);
+    graphicsState.setLineWidth(10.25f);
     graphicsState.setMixMode((short) 2);
     graphicsState.setBackgroundMixMode((short) 4);
     graphicsState.setCurrentX(500);
@@ -86,7 +86,7 @@ public class PdfGraphicsStateTest {
     graphicsState.reset();
 
     assertEquals(AFPColorValue.DeviceDefault_0x00, graphicsState.getColor());
-    assertEquals(0, graphicsState.getLineWidth());
+    assertEquals(0.0f, graphicsState.getLineWidth());
     assertEquals(0, graphicsState.getMixMode());
     assertEquals(0, graphicsState.getBackgroundMixMode());
     assertEquals(0, graphicsState.getCurrentX());

@@ -56,6 +56,10 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GSPS_SetPatternSet;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPT_SetPatternSymbol;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLT_SetLineType;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLW_SetLineWidth;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSFLW_SetFractionLineWidth;
+import com.mgz.afp.goca.GAD_DrawingOrder.GBSEG_BeginSegment;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCCBEZ_CubicBezierCurveAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCBEZ_CubicBezierCurveAtGivenPosition;
 import com.mgz.afp.goca.GAD_GraphicsData;
 import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
 import com.mgz.afp.ioca.IPD_ImagePictureData;
@@ -762,6 +766,95 @@ public class PdfHandlerStructureTest {
     // End point: (300 + 50*cos(270), 300 + 50*sin(270)) = (300, 250)
     assertEquals(300, handler.getGraphicsState().getCurrentX());
     assertEquals(250, handler.getGraphicsState().getCurrentY());
+  }
+
+  @Test
+  public void testGocaSegmentRendering() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    GAD_GraphicsData gad = new GAD_GraphicsData();
+    gad.setStructuredFieldIntroducer(createSfi(SFTypeID.GAD_GraphicsData));
+    List<GAD_DrawingOrder> orders = new ArrayList<>();
+
+    GBSEG_BeginSegment gbseg = new GBSEG_BeginSegment();
+    List<GAD_DrawingOrder> nestedOrders = new ArrayList<>();
+    GSCP_SetCurrentPosition gscp = new GSCP_SetCurrentPosition();
+    gscp.setCoordinateX((short) 555);
+    gscp.setCoordinateY((short) 666);
+    nestedOrders.add(gscp);
+    gbseg.setDrawingOrders(nestedOrders);
+    orders.add(gbseg);
+
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    assertEquals(555, handler.getGraphicsState().getCurrentX());
+    assertEquals(666, handler.getGraphicsState().getCurrentY());
+  }
+
+  @Test
+  public void testGocaBezierRendering() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    GAD_GraphicsData gad = new GAD_GraphicsData();
+    gad.setStructuredFieldIntroducer(createSfi(SFTypeID.GAD_GraphicsData));
+    List<GAD_DrawingOrder> orders = new ArrayList<>();
+
+    // GCBEZ: Cubic Bezier at Given Position
+    GCBEZ_CubicBezierCurveAtGivenPosition gcbez = new GCBEZ_CubicBezierCurveAtGivenPosition();
+    List<GAD_DrawingOrder.GOCA_Point> points = new ArrayList<>();
+    points.add(new GAD_DrawingOrder.GOCA_Point((short) 100, (short) 100)); // Start
+    points.add(new GAD_DrawingOrder.GOCA_Point((short) 150, (short) 200)); // C1
+    points.add(new GAD_DrawingOrder.GOCA_Point((short) 250, (short) 200)); // C2
+    points.add(new GAD_DrawingOrder.GOCA_Point((short) 300, (short) 100)); // End
+    gcbez.setPoints(points);
+    orders.add(gcbez);
+
+    // GCCBEZ: Cubic Bezier at Current Position (should continue from 300, 100)
+    GCCBEZ_CubicBezierCurveAtCurrentPosition gccbez = new GCCBEZ_CubicBezierCurveAtCurrentPosition();
+    List<GAD_DrawingOrder.GOCA_Point> cpoints = new ArrayList<>();
+    cpoints.add(new GAD_DrawingOrder.GOCA_Point((short) 350, (short) 0));   // C1
+    cpoints.add(new GAD_DrawingOrder.GOCA_Point((short) 450, (short) 0));   // C2
+    cpoints.add(new GAD_DrawingOrder.GOCA_Point((short) 500, (short) 100)); // End
+    gccbez.setPoints(cpoints);
+    orders.add(gccbez);
+
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    assertEquals(500, handler.getGraphicsState().getCurrentX());
+    assertEquals(100, handler.getGraphicsState().getCurrentY());
+  }
+
+  @Test
+  public void testGocaFractionLineWidth() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    GAD_GraphicsData gad = new GAD_GraphicsData();
+    gad.setStructuredFieldIntroducer(createSfi(SFTypeID.GAD_GraphicsData));
+    List<GAD_DrawingOrder> orders = new ArrayList<>();
+
+    GSFLW_SetFractionLineWidth gsflw = new GSFLW_SetFractionLineWidth();
+    gsflw.setIntegralMultiplier((short) 2);
+    gsflw.setFractionalMultiplier((short) 128); // 0.5
+    orders.add(gsflw);
+
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    assertEquals(2.5f, handler.getGraphicsState().getLineWidth(), 0.001f);
   }
 
   @Test

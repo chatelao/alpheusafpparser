@@ -40,18 +40,18 @@ Optimize resource handling for high-performance variable data printing.
 - ⏳ **Global Resource Manager**: Implement logic to move shared XObjects (Overlays, Page Segments) to global Page Tree resources.
     - ✅ **Global Overlay Tracking (MMO)**: Identify and track Medium Overlays across the document.
     - ✅ **Global Page Segment Tracking (MPS)**: Identify and track Page Segments across the document.
-    - ⏳ **Resource conversion to PdfFormXObject**: Convert AFP resources to reusable PDF Form XObjects.
+    - ✅ **Resource conversion to PdfFormXObject**: Convert AFP resources to reusable PDF Form XObjects.
             - ✅ **Initialize `PdfFormXObject` for resource capture**: Create XObject instances for each unique resource.
             - ✅ **Implement XObject-specific canvas and state management**: Manage independent coordinate systems and states within XObjects.
-        - ⏳ **Implement Overlay conversion logic**: Map GOCA/IOCA content of Medium Overlays to `PdfFormXObject` streams.
-        - ⏳ **Implement Page Segment conversion logic**: Map GOCA/IOCA content of Page Segments to `PdfFormXObject` streams.
+        - ✅ **Implement Overlay conversion logic**: Map GOCA/IOCA content of Medium Overlays to `PdfFormXObject` streams.
+        - ✅ **Implement Page Segment conversion logic**: Map GOCA/IOCA content of Page Segments to `PdfFormXObject` streams.
         - ✅ **Implement Resource Inclusion (IPO/IPS)**: Support inclusion of Overlays and Page Segments on pages.
-        - ⏳ **Implement GOCA/PTOCA/IOCA/BCOCA content mapping to XObject**: Ensure all content drivers support writing to XObject streams.
+        - ✅ **Implement GOCA/PTOCA/IOCA/BCOCA content mapping to XObject**: Ensure all content drivers support writing to XObject streams.
         - ⏳ **Handle resource inheritance and local dictionaries**: Manage nested resource references within XObjects.
         - ⏳ **Implement Resource Environment Group (REG) mapping**: Ensure resources defined in REG are converted.
-        - ⏳ **Create PdfFormXObject Resource Cache**: Ensure each unique resource is converted only once.
+        - ✅ **Create PdfFormXObject Resource Cache**: Ensure each unique resource is converted only once.
 - ⏳ **FOCA to PDF/X-4 Font Embedding**: Ensure all fonts are fully embedded and subsetted per PDF/X-4 requirements.
-    - ⏳ **Font Registry**: Implement a global registry for `PdfFont` instances mapped by FOCA resource name. (✅ Basic `PdfFontRegistry` implemented in `PdfHandler`).
+    - ✅ **Font Registry**: Implement a global registry for `PdfFont` instances mapped by FOCA resource name. (✅ Basic `PdfFontRegistry` implemented in `PdfHandler`).
     - ⏳ **Subset Generation**: Enable iText font subsetting for PDF/X-4 compliance.
 - ✅ **IOCA Image Optimizer**: Map repeated IOCA objects to a single Image XObject instance to reduce file size.
 
@@ -106,11 +106,11 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Pattern State Tracking**: Track active pattern attributes (`GSPS`, `GSPT`).
             - ⏳ **Standard Patterns**: Map GOCA standard patterns to PDF tiling patterns.
             - ⏳ **Custom Patterns**: Map `GBCP`/`GECP` to PDF tiling patterns.
-    - ⏳ **Resource Mapping**:
-        - ⏳ **Segment Mapping**: Convert GOCA segments (`GBSEG`, `GESEG`) to PDF Form XObjects if they are reusable.
+    - 🚧 **Resource Mapping**:
+        - 🚧 **Segment Mapping**: Implement inline rendering for GOCA segments (`GBSEG`). (XObject conversion pending).
 - ⏳ **BCOCA Renderer**: Implement barcode drawing using vector primitives for resolution independence.
     - ✅ **BCOCA State Tracking**: Implement tracking of barcode descriptors (`BDD`) and data (`BDA`) including type, modifier, and font for HRI.
-    - ⏳ **Linear Barcode Support**: Implement rendering for common linear barcodes.
+    - 🚧 **Linear Barcode Support**: Implement rendering for common linear barcodes. (Basic set implemented).
         - ✅ **Code 39**: Implement rendering for Code 39 (3 of 9) barcodes.
         - ✅ **Interleaved 2 of 5**: Implement rendering for Interleaved 2 of 5 (ITF) barcodes.
         - ✅ **UPC-A**: Implement rendering for UPC-A barcodes.
@@ -129,8 +129,8 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **G3/G4 Decoding**: Implement CCITT Group 3/4 decompression.
         - ⏳ **LZW Decoding**: Implement LZW decompression.
         - ⏳ **JPEG Decoding**: Implement JPEG (DCT) decompression.
-    - ⏳ **Implement Image XObject Creation**: Convert decoded data to iText `PdfImageXObject`.
-    - ⏳ **Implement Image Placement Logic**: Map IOCA positioning parameters to PDF `do` operator calls.
+    - ✅ **Implement Image XObject Creation**: Convert decoded data to iText `PdfImageXObject`.
+    - ✅ **Implement Image Placement Logic**: Map IOCA positioning parameters to PDF `do` operator calls.
 
 ## Phase 4: Verification & Compliance ⏳
 Ensure the generated output meets the PDF/VT-1 standard and accurately reflects the source AFP.
