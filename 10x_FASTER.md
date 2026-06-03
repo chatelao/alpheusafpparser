@@ -36,7 +36,7 @@ Reduce "floor" execution time to <10ms by eliminating JVM startup and JIT overhe
 Zero `String` allocations during the primary serialization loop.
 
 - ✅ **Typed Attribute Writing**: Use StAX2 typed methods (`writeInt`, `writeLong`) for all primary numeric attributes.
-- 🚧 **Direct Stream Encoding**: Implement a specialized EBCDIC-to-UTF-8 stream encoder that writes directly to the Woodstox buffer.
+- ✅ **Direct Stream Encoding**: Implement a specialized EBCDIC-to-UTF-8 stream encoder that writes directly to the Woodstox buffer.
 - ⏳ **Typed Binary Writing**: Use `writeBinary` for large data payloads to avoid hex/base64 string overhead.
 - ⏳ **Tag Templating**: Use pre-allocated `byte[]` or `ByteBuffer` templates for common XML tags.
 

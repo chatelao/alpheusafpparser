@@ -40,6 +40,8 @@ public class MnemonicPerformanceMonitor {
 
   private static final Map<String, String> mnemonicCache = new ConcurrentHashMap<>();
 
+  private static final Map<Class<?>, String> simpleNameCache = new ConcurrentHashMap<>();
+
   private static final ThreadLocal<Map<String, LocalStats>> localStatsMap =
       ThreadLocal.withInitial(HashMap::new);
 
@@ -161,6 +163,16 @@ public class MnemonicPerformanceMonitor {
       simpleName = simpleName.substring(dollar + 1);
     }
     return extractMnemonicFromString(simpleName);
+  }
+
+  /**
+   * Returns a cached version of the simple class name.
+   *
+   * @param clazz the class to get the simple name for
+   * @return the simple name
+   */
+  public static String getSimpleName(Class<?> clazz) {
+    return simpleNameCache.computeIfAbsent(clazz, Class::getSimpleName);
   }
 
   public static String extractMnemonicFromString(String name) {
