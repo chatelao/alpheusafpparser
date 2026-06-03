@@ -115,6 +115,366 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   private final boolean useWoodstox;
 
+  private static final XmlTemplate PGP_F1_TEMPLATE = XmlTemplate.of(
+      "<PGP_PagePosition_Format1>\n"
+          + "    <xOrigin>{}</xOrigin>\n"
+          + "    <yOrigin>{}</yOrigin>\n"
+          + "  </PGP_PagePosition_Format1>",
+      XmlTemplate.PlaceholderType.INTEGER, XmlTemplate.PlaceholderType.INTEGER);
+
+  private static final XmlTemplate PGP_F1_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<PGP_PagePosition_Format1>\n"
+          + "  <xOrigin>{}</xOrigin>\n"
+          + "  <yOrigin>{}</yOrigin>\n"
+          + "</PGP_PagePosition_Format1>",
+      XmlTemplate.PlaceholderType.INTEGER, XmlTemplate.PlaceholderType.INTEGER);
+
+  private static final XmlTemplate BPG_TEMPLATE = XmlTemplate.of(
+      "<BPG_BeginPage>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </BPG_BeginPage>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BPG_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<BPG_BeginPage>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</BPG_BeginPage>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate EPG_TEMPLATE = XmlTemplate.of(
+      "<EPG_EndPage>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </EPG_EndPage>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate EPG_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<EPG_EndPage>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</EPG_EndPage>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BOC_TEMPLATE = XmlTemplate.of(
+      "<BOC_BeginObjectContainer>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </BOC_BeginObjectContainer>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BOC_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<BOC_BeginObjectContainer>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</BOC_BeginObjectContainer>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BIM_TEMPLATE = XmlTemplate.of(
+      "<BIM_BeginImageObject>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </BIM_BeginImageObject>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BIM_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<BIM_BeginImageObject>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</BIM_BeginImageObject>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BDT_TEMPLATE = XmlTemplate.of(
+      "<BDT_BeginDocument>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </BDT_BeginDocument>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BDT_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<BDT_BeginDocument>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</BDT_BeginDocument>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BDI_TEMPLATE = XmlTemplate.of(
+      "<BDI_BeginDocumentIndex>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </BDI_BeginDocumentIndex>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BDI_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<BDI_BeginDocumentIndex>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</BDI_BeginDocumentIndex>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BRG_TEMPLATE = XmlTemplate.of(
+      "<BRG_BeginResourceGroup>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </BRG_BeginResourceGroup>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BRG_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<BRG_BeginResourceGroup>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</BRG_BeginResourceGroup>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BNG_TEMPLATE = XmlTemplate.of(
+      "<BNG_BeginNamedPageGroup>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </BNG_BeginNamedPageGroup>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BNG_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<BNG_BeginNamedPageGroup>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</BNG_BeginNamedPageGroup>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate IMM_TEMPLATE = XmlTemplate.of(
+      "<IMM_InvokeMediumMap>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </IMM_InvokeMediumMap>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate IMM_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<IMM_InvokeMediumMap>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</IMM_InvokeMediumMap>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate EDT_TEMPLATE = XmlTemplate.of(
+      "<EDT_EndDocument>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </EDT_EndDocument>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate EDT_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<EDT_EndDocument>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</EDT_EndDocument>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate ENG_TEMPLATE = XmlTemplate.of(
+      "<ENG_EndNamedPageGroup>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </ENG_EndNamedPageGroup>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate ENG_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<ENG_EndNamedPageGroup>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</ENG_EndNamedPageGroup>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate ERG_TEMPLATE = XmlTemplate.of(
+      "<ERG_EndResourceGroup>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </ERG_EndResourceGroup>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate ERG_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<ERG_EndResourceGroup>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</ERG_EndResourceGroup>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate EMO_TEMPLATE = XmlTemplate.of(
+      "<EMO_EndOverlay>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </EMO_EndOverlay>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate EMO_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<EMO_EndOverlay>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</EMO_EndOverlay>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate EPS_TEMPLATE = XmlTemplate.of(
+      "<EPS_EndPageSegment>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </EPS_EndPageSegment>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate EPS_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<EPS_EndPageSegment>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</EPS_EndPageSegment>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate EOC_TEMPLATE = XmlTemplate.of(
+      "<EOC_EndObjectContainer>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </EOC_EndObjectContainer>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate EOC_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<EOC_EndObjectContainer>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</EOC_EndObjectContainer>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate EIM_TEMPLATE = XmlTemplate.of(
+      "<EIM_EndImageObject>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </EIM_EndImageObject>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate EIM_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<EIM_EndImageObject>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</EIM_EndImageObject>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate EDI_TEMPLATE = XmlTemplate.of(
+      "<EDI_EndDocumentIndex>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </EDI_EndDocumentIndex>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate EDI_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<EDI_EndDocumentIndex>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</EDI_EndDocumentIndex>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate TLE_TEMPLATE = XmlTemplate.of(
+      "<TLE_TagLogicalElement>\n"
+          + "    <text>{}</text>\n"
+          + "  </TLE_TagLogicalElement>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate TLE_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<TLE_TagLogicalElement>\n"
+          + "  <text>{}</text>\n"
+          + "</TLE_TagLogicalElement>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate NOP_TEMPLATE = XmlTemplate.of(
+      "<NOP_NoOperation>\n"
+          + "    <text>{}</text>\n"
+          + "  </NOP_NoOperation>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate NOP_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<NOP_NoOperation>\n"
+          + "  <text>{}</text>\n"
+          + "</NOP_NoOperation>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BCP_TEMPLATE = XmlTemplate.of(
+      "<BCP_BeginCodePage>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </BCP_BeginCodePage>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BCP_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<BCP_BeginCodePage>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</BCP_BeginCodePage>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate ECP_TEMPLATE = XmlTemplate.of(
+      "<ECP_EndCodePage>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </ECP_EndCodePage>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate ECP_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<ECP_EndCodePage>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</ECP_EndCodePage>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BCF_TEMPLATE = XmlTemplate.of(
+      "<BCF_BeginCodedFont>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </BCF_BeginCodedFont>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BCF_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<BCF_BeginCodedFont>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</BCF_BeginCodedFont>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate ECF_TEMPLATE = XmlTemplate.of(
+      "<ECF_EndCodedFont>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </ECF_EndCodedFont>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate ECF_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<ECF_EndCodedFont>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</ECF_EndCodedFont>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BMO_TEMPLATE = XmlTemplate.of(
+      "<BMO_BeginOverlay>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </BMO_BeginOverlay>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BMO_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<BMO_BeginOverlay>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</BMO_BeginOverlay>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BPS_TEMPLATE = XmlTemplate.of(
+      "<BPS_BeginPageSegment>\n"
+          + "    <name>{}</name>\n"
+          + "    <text>{}</text>\n"
+          + "  </BPS_BeginPageSegment>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
+  private static final XmlTemplate BPS_TEMPLATE_FRAGMENT = XmlTemplate.of(
+      "<BPS_BeginPageSegment>\n"
+          + "  <name>{}</name>\n"
+          + "  <text>{}</text>\n"
+          + "</BPS_BeginPageSegment>",
+      XmlTemplate.PlaceholderType.STRING_ESCAPED, XmlTemplate.PlaceholderType.STRING_ESCAPED);
+
   /**
    * Constructor for AfpJacksonXmlWriter.
    *
@@ -288,31 +648,39 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (sf instanceof OCD_ObjectContainerData ocd) {
       writeOcdDirectly(ocd);
     } else if (sf instanceof BDI_BeginDocumentIndex bdi) {
-      writeNameAndTripletsDirectly(bdi, "BDI_BeginDocumentIndex");
+      writeBdiDirectly(bdi);
     } else if (sf instanceof BMO_BeginOverlay bmo) {
       writeBmoDirectly(bmo);
     } else if (sf instanceof BPS_BeginPageSegment bps) {
       writeBpsDirectly(bps);
+    } else if (sf instanceof com.mgz.afp.foca.BCP_BeginCodePage bcp) {
+      writeBcpDirectly(bcp);
+    } else if (sf instanceof com.mgz.afp.foca.ECP_EndCodePage ecp) {
+      writeEcpDirectly(ecp);
+    } else if (sf instanceof com.mgz.afp.foca.BCF_BeginCodedFont bcf) {
+      writeBcfDirectly(bcf);
+    } else if (sf instanceof com.mgz.afp.foca.ECF_EndCodedFont ecf) {
+      writeEcfDirectly(ecf);
     } else if (sf instanceof BRG_BeginResourceGroup brg) {
-      writeNameAndTripletsDirectly(brg, "BRG_BeginResourceGroup");
+      writeBrgDirectly(brg);
     } else if (sf instanceof com.mgz.afp.modca.BNG_BeginNamedPageGroup bng) {
-      writeNameAndTripletsDirectly(bng, "BNG_BeginNamedPageGroup");
+      writeBngDirectly(bng);
     } else if (sf instanceof com.mgz.afp.modca.BPG_BeginPage bpg) {
-      writeNameAndTripletsDirectly(bpg, "BPG_BeginPage");
+      writeBpgDirectly(bpg);
     } else if (sf instanceof EDI_EndDocumentIndex edi) {
-      writeNameDirectly(edi, "EDI_EndDocumentIndex");
+      writeEdiDirectly(edi);
     } else if (sf instanceof EMO_EndOverlay emo) {
-      writeNameAndTripletsDirectly(emo, "EMO_EndOverlay");
+      writeEmoDirectly(emo);
     } else if (sf instanceof EPS_EndPageSegment eps) {
-      writeNameDirectly(eps, "EPS_EndPageSegment");
+      writeEpsDirectly(eps);
     } else if (sf instanceof ERG_EndResourceGroup erg) {
-      writeNameAndTripletsDirectly(erg, "ERG_EndResourceGroup");
+      writeErgDirectly(erg);
     } else if (sf instanceof com.mgz.afp.modca.EDT_EndDocument edt) {
-      writeNameAndTripletsDirectly(edt, "EDT_EndDocument");
+      writeEdtDirectly(edt);
     } else if (sf instanceof com.mgz.afp.modca.ENG_EndNamedPageGroup eng) {
-      writeNameAndTripletsDirectly(eng, "ENG_EndNamedPageGroup");
+      writeEngDirectly(eng);
     } else if (sf instanceof com.mgz.afp.modca.EPG_EndPage epg) {
-      writeNameAndTripletsDirectly(epg, "EPG_EndPage");
+      writeEpgDirectly(epg);
     } else if (sf instanceof com.mgz.afp.modca.IEL_IndexElement iel) {
       writeTripletsAndTextDirectly(iel, "IEL_IndexElement");
     } else if (sf instanceof com.mgz.afp.modca.IPG_IncludePage ipg) {
@@ -326,15 +694,15 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (sf instanceof com.mgz.afp.modca.MDD_MediumDescriptor mdd) {
       writeMddDirectly(mdd);
     } else if (sf instanceof com.mgz.afp.modca.IMM_InvokeMediumMap imm) {
-      writeNameAndTripletsDirectly(imm, "IMM_InvokeMediumMap");
+      writeImmDirectly(imm);
     } else if (sf instanceof com.mgz.afp.modca.BOC_BeginObjectContainer boc) {
-      writeNameAndTripletsDirectly(boc, "BOC_BeginObjectContainer");
+      writeBocDirectly(boc);
     } else if (sf instanceof com.mgz.afp.modca.EOC_EndObjectContainer eoc) {
-      writeNameDirectly(eoc, "EOC_EndObjectContainer");
+      writeEocDirectly(eoc);
     } else if (sf instanceof com.mgz.afp.modca.BIM_BeginImageObject bim) {
-      writeNameAndTripletsDirectly(bim, "BIM_BeginImageObject");
+      writeBimDirectly(bim);
     } else if (sf instanceof com.mgz.afp.modca.EIM_EndImageObject eim) {
-      writeNameDirectly(eim, "EIM_EndImageObject");
+      writeEimDirectly(eim);
     } else if (sf instanceof com.mgz.afp.modca.PMC_PageModificationControl pmc) {
       writeTripletsAndTextDirectly(pmc, "PMC_PageModificationControl");
     } else if (sf instanceof com.mgz.afp.modca.PEC_PresentationEnvironmentControl pec) {
@@ -376,13 +744,11 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("NOP");
     String text = nop.getText();
     if (text != null && !text.isEmpty()) {
-      baseXsw.writeStartElement("NOP_NoOperation");
-      XmlIndenter.writeIndent(baseXsw, 2);
-      baseXsw.writeStartElement("text");
-      baseXsw.writeCharacters(text);
-      baseXsw.writeEndElement();
-      XmlIndenter.writeIndent(baseXsw, 1);
-      baseXsw.writeEndElement();
+      if (fragmentMode) {
+        baseXsw.writeTemplate(NOP_TEMPLATE_FRAGMENT, text);
+      } else {
+        baseXsw.writeTemplate(NOP_TEMPLATE, text);
+      }
     } else {
       byte[] data = nop.getData();
       if (data == null || data.length == 0) {
@@ -399,20 +765,28 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   private void writeTleDirectly(TLE_TagLogicalElement tle) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("TLE");
-    baseXsw.writeStartElement("TLE_TagLogicalElement");
-    String indent2 = XmlIndenter.getIndent(2);
-    String indent1 = XmlIndenter.getIndent(1);
-    if (tle.getTriplets() != null && !tle.getTriplets().isEmpty()) {
-      for (Triplet triplet : tle.getTriplets()) {
-        baseXsw.writeRaw(indent2);
-        writeTriplet(baseXsw, triplet, indent2);
+    if (tle.getTriplets() == null || tle.getTriplets().isEmpty()) {
+      if (fragmentMode) {
+        baseXsw.writeTemplate(TLE_TEMPLATE_FRAGMENT, tle.getText());
+      } else {
+        baseXsw.writeTemplate(TLE_TEMPLATE, tle.getText());
       }
+    } else {
+      baseXsw.writeStartElement("TLE_TagLogicalElement");
+      String indent2 = XmlIndenter.getIndent(2);
+      String indent1 = XmlIndenter.getIndent(1);
+      if (tle.getTriplets() != null && !tle.getTriplets().isEmpty()) {
+        for (Triplet triplet : tle.getTriplets()) {
+          baseXsw.writeRaw(indent2);
+          writeTriplet(baseXsw, triplet, indent2);
+        }
+      }
+      if (tle.getText() != null) {
+        writeElement(baseXsw, indent2, "text", tle.getText());
+      }
+      baseXsw.writeRaw(indent1);
+      baseXsw.writeEndElement();
     }
-    if (tle.getText() != null) {
-      writeElement(baseXsw, indent2, "text", tle.getText());
-    }
-    baseXsw.writeRaw(indent1);
-    baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
@@ -432,12 +806,11 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   private void writePgpFormat1Directly(PGP_PagePosition_Format1 pgp) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("PGP");
-    baseXsw.writeStartElement("PGP_PagePosition_Format1");
-    String indent = XmlIndenter.getIndent(2);
-    writeElement(baseXsw, indent, "xOrigin", pgp.getxOrigin());
-    writeElement(baseXsw, indent, "yOrigin", pgp.getyOrigin());
-    XmlIndenter.writeIndent(baseXsw, 1);
-    baseXsw.writeEndElement();
+    if (fragmentMode) {
+      baseXsw.writeTemplate(PGP_F1_TEMPLATE_FRAGMENT, pgp.getxOrigin(), pgp.getyOrigin());
+    } else {
+      baseXsw.writeTemplate(PGP_F1_TEMPLATE, pgp.getxOrigin(), pgp.getyOrigin());
+    }
     MnemonicPerformanceMonitor.endWrite();
   }
 
@@ -895,6 +1268,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     String childIndent = XmlIndenter.getIndent(3);
     if (cs instanceof PTOCAControlSequence.TRN_TransparentData trn) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("TRN");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_2_PURE);
+      }
       baseXsw.writeStartElement("TRN_TransparentData");
       writeElement(baseXsw, childIndent, "transparentData", trn.getTransparentData());
       if (trn.getEncoding() != null && trn.getTransparentDataEBCDIC() != null) {
@@ -910,6 +1286,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.GraphicCharacters gc) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GraphicCharacters");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_2_PURE);
+      }
       baseXsw.writeStartElement("GraphicCharacters");
       if (gc.getEncoding() != null && gc.getData() != null) {
         baseXsw.writeRaw(childIndent);
@@ -924,50 +1303,80 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.AMI_AbsoluteMoveInline ami) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("AMI");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_3_PURE);
+      }
       baseXsw.writeEmptyElement("AMI_AbsoluteMoveInline");
       baseXsw.writeIntAttribute(null, null, "displacement", ami.getDisplacement());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.AMB_AbsoluteMoveBaseline amb) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("AMB");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_3_PURE);
+      }
       baseXsw.writeEmptyElement("AMB_AbsoluteMoveBaseline");
       baseXsw.writeIntAttribute(null, null, "displacement", amb.getDisplacement());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.RMI_RelativeMoveInline rmi) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("RMI");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_3_PURE);
+      }
       baseXsw.writeEmptyElement("RMI_RelativeMoveInline");
       baseXsw.writeIntAttribute(null, null, "increment", rmi.getIncrement());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.RMB_RelativeMoveBaseline rmb) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("RMB");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_3_PURE);
+      }
       baseXsw.writeEmptyElement("RMB_RelativeMoveBaseline");
       baseXsw.writeIntAttribute(null, null, "increment", rmb.getIncrement());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.SIM_SetInlineMargin sim) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SIM");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_3_PURE);
+      }
       baseXsw.writeEmptyElement("SIM_SetInlineMargin");
       baseXsw.writeIntAttribute(null, null, "displacement", sim.getDisplacement());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.SCFL_SetCodedFontLocal scfl) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SCFL");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_3_PURE);
+      }
       baseXsw.writeEmptyElement("SCFL_SetCodedFontLocal");
       baseXsw.writeIntAttribute(null, null, "codedFontLocalID", scfl.getCodedFontLocalID());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.SBI_SetBaselineIncrement sbi) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SBI");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_3_PURE);
+      }
       baseXsw.writeEmptyElement("SBI_SetBaselineIncrement");
       baseXsw.writeIntAttribute(null, null, "increment", sbi.getIncrement());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.BLN_BeginLine) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("BLN");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_3_PURE);
+      }
       baseXsw.writeEmptyElement("BLN_BeginLine");
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.BSU_BeginSuppression bsu) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("BSU");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_3_PURE);
+      }
       baseXsw.writeEmptyElement("BSU_BeginSuppression");
       baseXsw.writeIntAttribute(null, null, "suppressionID", bsu.getSuppressionID());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.ESU_EndSuppression esu) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("ESU");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_3_PURE);
+      }
       baseXsw.writeEmptyElement("ESU_EndSuppression");
       baseXsw.writeIntAttribute(null, null, "suppressionID", esu.getSuppressionID());
       MnemonicPerformanceMonitor.endWrite();
@@ -983,6 +1392,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.STC_SetTextColor stc) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("STC");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_2_PURE);
+      }
       baseXsw.writeEmptyElement("STC_SetTextColor");
       if (stc.getForegroundColor() != null) {
         baseXsw.writeAttribute("foregroundColor", stc.getForegroundColor().name());
@@ -993,6 +1405,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.USC_Underscore usc) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("USC");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_3_PURE);
+      }
       baseXsw.writeEmptyElement("USC_Underscore");
       if (usc.getBypassFlag() != null) {
         baseXsw.writeAttribute("bypassFlag", usc.getBypassFlag().name());
@@ -1013,6 +1428,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.SEC_SetExtendedTextColor sec) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SEC");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_2_PURE);
+      }
       baseXsw.writeStartElement("SEC_SetExtendedTextColor");
       writeElement(baseXsw, childIndent, "colorSpace", sec.getColorSpace().name());
       writeElement(baseXsw, childIndent, "nrOfBitsComponent1", sec.getNrOfBitsComponent1());
@@ -1027,6 +1445,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.DIR_DrawIaxisRule dir) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("DIR");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_2_PURE);
+      }
       baseXsw.writeStartElement("DIR_DrawIaxisRule");
       writeElement(baseXsw, childIndent, "length", dir.getLength());
       if (dir.getWidth() != null) {
@@ -1040,6 +1461,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.DBR_DrawBaxisRule dbr) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("DBR");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_2_PURE);
+      }
       baseXsw.writeStartElement("DBR_DrawBaxisRule");
       writeElement(baseXsw, childIndent, "length", dbr.getLength());
       if (dbr.getWidth() != null) {
@@ -1053,6 +1477,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.NOP_NoOperation nop) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("NOP");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_2_PURE);
+      }
       baseXsw.writeStartElement("NOP_NoOperation");
       if (nop.getText() != null) {
         writeElement(baseXsw, childIndent, "text", nop.getText());
@@ -1065,6 +1492,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.TBM_TemporaryBaselineMove tbm) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("TBM");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_2_PURE);
+      }
       baseXsw.writeStartElement("TBM_TemporaryBaselineMove");
       if (tbm.getDirection() != null) {
         writeElement(baseXsw, childIndent, "direction", tbm.getDirection().name());
@@ -1080,6 +1510,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.OVS_Overstrike ovs) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("OVS");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_2_PURE);
+      }
       baseXsw.writeStartElement("OVS_Overstrike");
       if (ovs.getBypassFlag() != null) {
         writeElement(baseXsw, childIndent, "bypassFlag", ovs.getBypassFlag().name());
@@ -1091,6 +1524,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.RPS_RepeatString rps) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("RPS");
+      if (fragmentMode) {
+        baseXsw.writeRaw(XmlIndenter.LEVEL_2_PURE);
+      }
       baseXsw.writeStartElement("RPS_RepeatString");
       writeElement(baseXsw, childIndent, "repeatLength", rps.getRepeatLength());
       if (rps.getText() != null) {
@@ -2213,68 +2649,356 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   private void writeBdtDirectly(com.mgz.afp.modca.BDT_BeginDocument bdt) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("BDT");
-    baseXsw.writeStartElement("BDT_BeginDocument");
-    String indent2 = XmlIndenter.getIndent(2);
-    String indent1 = XmlIndenter.getIndent(1);
-    writeElement(baseXsw, indent2, "name", bdt.getName());
-    if (bdt.getTriplets() != null && !bdt.getTriplets().isEmpty()) {
-      baseXsw.writeRaw(indent2);
-      baseXsw.writeStartElement("triplets");
-      for (Triplet triplet : bdt.getTriplets()) {
-        baseXsw.writeRaw(XmlIndenter.getIndent(3));
-        writeTriplet(baseXsw, triplet, XmlIndenter.getIndent(3));
+    if ((bdt.getTriplets() == null || bdt.getTriplets().isEmpty()) && bdt.reserved8_9 == null) {
+      if (fragmentMode) {
+        baseXsw.writeTemplate(BDT_TEMPLATE_FRAGMENT, bdt.getName(), bdt.getText());
+      } else {
+        baseXsw.writeTemplate(BDT_TEMPLATE, bdt.getName(), bdt.getText());
       }
-      baseXsw.writeRaw(indent2);
+    } else {
+      baseXsw.writeStartElement("BDT_BeginDocument");
+      String indent2 = XmlIndenter.getIndent(2);
+      String indent1 = XmlIndenter.getIndent(1);
+      writeElement(baseXsw, indent2, "name", bdt.getName());
+      if (bdt.getTriplets() != null && !bdt.getTriplets().isEmpty()) {
+        baseXsw.writeRaw(indent2);
+        baseXsw.writeStartElement("triplets");
+        for (Triplet triplet : bdt.getTriplets()) {
+          baseXsw.writeRaw(XmlIndenter.getIndent(3));
+          writeTriplet(baseXsw, triplet, XmlIndenter.getIndent(3));
+        }
+        baseXsw.writeRaw(indent2);
+        baseXsw.writeEndElement();
+      }
+      if (bdt.reserved8_9 != null) {
+        writeElement(baseXsw, indent2, "reserved8_9", com.mgz.util.UtilCharacterEncoding.bytesToHexString(bdt.reserved8_9));
+      }
+      if (bdt.getText() != null) {
+        writeElement(baseXsw, indent2, "text", bdt.getText());
+      }
+      baseXsw.writeRaw(indent1);
       baseXsw.writeEndElement();
     }
-    if (bdt.reserved8_9 != null) {
-      writeElement(baseXsw, indent2, "reserved8_9", com.mgz.util.UtilCharacterEncoding.bytesToHexString(bdt.reserved8_9));
-    }
-    if (bdt.getText() != null) {
-      writeElement(baseXsw, indent2, "text", bdt.getText());
-    }
-    baseXsw.writeRaw(indent1);
-    baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
   private void writeBmoDirectly(BMO_BeginOverlay bmo) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("BMO");
-    baseXsw.writeStartElement("BMO_BeginOverlay");
-    String indent2 = XmlIndenter.getIndent(2);
-    String indent1 = XmlIndenter.getIndent(1);
-    writeElement(baseXsw, indent2, "name", bmo.getName());
-    if (bmo.getTriplets() != null && !bmo.getTriplets().isEmpty()) {
-      for (Triplet triplet : bmo.getTriplets()) {
-        baseXsw.writeRaw(indent2);
-        writeTriplet(baseXsw, triplet, indent2);
+    if (bmo.getTriplets() == null || bmo.getTriplets().isEmpty()) {
+      if (fragmentMode) {
+        baseXsw.writeTemplate(BMO_TEMPLATE_FRAGMENT, bmo.getName(), bmo.getText());
+      } else {
+        baseXsw.writeTemplate(BMO_TEMPLATE, bmo.getName(), bmo.getText());
       }
+    } else {
+      baseXsw.writeStartElement("BMO_BeginOverlay");
+      String indent2 = XmlIndenter.getIndent(2);
+      String indent1 = XmlIndenter.getIndent(1);
+      writeElement(baseXsw, indent2, "name", bmo.getName());
+      if (bmo.getTriplets() != null && !bmo.getTriplets().isEmpty()) {
+        for (Triplet triplet : bmo.getTriplets()) {
+          baseXsw.writeRaw(indent2);
+          writeTriplet(baseXsw, triplet, indent2);
+        }
+      }
+      if (bmo.getText() != null) {
+        writeElement(baseXsw, indent2, "text", bmo.getText());
+      }
+      baseXsw.writeRaw(indent1);
+      baseXsw.writeEndElement();
     }
-    if (bmo.getText() != null) {
-      writeElement(baseXsw, indent2, "text", bmo.getText());
-    }
-    baseXsw.writeRaw(indent1);
-    baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
   private void writeBpsDirectly(BPS_BeginPageSegment bps) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("BPS");
-    baseXsw.writeStartElement("BPS_BeginPageSegment");
-    String indent2 = XmlIndenter.getIndent(2);
-    String indent1 = XmlIndenter.getIndent(1);
-    writeElement(baseXsw, indent2, "name", bps.getName());
-    if (bps.getTriplets() != null && !bps.getTriplets().isEmpty()) {
-      for (Triplet triplet : bps.getTriplets()) {
-        baseXsw.writeRaw(indent2);
-        writeTriplet(baseXsw, triplet, indent2);
+    if (bps.getTriplets() == null || bps.getTriplets().isEmpty()) {
+      if (fragmentMode) {
+        baseXsw.writeTemplate(BPS_TEMPLATE_FRAGMENT, bps.getName(), bps.getText());
+      } else {
+        baseXsw.writeTemplate(BPS_TEMPLATE, bps.getName(), bps.getText());
       }
+    } else {
+      baseXsw.writeStartElement("BPS_BeginPageSegment");
+      String indent2 = XmlIndenter.getIndent(2);
+      String indent1 = XmlIndenter.getIndent(1);
+      writeElement(baseXsw, indent2, "name", bps.getName());
+      if (bps.getTriplets() != null && !bps.getTriplets().isEmpty()) {
+        for (Triplet triplet : bps.getTriplets()) {
+          baseXsw.writeRaw(indent2);
+          writeTriplet(baseXsw, triplet, indent2);
+        }
+      }
+      if (bps.getText() != null) {
+        writeElement(baseXsw, indent2, "text", bps.getText());
+      }
+      baseXsw.writeRaw(indent1);
+      baseXsw.writeEndElement();
     }
-    if (bps.getText() != null) {
-      writeElement(baseXsw, indent2, "text", bps.getText());
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeBcpDirectly(com.mgz.afp.foca.BCP_BeginCodePage bcp) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BCP");
+    if (bcp.getTriplets() == null || bcp.getTriplets().isEmpty()) {
+      if (fragmentMode) {
+        baseXsw.writeTemplate(BCP_TEMPLATE_FRAGMENT, bcp.getName(), bcp.getText());
+      } else {
+        baseXsw.writeTemplate(BCP_TEMPLATE, bcp.getName(), bcp.getText());
+      }
+    } else {
+      writeNameAndTripletsDirectly(bcp, "BCP_BeginCodePage");
     }
-    baseXsw.writeRaw(indent1);
-    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeEcpDirectly(com.mgz.afp.foca.ECP_EndCodePage ecp) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("ECP");
+    if (ecp.getTriplets() == null || ecp.getTriplets().isEmpty()) {
+      if (fragmentMode) {
+        baseXsw.writeTemplate(ECP_TEMPLATE_FRAGMENT, ecp.getName(), ecp.getText());
+      } else {
+        baseXsw.writeTemplate(ECP_TEMPLATE, ecp.getName(), ecp.getText());
+      }
+    } else {
+      writeNameAndTripletsDirectly(ecp, "ECP_EndCodePage");
+    }
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeBcfDirectly(com.mgz.afp.foca.BCF_BeginCodedFont bcf) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BCF");
+    if (bcf.getTriplets() == null || bcf.getTriplets().isEmpty()) {
+      if (fragmentMode) {
+        baseXsw.writeTemplate(BCF_TEMPLATE_FRAGMENT, bcf.getName(), bcf.getText());
+      } else {
+        baseXsw.writeTemplate(BCF_TEMPLATE, bcf.getName(), bcf.getText());
+      }
+    } else {
+      writeNameAndTripletsDirectly(bcf, "BCF_BeginCodedFont");
+    }
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeEcfDirectly(com.mgz.afp.foca.ECF_EndCodedFont ecf) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("ECF");
+    if (ecf.getTriplets() == null || ecf.getTriplets().isEmpty()) {
+      if (fragmentMode) {
+        baseXsw.writeTemplate(ECF_TEMPLATE_FRAGMENT, ecf.getName(), ecf.getText());
+      } else {
+        baseXsw.writeTemplate(ECF_TEMPLATE, ecf.getName(), ecf.getText());
+      }
+    } else {
+      writeNameAndTripletsDirectly(ecf, "ECF_EndCodedFont");
+    }
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeBdiDirectly(com.mgz.afp.modca.BDI_BeginDocumentIndex bdi) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BDI");
+    if (bdi.getTriplets() == null || bdi.getTriplets().isEmpty()) {
+      if (fragmentMode) {
+        baseXsw.writeTemplate(BDI_TEMPLATE_FRAGMENT, bdi.getName(), bdi.getText());
+      } else {
+        baseXsw.writeTemplate(BDI_TEMPLATE, bdi.getName(), bdi.getText());
+      }
+    } else {
+      writeNameAndTripletsDirectly(bdi, "BDI_BeginDocumentIndex");
+    }
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeBrgDirectly(com.mgz.afp.modca.BRG_BeginResourceGroup brg) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BRG");
+    if (brg.getTriplets() == null || brg.getTriplets().isEmpty()) {
+      if (fragmentMode) {
+        baseXsw.writeTemplate(BRG_TEMPLATE_FRAGMENT, brg.getName(), brg.getText());
+      } else {
+        baseXsw.writeTemplate(BRG_TEMPLATE, brg.getName(), brg.getText());
+      }
+    } else {
+      writeNameAndTripletsDirectly(brg, "BRG_BeginResourceGroup");
+    }
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeBngDirectly(com.mgz.afp.modca.BNG_BeginNamedPageGroup bng) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BNG");
+    if (bng.getTriplets() == null || bng.getTriplets().isEmpty()) {
+      if (fragmentMode) {
+        baseXsw.writeTemplate(BNG_TEMPLATE_FRAGMENT, bng.getName(), bng.getText());
+      } else {
+        baseXsw.writeTemplate(BNG_TEMPLATE, bng.getName(), bng.getText());
+      }
+    } else {
+      writeNameAndTripletsDirectly(bng, "BNG_BeginNamedPageGroup");
+    }
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeImmDirectly(com.mgz.afp.modca.IMM_InvokeMediumMap imm) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("IMM");
+    if (imm.getTriplets() == null || imm.getTriplets().isEmpty()) {
+      if (fragmentMode) {
+        baseXsw.writeTemplate(IMM_TEMPLATE_FRAGMENT, imm.getName(), imm.getText());
+      } else {
+        baseXsw.writeTemplate(IMM_TEMPLATE, imm.getName(), imm.getText());
+      }
+    } else {
+      writeNameAndTripletsDirectly(imm, "IMM_InvokeMediumMap");
+    }
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeBocDirectly(com.mgz.afp.modca.BOC_BeginObjectContainer boc) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BOC");
+    if (boc.getTriplets() == null || boc.getTriplets().isEmpty()) {
+      if (fragmentMode) {
+        baseXsw.writeTemplate(BOC_TEMPLATE_FRAGMENT, boc.getName(), boc.getText());
+      } else {
+        baseXsw.writeTemplate(BOC_TEMPLATE, boc.getName(), boc.getText());
+      }
+    } else {
+      writeNameAndTripletsDirectly(boc, "BOC_BeginObjectContainer");
+    }
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeBimDirectly(com.mgz.afp.modca.BIM_BeginImageObject bim) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BIM");
+    if (bim.getTriplets() == null || bim.getTriplets().isEmpty()) {
+      if (fragmentMode) {
+        baseXsw.writeTemplate(BIM_TEMPLATE_FRAGMENT, bim.getName(), bim.getText());
+      } else {
+        baseXsw.writeTemplate(BIM_TEMPLATE, bim.getName(), bim.getText());
+      }
+    } else {
+      writeNameAndTripletsDirectly(bim, "BIM_BeginImageObject");
+    }
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeEdtDirectly(com.mgz.afp.modca.EDT_EndDocument edt) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("EDT");
+    if (edt.getTriplets() == null || edt.getTriplets().isEmpty()) {
+      if (fragmentMode) {
+        baseXsw.writeTemplate(EDT_TEMPLATE_FRAGMENT, edt.getName(), edt.getText());
+      } else {
+        baseXsw.writeTemplate(EDT_TEMPLATE, edt.getName(), edt.getText());
+      }
+    } else {
+      writeNameAndTripletsDirectly(edt, "EDT_EndDocument");
+    }
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeEngDirectly(com.mgz.afp.modca.ENG_EndNamedPageGroup eng) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("ENG");
+    if (eng.getTriplets() == null || eng.getTriplets().isEmpty()) {
+      if (fragmentMode) {
+        baseXsw.writeTemplate(ENG_TEMPLATE_FRAGMENT, eng.getName(), eng.getText());
+      } else {
+        baseXsw.writeTemplate(ENG_TEMPLATE, eng.getName(), eng.getText());
+      }
+    } else {
+      writeNameAndTripletsDirectly(eng, "ENG_EndNamedPageGroup");
+    }
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeErgDirectly(com.mgz.afp.modca.ERG_EndResourceGroup erg) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("ERG");
+    if (erg.getTriplets() == null || erg.getTriplets().isEmpty()) {
+      if (fragmentMode) {
+        baseXsw.writeTemplate(ERG_TEMPLATE_FRAGMENT, erg.getName(), erg.getText());
+      } else {
+        baseXsw.writeTemplate(ERG_TEMPLATE, erg.getName(), erg.getText());
+      }
+    } else {
+      writeNameAndTripletsDirectly(erg, "ERG_EndResourceGroup");
+    }
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeEmoDirectly(com.mgz.afp.modca.EMO_EndOverlay emo) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("EMO");
+    if (emo.getTriplets() == null || emo.getTriplets().isEmpty()) {
+      if (fragmentMode) {
+        baseXsw.writeTemplate(EMO_TEMPLATE_FRAGMENT, emo.getName(), emo.getText());
+      } else {
+        baseXsw.writeTemplate(EMO_TEMPLATE, emo.getName(), emo.getText());
+      }
+    } else {
+      writeNameAndTripletsDirectly(emo, "EMO_EndOverlay");
+    }
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeEpsDirectly(com.mgz.afp.modca.EPS_EndPageSegment eps) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("EPS");
+    if (fragmentMode) {
+      baseXsw.writeTemplate(EPS_TEMPLATE_FRAGMENT, eps.getName(), eps.getText());
+    } else {
+      baseXsw.writeTemplate(EPS_TEMPLATE, eps.getName(), eps.getText());
+    }
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeEocDirectly(com.mgz.afp.modca.EOC_EndObjectContainer eoc) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("EOC");
+    if (fragmentMode) {
+      baseXsw.writeTemplate(EOC_TEMPLATE_FRAGMENT, eoc.getName(), eoc.getText());
+    } else {
+      baseXsw.writeTemplate(EOC_TEMPLATE, eoc.getName(), eoc.getText());
+    }
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeEimDirectly(com.mgz.afp.modca.EIM_EndImageObject eim) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("EIM");
+    if (fragmentMode) {
+      baseXsw.writeTemplate(EIM_TEMPLATE_FRAGMENT, eim.getName(), eim.getText());
+    } else {
+      baseXsw.writeTemplate(EIM_TEMPLATE, eim.getName(), eim.getText());
+    }
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeEdiDirectly(com.mgz.afp.modca.EDI_EndDocumentIndex edi) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("EDI");
+    if (fragmentMode) {
+      baseXsw.writeTemplate(EDI_TEMPLATE_FRAGMENT, edi.getName(), edi.getText());
+    } else {
+      baseXsw.writeTemplate(EDI_TEMPLATE, edi.getName(), edi.getText());
+    }
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeBpgDirectly(com.mgz.afp.modca.BPG_BeginPage bpg) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BPG");
+    if (bpg.getTriplets() == null || bpg.getTriplets().isEmpty()) {
+      if (fragmentMode) {
+        baseXsw.writeTemplate(BPG_TEMPLATE_FRAGMENT, bpg.getName(), bpg.getText());
+      } else {
+        baseXsw.writeTemplate(BPG_TEMPLATE, bpg.getName(), bpg.getText());
+      }
+    } else {
+      writeNameAndTripletsDirectly(bpg, "BPG_BeginPage");
+    }
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeEpgDirectly(com.mgz.afp.modca.EPG_EndPage epg) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("EPG");
+    if (epg.getTriplets() == null || epg.getTriplets().isEmpty()) {
+      if (fragmentMode) {
+        baseXsw.writeTemplate(EPG_TEMPLATE_FRAGMENT, epg.getName(), epg.getText());
+      } else {
+        baseXsw.writeTemplate(EPG_TEMPLATE, epg.getName(), epg.getText());
+      }
+    } else {
+      writeNameAndTripletsDirectly(epg, "EPG_EndPage");
+    }
     MnemonicPerformanceMonitor.endWrite();
   }
 

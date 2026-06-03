@@ -97,15 +97,53 @@ public class AfpXmlStreamWriter extends SanitizingXMLStreamWriter {
       return;
     }
     try {
-      // Ensure any pending start tag is closed before writing raw bytes to the stream
-      delegate.writeCharacters("");
-      // Must flush delegate to ensure correct output order
-      delegate.flush();
-
-      OutputStream target = (woodstoxOs != null) ? woodstoxOs : fallbackOs;
+      prepareDirectWrite();
+      OutputStream target = getTargetStream();
       EbcdicToUtf8XmlEncoder.encodeAndWrite(data, offset, len, target, charset);
     } catch (IOException e) {
       throw new XMLStreamException("Failed to write direct EBCDIC stream", e);
     }
+  }
+
+  /**
+   * Writes an XML template directly to the output stream.
+   *
+   * @param template the template to write
+   * @param values the values to inject into the template
+   * @throws XMLStreamException if writing fails
+   */
+  public void writeTemplate(XmlTemplate template, Object... values) throws XMLStreamException {
+    try {
+      prepareDirectWrite();
+      template.write(getTargetStream(), values);
+    } catch (IOException e) {
+      throw new XMLStreamException("Failed to write XML template", e);
+    }
+  }
+
+  /**
+   * Writes raw bytes directly to the output stream.
+   *
+   * @param bytes the bytes to write
+   * @throws XMLStreamException if writing fails
+   */
+  public void writeBytes(byte[] bytes) throws XMLStreamException {
+    try {
+      prepareDirectWrite();
+      getTargetStream().write(bytes);
+    } catch (IOException e) {
+      throw new XMLStreamException("Failed to write raw bytes", e);
+    }
+  }
+
+  private void prepareDirectWrite() throws XMLStreamException {
+    // Ensure any pending start tag is closed before writing raw bytes to the stream
+    delegate.writeCharacters("");
+    // Must flush delegate to ensure correct output order
+    delegate.flush();
+  }
+
+  private OutputStream getTargetStream() {
+    return (woodstoxOs != null) ? woodstoxOs : fallbackOs;
   }
 }
