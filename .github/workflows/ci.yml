@@ -42,6 +42,8 @@ jobs:
       run: |
         CLI_JAR=$(ls build/libs/alpheus-afp-parser-cli-*.jar)
         java -jar $CLI_JAR src/test/resources/afp/minimal.afp - | grep "<AFPDocument"
+    - name: PDF E2E Test
+      run: ./gradlew test --tests com.mgz.pdf.PdfEndToEndTest
     - name: Create Latest CLI Artifact
       run: cp build/libs/alpheus-afp-parser-cli-*.jar build/libs/alpheus-afp-parser-cli-latest.jar
     - name: Verify Latest Artifact

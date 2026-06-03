@@ -198,6 +198,15 @@ public class PdfHandler implements StructuredFieldHandler {
   public void handle(StructuredField sf) throws Exception {
     fieldCount.incrementAndGet();
 
+    if (sf instanceof PTX_PresentationTextData
+        || sf instanceof GAD_GraphicsData
+        || sf instanceof BIM_BeginImageObject
+        || sf instanceof BBC_BeginBarCodeObject
+        || sf instanceof IPO_IncludePageOverlay
+        || sf instanceof IPS_IncludePageSegment) {
+      ensurePageExists();
+    }
+
     if (sf.isBeginSF()) {
       structureStack.push(sf);
       if (sf instanceof BIM_BeginImageObject) {
@@ -1070,6 +1079,33 @@ public class PdfHandler implements StructuredFieldHandler {
       AffineTransform at = CoordinateTransformer.getAfpToPdfTransform(heightPoints, scaleX, scaleY);
       currentCanvas.concatMatrix(at);
     }
+  }
+
+  private void ensurePageExists() {
+    if (pdfDoc.getNumberOfPages() == 0) {
+      this.currentPage = pdfDoc.addNewPage();
+      this.currentCanvas = new PdfCanvas(currentPage);
+      textState.reset();
+      graphicsState.reset();
+      barcodeState.reset();
+      imageState.reset();
+      currentCanvas.setFillColor(DeviceRgb.BLACK);
+
+      // Apply default page size and transformation if defined (from PGD)
+      if (defaultPageWidth > 0 && defaultPageHeight > 0) {
+        currentPage.setMediaBox(new com.itextpdf.kernel.geom.Rectangle(defaultPageWidth, defaultPageHeight));
+        applyTransformation(defaultPageHeight, defaultScaleX, defaultScaleY);
+      }
+    }
+  }
+
+  /**
+   * Returns the number of pages in the PDF document.
+   *
+   * @return the page count
+   */
+  public int getPageCount() {
+    return pdfDoc.getNumberOfPages();
   }
 
   @Override
