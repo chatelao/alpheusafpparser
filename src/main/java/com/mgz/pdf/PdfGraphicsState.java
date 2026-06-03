@@ -31,7 +31,7 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GSLJ_SetLineJoin.LineJoin;
 public class PdfGraphicsState {
 
   private AFPColorValue color = AFPColorValue.DeviceDefault_0x00;
-  private short lineWidth = 0;
+  private float lineWidth = 0.0f;
   private short lineType = 0;
   private LineEnd lineEnd = LineEnd.Default;
   private LineJoin lineJoin = LineJoin.Default;
@@ -65,7 +65,7 @@ public class PdfGraphicsState {
    */
   public void reset() {
     this.color = AFPColorValue.DeviceDefault_0x00;
-    this.lineWidth = 0;
+    this.lineWidth = 0.0f;
     this.lineType = 0;
     this.lineEnd = LineEnd.Default;
     this.lineJoin = LineJoin.Default;
@@ -101,11 +101,11 @@ public class PdfGraphicsState {
     this.color = color;
   }
 
-  public short getLineWidth() {
+  public float getLineWidth() {
     return lineWidth;
   }
 
-  public void setLineWidth(short lineWidth) {
+  public void setLineWidth(float lineWidth) {
     this.lineWidth = lineWidth;
   }
 

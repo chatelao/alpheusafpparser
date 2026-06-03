@@ -76,8 +76,15 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GSMT_SetMarkerSymbol;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPS_SetPatternSet;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPT_SetPatternSymbol;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLW_SetLineWidth;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSFLW_SetFractionLineWidth;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSMX_SetMix;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPCOL_SetProcessColor;
+import com.mgz.afp.goca.GAD_DrawingOrder.GBSEG_BeginSegment;
+import com.mgz.afp.goca.GAD_DrawingOrder.GESEG_EndSegment;
+import com.mgz.afp.goca.GAD_DrawingOrder.GNOP1_NopOperation;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCOMT_Comment;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCCBEZ_CubicBezierCurveAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCBEZ_CubicBezierCurveAtGivenPosition;
 import com.mgz.afp.goca.GAD_GraphicsData;
 import com.mgz.afp.modca.BDT_BeginDocument;
 import com.mgz.afp.modca.BIM_BeginImageObject;
@@ -495,6 +502,8 @@ public class PdfHandler implements StructuredFieldHandler {
       graphicsState.setArcTransformQ(gsap.getArcTransformQ());
       graphicsState.setArcTransformR(gsap.getArcTransformR());
       graphicsState.setArcTransformS(gsap.getArcTransformS());
+    } else if (order instanceof GSFLW_SetFractionLineWidth gsflw) {
+      graphicsState.setLineWidth(gsflw.getIntegralMultiplier() + (gsflw.getFractionalMultiplier() / 256.0f));
     } else if (order instanceof GSPCOL_SetProcessColor gspcol) {
       graphicsState.setProcessColorSpace(gspcol.getColorSpace());
       graphicsState.setNrOfBitsComponent1(gspcol.getNrOfBitsComponent1());
@@ -656,6 +665,49 @@ public class PdfHandler implements StructuredFieldHandler {
       renderFillet(gflt.getPoints(), false);
     } else if (order instanceof GCFLT_FilletAtCurrentPosition gcflt) {
       renderFillet(gcflt.getPoints(), true);
+    } else if (order instanceof GCCBEZ_CubicBezierCurveAtCurrentPosition gccbez) {
+      if (currentCanvas != null && gccbez.getPoints() != null) {
+        applyGraphicsState();
+        currentCanvas.moveTo(graphicsState.getCurrentX(), graphicsState.getCurrentY());
+        List<GAD_DrawingOrder.GOCA_Point> points = gccbez.getPoints();
+        for (int i = 0; i < points.size() - 2; i += 3) {
+          GAD_DrawingOrder.GOCA_Point p1 = points.get(i);
+          GAD_DrawingOrder.GOCA_Point p2 = points.get(i + 1);
+          GAD_DrawingOrder.GOCA_Point p3 = points.get(i + 2);
+          currentCanvas.curveTo(p1.xCoordinate(), p1.yCoordinate(), p2.xCoordinate(), p2.yCoordinate(), p3.xCoordinate(), p3.yCoordinate());
+          graphicsState.setCurrentX(p3.xCoordinate());
+          graphicsState.setCurrentY(p3.yCoordinate());
+        }
+        if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
+          currentCanvas.stroke();
+        }
+      }
+    } else if (order instanceof GCBEZ_CubicBezierCurveAtGivenPosition gcbez) {
+      if (currentCanvas != null && gcbez.getPoints() != null && gcbez.getPoints().size() >= 4) {
+        applyGraphicsState();
+        List<GAD_DrawingOrder.GOCA_Point> points = gcbez.getPoints();
+        GAD_DrawingOrder.GOCA_Point start = points.get(0);
+        currentCanvas.moveTo(start.xCoordinate(), start.yCoordinate());
+        for (int i = 1; i < points.size() - 2; i += 3) {
+          GAD_DrawingOrder.GOCA_Point p1 = points.get(i);
+          GAD_DrawingOrder.GOCA_Point p2 = points.get(i + 1);
+          GAD_DrawingOrder.GOCA_Point p3 = points.get(i + 2);
+          currentCanvas.curveTo(p1.xCoordinate(), p1.yCoordinate(), p2.xCoordinate(), p2.yCoordinate(), p3.xCoordinate(), p3.yCoordinate());
+          graphicsState.setCurrentX(p3.xCoordinate());
+          graphicsState.setCurrentY(p3.yCoordinate());
+        }
+        if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
+          currentCanvas.stroke();
+        }
+      }
+    } else if (order instanceof GBSEG_BeginSegment gbseg) {
+      if (gbseg.getDrawingOrders() != null) {
+        for (GAD_DrawingOrder subOrder : gbseg.getDrawingOrders()) {
+          handleDrawingOrder(subOrder);
+        }
+      }
+    } else if (order instanceof GESEG_EndSegment || order instanceof GNOP1_NopOperation || order instanceof GCOMT_Comment) {
+      // No-op
     }
   }
 
