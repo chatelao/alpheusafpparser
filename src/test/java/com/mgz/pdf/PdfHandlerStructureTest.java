@@ -70,6 +70,8 @@ import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
 import com.mgz.afp.modca.MDR_MapDataResource;
 import com.mgz.afp.modca.MMO_MapMediumOverlay;
 import com.mgz.afp.modca.MPS_MapPageSegment;
+import com.mgz.afp.modca.BMO_BeginOverlay;
+import com.mgz.afp.modca.EMO_EndOverlay;
 import com.mgz.afp.modca.PGD_PageDescriptor;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
 import com.mgz.afp.ptoca.PTX_PresentationTextData;
@@ -1088,6 +1090,132 @@ public class PdfHandlerStructureTest {
     handler.handle(ebc);
 
     assertEquals(5, handler.getFieldCount());
+  }
+
+  @Test
+  public void testCode128BarcodeRendering() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+    bdd.setStructuredFieldIntroducer(createSfi(SFTypeID.BDD_BarCodeDataDescriptor));
+    bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode);
+    handler.handle(bdd);
+
+    BBC_BeginBarCodeObject bbc = new BBC_BeginBarCodeObject();
+    bbc.setStructuredFieldIntroducer(createSfi(SFTypeID.BBC_BeginBarCodeObject));
+    handler.handle(bbc);
+
+    BDA_BarCodeData bda = new BDA_BarCodeData();
+    bda.setStructuredFieldIntroducer(createSfi(SFTypeID.BDA_BarCodeData));
+    bda.barCodeData = "ABC123abc".getBytes();
+    handler.handle(bda);
+
+    EBC_EndBarCodeObject ebc = new EBC_EndBarCodeObject();
+    ebc.setStructuredFieldIntroducer(createSfi(SFTypeID.EBC_EndBarCodeObject));
+    handler.handle(ebc);
+
+    assertEquals(5, handler.getFieldCount());
+  }
+
+  @Test
+  public void testUpceBarcodeRendering() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+    bdd.setStructuredFieldIntroducer(createSfi(SFTypeID.BDD_BarCodeDataDescriptor));
+    bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.UPC_CGPC_VersionE);
+    handler.handle(bdd);
+
+    BBC_BeginBarCodeObject bbc = new BBC_BeginBarCodeObject();
+    bbc.setStructuredFieldIntroducer(createSfi(SFTypeID.BBC_BeginBarCodeObject));
+    handler.handle(bbc);
+
+    BDA_BarCodeData bda = new BDA_BarCodeData();
+    bda.setStructuredFieldIntroducer(createSfi(SFTypeID.BDA_BarCodeData));
+    bda.barCodeData = "123456".getBytes();
+    handler.handle(bda);
+
+    EBC_EndBarCodeObject ebc = new EBC_EndBarCodeObject();
+    ebc.setStructuredFieldIntroducer(createSfi(SFTypeID.EBC_EndBarCodeObject));
+    handler.handle(ebc);
+
+    assertEquals(5, handler.getFieldCount());
+  }
+
+  @Test
+  public void testG4ImageRendering() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    BIM_BeginImageObject bim = new BIM_BeginImageObject();
+    bim.setStructuredFieldIntroducer(createSfi(SFTypeID.BIM_BeginImageObject));
+    handler.handle(bim);
+
+    IDD_ImageDataDescriptor idd = new IDD_ImageDataDescriptor();
+    idd.setStructuredFieldIntroducer(createSfi(SFTypeID.IDD_ImageDataDescriptor));
+    idd.setWidthOfImageInImagePoints((short) 100);
+    idd.setHeightOfImageInImagePoints((short) 100);
+    handler.handle(idd);
+
+    IPD_ImagePictureData ipd = new IPD_ImagePictureData();
+    ipd.setStructuredFieldIntroducer(createSfi(SFTypeID.IPD_ImagePictureData));
+
+    // Create G4 ImageEncoding segment
+    com.mgz.afp.ioca.IPD_Segment.ImageEncoding encoding = new com.mgz.afp.ioca.IPD_Segment.ImageEncoding();
+    encoding.setCompressionAlgorithm(com.mgz.afp.ioca.IPD_Segment.IPD_CompressionAlgorithm.G4_ModifiedModifiedREAD);
+    encoding.setRecordingAlgorithm(com.mgz.afp.ioca.IPD_Segment.IPD_RecordingAlgorithm.RIDIC_RecordingImageDataInlineCoding);
+
+    // Create ImageData segment
+    com.mgz.afp.ioca.IPD_Segment.ImageData data = new com.mgz.afp.ioca.IPD_Segment.ImageData();
+    data.setImageData(new byte[10]); // Fake G4 data
+
+    List<com.mgz.afp.ioca.IPD_Segment> segments = new ArrayList<>();
+    segments.add(encoding);
+    segments.add(data);
+    ipd.setListOfSegments(segments);
+    handler.handle(ipd);
+
+    EIM_EndImageObject eim = new EIM_EndImageObject();
+    eim.setStructuredFieldIntroducer(createSfi(SFTypeID.EIM_EndImageObject));
+    handler.handle(eim);
+
+    assertEquals(5, handler.getFieldCount());
+  }
+
+  @Test
+  public void testOverlayCapture() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BMO_BeginOverlay bmo = new BMO_BeginOverlay();
+    bmo.setStructuredFieldIntroducer(createSfi(SFTypeID.BMO_BeginOverlay));
+    bmo.setName("O1TEST");
+    handler.handle(bmo);
+
+    // GOCA orders inside overlay
+    GAD_GraphicsData gad = new GAD_GraphicsData();
+    gad.setStructuredFieldIntroducer(createSfi(SFTypeID.GAD_GraphicsData));
+    List<GAD_DrawingOrder> orders = new ArrayList<>();
+    GSCP_SetCurrentPosition gscp = new GSCP_SetCurrentPosition();
+    gscp.setCoordinateX((short) 100);
+    gscp.setCoordinateY((short) 100);
+    orders.add(gscp);
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    EMO_EndOverlay emo = new EMO_EndOverlay();
+    emo.setStructuredFieldIntroducer(createSfi(SFTypeID.EMO_EndOverlay));
+    handler.handle(emo);
+
+    assertEquals(3, handler.getFieldCount());
+    assertEquals(100, handler.getGraphicsState().getCurrentX());
   }
 
   @Test

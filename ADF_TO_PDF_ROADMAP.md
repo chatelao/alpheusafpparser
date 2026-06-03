@@ -41,10 +41,11 @@ Optimize resource handling for high-performance variable data printing.
     - ✅ **Global Overlay Tracking (MMO)**: Identify and track Medium Overlays across the document.
     - ✅ **Global Page Segment Tracking (MPS)**: Identify and track Page Segments across the document.
     - ⏳ **Resource conversion to PdfFormXObject**: Convert AFP resources to reusable PDF Form XObjects.
-        - ⏳ **Initialize `PdfFormXObject` for resource capture**: Create XObject instances for each unique resource.
-        - ⏳ **Implement XObject-specific canvas and state management**: Manage independent coordinate systems and states within XObjects.
+            - ✅ **Initialize `PdfFormXObject` for resource capture**: Create XObject instances for each unique resource.
+            - ✅ **Implement XObject-specific canvas and state management**: Manage independent coordinate systems and states within XObjects.
         - ⏳ **Implement Overlay conversion logic**: Map GOCA/IOCA content of Medium Overlays to `PdfFormXObject` streams.
         - ⏳ **Implement Page Segment conversion logic**: Map GOCA/IOCA content of Page Segments to `PdfFormXObject` streams.
+        - ✅ **Implement Resource Inclusion (IPO/IPS)**: Support inclusion of Overlays and Page Segments on pages.
         - ⏳ **Implement GOCA/PTOCA/IOCA/BCOCA content mapping to XObject**: Ensure all content drivers support writing to XObject streams.
         - ⏳ **Handle resource inheritance and local dictionaries**: Manage nested resource references within XObjects.
         - ⏳ **Implement Resource Environment Group (REG) mapping**: Ensure resources defined in REG are converted.
@@ -52,7 +53,7 @@ Optimize resource handling for high-performance variable data printing.
 - ⏳ **FOCA to PDF/X-4 Font Embedding**: Ensure all fonts are fully embedded and subsetted per PDF/X-4 requirements.
     - ⏳ **Font Registry**: Implement a global registry for `PdfFont` instances mapped by FOCA resource name. (✅ Basic `PdfFontRegistry` implemented in `PdfHandler`).
     - ⏳ **Subset Generation**: Enable iText font subsetting for PDF/X-4 compliance.
-- ⏳ **IOCA Image Optimizer**: Map repeated IOCA objects to a single Image XObject instance to reduce file size.
+- ✅ **IOCA Image Optimizer**: Map repeated IOCA objects to a single Image XObject instance to reduce file size.
 
 ## Phase 3: Content Conversion (Base Operators) ⏳
 Implement the drivers for converting AFP content architectures to PDF operators.
@@ -114,8 +115,8 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Interleaved 2 of 5**: Implement rendering for Interleaved 2 of 5 (ITF) barcodes.
         - ✅ **UPC-A**: Implement rendering for UPC-A barcodes.
         - ✅ **EAN-8 / EAN-13**: Implement rendering for EAN-8 and EAN-13 barcodes.
-        - ⏳ **Code 128**: Implement rendering for Code 128 barcodes.
-        - ⏳ **UPC-E**: Implement rendering for UPC-E barcodes.
+        - ✅ **Code 128 (Subset B)**: Implement rendering for Code 128 (Subset B) barcodes.
+        - ✅ **UPC-E**: Implement rendering for UPC-E barcodes.
     - ⏳ **2D Barcode Support**: Implement rendering for 2D barcodes (Data Matrix, QR Code, PDF417).
     - ⏳ **Postal Barcode Support**: Implement rendering for postal codes (POSTNET, Intelligent Mail, Japan Postal).
     - ✅ **HRI Rendering**: Implement Human Readable Interpretation (HRI) text placement and font mapping.
@@ -125,7 +126,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **FS10 Support**: Support FS10 (Bilevel) image data (uncompressed).
         - ✅ **FS11 Support**: Support FS11 (Grayscale/Color) image data (uncompressed).
         - ⏳ **FS40 Support**: Support FS40 (Tiled) image data.
-        - ⏳ **G3/G4 Decoding**: Implement CCITT Group 3/4 decompression.
+        - ✅ **G3/G4 Decoding**: Implement CCITT Group 3/4 decompression.
         - ⏳ **LZW Decoding**: Implement LZW decompression.
         - ⏳ **JPEG Decoding**: Implement JPEG (DCT) decompression.
     - ⏳ **Implement Image XObject Creation**: Convert decoded data to iText `PdfImageXObject`.
