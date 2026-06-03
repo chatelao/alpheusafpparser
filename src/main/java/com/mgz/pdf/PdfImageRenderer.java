@@ -23,6 +23,7 @@ import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.kernel.pdf.xobject.PdfImageXObject;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
+import com.mgz.afp.ioca.IDD_SelfDefiningField;
 import com.mgz.afp.ioca.IPD_ImagePictureData;
 import com.mgz.afp.ioca.IPD_Segment;
 import com.mgz.afp.ioca.IPD_Segment.ImageData;
@@ -91,10 +92,37 @@ public class PdfImageRenderer {
       }
 
       if (compression == IPD_CompressionAlgorithm.NoCompression) {
-        // Assume bilevel (1 bit per pixel) for now as FS10 is common
-        // public static ImageData create(int width, int height, int components, int bpc, byte[] data, int[] transparency)
+        int components = 1;
+        int bitsPerComponent = 1;
+
+        // Try to get structure from IOCA segments first
+        for (IPD_ImagePictureData ipd : state.getImageSegments()) {
+          if (ipd.getListOfSegments() != null) {
+            for (IPD_Segment segment : ipd.getListOfSegments()) {
+              if (segment instanceof IPD_Segment.IDEStructure ide) {
+                if (ide.getComponentSizes() != null && !ide.getComponentSizes().isEmpty()) {
+                  components = ide.getComponentSizes().size();
+                  bitsPerComponent = ide.getComponentSizes().get(0);
+                }
+              }
+            }
+          }
+        }
+
+        // Fallback to descriptor's self-defining fields if not in image segments
+        if (components == 1 && bitsPerComponent == 1 && descriptor.getSelfDefiningFields() != null) {
+          for (IDD_SelfDefiningField sdf : descriptor.getSelfDefiningFields()) {
+            if (sdf instanceof IDD_SelfDefiningField.IDEStructure ide) {
+              if (ide.getComponentSizes() != null && ide.getComponentSizes().length > 0) {
+                components = ide.getComponentSizes().length;
+                bitsPerComponent = ide.getComponentSizes()[0];
+              }
+            }
+          }
+        }
+
         com.itextpdf.io.image.ImageData itextImageData = ImageDataFactory.create(
-            width, height, 1, 1, data, null);
+            width, height, components, bitsPerComponent, data, null);
         PdfImageXObject imageXObject = new PdfImageXObject(itextImageData);
 
         // Placement at (xOrigin, yOrigin) with its own size in AFP units
