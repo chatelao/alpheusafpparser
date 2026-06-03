@@ -60,7 +60,6 @@ Serialize a field in a single memory copy operation.
 
 - ⏳ **XML Byte Templates**: Generate pre-computed XML byte templates for each Structured Field type.
 - ⏳ **Hole-Punching**: Inject variable data (like coordinates or lengths) directly into the template.
-- ⏳ **Low-Level Memory Ops**: Use `Unsafe` or `Foreign Function & Memory API` (Project Panama) for ultra-fast memory copies.
 
 ## 7. Kernel-Level I/O & Direct Buffer Orchestration
 Zero-copy from disk to XML output.
