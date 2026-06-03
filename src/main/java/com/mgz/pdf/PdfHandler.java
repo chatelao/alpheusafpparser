@@ -29,6 +29,7 @@ import com.itextpdf.kernel.pdf.PdfArray;
 import com.itextpdf.kernel.pdf.PdfDictionary;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfName;
+import com.itextpdf.kernel.pdf.PdfOutputIntent;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfString;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -36,64 +37,76 @@ import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
+import com.mgz.afp.base.IRepeatingGroup;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
-import com.mgz.afp.base.IRepeatingGroup;
 import com.mgz.afp.bcoca.BBC_BeginBarCodeObject;
-import com.mgz.afp.bcoca.EBC_EndBarCodeObject;
 import com.mgz.afp.bcoca.BDA_BarCodeData;
 import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor;
+import com.mgz.afp.bcoca.EBC_EndBarCodeObject;
 import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.enums.AFPUnitBase;
-import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
-import com.mgz.afp.ioca.IPD_ImagePictureData;
 import com.mgz.afp.goca.GAD_DrawingOrder;
-import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
-import com.mgz.afp.goca.GAD_DrawingOrder.GCBOX_BoxAtCurrentPosition;
-import com.mgz.afp.goca.GAD_DrawingOrder.GCFLT_FilletAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBAR_BeginArea;
+import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GBSEG_BeginSegment;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCBEZ_CubicBezierCurveAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCBOX_BoxAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCCBEZ_CubicBezierCurveAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCFARC_FullArcAtCurrentPosition;
-import com.mgz.afp.goca.GAD_DrawingOrder.GCPARC_PartialArcAtCurrentPosition;
-import com.mgz.afp.goca.GAD_DrawingOrder.GEAR_EndArea;
-import com.mgz.afp.goca.GAD_DrawingOrder.GFLT_FilletAtGivenPosition;
-import com.mgz.afp.goca.GAD_DrawingOrder.GFARC_FullArcAtGivenPosition;
-import com.mgz.afp.goca.GAD_DrawingOrder.GPARC_PartialArcAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCFLT_FilletAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCLINE_LineAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCOMT_Comment;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCPARC_PartialArcAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCRLINE_RelativeLineAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GEAR_EndArea;
+import com.mgz.afp.goca.GAD_DrawingOrder.GESEG_EndSegment;
+import com.mgz.afp.goca.GAD_DrawingOrder.GFARC_FullArcAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GFLT_FilletAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GLINE_LineAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GNOP1_NopOperation;
+import com.mgz.afp.goca.GAD_DrawingOrder.GPARC_PartialArcAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GRLINE_RelativeLineAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSAP_SetArcParameters;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSBMX_SetBackgroundMix;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSCOL_SetColor;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSCP_SetCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSECOL_SetExtendedColor;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSFLW_SetFractionLineWidth;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLE_SetLineEnd;
-import com.mgz.afp.goca.GAD_DrawingOrder.GSBMX_SetBackgroundMix;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLJ_SetLineJoin;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLT_SetLineType;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSLW_SetLineWidth;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSMP_SetMarkerPrecision;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSMS_SetMarkerSet;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSMT_SetMarkerSymbol;
-import com.mgz.afp.goca.GAD_DrawingOrder.GSPS_SetPatternSet;
-import com.mgz.afp.goca.GAD_DrawingOrder.GSPT_SetPatternSymbol;
-import com.mgz.afp.goca.GAD_DrawingOrder.GSLW_SetLineWidth;
-import com.mgz.afp.goca.GAD_DrawingOrder.GSFLW_SetFractionLineWidth;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSMX_SetMix;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPCOL_SetProcessColor;
-import com.mgz.afp.goca.GAD_DrawingOrder.GBSEG_BeginSegment;
-import com.mgz.afp.goca.GAD_DrawingOrder.GESEG_EndSegment;
-import com.mgz.afp.goca.GAD_DrawingOrder.GNOP1_NopOperation;
-import com.mgz.afp.goca.GAD_DrawingOrder.GCOMT_Comment;
-import com.mgz.afp.goca.GAD_DrawingOrder.GCCBEZ_CubicBezierCurveAtCurrentPosition;
-import com.mgz.afp.goca.GAD_DrawingOrder.GCBEZ_CubicBezierCurveAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSPS_SetPatternSet;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSPT_SetPatternSymbol;
 import com.mgz.afp.goca.GAD_GraphicsData;
+import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
+import com.mgz.afp.ioca.IPD_ImagePictureData;
+import com.mgz.afp.modca.BAG_BeginActiveEnvironmentGroup;
 import com.mgz.afp.modca.BDT_BeginDocument;
 import com.mgz.afp.modca.BIM_BeginImageObject;
+import com.mgz.afp.modca.BMO_BeginOverlay;
 import com.mgz.afp.modca.BNG_BeginNamedPageGroup;
+import com.mgz.afp.modca.BOG_BeginObjectEnvironmentGroup;
 import com.mgz.afp.modca.BPG_BeginPage;
+import com.mgz.afp.modca.BPS_BeginPageSegment;
+import com.mgz.afp.modca.BRG_BeginResourceGroup;
+import com.mgz.afp.modca.BSG_BeginResourceEnvironmentGroup;
+import com.mgz.afp.modca.EAG_EndActiveEnvironmentGroup;
 import com.mgz.afp.modca.EDT_EndDocument;
 import com.mgz.afp.modca.EIM_EndImageObject;
+import com.mgz.afp.modca.EMO_EndOverlay;
 import com.mgz.afp.modca.ENG_EndNamedPageGroup;
+import com.mgz.afp.modca.EOG_EndObjectEnvironmentGroup;
 import com.mgz.afp.modca.EPG_EndPage;
+import com.mgz.afp.modca.EPS_EndPageSegment;
+import com.mgz.afp.modca.ERG_EndResourceGroup;
+import com.mgz.afp.modca.ESG_EndResourceEnvironmentGroup;
 import com.mgz.afp.modca.IPO_IncludePageOverlay;
 import com.mgz.afp.modca.IPS_IncludePageSegment;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format1;
@@ -101,10 +114,6 @@ import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
 import com.mgz.afp.modca.MDR_MapDataResource;
 import com.mgz.afp.modca.MMO_MapMediumOverlay;
 import com.mgz.afp.modca.MPS_MapPageSegment;
-import com.mgz.afp.modca.BMO_BeginOverlay;
-import com.mgz.afp.modca.BPS_BeginPageSegment;
-import com.mgz.afp.modca.EMO_EndOverlay;
-import com.mgz.afp.modca.EPS_EndPageSegment;
 import com.mgz.afp.modca.OBD_ObjectAreaDescriptor;
 import com.mgz.afp.modca.OBP_ObjectAreaPosition;
 import com.mgz.afp.modca.PGD_PageDescriptor;
@@ -120,7 +129,6 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.GraphicCharacters;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMB_RelativeMoveBaseline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMI_RelativeMoveInline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SBI_SetBaselineIncrement;
-import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.TBM_TemporaryBaselineMove;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SCFL_SetCodedFontLocal;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SEC_SetExtendedTextColor;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SIA_SetIntercharacterAdjustment;
@@ -128,16 +136,18 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SIM_SetInlineMargi
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.STC_SetTextColor;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.STO_SetTextOrientation;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SVI_SetVariableSpaceCharacterIncrement;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.TBM_TemporaryBaselineMove;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.TRN_TransparentData;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.UCT_UnicodeComplexText;
 import com.mgz.afp.triplets.Triplet;
 import java.io.OutputStream;
-import java.util.List;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
@@ -156,7 +166,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private final Map<String, com.itextpdf.kernel.pdf.xobject.PdfImageXObject> imageCache = new HashMap<>();
   private final Set<String> mmoResources = new HashSet<>();
   private final Set<String> mpsResources = new HashSet<>();
-  private final Map<Short, String> fontMap = new HashMap<>();
+  private final Deque<Map<Short, String>> fontMapStack = new ArrayDeque<>();
   private final PdfFontRegistry fontRegistry = new PdfFontRegistry();
   private final PdfDocument pdfDoc;
   private final Document document;
@@ -179,6 +189,7 @@ public class PdfHandler implements StructuredFieldHandler {
     this.graphicsState = new PdfGraphicsState();
     this.barcodeState = new PdfBarcodeState();
     this.imageState = new PdfImageState();
+    this.fontMapStack.push(new HashMap<>());
 
     // Initialize DPartRoot for PDF/VT compliance (ISO 16612-2)
     this.dpartRoot = new PdfDictionary();
@@ -209,6 +220,18 @@ public class PdfHandler implements StructuredFieldHandler {
 
     if (sf.isBeginSF()) {
       structureStack.push(sf);
+
+      if (sf instanceof BDT_BeginDocument
+          || sf instanceof BPG_BeginPage
+          || sf instanceof BMO_BeginOverlay
+          || sf instanceof BPS_BeginPageSegment
+          || sf instanceof BAG_BeginActiveEnvironmentGroup
+          || sf instanceof BSG_BeginResourceEnvironmentGroup
+          || sf instanceof BOG_BeginObjectEnvironmentGroup
+          || sf instanceof BRG_BeginResourceGroup) {
+        fontMapStack.push(new HashMap<>(fontMapStack.peek()));
+      }
+
       if (sf instanceof BIM_BeginImageObject) {
         imageState.startNewImage();
       } else if (sf instanceof BBC_BeginBarCodeObject) {
@@ -254,6 +277,20 @@ public class PdfHandler implements StructuredFieldHandler {
     } else if (sf.isEndSF()) {
       if (!structureStack.isEmpty()) {
         StructuredField begin = structureStack.pop();
+
+        if (begin instanceof BDT_BeginDocument
+            || begin instanceof BPG_BeginPage
+            || begin instanceof BMO_BeginOverlay
+            || begin instanceof BPS_BeginPageSegment
+            || begin instanceof BAG_BeginActiveEnvironmentGroup
+            || begin instanceof BSG_BeginResourceEnvironmentGroup
+            || begin instanceof BOG_BeginObjectEnvironmentGroup
+            || begin instanceof BRG_BeginResourceGroup) {
+          if (fontMapStack.size() > 1) { // Never pop the base map
+            fontMapStack.pop();
+          }
+        }
+
         if (begin instanceof BDT_BeginDocument || begin instanceof BNG_BeginNamedPageGroup || begin instanceof BPG_BeginPage) {
           if (!dpartStack.isEmpty()) {
             dpartStack.pop();
@@ -316,8 +353,9 @@ public class PdfHandler implements StructuredFieldHandler {
       }
     } else if (sf instanceof MCF_MapCodedFont_Format1 mcf1) {
       if (mcf1.getRepeatingGroups() != null) {
+        Map<Short, String> currentFontMap = fontMapStack.peek();
         for (MCF_MapCodedFont_Format1.MCF_RepeatingGroup rg : mcf1.getRepeatingGroups()) {
-          fontMap.put(rg.getCodedFontLocalID(), rg.getCodedFontName());
+          currentFontMap.put(rg.getCodedFontLocalID(), rg.getCodedFontName());
         }
       }
     } else if (sf instanceof MCF_MapCodedFont_Format2 mcf2) {
@@ -336,7 +374,7 @@ public class PdfHandler implements StructuredFieldHandler {
               }
             }
             if (lid != null && name != null) {
-              fontMap.put(lid, name);
+              fontMapStack.peek().put(lid, name);
             }
           }
         }
@@ -358,7 +396,7 @@ public class PdfHandler implements StructuredFieldHandler {
               }
             }
             if (lid != null && name != null) {
-              fontMap.put(lid, name);
+              fontMapStack.peek().put(lid, name);
             }
           }
         }
@@ -1123,17 +1161,30 @@ public class PdfHandler implements StructuredFieldHandler {
    * @return the resolved {@link PdfFont}
    */
   private PdfFont resolveFont(short lid) {
-    String fontName = fontMap.get(lid);
+    String fontName = null;
+    for (Map<Short, String> map : fontMapStack) {
+      fontName = map.get(lid);
+      if (fontName != null) {
+        break;
+      }
+    }
     return fontRegistry.getFontWithFallback(fontName);
   }
 
   /**
    * Returns an unmodifiable map of the Coded Font Local IDs to font resource names.
+   * This is a merged view of all active scopes.
    *
    * @return the font map
    */
   public Map<Short, String> getFontMap() {
-    return Collections.unmodifiableMap(fontMap);
+    Map<Short, String> merged = new HashMap<>();
+    List<Map<Short, String>> list = new java.util.ArrayList<>(fontMapStack);
+    Collections.reverse(list);
+    for (Map<Short, String> map : list) {
+      merged.putAll(map);
+    }
+    return Collections.unmodifiableMap(merged);
   }
 
   /**
@@ -1233,5 +1284,20 @@ public class PdfHandler implements StructuredFieldHandler {
    */
   public Map<String, com.itextpdf.kernel.pdf.xobject.PdfImageXObject> getImageCache() {
     return imageCache;
+  }
+
+  /**
+   * Sets the output intent for the PDF document (e.g., for PDF/X or PDF/VT compliance).
+   *
+   * @param outputConditionIdentifier a string identifying the intended output condition
+   * @param outputCondition           a string identifying the intended output condition (optional)
+   * @param registryName              a string identifying the registry (optional)
+   * @param info                      a human-readable string containing additional information (optional)
+   * @param colorProfile              an InputStream to the ICC color profile
+   * @throws java.io.IOException if an error occurs while reading the color profile
+   */
+  public void setOutputIntent(String outputConditionIdentifier, String outputCondition, String registryName, String info, java.io.InputStream colorProfile) throws java.io.IOException {
+    PdfOutputIntent intent = new PdfOutputIntent(outputConditionIdentifier, outputCondition, registryName, info, colorProfile);
+    pdfDoc.addOutputIntent(intent);
   }
 }
