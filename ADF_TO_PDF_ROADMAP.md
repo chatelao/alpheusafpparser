@@ -32,7 +32,7 @@ Initialize the core PDF/VT structure and map the MO:DCA document hierarchy using
     - ✅ **Metadata Injection**: Write extracted tags to the `/DPart` dictionary as `/Property` entries.
 - ⏳ **Output Intents**: Define `/OutputIntents` (e.g., FOGRA39) for PDF/X compliance as required by ISO 16612-2.
     - ✅ **Structural Output Intent**: Initialize the `/OutputIntents` array in the PDF Catalog.
-    - ⏳ **ICC Profile Integration**: Load and embed standard ICC profiles (FOGRA39, GRACoL).
+    - ✅ **ICC Profile Integration**: Load and embed standard ICC profiles (FOGRA39, GRACoL). (✅ basic embedding method implemented in `PdfHandler`).
 
 ## Phase 2: Resource Management & Optimization ⏳
 Optimize resource handling for high-performance variable data printing.
@@ -47,8 +47,8 @@ Optimize resource handling for high-performance variable data printing.
         - ✅ **Implement Page Segment conversion logic**: Map GOCA/IOCA content of Page Segments to `PdfFormXObject` streams.
         - ✅ **Implement Resource Inclusion (IPO/IPS)**: Support inclusion of Overlays and Page Segments on pages.
         - ✅ **Implement GOCA/PTOCA/IOCA/BCOCA content mapping to XObject**: Ensure all content drivers support writing to XObject streams.
-        - ⏳ **Handle resource inheritance and local dictionaries**: Manage nested resource references within XObjects.
-        - ⏳ **Implement Resource Environment Group (REG) mapping**: Ensure resources defined in REG are converted.
+        - ✅ **Handle resource inheritance and local dictionaries**: Manage nested resource references within XObjects. (✅ Font scoping and inheritance implemented via `fontMapStack`).
+        - ✅ **Implement Resource Environment Group (REG) mapping**: Ensure resources defined in REG are converted. (✅ BAG, BSG, BOG, BRG handling integrated into resource scoping).
         - ✅ **Create PdfFormXObject Resource Cache**: Ensure each unique resource is converted only once.
 - ⏳ **FOCA to PDF/X-4 Font Embedding**: Ensure all fonts are fully embedded and subsetted per PDF/X-4 requirements.
     - ✅ **Font Registry**: Implement a global registry for `PdfFont` instances mapped by FOCA resource name. (✅ Basic `PdfFontRegistry` implemented in `PdfHandler`).

@@ -29,7 +29,9 @@ import com.itextpdf.kernel.pdf.PdfArray;
 import com.itextpdf.kernel.pdf.PdfDictionary;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfName;
+import com.itextpdf.kernel.pdf.PdfNumber;
 import com.itextpdf.kernel.pdf.PdfPage;
+import com.itextpdf.kernel.pdf.PdfStream;
 import com.itextpdf.kernel.pdf.PdfString;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
@@ -86,14 +88,22 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GCOMT_Comment;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCCBEZ_CubicBezierCurveAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCBEZ_CubicBezierCurveAtGivenPosition;
 import com.mgz.afp.goca.GAD_GraphicsData;
+import com.mgz.afp.modca.BAG_BeginActiveEnvironmentGroup;
 import com.mgz.afp.modca.BDT_BeginDocument;
 import com.mgz.afp.modca.BIM_BeginImageObject;
 import com.mgz.afp.modca.BNG_BeginNamedPageGroup;
+import com.mgz.afp.modca.BOG_BeginObjectEnvironmentGroup;
 import com.mgz.afp.modca.BPG_BeginPage;
+import com.mgz.afp.modca.BRG_BeginResourceGroup;
+import com.mgz.afp.modca.BSG_BeginResourceEnvironmentGroup;
+import com.mgz.afp.modca.EAG_EndActiveEnvironmentGroup;
 import com.mgz.afp.modca.EDT_EndDocument;
 import com.mgz.afp.modca.EIM_EndImageObject;
 import com.mgz.afp.modca.ENG_EndNamedPageGroup;
+import com.mgz.afp.modca.EOG_EndObjectEnvironmentGroup;
 import com.mgz.afp.modca.EPG_EndPage;
+import com.mgz.afp.modca.ERG_EndResourceGroup;
+import com.mgz.afp.modca.ESG_EndResourceEnvironmentGroup;
 import com.mgz.afp.modca.IPO_IncludePageOverlay;
 import com.mgz.afp.modca.IPS_IncludePageSegment;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format1;
@@ -156,7 +166,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private final Map<String, com.itextpdf.kernel.pdf.xobject.PdfImageXObject> imageCache = new HashMap<>();
   private final Set<String> mmoResources = new HashSet<>();
   private final Set<String> mpsResources = new HashSet<>();
-  private final Map<Short, String> fontMap = new HashMap<>();
+  private final Deque<Map<Short, String>> fontMapStack = new ArrayDeque<>();
   private final PdfFontRegistry fontRegistry = new PdfFontRegistry();
   private final PdfDocument pdfDoc;
   private final Document document;
@@ -179,6 +189,7 @@ public class PdfHandler implements StructuredFieldHandler {
     this.graphicsState = new PdfGraphicsState();
     this.barcodeState = new PdfBarcodeState();
     this.imageState = new PdfImageState();
+    this.fontMapStack.push(new HashMap<>());
 
     // Initialize DPartRoot for PDF/VT compliance (ISO 16612-2)
     this.dpartRoot = new PdfDictionary();
@@ -215,9 +226,19 @@ public class PdfHandler implements StructuredFieldHandler {
         barcodeState.startNewBarcode();
       } else if (sf instanceof BMO_BeginOverlay bmo) {
         startResourceCapture(bmo.getName());
+        fontMapStack.push(new HashMap<>());
       } else if (sf instanceof BPS_BeginPageSegment bps) {
         startResourceCapture(bps.getName());
+        fontMapStack.push(new HashMap<>());
+      } else if (sf instanceof BAG_BeginActiveEnvironmentGroup
+          || sf instanceof BSG_BeginResourceEnvironmentGroup
+          || sf instanceof BOG_BeginObjectEnvironmentGroup
+          || sf instanceof BRG_BeginResourceGroup) {
+        fontMapStack.push(new HashMap<>());
       } else if (sf instanceof BDT_BeginDocument || sf instanceof BNG_BeginNamedPageGroup || sf instanceof BPG_BeginPage) {
+        if (!(sf instanceof BNG_BeginNamedPageGroup)) {
+          fontMapStack.push(new HashMap<>());
+        }
         PdfDictionary dpart = new PdfDictionary();
         dpart.makeIndirect(pdfDoc);
         dpart.put(PdfName.Type, PdfName.DPart);
@@ -255,11 +276,24 @@ public class PdfHandler implements StructuredFieldHandler {
       if (!structureStack.isEmpty()) {
         StructuredField begin = structureStack.pop();
         if (begin instanceof BDT_BeginDocument || begin instanceof BNG_BeginNamedPageGroup || begin instanceof BPG_BeginPage) {
+          if (!(begin instanceof BNG_BeginNamedPageGroup) && !fontMapStack.isEmpty()) {
+            fontMapStack.pop();
+          }
           if (!dpartStack.isEmpty()) {
             dpartStack.pop();
           }
         } else if (begin instanceof BMO_BeginOverlay || begin instanceof BPS_BeginPageSegment) {
+          if (!fontMapStack.isEmpty()) {
+            fontMapStack.pop();
+          }
           endResourceCapture();
+        } else if (begin instanceof BAG_BeginActiveEnvironmentGroup
+            || begin instanceof BSG_BeginResourceEnvironmentGroup
+            || begin instanceof BOG_BeginObjectEnvironmentGroup
+            || begin instanceof BRG_BeginResourceGroup) {
+          if (!fontMapStack.isEmpty()) {
+            fontMapStack.pop();
+          }
         } else if (begin instanceof BIM_BeginImageObject) {
           imageState.setInImageObject(false);
           if (currentCanvas != null) {
@@ -315,13 +349,13 @@ public class PdfHandler implements StructuredFieldHandler {
         }
       }
     } else if (sf instanceof MCF_MapCodedFont_Format1 mcf1) {
-      if (mcf1.getRepeatingGroups() != null) {
+      if (mcf1.getRepeatingGroups() != null && !fontMapStack.isEmpty()) {
         for (MCF_MapCodedFont_Format1.MCF_RepeatingGroup rg : mcf1.getRepeatingGroups()) {
-          fontMap.put(rg.getCodedFontLocalID(), rg.getCodedFontName());
+          fontMapStack.peek().put(rg.getCodedFontLocalID(), rg.getCodedFontName());
         }
       }
     } else if (sf instanceof MCF_MapCodedFont_Format2 mcf2) {
-      if (mcf2.getRepeatingGroups() != null) {
+      if (mcf2.getRepeatingGroups() != null && !fontMapStack.isEmpty()) {
         for (IRepeatingGroup irg : mcf2.getRepeatingGroups()) {
           if (irg instanceof MCF_MapCodedFont_Format2.MCF_RepeatingGroup rg && rg.getTriplets() != null) {
             Short lid = null;
@@ -336,13 +370,13 @@ public class PdfHandler implements StructuredFieldHandler {
               }
             }
             if (lid != null && name != null) {
-              fontMap.put(lid, name);
+              fontMapStack.peek().put(lid, name);
             }
           }
         }
       }
     } else if (sf instanceof MDR_MapDataResource mdr) {
-      if (mdr.getRepeatingGroups() != null) {
+      if (mdr.getRepeatingGroups() != null && !fontMapStack.isEmpty()) {
         for (IRepeatingGroup irg : mdr.getRepeatingGroups()) {
           if (irg instanceof MDR_MapDataResource.MDR_RepeatingGroup rg && rg.getTriplets() != null) {
             Short lid = null;
@@ -358,7 +392,7 @@ public class PdfHandler implements StructuredFieldHandler {
               }
             }
             if (lid != null && name != null) {
-              fontMap.put(lid, name);
+              fontMapStack.peek().put(lid, name);
             }
           }
         }
@@ -1118,22 +1152,36 @@ public class PdfHandler implements StructuredFieldHandler {
 
   /**
    * Resolves the font for the given Local ID (LID).
+   * Searches through the font map stack from top to bottom (inheritance).
    *
    * @param lid the local ID
    * @return the resolved {@link PdfFont}
    */
   private PdfFont resolveFont(short lid) {
-    String fontName = fontMap.get(lid);
+    String fontName = null;
+    for (Map<Short, String> map : fontMapStack) {
+      fontName = map.get(lid);
+      if (fontName != null) {
+        break;
+      }
+    }
     return fontRegistry.getFontWithFallback(fontName);
   }
 
   /**
-   * Returns an unmodifiable map of the Coded Font Local IDs to font resource names.
+   * Returns an unmodifiable map of the current merged Coded Font Local IDs to font resource names.
    *
-   * @return the font map
+   * @return the merged font map
    */
   public Map<Short, String> getFontMap() {
-    return Collections.unmodifiableMap(fontMap);
+    Map<Short, String> merged = new HashMap<>();
+    // Iterate from bottom to top to ensure top-most mappings overwrite bottom ones
+    List<Map<Short, String>> list = new java.util.ArrayList<>(fontMapStack);
+    Collections.reverse(list);
+    for (Map<Short, String> map : list) {
+      merged.putAll(map);
+    }
+    return Collections.unmodifiableMap(merged);
   }
 
   /**
@@ -1233,5 +1281,40 @@ public class PdfHandler implements StructuredFieldHandler {
    */
   public Map<String, com.itextpdf.kernel.pdf.xobject.PdfImageXObject> getImageCache() {
     return imageCache;
+  }
+
+  /**
+   * Sets the output intent for the PDF document.
+   * This is required for PDF/X and PDF/VT compliance.
+   *
+   * @param outputConditionIdentifier the output condition identifier (e.g., "CGATS TR 001")
+   * @param info                      the info (e.g., "CGATS TR 001 (SWOP)")
+   * @param registryName              the registry name (e.g., "http://www.color.org")
+   * @param outputCondition           the output condition (e.g., "SWOP")
+   * @param iccStream                 the ICC profile stream
+   * @throws java.io.IOException if an I/O error occurs
+   */
+  public void setOutputIntent(String outputConditionIdentifier, String info, String registryName, String outputCondition, java.io.InputStream iccStream) throws java.io.IOException {
+    PdfDictionary outputIntent = new PdfDictionary();
+    outputIntent.put(PdfName.Type, PdfName.OutputIntent);
+    outputIntent.put(PdfName.S, new PdfName("GTS_PDFX"));
+    outputIntent.put(PdfName.OutputConditionIdentifier, new PdfString(outputConditionIdentifier));
+    outputIntent.put(PdfName.RegistryName, new PdfString(registryName));
+    outputIntent.put(PdfName.Info, new PdfString(info));
+    outputIntent.put(PdfName.OutputCondition, new PdfString(outputCondition));
+
+    if (iccStream != null) {
+      PdfStream stream = new PdfStream(pdfDoc, iccStream);
+      // For PDF/X, N must be 3 (RGB) or 4 (CMYK). Default to 4 if unknown.
+      stream.put(PdfName.N, new PdfNumber(4));
+      outputIntent.put(PdfName.DestOutputProfile, stream);
+    }
+
+    PdfArray outputIntents = pdfDoc.getCatalog().getPdfObject().getAsArray(PdfName.OutputIntents);
+    if (outputIntents == null) {
+      outputIntents = new PdfArray();
+      pdfDoc.getCatalog().put(PdfName.OutputIntents, outputIntents);
+    }
+    outputIntents.add(outputIntent);
   }
 }
