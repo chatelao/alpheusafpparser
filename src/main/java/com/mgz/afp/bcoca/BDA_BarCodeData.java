@@ -183,9 +183,32 @@ public class BDA_BarCodeData extends StructuredField {
       BDA_BarCodeData.checkDataLength(sfData, offset, length, 7); // minimum length up to offset 11
       controlFlags = ControlFlag.valueOf(UtilBinaryDecoding.parseInt(sfData, offset, 1));
       version = sfData[offset + 2];
+      // [BCOCA-5-009] EC-0F22: Version number (0 to 84)
+      if ((version & 0xFF) > 84 && version != (byte) 0xFF) {
+        throw new AFPParserException("EC-0F22: For a Han Xin Code symbol, an invalid version value was specified. Valid values are 0-84.");
+      }
+
       errorCorrectionLevel = sfData[offset + 3];
+      // [BCOCA-5-009] EC-0F23: Error correction level (1 to 4)
+      if (errorCorrectionLevel < 1 || errorCorrectionLevel > 4) {
+        throw new AFPParserException("EC-0F23: For a Han Xin Code symbol, an invalid error-correction-level value was specified. Valid values are 1-4.");
+      }
+
       hanXinSpecialFunctionFlags = HanXinSpecialFunctionFlag.valueOf(sfData[offset + 4]);
+      // [BCOCA-5-009] EC-0F24: mutually exclusive FNC1 flags
+      if (hanXinSpecialFunctionFlags.contains(HanXinSpecialFunctionFlag.GS1FNC1) &&
+          hanXinSpecialFunctionFlags.contains(HanXinSpecialFunctionFlag.IndustryFNC1)) {
+        throw new AFPParserException("EC-0F24: For a Han Xin Code symbol, an invalid combination of special-function flags was specified. Only one of the FNC1 flags can be B'1'.");
+      }
+
       applicationIndicator = sfData[offset + 5];
+      // [BCOCA-5-009] EC-0F25: Han Xin application indicator (0-99 / 0x00-0x63)
+      if (hanXinSpecialFunctionFlags.contains(HanXinSpecialFunctionFlag.IndustryFNC1)) {
+        if ((applicationIndicator & 0xFF) > 0x63) {
+          throw new AFPParserException("EC-0F25: For a Han Xin Code symbol, an invalid application-indicator value was specified. Valid values are 0-99 (X'00'-X'63').");
+        }
+      }
+
       additionalParametersLength = sfData[offset + 6];
 
       if (additionalParametersLength > 0) {
@@ -470,9 +493,27 @@ public class BDA_BarCodeData extends StructuredField {
       controlFlags = ControlFlag.valueOf(UtilBinaryDecoding.parseInt(sfData, offset, 1));
 
       desiredNumberOfLayers = sfData[offset + 2];
+      // [BCOCA-5-009] EC-0F18: Number of layers (0 to 32)
+      if ((desiredNumberOfLayers & 0xFF) > 32 && desiredNumberOfLayers != (byte) 0xFF) {
+        throw new AFPParserException("EC-0F18: For an Aztec Code symbol, an invalid desired-number-of-layers value was specified. Valid values are 0-32 or 255.");
+      }
+
       levelOfErrorCorrection = sfData[offset + 3];
+      // [BCOCA-5-009] EC-0F19: Error correction level (5 to 95)
+      if (((levelOfErrorCorrection & 0xFF) < 5 || (levelOfErrorCorrection & 0xFF) > 95) && levelOfErrorCorrection != (byte) 0xFF) {
+        throw new AFPParserException("EC-0F19: For an Aztec Code symbol, an invalid error-correction-level value was specified. Valid values are 5-95 or 255.");
+      }
+
       aztecSpecialFunctionFlags = AztecSpecialFunctionFlag.valueOf(sfData[offset + 4]);
       applicationIndicator = sfData[offset + 5];
+      // [BCOCA-5-009] EC-0F1B: Aztec application indicator
+      if (aztecSpecialFunctionFlags.contains(AztecSpecialFunctionFlag.IndustryFNC1)) {
+        int val = applicationIndicator & 0xFF;
+        boolean valid = (val <= 0x63) || (val >= 0xA5 && val <= 0xBE) || (val >= 0xC5 && val <= 0xDE);
+        if (!valid) {
+          throw new AFPParserException("EC-0F1B: For an Aztec Code symbol, an invalid application-indicator value was specified.");
+        }
+      }
 
       // [BCOCA-5-009] EC-0F1A validation
       if (aztecSpecialFunctionFlags.contains(AztecSpecialFunctionFlag.GS1FNC1) &&
@@ -482,6 +523,11 @@ public class BDA_BarCodeData extends StructuredField {
       sequenceIndicator = sfData[offset + 6];
       totalNumberOfSymbols = sfData[offset + 7];
       structuredAppendIdLength = sfData[offset + 8];
+
+      // [BCOCA-5-009] EC-0F1C: Append ID length must be 0 if not part of structured append
+      if (sequenceIndicator == 0 && structuredAppendIdLength != 0) {
+        throw new AFPParserException("EC-0F1C: For an Aztec Code symbol, the structured-append-ID-length value was not X'00' for a symbol that was not part of a structured append.");
+      }
 
       int currentOffset = 9;
       if (structuredAppendIdLength > 0) {

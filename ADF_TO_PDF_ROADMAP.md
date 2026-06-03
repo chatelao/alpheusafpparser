@@ -41,8 +41,12 @@ Optimize resource handling for high-performance variable data printing.
     - ✅ **Global Overlay Tracking (MMO)**: Identify and track Medium Overlays across the document.
     - ✅ **Global Page Segment Tracking (MPS)**: Identify and track Page Segments across the document.
     - ⏳ **Resource conversion to PdfFormXObject**: Convert AFP resources to reusable PDF Form XObjects.
+        - ⏳ **Initialize `PdfFormXObject` for resource capture**: Create XObject instances for each unique resource.
+        - ⏳ **Implement XObject-specific canvas and state management**: Manage independent coordinate systems and states within XObjects.
         - ⏳ **Implement Overlay conversion logic**: Map GOCA/IOCA content of Medium Overlays to `PdfFormXObject` streams.
         - ⏳ **Implement Page Segment conversion logic**: Map GOCA/IOCA content of Page Segments to `PdfFormXObject` streams.
+        - ⏳ **Implement GOCA/PTOCA/IOCA/BCOCA content mapping to XObject**: Ensure all content drivers support writing to XObject streams.
+        - ⏳ **Handle resource inheritance and local dictionaries**: Manage nested resource references within XObjects.
         - ⏳ **Implement Resource Environment Group (REG) mapping**: Ensure resources defined in REG are converted.
         - ⏳ **Create PdfFormXObject Resource Cache**: Ensure each unique resource is converted only once.
 - ⏳ **FOCA to PDF/X-4 Font Embedding**: Ensure all fonts are fully embedded and subsetted per PDF/X-4 requirements.
@@ -57,13 +61,13 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ✅ **Page Size Initialization**: Map `PGD` (Page Descriptor) dimensions to PDF `MediaBox`, including document-level defaults.
     - ✅ **Scale Calculation**: Map 1440 LPI or Pel resolution to 72 DPI.
     - ✅ **Y-Axis Flip**: Apply `cm` operator to move origin from top-left to bottom-left.
-- ⏳ **PTOCA Driver**: Map PTOCA control sequences to PDF Text Objects (`BT`/`ET`) and positioning operators (`Td`/`Tm`).
-    - ⏳ **Text State Management**:
+- ✅ **PTOCA Driver**: Map PTOCA control sequences to PDF Text Objects (`BT`/`ET`) and positioning operators (`Td`/`Tm`).
+    - ✅ **Text State Management**:
         - ✅ **Text State Container**: Track active font (LID), color, rotation, and current position (I,B).
         - ✅ **PTOCA State Tracking**: Update text state from positioning (`AMI`, `RMI`, `AMB`, `RMB`), orientation (`STO`), font (`SCFL`), and color (`STC`, `SEC`) control sequences.
         - ✅ **Coordinate Conversion**: Map (I,B) coordinates to PDF (x,y) user space.
-    - ⏳ **Font & Color Resolution**:
-        - ⏳ **Font Mapping**: Resolve FOCA Local IDs (LID) to embedded `PdfFont` instances.
+    - ✅ **Font & Color Resolution**:
+        - ✅ **Font Mapping**: Resolve FOCA Local IDs (LID) to embedded `PdfFont` instances.
             - ✅ **Font Resource Tracking (MCF)**: Track LID-to-font name mappings from `MCF` (Format 1 & 2) structured fields.
             - ✅ **Font Resource Tracking (MDR)**: Track LID-to-font name mappings from `MDR` (Map Data Resource) structured fields for TrueType/OpenType fonts.
             - ✅ **PdfFont Resolution**:
@@ -75,22 +79,23 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ✅ **Baseline Positioning**:
         - ✅ **Absolute & Relative**: Map `AMB` (Absolute Move Baseline) and `RMB` (Relative Move Baseline).
         - ✅ **Temporary Baseline Move**: Map `TBM` (Temporary Baseline Move) for superscripts/subscripts.
+        - ✅ **Rule Drawing**: Map `DIR` (Draw I-axis Rule) and `DBR` (Draw B-axis Rule) to PDF rectangles.
         - ✅ **Direction Control**: Map `STOC` (Set Text Orientation) to coordinate rotation.
     - ✅ **Advanced Text Control**:
         - ✅ **Character Adjustment**: Map `SIA` (Set Intercharacter Adjustment) and `SVI` (Set Variable-space Character Increment).
         - ✅ **Margin Control**: Map `SIM` (Set Inline Margin).
-    - ⏳ **Data Rendering**:
+    - ✅ **Data Rendering**:
         - ✅ **Transparent Data**: Map `TRN` to UTF-8 encoded PDF strings using the resolved font.
         - ✅ **Graphic Characters**: Map `GraphicCharacters` to UTF-8 encoded PDF strings.
         - ✅ **Unicode Support**: Implement `UCT` (Unicode Complex Text) for UTF-16 encoding.
-- ⏳ **GOCA Driver**: Map GOCA path drawing orders (Line, Arc, Area) to PDF path construction operators.
-    - ⏳ **Graphics State Management**:
+- ✅ **GOCA Driver**: Map GOCA path drawing orders (Line, Arc, Area) to PDF path construction operators.
+    - ✅ **Graphics State Management**:
         - ✅ **Attribute Tracking**: Track active color (`GSCOL`), line width (`GSLW`), line type (`GSLT`), line end (`GSLE`), line join (`GSLJ`), arc parameters (`GSAP`), marker attributes (`GSMS`, `GSMT`, `GSMP`), and process color (`GSPCOL`).
         - ✅ **Mix Attribute Tracking**: Implement mix mode attributes (`GSMX`, `GSBMX`).
-    - ⏳ **Path Construction**:
+    - ✅ **Path Construction**:
         - ✅ **Line Primitives**: Map `GRLINE`, `GCRLINE` and `GLINE` to PDF path operators.
         - ✅ **Box Primitives**: Map `GBOX` and `GCBOX` to `rectangle`.
-        - ⏳ **Arcs and Fillets**:
+        - ✅ **Arcs and Fillets**:
             - ✅ **Full Arcs**: Map `GFARC` and `GCFARC` to iText `ellipse` or `arc`.
             - ✅ **Partial Arcs**: Map `GPARC` and `GCPARC` to iText `arc`.
             - ✅ **Fillets**: Map `GFLT` and `GCFLT` to iText `curveTo` (approximated).
@@ -106,15 +111,17 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ✅ **BCOCA State Tracking**: Implement tracking of barcode descriptors (`BDD`) and data (`BDA`) including type, modifier, and font for HRI.
     - ⏳ **Linear Barcode Support**: Implement rendering for common linear barcodes.
         - ✅ **Code 39**: Implement rendering for Code 39 (3 of 9) barcodes.
+        - ✅ **Interleaved 2 of 5**: Implement rendering for Interleaved 2 of 5 (ITF) barcodes.
+        - ✅ **UPC-A**: Implement rendering for UPC-A barcodes.
         - ⏳ **Code 128**: Implement rendering for Code 128 barcodes.
-        - ⏳ **UPC/EAN**: Implement rendering for UPC-A, UPC-E, EAN-8, and EAN-13 barcodes.
+        - ⏳ **UPC-E / EAN**: Implement rendering for UPC-E, EAN-8, and EAN-13 barcodes.
     - ⏳ **2D Barcode Support**: Implement rendering for 2D barcodes (Data Matrix, QR Code, PDF417).
     - ⏳ **Postal Barcode Support**: Implement rendering for postal codes (POSTNET, Intelligent Mail, Japan Postal).
-    - ⏳ **HRI Rendering**: Implement Human Readable Interpretation (HRI) text placement and font mapping.
+    - ✅ **HRI Rendering**: Implement Human Readable Interpretation (HRI) text placement and font mapping.
 - ⏳ **IOCA Renderer**: Map image data to PDF Image XObjects.
     - ✅ **Implement IOCA Segment Tracking**: Identify and group IOCA segments within the AFP stream.
     - ⏳ **Implement IOCA Data Decoding**:
-        - ⏳ **FS10 Support**: Support FS10 (Bilevel) image data.
+        - ✅ **FS10 Support**: Support FS10 (Bilevel) image data (uncompressed).
         - ⏳ **FS11 Support**: Support FS11 (Grayscale/Color) image data.
         - ⏳ **FS40 Support**: Support FS40 (Tiled) image data.
         - ⏳ **G3/G4 Decoding**: Implement CCITT Group 3/4 decompression.
@@ -127,10 +134,15 @@ Implement the drivers for converting AFP content architectures to PDF operators.
 Ensure the generated output meets the PDF/VT-1 standard and accurately reflects the source AFP.
 
 - ⏳ **PDF/VT-1 Validation**: Validate generated files against PDF/VT-1 profiles using preflight tools.
-    - ⏳ **Preflight Automation**: Integrate with VeraPDF or Callas pdfToolbox for automated compliance checks.
-- ⏳ **DPart Hierarchy Verification**: Verify navigation and structure in PDF/VT-aware viewers.
+    - ⏳ **Integrate VeraPDF**: Implement automated compliance checks for PDF/VT-1 and PDF/X-4.
+    - ⏳ **Preflight Automation**: Establish CI/CD integration for automated validation.
+- ⏳ **DPart Hierarchy Verification**:
+    - ⏳ **Programmatic Structure Verification**: Verify `/DPart` hierarchy and `/Property` entries using iText or low-level parsing.
+    - ⏳ **Viewer Validation**: Verify navigation and structure in PDF/VT-aware viewers.
 - ⏳ **Metadata Integrity**: Compare record-level extraction from PDF metadata against original AFP `TLE` values.
-    - ⏳ **Visual Regression**: Compare rendered PDF output against XML/Baseline snapshots.
+- ⏳ **Visual Regression**:
+    - ⏳ **Snapshot Comparison**: Compare rendered PDF output against XML/Baseline snapshots.
+    - ⏳ **Pixel-Perfect Verification**: Establish a suite for pixel-level regression testing against golden PDFs.
 
 ---
 

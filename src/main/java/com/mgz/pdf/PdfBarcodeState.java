@@ -19,6 +19,7 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.pdf;
 
+import com.itextpdf.kernel.font.PdfFont;
 import com.mgz.afp.bcoca.BDA_BarCodeData;
 import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor.BarCodeType;
 import com.mgz.afp.enums.AFPUnitBase;
@@ -41,8 +42,11 @@ public class PdfBarcodeState {
   private AFPUnitBase unitBase;
   private int unitsPerUnitBaseX;
   private int unitsPerUnitBaseY;
+  private PdfFont hriFont;
   private final List<BDA_BarCodeData> barcodeData = new ArrayList<>();
   private boolean inBarcodeObject = false;
+  private int xOrigin;
+  private int yOrigin;
 
   /**
    * Resets the barcode state to default values.
@@ -51,6 +55,7 @@ public class PdfBarcodeState {
     this.barcodeType = null;
     this.barcodeModifier = 0;
     this.fontLocalIDForHRI = 0;
+    this.hriFont = null;
     this.color = 0;
     this.moduleWidthInMils = 0;
     this.elementHeight = 0;
@@ -61,6 +66,8 @@ public class PdfBarcodeState {
     this.unitsPerUnitBaseY = 0;
     this.barcodeData.clear();
     this.inBarcodeObject = false;
+    this.xOrigin = 0;
+    this.yOrigin = 0;
   }
 
   public BarCodeType getBarcodeType() {
@@ -151,6 +158,14 @@ public class PdfBarcodeState {
     this.unitsPerUnitBaseY = unitsPerUnitBaseY;
   }
 
+  public PdfFont getHriFont() {
+    return hriFont;
+  }
+
+  public void setHriFont(PdfFont hriFont) {
+    this.hriFont = hriFont;
+  }
+
   public List<BDA_BarCodeData> getBarcodeData() {
     return barcodeData;
   }
@@ -167,11 +182,29 @@ public class PdfBarcodeState {
     this.inBarcodeObject = inBarcodeObject;
   }
 
+  public int getxOrigin() {
+    return xOrigin;
+  }
+
+  public void setxOrigin(int xOrigin) {
+    this.xOrigin = xOrigin;
+  }
+
+  public int getyOrigin() {
+    return yOrigin;
+  }
+
+  public void setyOrigin(int yOrigin) {
+    this.yOrigin = yOrigin;
+  }
+
   /**
    * Clears collected data for a new barcode object.
    */
   public void startNewBarcode() {
     this.barcodeData.clear();
     this.inBarcodeObject = true;
+    this.xOrigin = 0;
+    this.yOrigin = 0;
   }
 }

@@ -104,7 +104,7 @@
 | BCOCA-4-003 | BCD2 subset adds support for the Color Specification triplet in the Bar Code Data Descriptor. | ✅ |
 | BCOCA-4-004 | BCD2 subset supports the full range for font local IDs. | ✅ |
 | BCOCA-4-005 | BCD2 subset supports the full range for units per unit base. | ✅ |
-| BCOCA-4-008 | Byte 0 Unit base: Indicates the length of the measurement unit base. | ✅ |
+| BCOCA-4-008 | Byte 0 Unit base: Indicates the length of the measurement unit base. (EC-0505 validated) | ✅ |
 | BCOCA-4-009 | Byte 1: Reserved. | ✅ |
 | BCOCA-4-010 | Bytes 2–3 Xupub: Specifies the number of units per unit base in the Xbc direction. | ✅ |
 | BCOCA-4-011 | Bytes 4–5 Yupub: Specifies the number of units per unit base in the Ybc direction and must be equal to Xupub. | ✅ |
@@ -181,7 +181,7 @@
 | BCOCA-5-006 | EC-0F0A: Incompatible Data Matrix parameters: reader programming with structured append, FNC1 or macro. | ✅ |
 | BCOCA-5-007 | EC-0F0A: Incompatible Data Matrix parameters: macro with structured append, FNC1 or reader programming. | ✅ |
 | BCOCA-5-008 | Specification-Check Exceptions cont. | ✅ |
-| BCOCA-5-009 | Specification-Check Exceptions cont. | ✅ |
+| BCOCA-5-009 | EC-0F18/0F19/0F1A/0F1B/0F1C (Aztec), EC-0F22/0F23/0F24/0F25 (Han Xin). | ✅ |
 | BCOCA-5-010 | Specification-Check Exceptions cont. | ✅ |
 | BCOCA-5-011 | EC-1100: Bar code extends outside the bar code presentation space. | ❓ |
 | BCOCA-5-012 | EC-1100: Bar code extends outside the intersection of the mapped bar code presentation space and the controlling environment object area. | ❓ |

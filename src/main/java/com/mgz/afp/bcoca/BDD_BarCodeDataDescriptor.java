@@ -82,6 +82,11 @@ public class BDD_BarCodeDataDescriptor extends StructuredField implements IHasTr
     checkDataLength(sfData, offset, length, 23);
 
     unitBase = AFPUnitBase.valueOf(sfData[offset]);
+    if (unitBase == null || (unitBase != AFPUnitBase.Inches10 && unitBase != AFPUnitBase.Centimeter10)) {
+      // [BCOCA-4-008] EC-0505
+      throw new AFPParserException("EC-0505: The unit base specified in the BSD data structure is invalid or unsupported: " + String.format("X'%02X'", sfData[offset]));
+    }
+
     unitsPerUnitBaseX = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
     unitsPerUnitBaseY = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
     presentationSpaceWidth = UtilBinaryDecoding.parseInt(sfData, offset + 6, 2);
