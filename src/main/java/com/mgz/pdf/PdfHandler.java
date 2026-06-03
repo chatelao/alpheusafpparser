@@ -33,6 +33,7 @@ import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfString;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import com.itextpdf.kernel.pdf.PdfOutputIntent;
 import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
@@ -43,6 +44,7 @@ import com.mgz.afp.bcoca.BBC_BeginBarCodeObject;
 import com.mgz.afp.bcoca.EBC_EndBarCodeObject;
 import com.mgz.afp.bcoca.BDA_BarCodeData;
 import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor;
+import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
 import com.mgz.afp.ioca.IPD_ImagePictureData;
@@ -86,6 +88,8 @@ import com.mgz.afp.modca.EDT_EndDocument;
 import com.mgz.afp.modca.EIM_EndImageObject;
 import com.mgz.afp.modca.ENG_EndNamedPageGroup;
 import com.mgz.afp.modca.EPG_EndPage;
+import com.mgz.afp.modca.IPO_IncludePageOverlay;
+import com.mgz.afp.modca.IPS_IncludePageSegment;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format1;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
 import com.mgz.afp.modca.MDR_MapDataResource;
@@ -121,6 +125,7 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SVI_SetVariableSpa
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.TRN_TransparentData;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.UCT_UnicodeComplexText;
 import com.mgz.afp.triplets.Triplet;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.ArrayDeque;
@@ -160,6 +165,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private float defaultPageHeight = -1;
   private float defaultScaleX = 1.0f;
   private float defaultScaleY = 1.0f;
+  private static final float RESOURCE_BBOX_SIZE = 30000f;
 
   public PdfHandler(OutputStream os) {
     this.pdfDoc = new PdfDocument(new PdfWriter(os));
@@ -181,6 +187,23 @@ public class PdfHandler implements StructuredFieldHandler {
 
     // Initialize OutputIntents array for PDF/X and PDF/VT compliance
     pdfDoc.getCatalog().put(PdfName.OutputIntents, new PdfArray());
+  }
+
+  /**
+   * Sets the output intent for the PDF document.
+   * Required for PDF/X and PDF/VT compliance.
+   *
+   * @param iccStream the ICC profile stream
+   * @param outputConditionIdentifier the output condition identifier (e.g. "FOGRA39")
+   * @param outputCondition the output condition
+   * @param registryName the registry name
+   * @param info additional info
+   * @throws java.io.IOException if an I/O error occurs
+   */
+  public void setOutputIntent(InputStream iccStream, String outputConditionIdentifier, String outputCondition, String registryName, String info) throws java.io.IOException {
+    PdfOutputIntent outputIntent = new PdfOutputIntent(
+        outputConditionIdentifier, outputCondition, registryName, "GTS_PDFX", iccStream);
+    pdfDoc.addOutputIntent(outputIntent);
   }
 
   @Override
@@ -373,6 +396,10 @@ public class PdfHandler implements StructuredFieldHandler {
           }
         }
       }
+    } else if (sf instanceof IPO_IncludePageOverlay ipo) {
+      renderOverlay(ipo);
+    } else if (sf instanceof IPS_IncludePageSegment ips) {
+      renderPageSegment(ips);
     } else if (sf instanceof BDD_BarCodeDataDescriptor bdd) {
       barcodeState.setBarcodeType(bdd.getBarcodeType());
       barcodeState.setBarcodeModifier(bdd.getBarcodeModifier());
@@ -913,6 +940,51 @@ public class PdfHandler implements StructuredFieldHandler {
     }
   }
 
+  private void renderOverlay(IPO_IncludePageOverlay ipo) {
+    if (currentCanvas == null) {
+      return;
+    }
+    PdfFormXObject xObject = resourceCache.get(ipo.getOverlayName());
+    if (xObject != null) {
+      int x = (ipo.getxOrigin() == 0xFFFFFF) ? 0 : ipo.getxOrigin();
+      int y = (ipo.getyOrigin() == 0xFFFFFF) ? 0 : ipo.getyOrigin();
+
+      currentCanvas.saveState();
+      // Rotation in IPO is about the origin (x,y)
+      if (ipo.getxRotation() != null && ipo.getxRotation() != AFPOrientation.ori0) {
+        double rad = Math.toRadians(ipo.getxRotation().getCode() / 128.0);
+        float cos = (float) Math.cos(rad);
+        float sin = (float) Math.sin(rad);
+        currentCanvas.concatMatrix(cos, sin, -sin, cos, x, y);
+      } else {
+        currentCanvas.concatMatrix(1, 0, 0, 1, x, y);
+      }
+      // Offset by XObject height because we flipped it at RESOURCE_BBOX_SIZE
+      currentCanvas.saveState();
+      currentCanvas.concatMatrix(1, 0, 0, 1, 0, -RESOURCE_BBOX_SIZE);
+      currentCanvas.addXObject(xObject);
+      currentCanvas.restoreState();
+      currentCanvas.restoreState();
+    }
+  }
+
+  private void renderPageSegment(IPS_IncludePageSegment ips) {
+    if (currentCanvas == null) {
+      return;
+    }
+    PdfFormXObject xObject = resourceCache.get(ips.getPageSegmentName());
+    if (xObject != null) {
+      int x = (ips.getxOrigin() == 0xFFFFFF) ? 0 : ips.getxOrigin();
+      int y = (ips.getyOrigin() == 0xFFFFFF) ? 0 : ips.getyOrigin();
+
+      currentCanvas.saveState();
+      currentCanvas.concatMatrix(1, 0, 0, 1, x, y);
+      currentCanvas.concatMatrix(1, 0, 0, 1, 0, -RESOURCE_BBOX_SIZE);
+      currentCanvas.addXObject(xObject);
+      currentCanvas.restoreState();
+    }
+  }
+
   private void renderRule(int length, int width, boolean isIaxis) {
     if (currentCanvas == null) {
       return;
@@ -944,11 +1016,7 @@ public class PdfHandler implements StructuredFieldHandler {
   }
 
   private void startResourceCapture(String name) {
-    // Default size for resources if not yet known, will be adjusted by PGD if present inside
-    float width = defaultPageWidth > 0 ? defaultPageWidth : 1000;
-    float height = defaultPageHeight > 0 ? defaultPageHeight : 1000;
-
-    PdfFormXObject xObject = new PdfFormXObject(new com.itextpdf.kernel.geom.Rectangle(width, height));
+    PdfFormXObject xObject = new PdfFormXObject(new com.itextpdf.kernel.geom.Rectangle(RESOURCE_BBOX_SIZE, RESOURCE_BBOX_SIZE));
     resourceCache.put(name, xObject);
 
     if (currentCanvas != null) {
@@ -956,8 +1024,8 @@ public class PdfHandler implements StructuredFieldHandler {
     }
     this.currentCanvas = new PdfCanvas(xObject, pdfDoc);
 
-    // Apply transformation to the XObject canvas
-    applyTransformation(height, defaultScaleX, defaultScaleY);
+    // Apply Y-flip only, keeping units as raw AFP units (no scaling here)
+    currentCanvas.concatMatrix(1, 0, 0, -1, 0, RESOURCE_BBOX_SIZE);
   }
 
   private void endResourceCapture() {
@@ -1055,6 +1123,15 @@ public class PdfHandler implements StructuredFieldHandler {
    */
   public Set<String> getMpsResources() {
     return Collections.unmodifiableSet(mpsResources);
+  }
+
+  /**
+   * Returns an unmodifiable map of the resource cache.
+   *
+   * @return the resource cache
+   */
+  public Map<String, PdfFormXObject> getResourceCache() {
+    return Collections.unmodifiableMap(resourceCache);
   }
 
   /**

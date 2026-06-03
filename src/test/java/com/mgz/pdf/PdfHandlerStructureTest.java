@@ -72,6 +72,10 @@ import com.mgz.afp.modca.MMO_MapMediumOverlay;
 import com.mgz.afp.modca.MPS_MapPageSegment;
 import com.mgz.afp.modca.BMO_BeginOverlay;
 import com.mgz.afp.modca.EMO_EndOverlay;
+import com.mgz.afp.modca.IPO_IncludePageOverlay;
+import com.mgz.afp.modca.IPS_IncludePageSegment;
+import com.mgz.afp.modca.BPS_BeginPageSegment;
+import com.mgz.afp.modca.EPS_EndPageSegment;
 import com.mgz.afp.modca.PGD_PageDescriptor;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
 import com.mgz.afp.ptoca.PTX_PresentationTextData;
@@ -1188,6 +1192,79 @@ public class PdfHandlerStructureTest {
 
     assertEquals(3, handler.getFieldCount());
     assertEquals(100, handler.getGraphicsState().getCurrentX());
+  }
+
+  @Test
+  public void testCode128BarcodeRendering() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+    bdd.setStructuredFieldIntroducer(createSfi(SFTypeID.BDD_BarCodeDataDescriptor));
+    bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode);
+    handler.handle(bdd);
+
+    BBC_BeginBarCodeObject bbc = new BBC_BeginBarCodeObject();
+    bbc.setStructuredFieldIntroducer(createSfi(SFTypeID.BBC_BeginBarCodeObject));
+    handler.handle(bbc);
+
+    BDA_BarCodeData bda = new BDA_BarCodeData();
+    bda.setStructuredFieldIntroducer(createSfi(SFTypeID.BDA_BarCodeData));
+    bda.barCodeData = "ABC12345".getBytes();
+    handler.handle(bda);
+
+    EBC_EndBarCodeObject ebc = new EBC_EndBarCodeObject();
+    ebc.setStructuredFieldIntroducer(createSfi(SFTypeID.EBC_EndBarCodeObject));
+    handler.handle(ebc);
+
+    assertEquals(5, handler.getFieldCount());
+  }
+
+  @Test
+  public void testIpoIpsRendering() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    // 1. Capture an overlay
+    BMO_BeginOverlay bmo = new BMO_BeginOverlay();
+    bmo.setStructuredFieldIntroducer(createSfi(SFTypeID.BMO_BeginOverlay));
+    bmo.setName("O1TEST");
+    handler.handle(bmo);
+    EMO_EndOverlay emo = new EMO_EndOverlay();
+    emo.setStructuredFieldIntroducer(createSfi(SFTypeID.EMO_EndOverlay));
+    handler.handle(emo);
+
+    // 2. Capture a page segment
+    BPS_BeginPageSegment bps = new BPS_BeginPageSegment();
+    bps.setStructuredFieldIntroducer(createSfi(SFTypeID.BPS_BeginPageSegment));
+    bps.setName("S1TEST");
+    handler.handle(bps);
+    EPS_EndPageSegment eps = new EPS_EndPageSegment();
+    eps.setStructuredFieldIntroducer(createSfi(SFTypeID.EPS_EndPageSegment));
+    handler.handle(eps);
+
+    // 3. Include them
+    IPO_IncludePageOverlay ipo = new IPO_IncludePageOverlay();
+    ipo.setOverlayName("O1TEST");
+    ipo.setxOrigin(1000);
+    ipo.setyOrigin(2000);
+    handler.handle(ipo);
+
+    IPS_IncludePageSegment ips = new IPS_IncludePageSegment();
+    ips.setPageSegmentName("S1TEST");
+    ips.setxOrigin(3000);
+    ips.setyOrigin(4000);
+    handler.handle(ips);
+
+    assertEquals(7, handler.getFieldCount());
+
+    // Verify resources were captured in cache
+    assertTrue(handler.getResourceCache().containsKey("O1TEST"), "Overlay O1TEST should be in cache");
+    assertTrue(handler.getResourceCache().containsKey("S1TEST"), "Page Segment S1TEST should be in cache");
   }
 
   @Test

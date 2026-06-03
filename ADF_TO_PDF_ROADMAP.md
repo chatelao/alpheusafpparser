@@ -30,9 +30,9 @@ Initialize the core PDF/VT structure and map the MO:DCA document hierarchy using
 - ✅ **TLE Metadata Mapping**: Map `TLE` (Tag Logical Element) values to record-level metadata within the `/DPart` hierarchy.
     - ✅ **Tag Extraction**: Extract key/value pairs from `TLE` structured fields.
     - ✅ **Metadata Injection**: Write extracted tags to the `/DPart` dictionary as `/Property` entries.
-- ⏳ **Output Intents**: Define `/OutputIntents` (e.g., FOGRA39) for PDF/X compliance as required by ISO 16612-2.
+    - ⏳ **Output Intents**: Define `/OutputIntents` (e.g., FOGRA39) for PDF/X compliance as required by ISO 16612-2.
     - ✅ **Structural Output Intent**: Initialize the `/OutputIntents` array in the PDF Catalog.
-    - ⏳ **ICC Profile Integration**: Load and embed standard ICC profiles (FOGRA39, GRACoL).
+    - ⏳ **ICC Profile Integration**: Load and embed standard ICC profiles (FOGRA39, GRACoL). (✅ Basic API `setOutputIntent` implemented).
 
 ## Phase 2: Resource Management & Optimization ⏳
 Optimize resource handling for high-performance variable data printing.
@@ -43,9 +43,9 @@ Optimize resource handling for high-performance variable data printing.
     - ⏳ **Resource conversion to PdfFormXObject**: Convert AFP resources to reusable PDF Form XObjects.
             - ✅ **Initialize `PdfFormXObject` for resource capture**: Create XObject instances for each unique resource.
             - ✅ **Implement XObject-specific canvas and state management**: Manage independent coordinate systems and states within XObjects.
-        - ⏳ **Implement Overlay conversion logic**: Map GOCA/IOCA content of Medium Overlays to `PdfFormXObject` streams.
-        - ⏳ **Implement Page Segment conversion logic**: Map GOCA/IOCA content of Page Segments to `PdfFormXObject` streams.
-        - ⏳ **Implement GOCA/PTOCA/IOCA/BCOCA content mapping to XObject**: Ensure all content drivers support writing to XObject streams.
+        - ✅ **Implement Overlay conversion logic**: Map GOCA/IOCA/PTOCA content of Overlays to `PdfFormXObject` streams and handle `IPO` inclusion.
+        - ✅ **Implement Page Segment conversion logic**: Map GOCA/IOCA content of Page Segments to `PdfFormXObject` streams and handle `IPS` inclusion.
+        - ✅ **Implement GOCA/PTOCA/IOCA/BCOCA content mapping to XObject**: All content drivers support writing to the active XObject canvas.
         - ⏳ **Handle resource inheritance and local dictionaries**: Manage nested resource references within XObjects.
         - ⏳ **Implement Resource Environment Group (REG) mapping**: Ensure resources defined in REG are converted.
         - ⏳ **Create PdfFormXObject Resource Cache**: Ensure each unique resource is converted only once.
@@ -109,15 +109,21 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ⏳ **Segment Mapping**: Convert GOCA segments (`GBSEG`, `GESEG`) to PDF Form XObjects if they are reusable.
 - ⏳ **BCOCA Renderer**: Implement barcode drawing using vector primitives for resolution independence.
     - ✅ **BCOCA State Tracking**: Implement tracking of barcode descriptors (`BDD`) and data (`BDA`) including type, modifier, and font for HRI.
-    - ⏳ **Linear Barcode Support**: Implement rendering for common linear barcodes.
+    - ✅ **Linear Barcode Support**: Implement rendering for common linear barcodes.
         - ✅ **Code 39**: Implement rendering for Code 39 (3 of 9) barcodes.
         - ✅ **Interleaved 2 of 5**: Implement rendering for Interleaved 2 of 5 (ITF) barcodes.
         - ✅ **UPC-A**: Implement rendering for UPC-A barcodes.
         - ✅ **EAN-8 / EAN-13**: Implement rendering for EAN-8 and EAN-13 barcodes.
-        - ⏳ **Code 128**: Implement rendering for Code 128 barcodes.
+        - ✅ **Code 128**: Implement rendering for Code 128 barcodes.
         - ✅ **UPC-E**: Implement rendering for UPC-E barcodes.
-    - ⏳ **2D Barcode Support**: Implement rendering for 2D barcodes (Data Matrix, QR Code, PDF417).
-    - ⏳ **Postal Barcode Support**: Implement rendering for postal codes (POSTNET, Intelligent Mail, Japan Postal).
+    - ⏳ **2D Barcode Support**: Implement rendering for 2D barcodes.
+        - ⏳ **Data Matrix**: Implement rendering for Data Matrix barcodes.
+        - ⏳ **QR Code**: Implement rendering for QR barcodes.
+        - ⏳ **PDF417**: Implement rendering for PDF417 barcodes.
+    - ⏳ **Postal Barcode Support**: Implement rendering for postal codes.
+        - ⏳ **POSTNET**: Implement rendering for POSTNET barcodes.
+        - ⏳ **Intelligent Mail**: Implement rendering for Intelligent Mail barcodes.
+        - ⏳ **Japan Postal**: Implement rendering for Japan Postal barcodes.
     - ✅ **HRI Rendering**: Implement Human Readable Interpretation (HRI) text placement and font mapping.
 - ⏳ **IOCA Renderer**: Map image data to PDF Image XObjects.
     - ✅ **Implement IOCA Segment Tracking**: Identify and group IOCA segments within the AFP stream.

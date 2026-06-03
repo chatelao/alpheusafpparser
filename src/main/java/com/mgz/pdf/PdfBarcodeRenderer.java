@@ -76,6 +76,7 @@ public class PdfBarcodeRenderer {
       "OEEOOE", "OEEEOO", "OEOEOO", "OEOOOE", "OEEOOO"
   };
 
+
   static {
     // Code 39 pattern: 5 bars, 4 spaces. 'w' for wide, 'n' for narrow.
     // Total 9 elements, 3 of which are wide (2 bars, 1 space OR 1 bar, 2 spaces).
@@ -184,6 +185,9 @@ public class PdfBarcodeRenderer {
           break;
         case EAN_13_includingJANStandard:
           totalWidth = renderEan13(content, startX, startY, state, canvas);
+          break;
+        case Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode:
+          totalWidth = renderCode128(content, startX, startY, state, canvas);
           break;
         default:
           // TODO: Implement other barcode types
@@ -550,6 +554,69 @@ public class PdfBarcodeRenderer {
       sum += (i % 2 == 0) ? d * 3 : d;
     }
     return (10 - (sum % 10)) % 10;
+  }
+
+  private static float renderCode128(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    // Basic Subset B implementation
+    // Patterns 0-102, Start A (103), Start B (104), Start C (105), Stop (106)
+    // We'll use Start B for now.
+    int startCode = 104;
+    int stopCode = 106;
+
+    float narrowWidth = state.getModuleWidthInMils() * 1.44f;
+    if (narrowWidth <= 0) {
+      narrowWidth = 20.0f;
+    }
+
+    float height = state.getElementHeight();
+    if (height <= 0) {
+      height = 500.0f;
+    }
+
+    canvas.saveState();
+    float curX = x;
+    float curY = y;
+
+    long checksum = startCode;
+    renderBitPattern(getCode128Pattern(startCode), curX, curY, height, narrowWidth, canvas);
+    curX += 11 * narrowWidth;
+
+    for (int i = 0; i < content.length(); i++) {
+      int val = content.charAt(i) - 32;
+      if (val < 0 || val > 95) continue;
+      renderBitPattern(getCode128Pattern(val), curX, curY, height, narrowWidth, canvas);
+      curX += 11 * narrowWidth;
+      checksum += (long) (i + 1) * val;
+    }
+
+    int checkDigit = (int) (checksum % 103);
+    renderBitPattern(getCode128Pattern(checkDigit), curX, curY, height, narrowWidth, canvas);
+    curX += 11 * narrowWidth;
+
+    // Stop pattern is 13 bits: 1100011101011
+    renderBitPattern("1100011101011", curX, curY, height, narrowWidth, canvas);
+    curX += 13 * narrowWidth;
+
+    canvas.restoreState();
+    return curX - x;
+  }
+
+  private static String getCode128Pattern(int index) {
+    String[] patterns = {
+        "11011001100", "11001101100", "11001100110", "10010011000", "10010001100", "10001001100", "10011001000", "10011000100", "10001100100", "11001001000", // 0-9
+        "11001000100", "11000100100", "10110011100", "10011011100", "10011001110", "10111001100", "10011101100", "10011100110", "11001110010", "11001011100", // 10-19
+        "11001001110", "11011100100", "11001110100", "11101101110", "11101001100", "11100101100", "11100100110", "11101100100", "11100110100", "11100110010", // 20-29
+        "11011011000", "11011000110", "11000110110", "10100011000", "10001011000", "10001000110", "10110001000", "10001101000", "10001100010", "11010001000", // 30-39
+        "11000101000", "11000100010", "10110111000", "10110001110", "10001101110", "10111011000", "10111000110", "10001110110", "11101110110", "11010001110", // 40-49
+        "11000101110", "11011101000", "11011100010", "11011101110", "11101011000", "11101000110", "11100010110", "11101101000", "11101100010", "11101101110", // 50-59
+        "11100101110", "10110011000", "10110000110", "10011011000", "10011000010", "10000110110", "10000110010", "11000010010", "11001010000", "11001000010", // 60-69
+        "10110000100", "10011010000", "10011000010", "10000110100", "10000110010", "11000010010", "11001010000", "11110111010", "11000010100", "10001111010", // 70-79
+        "10100111100", "10010111100", "10010011110", "10111100100", "10011110100", "10011110010", "11110100100", "11110010100", "11110010010", "11011011110", // 80-89
+        "11011110110", "11110110110", "10101111000", "10100011110", "10001011110", "10111101000", "10111100010", "11110101000", "11110100010", "10111011110", // 90-99
+        "10111101110", "11101011110", "11110101110", "11010000100", "11010010000", "11010011100", "11000111010" // 100-106
+    };
+    if (index >= 0 && index < patterns.length) return patterns[index];
+    return "00000000000";
   }
 
   private static float renderInterleaved2of5(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
