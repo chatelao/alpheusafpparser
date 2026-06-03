@@ -38,6 +38,9 @@ Initialize the core PDF/VT structure and map the MO:DCA document hierarchy using
 Optimize resource handling for high-performance variable data printing.
 
 - ⏳ **Global Resource Manager**: Implement logic to move shared XObjects (Overlays, Page Segments) to global Page Tree resources.
+    - ⏳ **Identify Candidate XObjects**: Determine which resources are reused enough to justify global promotion.
+    - ⏳ **Implement Page Tree resource injection**: Add promoted XObjects to the `/Resources` dictionary of the Page Tree root.
+    - ⏳ **Update renderXObject for global references**: Ensure `PdfHandler` can resolve and use global resources during placement.
     - ✅ **Global Overlay Tracking (MMO)**: Identify and track Medium Overlays across the document.
     - ✅ **Global Page Segment Tracking (MPS)**: Identify and track Page Segments across the document.
     - ✅ **Resource conversion to PdfFormXObject**: Convert AFP resources to reusable PDF Form XObjects.
@@ -110,15 +113,22 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - 🚧 **Segment Mapping**: Implement inline rendering for GOCA segments (`GBSEG`). (XObject conversion pending).
 - ⏳ **BCOCA Renderer**: Implement barcode drawing using vector primitives for resolution independence.
     - ✅ **BCOCA State Tracking**: Implement tracking of barcode descriptors (`BDD`) and data (`BDA`) including type, modifier, and font for HRI.
-    - 🚧 **Linear Barcode Support**: Implement rendering for common linear barcodes. (Basic set implemented).
+    - 🚧 **Linear Barcode Support**: Implement rendering for common linear barcodes. (Expanded set implemented).
         - ✅ **Code 39**: Implement rendering for Code 39 (3 of 9) barcodes.
         - ✅ **Interleaved 2 of 5**: Implement rendering for Interleaved 2 of 5 (ITF) barcodes.
         - ✅ **UPC-A**: Implement rendering for UPC-A barcodes.
         - ✅ **EAN-8 / EAN-13**: Implement rendering for EAN-8 and EAN-13 barcodes.
         - ✅ **Code 128 (Subset B)**: Implement rendering for Code 128 (Subset B) barcodes.
         - ✅ **UPC-E**: Implement rendering for UPC-E barcodes.
-    - ⏳ **2D Barcode Support**: Implement rendering for 2D barcodes (Data Matrix, QR Code, PDF417).
-    - ⏳ **Postal Barcode Support**: Implement rendering for postal codes (POSTNET, Intelligent Mail, Japan Postal).
+        - ✅ **Codabar**: Implement rendering for Codabar (NW-7) barcodes.
+    - ⏳ **2D Barcode Support**: Implement rendering for 2D barcodes.
+        - ⏳ **Data Matrix**: Support ECC 200 and GS1 Data Matrix.
+        - ⏳ **QR Code**: Support Model 2 and Micro QR.
+        - ⏳ **PDF417**: Support standard and truncated PDF417.
+    - ⏳ **Postal Barcode Support**: Implement rendering for postal codes.
+        - ⏳ **POSTNET**: Support US Postal Service POSTNET and PLANET.
+        - ⏳ **Intelligent Mail**: Support USPS OneCode.
+        - ⏳ **Japan Postal**: Support Japan Post 4-State Barcode.
     - ✅ **HRI Rendering**: Implement Human Readable Interpretation (HRI) text placement and font mapping.
 - ⏳ **IOCA Renderer**: Map image data to PDF Image XObjects.
     - ✅ **Implement IOCA Segment Tracking**: Identify and group IOCA segments within the AFP stream.
@@ -126,9 +136,11 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **FS10 Support**: Support FS10 (Bilevel) image data (uncompressed).
         - ✅ **FS11 Support**: Support FS11 (Grayscale/Color) image data (uncompressed).
         - ⏳ **FS40 Support**: Support FS40 (Tiled) image data.
+            - ⏳ **Tile Rendering**: Support rendering individual tiles into XObject.
+            - ⏳ **Tile Composition**: Support assembling tiled images via `TileTOC`.
         - ✅ **G3/G4 Decoding**: Implement CCITT Group 3/4 decompression.
-        - ⏳ **LZW Decoding**: Implement LZW decompression.
-        - ⏳ **JPEG Decoding**: Implement JPEG (DCT) decompression.
+        - ⏳ **LZW Decoding**: Implement LZW decompression for IOCA/TIFF.
+        - ⏳ **JPEG Decoding**: Implement JPEG (DCT) decompression for IOCA.
     - ✅ **Implement Image XObject Creation**: Convert decoded data to iText `PdfImageXObject`.
     - ✅ **Implement Image Placement Logic**: Map IOCA positioning parameters to PDF `do` operator calls.
 
