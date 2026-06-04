@@ -40,6 +40,7 @@ public class PdfGraphicsState {
   private short markerSet = 0;
   private short markerSymbol = 0;
   private short markerPrecision = 0;
+  private short characterSet = 0;
   private short mixMode = 0;
   private short backgroundMixMode = 0;
   private int currentX = 0;
@@ -74,6 +75,7 @@ public class PdfGraphicsState {
     this.markerSet = 0;
     this.markerSymbol = 0;
     this.markerPrecision = 0;
+    this.characterSet = 0;
     this.mixMode = 0;
     this.backgroundMixMode = 0;
     this.currentX = 0;
@@ -171,6 +173,14 @@ public class PdfGraphicsState {
 
   public void setMarkerPrecision(short markerPrecision) {
     this.markerPrecision = markerPrecision;
+  }
+
+  public short getCharacterSet() {
+    return characterSet;
+  }
+
+  public void setCharacterSet(short characterSet) {
+    this.characterSet = characterSet;
   }
 
   public int getCurrentX() {
