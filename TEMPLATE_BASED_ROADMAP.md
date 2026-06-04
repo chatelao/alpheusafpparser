@@ -4,8 +4,8 @@ This document outlines the phased implementation of Strategy 6 from `10x_FASTER.
 
 ## Status Summary
 - **Phase 1: Infrastructure & Primitive Templates**: ✅ Complete
-- **Phase 2: Static Structured Field Templates**: ⏳ Pending
-- **Phase 3: Dynamic Hole-Punching Engine**: ⏳ Pending
+- **Phase 2: Static Structured Field Templates**: 🚧 In Progress
+- **Phase 3: Dynamic Hole-Punching Engine**: 🚧 In Progress
 - **Phase 4: Vectorized Assembly & Output**: ⏳ Pending
 
 ---
@@ -17,18 +17,18 @@ Establish the foundation for byte-level templating.
 - ✅ **AfpXmlStreamWriter Integration**: Updated the stream writer to support direct `writeRawBytes` to bypass UTF-16 overhead.
 - ✅ **XmlIndenter Integration**: Indentation logic optimized to use pre-allocated byte arrays.
 
-## Phase 2: Static Structured Field Templates ⏳
+## Phase 2: Static Structured Field Templates 🚧
 Generate byte templates for fixed-structure fields.
 
 - ⏳ **Template Generator**: Implement a utility to pre-calculate the XML structure for each Structured Field type.
-- ⏳ **Mnemonic-Based Registry**: Map AFP mnemonics to their respective XML byte templates.
+- ✅ **Mnemonic-Based Registry**: Implemented `XmlTemplateRegistry` to map AFP mnemonics to their respective XML byte templates.
 - ⏳ **Triplet Templating**: Extend templating to common triplets (e.g., FQN, ResourceLocalIdentifier).
 
-## Phase 3: Dynamic Hole-Punching Engine ⏳
+## Phase 3: Dynamic Hole-Punching Engine 🚧
 Inject variable data directly into the pre-computed byte buffers.
 
-- ⏳ **Offset Mapping**: Calculate the byte offsets for variable data (e.g., coordinates, IDs, lengths) within the templates.
-- ⏳ **Fast Integer-to-Byte Conversion**: Implement high-performance integer-to-UTF8-byte conversion that writes directly to the template "holes".
+- ✅ **Offset Mapping**: (Alternative) Implemented fragment-based `XmlTemplate` which effectively maps offsets for variable data.
+- ✅ **Fast Integer-to-Byte Conversion**: Implemented `FastIntConverter` for high-performance integer-to-UTF8-byte conversion.
 - ⏳ **Buffer Orchestration**: Manage a pool of "hot" templates that can be quickly filled and flushed.
 
 ## Phase 4: Vectorized Assembly & Output ⏳
