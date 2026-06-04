@@ -340,11 +340,15 @@ public class BDA_BarCodeData extends StructuredField {
     // Reserved bit 0
     ;
 
-    public static EnumSet<BarCodeFlag> valueOf(int flagByte) {
+    public static EnumSet<BarCodeFlag> valueOf(int flagByte) throws AFPParserException {
       EnumSet<BarCodeFlag> result = EnumSet.noneOf(BarCodeFlag.class);
 
       if ((flagByte & 0x80) != 0) {
         result.add(HRINotPresent);
+      }
+      if ((flagByte & 0x60) == 0x60) {
+        // [BCOCA-4-310] EC-1000
+        throw new AFPParserException("EC-1000: For a Bar Code Data structured field, the HRI-position bits (bits 1-2) are both B'1'. Only one can be B'1'.");
       }
       if ((flagByte & 0x40) != 0) { // [BCOCA-4-310] Bits 1-2: Position B'10' = Above
         result.add(PositionHRIAbove);
@@ -976,7 +980,15 @@ public class BDA_BarCodeData extends StructuredField {
       controlFlags = ControlFlag.valueOf(UtilBinaryDecoding.parseInt(sfData, offset, 1));
       conversion = Conversion.valueOf(sfData[offset + 1]);
       versionOfSymbol = sfData[offset + 2];
+      // [BCOCA-5-010] EC-0F0F: Version number (0 to 40 or 255). Standard Action: Proceed as if X'00' (0) was specified.
+      if ((versionOfSymbol & 0xFF) > 40 && (versionOfSymbol & 0xFF) != 255) {
+        versionOfSymbol = 0x00;
+      }
       errorCorrectionLevel = ErrorCorrectionLevel.valueOf(sfData[offset + 3]);
+      // [BCOCA-5-010] EC-0F10: Error correction level (0 to 3). Standard Action: Proceed as if X'03' (LevelH) was specified.
+      if (errorCorrectionLevel == null) {
+        errorCorrectionLevel = ErrorCorrectionLevel.LevelH;
+      }
       sequenceIndicator = sfData[offset + 4];
       totalNumberOfSymbols = sfData[offset + 5];
       parityData = sfData[offset + 6];
