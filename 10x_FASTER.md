@@ -7,7 +7,6 @@ This document outlines the architectural shift required to achieve an order-of-m
 | Strategy | Potential Gain | Implementation Risk | Status |
 | :--- | :--- | :--- | :--- |
 | **1. 100% Manual StAX Fast-Paths** | Very High | Low | 🚧 In Progress |
-| **2. GraalVM Native Image** | High (Startup) | Low | ⏳ Pending |
 | **3. Zero-Allocation Encoding** | High | Medium | 🚧 In Progress |
 | **4. Multi-Stage Parallel Pipeline** | High | Medium | 🚧 In Progress |
 | **5. SIMD-Accelerated Scanning** | Medium | Medium | ⏳ Pending |
@@ -28,13 +27,6 @@ Eliminate `XmlMapper` and `ToXmlGenerator` from the hot path entirely.
   - **Missing Triplets**: ~48 triplets including `FinishingOperation`, `ColorManagementResourceDescriptor`, `ImageResolution`, `RenderingIntent`, and various Fidelity triplets.
 - ⏳ **Annotation Removal**: Remove Jackson annotations from domain classes to prevent accidental slow-path invocation.
 - ⏳ **Direct Woodstox Integration**: Use `WstxOutputFactory` directly to bypass the abstraction layer.
-
-## 2. GraalVM Native Image
-Reduce "floor" execution time to <10ms by eliminating JVM startup and JIT overhead.
-
-- ⏳ **Native Configuration**: Configure the project for GraalVM Native Image compilation.
-- ⏳ **Reflection Elimination**: Replace dynamic reflection and classpath scanning with static configuration.
-- ⏳ **AOT Compilation**: Eliminate JIT overhead by performing Ahead-of-Time (AOT) compilation.
 
 ## 3. Zero-Allocation Encoding & String Handling
 Zero `String` allocations during the primary serialization loop.
