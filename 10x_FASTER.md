@@ -22,6 +22,10 @@ Eliminate `XmlMapper` and `ToXmlGenerator` from the hot path entirely.
 - ✅ **Core MO:DCA Fast-Paths**: Implemented manual StAX writing for `MDR`, `MGO`, `MPO`, `MSU`, `MMC`, `PGP` (Formats 1 & 2), `MCD`, and `OCD`.
 - ✅ **BCOCA Fast-Paths**: Implemented manual writing for `BBC`, `EBC`, `BDD`, and `BDA`.
 - 🚧 **Complete Coverage**: Implement manual `write` methods for every remaining Structured Field, Triplet, and Control Sequence.
+  - **Missing PTOCA SFs**: `BPT`, `EPT`, `PTD` (Format 1 & 2).
+  - **Missing GOCA SFs**: `BGR`, `EGR`, `GDD`.
+  - **Missing PTOCA Control Sequences**: `ENC`, `GAR`, `GIR`, `GLC`, `GOR`, `SEA`, `SKI`, `UCT`.
+  - **Missing Triplets**: ~48 triplets including `FinishingOperation`, `ColorManagementResourceDescriptor`, `ImageResolution`, `RenderingIntent`, and various Fidelity triplets.
 - ⏳ **Annotation Removal**: Remove Jackson annotations from domain classes to prevent accidental slow-path invocation.
 - ⏳ **Direct Woodstox Integration**: Use `WstxOutputFactory` directly to bypass the abstraction layer.
 
