@@ -29,7 +29,7 @@ The following table provides an estimated impact of each optimization on the ove
 | 9 | Lazy Payload Extraction | 🚀🚀🚀 | Avoids processing unused data payloads. |
 | 10 | XML Infrastructure Caching | 🚀🚀 | Reduces object instantiation overhead. |
 | 11 | O(1) Enum Resolution | 🚀🚀🚀 | Eliminates switch/loop overhead for byte fields. |
-| 12 | Aalto XML Integration | 🚀🚀🚀🚀 🪵 | High-performance StAX implementation. |
+| 12 | Woodstox XML Integration | 🚀🚀🚀🚀 🪵 | High-performance StAX implementation. |
 | 13 | Jackson Generator Reuse | 🚀🚀🚀 | Minimizes allocation in fallback serialization. |
 | 14 | Shallow Field Realization | 🚀🚀🚀 | Defers full parsing until explicitly required. |
 | 15 | Indentation-Aware Fast-Paths | 🚀🚀 | Avoids expensive PrettyPrinter logic. |
@@ -54,7 +54,6 @@ The following table provides an estimated impact of each optimization on the ove
 ## 1. Manual StAX Fast-Paths
 **Explanation:** High-frequency AFP elements (like `PTX`, `TLE`, `NOP`) are written directly to the `XMLStreamWriter`. This avoids the overhead of Jackson's object-to-XML mapping for the majority of the data.
 
-> **🪵 NOTE:** The efficiency of these fast-paths is directly tied to the underlying StAX implementation. A migration to Woodstox may influence the throughput of these direct writes compared to Aalto's ultra-high-speed native implementation.
 **Code Sample (`AfpJacksonXmlWriter.java`):**
 ```java
 private void writeFieldDirectly(StructuredField sf) throws Exception {
@@ -141,7 +140,6 @@ public ByteBuffer getByteBuffer() throws IOException {
 ## 6. Asynchronous I/O
 **Explanation:** `AsynchronousFileChannel` is used to overlap I/O operations with CPU-intensive parsing, especially useful when loading page data for parallel processing.
 
-> **🪵 NOTE:** Woodstox does not support non-blocking (async) parsing. While `AsynchronousFileChannel` handles the file I/O, the lack of native async StAX support in Woodstox might limit the overall effectiveness of this overlapping strategy for XML generation.
 **Code Sample (`AFPScanner.java`):**
 ```java
 private List<Long> scanForAsyncChannel(SFTypeID typeID) {
@@ -234,17 +232,16 @@ public static SFType valueOf(int sfTypeByte) {
 }
 ```
 
-## 12. Aalto XML Integration
-**Explanation:** The project uses Aalto XML, a ultra-high-performance StAX implementation, for all XML stream reading and writing, bypassing the slower default JDK implementations.
+## 12. Woodstox XML Integration
+**Explanation:** The project uses Woodstox, a ultra-high-performance StAX implementation, for all XML stream reading and writing, bypassing the slower default JDK implementations.
 
-> **🪵 NOTE:** This entire component would be replaced by Woodstox 7.0.0. While Woodstox offers superior validation and specification compliance, it may result in a slight decrease in raw throughput for high-volume data.
 **Code Sample (`JacksonXmlMapperProvider.java`):**
 ```java
-import com.fasterxml.aalto.stax.InputFactoryImpl;
-import com.fasterxml.aalto.stax.OutputFactoryImpl;
+import com.ctc.wstx.stax.WstxInputFactory;
+import com.ctc.wstx.stax.WstxOutputFactory;
 
 static {
-    XML_MAPPER = new XmlMapper(new XmlFactory(new InputFactoryImpl(), new OutputFactoryImpl()));
+    XML_MAPPER = new XmlMapper(new XmlFactory(new WstxInputFactory(), new WstxOutputFactory()));
 }
 ```
 
@@ -412,7 +409,6 @@ public static long estimateXmlSize(StructuredField sf) {
 ## 25. Streaming Character Sanitization
 **Explanation:** XML 1.0 does not allow certain control characters (like null bytes). Instead of pre-sanitizing strings (which creates copies), a decorator for `XMLStreamWriter2` handles sanitization on-the-fly during the write phase.
 
-> **🪵 NOTE:** This optimization leverages the `XMLStreamWriter2` interface from StAX2. Woodstox provides robust support for StAX2, ensuring that this decorator-based approach remains fully functional and efficient.
 **Code Sample (`SanitizingXMLStreamWriter.java`):**
 ```java
 @Override
@@ -449,13 +445,12 @@ while (!buffer.isEmpty() && buffer.firstKey() == nextSequence) {
 ```
 
 ## 28. Disabling StAX Structure Validation
-**Explanation:** In fragment mode (used during parallel assembly or XPath filtering), Aalto's strict XML structure validation is disabled. This avoids "second root" errors and reduces the overhead of tracking the document's tag stack for intermediate results.
+**Explanation:** In fragment mode (used during parallel assembly or XPath filtering), Woodstox's strict XML structure validation is disabled. This avoids "second root" errors and reduces the overhead of tracking the document's tag stack for intermediate results.
 
-> **🪵 NOTE:** Woodstox supports the `org.codehaus.stax2.validation.checkStructure` property. However, since Woodstox is more validation-centric, the performance gain from disabling this check might be even more significant than in Aalto.
 **Code Sample (`AfpJacksonXmlWriter.java`):**
 ```java
 static {
-    XOF = new com.fasterxml.aalto.stax.OutputFactoryImpl();
+    XOF = new com.ctc.wstx.stax.WstxOutputFactory();
     try {
         XOF.setProperty("org.codehaus.stax2.validation.checkStructure", false);
     } catch (Exception e) { /* ... */ }

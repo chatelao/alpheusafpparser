@@ -113,7 +113,6 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private javax.xml.xpath.XPath cachedXpath;
   private javax.xml.transform.Transformer cachedTransformer;
 
-  private final boolean useWoodstox;
   private final boolean indentEnabled;
 
   /**
@@ -152,42 +151,28 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   /**
    * Constructor for AfpJacksonXmlWriter.
-   *
-   * @param os the output stream to write to
-   * @param xpathExpression the XPath expression to filter fields
-   * @param fragmentMode if true, skip XML declaration and root element
-   * @param useWoodstox if true, use Woodstox instead of Aalto
-   * @throws Exception if initialization fails
-   */
-  public AfpJacksonXmlWriter(OutputStream os, String xpathExpression, boolean fragmentMode, boolean useWoodstox)
-      throws Exception {
-    this(os, xpathExpression, fragmentMode, useWoodstox, false);
-  }
-
-  /**
    * Constructor for AfpJacksonXmlWriter.
    *
    * @param os the output stream to write to
    * @param xpathExpression the XPath expression to filter fields
    * @param fragmentMode if true, skip XML declaration and root element
-   * @param useWoodstox if true, use Woodstox instead of Aalto
    * @param indent if true, enable indentation
    * @throws Exception if initialization fails
    */
-  public AfpJacksonXmlWriter(OutputStream os, String xpathExpression, boolean fragmentMode, boolean useWoodstox, boolean indent)
+  public AfpJacksonXmlWriter(OutputStream os, String xpathExpression, boolean fragmentMode, boolean indent)
       throws Exception {
     this.os = os;
-    this.useWoodstox = useWoodstox;
+
     this.indentEnabled = indent;
     this.cos = new com.mgz.util.CountingOutputStream(new NonClosingOutputStream(os));
     this.xpathExpression = (xpathExpression == null || xpathExpression.isBlank()) ? null : xpathExpression;
     this.fragmentMode = fragmentMode;
-    this.mapper = JacksonXmlMapperProvider.getMapper(useWoodstox);
+    this.mapper = JacksonXmlMapperProvider.getMapper();
     // Fragment mapper to avoid repeated XML declarations
-    this.fragmentMapper = JacksonXmlMapperProvider.getFragmentMapper(useWoodstox);
+    this.fragmentMapper = JacksonXmlMapperProvider.getFragmentMapper();
 
     if (this.xpathExpression == null) {
-      XMLOutputFactory xof = JacksonXmlMapperProvider.getOutputFactory(useWoodstox);
+      XMLOutputFactory xof = JacksonXmlMapperProvider.getOutputFactory();
       XMLStreamWriter2 rawXsw = (XMLStreamWriter2) xof.createXMLStreamWriter(cos, "UTF-8");
       this.baseXsw = new AfpXmlStreamWriter(rawXsw, cos);
       this.xsw = MnemonicPerformanceMonitor.isEnabled() ? new MnemonicXMLStreamWriter(this.baseXsw) : this.baseXsw;
@@ -379,7 +364,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
         MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
       }
-      JacksonXmlMapperProvider.getCachedWriter(sf.getClass(), useWoodstox, true, indentEnabled).writeValue(baseFragmentGenerator, sf);
+      JacksonXmlMapperProvider.getCachedWriter(sf.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, sf);
       if (MnemonicPerformanceMonitor.isEnabled()) {
         MnemonicPerformanceMonitor.endWrite();
       }
@@ -811,7 +796,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else {
-      JacksonXmlMapperProvider.getCachedWriter(triplet.getClass(), useWoodstox, true, indentEnabled).writeValue(baseFragmentGenerator, triplet);
+      JacksonXmlMapperProvider.getCachedWriter(triplet.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, triplet);
     }
   }
 
@@ -1089,7 +1074,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(simpleName);
         MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
       }
-      JacksonXmlMapperProvider.getCachedWriter(cs.getClass(), useWoodstox, true, indentEnabled).writeValue(baseFragmentGenerator, cs);
+      JacksonXmlMapperProvider.getCachedWriter(cs.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, cs);
       if (MnemonicPerformanceMonitor.isEnabled()) {
         MnemonicPerformanceMonitor.endWrite();
       }
@@ -1887,7 +1872,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
         MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
       }
-      JacksonXmlMapperProvider.getCachedWriter(order.getClass(), useWoodstox, true, indentEnabled).writeValue(baseFragmentGenerator, order);
+      JacksonXmlMapperProvider.getCachedWriter(order.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, order);
       if (MnemonicPerformanceMonitor.isEnabled()) {
         MnemonicPerformanceMonitor.endWrite();
       }
@@ -1943,7 +1928,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else {
-      JacksonXmlMapperProvider.getCachedWriter(segment.getClass(), useWoodstox, true, indentEnabled).writeValue(baseFragmentGenerator, segment);
+      JacksonXmlMapperProvider.getCachedWriter(segment.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, segment);
     }
   }
 
@@ -2049,7 +2034,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else {
-      JacksonXmlMapperProvider.getCachedWriter(sdf.getClass(), useWoodstox, true, indentEnabled).writeValue(baseFragmentGenerator, sdf);
+      JacksonXmlMapperProvider.getCachedWriter(sdf.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, sdf);
     }
   }
 
@@ -2453,7 +2438,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     int initialCapacity = (int) SFSizeEstimator.estimateXmlSize(sf);
     String xml;
     java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream(initialCapacity);
-    try (AfpJacksonXmlWriter tempWriter = new AfpJacksonXmlWriter(baos, null, true, useWoodstox)) {
+    try (AfpJacksonXmlWriter tempWriter = new AfpJacksonXmlWriter(baos, null, true)) {
       tempWriter.handle(sf);
     }
     xml = baos.toString(StandardCharsets.UTF_8);
