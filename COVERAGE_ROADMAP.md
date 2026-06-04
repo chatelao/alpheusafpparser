@@ -15,10 +15,12 @@ This document outlines a phased, actionable plan to increase the code coverage o
 
 ---
 
-## Phase 2: Architectural Depth - GOCA, IOCA, FOCA (Target: 55%) 🟢
+## Phase 2: Architectural Depth - GOCA, IOCA, FOCA, PTOCA, Line Data (Target: 55%) 🟢
 - ✅ **2.1. GOCA Drawing Orders** (Completed: 54% coverage)
 - ✅ **2.2. IOCA Image Segments** (Completed: 67% coverage)
 - ✅ **2.3. FOCA Font Logic** (Completed: 71% coverage)
+- ✅ **2.4. PTOCA Control Sequences** (Completed: 64% coverage)
+- ✅ **2.5. Line Data Structured Fields** (Completed: 73% coverage)
 
 ---
 
@@ -32,6 +34,7 @@ This document outlines a phased, actionable plan to increase the code coverage o
 ## Phase 4: Full Compliance & Optimization (Target: 85%+) 🚧
 - 🚧 **4.1. Special Specifications**
     - 🚧 CMOCA, BCOCA, and MOCA verification (Currently 35-45% coverage).
+    - 🚧 IPDS and DB2Z verification (Target: 85% coverage).
     - 🚧 Implementation of remaining 1,000+ normative requirements per spec (Progress: EC-0505, EC-0F18-25 validated).
 - 🚧 **4.2. Performance fast-paths**
     - ✅ Verification of `AfpJacksonXmlWriter` optimized paths (MetadataObject fast-path implemented).
