@@ -91,6 +91,19 @@ public class PdfBarcodeRenderer {
       "114131", "311141", "411131", "211412", "211214", "211232", "233111"
   };
 
+  private static final String[] POSTNET_PATTERNS = {
+      "11000", // 0
+      "00011", // 1
+      "00101", // 2
+      "00110", // 3
+      "01001", // 4
+      "01010", // 5
+      "01100", // 6
+      "10001", // 7
+      "10010", // 8
+      "10100"  // 9
+  };
+
   static {
     // Code 39 pattern: 5 bars, 4 spaces. 'w' for wide, 'n' for narrow.
     // Total 9 elements, 3 of which are wide (2 bars, 1 space OR 1 bar, 2 spaces).
@@ -228,6 +241,9 @@ public class PdfBarcodeRenderer {
           break;
         case Codabar_2of7_AIM_USS_Codabar:
           totalWidth = renderCodabar(content, startX, startY, state, canvas);
+          break;
+        case POSTNET_PLANET:
+          totalWidth = renderPostnetPlanet(content, startX, startY, state, canvas);
           break;
         default:
           // TODO: Implement other barcode types
@@ -757,6 +773,67 @@ public class PdfBarcodeRenderer {
       }
       curX += w * moduleWidth;
     }
+  }
+
+  private static float renderPostnetPlanet(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    String digits = content.replaceAll("[^0-9]", "");
+    if (digits.isEmpty()) {
+      return 0;
+    }
+
+    boolean isPlanet = (state.getBarcodeModifier() == 0x04);
+
+    // POSTNET/PLANET standard dimensions (Optimal)
+    // Horizontal pitch: 22 bars per inch
+    float pitch = 1440.0f / 22.0f; // ~65.45 AFP units
+    float barWidth = 20.0f * 1.44f; // 28.8 AFP units
+    float tallHeight = 125.0f * 1.44f; // 180 AFP units
+    float shortHeight = 50.0f * 1.44f; // 72 AFP units
+
+    canvas.saveState();
+    float curX = x;
+    float curY = y;
+
+    // Start frame bar (always tall)
+    canvas.rectangle(curX, curY - tallHeight, barWidth, tallHeight).fill();
+    curX += pitch;
+
+    int sum = 0;
+    for (int i = 0; i < digits.length(); i++) {
+      int d = digits.charAt(i) - '0';
+      sum += d;
+      curX = renderPostnetDigit(d, curX, curY, isPlanet, pitch, barWidth, tallHeight, shortHeight, canvas);
+    }
+
+    // Check digit
+    int checkDigit = (10 - (sum % 10)) % 10;
+    curX = renderPostnetDigit(checkDigit, curX, curY, isPlanet, pitch, barWidth, tallHeight, shortHeight, canvas);
+
+    // Stop frame bar (always tall)
+    canvas.rectangle(curX, curY - tallHeight, barWidth, tallHeight).fill();
+    curX += pitch;
+
+    canvas.restoreState();
+    return curX - x;
+  }
+
+  private static float renderPostnetDigit(int digit, float curX, float curY, boolean isPlanet,
+      float pitch, float barWidth, float tallHeight, float shortHeight, PdfCanvas canvas) {
+    String pattern = POSTNET_PATTERNS[digit];
+    for (int i = 0; i < pattern.length(); i++) {
+      boolean isTall;
+      if (isPlanet) {
+        // PLANET: 0 is tall, 1 is short
+        isTall = (pattern.charAt(i) == '0');
+      } else {
+        // POSTNET: 1 is tall, 0 is short
+        isTall = (pattern.charAt(i) == '1');
+      }
+      float h = isTall ? tallHeight : shortHeight;
+      canvas.rectangle(curX, curY - h, barWidth, h).fill();
+      curX += pitch;
+    }
+    return curX;
   }
 
   private static void renderHRI(String content, int x, int y, float barcodeWidth, EnumSet<BarCodeFlag> flags, PdfBarcodeState state, PdfCanvas canvas) {
