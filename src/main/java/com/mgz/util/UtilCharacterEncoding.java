@@ -489,10 +489,24 @@ public class UtilCharacterEncoding {
    * @return true if data is human-readable.
    */
   public static boolean isHumanReadable(byte[] data, AFPParserConfiguration config) {
+    return isHumanReadable(data, 0, data != null ? data.length : 0, config);
+  }
+
+  /**
+   * Returns true if the given data, when decoded with the given charset, consists mostly of
+   * printable characters.
+   *
+   * @param data    byte array to test.
+   * @param offset  starting offset.
+   * @param length  length to test.
+   * @param config  {@link AFPParserConfiguration} used for decoding.
+   * @return true if data is human-readable.
+   */
+  public static boolean isHumanReadable(byte[] data, int offset, int length, AFPParserConfiguration config) {
     if (config == null) {
-      return isHumanReadable(data, Constants.cpIBM500);
+      return isHumanReadable(data, offset, length, Constants.cpIBM500, false);
     }
-    return isHumanReadable(data, config.getAfpCharSet(), config.isUseCharsetOptimizations());
+    return isHumanReadable(data, offset, length, config.getAfpCharSet(), config.isUseCharsetOptimizations());
   }
 
   /**
@@ -504,7 +518,7 @@ public class UtilCharacterEncoding {
    * @return true if data is human-readable.
    */
   public static boolean isHumanReadable(byte[] data, Charset charset) {
-    return isHumanReadable(data, charset, false);
+    return isHumanReadable(data, 0, data != null ? data.length : 0, charset, false);
   }
 
   /**
@@ -517,7 +531,22 @@ public class UtilCharacterEncoding {
    * @return true if data is human-readable.
    */
   public static boolean isHumanReadable(byte[] data, Charset charset, boolean useOptimizations) {
-    if (data == null || data.length == 0) {
+    return isHumanReadable(data, 0, data != null ? data.length : 0, charset, useOptimizations);
+  }
+
+  /**
+   * Returns true if the given data, when decoded with the given charset, consists mostly of
+   * printable characters.
+   *
+   * @param data             byte array to test.
+   * @param offset           starting offset.
+   * @param length           length to test.
+   * @param charset          Charset used for decoding.
+   * @param useOptimizations true to use fast-path optimizations.
+   * @return true if data is human-readable.
+   */
+  public static boolean isHumanReadable(byte[] data, int offset, int length, Charset charset, boolean useOptimizations) {
+    if (data == null || length <= 0) {
       return false;
     }
     if (charset == null) {
@@ -526,14 +555,14 @@ public class UtilCharacterEncoding {
 
     String charsetName = charset.name();
     if ("IBM500".equals(charsetName) || "Cp500".equals(charsetName)) {
-      return isHumanReadableCp500(data);
+      return isHumanReadableCp500(data, offset, length);
     } else if ("IBM273".equals(charsetName) || "Cp273".equals(charsetName)) {
-      return isHumanReadableCp273(data);
+      return isHumanReadableCp273(data, offset, length);
     } else if ("IBM01141".equals(charsetName) || "Cp1141".equals(charsetName)) {
-      return isHumanReadableCp1141(data);
+      return isHumanReadableCp1141(data, offset, length);
     }
 
-    String decoded = new String(data, charset);
+    String decoded = new String(data, offset, length, charset);
     int printableCount = 0;
     for (int i = 0; i < decoded.length(); i++) {
       char c = decoded.charAt(i);
@@ -626,15 +655,15 @@ public class UtilCharacterEncoding {
     return (double) printableCount / decoded.length() >= 0.9;
   }
 
-  private static boolean isHumanReadableCp500(byte[] data) {
+  private static boolean isHumanReadableCp500(byte[] data, int offset, int length) {
     int printableCount = 0;
-    for (byte b : data) {
-      char c = EBCDIC_CP500_TO_UTF8[b & 0xFF];
+    for (int i = 0; i < length; i++) {
+      char c = EBCDIC_CP500_TO_UTF8[data[offset + i] & 0xFF];
       if (!Character.isISOControl(c) || c == '\n' || c == '\r' || c == '\t' || c == '\u0085') {
         printableCount++;
       }
     }
-    return (double) printableCount / data.length >= 0.9;
+    return (double) printableCount / length >= 0.9;
   }
 
   private static boolean isHumanReadableCp500(ByteBuffer buffer, int offset, int length) {
@@ -648,15 +677,15 @@ public class UtilCharacterEncoding {
     return (double) printableCount / length >= 0.9;
   }
 
-  private static boolean isHumanReadableCp1141(byte[] data) {
+  private static boolean isHumanReadableCp1141(byte[] data, int offset, int length) {
     int printableCount = 0;
-    for (byte b : data) {
-      char c = EBCDIC_CP1141_TO_UTF8[b & 0xFF];
+    for (int i = 0; i < length; i++) {
+      char c = EBCDIC_CP1141_TO_UTF8[data[offset + i] & 0xFF];
       if (!Character.isISOControl(c) || c == '\n' || c == '\r' || c == '\t' || c == '\u0085') {
         printableCount++;
       }
     }
-    return (double) printableCount / data.length >= 0.9;
+    return (double) printableCount / length >= 0.9;
   }
 
   private static boolean isHumanReadableCp1141(ByteBuffer buffer, int offset, int length) {
@@ -670,15 +699,15 @@ public class UtilCharacterEncoding {
     return (double) printableCount / length >= 0.9;
   }
 
-  private static boolean isHumanReadableCp273(byte[] data) {
+  private static boolean isHumanReadableCp273(byte[] data, int offset, int length) {
     int printableCount = 0;
-    for (byte b : data) {
-      char c = EBCDIC_CP273_TO_UTF8[b & 0xFF];
+    for (int i = 0; i < length; i++) {
+      char c = EBCDIC_CP273_TO_UTF8[data[offset + i] & 0xFF];
       if (!Character.isISOControl(c) || c == '\n' || c == '\r' || c == '\t' || c == '\u0085') {
         printableCount++;
       }
     }
-    return (double) printableCount / data.length >= 0.9;
+    return (double) printableCount / length >= 0.9;
   }
 
   private static boolean isHumanReadableCp273(ByteBuffer buffer, int offset, int length) {

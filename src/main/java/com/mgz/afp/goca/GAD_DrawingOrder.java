@@ -72,19 +72,19 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     @AFPField
     public short lengthOfFollowingData;
     @AFPField
-    List<GOCA_Point> points;
+    short[] pointsArray;
 
     @Override
     public void reset() {
       super.reset();
       lengthOfFollowingData = 0;
-      points = null;
+      pointsArray = null;
     }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
-      drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
-      lengthOfFollowingData = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+      drawingOrderType = (short) (sfData[offset] & 0xFF);
+      lengthOfFollowingData = (short) (sfData[offset + 1] & 0xFF);
 
       if (lengthOfFollowingData % 4 != 0) {
         throw new AFPParserException("Invalid length for drawing order 0x" + Integer.toHexString(drawingOrderType)
@@ -92,41 +92,26 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       }
 
       if (lengthOfFollowingData > 0) {
-        points = new ArrayList<GOCA_Point>();
-        int pos = 0;
-        while (pos < lengthOfFollowingData) {
-          short x = UtilBinaryDecoding.parseShort(sfData, offset + 2 + pos, 2);
-          short y = UtilBinaryDecoding.parseShort(sfData, offset + 2 + pos + 2, 2);
-          points.add(new GOCA_Point(x, y));
-          pos += 4;
+        pointsArray = new short[lengthOfFollowingData / 2];
+        for (int i = 0; i < pointsArray.length; i++) {
+          pointsArray[i] = (short) (((sfData[offset + 2 + i * 2] & 0xFF) << 8) | (sfData[offset + 2 + i * 2 + 1] & 0xFF));
         }
       } else {
-        points = null;
+        pointsArray = null;
       }
     }
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-      byte[] lineEndpointsData = null;
-      if (points != null && points.size() > 0) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        for (GOCA_Point lp : points) {
-          if (lp == null) {
-            continue;
-          }
-          baos.write(UtilBinaryDecoding.shortToByteArray(lp.xCoordinate, 2));
-          baos.write(UtilBinaryDecoding.shortToByteArray(lp.yCoordinate, 2));
-        }
-        lineEndpointsData = baos.toByteArray();
-        lengthOfFollowingData = (short) lineEndpointsData.length;
-      } else {
-        lengthOfFollowingData = 0;
-      }
+      lengthOfFollowingData = (short) (pointsArray != null ? pointsArray.length * 2 : 0);
 
       os.write(drawingOrderType);
       os.write(lengthOfFollowingData);
-      if (lineEndpointsData != null) {
-        os.write(lineEndpointsData);
+      if (pointsArray != null) {
+        for (short s : pointsArray) {
+          os.write((s >>> 8) & 0xFF);
+          os.write(s & 0xFF);
+        }
       }
     }
 
@@ -142,19 +127,47 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
      * Returns the list of points.
      */
     public List<GOCA_Point> getPoints() {
+      if (pointsArray == null) {
+        return null;
+      }
+      List<GOCA_Point> points = new ArrayList<>(pointsArray.length / 2);
+      for (int i = 0; i < pointsArray.length; i += 2) {
+        points.add(new GOCA_Point(pointsArray[i], pointsArray[i + 1]));
+      }
       return points;
+    }
+
+    /**
+     * Returns the raw points array.
+     */
+    public short[] getPointsArray() {
+      return pointsArray;
     }
 
     /**
      * Sets the line endpoints and updates the {@link #lengthOfFollowingData} accordingly.
      */
     public void setPoints(List<GOCA_Point> points) {
-      this.points = points;
       if (points == null) {
+        pointsArray = null;
         lengthOfFollowingData = 0;
       } else {
-        lengthOfFollowingData = (short) (4 * points.size());
+        pointsArray = new short[points.size() * 2];
+        for (int i = 0; i < points.size(); i++) {
+          GOCA_Point p = points.get(i);
+          pointsArray[i * 2] = p.xCoordinate;
+          pointsArray[i * 2 + 1] = p.yCoordinate;
+        }
+        lengthOfFollowingData = (short) (pointsArray.length * 2);
       }
+    }
+
+    /**
+     * Sets the raw points array.
+     */
+    public void setPointsArray(short[] pointsArray) {
+      this.pointsArray = pointsArray;
+      this.lengthOfFollowingData = (short) (pointsArray != null ? pointsArray.length * 2 : 0);
     }
 
     /**
@@ -166,11 +179,18 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       if (point == null) {
         return;
       }
-      if (points == null) {
-        points = new ArrayList<GOCA_Point>();
+      if (pointsArray == null) {
+        pointsArray = new short[2];
+        pointsArray[0] = point.xCoordinate;
+        pointsArray[1] = point.yCoordinate;
+      } else {
+        short[] newArray = new short[pointsArray.length + 2];
+        System.arraycopy(pointsArray, 0, newArray, 0, pointsArray.length);
+        newArray[newArray.length - 2] = point.xCoordinate;
+        newArray[newArray.length - 1] = point.yCoordinate;
+        pointsArray = newArray;
       }
-      points.add(point);
-      lengthOfFollowingData = (short) (4 * points.size());
+      lengthOfFollowingData = (short) (pointsArray.length * 2);
     }
 
     /**
@@ -179,11 +199,19 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
      * does nothing.
      */
     public void removePoint(GOCA_Point point) {
-      if (point == null || points == null) {
+      if (point == null || pointsArray == null) {
         return;
       }
-      points.remove(point);
-      lengthOfFollowingData = (short) (4 * points.size());
+      for (int i = 0; i < pointsArray.length; i += 2) {
+        if (pointsArray[i] == point.xCoordinate && pointsArray[i + 1] == point.yCoordinate) {
+          short[] newArray = new short[pointsArray.length - 2];
+          System.arraycopy(pointsArray, 0, newArray, 0, i);
+          System.arraycopy(pointsArray, i + 2, newArray, i, pointsArray.length - i - 2);
+          pointsArray = newArray;
+          lengthOfFollowingData = (short) (pointsArray.length * 2);
+          return;
+        }
+      }
     }
   }
 
@@ -316,16 +344,16 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
-      drawingOrderType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
+      drawingOrderType = (short) (sfData[offset] & 0xFF);
       commandCode = drawingOrderType;
-      lengthOfFollowingParameters = UtilBinaryDecoding.parseShort(sfData, offset + 1, 1);
+      lengthOfFollowingParameters = (short) (sfData[offset + 1] & 0xFF);
       nameOfSegment = new String(sfData, offset + 2, 4, config.getAfpCharSet());
       flagAnyValue = sfData[offset + 6];
       segmentPropertiesFlags = SegmentPropertiesFlag.valueOF(sfData[offset + 7]);
-      segmentDataLength = UtilBinaryDecoding.parseInt(sfData, offset + 8, 2);
+      segmentDataLength = ((sfData[offset + 8] & 0xFF) << 8) | (sfData[offset + 9] & 0xFF);
       nameOfPredecessorSuccessorSegment = new String(sfData, offset + 10, 4, config.getAfpCharSet());
 
-      if (UtilCharacterEncoding.isHumanReadable(nameOfSegment.getBytes(config.getAfpCharSet()), config)) {
+      if (UtilCharacterEncoding.isHumanReadable(sfData, offset + 2, 4, config)) {
         text = nameOfSegment.trim();
       }
 
@@ -338,8 +366,6 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-      byte[] drawingOrdersData = null;
-
       os.write(commandCode);
       os.write(lengthOfFollowingParameters);
       os.write(nameOfSegment.getBytes(config.getAfpCharSet()));
@@ -350,25 +376,23 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
         os.write(0x00);
       }
 
-      if (drawingOrders != null && drawingOrders.size() > 0) {
+      if (drawingOrders != null && !drawingOrders.isEmpty()) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         for (GAD_DrawingOrder order : drawingOrders) {
-          if (order == null) {
-            continue;
+          if (order != null) {
+            order.writeAFP(baos, config);
           }
-          order.writeAFP(baos, config);
         }
-        drawingOrdersData = baos.toByteArray();
-        segmentDataLength = drawingOrdersData.length;
+        segmentDataLength = baos.size();
+        os.write((segmentDataLength >>> 8) & 0xFF);
+        os.write(segmentDataLength & 0xFF);
+        os.write(nameOfPredecessorSuccessorSegment.getBytes(config.getAfpCharSet()));
+        baos.writeTo(os);
       } else {
         segmentDataLength = 0;
-      }
-
-      os.write(UtilBinaryDecoding.intToByteArray(segmentDataLength, 2));
-      os.write(nameOfPredecessorSuccessorSegment.getBytes(config.getAfpCharSet()));
-
-      if (drawingOrdersData != null) {
-        os.write(drawingOrdersData);
+        os.write(0x00);
+        os.write(0x00);
+        os.write(nameOfPredecessorSuccessorSegment.getBytes(config.getAfpCharSet()));
       }
     }
 
@@ -3669,15 +3693,22 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
-      baos.write(UtilBinaryDecoding.shortToByteArray(reserved4_5, 2));
+      baos.write((reserved4_5 >>> 8) & 0xFF);
+      baos.write(reserved4_5 & 0xFF);
       baos.write(patternSet);
       baos.write(patternSymbol);
-      baos.write(UtilBinaryDecoding.shortToByteArray(xStart, 2));
-      baos.write(UtilBinaryDecoding.shortToByteArray(yStart, 2));
-      baos.write(UtilBinaryDecoding.shortToByteArray(xEnd, 2));
-      baos.write(UtilBinaryDecoding.shortToByteArray(yEnd, 2));
+      baos.write((xStart >>> 8) & 0xFF);
+      baos.write(xStart & 0xFF);
+      baos.write((yStart >>> 8) & 0xFF);
+      baos.write(yStart & 0xFF);
+      baos.write((xEnd >>> 8) & 0xFF);
+      baos.write(xEnd & 0xFF);
+      baos.write((yEnd >>> 8) & 0xFF);
+      baos.write(yEnd & 0xFF);
       startColorSpec.writeAFP(baos, config);
-      baos.write(endColorValue);
+      if (endColorValue != null) {
+        baos.write(endColorValue);
+      }
       baos.write(outsideStart);
       baos.write(outsideEnd);
       if (colorStops != null) {
@@ -3685,13 +3716,13 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
           stop.writeAFP(baos, config);
         }
       }
-      byte[] data = baos.toByteArray();
-      lengthOfFollowingData = data.length;
+      lengthOfFollowingData = baos.size();
 
       os.write(drawingOrderType);
       os.write(qualifier);
-      os.write(UtilBinaryDecoding.intToByteArray(lengthOfFollowingData, 2));
-      os.write(data);
+      os.write((lengthOfFollowingData >>> 8) & 0xFF);
+      os.write(lengthOfFollowingData & 0xFF);
+      baos.writeTo(os);
     }
   }
 
@@ -3800,19 +3831,26 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
-      baos.write(UtilBinaryDecoding.shortToByteArray(reserved4_5, 2));
+      baos.write((reserved4_5 >>> 8) & 0xFF);
+      baos.write(reserved4_5 & 0xFF);
       baos.write(patternSet);
       baos.write(patternSymbol);
-      baos.write(UtilBinaryDecoding.shortToByteArray(xStart, 2));
-      baos.write(UtilBinaryDecoding.shortToByteArray(yStart, 2));
+      baos.write((xStart >>> 8) & 0xFF);
+      baos.write(xStart & 0xFF);
+      baos.write((yStart >>> 8) & 0xFF);
+      baos.write(yStart & 0xFF);
       baos.write(mhStart);
       baos.write(mfrStart);
-      baos.write(UtilBinaryDecoding.shortToByteArray(xEnd, 2));
-      baos.write(UtilBinaryDecoding.shortToByteArray(yEnd, 2));
+      baos.write((xEnd >>> 8) & 0xFF);
+      baos.write(xEnd & 0xFF);
+      baos.write((yEnd >>> 8) & 0xFF);
+      baos.write(yEnd & 0xFF);
       baos.write(mhEnd);
       baos.write(mfrEnd);
       startColorSpec.writeAFP(baos, config);
-      baos.write(endColorValue);
+      if (endColorValue != null) {
+        baos.write(endColorValue);
+      }
       baos.write(outsideStart);
       baos.write(outsideEnd);
       if (colorStops != null) {
@@ -3820,13 +3858,13 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
           stop.writeAFP(baos, config);
         }
       }
-      byte[] data = baos.toByteArray();
-      lengthOfFollowingData = data.length;
+      lengthOfFollowingData = baos.size();
 
       os.write(drawingOrderType);
       os.write(qualifier);
-      os.write(UtilBinaryDecoding.intToByteArray(lengthOfFollowingData, 2));
-      os.write(data);
+      os.write((lengthOfFollowingData >>> 8) & 0xFF);
+      os.write(lengthOfFollowingData & 0xFF);
+      baos.writeTo(os);
     }
   }
 
