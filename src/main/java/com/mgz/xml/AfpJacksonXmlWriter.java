@@ -378,7 +378,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
         MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
       }
-      JacksonXmlMapperProvider.getCachedWriter(sf.getClass(), useWoodstox, true).writeValue(baseFragmentGenerator, sf);
+      JacksonXmlMapperProvider.getCachedWriter(sf.getClass(), useWoodstox, true, indentEnabled).writeValue(baseFragmentGenerator, sf);
       if (MnemonicPerformanceMonitor.isEnabled()) {
         MnemonicPerformanceMonitor.endWrite();
       }
@@ -845,7 +845,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
       writer.writeEndElement();
     } else {
-      JacksonXmlMapperProvider.getCachedWriter(triplet.getClass(), useWoodstox, true).writeValue(baseFragmentGenerator, triplet);
+      JacksonXmlMapperProvider.getCachedWriter(triplet.getClass(), useWoodstox, true, indentEnabled).writeValue(baseFragmentGenerator, triplet);
     }
   }
 
@@ -1125,7 +1125,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(simpleName);
         MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
       }
-      JacksonXmlMapperProvider.getCachedWriter(cs.getClass(), useWoodstox, true).writeValue(baseFragmentGenerator, cs);
+      JacksonXmlMapperProvider.getCachedWriter(cs.getClass(), useWoodstox, true, indentEnabled).writeValue(baseFragmentGenerator, cs);
       if (MnemonicPerformanceMonitor.isEnabled()) {
         MnemonicPerformanceMonitor.endWrite();
       }
@@ -1938,7 +1938,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
         MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
       }
-      JacksonXmlMapperProvider.getCachedWriter(order.getClass(), useWoodstox, true).writeValue(baseFragmentGenerator, order);
+      JacksonXmlMapperProvider.getCachedWriter(order.getClass(), useWoodstox, true, indentEnabled).writeValue(baseFragmentGenerator, order);
       if (MnemonicPerformanceMonitor.isEnabled()) {
         MnemonicPerformanceMonitor.endWrite();
       }
@@ -1994,7 +1994,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
       writer.writeEndElement();
     } else {
-      JacksonXmlMapperProvider.getCachedWriter(segment.getClass(), useWoodstox, true).writeValue(baseFragmentGenerator, segment);
+      JacksonXmlMapperProvider.getCachedWriter(segment.getClass(), useWoodstox, true, indentEnabled).writeValue(baseFragmentGenerator, segment);
     }
   }
 
@@ -2101,7 +2101,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
       writer.writeEndElement();
     } else {
-      JacksonXmlMapperProvider.getCachedWriter(sdf.getClass(), useWoodstox, true).writeValue(baseFragmentGenerator, sdf);
+      JacksonXmlMapperProvider.getCachedWriter(sdf.getClass(), useWoodstox, true, indentEnabled).writeValue(baseFragmentGenerator, sdf);
     }
   }
 
@@ -2549,18 +2549,18 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   }
 
   private String getIndent(int level) {
-    return indentEnabled ? getIndent(level) : "";
+    return indentEnabled ? XmlIndenter.getIndent(level) : "";
   }
 
   private void writeIndent(int level) throws Exception {
     if (indentEnabled) {
-      writeIndent(level);
+      XmlIndenter.writeIndent(baseXsw, level);
     }
   }
 
   private void writePureIndent(int level) throws Exception {
     if (indentEnabled) {
-      baseXsw.writeRaw(new String(XmlIndenter.PURE_INDENT_BYTES[level], StandardCharsets.UTF_8));
+      XmlIndenter.writePureIndent(baseXsw, level);
     }
   }
 
