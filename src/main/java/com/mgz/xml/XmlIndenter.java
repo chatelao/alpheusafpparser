@@ -27,7 +27,7 @@ import java.nio.charset.StandardCharsets;
  */
 public class XmlIndenter {
   private static final String[] INDENTS;
-  private static final byte[][] INDENT_BYTES;
+  public static final byte[][] INDENT_BYTES;
   public static final byte[][] PURE_INDENT_BYTES;
   private static final int MAX_LEVEL = 32;
 
@@ -102,7 +102,8 @@ public class XmlIndenter {
    * @throws Exception if writing fails
    */
   public static void writeIndent(AfpXmlStreamWriter xsw, int level) throws Exception {
-    xsw.writeRaw(getIndent(level));
+    int safeLevel = Math.max(0, Math.min(level, MAX_LEVEL - 1));
+    xsw.writeRawBytes(INDENT_BYTES[safeLevel], 0, INDENT_BYTES[safeLevel].length);
   }
 
   /**
@@ -114,6 +115,6 @@ public class XmlIndenter {
    */
   public static void writePureIndent(AfpXmlStreamWriter xsw, int level) throws Exception {
     int safeLevel = Math.max(0, Math.min(level, MAX_LEVEL - 1));
-    xsw.writeRaw(new String(PURE_INDENT_BYTES[safeLevel], StandardCharsets.UTF_8));
+    xsw.writeRawBytes(PURE_INDENT_BYTES[safeLevel], 0, PURE_INDENT_BYTES[safeLevel].length);
   }
 }

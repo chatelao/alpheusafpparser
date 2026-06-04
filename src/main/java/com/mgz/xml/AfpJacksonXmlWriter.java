@@ -258,120 +258,121 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   }
 
   private void writeFieldDirectly(StructuredField sf) throws Exception {
+    int level = fragmentMode ? 0 : 1;
     if (!fragmentMode) {
-      writePureIndent(1);
+      writePureIndent(level);
     }
 
     if (sf instanceof NOP_NoOperation nop) {
-      writeNopDirectly(nop);
+      writeNopDirectly(nop, level);
     } else if (sf instanceof TLE_TagLogicalElement tle) {
-      writeTleDirectly(tle);
+      writeTleDirectly(tle, level);
     } else if (sf instanceof BAG_BeginActiveEnvironmentGroup bag) {
-      writeBagDirectly(bag);
+      writeBagDirectly(bag, level);
     } else if (sf instanceof PTX_PresentationTextData ptx) {
-      writePtxDirectly(ptx);
+      writePtxDirectly(ptx, level);
     } else if (sf instanceof MCF_MapCodedFont_Format2 mcf) {
-      writeMcfDirectly(mcf);
+      writeMcfDirectly(mcf, level);
     } else if (sf instanceof FNC_FontControl fnc) {
-      writeFncDirectly(fnc);
+      writeFncDirectly(fnc, level);
     } else if (sf instanceof LND_LineDescriptor lnd) {
-      writeLndDirectly(lnd);
+      writeLndDirectly(lnd, level);
     } else if (sf instanceof GAD_GraphicsData gad) {
-      writeGadDirectly(gad);
+      writeGadDirectly(gad, level);
     } else if (sf instanceof IPD_ImagePictureData ipd) {
-      writeIpdDirectly(ipd);
+      writeIpdDirectly(ipd, level);
     } else if (sf instanceof OBD_ObjectAreaDescriptor obd) {
-      writeObdDirectly(obd);
+      writeObdDirectly(obd, level);
     } else if (sf instanceof OBP_ObjectAreaPosition obp) {
-      writeObpDirectly(obp);
+      writeObpDirectly(obp, level);
     } else if (sf instanceof IDD_ImageDataDescriptor idd) {
-      writeIddDirectly(idd);
+      writeIddDirectly(idd, level);
     } else if (sf instanceof MIO_MapImageObject mio) {
-      writeMioDirectly(mio);
+      writeMioDirectly(mio, level);
     } else if (sf instanceof MCD_MapContainerData mcd) {
-      writeMcdDirectly(mcd);
+      writeMcdDirectly(mcd, level);
     } else if (sf instanceof MDR_MapDataResource mdr) {
-      writeMdrDirectly(mdr);
+      writeMdrDirectly(mdr, level);
     } else if (sf instanceof MSU_MapSuppression msu) {
-      writeMsuDirectly(msu);
+      writeMsuDirectly(msu, level);
     } else if (sf instanceof MMC_MediumModificationControl mmc) {
-      writeMmcDirectly(mmc);
+      writeMmcDirectly(mmc, level);
     } else if (sf instanceof MGO_MapGraphicsObject mgo) {
-      writeMgoDirectly(mgo);
+      writeMgoDirectly(mgo, level);
     } else if (sf instanceof MPO_MapPageOverlay mpo) {
-      writeMpoDirectly(mpo);
+      writeMpoDirectly(mpo, level);
     } else if (sf instanceof com.mgz.afp.modca.BDT_BeginDocument bdt) {
-      writeBdtDirectly(bdt);
+      writeBdtDirectly(bdt, level);
     } else if (sf instanceof OCD_ObjectContainerData ocd) {
-      writeOcdDirectly(ocd);
+      writeOcdDirectly(ocd, level);
     } else if (sf instanceof BDI_BeginDocumentIndex bdi) {
-      writeNameAndTripletsDirectly(bdi, "BDI_BeginDocumentIndex");
+      writeNameAndTripletsDirectly(bdi, "BDI_BeginDocumentIndex", level);
     } else if (sf instanceof BMO_BeginOverlay bmo) {
-      writeBmoDirectly(bmo);
+      writeBmoDirectly(bmo, level);
     } else if (sf instanceof BPS_BeginPageSegment bps) {
-      writeBpsDirectly(bps);
+      writeBpsDirectly(bps, level);
     } else if (sf instanceof BRG_BeginResourceGroup brg) {
-      writeNameAndTripletsDirectly(brg, "BRG_BeginResourceGroup");
+      writeNameAndTripletsDirectly(brg, "BRG_BeginResourceGroup", level);
     } else if (sf instanceof com.mgz.afp.modca.BNG_BeginNamedPageGroup bng) {
-      writeNameAndTripletsDirectly(bng, "BNG_BeginNamedPageGroup");
+      writeNameAndTripletsDirectly(bng, "BNG_BeginNamedPageGroup", level);
     } else if (sf instanceof com.mgz.afp.modca.BPG_BeginPage bpg) {
-      writeNameAndTripletsDirectly(bpg, "BPG_BeginPage");
+      writeNameAndTripletsDirectly(bpg, "BPG_BeginPage", level);
     } else if (sf instanceof EDI_EndDocumentIndex edi) {
-      writeNameDirectly(edi, "EDI_EndDocumentIndex");
+      writeNameDirectly(edi, "EDI_EndDocumentIndex", level);
     } else if (sf instanceof EMO_EndOverlay emo) {
-      writeNameAndTripletsDirectly(emo, "EMO_EndOverlay");
+      writeNameAndTripletsDirectly(emo, "EMO_EndOverlay", level);
     } else if (sf instanceof EPS_EndPageSegment eps) {
-      writeNameDirectly(eps, "EPS_EndPageSegment");
+      writeNameDirectly(eps, "EPS_EndPageSegment", level);
     } else if (sf instanceof ERG_EndResourceGroup erg) {
-      writeNameAndTripletsDirectly(erg, "ERG_EndResourceGroup");
+      writeNameAndTripletsDirectly(erg, "ERG_EndResourceGroup", level);
     } else if (sf instanceof com.mgz.afp.modca.EDT_EndDocument edt) {
-      writeNameAndTripletsDirectly(edt, "EDT_EndDocument");
+      writeNameAndTripletsDirectly(edt, "EDT_EndDocument", level);
     } else if (sf instanceof com.mgz.afp.modca.ENG_EndNamedPageGroup eng) {
-      writeNameAndTripletsDirectly(eng, "ENG_EndNamedPageGroup");
+      writeNameAndTripletsDirectly(eng, "ENG_EndNamedPageGroup", level);
     } else if (sf instanceof com.mgz.afp.modca.EPG_EndPage epg) {
-      writeNameAndTripletsDirectly(epg, "EPG_EndPage");
+      writeNameAndTripletsDirectly(epg, "EPG_EndPage", level);
     } else if (sf instanceof com.mgz.afp.modca.IEL_IndexElement iel) {
-      writeTripletsAndTextDirectly(iel, "IEL_IndexElement");
+      writeTripletsAndTextDirectly(iel, "IEL_IndexElement", level);
     } else if (sf instanceof com.mgz.afp.modca.IPG_IncludePage ipg) {
-      writeTripletsAndTextDirectly(ipg, "IPG_IncludePage");
+      writeTripletsAndTextDirectly(ipg, "IPG_IncludePage", level);
     } else if (sf instanceof com.mgz.afp.modca.PGD_PageDescriptor pgd) {
-      writePgdDirectly(pgd);
+      writePgdDirectly(pgd, level);
     } else if (sf instanceof PGP_PagePosition_Format1 pgp) {
-      writePgpFormat1Directly(pgp);
+      writePgpFormat1Directly(pgp, level);
     } else if (sf instanceof PGP_PagePosition_Format2 pgp) {
-      writePgpFormat2Directly(pgp);
+      writePgpFormat2Directly(pgp, level);
     } else if (sf instanceof com.mgz.afp.modca.MDD_MediumDescriptor mdd) {
-      writeMddDirectly(mdd);
+      writeMddDirectly(mdd, level);
     } else if (sf instanceof com.mgz.afp.modca.IMM_InvokeMediumMap imm) {
-      writeNameAndTripletsDirectly(imm, "IMM_InvokeMediumMap");
+      writeNameAndTripletsDirectly(imm, "IMM_InvokeMediumMap", level);
     } else if (sf instanceof com.mgz.afp.modca.BOC_BeginObjectContainer boc) {
-      writeNameAndTripletsDirectly(boc, "BOC_BeginObjectContainer");
+      writeNameAndTripletsDirectly(boc, "BOC_BeginObjectContainer", level);
     } else if (sf instanceof com.mgz.afp.modca.EOC_EndObjectContainer eoc) {
-      writeNameDirectly(eoc, "EOC_EndObjectContainer");
+      writeNameDirectly(eoc, "EOC_EndObjectContainer", level);
     } else if (sf instanceof com.mgz.afp.modca.BIM_BeginImageObject bim) {
-      writeNameAndTripletsDirectly(bim, "BIM_BeginImageObject");
+      writeNameAndTripletsDirectly(bim, "BIM_BeginImageObject", level);
     } else if (sf instanceof com.mgz.afp.modca.EIM_EndImageObject eim) {
-      writeNameDirectly(eim, "EIM_EndImageObject");
+      writeNameDirectly(eim, "EIM_EndImageObject", level);
     } else if (sf instanceof com.mgz.afp.modca.PMC_PageModificationControl pmc) {
-      writeTripletsAndTextDirectly(pmc, "PMC_PageModificationControl");
+      writeTripletsAndTextDirectly(pmc, "PMC_PageModificationControl", level);
     } else if (sf instanceof com.mgz.afp.modca.PEC_PresentationEnvironmentControl pec) {
-      writeTripletsAndTextDirectly(pec, "PEC_PresentationEnvironmentControl");
+      writeTripletsAndTextDirectly(pec, "PEC_PresentationEnvironmentControl", level);
     } else if (sf instanceof com.mgz.afp.modca.IPS_IncludePageSegment ips) {
-      writeTripletsAndTextDirectly(ips, "IPS_IncludePageSegment");
+      writeTripletsAndTextDirectly(ips, "IPS_IncludePageSegment", level);
     } else if (sf instanceof com.mgz.afp.modca.IPO_IncludePageOverlay ipo) {
-      writeTripletsAndTextDirectly(ipo, "IPO_IncludePageOverlay");
+      writeTripletsAndTextDirectly(ipo, "IPO_IncludePageOverlay", level);
     } else if (sf instanceof com.mgz.afp.modca.MFC_MediumFinishingControl mfc) {
-      writeTripletsAndTextDirectly(mfc, "MFC_MediumFinishingControl");
+      writeTripletsAndTextDirectly(mfc, "MFC_MediumFinishingControl", level);
     } else if (sf instanceof com.mgz.afp.modca.PFC_PresentationFidelityControl pfc) {
-      writeTripletsAndTextDirectly(pfc, "PFC_PresentationFidelityControl");
+      writeTripletsAndTextDirectly(pfc, "PFC_PresentationFidelityControl", level);
     } else if (sf instanceof BBC_BeginBarCodeObject bbc) {
-      writeBbcDirectly(bbc);
+      writeBbcDirectly(bbc, level);
     } else if (sf instanceof EBC_EndBarCodeObject ebc) {
-      writeEbcDirectly(ebc);
+      writeEbcDirectly(ebc, level);
     } else if (sf instanceof BDD_BarCodeDataDescriptor bdd) {
-      writeBddDirectly(bdd);
+      writeBddDirectly(bdd, level);
     } else if (sf instanceof BDA_BarCodeData bda) {
-      writeBdaDirectly(bda);
+      writeBdaDirectly(bda, level);
     } else {
       if (MnemonicPerformanceMonitor.isEnabled()) {
         String rootName = MnemonicPerformanceMonitor.getSimpleName(sf.getClass());
@@ -389,16 +390,13 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
   }
 
-  private void writeNopDirectly(NOP_NoOperation nop) throws Exception {
+  private void writeNopDirectly(NOP_NoOperation nop, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("NOP");
     String text = nop.getText();
     if (text != null && !text.isEmpty()) {
       baseXsw.writeStartElement("NOP_NoOperation");
-      writeIndent(2);
-      baseXsw.writeStartElement("text");
-      baseXsw.writeCharacters(text);
-      baseXsw.writeEndElement();
-      writeIndent(1);
+      writeElement(baseXsw, level + 1, "text", text);
+      writeIndent(baseXsw, level);
       baseXsw.writeEndElement();
     } else {
       byte[] data = nop.getData();
@@ -406,491 +404,457 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         baseXsw.writeEmptyElement("NOP_NoOperation");
       } else {
         baseXsw.writeStartElement("NOP_NoOperation");
-        writeBinaryElement(baseXsw, getIndent(2), "binaryData", data);
-        writeIndent(1);
+        writeBinaryElement(baseXsw, level + 1, "binaryData", data);
+        writeIndent(baseXsw, level);
         baseXsw.writeEndElement();
       }
     }
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeTleDirectly(TLE_TagLogicalElement tle) throws Exception {
+  private void writeTleDirectly(TLE_TagLogicalElement tle, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("TLE");
     baseXsw.writeStartElement("TLE_TagLogicalElement");
-    String indent2 = getIndent(2);
-    String indent1 = getIndent(1);
     if (tle.getTriplets() != null && !tle.getTriplets().isEmpty()) {
       for (Triplet triplet : tle.getTriplets()) {
-        writeIndent(2);
-        writeTriplet(baseXsw, triplet, indent2);
+        writeTriplet(baseXsw, triplet, level + 1);
       }
     }
     if (tle.getText() != null) {
-      writeElement(baseXsw, indent2, "text", tle.getText());
+      writeElement(baseXsw, level + 1, "text", tle.getText());
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeMcdDirectly(MCD_MapContainerData mcd) throws Exception {
+  private void writeMcdDirectly(MCD_MapContainerData mcd, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("MCD");
     baseXsw.writeStartElement("MCD_MapContainerData");
-    String indent2 = getIndent(2);
-    writeElement(baseXsw, indent2, "lengthOfRepeatingGroup", mcd.getLengthOfRepeatingGroup());
+    writeElement(baseXsw, level + 1, "lengthOfRepeatingGroup", mcd.getLengthOfRepeatingGroup());
     if (mcd.getTriplet() != null) {
-      writeIndent(2);
-      writeTriplet(baseXsw, mcd.getTriplet(), indent2);
+      writeTriplet(baseXsw, mcd.getTriplet(), level + 1);
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writePgpFormat1Directly(PGP_PagePosition_Format1 pgp) throws Exception {
+  private void writePgpFormat1Directly(PGP_PagePosition_Format1 pgp, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("PGP");
     baseXsw.writeStartElement("PGP_PagePosition_Format1");
-    String indent = getIndent(2);
-    writeElement(baseXsw, indent, "xOrigin", pgp.getxOrigin());
-    writeElement(baseXsw, indent, "yOrigin", pgp.getyOrigin());
-    writeIndent(1);
+    writeElement(baseXsw, level + 1, "xOrigin", pgp.getxOrigin());
+    writeElement(baseXsw, level + 1, "yOrigin", pgp.getyOrigin());
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writePgpFormat2Directly(PGP_PagePosition_Format2 pgp) throws Exception {
+  private void writePgpFormat2Directly(PGP_PagePosition_Format2 pgp, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("PGP");
     baseXsw.writeStartElement("PGP_PagePosition_Format2");
-    String indent2 = getIndent(2);
-    String indent3 = getIndent(3);
-    writeElement(baseXsw, indent2, "constant0", pgp.getConstant0());
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "constant0", pgp.getConstant0());
     if (pgp.getRepeatingGroups() != null) {
       for (IRepeatingGroup rg : pgp.getRepeatingGroups()) {
         if (rg instanceof PGP_PagePosition_Format2.PGP_RepeatingGroup pgpRg) {
-          writeIndent(2);
+          writeIndent(baseXsw, childLevel);
           baseXsw.writeStartElement("pgpRepeatingGroup");
-          writeElement(baseXsw, indent3, "repeatingGroupLength", pgpRg.getRepeatingGroupLength());
-          writeElement(baseXsw, indent3, "xOrigin", pgpRg.getxOrigin());
-          writeElement(baseXsw, indent3, "yOrigin", pgpRg.getyOrigin());
+          int rgLevel = childLevel + 1;
+          writeElement(baseXsw, rgLevel, "repeatingGroupLength", pgpRg.getRepeatingGroupLength());
+          writeElement(baseXsw, rgLevel, "xOrigin", pgpRg.getxOrigin());
+          writeElement(baseXsw, rgLevel, "yOrigin", pgpRg.getyOrigin());
           if (pgpRg.getxRotation() != null) {
-            writeElement(baseXsw, indent3, "xRotation", pgpRg.getxRotation().name());
+            writeElement(baseXsw, rgLevel, "xRotation", pgpRg.getxRotation().name());
           }
           if (pgpRg.getSheetSideAndPartitionSelection() != null) {
-            writeElement(baseXsw, indent3, "sheetSideAndPartitionSelection", pgpRg.getSheetSideAndPartitionSelection().name());
+            writeElement(baseXsw, rgLevel, "sheetSideAndPartitionSelection", pgpRg.getSheetSideAndPartitionSelection().name());
           }
           if (pgpRg.getFlags() != null) {
-            writeIndent(3);
+            writeIndent(baseXsw, rgLevel);
             baseXsw.writeStartElement("flags");
             for (PGP_PagePosition_Format2.PGP_RepeatingGroup.PGP_RGFlag flag : pgpRg.getFlags()) {
-              writeIndent(4);
-              baseXsw.writeStartElement("pgpRgFlag");
-              baseXsw.writeCharacters(flag.name());
-              baseXsw.writeEndElement();
+              writeElement(baseXsw, rgLevel + 1, "pgpRgFlag", flag.name());
             }
-            writeIndent(3);
+            writeIndent(baseXsw, rgLevel);
             baseXsw.writeEndElement();
           }
           if (pgpRg.getPageModififationControlID() != null) {
-            writeElement(baseXsw, indent3, "pageModififationControlID", pgpRg.getPageModififationControlID());
+            writeElement(baseXsw, rgLevel, "pageModififationControlID", pgpRg.getPageModififationControlID());
           }
-          writeIndent(2);
+          writeIndent(baseXsw, childLevel);
           baseXsw.writeEndElement();
         }
       }
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeMsuDirectly(MSU_MapSuppression msu) throws Exception {
+  private void writeMsuDirectly(MSU_MapSuppression msu, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("MSU");
     baseXsw.writeStartElement("MSU_MapSuppression");
-    String indent2 = getIndent(2);
-    String indent3 = getIndent(3);
+    int childLevel = level + 1;
     if (msu.getRepeatingGroups() != null) {
       for (IRepeatingGroup rg : msu.getRepeatingGroups()) {
         if (rg instanceof MSU_MapSuppression.MSU_RepeatingGroup msuRg) {
-          writeIndent(2);
+          writeIndent(baseXsw, childLevel);
           baseXsw.writeStartElement("msuRepeatingGroup");
-          writeElement(baseXsw, indent3, "nameOfTextSuppresstion", msuRg.getNameOfTextSuppresstion());
-          writeElement(baseXsw, indent3, "reserved8", msuRg.getReserved8());
-          writeElement(baseXsw, indent3, "localID", msuRg.getLocalID());
-          writeIndent(2);
+          int rgLevel = childLevel + 1;
+          writeElement(baseXsw, rgLevel, "nameOfTextSuppresstion", msuRg.getNameOfTextSuppresstion());
+          writeElement(baseXsw, rgLevel, "reserved8", msuRg.getReserved8());
+          writeElement(baseXsw, rgLevel, "localID", msuRg.getLocalID());
+          writeIndent(baseXsw, childLevel);
           baseXsw.writeEndElement();
         }
       }
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeMmcDirectly(MMC_MediumModificationControl mmc) throws Exception {
+  private void writeMmcDirectly(MMC_MediumModificationControl mmc, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("MMC");
     baseXsw.writeStartElement("MMC_MediumModificationControl");
-    String indent2 = getIndent(2);
-    String indent3 = getIndent(3);
-    String indent4 = getIndent(4);
-    writeElement(baseXsw, indent2, "mmcIdentifier", mmc.getMmcIdentifier());
-    writeElement(baseXsw, indent2, "constantData1", mmc.getConstantData1());
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "mmcIdentifier", mmc.getMmcIdentifier());
+    writeElement(baseXsw, childLevel, "constantData1", mmc.getConstantData1());
     if (mmc.getKeywords() != null && !mmc.getKeywords().isEmpty()) {
-      writeIndent(2);
+      writeIndent(baseXsw, childLevel);
       baseXsw.writeStartElement("keywords");
+      int kwLevel = childLevel + 1;
       for (MMC_MediumModificationControl.MMC_KeyWord kw : mmc.getKeywords()) {
-        writeIndent(3);
+        writeIndent(baseXsw, kwLevel);
         baseXsw.writeStartElement("keyword");
         if (kw.keywordID() != null) {
-          writeElement(baseXsw, indent4, "keywordID", kw.keywordID().name());
+          writeElement(baseXsw, kwLevel + 1, "keywordID", kw.keywordID().name());
         }
-        writeElement(baseXsw, indent4, "parameter", kw.parameter());
-        writeIndent(3);
+        writeElement(baseXsw, kwLevel + 1, "parameter", kw.parameter());
+        writeIndent(baseXsw, kwLevel);
         baseXsw.writeEndElement();
       }
-      writeIndent(2);
+      writeIndent(baseXsw, childLevel);
       baseXsw.writeEndElement();
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeBagDirectly(BAG_BeginActiveEnvironmentGroup bag) throws Exception {
+  private void writeBagDirectly(BAG_BeginActiveEnvironmentGroup bag, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("BAG");
     baseXsw.writeStartElement("BAG_BeginActiveEnvironmentGroup");
-    writeTripletsAndText(baseXsw, bag.getTriplets(), bag.getText(), getIndent(2), getIndent(1));
+    writeTripletsAndText(baseXsw, bag.getTriplets(), bag.getText(), level + 1, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeTripletsAndText(XMLStreamWriter2 writer, List<Triplet> triplets, String text, String indent, String closingIndent) throws Exception {
+  private void writeTripletsAndText(XMLStreamWriter2 writer, List<Triplet> triplets, String text, int level, int closingLevel) throws Exception {
     if (triplets != null) {
       for (Triplet triplet : triplets) {
-        writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
-        writeTriplet(writer, triplet, indent);
+        writeTriplet(writer, triplet, level);
       }
     }
     if (text != null && !text.isEmpty()) {
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
-      writer.writeStartElement("text");
-      writer.writeCharacters(text);
-      writer.writeEndElement();
+      writeElement(writer, level, "text", text);
     }
-    writer.writeRaw(getIndent(closingIndent.length() > 0 ? (closingIndent.length() - 1) / 2 : 0));
+    writeIndent(writer, closingLevel);
   }
 
-  private void writeTriplet(XMLStreamWriter2 writer, Triplet triplet, String indent) throws Exception {
-    int level = indent.length() / 2;
-    if (indent.startsWith("\n")) {
-      level = (indent.length() - 1) / 2;
-    }
-    String childIndent = getIndent(level + 1);
+  private void writeTriplet(XMLStreamWriter2 writer, Triplet triplet, int level) throws Exception {
+    int childLevel = level + 1;
+    writeIndent(writer, level);
     if (triplet instanceof Triplet.FullyQualifiedName fqn) {
       writer.writeStartElement("FullyQualifiedName");
-      writeElement(writer, childIndent, "type", fqn.getType().name());
-      writeElement(writer, childIndent, "format", fqn.getFormat().name());
-      writeElement(writer, childIndent, "nameAsString", fqn.getNameAsString());
-      writeElement(writer, childIndent, "text", fqn.getText());
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "type", fqn.getType().name());
+      writeElement(writer, childLevel, "format", fqn.getFormat().name());
+      writeElement(writer, childLevel, "nameAsString", fqn.getNameAsString());
+      writeElement(writer, childLevel, "text", fqn.getText());
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.AttributeValue av) {
       writer.writeStartElement("AttributeValue");
-      writeElement(writer, childIndent, "attributeValue", av.getAttributeValue());
-      writeElement(writer, childIndent, "text", av.getText());
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "attributeValue", av.getAttributeValue());
+      writeElement(writer, childLevel, "text", av.getText());
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.CodedGraphicCharacterSetGlobalID cgcs) {
       writer.writeStartElement("CodedGraphicCharacterSetGlobalID");
-      writeElement(writer, childIndent, "graphicCharacterSetGlobalID", cgcs.getGraphicCharacterSetGlobalID());
-      writeElement(writer, childIndent, "codePageGlobalID_codedCharacterSetID", cgcs.getCodePageGlobalID_codedCharacterSetID());
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "graphicCharacterSetGlobalID", cgcs.getGraphicCharacterSetGlobalID());
+      writeElement(writer, childLevel, "codePageGlobalID_codedCharacterSetID", cgcs.getCodePageGlobalID_codedCharacterSetID());
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.MappingOption mo) {
       writer.writeStartElement("MappingOption");
-      writeElement(writer, childIndent, "dataObjecMapingOption", mo.getDataObjecMapingOption().name());
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "dataObjecMapingOption", mo.getDataObjecMapingOption().name());
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.AttributeQualifier aq) {
       writer.writeStartElement("AttributeQualifier");
-      writeElement(writer, childIndent, "sequenceNumber", aq.sequenceNumber);
-      writeElement(writer, childIndent, "levelNumber", aq.levelNumber);
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "sequenceNumber", aq.sequenceNumber);
+      writeElement(writer, childLevel, "levelNumber", aq.levelNumber);
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.Comment c) {
       writer.writeStartElement("Comment");
-      writeElement(writer, childIndent, "comment", c.comment);
-      writeElement(writer, childIndent, "text", c.getText());
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "comment", c.comment);
+      writeElement(writer, childLevel, "text", c.getText());
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ResourceLocalIdentifier rli) {
       writer.writeStartElement("ResourceLocalIdentifier");
       if (rli.getResourceType() != null) {
-        writeElement(writer, childIndent, "resourceType", rli.getResourceType().name());
+        writeElement(writer, childLevel, "resourceType", rli.getResourceType().name());
       }
-      writeElement(writer, childIndent, "resourceLocalID", rli.getResourceLocalID());
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "resourceLocalID", rli.getResourceLocalID());
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ObjectClassification oc) {
       writer.writeStartElement("ObjectClassification");
-      writeElement(writer, childIndent, "reserved2", oc.reserved2);
+      writeElement(writer, childLevel, "reserved2", oc.reserved2);
       if (oc.objectClass != null) {
-        writeElement(writer, childIndent, "objectClass", oc.objectClass.name());
+        writeElement(writer, childLevel, "objectClass", oc.objectClass.name());
       }
       if (oc.reserved4_5 != null) {
-        writeElement(writer, childIndent, "reserved4_5", UtilCharacterEncoding.bytesToHexString(oc.reserved4_5));
+        writeElement(writer, childLevel, "reserved4_5", UtilCharacterEncoding.bytesToHexString(oc.reserved4_5));
       }
       if (oc.structureFlags != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("structureFlags");
         for (Triplet.ObjectClassification.StructureFlag flag : oc.structureFlags) {
-          writer.writeRaw(getIndent(level + 2));
-          writer.writeStartElement("structureFlag");
-          writer.writeCharacters(flag.name());
-          writer.writeEndElement();
+          writeElement(writer, childLevel + 1, "structureFlag", flag.name());
         }
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
       if (oc.registeredObjectID != null) {
-        writeElement(writer, childIndent, "registeredObjectID", UtilCharacterEncoding.bytesToHexString(oc.registeredObjectID));
+        writeElement(writer, childLevel, "registeredObjectID", UtilCharacterEncoding.bytesToHexString(oc.registeredObjectID));
       }
-      writeElement(writer, childIndent, "objectTypeName", oc.objectTypeName);
-      writeElement(writer, childIndent, "objectVersion", oc.objectVersion);
-      writeElement(writer, childIndent, "companyName", oc.companyName);
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "objectTypeName", oc.objectTypeName);
+      writeElement(writer, childLevel, "objectVersion", oc.objectVersion);
+      writeElement(writer, childLevel, "companyName", oc.companyName);
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.MODCAInterchangeSet mis) {
       writer.writeStartElement("MODCAInterchangeSet");
       if (mis.type != null) {
-        writeElement(writer, childIndent, "type", mis.type.name());
+        writeElement(writer, childLevel, "type", mis.type.name());
       }
       if (mis.identifier != null) {
-        writeElement(writer, childIndent, "identifier", mis.identifier.name());
+        writeElement(writer, childLevel, "identifier", mis.identifier.name());
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.CharacterRotation cr) {
       writer.writeStartElement("CharacterRotation");
       if (cr.characterRotation != null) {
-        writeElement(writer, childIndent, "characterRotation", cr.characterRotation.name());
+        writeElement(writer, childLevel, "characterRotation", cr.characterRotation.name());
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ObjectByteOffset obo) {
       writer.writeStartElement("ObjectByteOffset");
-      writeElement(writer, childIndent, "byteOffset", obo.byteOffset);
+      writeElement(writer, childLevel, "byteOffset", obo.byteOffset);
       if (obo.byteOffsetHighOrder != null) {
-        writeElement(writer, childIndent, "byteOffsetHighOrder", obo.byteOffsetHighOrder);
+        writeElement(writer, childLevel, "byteOffsetHighOrder", obo.byteOffsetHighOrder);
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.MeasurementUnits mu) {
       writer.writeStartElement("MeasurementUnits");
       if (mu.xUnitBase != null) {
-        writeElement(writer, childIndent, "xUnitBase", mu.xUnitBase.name());
+        writeElement(writer, childLevel, "xUnitBase", mu.xUnitBase.name());
       }
       if (mu.yUnitBase != null) {
-        writeElement(writer, childIndent, "yUnitBase", mu.yUnitBase.name());
+        writeElement(writer, childLevel, "yUnitBase", mu.yUnitBase.name());
       }
-      writeElement(writer, childIndent, "xUnitsPerUnitbase", mu.xUnitsPerUnitbase);
-      writeElement(writer, childIndent, "yUnitsPerUnitbase", mu.yUnitsPerUnitbase);
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "xUnitsPerUnitbase", mu.xUnitsPerUnitbase);
+      writeElement(writer, childLevel, "yUnitsPerUnitbase", mu.yUnitsPerUnitbase);
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ObjectAreaSize oas) {
       writer.writeStartElement("ObjectAreaSize");
-      writeElement(writer, childIndent, "sizeType_0x02", oas.sizeType_0x02);
-      writeElement(writer, childIndent, "xSize", oas.xSize);
-      writeElement(writer, childIndent, "ySize", oas.ySize);
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "sizeType_0x02", oas.sizeType_0x02);
+      writeElement(writer, childLevel, "xSize", oas.xSize);
+      writeElement(writer, childLevel, "ySize", oas.ySize);
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.AreaDefinition ad) {
       writer.writeStartElement("AreaDefinition");
-      writeElement(writer, childIndent, "reserved2", ad.reserved2);
-      writeElement(writer, childIndent, "xOrigin", ad.xOrigin);
-      writeElement(writer, childIndent, "yOrigin", ad.yOrigin);
-      writeElement(writer, childIndent, "xSize", ad.xSize);
-      writeElement(writer, childIndent, "ySize", ad.ySize);
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "reserved2", ad.reserved2);
+      writeElement(writer, childLevel, "xOrigin", ad.xOrigin);
+      writeElement(writer, childLevel, "yOrigin", ad.yOrigin);
+      writeElement(writer, childLevel, "xSize", ad.xSize);
+      writeElement(writer, childLevel, "ySize", ad.ySize);
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ColorSpecification cs) {
       writer.writeStartElement("ColorSpecification");
-      writeElement(writer, childIndent, "reserved2", cs.reserved2);
+      writeElement(writer, childLevel, "reserved2", cs.reserved2);
       if (cs.colorSpace != null) {
-        writeElement(writer, childIndent, "colorSpace", cs.colorSpace.name());
+        writeElement(writer, childLevel, "colorSpace", cs.colorSpace.name());
       }
       if (cs.reserved4_7 != null) {
-        writeElement(writer, childIndent, "reserved4_7", UtilCharacterEncoding.bytesToHexString(cs.reserved4_7));
+        writeElement(writer, childLevel, "reserved4_7", UtilCharacterEncoding.bytesToHexString(cs.reserved4_7));
       }
-      writeElement(writer, childIndent, "nrOfBitsComponent1", cs.nrOfBitsComponent1);
-      writeElement(writer, childIndent, "nrOfBitsComponent2", cs.nrOfBitsComponent2);
-      writeElement(writer, childIndent, "nrOfBitsComponent3", cs.nrOfBitsComponent3);
-      writeElement(writer, childIndent, "nrOfBitsComponent4", cs.nrOfBitsComponent4);
+      writeElement(writer, childLevel, "nrOfBitsComponent1", cs.nrOfBitsComponent1);
+      writeElement(writer, childLevel, "nrOfBitsComponent2", cs.nrOfBitsComponent2);
+      writeElement(writer, childLevel, "nrOfBitsComponent3", cs.nrOfBitsComponent3);
+      writeElement(writer, childLevel, "nrOfBitsComponent4", cs.nrOfBitsComponent4);
       if (cs.colorValue != null) {
-        writeElement(writer, childIndent, "colorValue", UtilCharacterEncoding.bytesToHexString(cs.colorValue));
+        writeElement(writer, childLevel, "colorValue", UtilCharacterEncoding.bytesToHexString(cs.colorValue));
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.EncodingSchemeID esi) {
       writer.writeStartElement("EncodingSchemeID");
       if (esi.encodingSchemeForCodePage != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("encodingSchemeForCodePage");
         for (Triplet.EncodingSchemeID.EncodingScheme es : esi.encodingSchemeForCodePage) {
-          writer.writeRaw(getIndent(level + 2));
-          writer.writeStartElement("encodingScheme");
-          writer.writeCharacters(es.name());
-          writer.writeEndElement();
+          writeElement(writer, childLevel + 1, "encodingScheme", es.name());
         }
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
       if (esi.encodingSchemeForUserData != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("encodingSchemeForUserData");
         for (Triplet.EncodingSchemeID.EncodingScheme es : esi.encodingSchemeForUserData) {
-          writer.writeRaw(getIndent(level + 2));
-          writer.writeStartElement("encodingScheme");
-          writer.writeCharacters(es.name());
-          writer.writeEndElement();
+          writeElement(writer, childLevel + 1, "encodingScheme", es.name());
         }
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ObjectCount oc) {
       writer.writeStartElement("ObjectCount");
-      writeElement(writer, childIndent, "subordinateObjectType", oc.subordinateObjectType);
-      writeElement(writer, childIndent, "reserved3", oc.reserved3);
-      writeElement(writer, childIndent, "numberOfObjectsLow", oc.numberOfObjectsLow);
+      writeElement(writer, childLevel, "subordinateObjectType", oc.subordinateObjectType);
+      writeElement(writer, childLevel, "reserved3", oc.reserved3);
+      writeElement(writer, childLevel, "numberOfObjectsLow", oc.numberOfObjectsLow);
       if (oc.numberOfObjectsHigh != null) {
-        writeElement(writer, childIndent, "numberOfObjectsHigh", oc.numberOfObjectsHigh);
+        writeElement(writer, childLevel, "numberOfObjectsHigh", oc.numberOfObjectsHigh);
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.LocalObjectDateAndTimeStamp lodts) {
       writer.writeStartElement("LocalObjectDateAndTimeStamp");
       if (lodts.dateAndTimeStampType != null) {
-        writeElement(writer, childIndent, "dateAndTimeStampType", lodts.dateAndTimeStampType.name());
+        writeElement(writer, childLevel, "dateAndTimeStampType", lodts.dateAndTimeStampType.name());
       }
-      writeElement(writer, childIndent, "hundreds", lodts.hundreds);
-      writeElement(writer, childIndent, "tens", lodts.tens);
-      writeElement(writer, childIndent, "dayOfYear", lodts.dayOfYear);
-      writeElement(writer, childIndent, "hourOfDay", lodts.hourOfDay);
-      writeElement(writer, childIndent, "minuteOfHour", lodts.minuteOfHour);
-      writeElement(writer, childIndent, "secondOfMinute", lodts.secondOfMinute);
-      writeElement(writer, childIndent, "hundredthOfSecond", lodts.hundredthOfSecond);
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "hundreds", lodts.hundreds);
+      writeElement(writer, childLevel, "tens", lodts.tens);
+      writeElement(writer, childLevel, "dayOfYear", lodts.dayOfYear);
+      writeElement(writer, childLevel, "hourOfDay", lodts.hourOfDay);
+      writeElement(writer, childLevel, "minuteOfHour", lodts.minuteOfHour);
+      writeElement(writer, childLevel, "secondOfMinute", lodts.secondOfMinute);
+      writeElement(writer, childLevel, "hundredthOfSecond", lodts.hundredthOfSecond);
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.UniversalDateAndTimeStamp udts) {
       writer.writeStartElement("UniversalDateAndTimeStamp");
-      writeElement(writer, childIndent, "reserved2", udts.reserved2);
-      writeElement(writer, childIndent, "year", udts.year);
-      writeElement(writer, childIndent, "monthOfYear", udts.monthOfYear);
-      writeElement(writer, childIndent, "dayOfMonth", udts.dayOfMonth);
-      writeElement(writer, childIndent, "hourOfDay", udts.hourOfDay);
-      writeElement(writer, childIndent, "minuteOfHour", udts.minuteOfHour);
-      writeElement(writer, childIndent, "secondOfMinute", udts.secondOfMinute);
+      writeElement(writer, childLevel, "reserved2", udts.reserved2);
+      writeElement(writer, childLevel, "year", udts.year);
+      writeElement(writer, childLevel, "monthOfYear", udts.monthOfYear);
+      writeElement(writer, childLevel, "dayOfMonth", udts.dayOfMonth);
+      writeElement(writer, childLevel, "hourOfDay", udts.hourOfDay);
+      writeElement(writer, childLevel, "minuteOfHour", udts.minuteOfHour);
+      writeElement(writer, childLevel, "secondOfMinute", udts.secondOfMinute);
       if (udts.timeZone != null) {
-        writeElement(writer, childIndent, "timeZone", udts.timeZone.name());
+        writeElement(writer, childLevel, "timeZone", udts.timeZone.name());
       }
-      writeElement(writer, childIndent, "diffHours", udts.diffHours);
-      writeElement(writer, childIndent, "diffMinutes", udts.diffMinutes);
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "diffHours", udts.diffHours);
+      writeElement(writer, childLevel, "diffMinutes", udts.diffMinutes);
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.FontDescriptorSpecification fds) {
       writer.writeStartElement("FontDescriptorSpecification");
       if (fds.fontWeigthClass != null) {
-        writeElement(writer, childIndent, "fontWeigthClass", fds.fontWeigthClass.name());
+        writeElement(writer, childLevel, "fontWeigthClass", fds.fontWeigthClass.name());
       }
       if (fds.fontWidthClass != null) {
-        writeElement(writer, childIndent, "fontWidthClass", fds.fontWidthClass.name());
+        writeElement(writer, childLevel, "fontWidthClass", fds.fontWidthClass.name());
       }
-      writeElement(writer, childIndent, "fontHeight", fds.fontHeight);
-      writeElement(writer, childIndent, "fontWidth", fds.fontWidth);
+      writeElement(writer, childLevel, "fontHeight", fds.fontHeight);
+      writeElement(writer, childLevel, "fontWidth", fds.fontWidth);
       if (fds.fontDsFlags != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("fontDsFlags");
         for (Triplet.FontDescriptorSpecification.FDS_FontDsFlag flag : fds.fontDsFlags) {
-          writer.writeRaw(getIndent(level + 2));
-          writer.writeStartElement("fdsFontDsFlag");
-          writer.writeCharacters(flag.name());
-          writer.writeEndElement();
+          writeElement(writer, childLevel + 1, "fdsFontDsFlag", flag.name());
         }
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
       if (fds.reserved9_18 != null) {
-        writeElement(writer, childIndent, "reserved9_18", UtilCharacterEncoding.bytesToHexString(fds.reserved9_18));
+        writeBinaryElement(writer, childLevel, "reserved9_18", fds.reserved9_18);
       }
       if (fds.fontUsFlags != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("fontUsFlags");
         for (Triplet.FontDescriptorSpecification.FDS_FontUsFlag flag : fds.fontUsFlags) {
-          writer.writeRaw(getIndent(level + 2));
-          writer.writeStartElement("fdsFontUsFlag");
-          writer.writeCharacters(flag.name());
-          writer.writeEndElement();
+          writeElement(writer, childLevel + 1, "fdsFontUsFlag", flag.name());
         }
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ResourceObjectType rot) {
       writer.writeStartElement("ResourceObjectType");
       if (rot.objectType != null) {
-        writeElement(writer, childIndent, "objectType", rot.objectType.name());
+        writeElement(writer, childLevel, "objectType", rot.objectType.name());
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else {
       JacksonXmlMapperProvider.getCachedWriter(triplet.getClass(), useWoodstox, true, indentEnabled).writeValue(baseFragmentGenerator, triplet);
     }
   }
 
-  private void writeMcfDirectly(MCF_MapCodedFont_Format2 mcf) throws Exception {
+  private void writeMcfDirectly(MCF_MapCodedFont_Format2 mcf, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("MCF");
     baseXsw.writeStartElement("MCF_MapCodedFont_Format2");
     List<IRepeatingGroup> repeatingGroups = mcf.getRepeatingGroups();
     if (repeatingGroups != null) {
       for (IRepeatingGroup rg : repeatingGroups) {
-        writeIndent(2);
-        writeMcfRepeatingGroup(rg, getIndent(2));
+        writeIndent(baseXsw, level + 1);
+        writeMcfRepeatingGroup(rg, level + 1);
       }
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeMcfRepeatingGroup(IRepeatingGroup rg, String indent) throws Exception {
-    String childIndent = getIndent(3);
+  private void writeMcfRepeatingGroup(IRepeatingGroup rg, int level) throws Exception {
     baseXsw.writeStartElement("mcf2RepeatingGroup");
     if (rg instanceof RepeatingGroupWithTriplets rgt) {
       List<Triplet> triplets = rgt.getTriplets();
       if (triplets != null) {
         for (Triplet triplet : triplets) {
-          writeIndent(childIndent.length() / 2);
-          writeTriplet(baseXsw, triplet, childIndent);
+          writeTriplet(baseXsw, triplet, level + 1);
         }
       }
     }
-    writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
   }
 
-  private void writePtxDirectly(PTX_PresentationTextData ptx) throws Exception {
+  private void writePtxDirectly(PTX_PresentationTextData ptx, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("PTX");
     baseXsw.writeStartElement("PTX_PresentationTextData");
     List<PTOCAControlSequence> sequences = ptx.getControlSequences();
     if (sequences != null) {
       boolean ptxDebug = com.mgz.util.PTXPerformanceMonitor.isEnabled();
       for (PTOCAControlSequence cs : sequences) {
-        writeIndent(2);
+        writeIndent(baseXsw, level + 1);
         long csStart = ptxDebug ? System.nanoTime() : 0;
         long csStartCount = ptxDebug ? cos.getCount() : 0;
-        writeControlSequence(cs, getIndent(2));
+        writeControlSequence(cs, level + 1);
         if (csStart > 0) {
           int payloadSize = 0;
           if (cs instanceof PTOCAControlSequence.GraphicCharacters gc) {
@@ -903,40 +867,40 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         }
       }
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeControlSequence(PTOCAControlSequence cs, String indent) throws Exception {
-    String childIndent = getIndent(3);
+  private void writeControlSequence(PTOCAControlSequence cs, int level) throws Exception {
+    int childLevel = level + 1;
     if (cs instanceof PTOCAControlSequence.TRN_TransparentData trn) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("TRN");
       baseXsw.writeRawBytes(XmlTagTemplates.TRN_START, 0, XmlTagTemplates.TRN_START.length);
-      writeElement(baseXsw, childIndent, "transparentData", trn.getTransparentData());
+      writeElement(baseXsw, childLevel, "transparentData", trn.getTransparentData());
       if (trn.getEncoding() != null && trn.getTransparentDataEBCDIC() != null) {
-        writeIndent(3);
+        writeIndent(baseXsw, childLevel);
         baseXsw.writeRawBytes(XmlTagTemplates.TEXT_START, 0, XmlTagTemplates.TEXT_START.length);
         baseXsw.writeEbcdic(trn.getTransparentDataEBCDIC(), 0, trn.getTransparentDataEBCDIC().length, trn.getEncoding());
         baseXsw.writeRawBytes(XmlTagTemplates.TEXT_END, 0, XmlTagTemplates.TEXT_END.length);
       } else {
-        writeElement(baseXsw, childIndent, "text", trn.getText());
+        writeElement(baseXsw, childLevel, "text", trn.getText());
       }
-      writeIndent(2);
+      writeIndent(baseXsw, level);
       baseXsw.writeRawBytes(XmlTagTemplates.TRN_END, 0, XmlTagTemplates.TRN_END.length);
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.GraphicCharacters gc) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GraphicCharacters");
       baseXsw.writeRawBytes(XmlTagTemplates.GC_START, 0, XmlTagTemplates.GC_START.length);
       if (gc.getEncoding() != null && gc.getData() != null) {
-        writeIndent(3);
+        writeIndent(baseXsw, childLevel);
         baseXsw.writeRawBytes(XmlTagTemplates.TEXT_START, 0, XmlTagTemplates.TEXT_START.length);
         baseXsw.writeEbcdic(gc.getData(), 0, gc.getData().length, gc.getEncoding());
         baseXsw.writeRawBytes(XmlTagTemplates.TEXT_END, 0, XmlTagTemplates.TEXT_END.length);
       } else {
-        writeElement(baseXsw, childIndent, "text", gc.getText());
+        writeElement(baseXsw, childLevel, "text", gc.getText());
       }
-      writeIndent(2);
+      writeIndent(baseXsw, level);
       baseXsw.writeRawBytes(XmlTagTemplates.GC_END, 0, XmlTagTemplates.GC_END.length);
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.AMI_AbsoluteMoveInline ami) {
@@ -1031,92 +995,92 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (cs instanceof PTOCAControlSequence.SEC_SetExtendedTextColor sec) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SEC");
       baseXsw.writeStartElement("SEC_SetExtendedTextColor");
-      writeElement(baseXsw, childIndent, "colorSpace", sec.getColorSpace().name());
-      writeElement(baseXsw, childIndent, "nrOfBitsComponent1", sec.getNrOfBitsComponent1());
-      writeElement(baseXsw, childIndent, "nrOfBitsComponent2", sec.getNrOfBitsComponent2());
-      writeElement(baseXsw, childIndent, "nrOfBitsComponent3", sec.getNrOfBitsComponent3());
-      writeElement(baseXsw, childIndent, "nrOfBitsComponent4", sec.getNrOfBitsComponent4());
+      writeElement(baseXsw, childLevel, "colorSpace", sec.getColorSpace().name());
+      writeElement(baseXsw, childLevel, "nrOfBitsComponent1", sec.getNrOfBitsComponent1());
+      writeElement(baseXsw, childLevel, "nrOfBitsComponent2", sec.getNrOfBitsComponent2());
+      writeElement(baseXsw, childLevel, "nrOfBitsComponent3", sec.getNrOfBitsComponent3());
+      writeElement(baseXsw, childLevel, "nrOfBitsComponent4", sec.getNrOfBitsComponent4());
       if (sec.getColorValue() != null) {
-        writeBinaryElement(baseXsw, childIndent, "colorValue", sec.getColorValue());
+        writeBinaryElement(baseXsw, childLevel, "colorValue", sec.getColorValue());
       }
-      writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+      writeIndent(baseXsw, level);
       baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.DIR_DrawIaxisRule dir) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("DIR");
       baseXsw.writeStartElement("DIR_DrawIaxisRule");
-      writeElement(baseXsw, childIndent, "length", dir.getLength());
+      writeElement(baseXsw, childLevel, "length", dir.getLength());
       if (dir.getWidth() != null) {
-        writeElement(baseXsw, childIndent, "width", dir.getWidth());
+        writeElement(baseXsw, childLevel, "width", dir.getWidth());
       }
       if (dir.getWidthFraction() != null) {
-        writeElement(baseXsw, childIndent, "widthFraction", dir.getWidthFraction());
+        writeElement(baseXsw, childLevel, "widthFraction", dir.getWidthFraction());
       }
-      writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+      writeIndent(baseXsw, level);
       baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.DBR_DrawBaxisRule dbr) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("DBR");
       baseXsw.writeStartElement("DBR_DrawBaxisRule");
-      writeElement(baseXsw, childIndent, "length", dbr.getLength());
+      writeElement(baseXsw, childLevel, "length", dbr.getLength());
       if (dbr.getWidth() != null) {
-        writeElement(baseXsw, childIndent, "width", dbr.getWidth());
+        writeElement(baseXsw, childLevel, "width", dbr.getWidth());
       }
       if (dbr.getWidthFraction() != null) {
-        writeElement(baseXsw, childIndent, "widthFraction", dbr.getWidthFraction());
+        writeElement(baseXsw, childLevel, "widthFraction", dbr.getWidthFraction());
       }
-      writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+      writeIndent(baseXsw, level);
       baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.NOP_NoOperation nop) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("NOP");
       baseXsw.writeStartElement("NOP_NoOperation");
       if (nop.getText() != null) {
-        writeElement(baseXsw, childIndent, "text", nop.getText());
+        writeElement(baseXsw, childLevel, "text", nop.getText());
       }
       if (nop.getIgnoredData() != null) {
-        writeBinaryElement(baseXsw, childIndent, "ignoredData", nop.getIgnoredData());
+        writeBinaryElement(baseXsw, childLevel, "ignoredData", nop.getIgnoredData());
       }
-      writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+      writeIndent(baseXsw, level);
       baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.TBM_TemporaryBaselineMove tbm) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("TBM");
       baseXsw.writeStartElement("TBM_TemporaryBaselineMove");
       if (tbm.getDirection() != null) {
-        writeElement(baseXsw, childIndent, "direction", tbm.getDirection().name());
+        writeElement(baseXsw, childLevel, "direction", tbm.getDirection().name());
       }
       if (tbm.getPrecision() != null) {
-        writeElement(baseXsw, childIndent, "precision", tbm.getPrecision().name());
+        writeElement(baseXsw, childLevel, "precision", tbm.getPrecision().name());
       }
       if (tbm.getTemporaryBaselineIncrement() != null) {
-        writeElement(baseXsw, childIndent, "temporaryBaselineIncrement", tbm.getTemporaryBaselineIncrement());
+        writeElement(baseXsw, childLevel, "temporaryBaselineIncrement", tbm.getTemporaryBaselineIncrement());
       }
-      writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+      writeIndent(baseXsw, level);
       baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.OVS_Overstrike ovs) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("OVS");
       baseXsw.writeStartElement("OVS_Overstrike");
       if (ovs.getBypassFlag() != null) {
-        writeElement(baseXsw, childIndent, "bypassFlag", ovs.getBypassFlag().name());
+        writeElement(baseXsw, childLevel, "bypassFlag", ovs.getBypassFlag().name());
       }
-      writeElement(baseXsw, childIndent, "overStrikeCharacterCodePoint", ovs.getOverStrikeCharacterCodePoint());
-      writeElement(baseXsw, childIndent, "text", ovs.getText());
-      writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+      writeElement(baseXsw, childLevel, "overStrikeCharacterCodePoint", ovs.getOverStrikeCharacterCodePoint());
+      writeElement(baseXsw, childLevel, "text", ovs.getText());
+      writeIndent(baseXsw, level);
       baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.RPS_RepeatString rps) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("RPS");
       baseXsw.writeStartElement("RPS_RepeatString");
-      writeElement(baseXsw, childIndent, "repeatLength", rps.getRepeatLength());
+      writeElement(baseXsw, childLevel, "repeatLength", rps.getRepeatLength());
       if (rps.getText() != null) {
-        writeElement(baseXsw, childIndent, "text", rps.getText());
+        writeElement(baseXsw, childLevel, "text", rps.getText());
       }
       if (rps.getRepeatData() != null) {
-        writeBinaryElement(baseXsw, childIndent, "repeatData", rps.getRepeatData());
+        writeBinaryElement(baseXsw, childLevel, "repeatData", rps.getRepeatData());
       }
-      writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+      writeIndent(baseXsw, level);
       baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else {
@@ -1132,170 +1096,162 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
   }
 
-  private void writeFncDirectly(FNC_FontControl fnc) throws Exception {
+  private void writeFncDirectly(FNC_FontControl fnc, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("FNC");
     baseXsw.writeStartElement("FNC_FontControl");
-    String indent = getIndent(2);
-    writeElement(baseXsw, indent, "retired0", fnc.getRetired0());
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "retired0", fnc.getRetired0());
     if (fnc.getPatternTechnologyIdentifier() != null) {
-      writeElement(baseXsw, indent, "patternTechnologyIdentifier", fnc.getPatternTechnologyIdentifier().name());
+      writeElement(baseXsw, childLevel, "patternTechnologyIdentifier", fnc.getPatternTechnologyIdentifier().name());
     }
-    writeElement(baseXsw, indent, "reserved2", fnc.getReserved2());
+    writeElement(baseXsw, childLevel, "reserved2", fnc.getReserved2());
     if (fnc.getFontUseFlags() != null) {
-      writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+      writeIndent(baseXsw, childLevel);
       baseXsw.writeStartElement("fontUseFlags");
       for (FNC_FontControl.FncFontUseFlag flag : fnc.getFontUseFlags()) {
-        writeIndent(3);
-        baseXsw.writeStartElement("fncFontUseFlag");
-        baseXsw.writeCharacters(flag.name());
-        baseXsw.writeEndElement();
+        writeElement(baseXsw, childLevel + 1, "fncFontUseFlag", flag.name());
       }
-      writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+      writeIndent(baseXsw, childLevel);
       baseXsw.writeEndElement();
     }
     if (fnc.getxUnitBase() != null) {
-      writeElement(baseXsw, indent, "xUnitBase", fnc.getxUnitBase().name());
+      writeElement(baseXsw, childLevel, "xUnitBase", fnc.getxUnitBase().name());
     }
     if (fnc.getyUnitBase() != null) {
-      writeElement(baseXsw, indent, "yUnitBase", fnc.getyUnitBase().name());
+      writeElement(baseXsw, childLevel, "yUnitBase", fnc.getyUnitBase().name());
     }
-    writeElement(baseXsw, indent, "xUnitsPerUnitBase", fnc.getxUnitsPerUnitBase());
-    writeElement(baseXsw, indent, "yUnitsPerUnitBase", fnc.getyUnitsPerUnitBase());
-    writeElement(baseXsw, indent, "maxCharacterBoxWidth", fnc.getMaxCharacterBoxWidth());
-    writeElement(baseXsw, indent, "maxCharacterBoxHeight", fnc.getMaxCharacterBoxHeight());
-    writeElement(baseXsw, indent, "fnoRepeatingGroupLength", fnc.getFnoRepeatingGroupLength());
-    writeElement(baseXsw, indent, "fniRepeatingGroupLength", fnc.getFniRepeatingGroupLength());
+    writeElement(baseXsw, childLevel, "xUnitsPerUnitBase", fnc.getxUnitsPerUnitBase());
+    writeElement(baseXsw, childLevel, "yUnitsPerUnitBase", fnc.getyUnitsPerUnitBase());
+    writeElement(baseXsw, childLevel, "maxCharacterBoxWidth", fnc.getMaxCharacterBoxWidth());
+    writeElement(baseXsw, childLevel, "maxCharacterBoxHeight", fnc.getMaxCharacterBoxHeight());
+    writeElement(baseXsw, childLevel, "fnoRepeatingGroupLength", fnc.getFnoRepeatingGroupLength());
+    writeElement(baseXsw, childLevel, "fniRepeatingGroupLength", fnc.getFniRepeatingGroupLength());
     if (fnc.getRasterPatternDataAlignment() != null) {
-      writeElement(baseXsw, indent, "rasterPatternDataAlignment", fnc.getRasterPatternDataAlignment().name());
+      writeElement(baseXsw, childLevel, "rasterPatternDataAlignment", fnc.getRasterPatternDataAlignment().name());
     }
-    writeElement(baseXsw, indent, "rasterPatternDataCount", fnc.getRasterPatternDataCount());
-    writeElement(baseXsw, indent, "fnpRepeatingGroupLength", fnc.getFnpRepeatingGroupLength());
-    writeElement(baseXsw, indent, "fnmRepeatingGroupLength", fnc.getFnmRepeatingGroupLength());
-    writeElement(baseXsw, indent, "shapeResolutionXUnitBase10Inches", fnc.getShapeResolutionXUnitBase10Inches());
-    writeElement(baseXsw, indent, "shapeResolutionYUnitBase10Inches", fnc.getShapeResolutionYUnitBase10Inches());
-    writeElement(baseXsw, indent, "shapeResolutionXUnitsPerUnitBase", fnc.getShapeResolutionXUnitsPerUnitBase());
-    writeElement(baseXsw, indent, "shapeResolutionYUnitsPerUnitBase", fnc.getShapeResolutionYUnitsPerUnitBase());
-    writeElement(baseXsw, indent, "outlinePatternDataCount", fnc.getOutlinePatternDataCount());
+    writeElement(baseXsw, childLevel, "rasterPatternDataCount", fnc.getRasterPatternDataCount());
+    writeElement(baseXsw, childLevel, "fnpRepeatingGroupLength", fnc.getFnpRepeatingGroupLength());
+    writeElement(baseXsw, childLevel, "fnmRepeatingGroupLength", fnc.getFnmRepeatingGroupLength());
+    writeElement(baseXsw, childLevel, "shapeResolutionXUnitBase10Inches", fnc.getShapeResolutionXUnitBase10Inches());
+    writeElement(baseXsw, childLevel, "shapeResolutionYUnitBase10Inches", fnc.getShapeResolutionYUnitBase10Inches());
+    writeElement(baseXsw, childLevel, "shapeResolutionXUnitsPerUnitBase", fnc.getShapeResolutionXUnitsPerUnitBase());
+    writeElement(baseXsw, childLevel, "shapeResolutionYUnitsPerUnitBase", fnc.getShapeResolutionYUnitsPerUnitBase());
+    writeElement(baseXsw, childLevel, "outlinePatternDataCount", fnc.getOutlinePatternDataCount());
     if (fnc.getReserved32_34() != null) {
-      writeBinaryElement(baseXsw, indent, "reserved32_34", fnc.getReserved32_34());
+      writeBinaryElement(baseXsw, childLevel, "reserved32_34", fnc.getReserved32_34());
     }
-    writeElement(baseXsw, indent, "fnnRepeatingGroupLength", fnc.getFnnRepeatingGroupLength());
-    writeElement(baseXsw, indent, "fnnDataCount", fnc.getFnnDataCount());
-    writeElement(baseXsw, indent, "fnnIbmNameGcgidCount", fnc.getFnnIbmNameGcgidCount());
+    writeElement(baseXsw, childLevel, "fnnRepeatingGroupLength", fnc.getFnnRepeatingGroupLength());
+    writeElement(baseXsw, childLevel, "fnnDataCount", fnc.getFnnDataCount());
+    writeElement(baseXsw, childLevel, "fnnIbmNameGcgidCount", fnc.getFnnIbmNameGcgidCount());
 
     if (fnc.getTriplets() != null) {
       for (Triplet triplet : fnc.getTriplets()) {
-        writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
-        writeTriplet(baseXsw, triplet, indent);
+        writeTriplet(baseXsw, triplet, childLevel);
       }
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeLndDirectly(LND_LineDescriptor lnd) throws Exception {
+  private void writeLndDirectly(LND_LineDescriptor lnd, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("LND");
     baseXsw.writeStartElement("LND_LineDescriptor");
-    String indent = getIndent(2);
+    int childLevel = level + 1;
     if (lnd.getFlags() != null) {
-      writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+      writeIndent(baseXsw, childLevel);
       baseXsw.writeStartElement("flags");
       for (LND_LineDescriptor.LND_Flag flag : lnd.getFlags()) {
-        writeIndent(3);
-        baseXsw.writeStartElement("lndFlag");
-        baseXsw.writeCharacters(flag.name());
-        baseXsw.writeEndElement();
+        writeElement(baseXsw, childLevel + 1, "lndFlag", flag.name());
       }
-      writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+      writeIndent(baseXsw, childLevel);
       baseXsw.writeEndElement();
     }
-    writeElement(baseXsw, indent, "inlinePosition", lnd.getInlinePosition());
-    writeElement(baseXsw, indent, "baselinePosition", lnd.getBaselinePosition());
+    writeElement(baseXsw, childLevel, "inlinePosition", lnd.getInlinePosition());
+    writeElement(baseXsw, childLevel, "baselinePosition", lnd.getBaselinePosition());
     if (lnd.getInlineOrientation() != null) {
-      writeElement(baseXsw, indent, "inlineOrientation", lnd.getInlineOrientation().name());
+      writeElement(baseXsw, childLevel, "inlineOrientation", lnd.getInlineOrientation().name());
     }
     if (lnd.getBaselineOrientation() != null) {
-      writeElement(baseXsw, indent, "baselineOrientation", lnd.getBaselineOrientation().name());
+      writeElement(baseXsw, childLevel, "baselineOrientation", lnd.getBaselineOrientation().name());
     }
-    writeElement(baseXsw, indent, "primaryFontLocalId", lnd.getPrimaryFontLocalId());
-    writeElement(baseXsw, indent, "channelCode", lnd.getChannelCode());
-    writeElement(baseXsw, indent, "nextLNDIfSkipping", lnd.getNextLNDIfSkipping());
-    writeElement(baseXsw, indent, "nextLNDIfSpacing", lnd.getNextLNDIfSpacing());
-    writeElement(baseXsw, indent, "nextLNDIfReusingData", lnd.getNextLNDIfReusingData());
-    writeElement(baseXsw, indent, "suppressionTokenName", lnd.getSuppressionTokenName());
-    writeElement(baseXsw, indent, "shiftOutLocalFontID", lnd.getShiftOutLocalFontID());
-    writeElement(baseXsw, indent, "dataStartPosition", lnd.getDataStartPosition());
-    writeElement(baseXsw, indent, "dataLength", lnd.getDataLength());
+    writeElement(baseXsw, childLevel, "primaryFontLocalId", lnd.getPrimaryFontLocalId());
+    writeElement(baseXsw, childLevel, "channelCode", lnd.getChannelCode());
+    writeElement(baseXsw, childLevel, "nextLNDIfSkipping", lnd.getNextLNDIfSkipping());
+    writeElement(baseXsw, childLevel, "nextLNDIfSpacing", lnd.getNextLNDIfSpacing());
+    writeElement(baseXsw, childLevel, "nextLNDIfReusingData", lnd.getNextLNDIfReusingData());
+    writeElement(baseXsw, childLevel, "suppressionTokenName", lnd.getSuppressionTokenName());
+    writeElement(baseXsw, childLevel, "shiftOutLocalFontID", lnd.getShiftOutLocalFontID());
+    writeElement(baseXsw, childLevel, "dataStartPosition", lnd.getDataStartPosition());
+    writeElement(baseXsw, childLevel, "dataLength", lnd.getDataLength());
     if (lnd.getTextColor() != null) {
-      writeElement(baseXsw, indent, "textColor", lnd.getTextColor().name());
+      writeElement(baseXsw, childLevel, "textColor", lnd.getTextColor().name());
     }
-    writeElement(baseXsw, indent, "nextLNDIfConditionalProcessing", lnd.getNextLNDIfConditionalProcessing());
-    writeElement(baseXsw, indent, "subpageID", lnd.getSubpageID());
-    writeElement(baseXsw, indent, "ccpIdentifier", lnd.getCcpIdentifier());
+    writeElement(baseXsw, childLevel, "nextLNDIfConditionalProcessing", lnd.getNextLNDIfConditionalProcessing());
+    writeElement(baseXsw, childLevel, "subpageID", lnd.getSubpageID());
+    writeElement(baseXsw, childLevel, "ccpIdentifier", lnd.getCcpIdentifier());
 
     if (lnd.getTriplets() != null) {
       for (Triplet triplet : lnd.getTriplets()) {
-        writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
-        writeTriplet(baseXsw, triplet, indent);
+        writeTriplet(baseXsw, triplet, childLevel);
       }
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeGadDirectly(GAD_GraphicsData gad) throws Exception {
+  private void writeGadDirectly(GAD_GraphicsData gad, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("GAD");
     baseXsw.writeStartElement("GAD_GraphicsData");
-    String indent = getIndent(2);
+    int childLevel = level + 1;
     List<GAD_DrawingOrder> orders = gad.getDrawingOrders();
     if (orders != null) {
       for (GAD_DrawingOrder order : orders) {
-        writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
-        writeDrawingOrderDirectly(baseXsw, order, indent);
+        writeDrawingOrderDirectly(baseXsw, order, childLevel);
       }
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeDrawingOrderDirectly(XMLStreamWriter2 writer, GAD_DrawingOrder order, String indent) throws Exception {
-    String childIndent = indent + "  ";
+  private void writeDrawingOrderDirectly(XMLStreamWriter2 writer, GAD_DrawingOrder order, int level) throws Exception {
+    int childLevel = level + 1;
+    writeIndent(writer, level);
     if (order instanceof GAD_DrawingOrder.GNOP1_NopOperation) {
       writer.writeEmptyElement("GNOP1_NopOperation");
     } else if (order instanceof GAD_DrawingOrder.GCLINE_LineAtCurrentPosition gcline) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GCLINE");
-      writeDrawingOrderWithPoints(writer, gcline, "GCLINE_LineAtCurrentPosition", indent, childIndent);
+      writeDrawingOrderWithPoints(writer, gcline, "GCLINE_LineAtCurrentPosition", level);
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GLINE_LineAtGivenPosition gline) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GLINE");
-      writeDrawingOrderWithPoints(writer, gline, "GLINE_LineAtGivenPosition", indent, childIndent);
+      writeDrawingOrderWithPoints(writer, gline, "GLINE_LineAtGivenPosition", level);
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GCMRK_MarkerAtCurrentPosition gcmrk) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GCMRK");
-      writeDrawingOrderWithPoints(writer, gcmrk, "GCMRK_MarkerAtCurrentPosition", indent, childIndent);
+      writeDrawingOrderWithPoints(writer, gcmrk, "GCMRK_MarkerAtCurrentPosition", level);
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GMRK_MarkerAtGivenPosition gmrk) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GMRK");
-      writeDrawingOrderWithPoints(writer, gmrk, "GMRK_MarkerAtGivenPosition", indent, childIndent);
+      writeDrawingOrderWithPoints(writer, gmrk, "GMRK_MarkerAtGivenPosition", level);
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GCFLT_FilletAtCurrentPosition gcflt) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GCFLT");
-      writeDrawingOrderWithPoints(writer, gcflt, "GCFLT_FilletAtCurrentPosition", indent, childIndent);
+      writeDrawingOrderWithPoints(writer, gcflt, "GCFLT_FilletAtCurrentPosition", level);
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GFLT_FilletAtGivenPosition gflt) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GFLT");
-      writeDrawingOrderWithPoints(writer, gflt, "GFLT_FilletAtGivenPosition", indent, childIndent);
+      writeDrawingOrderWithPoints(writer, gflt, "GFLT_FilletAtGivenPosition", level);
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GCCBEZ_CubicBezierCurveAtCurrentPosition gccbez) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GCCBEZ");
-      writeDrawingOrderWithPoints(writer, gccbez, "GCCBEZ_CubicBezierCurveAtCurrentPosition", indent, childIndent);
+      writeDrawingOrderWithPoints(writer, gccbez, "GCCBEZ_CubicBezierCurveAtCurrentPosition", level);
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GCBEZ_CubicBezierCurveAtGivenPosition gcbez) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GCBEZ");
-      writeDrawingOrderWithPoints(writer, gcbez, "GCBEZ_CubicBezierCurveAtGivenPosition", indent, childIndent);
+      writeDrawingOrderWithPoints(writer, gcbez, "GCBEZ_CubicBezierCurveAtGivenPosition", level);
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GCFARC_FullArcAtCurrentPosition gcfarc) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GCFARC");
@@ -1311,9 +1267,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writer.writeAttribute("text", gcomt.getText());
       }
       if (gcomt.comment != null) {
-        writeBinaryElement(writer, childIndent, "comment", gcomt.comment);
+        writeBinaryElement(writer, childLevel, "comment", gcomt.comment);
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSCP_SetCurrentPosition gcp) {
@@ -1373,9 +1329,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writer.writeIntAttribute(null, null, "lengthOfFollowingData", gsgch.lengthOfFollowingData);
       writer.writeIntAttribute(null, null, "identificationCode", gsgch.getIdentificationCode());
       if (gsgch.getParameters() != null) {
-        writeBinaryElement(writer, childIndent, "parameters", gsgch.getParameters());
+        writeBinaryElement(writer, childLevel, "parameters", gsgch.getParameters());
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSECOL_SetExtendedColor gsecol) {
@@ -1389,43 +1345,43 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSCC_SetCharacterCell gscc) {
       writer.writeStartElement("GSCC_SetCharacterCell");
-      writeElement(writer, childIndent, "lengthOfFollowingData", gscc.lengthOfFollowingData);
-      writeElement(writer, childIndent, "widthOfCharacterCellIntegerPart", gscc.getWidthOfCharacterCellIntegerPart());
-      writeElement(writer, childIndent, "heightOfCharacterCellIntegerPart", gscc.getHeightOfCharacterCellIntegerPart());
+      writeElement(writer, childLevel, "lengthOfFollowingData", gscc.lengthOfFollowingData);
+      writeElement(writer, childLevel, "widthOfCharacterCellIntegerPart", gscc.getWidthOfCharacterCellIntegerPart());
+      writeElement(writer, childLevel, "heightOfCharacterCellIntegerPart", gscc.getHeightOfCharacterCellIntegerPart());
       if (gscc.getWidthOfCharacterCellFractionalPart() != null) {
-        writeElement(writer, childIndent, "widthOfCharacterCellFractionalPart", gscc.getWidthOfCharacterCellFractionalPart());
+        writeElement(writer, childLevel, "widthOfCharacterCellFractionalPart", gscc.getWidthOfCharacterCellFractionalPart());
       }
       if (gscc.getHeightOfCharacterCellFractionalPart() != null) {
-        writeElement(writer, childIndent, "heightOfCharacterCellFractionalPart", gscc.getHeightOfCharacterCellFractionalPart());
+        writeElement(writer, childLevel, "heightOfCharacterCellFractionalPart", gscc.getHeightOfCharacterCellFractionalPart());
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GSCA_SetCharacterAngle gsca) {
       writer.writeStartElement("GSCA_SetCharacterAngle");
-      writeElement(writer, childIndent, "lengthOfFollowingData", gsca.lengthOfFollowingData);
+      writeElement(writer, childLevel, "lengthOfFollowingData", gsca.lengthOfFollowingData);
       if (gsca.getAnglePoint() != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("anglePoint");
-        writeElement(writer, childIndent + "  ", "xCoordinate", gsca.getAnglePoint().xCoordinate());
-        writeElement(writer, childIndent + "  ", "yCoordinate", gsca.getAnglePoint().yCoordinate());
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeElement(writer, childLevel + 1, "xCoordinate", gsca.getAnglePoint().xCoordinate());
+        writeElement(writer, childLevel + 1, "yCoordinate", gsca.getAnglePoint().yCoordinate());
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GSCH_SetCharacterShear gsch) {
       writer.writeStartElement("GSCH_SetCharacterShear");
-      writeElement(writer, childIndent, "lengthOfFollowingData", gsch.lengthOfFollowingData);
-      writeElement(writer, childIndent, "dividendOfShearRatio", gsch.getDividendOfShearRatio());
-      writeElement(writer, childIndent, "divisorOfShearRatio", gsch.getDivisorOfShearRatio());
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "lengthOfFollowingData", gsch.lengthOfFollowingData);
+      writeElement(writer, childLevel, "dividendOfShearRatio", gsch.getDividendOfShearRatio());
+      writeElement(writer, childLevel, "divisorOfShearRatio", gsch.getDivisorOfShearRatio());
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GSMC_SetMarkerCell gsmc) {
       writer.writeStartElement("GSMC_SetMarkerCell");
-      writeElement(writer, childIndent, "lengthOfFollowingData", gsmc.lengthOfFollowingData);
-      writeElement(writer, childIndent, "widthOfMarkerCell", gsmc.getWidthOfMarkerCell());
-      writeElement(writer, childIndent, "heightOfMarkerCell", gsmc.getHeightOfMarkerCell());
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "lengthOfFollowingData", gsmc.lengthOfFollowingData);
+      writeElement(writer, childLevel, "widthOfMarkerCell", gsmc.getWidthOfMarkerCell());
+      writeElement(writer, childLevel, "heightOfMarkerCell", gsmc.getHeightOfMarkerCell());
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GSLW_SetLineWidth gslw) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GSLW");
@@ -1483,173 +1439,172 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (order instanceof GAD_DrawingOrder.GSCLT_SetCustomLineType gsclt) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GSCLT");
       writer.writeStartElement("GSCLT_SetCustomLineType");
-      writeElement(writer, childIndent, "lengthOfFollowingData", gsclt.lengthOfFollowingData);
+      writeElement(writer, childLevel, "lengthOfFollowingData", gsclt.lengthOfFollowingData);
       if (gsclt.repeatingGroups != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("repeatingGroups");
-        String rgIndent = childIndent + "  ";
         for (GAD_DrawingOrder.GSCLT_SetCustomLineType.DashMoveRepeatingGroup rg : gsclt.repeatingGroups) {
-          writer.writeRaw(getIndent(rgIndent.length() > 0 ? (rgIndent.length() - 1) / 2 : 0));
+          writeIndent(writer, childLevel + 1);
           writer.writeStartElement("DashMoveRepeatingGroup");
-          writeElement(writer, rgIndent + "  ", "dashInteger", rg.dashInteger());
-          writeElement(writer, rgIndent + "  ", "dashFractional", rg.dashFractional());
-          writeElement(writer, rgIndent + "  ", "moveInteger", rg.moveInteger());
-          writeElement(writer, rgIndent + "  ", "moveFractional", rg.moveFractional());
-          writer.writeRaw(getIndent(rgIndent.length() > 0 ? (rgIndent.length() - 1) / 2 : 0));
+          writeElement(writer, childLevel + 2, "dashInteger", rg.dashInteger());
+          writeElement(writer, childLevel + 2, "dashFractional", rg.dashFractional());
+          writeElement(writer, childLevel + 2, "moveInteger", rg.moveInteger());
+          writeElement(writer, childLevel + 2, "moveFractional", rg.moveFractional());
+          writeIndent(writer, childLevel + 1);
           writer.writeEndElement();
         }
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSAP_SetArcParameters gsap) {
       writer.writeStartElement("GSAP_SetArcParameters");
-      writeElement(writer, childIndent, "lengthOfFollowingData", gsap.lengthOfFollowingData);
-      writeElement(writer, childIndent, "arcTransformP", gsap.getArcTransformP());
-      writeElement(writer, childIndent, "arcTransformQ", gsap.getArcTransformQ());
-      writeElement(writer, childIndent, "arcTransformR", gsap.getArcTransformR());
-      writeElement(writer, childIndent, "arcTransformS", gsap.getArcTransformS());
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "lengthOfFollowingData", gsap.lengthOfFollowingData);
+      writeElement(writer, childLevel, "arcTransformP", gsap.getArcTransformP());
+      writeElement(writer, childLevel, "arcTransformQ", gsap.getArcTransformQ());
+      writeElement(writer, childLevel, "arcTransformR", gsap.getArcTransformR());
+      writeElement(writer, childLevel, "arcTransformS", gsap.getArcTransformS());
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GSPRP_SetPatternReferencePoint gsprp) {
       writer.writeStartElement("GSPRP_SetPatternReferencePoint");
-      writeElement(writer, childIndent, "lengthOfFollowingData", gsprp.lengthOfFollowingData);
-      writeElement(writer, childIndent, "flags", gsprp.getFlags());
-      writeElement(writer, childIndent, "reserved3", gsprp.getReserved3());
-      writeElement(writer, childIndent, "coordinateX", gsprp.getCoordinateX());
-      writeElement(writer, childIndent, "coordinateY", gsprp.getCoordinateY());
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "lengthOfFollowingData", gsprp.lengthOfFollowingData);
+      writeElement(writer, childLevel, "flags", gsprp.getFlags());
+      writeElement(writer, childLevel, "reserved3", gsprp.getReserved3());
+      writeElement(writer, childLevel, "coordinateX", gsprp.getCoordinateX());
+      writeElement(writer, childLevel, "coordinateY", gsprp.getCoordinateY());
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GCPARC_PartialArcAtCurrentPosition gcparc) {
       writer.writeStartElement("GCPARC_PartialArcAtCurrentPosition");
-      writeElement(writer, childIndent, "lengthOfFollowingData", gcparc.lengthOfFollowingData);
+      writeElement(writer, childLevel, "lengthOfFollowingData", gcparc.lengthOfFollowingData);
       if (gcparc.getArcCenter() != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("arcCenter");
-        writeElement(writer, childIndent + "  ", "xCoordinate", gcparc.getArcCenter().xCoordinate());
-        writeElement(writer, childIndent + "  ", "yCoordinate", gcparc.getArcCenter().yCoordinate());
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeElement(writer, childLevel + 1, "xCoordinate", gcparc.getArcCenter().xCoordinate());
+        writeElement(writer, childLevel + 1, "yCoordinate", gcparc.getArcCenter().yCoordinate());
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
-      writeElement(writer, childIndent, "multiplierIntegerPortion", gcparc.getMultiplierIntegerPortion());
-      writeElement(writer, childIndent, "multiplierFractionalPortion", gcparc.getMultiplierFractionalPortion());
-      writeElement(writer, childIndent, "startAngle", gcparc.getStartAngle());
-      writeElement(writer, childIndent, "sweepAngle", gcparc.getSweepAngle());
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "multiplierIntegerPortion", gcparc.getMultiplierIntegerPortion());
+      writeElement(writer, childLevel, "multiplierFractionalPortion", gcparc.getMultiplierFractionalPortion());
+      writeElement(writer, childLevel, "startAngle", gcparc.getStartAngle());
+      writeElement(writer, childLevel, "sweepAngle", gcparc.getSweepAngle());
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GSPCOL_SetProcessColor gspcol) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GSPCOL");
       writer.writeStartElement("GSPCOL_SetProcessColor");
-      writeElement(writer, childIndent, "lengthOfFollowingData", gspcol.lengthOfFollowingData);
-      writeElement(writer, childIndent, "reserved2", gspcol.getReserved2());
+      writeElement(writer, childLevel, "lengthOfFollowingData", gspcol.lengthOfFollowingData);
+      writeElement(writer, childLevel, "reserved2", gspcol.getReserved2());
       if (gspcol.getColorSpace() != null) {
-        writeElement(writer, childIndent, "colorSpace", gspcol.getColorSpace().name());
+        writeElement(writer, childLevel, "colorSpace", gspcol.getColorSpace().name());
       }
-      writeElement(writer, childIndent, "reserved4_7", gspcol.getReserved4_7());
-      writeElement(writer, childIndent, "nrOfBitsComponent1", gspcol.getNrOfBitsComponent1());
-      writeElement(writer, childIndent, "nrOfBitsComponent2", gspcol.getNrOfBitsComponent2());
-      writeElement(writer, childIndent, "nrOfBitsComponent3", gspcol.getNrOfBitsComponent3());
-      writeElement(writer, childIndent, "nrOfBitsComponent4", gspcol.getNrOfBitsComponent4());
+      writeElement(writer, childLevel, "reserved4_7", gspcol.getReserved4_7());
+      writeElement(writer, childLevel, "nrOfBitsComponent1", gspcol.getNrOfBitsComponent1());
+      writeElement(writer, childLevel, "nrOfBitsComponent2", gspcol.getNrOfBitsComponent2());
+      writeElement(writer, childLevel, "nrOfBitsComponent3", gspcol.getNrOfBitsComponent3());
+      writeElement(writer, childLevel, "nrOfBitsComponent4", gspcol.getNrOfBitsComponent4());
       if (gspcol.getColorValue() != null) {
-        writeBinaryElement(writer, childIndent, "colorValue", gspcol.getColorValue());
+        writeBinaryElement(writer, childLevel, "colorValue", gspcol.getColorValue());
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GFARC_FullArcAtGivenPosition gfarc) {
       writer.writeStartElement("GFARC_FullArcAtGivenPosition");
-      writeElement(writer, childIndent, "lengthOfFollowingData", gfarc.lengthOfFollowingData);
+      writeElement(writer, childLevel, "lengthOfFollowingData", gfarc.lengthOfFollowingData);
       if (gfarc.getArcCenter() != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("arcCenter");
-        writeElement(writer, childIndent + "  ", "xCoordinate", gfarc.getArcCenter().xCoordinate());
-        writeElement(writer, childIndent + "  ", "yCoordinate", gfarc.getArcCenter().yCoordinate());
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeElement(writer, childLevel + 1, "xCoordinate", gfarc.getArcCenter().xCoordinate());
+        writeElement(writer, childLevel + 1, "yCoordinate", gfarc.getArcCenter().yCoordinate());
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
-      writeElement(writer, childIndent, "multiplierIntegerPortion", gfarc.getMultiplierIntegerPortion());
-      writeElement(writer, childIndent, "multiplierFractionalPortion", gfarc.getMultiplierFractionalPortion());
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "multiplierIntegerPortion", gfarc.getMultiplierIntegerPortion());
+      writeElement(writer, childLevel, "multiplierFractionalPortion", gfarc.getMultiplierFractionalPortion());
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GCBIMG_BeginImageAtCurrentPosition gcbimg) {
       writer.writeStartElement("GCBIMG_BeginImageAtCurrentPosition");
-      writeElement(writer, childIndent, "lengthOfFollowingData", gcbimg.lengthOfFollowingData);
-      writeElement(writer, childIndent, "formatOfImageData", gcbimg.getFormatOfImageData());
-      writeElement(writer, childIndent, "reserved3", gcbimg.getReserved3());
-      writeElement(writer, childIndent, "widthOfImageInImagePoints", gcbimg.getWidthOfImageInImagePoints());
-      writeElement(writer, childIndent, "heightOfImageInImagePoints", gcbimg.getHeightOfImageInImagePoints());
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "lengthOfFollowingData", gcbimg.lengthOfFollowingData);
+      writeElement(writer, childLevel, "formatOfImageData", gcbimg.getFormatOfImageData());
+      writeElement(writer, childLevel, "reserved3", gcbimg.getReserved3());
+      writeElement(writer, childLevel, "widthOfImageInImagePoints", gcbimg.getWidthOfImageInImagePoints());
+      writeElement(writer, childLevel, "heightOfImageInImagePoints", gcbimg.getHeightOfImageInImagePoints());
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GBIMG_BeginImageAtGivenPosition gbimg) {
       writer.writeStartElement("GBIMG_BeginImageAtGivenPosition");
-      writeElement(writer, childIndent, "lengthOfFollowingData", gbimg.lengthOfFollowingData);
+      writeElement(writer, childLevel, "lengthOfFollowingData", gbimg.lengthOfFollowingData);
       if (gbimg.getOrigin() != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("origin");
-        writeElement(writer, childIndent + "  ", "xCoordinate", gbimg.getOrigin().xCoordinate());
-        writeElement(writer, childIndent + "  ", "yCoordinate", gbimg.getOrigin().yCoordinate());
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeElement(writer, childLevel + 1, "xCoordinate", gbimg.getOrigin().xCoordinate());
+        writeElement(writer, childLevel + 1, "yCoordinate", gbimg.getOrigin().yCoordinate());
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
-      writeElement(writer, childIndent, "formatOfImageData", gbimg.getFormatOfImageData());
-      writeElement(writer, childIndent, "reserved3", gbimg.getReserved3());
-      writeElement(writer, childIndent, "widthOfImageInImagePoints", gbimg.getWidthOfImageInImagePoints());
-      writeElement(writer, childIndent, "heightOfImageInImagePoints", gbimg.getHeightOfImageInImagePoints());
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "formatOfImageData", gbimg.getFormatOfImageData());
+      writeElement(writer, childLevel, "reserved3", gbimg.getReserved3());
+      writeElement(writer, childLevel, "widthOfImageInImagePoints", gbimg.getWidthOfImageInImagePoints());
+      writeElement(writer, childLevel, "heightOfImageInImagePoints", gbimg.getHeightOfImageInImagePoints());
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GPARC_PartialArcAtGivenPosition gparc) {
       writer.writeStartElement("GPARC_PartialArcAtGivenPosition");
-      writeElement(writer, childIndent, "lengthOfFollowingData", gparc.lengthOfFollowingData);
+      writeElement(writer, childLevel, "lengthOfFollowingData", gparc.lengthOfFollowingData);
       if (gparc.getLineStartPoint() != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("lineStartPoint");
-        writeElement(writer, childIndent + "  ", "xCoordinate", gparc.getLineStartPoint().xCoordinate());
-        writeElement(writer, childIndent + "  ", "yCoordinate", gparc.getLineStartPoint().yCoordinate());
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeElement(writer, childLevel + 1, "xCoordinate", gparc.getLineStartPoint().xCoordinate());
+        writeElement(writer, childLevel + 1, "yCoordinate", gparc.getLineStartPoint().yCoordinate());
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
       if (gparc.getArcCenter() != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("arcCenter");
-        writeElement(writer, childIndent + "  ", "xCoordinate", gparc.getArcCenter().xCoordinate());
-        writeElement(writer, childIndent + "  ", "yCoordinate", gparc.getArcCenter().yCoordinate());
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeElement(writer, childLevel + 1, "xCoordinate", gparc.getArcCenter().xCoordinate());
+        writeElement(writer, childLevel + 1, "yCoordinate", gparc.getArcCenter().yCoordinate());
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
-      writeElement(writer, childIndent, "multiplierIntegerPortion", gparc.getMultiplierIntegerPortion());
-      writeElement(writer, childIndent, "multiplierFractionalPortion", gparc.getMultiplierFractionalPortion());
-      writeElement(writer, childIndent, "startAngle", gparc.getStartAngle());
-      writeElement(writer, childIndent, "sweepAngle", gparc.getSweepAngle());
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "multiplierIntegerPortion", gparc.getMultiplierIntegerPortion());
+      writeElement(writer, childLevel, "multiplierFractionalPortion", gparc.getMultiplierFractionalPortion());
+      writeElement(writer, childLevel, "startAngle", gparc.getStartAngle());
+      writeElement(writer, childLevel, "sweepAngle", gparc.getSweepAngle());
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GEXO_ExtendedOrder gexo) {
       writer.writeStartElement("GEXO_ExtendedOrder");
-      writeElement(writer, childIndent, "qualifier", gexo.qualifier);
-      writeElement(writer, childIndent, "lengthOfFollowingData", gexo.lengthOfFollowingData);
+      writeElement(writer, childLevel, "qualifier", gexo.qualifier);
+      writeElement(writer, childLevel, "lengthOfFollowingData", gexo.lengthOfFollowingData);
       if (gexo.getExtendedData() != null) {
-        writeBinaryElement(writer, childIndent, "extendedData", gexo.getExtendedData());
+        writeBinaryElement(writer, childLevel, "extendedData", gexo.getExtendedData());
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GCCHST_CharacterStringAtCurrentPosition gcchst) {
       writer.writeStartElement("GCCHST_CharacterStringAtCurrentPosition");
-      writeElement(writer, childIndent, "text", gcchst.getText());
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "text", gcchst.getText());
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GCHST_CharacterStringAtGivenPosition gchst) {
       writer.writeStartElement("GCHST_CharacterStringAtGivenPosition");
       if (gchst.getOriginPoint() != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("originPoint");
-        writeElement(writer, childIndent + "  ", "xCoordinate", gchst.getOriginPoint().xCoordinate());
-        writeElement(writer, childIndent + "  ", "yCoordinate", gchst.getOriginPoint().yCoordinate());
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeElement(writer, childLevel + 1, "xCoordinate", gchst.getOriginPoint().xCoordinate());
+        writeElement(writer, childLevel + 1, "yCoordinate", gchst.getOriginPoint().yCoordinate());
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
-      writeElement(writer, childIndent, "text", gchst.getText());
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "text", gchst.getText());
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GESEG_EndSegment) {
       writer.writeEmptyElement("GESEG_EndSegment");
@@ -1669,38 +1624,37 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       }
       if (gbseg.getDrawingOrders() != null) {
         for (GAD_DrawingOrder childOrder : gbseg.getDrawingOrders()) {
-          writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
-          writeDrawingOrderDirectly(writer, childOrder, childIndent);
+          writeDrawingOrderDirectly(writer, childOrder, childLevel);
         }
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GBCP_BeginCustomPattern gbcp) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GBCP");
       writer.writeStartElement("GBCP_BeginCustomPattern");
-      writeElement(writer, childIndent, "lengthOfFollowingData", gbcp.lengthOfFollowingData);
-      writeElement(writer, childIndent, "reserved2_3", gbcp.reserved2_3);
-      writeElement(writer, childIndent, "flags", gbcp.flags);
-      writeElement(writer, childIndent, "patternSet", gbcp.patternSet);
-      writeElement(writer, childIndent, "patternSymbol", gbcp.patternSymbol);
-      writeElement(writer, childIndent, "xLeftWindow", gbcp.xLeftWindow);
-      writeElement(writer, childIndent, "xRightWindow", gbcp.xRightWindow);
-      writeElement(writer, childIndent, "yBottomWindow", gbcp.yBottomWindow);
-      writeElement(writer, childIndent, "yTopWindow", gbcp.yTopWindow);
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "lengthOfFollowingData", gbcp.lengthOfFollowingData);
+      writeElement(writer, childLevel, "reserved2_3", gbcp.reserved2_3);
+      writeElement(writer, childLevel, "flags", gbcp.flags);
+      writeElement(writer, childLevel, "patternSet", gbcp.patternSet);
+      writeElement(writer, childLevel, "patternSymbol", gbcp.patternSymbol);
+      writeElement(writer, childLevel, "xLeftWindow", gbcp.xLeftWindow);
+      writeElement(writer, childLevel, "xRightWindow", gbcp.xRightWindow);
+      writeElement(writer, childLevel, "yBottomWindow", gbcp.yBottomWindow);
+      writeElement(writer, childLevel, "yTopWindow", gbcp.yTopWindow);
+      writeIndent(writer, level);
       writer.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GDPT_DeletePattern gdpt) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GDPT");
       writer.writeStartElement("GDPT_DeletePattern");
-      writeElement(writer, childIndent, "lengthOfFollowingData", gdpt.lengthOfFollowingData);
-      writeElement(writer, childIndent, "reserved2_3", gdpt.reserved2_3);
-      writeElement(writer, childIndent, "patternSet", gdpt.patternSet);
+      writeElement(writer, childLevel, "lengthOfFollowingData", gdpt.lengthOfFollowingData);
+      writeElement(writer, childLevel, "reserved2_3", gdpt.reserved2_3);
+      writeElement(writer, childLevel, "patternSet", gdpt.patternSet);
       if (gdpt.patternSymbol != null) {
-        writeElement(writer, childIndent, "patternSymbol", gdpt.patternSymbol);
+        writeElement(writer, childLevel, "patternSymbol", gdpt.patternSymbol);
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GECP_EndCustomPattern gecp) {
@@ -1726,184 +1680,180 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (order instanceof GAD_DrawingOrder.GIMD_ImageData gimd) {
       writer.writeStartElement("GIMD_ImageData");
       if (gimd.getImageData() != null) {
-        writeBinaryElement(writer, childIndent, "imageData", gimd.getImageData());
+        writeBinaryElement(writer, childLevel, "imageData", gimd.getImageData());
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GEIMG_EndImage geimg) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GEIMG");
       writer.writeStartElement("GEIMG_EndImage");
-      writeElement(writer, childIndent, "lengthOfFollowingData", geimg.getLengthOfFollowingData());
+      writeElement(writer, childLevel, "lengthOfFollowingData", geimg.getLengthOfFollowingData());
       if (geimg.reservedData != null) {
-        writeBinaryElement(writer, childIndent, "reservedData", geimg.reservedData);
+        writeBinaryElement(writer, childLevel, "reservedData", geimg.reservedData);
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GCBOX_BoxAtCurrentPosition gcbox) {
       writer.writeStartElement("GCBOX_BoxAtCurrentPosition");
-      writeElement(writer, childIndent, "reserved2_3", gcbox.getReserved2_3());
+      writeElement(writer, childLevel, "reserved2_3", gcbox.getReserved2_3());
       if (gcbox.getDiagonalCorner() != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("diagonalCorner");
-        writeElement(writer, childIndent + "  ", "xCoordinate", gcbox.getDiagonalCorner().xCoordinate());
-        writeElement(writer, childIndent + "  ", "yCoordinate", gcbox.getDiagonalCorner().yCoordinate());
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeElement(writer, childLevel + 1, "xCoordinate", gcbox.getDiagonalCorner().xCoordinate());
+        writeElement(writer, childLevel + 1, "yCoordinate", gcbox.getDiagonalCorner().yCoordinate());
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
       if (gcbox.getxAxisLengthForRoundCorner() != null) {
-        writeElement(writer, childIndent, "xAxisLengthForRoundCorner", gcbox.getxAxisLengthForRoundCorner());
+        writeElement(writer, childLevel, "xAxisLengthForRoundCorner", gcbox.getxAxisLengthForRoundCorner());
       }
       if (gcbox.getyAxisLengthForRoundCorner() != null) {
-        writeElement(writer, childIndent, "yAxisLengthForRoundCorner", gcbox.getyAxisLengthForRoundCorner());
+        writeElement(writer, childLevel, "yAxisLengthForRoundCorner", gcbox.getyAxisLengthForRoundCorner());
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GBOX_BoxAtGivenPosition gbox) {
       writer.writeStartElement("GBOX_BoxAtGivenPosition");
-      writeElement(writer, childIndent, "reserved2_3", gbox.getReserved2_3());
+      writeElement(writer, childLevel, "reserved2_3", gbox.getReserved2_3());
       if (gbox.getFirstCorner() != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("firstCorner");
-        writeElement(writer, childIndent + "  ", "xCoordinate", gbox.getFirstCorner().xCoordinate());
-        writeElement(writer, childIndent + "  ", "yCoordinate", gbox.getFirstCorner().yCoordinate());
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeElement(writer, childLevel + 1, "xCoordinate", gbox.getFirstCorner().xCoordinate());
+        writeElement(writer, childLevel + 1, "yCoordinate", gbox.getFirstCorner().yCoordinate());
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
       if (gbox.getDiagonalCorner() != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("diagonalCorner");
-        writeElement(writer, childIndent + "  ", "xCoordinate", gbox.getDiagonalCorner().xCoordinate());
-        writeElement(writer, childIndent + "  ", "yCoordinate", gbox.getDiagonalCorner().yCoordinate());
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeElement(writer, childLevel + 1, "xCoordinate", gbox.getDiagonalCorner().xCoordinate());
+        writeElement(writer, childLevel + 1, "yCoordinate", gbox.getDiagonalCorner().yCoordinate());
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
       if (gbox.getxAxisLengthForRoundCorner() != null) {
-        writeElement(writer, childIndent, "xAxisLengthForRoundCorner", gbox.getxAxisLengthForRoundCorner());
+        writeElement(writer, childLevel, "xAxisLengthForRoundCorner", gbox.getxAxisLengthForRoundCorner());
       }
       if (gbox.getyAxisLengthForRoundCorner() != null) {
-        writeElement(writer, childIndent, "yAxisLengthForRoundCorner", gbox.getyAxisLengthForRoundCorner());
+        writeElement(writer, childLevel, "yAxisLengthForRoundCorner", gbox.getyAxisLengthForRoundCorner());
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GCRLINE_RelativeLineAtCurrentPosition gcrline) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GCRLINE");
       writer.writeStartElement("GCRLINE_RelativeLineAtCurrentPosition");
       if (gcrline.relativeOffsets != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("relativeOffsets");
-        String offsetIndent = childIndent + "  ";
         for (GAD_DrawingOrder.GOCA_RelativePoint rp : gcrline.relativeOffsets) {
-          writer.writeRaw(getIndent(offsetIndent.length() > 0 ? (offsetIndent.length() - 1) / 2 : 0));
+          writeIndent(writer, childLevel + 1);
           writer.writeStartElement("GOCA_RelativePoint");
-          writeElement(writer, offsetIndent + "  ", "xOffset", rp.xOffset());
-          writeElement(writer, offsetIndent + "  ", "yOffset", rp.yOffset());
-          writer.writeRaw(getIndent(offsetIndent.length() > 0 ? (offsetIndent.length() - 1) / 2 : 0));
+          writeElement(writer, childLevel + 2, "xOffset", rp.xOffset());
+          writeElement(writer, childLevel + 2, "yOffset", rp.yOffset());
+          writeIndent(writer, childLevel + 1);
           writer.writeEndElement();
         }
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GRLINE_RelativeLineAtGivenPosition grline) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GRLINE");
       writer.writeStartElement("GRLINE_RelativeLineAtGivenPosition");
       if (grline.startPoint != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("startPoint");
-        writeElement(writer, childIndent + "  ", "xCoordinate", grline.startPoint.xCoordinate());
-        writeElement(writer, childIndent + "  ", "yCoordinate", grline.startPoint.yCoordinate());
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeElement(writer, childLevel + 1, "xCoordinate", grline.startPoint.xCoordinate());
+        writeElement(writer, childLevel + 1, "yCoordinate", grline.startPoint.yCoordinate());
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
       if (grline.relativeOffsets != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("relativeOffsets");
-        String offsetIndent = childIndent + "  ";
         for (GAD_DrawingOrder.GOCA_RelativePoint rp : grline.relativeOffsets) {
-          writer.writeRaw(getIndent(offsetIndent.length() > 0 ? (offsetIndent.length() - 1) / 2 : 0));
+          writeIndent(writer, childLevel + 1);
           writer.writeStartElement("GOCA_RelativePoint");
-          writeElement(writer, offsetIndent + "  ", "xOffset", rp.xOffset());
-          writeElement(writer, offsetIndent + "  ", "yOffset", rp.yOffset());
-          writer.writeRaw(getIndent(offsetIndent.length() > 0 ? (offsetIndent.length() - 1) / 2 : 0));
+          writeElement(writer, childLevel + 2, "xOffset", rp.xOffset());
+          writeElement(writer, childLevel + 2, "yOffset", rp.yOffset());
+          writeIndent(writer, childLevel + 1);
           writer.writeEndElement();
         }
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GLGD_LinearGradient glgd) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GLGD");
       writer.writeStartElement("GLGD_LinearGradient");
-      writeElement(writer, childIndent, "qualifier", glgd.qualifier);
-      writeElement(writer, childIndent, "lengthOfFollowingData", glgd.lengthOfFollowingData);
-      writeElement(writer, childIndent, "reserved4_5", glgd.reserved4_5);
-      writeElement(writer, childIndent, "patternSet", glgd.patternSet);
-      writeElement(writer, childIndent, "patternSymbol", glgd.patternSymbol);
-      writeElement(writer, childIndent, "xStart", glgd.xStart);
-      writeElement(writer, childIndent, "yStart", glgd.yStart);
-      writeElement(writer, childIndent, "xEnd", glgd.xEnd);
-      writeElement(writer, childIndent, "yEnd", glgd.yEnd);
+      writeElement(writer, childLevel, "qualifier", glgd.qualifier);
+      writeElement(writer, childLevel, "lengthOfFollowingData", glgd.lengthOfFollowingData);
+      writeElement(writer, childLevel, "reserved4_5", glgd.reserved4_5);
+      writeElement(writer, childLevel, "patternSet", glgd.patternSet);
+      writeElement(writer, childLevel, "patternSymbol", glgd.patternSymbol);
+      writeElement(writer, childLevel, "xStart", glgd.xStart);
+      writeElement(writer, childLevel, "yStart", glgd.yStart);
+      writeElement(writer, childLevel, "xEnd", glgd.xEnd);
+      writeElement(writer, childLevel, "yEnd", glgd.yEnd);
       if (glgd.startColorSpec != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
-        writeColorSpecification(writer, glgd.startColorSpec, childIndent, "startColorSpec");
+        writeColorSpecification(writer, glgd.startColorSpec, childLevel, "startColorSpec");
       }
       if (glgd.endColorValue != null) {
-        writeBinaryElement(writer, childIndent, "endColorValue", glgd.endColorValue);
+        writeBinaryElement(writer, childLevel, "endColorValue", glgd.endColorValue);
       }
-      writeElement(writer, childIndent, "outsideStart", glgd.outsideStart);
-      writeElement(writer, childIndent, "outsideEnd", glgd.outsideEnd);
+      writeElement(writer, childLevel, "outsideStart", glgd.outsideStart);
+      writeElement(writer, childLevel, "outsideEnd", glgd.outsideEnd);
       if (glgd.colorStops != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("colorStops");
         for (GAD_DrawingOrder.ColorStop stop : glgd.colorStops) {
-          writeColorStop(writer, stop, childIndent + "  ");
+          writeColorStop(writer, stop, childLevel + 1);
         }
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GRGD_RadialGradient grgd) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GRGD");
       writer.writeStartElement("GRGD_RadialGradient");
-      writeElement(writer, childIndent, "qualifier", grgd.qualifier);
-      writeElement(writer, childIndent, "lengthOfFollowingData", grgd.lengthOfFollowingData);
-      writeElement(writer, childIndent, "reserved4_5", grgd.reserved4_5);
-      writeElement(writer, childIndent, "patternSet", grgd.patternSet);
-      writeElement(writer, childIndent, "patternSymbol", grgd.patternSymbol);
-      writeElement(writer, childIndent, "xStart", grgd.xStart);
-      writeElement(writer, childIndent, "yStart", grgd.yStart);
-      writeElement(writer, childIndent, "mhStart", grgd.mhStart);
-      writeElement(writer, childIndent, "mfrStart", grgd.mfrStart);
-      writeElement(writer, childIndent, "xEnd", grgd.xEnd);
-      writeElement(writer, childIndent, "yEnd", grgd.yEnd);
-      writeElement(writer, childIndent, "mhEnd", grgd.mhEnd);
-      writeElement(writer, childIndent, "mfrEnd", grgd.mfrEnd);
+      writeElement(writer, childLevel, "qualifier", grgd.qualifier);
+      writeElement(writer, childLevel, "lengthOfFollowingData", grgd.lengthOfFollowingData);
+      writeElement(writer, childLevel, "reserved4_5", grgd.reserved4_5);
+      writeElement(writer, childLevel, "patternSet", grgd.patternSet);
+      writeElement(writer, childLevel, "patternSymbol", grgd.patternSymbol);
+      writeElement(writer, childLevel, "xStart", grgd.xStart);
+      writeElement(writer, childLevel, "yStart", grgd.yStart);
+      writeElement(writer, childLevel, "mhStart", grgd.mhStart);
+      writeElement(writer, childLevel, "mfrStart", grgd.mfrStart);
+      writeElement(writer, childLevel, "xEnd", grgd.xEnd);
+      writeElement(writer, childLevel, "yEnd", grgd.yEnd);
+      writeElement(writer, childLevel, "mhEnd", grgd.mhEnd);
+      writeElement(writer, childLevel, "mfrEnd", grgd.mfrEnd);
       if (grgd.startColorSpec != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
-        writeColorSpecification(writer, grgd.startColorSpec, childIndent, "startColorSpec");
+        writeColorSpecification(writer, grgd.startColorSpec, childLevel, "startColorSpec");
       }
       if (grgd.endColorValue != null) {
-        writeBinaryElement(writer, childIndent, "endColorValue", grgd.endColorValue);
+        writeBinaryElement(writer, childLevel, "endColorValue", grgd.endColorValue);
       }
-      writeElement(writer, childIndent, "outsideStart", grgd.outsideStart);
-      writeElement(writer, childIndent, "outsideEnd", grgd.outsideEnd);
+      writeElement(writer, childLevel, "outsideStart", grgd.outsideStart);
+      writeElement(writer, childLevel, "outsideEnd", grgd.outsideEnd);
       if (grgd.colorStops != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("colorStops");
         for (GAD_DrawingOrder.ColorStop stop : grgd.colorStops) {
-          writeColorStop(writer, stop, childIndent + "  ");
+          writeColorStop(writer, stop, childLevel + 1);
         }
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.DrawingOrder_HasPoints dohp) {
@@ -1913,21 +1863,20 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       }
       writer.writeStartElement(rootName);
       if (dohp.getPoints() != null) {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("points");
-        String pointIndent = childIndent + "  ";
         for (GAD_DrawingOrder.GOCA_Point p : dohp.getPoints()) {
-          writer.writeRaw(getIndent(pointIndent.length() > 0 ? (pointIndent.length() - 1) / 2 : 0));
+          writeIndent(writer, childLevel + 1);
           writer.writeStartElement("GOCA_Point");
-          writeElement(writer, pointIndent + "  ", "xCoordinate", p.xCoordinate());
-          writeElement(writer, pointIndent + "  ", "yCoordinate", p.yCoordinate());
-          writer.writeRaw(getIndent(pointIndent.length() > 0 ? (pointIndent.length() - 1) / 2 : 0));
+          writeElement(writer, childLevel + 2, "xCoordinate", p.xCoordinate());
+          writeElement(writer, childLevel + 2, "yCoordinate", p.yCoordinate());
+          writeIndent(writer, childLevel + 1);
           writer.writeEndElement();
         }
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
       if (MnemonicPerformanceMonitor.isEnabled()) {
         MnemonicPerformanceMonitor.endWrite();
@@ -1945,549 +1894,555 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
   }
 
-  private void writeIpdSegmentDirectly(XMLStreamWriter2 writer, IPD_Segment segment, String indent) throws Exception {
-    String childIndent = indent + "  ";
+  private void writeIpdSegmentDirectly(XMLStreamWriter2 writer, IPD_Segment segment, int level) throws Exception {
+    int childLevel = level + 1;
     if (segment instanceof IPD_Segment.ImageData id) {
       writer.writeStartElement("ImageData");
       if (id.getImageData() != null) {
-        writeBinaryElement(writer, childIndent, "imageData", id.getImageData());
+        writeBinaryElement(writer, childLevel, "imageData", id.getImageData());
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (segment instanceof IPD_Segment.BandImageData bid) {
       writer.writeStartElement("BandImageData");
-      writeElement(writer, childIndent, "bandNumber", bid.getBandNumber());
+      writeElement(writer, childLevel, "bandNumber", bid.getBandNumber());
       if (bid.getBandData() != null) {
-        writeBinaryElement(writer, childIndent, "bandData", bid.getBandData());
+        writeBinaryElement(writer, childLevel, "bandData", bid.getBandData());
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (segment instanceof IPD_Segment.BeginImageContent bic) {
       writer.writeStartElement("BeginImageContent");
-      writeElement(writer, childIndent, "objectType", bic.getObjectType());
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "objectType", bic.getObjectType());
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (segment instanceof IPD_Segment.EndImageContent) {
       writer.writeEmptyElement("EndImageContent");
     } else if (segment instanceof IPD_Segment.ImageSize is) {
       writer.writeStartElement("ImageSize");
       if (is.getUnitBase() != null) {
-        writeElement(writer, childIndent, "unitBase", is.getUnitBase().name());
+        writeElement(writer, childLevel, "unitBase", is.getUnitBase().name());
       }
-      writeElement(writer, childIndent, "xUnitsPerUnitBase", is.getxUnitsPerUnitBase());
-      writeElement(writer, childIndent, "yUnitsPerUnitBase", is.getyUnitsPerUnitBase());
-      writeElement(writer, childIndent, "xImageSize", is.getxImageSize());
-      writeElement(writer, childIndent, "yImageSize", is.getyImageSize());
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeElement(writer, childLevel, "xUnitsPerUnitBase", is.getxUnitsPerUnitBase());
+      writeElement(writer, childLevel, "yUnitsPerUnitBase", is.getyUnitsPerUnitBase());
+      writeElement(writer, childLevel, "xImageSize", is.getxImageSize());
+      writeElement(writer, childLevel, "yImageSize", is.getyImageSize());
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (segment instanceof IPD_Segment.ImageEncoding ie) {
       writer.writeStartElement("ImageEncoding");
       if (ie.getCompressionAlgorithm() != null) {
-        writeElement(writer, childIndent, "compressionAlgorithm", ie.getCompressionAlgorithm().name());
+        writeElement(writer, childLevel, "compressionAlgorithm", ie.getCompressionAlgorithm().name());
       }
       if (ie.getRecordingAlgorithm() != null) {
-        writeElement(writer, childIndent, "recordingAlgorithm", ie.getRecordingAlgorithm().name());
+        writeElement(writer, childLevel, "recordingAlgorithm", ie.getRecordingAlgorithm().name());
       }
       if (ie.getBitOrder() != null) {
-        writeElement(writer, childIndent, "bitOrder", ie.getBitOrder().name());
+        writeElement(writer, childLevel, "bitOrder", ie.getBitOrder().name());
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else {
       JacksonXmlMapperProvider.getCachedWriter(segment.getClass(), useWoodstox, true, indentEnabled).writeValue(baseFragmentGenerator, segment);
     }
   }
 
-  private void writeIpdDirectly(IPD_ImagePictureData ipd) throws Exception {
+  private void writeIpdDirectly(IPD_ImagePictureData ipd, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("IPD");
     baseXsw.writeStartElement("IPD_ImagePictureData");
-    String indent = getIndent(2);
+    int childLevel = level + 1;
     List<IPD_Segment> segments = ipd.getListOfSegments();
     if (segments != null) {
       for (IPD_Segment segment : segments) {
-        writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
-        writeIpdSegmentDirectly(baseXsw, segment, indent);
+        writeIpdSegmentDirectly(baseXsw, segment, childLevel);
       }
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeObdDirectly(OBD_ObjectAreaDescriptor obd) throws Exception {
+  private void writeObdDirectly(OBD_ObjectAreaDescriptor obd, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("OBD");
     baseXsw.writeStartElement("OBD_ObjectAreaDescriptor");
-    String indent = getIndent(2);
+    int childLevel = level + 1;
     if (obd.getTriplets() != null) {
       for (Triplet triplet : obd.getTriplets()) {
-        writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
-        writeTriplet(baseXsw, triplet, indent);
+        writeTriplet(baseXsw, triplet, childLevel);
       }
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeObpDirectly(OBP_ObjectAreaPosition obp) throws Exception {
+  private void writeObpDirectly(OBP_ObjectAreaPosition obp, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("OBP");
     baseXsw.writeStartElement("OBP_ObjectAreaPosition");
-    String indent = getIndent(2);
-    writeElement(baseXsw, indent, "objectAreaPositionID", obp.getObjectAreaPositionID());
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "objectAreaPositionID", obp.getObjectAreaPositionID());
     if (obp.getRepeatingGroup() != null) {
-      writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+      writeIndent(baseXsw, childLevel);
       baseXsw.writeStartElement("repeatingGroup");
-      String childIndent = getIndent(3);
+      int rgLevel = childLevel + 1;
       OBP_ObjectAreaPosition.OBP_RepeatingGroup rg = obp.getRepeatingGroup();
-      writeElement(baseXsw, childIndent, "repeatingGroupLength", rg.getRepeatingGroupLength());
-      writeElement(baseXsw, childIndent, "xOrigin", rg.getxOrigin());
-      writeElement(baseXsw, childIndent, "yOrigin", rg.getyOrigin());
+      writeElement(baseXsw, rgLevel, "repeatingGroupLength", rg.getRepeatingGroupLength());
+      writeElement(baseXsw, rgLevel, "xOrigin", rg.getxOrigin());
+      writeElement(baseXsw, rgLevel, "yOrigin", rg.getyOrigin());
       if (rg.getxRotation() != null) {
-        writeElement(baseXsw, childIndent, "xRotation", rg.getxRotation().name());
+        writeElement(baseXsw, rgLevel, "xRotation", rg.getxRotation().name());
       }
       if (rg.getyRotation() != null) {
-        writeElement(baseXsw, childIndent, "yRotation", rg.getyRotation().name());
+        writeElement(baseXsw, rgLevel, "yRotation", rg.getyRotation().name());
       }
-      writeElement(baseXsw, childIndent, "reserved11", rg.getReserved11());
-      writeElement(baseXsw, childIndent, "xOriginOfContent", rg.getxOriginOfContent());
-      writeElement(baseXsw, childIndent, "yOriginOfContent", rg.getyOriginOfContent());
+      writeElement(baseXsw, rgLevel, "reserved11", rg.getReserved11());
+      writeElement(baseXsw, rgLevel, "xOriginOfContent", rg.getxOriginOfContent());
+      writeElement(baseXsw, rgLevel, "yOriginOfContent", rg.getyOriginOfContent());
       if (rg.getxRotationOfContent() != null) {
-        writeElement(baseXsw, childIndent, "xRotationOfContent", rg.getxRotationOfContent().name());
+        writeElement(baseXsw, rgLevel, "xRotationOfContent", rg.getxRotationOfContent().name());
       }
       if (rg.getyRotationOfContent() != null) {
-        writeElement(baseXsw, childIndent, "yRotationOfContent", rg.getyRotationOfContent().name());
+        writeElement(baseXsw, rgLevel, "yRotationOfContent", rg.getyRotationOfContent().name());
       }
       if (rg.getReferenceCoordinateSystem() != null) {
-        writeElement(baseXsw, childIndent, "referenceCoordinateSystem", rg.getReferenceCoordinateSystem().name());
+        writeElement(baseXsw, rgLevel, "referenceCoordinateSystem", rg.getReferenceCoordinateSystem().name());
       }
-      writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+      writeIndent(baseXsw, childLevel);
       baseXsw.writeEndElement();
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeIddSelfDefiningFieldDirectly(XMLStreamWriter2 writer, IDD_SelfDefiningField sdf, String indent) throws Exception {
-    String childIndent = indent + "  ";
+  private void writeIddSelfDefiningFieldDirectly(XMLStreamWriter2 writer, IDD_SelfDefiningField sdf, int level) throws Exception {
+    int childLevel = level + 1;
+    writeIndent(writer, level);
     if (sdf instanceof IDD_SelfDefiningField.SetBilevelImageColor sbic) {
       writer.writeStartElement("SetBilevelImageColor");
-      writeElement(writer, childIndent, "applicabilityArea", sbic.getApplicabilityArea());
+      writeElement(writer, childLevel, "applicabilityArea", sbic.getApplicabilityArea());
       if (sbic.getColor() != null) {
-        writeElement(writer, childIndent, "color", sbic.getColor().name());
+        writeElement(writer, childLevel, "color", sbic.getColor().name());
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (sdf instanceof IDD_SelfDefiningField.SetExtendedBilevelImageColor sebic) {
       writer.writeStartElement("SetExtendedBilevelImageColor");
       if (sebic.getColorSpace() != null) {
-        writeElement(writer, childIndent, "colorSpace", sebic.getColorSpace().name());
+        writeElement(writer, childLevel, "colorSpace", sebic.getColorSpace().name());
       }
-      writeElement(writer, childIndent, "nrOfBitsComponent1", sebic.getNrOfBitsComponent1());
-      writeElement(writer, childIndent, "nrOfBitsComponent2", sebic.getNrOfBitsComponent2());
-      writeElement(writer, childIndent, "nrOfBitsComponent3", sebic.getNrOfBitsComponent3());
-      writeElement(writer, childIndent, "nrOfBitsComponent4", sebic.getNrOfBitsComponent4());
+      writeElement(writer, childLevel, "nrOfBitsComponent1", sebic.getNrOfBitsComponent1());
+      writeElement(writer, childLevel, "nrOfBitsComponent2", sebic.getNrOfBitsComponent2());
+      writeElement(writer, childLevel, "nrOfBitsComponent3", sebic.getNrOfBitsComponent3());
+      writeElement(writer, childLevel, "nrOfBitsComponent4", sebic.getNrOfBitsComponent4());
       if (sebic.getColorValue() != null) {
-        writeBinaryElement(writer, childIndent, "colorValue", sebic.getColorValue());
+        writeBinaryElement(writer, childLevel, "colorValue", sebic.getColorValue());
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else if (sdf instanceof IDD_SelfDefiningField.IOCAFunctionSetIdentification fsi) {
       writer.writeStartElement("IOCAFunctionSetIdentification");
-      writeElement(writer, childIndent, "functionSetCategory", fsi.getFunctionSetCategory());
+      writeElement(writer, childLevel, "functionSetCategory", fsi.getFunctionSetCategory());
       if (fsi.getFunctionSetIdentifier() != null) {
-        writeElement(writer, childIndent, "functionSetIdentifier", fsi.getFunctionSetIdentifier().name());
+        writeElement(writer, childLevel, "functionSetIdentifier", fsi.getFunctionSetIdentifier().name());
       }
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeEndElement();
     } else {
       JacksonXmlMapperProvider.getCachedWriter(sdf.getClass(), useWoodstox, true, indentEnabled).writeValue(baseFragmentGenerator, sdf);
     }
   }
 
-  private void writeIddDirectly(IDD_ImageDataDescriptor idd) throws Exception {
+  private void writeIddDirectly(IDD_ImageDataDescriptor idd, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("IDD");
     baseXsw.writeStartElement("IDD_ImageDataDescriptor");
-    String indent = getIndent(2);
+    int childLevel = level + 1;
     if (idd.getUnitBase() != null) {
-      writeElement(baseXsw, indent, "unitBase", idd.getUnitBase().name());
+      writeElement(baseXsw, childLevel, "unitBase", idd.getUnitBase().name());
     }
-    writeElement(baseXsw, indent, "xImagePointsPerUnitBase", idd.getxImagePointsPerUnitBase());
-    writeElement(baseXsw, indent, "yImagePointsPerUnitBase", idd.getyImagePointsPerUnitBase());
-    writeElement(baseXsw, indent, "widthOfImageInImagePoints", idd.getWidthOfImageInImagePoints());
-    writeElement(baseXsw, indent, "heightOfImageInImagePoints", idd.getHeightOfImageInImagePoints());
+    writeElement(baseXsw, childLevel, "xImagePointsPerUnitBase", idd.getxImagePointsPerUnitBase());
+    writeElement(baseXsw, childLevel, "yImagePointsPerUnitBase", idd.getyImagePointsPerUnitBase());
+    writeElement(baseXsw, childLevel, "widthOfImageInImagePoints", idd.getWidthOfImageInImagePoints());
+    writeElement(baseXsw, childLevel, "heightOfImageInImagePoints", idd.getHeightOfImageInImagePoints());
 
     if (idd.getSelfDefiningFields() != null) {
       for (IDD_SelfDefiningField sdf : idd.getSelfDefiningFields()) {
-        writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
-        writeIddSelfDefiningFieldDirectly(baseXsw, sdf, indent);
+        writeIddSelfDefiningFieldDirectly(baseXsw, sdf, childLevel);
       }
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeMioDirectly(MIO_MapImageObject mio) throws Exception {
+  private void writeMioDirectly(MIO_MapImageObject mio, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("MIO");
     baseXsw.writeStartElement("MIO_MapImageObject");
-    String indent = getIndent(2);
+    int childLevel = level + 1;
     if (mio.getRepeatingGroups() != null) {
       for (IRepeatingGroup rg : mio.getRepeatingGroups()) {
-        writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+        writeIndent(baseXsw, childLevel);
         baseXsw.writeStartElement("mioRepeatingGroup");
         if (rg instanceof RepeatingGroupWithTriplets rgt) {
           if (rgt.getTriplets() != null) {
             for (Triplet t : rgt.getTriplets()) {
-              writeIndent(3);
-              writeTriplet(baseXsw, t, getIndent(3));
+              writeTriplet(baseXsw, t, childLevel + 1);
             }
           }
         }
-        writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+        writeIndent(baseXsw, childLevel);
         baseXsw.writeEndElement();
       }
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeMdrDirectly(MDR_MapDataResource mdr) throws Exception {
+  private void writeMdrDirectly(MDR_MapDataResource mdr, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("MDR");
     baseXsw.writeStartElement("MDR_MapDataResource");
-    String indent = getIndent(2);
+    int childLevel = level + 1;
     if (mdr.getRepeatingGroups() != null) {
       for (IRepeatingGroup rg : mdr.getRepeatingGroups()) {
-        writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+        writeIndent(baseXsw, childLevel);
         baseXsw.writeStartElement("mdrRepeatingGroup");
         if (rg instanceof RepeatingGroupWithTriplets rgt) {
           if (rgt.getTriplets() != null) {
             for (Triplet t : rgt.getTriplets()) {
-              writeIndent(3);
-              writeTriplet(baseXsw, t, getIndent(3));
+              writeTriplet(baseXsw, t, childLevel + 1);
             }
           }
         }
-        writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+        writeIndent(baseXsw, childLevel);
         baseXsw.writeEndElement();
       }
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeMgoDirectly(MGO_MapGraphicsObject mgo) throws Exception {
+  private void writeMgoDirectly(MGO_MapGraphicsObject mgo, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("MGO");
     baseXsw.writeStartElement("MGO_MapGraphicsObject");
-    String indent = getIndent(2);
+    int childLevel = level + 1;
     if (mgo.getRepeatingGroups() != null) {
       for (IRepeatingGroup rg : mgo.getRepeatingGroups()) {
-        writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+        writeIndent(baseXsw, childLevel);
         baseXsw.writeStartElement("mgoRepeatingGroup");
         if (rg instanceof RepeatingGroupWithTriplets rgt) {
           if (rgt.getTriplets() != null) {
             for (Triplet t : rgt.getTriplets()) {
-              writeIndent(3);
-              writeTriplet(baseXsw, t, getIndent(3));
+              writeTriplet(baseXsw, t, childLevel + 1);
             }
           }
         }
-        writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+        writeIndent(baseXsw, childLevel);
         baseXsw.writeEndElement();
       }
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeMpoDirectly(MPO_MapPageOverlay mpo) throws Exception {
+  private void writeMpoDirectly(MPO_MapPageOverlay mpo, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("MPO");
     baseXsw.writeStartElement("MPO_MapPageOverlay");
-    String indent = getIndent(2);
+    int childLevel = level + 1;
     if (mpo.getRepeatingGroups() != null) {
       for (IRepeatingGroup rg : mpo.getRepeatingGroups()) {
-        writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+        writeIndent(baseXsw, childLevel);
         baseXsw.writeStartElement("mpoRepeatingGroup");
         if (rg instanceof RepeatingGroupWithTriplets rgt) {
           if (rgt.getTriplets() != null) {
             for (Triplet t : rgt.getTriplets()) {
-              writeIndent(3);
-              writeTriplet(baseXsw, t, getIndent(3));
+              writeTriplet(baseXsw, t, childLevel + 1);
             }
           }
         }
-        writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+        writeIndent(baseXsw, childLevel);
         baseXsw.writeEndElement();
       }
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeBdtDirectly(com.mgz.afp.modca.BDT_BeginDocument bdt) throws Exception {
+  private void writeBdtDirectly(com.mgz.afp.modca.BDT_BeginDocument bdt, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("BDT");
     baseXsw.writeStartElement("BDT_BeginDocument");
-    String indent2 = getIndent(2);
-    String indent1 = getIndent(1);
-    writeElement(baseXsw, indent2, "name", bdt.getName());
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "name", bdt.getName());
     if (bdt.getTriplets() != null && !bdt.getTriplets().isEmpty()) {
-      writeIndent(2);
+      writeIndent(baseXsw, childLevel);
       baseXsw.writeStartElement("triplets");
       for (Triplet triplet : bdt.getTriplets()) {
-        writeIndent(3);
-        writeTriplet(baseXsw, triplet, getIndent(3));
+        writeTriplet(baseXsw, triplet, childLevel + 1);
       }
-      writeIndent(2);
+      writeIndent(baseXsw, childLevel);
       baseXsw.writeEndElement();
     }
     if (bdt.reserved8_9 != null) {
-      writeElement(baseXsw, indent2, "reserved8_9", com.mgz.util.UtilCharacterEncoding.bytesToHexString(bdt.reserved8_9));
+      writeElement(baseXsw, childLevel, "reserved8_9", com.mgz.util.UtilCharacterEncoding.bytesToHexString(bdt.reserved8_9));
     }
     if (bdt.getText() != null) {
-      writeElement(baseXsw, indent2, "text", bdt.getText());
+      writeElement(baseXsw, childLevel, "text", bdt.getText());
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeBmoDirectly(BMO_BeginOverlay bmo) throws Exception {
+  private void writeBmoDirectly(BMO_BeginOverlay bmo, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("BMO");
     baseXsw.writeStartElement("BMO_BeginOverlay");
-    String indent2 = getIndent(2);
-    String indent1 = getIndent(1);
-    writeElement(baseXsw, indent2, "name", bmo.getName());
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "name", bmo.getName());
     if (bmo.getTriplets() != null && !bmo.getTriplets().isEmpty()) {
       for (Triplet triplet : bmo.getTriplets()) {
-        writeIndent(2);
-        writeTriplet(baseXsw, triplet, indent2);
+        writeTriplet(baseXsw, triplet, childLevel);
       }
     }
     if (bmo.getText() != null) {
-      writeElement(baseXsw, indent2, "text", bmo.getText());
+      writeElement(baseXsw, childLevel, "text", bmo.getText());
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeBpsDirectly(BPS_BeginPageSegment bps) throws Exception {
+  private void writeBpsDirectly(BPS_BeginPageSegment bps, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("BPS");
     baseXsw.writeStartElement("BPS_BeginPageSegment");
-    String indent2 = getIndent(2);
-    String indent1 = getIndent(1);
-    writeElement(baseXsw, indent2, "name", bps.getName());
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "name", bps.getName());
     if (bps.getTriplets() != null && !bps.getTriplets().isEmpty()) {
       for (Triplet triplet : bps.getTriplets()) {
-        writeIndent(2);
-        writeTriplet(baseXsw, triplet, indent2);
+        writeTriplet(baseXsw, triplet, childLevel);
       }
     }
     if (bps.getText() != null) {
-      writeElement(baseXsw, indent2, "text", bps.getText());
+      writeElement(baseXsw, childLevel, "text", bps.getText());
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeNameAndTripletsDirectly(com.mgz.afp.base.StructuredFieldBaseNameAndTriplets sf, String rootName) throws Exception {
+  private void writeNameAndTripletsDirectly(com.mgz.afp.base.StructuredFieldBaseNameAndTriplets sf, String rootName, int level) throws Exception {
     if (MnemonicPerformanceMonitor.isEnabled()) {
       String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
       MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
     }
     baseXsw.writeStartElement(rootName);
-    String indent2 = getIndent(2);
-    String indent1 = getIndent(1);
-    writeElement(baseXsw, indent2, "name", sf.getName());
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "name", sf.getName());
     if (sf.getTriplets() != null && !sf.getTriplets().isEmpty()) {
-      // For SFs extending StructuredFieldBaseNameAndTriplets, Jackson output typically doesn't wrap triplets
-      // but they are also often marked XmlTransient and only contribute to text.
-      // To maintain legacy manual behavior where they WERE written:
       for (Triplet triplet : sf.getTriplets()) {
-        writeIndent(2);
-        writeTriplet(baseXsw, triplet, indent2);
+        writeTriplet(baseXsw, triplet, childLevel);
       }
     }
     if (sf.getText() != null) {
-      writeElement(baseXsw, indent2, "text", sf.getText());
+      writeElement(baseXsw, childLevel, "text", sf.getText());
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     if (MnemonicPerformanceMonitor.isEnabled()) {
       MnemonicPerformanceMonitor.endWrite();
     }
   }
 
-  private void writeTripletsAndTextDirectly(com.mgz.afp.base.StructuredFieldBaseTriplets sf, String rootName) throws Exception {
+  private void writeTripletsAndTextDirectly(com.mgz.afp.base.StructuredFieldBaseTriplets sf, String rootName, int level) throws Exception {
     if (MnemonicPerformanceMonitor.isEnabled()) {
       String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
       MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
     }
     baseXsw.writeStartElement(rootName);
-    String indent2 = getIndent(2);
-    String indent1 = getIndent(1);
+    int childLevel = level + 1;
     if (sf.getTriplets() != null && !sf.getTriplets().isEmpty()) {
       for (Triplet triplet : sf.getTriplets()) {
-        writeIndent(2);
-        writeTriplet(baseXsw, triplet, indent2);
+        writeTriplet(baseXsw, triplet, childLevel);
       }
     }
     if (sf.getText() != null) {
-      writeElement(baseXsw, indent2, "text", sf.getText());
+      writeElement(baseXsw, childLevel, "text", sf.getText());
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     if (MnemonicPerformanceMonitor.isEnabled()) {
       MnemonicPerformanceMonitor.endWrite();
     }
   }
 
-  private void writeNameDirectly(com.mgz.afp.base.StructuredFieldBaseName sf, String rootName) throws Exception {
+  private void writeNameDirectly(com.mgz.afp.base.StructuredFieldBaseName sf, String rootName, int level) throws Exception {
     if (MnemonicPerformanceMonitor.isEnabled()) {
       String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
       MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
     }
     baseXsw.writeStartElement(rootName);
-    String indent2 = getIndent(2);
-    String indent1 = getIndent(1);
-    writeElement(baseXsw, indent2, "name", sf.getName());
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "name", sf.getName());
     if (sf.getText() != null) {
-      writeElement(baseXsw, indent2, "text", sf.getText());
+      writeElement(baseXsw, childLevel, "text", sf.getText());
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     if (MnemonicPerformanceMonitor.isEnabled()) {
       MnemonicPerformanceMonitor.endWrite();
     }
   }
 
-  private void writePgdDirectly(com.mgz.afp.modca.PGD_PageDescriptor pgd) throws Exception {
+  private void writePgdDirectly(com.mgz.afp.modca.PGD_PageDescriptor pgd, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("PGD");
     baseXsw.writeStartElement("PGD_PageDescriptor");
-    String indent = getIndent(2);
+    int childLevel = level + 1;
     if (pgd.getxUnitBase() != null) {
-      writeElement(baseXsw, indent, "xUnitBase", pgd.getxUnitBase().name());
+      writeElement(baseXsw, childLevel, "xUnitBase", pgd.getxUnitBase().name());
     }
     if (pgd.getyUnitBase() != null) {
-      writeElement(baseXsw, indent, "yUnitBase", pgd.getyUnitBase().name());
+      writeElement(baseXsw, childLevel, "yUnitBase", pgd.getyUnitBase().name());
     }
-    writeElement(baseXsw, indent, "xUnitsPerUnitBase", pgd.getxUnitsPerUnitBase());
-    writeElement(baseXsw, indent, "yUnitsPerUnitBase", pgd.getyUnitsPerUnitBase());
-    writeElement(baseXsw, indent, "xSize", pgd.getxSize());
-    writeElement(baseXsw, indent, "ySize", pgd.getySize());
+    writeElement(baseXsw, childLevel, "xUnitsPerUnitBase", pgd.getxUnitsPerUnitBase());
+    writeElement(baseXsw, childLevel, "yUnitsPerUnitBase", pgd.getyUnitsPerUnitBase());
+    writeElement(baseXsw, childLevel, "xSize", pgd.getxSize());
+    writeElement(baseXsw, childLevel, "ySize", pgd.getySize());
     if (pgd.getReserved12_14() != null) {
-      writeElement(baseXsw, indent, "reserved12_14", UtilCharacterEncoding.bytesToHexString(pgd.getReserved12_14()));
+      writeElement(baseXsw, childLevel, "reserved12_14", UtilCharacterEncoding.bytesToHexString(pgd.getReserved12_14()));
     }
-    writeTripletsAndText(baseXsw, pgd.getTriplets(), pgd.getText(), getIndent(2), getIndent(1));
+    writeTripletsAndText(baseXsw, pgd.getTriplets(), pgd.getText(), childLevel, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeMddDirectly(com.mgz.afp.modca.MDD_MediumDescriptor mdd) throws Exception {
+  private void writeMddDirectly(com.mgz.afp.modca.MDD_MediumDescriptor mdd, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("MDD");
     baseXsw.writeStartElement("MDD_MediumDescriptor");
-    String indent = getIndent(2);
+    int childLevel = level + 1;
     if (mdd.getxUnitBase() != null) {
-      writeElement(baseXsw, indent, "xUnitBase", mdd.getxUnitBase().name());
+      writeElement(baseXsw, childLevel, "xUnitBase", mdd.getxUnitBase().name());
     }
     if (mdd.getyUnitBase() != null) {
-      writeElement(baseXsw, indent, "yUnitBase", mdd.getyUnitBase().name());
+      writeElement(baseXsw, childLevel, "yUnitBase", mdd.getyUnitBase().name());
     }
-    writeElement(baseXsw, indent, "xUnitsPerUnitBase", mdd.getxUnitsPerUnitBase());
-    writeElement(baseXsw, indent, "yUnitsPerUnitBase", mdd.getyUnitsPerUnitBase());
-    writeElement(baseXsw, indent, "xMediumExtent", mdd.getxMediumExtent());
-    writeElement(baseXsw, indent, "yMediumExtent", mdd.getyMediumExtent());
+    writeElement(baseXsw, childLevel, "xUnitsPerUnitBase", mdd.getxUnitsPerUnitBase());
+    writeElement(baseXsw, childLevel, "yUnitsPerUnitBase", mdd.getyUnitsPerUnitBase());
+    writeElement(baseXsw, childLevel, "xMediumExtent", mdd.getxMediumExtent());
+    writeElement(baseXsw, childLevel, "yMediumExtent", mdd.getyMediumExtent());
     if (mdd.getFlag() != null) {
-      writeElement(baseXsw, indent, "flag", mdd.getFlag().name());
+      writeElement(baseXsw, childLevel, "flag", mdd.getFlag().name());
     }
-    writeTripletsAndText(baseXsw, mdd.getTriplets(), mdd.getText(), getIndent(2), getIndent(1));
+    writeTripletsAndText(baseXsw, mdd.getTriplets(), mdd.getText(), childLevel, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeDrawingOrderWithPoints(XMLStreamWriter2 writer, GAD_DrawingOrder.DrawingOrder_HasPoints order, String rootName, String indent, String childIndent) throws Exception {
+  private void writeDrawingOrderWithPoints(XMLStreamWriter2 writer, GAD_DrawingOrder.DrawingOrder_HasPoints order, String rootName, int level) throws Exception {
     writer.writeStartElement(rootName);
+    int childLevel = level + 1;
     if (order.getPoints() != null) {
       if (writer instanceof AfpXmlStreamWriter afpXsw) {
-        afpXsw.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(afpXsw, childLevel);
         afpXsw.writeRawBytes(XmlTagTemplates.POINTS_START, 0, XmlTagTemplates.POINTS_START.length);
         for (GAD_DrawingOrder.GOCA_Point p : order.getPoints()) {
-          afpXsw.writeRaw(getIndent((childIndent.length() / 2) + 1));
+          writeIndent(afpXsw, childLevel + 1);
           afpXsw.writeEmptyElement("GOCA_Point");
           afpXsw.writeIntAttribute(null, null, "xCoordinate", p.xCoordinate());
           afpXsw.writeIntAttribute(null, null, "yCoordinate", p.yCoordinate());
         }
-        afpXsw.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(afpXsw, childLevel);
         afpXsw.writeRawBytes(XmlTagTemplates.POINTS_END, 0, XmlTagTemplates.POINTS_END.length);
       } else {
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("points");
         for (GAD_DrawingOrder.GOCA_Point p : order.getPoints()) {
-          writer.writeRaw(getIndent((childIndent.length() / 2) + 1));
+          writeIndent(writer, childLevel + 1);
           writer.writeEmptyElement("GOCA_Point");
           writer.writeIntAttribute(null, null, "xCoordinate", p.xCoordinate());
           writer.writeIntAttribute(null, null, "yCoordinate", p.yCoordinate());
         }
-        writer.writeRaw(getIndent(childIndent.length() > 0 ? (childIndent.length() - 1) / 2 : 0));
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
     }
-    writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+    writeIndent(writer, level);
     writer.writeEndElement();
   }
 
 
-  private void writeElement(XMLStreamWriter2 writer, String indent, String name, String value) throws Exception {
+  private void writeElement(XMLStreamWriter2 writer, int level, String name, String value) throws Exception {
     if (value != null) {
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeStartElement(name);
       writer.writeCharacters(value);
       writer.writeEndElement();
     }
   }
 
-  private void writeElement(XMLStreamWriter2 writer, String indent, String name, int value) throws Exception {
-    writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+  private void writeElement(XMLStreamWriter2 writer, int level, String name, int value) throws Exception {
+    writeIndent(writer, level);
     writer.writeStartElement(name);
     writer.writeInt(value);
     writer.writeEndElement();
   }
 
-  private void writeElement(XMLStreamWriter2 writer, String indent, String name, long value) throws Exception {
-    writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+  private void writeElement(XMLStreamWriter2 writer, int level, String name, long value) throws Exception {
+    writeIndent(writer, level);
     writer.writeStartElement(name);
     writer.writeLong(value);
     writer.writeEndElement();
   }
 
-  private void writeElement(String indent, String name, String value) throws Exception {
-    writeElement(xsw, indent, name, value);
+  private void writeElement(int level, String name, String value) throws Exception {
+    writeElement(xsw, level, name, value);
   }
 
-  private void writeElement(String indent, String name, int value) throws Exception {
-    writeElement(xsw, indent, name, value);
+  private void writeElement(int level, String name, int value) throws Exception {
+    writeElement(xsw, level, name, value);
   }
 
-  private void writeElement(String indent, String name, long value) throws Exception {
-    writeElement(xsw, indent, name, value);
+  private void writeElement(int level, String name, long value) throws Exception {
+    writeElement(xsw, level, name, value);
   }
 
-  private void writeBinaryElement(XMLStreamWriter2 writer, String indent, String name, byte[] data) throws Exception {
+  private void writeBinaryElement(XMLStreamWriter2 writer, int level, String name, byte[] data) throws Exception {
     if (data != null) {
-      writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+      writeIndent(writer, level);
       writer.writeStartElement(name);
       writer.writeBinary(data, 0, data.length);
       writer.writeEndElement();
     }
   }
 
-  private void writeBinaryElement(String indent, String name, byte[] data) throws Exception {
-    writeBinaryElement(xsw, indent, name, data);
+  private void writeBinaryElement(int level, String name, byte[] data) throws Exception {
+    writeBinaryElement(xsw, level, name, data);
+  }
+
+  private void writeIndent(XMLStreamWriter2 writer, int level) throws Exception {
+    if (indentEnabled) {
+      if (writer instanceof AfpXmlStreamWriter afpXsw) {
+        XmlIndenter.writeIndent(afpXsw, level);
+      } else {
+        writer.writeRaw(XmlIndenter.getIndent(level));
+      }
+    }
+  }
+
+  private void writePureIndent(XMLStreamWriter2 writer, int level) throws Exception {
+    if (indentEnabled) {
+      if (writer instanceof AfpXmlStreamWriter afpXsw) {
+        XmlIndenter.writePureIndent(afpXsw, level);
+      } else {
+        String s = XmlIndenter.getIndent(level);
+        if (s.startsWith("\n")) {
+          writer.writeRaw(s.substring(1));
+        } else {
+          writer.writeRaw(s);
+        }
+      }
+    }
   }
 
   private void writeFieldWithXpath(StructuredField sf) throws Exception {
@@ -2548,317 +2503,304 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
   }
 
-  private String getIndent(int level) {
-    return indentEnabled ? XmlIndenter.getIndent(level) : "";
-  }
 
   private void writeIndent(int level) throws Exception {
-    if (indentEnabled) {
-      XmlIndenter.writeIndent(baseXsw, level);
-    }
+    writeIndent(baseXsw, level);
   }
 
   private void writePureIndent(int level) throws Exception {
-    if (indentEnabled) {
-      XmlIndenter.writePureIndent(baseXsw, level);
-    }
+    writePureIndent(baseXsw, level);
   }
 
   private void writeNewline() throws Exception {
     if (indentEnabled) {
-      baseXsw.writeRaw("\n");
+      baseXsw.writeRawBytes(XmlIndenter.INDENT_BYTES[0], 0, 1);
     }
   }
 
-  private void writeColorSpecification(XMLStreamWriter2 writer, GAD_DrawingOrder.ColorSpecification cs, String indent, String rootName) throws Exception {
-    String childIndent = indent + "  ";
+  private void writeColorSpecification(XMLStreamWriter2 writer, GAD_DrawingOrder.ColorSpecification cs, int level, String rootName) throws Exception {
+    int childLevel = level + 1;
     writer.writeStartElement(rootName);
-    writeElement(writer, childIndent, "length", cs.length);
-    writeElement(writer, childIndent, "reserved", cs.reserved);
+    writeElement(writer, childLevel, "length", cs.length);
+    writeElement(writer, childLevel, "reserved", cs.reserved);
     if (cs.colorSpace != null) {
-      writeElement(writer, childIndent, "colorSpace", cs.colorSpace.name());
+      writeElement(writer, childLevel, "colorSpace", cs.colorSpace.name());
     }
-    writeElement(writer, childIndent, "reserved4_7", cs.reserved4_7);
-    writeElement(writer, childIndent, "nrOfBitsComponent1", cs.nrOfBitsComponent1);
-    writeElement(writer, childIndent, "nrOfBitsComponent2", cs.nrOfBitsComponent2);
-    writeElement(writer, childIndent, "nrOfBitsComponent3", cs.nrOfBitsComponent3);
-    writeElement(writer, childIndent, "nrOfBitsComponent4", cs.nrOfBitsComponent4);
+    writeElement(writer, childLevel, "reserved4_7", cs.reserved4_7);
+    writeElement(writer, childLevel, "nrOfBitsComponent1", cs.nrOfBitsComponent1);
+    writeElement(writer, childLevel, "nrOfBitsComponent2", cs.nrOfBitsComponent2);
+    writeElement(writer, childLevel, "nrOfBitsComponent3", cs.nrOfBitsComponent3);
+    writeElement(writer, childLevel, "nrOfBitsComponent4", cs.nrOfBitsComponent4);
     if (cs.colorValue != null) {
-      writeBinaryElement(writer, childIndent, "colorValue", cs.colorValue);
+      writeBinaryElement(writer, childLevel, "colorValue", cs.colorValue);
     }
-    writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+    writeIndent(writer, level);
     writer.writeEndElement();
   }
 
-  private void writeColorStop(XMLStreamWriter2 writer, GAD_DrawingOrder.ColorStop stop, String indent) throws Exception {
-    String childIndent = indent + "  ";
+  private void writeColorStop(XMLStreamWriter2 writer, GAD_DrawingOrder.ColorStop stop, int level) throws Exception {
+    int childLevel = level + 1;
     writer.writeStartElement("ColorStop");
-    writeElement(writer, childIndent, "offset", stop.offset);
+    writeElement(writer, childLevel, "offset", stop.offset);
     if (stop.colorValue != null) {
-      writeBinaryElement(writer, childIndent, "colorValue", stop.colorValue);
+      writeBinaryElement(writer, childLevel, "colorValue", stop.colorValue);
     }
-    writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+    writeIndent(writer, level);
     writer.writeEndElement();
   }
 
-  private void writeBdaDirectly(BDA_BarCodeData bda) throws Exception {
+  private void writeBdaDirectly(BDA_BarCodeData bda, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("BDA");
     baseXsw.writeStartElement("BDA_BarCodeData");
-    String indent2 = getIndent(2);
-    String indent1 = getIndent(1);
+    int childLevel = level + 1;
 
     if (bda.getBarCodeFlags() != null && !bda.getBarCodeFlags().isEmpty()) {
-      writeIndent(2);
+      writeIndent(baseXsw, childLevel);
       baseXsw.writeStartElement("barCodeFlags");
       for (BDA_BarCodeData.BarCodeFlag flag : bda.getBarCodeFlags()) {
-        writeElement(baseXsw, indent2 + "  ", "barCodeFlag", flag.name());
+        writeElement(baseXsw, childLevel + 1, "barCodeFlag", flag.name());
       }
-      writeIndent(2);
+      writeIndent(baseXsw, childLevel);
       baseXsw.writeEndElement();
     }
-    writeElement(baseXsw, indent2, "xOffset", bda.getxOffset());
-    writeElement(baseXsw, indent2, "yOffset", bda.getyOffset());
+    writeElement(baseXsw, childLevel, "xOffset", bda.getxOffset());
+    writeElement(baseXsw, childLevel, "yOffset", bda.getyOffset());
 
     if (bda.parametersData != null) {
-      writeBdaParametersDataDirectly(baseXsw, bda.parametersData, indent2);
+      writeBdaParametersDataDirectly(baseXsw, bda.parametersData, childLevel);
     }
 
     if (bda.barCodeData != null && bda.barCodeData.length > 0) {
-      writeBinaryElement(baseXsw, indent2, "barCodeData", bda.barCodeData);
+      writeBinaryElement(baseXsw, childLevel, "barCodeData", bda.barCodeData);
     }
     if (bda.getText() != null) {
-      writeElement(baseXsw, indent2, "text", bda.getText());
+      writeElement(baseXsw, childLevel, "text", bda.getText());
     }
 
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeBdaParametersDataDirectly(XMLStreamWriter2 writer, BDA_BarCodeData.ParametersData pd, String indent) throws Exception {
-    String indent3 = getIndent((indent.length() > 0 ? (indent.length() - 1) / 2 : 0) + 1);
-    writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+  private void writeBdaParametersDataDirectly(XMLStreamWriter2 writer, BDA_BarCodeData.ParametersData pd, int level) throws Exception {
+    int childLevel = level + 1;
+    writeIndent(writer, level);
     writer.writeStartElement(MnemonicPerformanceMonitor.getSimpleName(pd.getClass()));
 
     if (pd.controlFlags != null && !pd.controlFlags.isEmpty()) {
-      writer.writeRaw(getIndent(3));
+      writeIndent(writer, childLevel);
       writer.writeStartElement("controlFlags");
       for (BDA_BarCodeData.ParametersData.ControlFlag flag : pd.controlFlags) {
-        writeElement(writer, indent3 + "  ", "controlFlag", flag.name());
+        writeElement(writer, childLevel + 1, "controlFlag", flag.name());
       }
-      writer.writeRaw(getIndent(3));
+      writeIndent(writer, childLevel);
       writer.writeEndElement();
     }
-    writeElement(writer, indent3, "sequenceIndicator", pd.sequenceIndicator);
-    writeElement(writer, indent3, "totalNumberOfSymbols", pd.totalNumberOfSymbols);
+    writeElement(writer, childLevel, "sequenceIndicator", pd.sequenceIndicator);
+    writeElement(writer, childLevel, "totalNumberOfSymbols", pd.totalNumberOfSymbols);
 
     if (pd instanceof BDA_BarCodeData.ParametersDataMatrixBarcode m) {
-      writeElement(writer, indent3, "desiredRowSize", m.desiredRowSize);
-      writeElement(writer, indent3, "desiredNumberOfRows", m.desiredNumberOfRows);
-      writeElement(writer, indent3, "fileIDFirstByte", m.getFileIDFirstByte());
-      writeElement(writer, indent3, "fileIDSecondByte", m.getFileIDSecondByte());
+      writeElement(writer, childLevel, "desiredRowSize", m.desiredRowSize);
+      writeElement(writer, childLevel, "desiredNumberOfRows", m.desiredNumberOfRows);
+      writeElement(writer, childLevel, "fileIDFirstByte", m.getFileIDFirstByte());
+      writeElement(writer, childLevel, "fileIDSecondByte", m.getFileIDSecondByte());
       if (m.specialFunctionFlags != null && !m.specialFunctionFlags.isEmpty()) {
-        writer.writeRaw(getIndent(3));
+        writeIndent(writer, childLevel);
         writer.writeStartElement("specialFunctionFlags");
         for (BDA_BarCodeData.ParametersDataMatrixBarcode.SpecialFunctionFlag flag : m.specialFunctionFlags) {
-          writeElement(writer, indent3 + "  ", "specialFunctionFlag", flag.name());
+          writeElement(writer, childLevel + 1, "specialFunctionFlag", flag.name());
         }
-        writer.writeRaw(getIndent(3));
+        writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
     } else if (pd instanceof BDA_BarCodeData.ParametersDataMaxiCode_2D max) {
-      writeElement(writer, indent3, "symbolMode", max.symbolMode.name());
-      writeElement(writer, indent3, "specialFunctionFlag", max.specialFunctionFlag.name());
+      writeElement(writer, childLevel, "symbolMode", max.symbolMode.name());
+      writeElement(writer, childLevel, "specialFunctionFlag", max.specialFunctionFlag.name());
     } else if (pd instanceof BDA_BarCodeData.ParametersDataPDF417_2D pdf) {
-      writeElement(writer, indent3, "numberOfDataSymbolCharactersPerRow", pdf.numberOfDataSymbolCharactersPerRow);
-      writeElement(writer, indent3, "desiredNumberOfRows", pdf.desiredNumberOfRows);
-      writeElement(writer, indent3, "securityLevel", pdf.securityLevel);
-      writeElement(writer, indent3, "lengthOfMacroPDF417ControlBlock", pdf.lengthOfMacroPDF417ControlBlock);
+      writeElement(writer, childLevel, "numberOfDataSymbolCharactersPerRow", pdf.numberOfDataSymbolCharactersPerRow);
+      writeElement(writer, childLevel, "desiredNumberOfRows", pdf.desiredNumberOfRows);
+      writeElement(writer, childLevel, "securityLevel", pdf.securityLevel);
+      writeElement(writer, childLevel, "lengthOfMacroPDF417ControlBlock", pdf.lengthOfMacroPDF417ControlBlock);
       if (pdf.macroPDF417ControlBlock != null && pdf.macroPDF417ControlBlock.length > 0) {
-        writeBinaryElement(writer, indent3, "macroPDF417ControlBlock", pdf.macroPDF417ControlBlock);
+        writeBinaryElement(writer, childLevel, "macroPDF417ControlBlock", pdf.macroPDF417ControlBlock);
       }
     } else if (pd instanceof BDA_BarCodeData.ParametersDataQRCode_2D qr) {
-      writeElement(writer, indent3, "conversion", qr.conversion.name());
-      writeElement(writer, indent3, "versionOfSymbol", qr.versionOfSymbol);
-      writeElement(writer, indent3, "errorCorrectionLevel", qr.errorCorrectionLevel.name());
-      writeElement(writer, indent3, "parityData", qr.parityData);
-      writeElement(writer, indent3, "qrCodeSpecialFunctionFlags", qr.qrCodeSpecialFunctionFlags.toString());
-      writeElement(writer, indent3, "applicationIndicator", qr.applicationIndicator);
+      writeElement(writer, childLevel, "conversion", qr.conversion.name());
+      writeElement(writer, childLevel, "versionOfSymbol", qr.versionOfSymbol);
+      writeElement(writer, childLevel, "errorCorrectionLevel", qr.errorCorrectionLevel.name());
+      writeElement(writer, childLevel, "parityData", qr.parityData);
+      writeElement(writer, childLevel, "qrCodeSpecialFunctionFlags", qr.qrCodeSpecialFunctionFlags.toString());
+      writeElement(writer, childLevel, "applicationIndicator", qr.applicationIndicator);
       if (pd instanceof BDA_BarCodeData.ParametersDataQRCodeWithImage qri) {
-        writeElement(writer, indent3, "qrCodeWithImageFlags", qri.qrCodeWithImageFlags.toString());
-        writeElement(writer, indent3, "repeatingGroupsLength", qri.repeatingGroupsLength);
+        writeElement(writer, childLevel, "qrCodeWithImageFlags", qri.qrCodeWithImageFlags.toString());
+        writeElement(writer, childLevel, "repeatingGroupsLength", qri.repeatingGroupsLength);
         for (BDA_BarCodeData.ParametersDataQRCodeWithImage.ImageInformationBlock block : qri.imageInformationBlocks) {
-          writer.writeRaw(getIndent(3));
+          writeIndent(writer, childLevel);
           writer.writeStartElement("imageInformationBlock");
-          String indent4 = getIndent(4);
-          writeElement(writer, indent4, "length", block.length);
-          writeElement(writer, indent4, "imageLocalId", block.imageLocalId);
-          writeElement(writer, indent4, "offsetUnitBase", block.offsetUnitBase);
-          writeElement(writer, indent4, "offsetUpub", block.offsetUpub);
-          writeElement(writer, indent4, "xOffset", block.xOffset);
-          writeElement(writer, indent4, "yOffset", block.yOffset);
-          writeElement(writer, indent4, "orientation", block.orientation);
-          writeElement(writer, indent4, "coordinateSystem", block.coordinateSystem);
-          writeElement(writer, indent4, "extentUnitBase", block.extentUnitBase);
-          writeElement(writer, indent4, "extentUpub", block.extentUpub);
-          writeElement(writer, indent4, "xExtent", block.xExtent);
-          writeElement(writer, indent4, "yExtent", block.yExtent);
-          writeElement(writer, indent4, "mappingOption", block.mappingOption);
+          int blockLevel = childLevel + 1;
+          writeElement(writer, blockLevel, "length", block.length);
+          writeElement(writer, blockLevel, "imageLocalId", block.imageLocalId);
+          writeElement(writer, blockLevel, "offsetUnitBase", block.offsetUnitBase);
+          writeElement(writer, blockLevel, "offsetUpub", block.offsetUpub);
+          writeElement(writer, blockLevel, "xOffset", block.xOffset);
+          writeElement(writer, blockLevel, "yOffset", block.yOffset);
+          writeElement(writer, blockLevel, "orientation", block.orientation);
+          writeElement(writer, blockLevel, "coordinateSystem", block.coordinateSystem);
+          writeElement(writer, blockLevel, "extentUnitBase", block.extentUnitBase);
+          writeElement(writer, blockLevel, "extentUpub", block.extentUpub);
+          writeElement(writer, blockLevel, "xExtent", block.xExtent);
+          writeElement(writer, blockLevel, "yExtent", block.yExtent);
+          writeElement(writer, blockLevel, "mappingOption", block.mappingOption);
           if (block.additionalData != null && block.additionalData.length > 0) {
-            writeBinaryElement(writer, indent4, "additionalData", block.additionalData);
+            writeBinaryElement(writer, blockLevel, "additionalData", block.additionalData);
           }
-          writer.writeRaw(getIndent(3));
+          writeIndent(writer, childLevel);
           writer.writeEndElement();
         }
       }
     } else if (pd instanceof BDA_BarCodeData.ParametersDataAztecCode aztec) {
-      writeElement(writer, indent3, "desiredNumberOfLayers", aztec.desiredNumberOfLayers);
-      writeElement(writer, indent3, "levelOfErrorCorrection", aztec.levelOfErrorCorrection);
-      writeElement(writer, indent3, "aztecSpecialFunctionFlags", aztec.aztecSpecialFunctionFlags.toString());
-      writeElement(writer, indent3, "applicationIndicator", aztec.applicationIndicator);
-      writeElement(writer, indent3, "sequenceIndicator", aztec.getSequenceIndicator());
-      writeElement(writer, indent3, "totalNumberOfSymbols", aztec.getTotalNumberOfSymbols());
-      writeElement(writer, indent3, "structuredAppendIdLength", aztec.structuredAppendIdLength);
+      writeElement(writer, childLevel, "desiredNumberOfLayers", aztec.desiredNumberOfLayers);
+      writeElement(writer, childLevel, "levelOfErrorCorrection", aztec.levelOfErrorCorrection);
+      writeElement(writer, childLevel, "aztecSpecialFunctionFlags", aztec.aztecSpecialFunctionFlags.toString());
+      writeElement(writer, childLevel, "applicationIndicator", aztec.applicationIndicator);
+      writeElement(writer, childLevel, "sequenceIndicator", aztec.getSequenceIndicator());
+      writeElement(writer, childLevel, "totalNumberOfSymbols", aztec.getTotalNumberOfSymbols());
+      writeElement(writer, childLevel, "structuredAppendIdLength", aztec.structuredAppendIdLength);
       if (aztec.structuredAppendId != null && aztec.structuredAppendId.length > 0) {
-        writeBinaryElement(writer, indent3, "structuredAppendId", aztec.structuredAppendId);
+        writeBinaryElement(writer, childLevel, "structuredAppendId", aztec.structuredAppendId);
       }
-      writeElement(writer, indent3, "additionalParametersLength", aztec.additionalParametersLength);
+      writeElement(writer, childLevel, "additionalParametersLength", aztec.additionalParametersLength);
       if (aztec.additionalParameters != null && aztec.additionalParameters.length > 0) {
-        writeBinaryElement(writer, indent3, "additionalParameters", aztec.additionalParameters);
+        writeBinaryElement(writer, childLevel, "additionalParameters", aztec.additionalParameters);
       }
     } else if (pd instanceof BDA_BarCodeData.ParametersDataHanXinCode hanxin) {
-      writeElement(writer, indent3, "version", hanxin.version);
-      writeElement(writer, indent3, "errorCorrectionLevel", hanxin.errorCorrectionLevel);
-      writeElement(writer, indent3, "hanXinSpecialFunctionFlags", hanxin.hanXinSpecialFunctionFlags.toString());
-      writeElement(writer, indent3, "applicationIndicator", hanxin.applicationIndicator);
-      writeElement(writer, indent3, "additionalParametersLength", hanxin.additionalParametersLength);
+      writeElement(writer, childLevel, "version", hanxin.version);
+      writeElement(writer, childLevel, "errorCorrectionLevel", hanxin.errorCorrectionLevel);
+      writeElement(writer, childLevel, "hanXinSpecialFunctionFlags", hanxin.hanXinSpecialFunctionFlags.toString());
+      writeElement(writer, childLevel, "applicationIndicator", hanxin.applicationIndicator);
+      writeElement(writer, childLevel, "additionalParametersLength", hanxin.additionalParametersLength);
       if (hanxin.additionalParameters != null && hanxin.additionalParameters.length > 0) {
-        writeBinaryElement(writer, indent3, "additionalParameters", hanxin.additionalParameters);
+        writeBinaryElement(writer, childLevel, "additionalParameters", hanxin.additionalParameters);
       }
     } else if (pd instanceof BDA_BarCodeData.ParametersDataIntelligentMailPackageBarcode imp) {
-      writeElement(writer, indent3, "intelligentMailPackageBarcodeFlags", imp.intelligentMailPackageBarcodeFlags.toString());
-      writeElement(writer, indent3, "bannerLength", imp.bannerLength);
+      writeElement(writer, childLevel, "intelligentMailPackageBarcodeFlags", imp.intelligentMailPackageBarcodeFlags.toString());
+      writeElement(writer, childLevel, "bannerLength", imp.bannerLength);
       if (imp.bannerString != null && imp.bannerString.length > 0) {
-        writeBinaryElement(writer, indent3, "bannerString", imp.bannerString);
+        writeBinaryElement(writer, childLevel, "bannerString", imp.bannerString);
       }
     }
 
-    writer.writeRaw(getIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0));
+    writeIndent(writer, level);
     writer.writeEndElement();
   }
 
-  private void writeBbcDirectly(BBC_BeginBarCodeObject bbc) throws Exception {
+  private void writeBbcDirectly(BBC_BeginBarCodeObject bbc, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("BBC");
     baseXsw.writeStartElement("BBC_BeginBarCodeObject");
-    String indent2 = getIndent(2);
-    String indent1 = getIndent(1);
+    int childLevel = level + 1;
     if (bbc.getName() != null) {
       baseXsw.writeAttribute("name", bbc.getName());
     }
     if (bbc.getTriplets() != null && !bbc.getTriplets().isEmpty()) {
       for (Triplet triplet : bbc.getTriplets()) {
-        writeIndent(2);
-        writeTriplet(baseXsw, triplet, indent2);
+        writeTriplet(baseXsw, triplet, childLevel);
       }
     }
     if (bbc.getText() != null) {
-      writeElement(baseXsw, indent2, "text", bbc.getText());
+      writeElement(baseXsw, childLevel, "text", bbc.getText());
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeEbcDirectly(EBC_EndBarCodeObject ebc) throws Exception {
+  private void writeEbcDirectly(EBC_EndBarCodeObject ebc, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("EBC");
     baseXsw.writeStartElement("EBC_EndBarCodeObject");
-    String indent2 = getIndent(2);
-    String indent1 = getIndent(1);
+    int childLevel = level + 1;
     if (ebc.getName() != null) {
       baseXsw.writeAttribute("name", ebc.getName());
     }
     if (ebc.getTriplets() != null && !ebc.getTriplets().isEmpty()) {
       for (Triplet triplet : ebc.getTriplets()) {
-        writeIndent(2);
-        writeTriplet(baseXsw, triplet, indent2);
+        writeTriplet(baseXsw, triplet, childLevel);
       }
     }
     if (ebc.getText() != null) {
-      writeElement(baseXsw, indent2, "text", ebc.getText());
+      writeElement(baseXsw, childLevel, "text", ebc.getText());
     }
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeBddDirectly(BDD_BarCodeDataDescriptor bdd) throws Exception {
+  private void writeBddDirectly(BDD_BarCodeDataDescriptor bdd, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("BDD");
     baseXsw.writeStartElement("BDD_BarCodeDataDescriptor");
-    String indent2 = getIndent(2);
-    String indent1 = getIndent(1);
+    int childLevel = level + 1;
 
-    writeElement(baseXsw, indent2, "unitBase", bdd.getUnitBase().name());
-    writeElement(baseXsw, indent2, "unitsPerUnitBaseX", bdd.getUnitsPerUnitBaseX());
-    writeElement(baseXsw, indent2, "unitsPerUnitBaseY", bdd.getUnitsPerUnitBaseY());
-    writeElement(baseXsw, indent2, "presentationSpaceWidth", bdd.getPresentationSpaceWidth());
-    writeElement(baseXsw, indent2, "presentationSpaceLength", bdd.getPresentationSpaceLength());
-    writeElement(baseXsw, indent2, "desiredSymbolWidth", bdd.getDesiredSymbolWidth());
-    writeElement(baseXsw, indent2, "barcodeType", bdd.getBarcodeType().name());
-    writeElement(baseXsw, indent2, "barcodeModifier", bdd.getBarcodeModifier());
-    writeElement(baseXsw, indent2, "fontLocalIDForHRI", bdd.getFontLocalIDForHRI());
-    writeElement(baseXsw, indent2, "color", bdd.getColor());
-    writeElement(baseXsw, indent2, "moduleWidthInMils", bdd.getModuleWidthInMils());
-    writeElement(baseXsw, indent2, "elementHeight", bdd.getElementHeight());
-    writeElement(baseXsw, indent2, "heightMultiplier", bdd.getHeightMultiplier());
-    writeElement(baseXsw, indent2, "wideToNarrowRatio", bdd.getWideToNarrowRatio());
+    writeElement(baseXsw, childLevel, "unitBase", bdd.getUnitBase().name());
+    writeElement(baseXsw, childLevel, "unitsPerUnitBaseX", bdd.getUnitsPerUnitBaseX());
+    writeElement(baseXsw, childLevel, "unitsPerUnitBaseY", bdd.getUnitsPerUnitBaseY());
+    writeElement(baseXsw, childLevel, "presentationSpaceWidth", bdd.getPresentationSpaceWidth());
+    writeElement(baseXsw, childLevel, "presentationSpaceLength", bdd.getPresentationSpaceLength());
+    writeElement(baseXsw, childLevel, "desiredSymbolWidth", bdd.getDesiredSymbolWidth());
+    writeElement(baseXsw, childLevel, "barcodeType", bdd.getBarcodeType().name());
+    writeElement(baseXsw, childLevel, "barcodeModifier", bdd.getBarcodeModifier());
+    writeElement(baseXsw, childLevel, "fontLocalIDForHRI", bdd.getFontLocalIDForHRI());
+    writeElement(baseXsw, childLevel, "color", bdd.getColor());
+    writeElement(baseXsw, childLevel, "moduleWidthInMils", bdd.getModuleWidthInMils());
+    writeElement(baseXsw, childLevel, "elementHeight", bdd.getElementHeight());
+    writeElement(baseXsw, childLevel, "heightMultiplier", bdd.getHeightMultiplier());
+    writeElement(baseXsw, childLevel, "wideToNarrowRatio", bdd.getWideToNarrowRatio());
 
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeOcdDirectly(OCD_ObjectContainerData ocd) throws Exception {
+  private void writeOcdDirectly(OCD_ObjectContainerData ocd, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("OCD");
     baseXsw.writeStartElement("OCD_ObjectContainerData");
-    String indent2 = getIndent(2);
+    int childLevel = level + 1;
 
     if (ocd.getMetadataObject() != null) {
-      writeMetadataObjectDirectly(ocd.getMetadataObject(), indent2);
+      writeMetadataObjectDirectly(ocd.getMetadataObject(), childLevel);
     }
     if (ocd.getData() != null && ocd.getMetadataObject() == null) {
-      writeBinaryElement(baseXsw, indent2, "data", ocd.getData());
+      writeBinaryElement(baseXsw, childLevel, "data", ocd.getData());
     }
     if (ocd.getText() != null) {
-      writeElement(baseXsw, indent2, "text", ocd.getText());
+      writeElement(baseXsw, childLevel, "text", ocd.getText());
     }
 
-    writeIndent(1);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeMetadataObjectDirectly(MetadataObject mo, String indent) throws Exception {
-    writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+  private void writeMetadataObjectDirectly(MetadataObject mo, int level) throws Exception {
+    writeIndent(baseXsw, level);
     baseXsw.writeStartElement("MetadataObject");
-    String childIndent = indent + "  ";
+    int childLevel = level + 1;
 
-    writeElement(baseXsw, childIndent, "MOLength", mo.getMoLength());
-    writeElement(baseXsw, childIndent, "HeaderLength", mo.getHeaderLength());
-    writeElement(baseXsw, childIndent, "MOType", mo.getMoType());
-    writeElement(baseXsw, childIndent, "MOFormat", mo.getMoFormat());
-    writeElement(baseXsw, childIndent, "MOCompression", mo.getMoCompression());
-    writeElement(baseXsw, childIndent, "MONameLength", mo.getMoNameLength());
+    writeElement(baseXsw, childLevel, "MOLength", mo.getMoLength());
+    writeElement(baseXsw, childLevel, "HeaderLength", mo.getHeaderLength());
+    writeElement(baseXsw, childLevel, "MOType", mo.getMoType());
+    writeElement(baseXsw, childLevel, "MOFormat", mo.getMoFormat());
+    writeElement(baseXsw, childLevel, "MOCompression", mo.getMoCompression());
+    writeElement(baseXsw, childLevel, "MONameLength", mo.getMoNameLength());
     if (mo.getMoName() != null) {
-      writeElement(baseXsw, childIndent, "MOName", mo.getMoName());
+      writeElement(baseXsw, childLevel, "MOName", mo.getMoName());
     }
     if (mo.getMoData() != null) {
-      writeBinaryElement(baseXsw, childIndent, "MOData", mo.getMoData());
+      writeBinaryElement(baseXsw, childLevel, "MOData", mo.getMoData());
     }
     if (mo.getMoDataText() != null) {
-      writeElement(baseXsw, childIndent, "MODataText", mo.getMoDataText());
+      writeElement(baseXsw, childLevel, "MODataText", mo.getMoDataText());
     }
 
-    writeIndent(indent.length() > 0 ? (indent.length() - 1) / 2 : 0);
+    writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
   }
 }
