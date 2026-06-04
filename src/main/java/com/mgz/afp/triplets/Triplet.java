@@ -1178,8 +1178,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "FontCodedGraphicCharacterSetGlobalID")
   public static final class FontCodedGraphicCharacterSetGlobalID extends Triplet {
-    int codedGraphicCharacterSetGlobalID;
-    int codePageGlobalID;
+    public int codedGraphicCharacterSetGlobalID;
+    public int codePageGlobalID;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1378,8 +1378,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "ExtendedResourceLocalIdentifier")
   public static final class ExtendedResourceLocalIdentifier extends Triplet {
-    ERLI_ResourceType resourceType;
-    long extendedResourceLocalID;
+    public ERLI_ResourceType resourceType;
+    public long extendedResourceLocalID;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1539,7 +1539,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "ResourceSectionNumber")
   public static final class ResourceSectionNumber extends Triplet {
-    short resourceSectionNumber;
+    public short resourceSectionNumber;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -3244,7 +3244,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "PresentationSpaceMixingRule")
   public static final class PresentationSpaceMixingRule extends Triplet {
-    List<MixingKeywordAndRule> mixingRules;
+    public List<MixingKeywordAndRule> mixingRules;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -3342,8 +3342,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     }
 
     public static class MixingKeywordAndRule {
-      MixingKeyword keyword;
-      MixingRule rule;
+      public MixingKeyword keyword;
+      public MixingRule rule;
 
       public byte[] toBytes() {
         byte[] result = new byte[] {
@@ -4691,9 +4691,9 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "ColorManagementResourceDescriptor")
   public static final class ColorManagementResourceDescriptor extends Triplet {
-    byte reserved2;
-    CMRProcessingMode cmrProcessingMode;
-    CMRScope cmrScope;
+    public byte reserved2;
+    public CMRProcessingMode cmrProcessingMode;
+    public CMRScope cmrScope;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -4796,12 +4796,12 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "RenderingIntent")
   public static final class RenderingIntent extends Triplet {
-    byte[] reserved2_3 = new byte[2];
-    Intent intentForIOCA;
-    Intent intentForContainerNonIOCA;
-    Intent intentForPTOCA;
-    Intent intentForGOCA;
-    byte[] reserved8_9 = new byte[2];
+    public byte[] reserved2_3 = new byte[2];
+    public Intent intentForIOCA;
+    public Intent intentForContainerNonIOCA;
+    public Intent intentForPTOCA;
+    public Intent intentForGOCA;
+    public byte[] reserved8_9 = new byte[2];
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -5070,8 +5070,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "ObjectContainerPresentationSpaceSize")
   public static final class ObjectContainerPresentationSpaceSize extends Triplet {
-    byte[] reserved2_3 = {0x00, 0x00};
-    PDFPresentationSpace pdfPresentationSpace;
+    public byte[] reserved2_3 = {0x00, 0x00};
+    public PDFPresentationSpace pdfPresentationSpace;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

@@ -817,6 +817,323 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       }
       writeIndent(writer, level);
       writer.writeEndElement();
+    } else if (triplet instanceof Triplet.MODCAFunctionSet mfs) {
+      writer.writeStartElement("MODCAFunctionSet");
+      if (mfs.reserved2_3 != null) {
+        writeBinaryElement(writer, childLevel, "reserved2_3", mfs.reserved2_3);
+      }
+      writeElement(writer, childLevel, "fctSetID", mfs.fctSetID);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.FontCodedGraphicCharacterSetGlobalID fcgcs) {
+      writer.writeStartElement("FontCodedGraphicCharacterSetGlobalID");
+      writeElement(writer, childLevel, "codedGraphicCharacterSetGlobalID", fcgcs.codedGraphicCharacterSetGlobalID);
+      writeElement(writer, childLevel, "codePageGlobalID", fcgcs.codePageGlobalID);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.ExtendedResourceLocalIdentifier erli) {
+      writer.writeStartElement("ExtendedResourceLocalIdentifier");
+      if (erli.resourceType != null) {
+        writeElement(writer, childLevel, "resourceType", erli.resourceType.name());
+      }
+      writeElement(writer, childLevel, "extendedResourceLocalID", erli.extendedResourceLocalID);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.ResourceSectionNumber rsn) {
+      writer.writeStartElement("ResourceSectionNumber");
+      writeElement(writer, childLevel, "resourceSectionNumber", rsn.resourceSectionNumber);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.MediumMapPageNumber mmpn) {
+      writer.writeStartElement("MediumMapPageNumber");
+      writeElement(writer, childLevel, "pageNumber", mmpn.pageNumber);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.ObjectByteExtent obe) {
+      writer.writeStartElement("ObjectByteExtent");
+      writeElement(writer, childLevel, "byteExtentLow", obe.byteExtentLow);
+      writeElement(writer, childLevel, "byteExtentHigh", obe.byteExtentHigh);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.ObjectStructuredFieldOffset osfo) {
+      writer.writeStartElement("ObjectStructuredFieldOffset");
+      writeElement(writer, childLevel, "offsetLow", osfo.offsetLow);
+      if (osfo.offsetHigh != null) {
+        writeElement(writer, childLevel, "offsetHigh", osfo.offsetHigh);
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.ObjectStructuredFieldExtent osfe) {
+      writer.writeStartElement("ObjectStructuredFieldExtent");
+      writeElement(writer, childLevel, "numberOfSFLow", osfe.numberOfSFLow);
+      if (osfe.numberOfSFHigh != null) {
+        writeElement(writer, childLevel, "numberOfSFHigh", osfe.numberOfSFHigh);
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.ObjectOffset oo) {
+      writer.writeStartElement("ObjectOffset");
+      if (oo.objectType != null) {
+        writeElement(writer, childLevel, "objectType", oo.objectType.name());
+      }
+      writeElement(writer, childLevel, "reserved3", oo.reserved3);
+      writeElement(writer, childLevel, "nrOfPrecedingObjectsLow", oo.nrOfPrecedingObjectsLow);
+      if (oo.nrOfPrecedingObjectsHigh != null) {
+        writeElement(writer, childLevel, "nrOfPrecedingObjectsHigh", oo.nrOfPrecedingObjectsHigh);
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.FontHorizontalScaleFactor fhsf) {
+      writer.writeStartElement("FontHorizontalScaleFactor");
+      writeElement(writer, childLevel, "horizontalScaleFactor", fhsf.horizontalScaleFactor);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.MediumOrientation mo) {
+      writer.writeStartElement("MediumOrientation");
+      if (mo.mediumOrientation != null) {
+        writeElement(writer, childLevel, "mediumOrientation", mo.mediumOrientation.name());
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.TonerSaver ts) {
+      writer.writeStartElement("TonerSaver");
+      writeElement(writer, childLevel, "reserved2", ts.reserved2);
+      if (ts.tonerSaverFunction != null) {
+        writeElement(writer, childLevel, "tonerSaverFunction", ts.tonerSaverFunction.name());
+      }
+      if (ts.reserved4_5 != null) {
+        writeBinaryElement(writer, childLevel, "reserved4_5", ts.reserved4_5);
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.PresentationControl pc) {
+      writer.writeStartElement("PresentationControl");
+      if (pc.presentationControlFlags != null) {
+        writeIndent(writer, childLevel);
+        writer.writeStartElement("presentationControlFlags");
+        for (Triplet.PresentationControl.PresentationControlFlags flag : pc.presentationControlFlags) {
+          writeElement(writer, childLevel + 1, "presentationControlFlags", flag.name());
+        }
+        writeIndent(writer, childLevel);
+        writer.writeEndElement();
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.FontResolutionAndMetricTechnology framt) {
+      writer.writeStartElement("FontResolutionAndMetricTechnology");
+      if (framt.metricTechnology != null) {
+        writeElement(writer, childLevel, "metricTechnology", framt.metricTechnology.name());
+      }
+      if (framt.unitBase != null) {
+        writeElement(writer, childLevel, "unitBase", framt.unitBase.name());
+      }
+      writeElement(writer, childLevel, "unitsPerUnitBase", framt.unitsPerUnitBase);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.RenderingIntent ri) {
+      writer.writeStartElement("RenderingIntent");
+      if (ri.reserved2_3 != null) {
+        writeBinaryElement(writer, childLevel, "reserved2_3", ri.reserved2_3);
+      }
+      if (ri.intentForIOCA != null) {
+        writeElement(writer, childLevel, "intentForIOCA", ri.intentForIOCA.name());
+      }
+      if (ri.intentForContainerNonIOCA != null) {
+        writeElement(writer, childLevel, "intentForContainerNonIOCA", ri.intentForContainerNonIOCA.name());
+      }
+      if (ri.intentForPTOCA != null) {
+        writeElement(writer, childLevel, "intentForPTOCA", ri.intentForPTOCA.name());
+      }
+      if (ri.intentForGOCA != null) {
+        writeElement(writer, childLevel, "intentForGOCA", ri.intentForGOCA.name());
+      }
+      if (ri.reserved8_9 != null) {
+        writeBinaryElement(writer, childLevel, "reserved8_9", ri.reserved8_9);
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.ImageResolution ir) {
+      writer.writeStartElement("ImageResolution");
+      if (ir.reserved2_3 != null) {
+        writeBinaryElement(writer, childLevel, "reserved2_3", ir.reserved2_3);
+      }
+      if (ir.xUnitBase != null) {
+        writeElement(writer, childLevel, "xUnitBase", ir.xUnitBase.name());
+      }
+      if (ir.yUnitBase != null) {
+        writeElement(writer, childLevel, "yUnitBase", ir.yUnitBase.name());
+      }
+      writeElement(writer, childLevel, "xUnitsPerUnitBase", ir.xUnitsPerUnitBase);
+      writeElement(writer, childLevel, "yUnitsPerUnitBase", ir.yUnitsPerUnitBase);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.PresentationSpaceResetMixing psrm) {
+      writer.writeStartElement("PresentationSpaceResetMixing");
+      if (psrm.backgroundMixingFlag != null) {
+        writeElement(writer, childLevel, "backgroundMixingFlag", psrm.backgroundMixingFlag.name());
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.PresentationSpaceMixingRule psmr) {
+      writer.writeStartElement("PresentationSpaceMixingRule");
+      if (psmr.getMixingRules() != null) {
+        writeIndent(writer, childLevel);
+        writer.writeStartElement("mixingRules");
+        for (Triplet.PresentationSpaceMixingRule.MixingKeywordAndRule mr : psmr.getMixingRules()) {
+          writeIndent(writer, childLevel + 1);
+          writer.writeStartElement("mixingRules");
+          if (mr.getKeyword() != null) {
+            writeElement(writer, childLevel + 2, "keyword", mr.getKeyword().name());
+          }
+          if (mr.getRule() != null) {
+            writeElement(writer, childLevel + 2, "rule", mr.getRule().name());
+          }
+          writeIndent(writer, childLevel + 1);
+          writer.writeEndElement();
+        }
+        writeIndent(writer, childLevel);
+        writer.writeEndElement();
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.ColorFidelity cf) {
+      writer.writeStartElement("ColorFidelity");
+      if (cf.exceptionContinuationRule != null) {
+        writeElement(writer, childLevel, "exceptionContinuationRule", cf.exceptionContinuationRule.name());
+      }
+      writeElement(writer, childLevel, "reserved3", cf.reserved3);
+      if (cf.exceptionReportingRule != null) {
+        writeElement(writer, childLevel, "exceptionReportingRule", cf.exceptionReportingRule.name());
+      }
+      writeElement(writer, childLevel, "reserved5", cf.reserved5);
+      if (cf.exceptionSubstitutionRule != null) {
+        writeElement(writer, childLevel, "exceptionSubstitutionRule", cf.exceptionSubstitutionRule.name());
+      }
+      writeElement(writer, childLevel, "reserved7", cf.reserved7);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.FontFidelity ff) {
+      writer.writeStartElement("FontFidelity");
+      if (ff.exceptionContinuationRule != null) {
+        writeElement(writer, childLevel, "exceptionContinuationRule", ff.exceptionContinuationRule.name());
+      }
+      if (ff.reserved3_6 != null) {
+        writeBinaryElement(writer, childLevel, "reserved3_6", ff.reserved3_6);
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.FinishingOperation fo) {
+      writer.writeStartElement("FinishingOperation");
+      if (fo.operationType != null) {
+        writeElement(writer, childLevel, "operationType", fo.operationType.name());
+      }
+      if (fo.reserved3_4 != null) {
+        writeBinaryElement(writer, childLevel, "reserved3_4", fo.reserved3_4);
+      }
+      if (fo.referenceCorner != null) {
+        writeElement(writer, childLevel, "referenceCorner", fo.referenceCorner.name());
+      }
+      writeElement(writer, childLevel, "operationCount", fo.operationCount);
+      writeElement(writer, childLevel, "offsetOfOperation", fo.offsetOfOperation);
+      if (fo.positions != null) {
+        writeIndent(writer, childLevel);
+        writer.writeStartElement("positions");
+        for (Short pos : fo.positions) {
+          writeElement(writer, childLevel + 1, "positions", (int) pos);
+        }
+        writeIndent(writer, childLevel);
+        writer.writeEndElement();
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.TextFidelity tf) {
+      writer.writeStartElement("TextFidelity");
+      if (tf.exceptionContinuationRule != null) {
+        writeElement(writer, childLevel, "exceptionContinuationRule", tf.exceptionContinuationRule.name());
+      }
+      writeElement(writer, childLevel, "reserved3", tf.reserved3);
+      if (tf.exceptionReportingRule != null) {
+        writeElement(writer, childLevel, "exceptionReportingRule", tf.exceptionReportingRule.name());
+      }
+      if (tf.reserved5_6 != null) {
+        writeBinaryElement(writer, childLevel, "reserved5_6", tf.reserved5_6);
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.MediaFidelity mf) {
+      writer.writeStartElement("MediaFidelity");
+      if (mf.exceptionContinuationRule != null) {
+        writeElement(writer, childLevel, "exceptionContinuationRule", mf.exceptionContinuationRule.name());
+      }
+      writeElement(writer, childLevel, "reserved3", mf.reserved3);
+      if (mf.exceptionReportingRule != null) {
+        writeElement(writer, childLevel, "exceptionReportingRule", mf.exceptionReportingRule.name());
+      }
+      if (mf.reserved5_6 != null) {
+        writeBinaryElement(writer, childLevel, "reserved5_6", mf.reserved5_6);
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.FinishingFidelity ffidelity) {
+      writer.writeStartElement("FinishingFidelity");
+      if (ffidelity.exceptionContinuationRule != null) {
+        writeElement(writer, childLevel, "exceptionContinuationRule", ffidelity.exceptionContinuationRule.name());
+      }
+      writeElement(writer, childLevel, "reserved3", ffidelity.reserved3);
+      if (ffidelity.exceptionReportingRule != null) {
+        writeElement(writer, childLevel, "exceptionReportingRule", ffidelity.exceptionReportingRule.name());
+      }
+      if (ffidelity.reserved5_6 != null) {
+        writeBinaryElement(writer, childLevel, "reserved5_6", ffidelity.reserved5_6);
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.ColorManagementResourceDescriptor cmrd) {
+      writer.writeStartElement("ColorManagementResourceDescriptor");
+      writeElement(writer, childLevel, "reserved2", cmrd.reserved2);
+      if (cmrd.cmrProcessingMode != null) {
+        writeElement(writer, childLevel, "cmrProcessingMode", cmrd.cmrProcessingMode.name());
+      }
+      if (cmrd.cmrScope != null) {
+        writeElement(writer, childLevel, "cmrScope", cmrd.cmrScope.name());
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.CMRTagFidelity ctf) {
+      writer.writeStartElement("CMRTagFidelity");
+      if (ctf.exceptionContinuationRule != null) {
+        writeElement(writer, childLevel, "exceptionContinuationRule", ctf.exceptionContinuationRule.name());
+      }
+      writeElement(writer, childLevel, "reserved3", ctf.reserved3);
+      if (ctf.exceptionReportingRule != null) {
+        writeElement(writer, childLevel, "exceptionReportingRule", ctf.exceptionReportingRule.name());
+      }
+      if (ctf.reserved5_6 != null) {
+        writeBinaryElement(writer, childLevel, "reserved5_6", ctf.reserved5_6);
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.DeviceAppearance da) {
+      writer.writeStartElement("DeviceAppearance");
+      writeElement(writer, childLevel, "reserved2", da.reserved2);
+      if (da.appearance != null) {
+        writeElement(writer, childLevel, "appearance", da.appearance.name());
+      }
+      if (da.reserved5_6 != null) {
+        writeBinaryElement(writer, childLevel, "reserved5_6", da.reserved5_6);
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.ObjectContainerPresentationSpaceSize ocpss) {
+      writer.writeStartElement("ObjectContainerPresentationSpaceSize");
+      if (ocpss.reserved2_3 != null) {
+        writeBinaryElement(writer, childLevel, "reserved2_3", ocpss.reserved2_3);
+      }
+      if (ocpss.pdfPresentationSpace != null) {
+        writeElement(writer, childLevel, "pdfPresentationSpace", ocpss.pdfPresentationSpace.name());
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
     } else {
       JacksonXmlMapperProvider.getCachedWriter(triplet.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, triplet);
     }
