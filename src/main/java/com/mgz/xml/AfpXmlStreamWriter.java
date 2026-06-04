@@ -216,6 +216,84 @@ public class AfpXmlStreamWriter extends SanitizingXMLStreamWriter {
     super.writeDouble(value);
   }
 
+  @Override
+  public void writeInteger(java.math.BigInteger value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeInteger(value);
+  }
+
+  @Override
+  public void writeDecimal(java.math.BigDecimal value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeDecimal(value);
+  }
+
+  @Override
+  public void writeQName(javax.xml.namespace.QName name) throws XMLStreamException {
+    needsFlush = true;
+    super.writeQName(name);
+  }
+
+  @Override
+  public void writeBinary(byte[] value, int from, int length) throws XMLStreamException {
+    needsFlush = true;
+    super.writeBinary(value, from, length);
+  }
+
+  @Override
+  public void writeBooleanAttribute(String prefix, String nsURI, String localName, boolean value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeBooleanAttribute(prefix, nsURI, localName, value);
+  }
+
+  @Override
+  public void writeIntAttribute(String prefix, String nsURI, String localName, int value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeIntAttribute(prefix, nsURI, localName, value);
+  }
+
+  @Override
+  public void writeLongAttribute(String prefix, String nsURI, String localName, long value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeLongAttribute(prefix, nsURI, localName, value);
+  }
+
+  @Override
+  public void writeFloatAttribute(String prefix, String nsURI, String localName, float value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeFloatAttribute(prefix, nsURI, localName, value);
+  }
+
+  @Override
+  public void writeDoubleAttribute(String prefix, String nsURI, String localName, double value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeDoubleAttribute(prefix, nsURI, localName, value);
+  }
+
+  @Override
+  public void writeIntegerAttribute(String prefix, String nsURI, String localName, java.math.BigInteger value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeIntegerAttribute(prefix, nsURI, localName, value);
+  }
+
+  @Override
+  public void writeDecimalAttribute(String prefix, String nsURI, String localName, java.math.BigDecimal value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeDecimalAttribute(prefix, nsURI, localName, value);
+  }
+
+  @Override
+  public void writeQNameAttribute(String prefix, String nsURI, String localName, javax.xml.namespace.QName value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeQNameAttribute(prefix, nsURI, localName, value);
+  }
+
+  @Override
+  public void writeBinaryAttribute(String prefix, String nsURI, String localName, byte[] value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeBinaryAttribute(prefix, nsURI, localName, value);
+  }
+
   /**
    * Writes raw bytes directly to the underlying output stream, flushing Woodstox first if necessary.
    *
