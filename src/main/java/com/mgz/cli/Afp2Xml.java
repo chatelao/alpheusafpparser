@@ -84,6 +84,7 @@ public class Afp2Xml {
     var aggressiveIo = false;
     var useCharsetOptimizations = false;
     var useWoodstox = false;
+    var indent = false;
     var threadCount = 0;
     String inputPath = null;
     String outputPath = null;
@@ -141,6 +142,9 @@ public class Afp2Xml {
         }
         case "-w", "--woodstox" -> {
           useWoodstox = true;
+        }
+        case "-i", "--indent" -> {
+          indent = true;
         }
         case "-t", "--threads" -> {
           if (i + 1 < args.length) {
@@ -235,7 +239,7 @@ public class Afp2Xml {
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
         final HandlerFactory handlerFactory = "pdf".equals(format)
             ? new com.mgz.pdf.PdfHandlerFactory()
-            : new XmlHandlerFactory(xpathExpression, useWoodstox);
+            : new XmlHandlerFactory(xpathExpression, useWoodstox, indent);
 
         final OrderedOutputOrchestrator orchestrator;
         if ("-".equals(outputPath)) {
@@ -327,7 +331,7 @@ public class Afp2Xml {
       } else {
         HandlerFactory handlerFactory = "pdf".equals(format)
             ? new com.mgz.pdf.PdfHandlerFactory()
-            : new XmlHandlerFactory(xpathExpression, useWoodstox);
+            : new XmlHandlerFactory(xpathExpression, useWoodstox, indent);
         if ("-".equals(outputPath)) {
           OutputStream nonClosingStdout = new NonClosingOutputStream(System.out);
           try (OutputStream os = new BufferedOutputStream(nonClosingStdout)) {
@@ -424,7 +428,8 @@ public class Afp2Xml {
   private static void printUsage(PrintStream out) {
     out.println("Usage: java -jar alpheus-afp-parser-cli.jar "
         + "[-d|--directory <dir>] [-x|--xpath <expression>] [-f|--format <type>] [-m|--measure] "
-        + "[-p|--parallel] [-c|--charset-opt] [-P|--ptx-debug] [-a|--aggressive-io] [-w|--woodstox] [-t|--threads <n>] <input-afp-file/dir> [output-file]");
+        + "[-p|--parallel] [-c|--charset-opt] [-P|--ptx-debug] [-a|--aggressive-io] [-w|--woodstox] "
+        + "[-i|--indent] [-t|--threads <n>] <input-afp-file/dir> [output-file]");
     out.println("Options:");
     out.println("  -d, --directory <dir>     Convert all .afp files in the specified directory.");
     out.println("                            If a directory is provided as a positional "
@@ -438,6 +443,7 @@ public class Afp2Xml {
     out.println("  -P, --ptx-debug           Detailed PTX/PTOCA performance analysis.");
     out.println("  -a, --aggressive-io       Enable experimental high-performance I/O (pre-allocation).");
     out.println("  -w, --woodstox            Use Woodstox instead of Aalto as StAX backend.");
+    out.println("  -i, --indent              Enable XML indentation (default is compact).");
     out.println("  -t, --threads <n>         Number of threads for parallel processing.");
     out.println("                            Defaults to the number of available processors.");
     out.println("  -h, --help                Show this help message.");
