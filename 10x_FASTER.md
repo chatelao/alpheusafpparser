@@ -11,7 +11,7 @@ This document outlines the architectural shift required to achieve an order-of-m
 | **3. Zero-Allocation Encoding** | High | Medium | 🚧 In Progress |
 | **4. Multi-Stage Parallel Pipeline** | High | Medium | 🚧 In Progress |
 | **5. SIMD-Accelerated Scanning** | Medium | Medium | ⏳ Pending |
-| **6. Template-Based Serialization** | Very High | High | ⏳ Pending |
+| **6. Template-Based Serialization** | Very High | High | 🚧 In Progress |
 | **7. Kernel-Level I/O & Zero-Copy** | Medium | High | ⏳ Pending |
 
 ---
@@ -38,7 +38,7 @@ Zero `String` allocations during the primary serialization loop.
 - ✅ **Typed Attribute Writing**: Use StAX2 typed methods (`writeInt`, `writeLong`) for all primary numeric attributes.
 - ✅ **Direct Stream Encoding**: Implement a specialized EBCDIC-to-UTF-8 stream encoder that writes directly to the Woodstox buffer.
 - ⏳ **Typed Binary Writing**: Use `writeBinary` for large data payloads to avoid hex/base64 string overhead.
-- ⏳ **Tag Templating**: Use pre-allocated `byte[]` or `ByteBuffer` templates for common XML tags.
+- ✅ **Tag Templating**: Use pre-allocated `byte[]` or `ByteBuffer` templates for common XML tags.
 
 ## 4. Multi-Stage Parallel Pipeline
 Maximize CPU utilization through stage-based pipelining.
@@ -56,8 +56,9 @@ Utilize hardware-level parallelism for record-skipping and character validation.
 - ⏳ **Accelerated Sanitization**: Accelerate EBCDIC character validation and XML sanitization using SIMD instructions.
 
 ## 6. Template-Based Serialization
-Serialize a field in a single memory copy operation.
+Serialize a field in a single memory copy operation. See [TEMPLATE_BASED_ROADMAP.md](TEMPLATE_BASED_ROADMAP.md).
 
+- 🚧 **Infrastructure**: Implemented `XmlTagTemplates` and integrated `writeRawBytes` into `AfpXmlStreamWriter`.
 - ⏳ **XML Byte Templates**: Generate pre-computed XML byte templates for each Structured Field type.
 - ⏳ **Hole-Punching**: Inject variable data (like coordinates or lengths) directly into the template.
 
