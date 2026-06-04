@@ -122,7 +122,8 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Code 128 (Subset B)**: Implement rendering for Code 128 (Subset B) barcodes.
         - ✅ **UPC-E**: Implement rendering for UPC-E barcodes.
     - ⏳ **2D Barcode Support**: Implement rendering for 2D barcodes (Data Matrix, QR Code, PDF417).
-    - ⏳ **Postal Barcode Support**: Implement rendering for postal codes (POSTNET, Intelligent Mail, Japan Postal).
+    - 🚧 **Postal Barcode Support**: Implement rendering for postal codes (POSTNET, Intelligent Mail, Japan Postal).
+        - ✅ **POSTNET/PLANET**: Implement rendering for POSTNET and PLANET barcodes.
     - ✅ **HRI Rendering**: Implement Human Readable Interpretation (HRI) text placement and font mapping.
 - ⏳ **IOCA Renderer**: Map image data to PDF Image XObjects.
     - ✅ **Implement IOCA Segment Tracking**: Identify and group IOCA segments within the AFP stream.
