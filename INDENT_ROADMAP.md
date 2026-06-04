@@ -31,4 +31,7 @@ Ensure the new functionality works as expected and doesn't cause regressions.
 - ✅ **Functional Testing**: Verify that output is compact by default.
 - ✅ **Functional Testing**: Verify that `-i` or `--indent` produces formatted XML.
 - ✅ **Regression Testing**: Run the existing test suite (`./gradlew test`).
-- ⏳ **Performance Verification**: (Optional) Measure performance gains from disabled indentation on large files.
+- ✅ **Performance Verification**: Measured performance gains using `IndentationPerformanceTest`.
+- ✅ **Optimization**:
+    - `XmlIndenter` optimized to use `writeRawBytes` with pre-allocated `byte[]` arrays, eliminating `String` allocations during indentation.
+    - `AfpJacksonXmlWriter` refactored to use `int` levels instead of `String` indentation internally, reducing overhead even when indentation is disabled.
