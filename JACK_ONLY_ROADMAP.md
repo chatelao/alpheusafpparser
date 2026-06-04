@@ -63,6 +63,8 @@ This roadmap outlines the steps required to transform Alpheus into a "Jackson on
         - [x] Implement fast-path for GOCA fields (`BGR`, `EGR`, `GDD`).
     - [x] Identify and implement fast-paths for other high-frequency structured fields (e.g., `MSU`, `MMC`, `BDI/EDI`, `BMO/EMO`, `BPS/EPS`, `BRG/ERG`, `MCD`).
         - [x] Implement fast-paths for common PTOCA control sequences (e.g., `RMI`, `RMB`, `SIM`, `SBI`, `BLN`, `BSU`, `ESU`, `STC`, `USC`, `TBM`, `OVS`, `ENC`, `GAR`, `GIR`, `GLC`, `GOR`, `SEA`, `SKI`, `UCT`).
+    - [ ] Implement manual fast-paths for all remaining MO:DCA triplets (🚧 In Progress).
+        - [x] Implemented fast-paths for 28 triplets including `MODCAFunctionSet`, `RenderingIntent`, `FinishingOperation`, and `ColorManagementResourceDescriptor`.
 
 ## Phase 6: Best Practices and Performance Optimization ⏳
 - [x] Consolidate Sanitization:
