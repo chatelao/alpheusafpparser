@@ -2,19 +2,6 @@
 
 This document proposes advanced performance patterns for the Jackson XML, StAX2, and Woodstox stack to further optimize the Alpheus AFP Parser.
 
-## 1. Jackson Blackbird Module (Java 21+)
-**Description:** The Blackbird module is the successor to Afterburner, designed for modern Java versions (8+). It uses `LambdaMetafactory` to generate high-performance reflection-free accessors for serialization and deserialization.
-**Benefit:** Reduces the overhead of reflective field/method access in Jackson's fallback serialization path for complex or rare Structured Fields.
-**Proposal:**
-- Add `com.fasterxml.jackson.module:jackson-module-blackbird` to `build.gradle.kts`.
-- Register the module in `JacksonXmlMapperProvider.java`.
-
-```java
-XML_MAPPER = XmlMapper.builder(new XmlFactory(new WstxInputFactory(), new WstxOutputFactory()))
-    .addModule(new BlackbirdModule())
-    .build();
-```
-
 ## 2. Pre-cached Type-Specific `ObjectWriter`
 **Description:** `XmlMapper` is a heavy-weight object. While `ObjectWriter` is light-weight, repeatedly calling `mapper.writer().withRootName(...)` involves configuration lookups and new object instantiation.
 **Benefit:** Reusing pre-configured `ObjectWriter` instances for high-frequency objects (like common Triplets or PTOCA sequences not yet on the fast-path) minimizes allocation.
