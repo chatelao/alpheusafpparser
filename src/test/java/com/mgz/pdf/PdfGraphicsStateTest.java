@@ -50,6 +50,14 @@ public class PdfGraphicsStateTest {
     assertEquals(0, graphicsState.getBackgroundMixMode());
     assertEquals(0, graphicsState.getCurrentX());
     assertEquals(0, graphicsState.getCurrentY());
+    assertEquals(0.0f, graphicsState.getCharCellWidth());
+    assertEquals(0.0f, graphicsState.getCharCellHeight());
+    assertEquals(1, graphicsState.getCharAngleX());
+    assertEquals(0, graphicsState.getCharAngleY());
+    assertEquals(0, graphicsState.getCharShearDividend());
+    assertEquals(1, graphicsState.getCharShearDivisor());
+    assertEquals(1, graphicsState.getCharDirection());
+    assertEquals(0, graphicsState.getCharPrecision());
   }
 
   @Test
@@ -63,6 +71,14 @@ public class PdfGraphicsStateTest {
     graphicsState.setBackgroundMixMode((short) 3);
     graphicsState.setCurrentX(100);
     graphicsState.setCurrentY(200);
+    graphicsState.setCharCellWidth(120.0f);
+    graphicsState.setCharCellHeight(150.0f);
+    graphicsState.setCharAngleX((short) 0);
+    graphicsState.setCharAngleY((short) 1);
+    graphicsState.setCharShearDividend((short) 1);
+    graphicsState.setCharShearDivisor((short) 2);
+    graphicsState.setCharDirection((short) 2);
+    graphicsState.setCharPrecision((short) 2);
 
     assertEquals(AFPColorValue.Blue_0x01, graphicsState.getColor());
     assertEquals(5.5f, graphicsState.getLineWidth());
@@ -73,6 +89,14 @@ public class PdfGraphicsStateTest {
     assertEquals(3, graphicsState.getBackgroundMixMode());
     assertEquals(100, graphicsState.getCurrentX());
     assertEquals(200, graphicsState.getCurrentY());
+    assertEquals(120.0f, graphicsState.getCharCellWidth());
+    assertEquals(150.0f, graphicsState.getCharCellHeight());
+    assertEquals(0, graphicsState.getCharAngleX());
+    assertEquals(1, graphicsState.getCharAngleY());
+    assertEquals(1, graphicsState.getCharShearDividend());
+    assertEquals(2, graphicsState.getCharShearDivisor());
+    assertEquals(2, graphicsState.getCharDirection());
+    assertEquals(2, graphicsState.getCharPrecision());
   }
 
   @Test
@@ -82,6 +106,8 @@ public class PdfGraphicsStateTest {
     graphicsState.setMixMode((short) 2);
     graphicsState.setBackgroundMixMode((short) 4);
     graphicsState.setCurrentX(500);
+    graphicsState.setCharCellWidth(200.0f);
+    graphicsState.setCharAngleX((short) -1);
 
     graphicsState.reset();
 
@@ -90,5 +116,7 @@ public class PdfGraphicsStateTest {
     assertEquals(0, graphicsState.getMixMode());
     assertEquals(0, graphicsState.getBackgroundMixMode());
     assertEquals(0, graphicsState.getCurrentX());
+    assertEquals(0.0f, graphicsState.getCharCellWidth());
+    assertEquals(1, graphicsState.getCharAngleX());
   }
 }
