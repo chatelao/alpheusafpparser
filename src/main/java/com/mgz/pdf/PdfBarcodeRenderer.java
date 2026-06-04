@@ -33,6 +33,7 @@ import java.util.Map;
 public class PdfBarcodeRenderer {
 
   private static final Map<Character, String> CODE39_MAP = new HashMap<>();
+  private static final Map<Character, String> CODABAR_MAP = new HashMap<>();
   private static final String[] ITF_PATTERNS = {
       "nnwwn", // 0
       "wnnnw", // 1
@@ -138,6 +139,29 @@ public class PdfBarcodeRenderer {
     CODE39_MAP.put('/', "nwnwnnnwn");
     CODE39_MAP.put('+', "nwnnnwnwn");
     CODE39_MAP.put('%', "nnnwnwnwn");
+
+    // Codabar patterns: 7 elements (4 bars, 3 spaces). 'w' for wide, 'n' for narrow.
+    // Pattern order: Bar 1, Space 1, Bar 2, Space 2, Bar 3, Space 3, Bar 4
+    CODABAR_MAP.put('0', "nnnnnww");
+    CODABAR_MAP.put('1', "nnnnwwn");
+    CODABAR_MAP.put('2', "nnnwnnw");
+    CODABAR_MAP.put('3', "wwnnnnn");
+    CODABAR_MAP.put('4', "nnwnnwn");
+    CODABAR_MAP.put('5', "wnnnnwn");
+    CODABAR_MAP.put('6', "nwnnnnw");
+    CODABAR_MAP.put('7', "nwnnwnn");
+    CODABAR_MAP.put('8', "nwwnnnn");
+    CODABAR_MAP.put('9', "wnnwnnn");
+    CODABAR_MAP.put('-', "nnnwwnn");
+    CODABAR_MAP.put('$', "nnwwnnn");
+    CODABAR_MAP.put(':', "wnnnwnw");
+    CODABAR_MAP.put('/', "wnwnnnw");
+    CODABAR_MAP.put('.', "wnwnwnn");
+    CODABAR_MAP.put('+', "nnwnwnw");
+    CODABAR_MAP.put('A', "nnwwnwn");
+    CODABAR_MAP.put('B', "nwnwnnw");
+    CODABAR_MAP.put('C', "nnnwnww");
+    CODABAR_MAP.put('D', "nnnwwwn");
   }
 
   /**
@@ -202,6 +226,9 @@ public class PdfBarcodeRenderer {
         case Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode:
           totalWidth = renderCode128(content, startX, startY, state, canvas);
           break;
+        case Codabar_2of7_AIM_USS_Codabar:
+          totalWidth = renderCodabar(content, startX, startY, state, canvas);
+          break;
         default:
           // TODO: Implement other barcode types
           break;
@@ -247,6 +274,51 @@ public class PdfBarcodeRenderer {
     for (int i = 0; i < content.length(); i++) {
       char c = Character.toUpperCase(content.charAt(i));
       String pattern = CODE39_MAP.get(c);
+      if (pattern == null) {
+        continue;
+      }
+
+      for (int j = 0; j < pattern.length(); j++) {
+        boolean isBar = (j % 2 == 0);
+        char type = pattern.charAt(j);
+        float w = (type == 'w') ? wideWidth : narrowWidth;
+
+        if (isBar) {
+          canvas.rectangle(curX, curY - height, w, height).fill();
+        }
+        curX += w;
+      }
+      // Inter-character gap
+      if (i < content.length() - 1) {
+        curX += narrowWidth;
+      }
+    }
+    canvas.restoreState();
+    return curX - x;
+  }
+
+  private static float renderCodabar(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    float narrowWidth = state.getModuleWidthInMils() * 1.44f;
+    if (narrowWidth <= 0) {
+      narrowWidth = 20.0f;
+    }
+    float wideWidth = narrowWidth * (state.getWideToNarrowRatio() / 100.0f);
+    if (wideWidth <= narrowWidth) {
+      wideWidth = narrowWidth * 2.5f;
+    }
+
+    float height = state.getElementHeight();
+    if (height <= 0) {
+      height = 500.0f;
+    }
+
+    canvas.saveState();
+    float curX = x;
+    float curY = y;
+
+    for (int i = 0; i < content.length(); i++) {
+      char c = Character.toUpperCase(content.charAt(i));
+      String pattern = CODABAR_MAP.get(c);
       if (pattern == null) {
         continue;
       }
