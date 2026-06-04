@@ -54,6 +54,11 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GSMS_SetMarkerSet;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSMT_SetMarkerSymbol;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPS_SetPatternSet;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPT_SetPatternSymbol;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSCS_SetCharacterSet;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCHST_CharacterStringAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCCHST_CharacterStringAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GMRK_MarkerAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCMRK_MarkerAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLT_SetLineType;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSLW_SetLineWidth;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSFLW_SetFractionLineWidth;
@@ -153,6 +158,91 @@ public class PdfHandlerStructureTest {
 
     handler.handle(edt);
     assertEquals(0, handler.getStructureDepth());
+  }
+
+  @Test
+  public void testGocaCharacterSetTracking() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    GAD_GraphicsData gad = new GAD_GraphicsData();
+    gad.setStructuredFieldIntroducer(createSfi(SFTypeID.GAD_GraphicsData));
+    List<GAD_DrawingOrder> orders = new ArrayList<>();
+
+    GSCS_SetCharacterSet gscs = new GSCS_SetCharacterSet();
+    gscs.setCharacterSetLocalID((short) 15);
+    orders.add(gscs);
+
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    assertEquals(15, handler.getGraphicsState().getCharacterSet());
+  }
+
+  @Test
+  public void testGocaCharacterStringRendering() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    GAD_GraphicsData gad = new GAD_GraphicsData();
+    gad.setStructuredFieldIntroducer(createSfi(SFTypeID.GAD_GraphicsData));
+    List<GAD_DrawingOrder> orders = new ArrayList<>();
+
+    // GCHST: Character String at Given Position
+    GCHST_CharacterStringAtGivenPosition gchst = new GCHST_CharacterStringAtGivenPosition();
+    gchst.setOriginPoint(new GAD_DrawingOrder.GOCA_Point((short) 100, (short) 100));
+    gchst.setText("GOCA Text");
+    orders.add(gchst);
+
+    // GCCHST: Character String at Current Position
+    GCCHST_CharacterStringAtCurrentPosition gcchst = new GCCHST_CharacterStringAtCurrentPosition();
+    gcchst.setText(" Continued");
+    orders.add(gcchst);
+
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    // Position should be updated after both strings
+    // "GOCA Text" at 100,100. " Continued" follows.
+    assertTrue(handler.getGraphicsState().getCurrentX() > 100);
+    assertEquals(100, handler.getGraphicsState().getCurrentY());
+  }
+
+  @Test
+  public void testGocaMarkerRendering() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    GAD_GraphicsData gad = new GAD_GraphicsData();
+    gad.setStructuredFieldIntroducer(createSfi(SFTypeID.GAD_GraphicsData));
+    List<GAD_DrawingOrder> orders = new ArrayList<>();
+
+    // GMRK: Marker at Given Position
+    GMRK_MarkerAtGivenPosition gmrk = new GMRK_MarkerAtGivenPosition();
+    List<GAD_DrawingOrder.GOCA_Point> points = new ArrayList<>();
+    points.add(new GAD_DrawingOrder.GOCA_Point((short) 200, (short) 200));
+    points.add(new GAD_DrawingOrder.GOCA_Point((short) 300, (short) 300));
+    gmrk.setPoints(points);
+    orders.add(gmrk);
+
+    // GCMRK: Marker at Current Position (should draw at 300, 300 and update to 400, 400 if provided)
+    GCMRK_MarkerAtCurrentPosition gcmrk = new GCMRK_MarkerAtCurrentPosition();
+    List<GAD_DrawingOrder.GOCA_Point> points2 = new ArrayList<>();
+    points2.add(new GAD_DrawingOrder.GOCA_Point((short) 400, (short) 400));
+    gcmrk.setPoints(points2);
+    orders.add(gcmrk);
+
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    assertEquals(400, handler.getGraphicsState().getCurrentX());
+    assertEquals(400, handler.getGraphicsState().getCurrentY());
   }
 
   @Test

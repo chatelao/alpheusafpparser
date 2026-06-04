@@ -2275,6 +2275,10 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     public String getText() {
       return text;
     }
+
+    public void setText(String text) {
+      this.text = text;
+    }
   }
 
   public static final class GCFLT_FilletAtCurrentPosition extends DrawingOrder_HasPoints {
@@ -3191,6 +3195,10 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
     @JacksonXmlProperty(localName = "text")
     public String getText() {
       return text;
+    }
+
+    public void setText(String text) {
+      this.text = text;
     }
   }
 

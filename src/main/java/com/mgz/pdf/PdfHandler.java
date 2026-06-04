@@ -56,8 +56,12 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GCCBEZ_CubicBezierCurveAtCurrentPositio
 import com.mgz.afp.goca.GAD_DrawingOrder.GCFARC_FullArcAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCFLT_FilletAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCLINE_LineAtCurrentPosition;
-import com.mgz.afp.goca.GAD_DrawingOrder.GCOMT_Comment;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCCHST_CharacterStringAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCMRK_MarkerAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCHST_CharacterStringAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCPARC_PartialArcAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GMRK_MarkerAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCOMT_Comment;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCRLINE_RelativeLineAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GEAR_EndArea;
 import com.mgz.afp.goca.GAD_DrawingOrder.GESEG_EndSegment;
@@ -84,6 +88,7 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GSMX_SetMix;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPCOL_SetProcessColor;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPS_SetPatternSet;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPT_SetPatternSymbol;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSCS_SetCharacterSet;
 import com.mgz.afp.goca.GAD_GraphicsData;
 import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
 import com.mgz.afp.ioca.IPD_ImagePictureData;
@@ -538,6 +543,8 @@ public class PdfHandler implements StructuredFieldHandler {
       graphicsState.setPatternSet(gsps.getPatternLocalID());
     } else if (order instanceof GSPT_SetPatternSymbol gspt) {
       graphicsState.setPatternSymbol(gspt.getPatternSymbolCodePoint());
+    } else if (order instanceof GSCS_SetCharacterSet gscs) {
+      graphicsState.setCharacterSet(gscs.getCharacterSetLocalID());
     } else if (order instanceof GSMS_SetMarkerSet gsms) {
       graphicsState.setMarkerSet(gsms.getMarkerSetLocalID());
     } else if (order instanceof GSMT_SetMarkerSymbol gsmt) {
@@ -747,6 +754,14 @@ public class PdfHandler implements StructuredFieldHandler {
           currentCanvas.stroke();
         }
       }
+    } else if (order instanceof GCHST_CharacterStringAtGivenPosition gchst) {
+      if (gchst.getOriginPoint() != null) {
+        renderGocaText(gchst.getText(), gchst.getOriginPoint().xCoordinate(), gchst.getOriginPoint().yCoordinate());
+      }
+    } else if (order instanceof GCCHST_CharacterStringAtCurrentPosition gcchst) {
+      renderGocaText(gcchst.getText(), graphicsState.getCurrentX(), graphicsState.getCurrentY());
+    } else if (order instanceof GAD_DrawingOrder.DrawingOrder_HasPoints marker && (marker instanceof GMRK_MarkerAtGivenPosition || marker instanceof GCMRK_MarkerAtCurrentPosition)) {
+      renderMarkers(marker.getPoints(), marker instanceof GCMRK_MarkerAtCurrentPosition);
     } else if (order instanceof GBSEG_BeginSegment gbseg) {
       if (gbseg.getDrawingOrders() != null) {
         for (GAD_DrawingOrder subOrder : gbseg.getDrawingOrders()) {
@@ -875,6 +890,84 @@ public class PdfHandler implements StructuredFieldHandler {
       graphicsState.setCurrentX(Math.round(arcEndX));
       graphicsState.setCurrentY(Math.round(arcEndY));
     }
+  }
+
+  private void renderMarkers(List<GAD_DrawingOrder.GOCA_Point> points, boolean atCurrentPosition) {
+    if (currentCanvas == null || (points == null && !atCurrentPosition)) {
+      return;
+    }
+    List<GAD_DrawingOrder.GOCA_Point> markerPoints = points;
+    if (atCurrentPosition) {
+      markerPoints = new ArrayList<>();
+      markerPoints.add(new GAD_DrawingOrder.GOCA_Point((short) graphicsState.getCurrentX(), (short) graphicsState.getCurrentY()));
+      if (points != null) {
+        markerPoints.addAll(points);
+      }
+    }
+
+    applyGraphicsState();
+    short symbol = graphicsState.getMarkerSymbol();
+    float size = 100.0f; // Standard marker size in AFP units
+    float half = size / 2.0f;
+
+    for (GAD_DrawingOrder.GOCA_Point p : markerPoints) {
+      if (p == null) continue;
+      float px = p.xCoordinate();
+      float py = p.yCoordinate();
+
+      // Symbol Set X'00' (Standard GOCA markers)
+      switch (symbol) {
+        case 1 -> { // Cross (X)
+          currentCanvas.moveTo(px - half, py - half).lineTo(px + half, py + half);
+          currentCanvas.moveTo(px + half, py - half).lineTo(px - half, py + half);
+          currentCanvas.stroke();
+        }
+        case 2 -> { // Plus (+)
+          currentCanvas.moveTo(px - half, py).lineTo(px + half, py);
+          currentCanvas.moveTo(px, py - half).lineTo(px, py + half);
+          currentCanvas.stroke();
+        }
+        case 3 -> { // Diamond
+          currentCanvas.moveTo(px, py - half).lineTo(px + half, py).lineTo(px, py + half).lineTo(px - half, py).closePath();
+          currentCanvas.stroke();
+        }
+        case 4 -> { // Square
+          currentCanvas.rectangle(px - half, py - half, size, size);
+          currentCanvas.stroke();
+        }
+        case 9 -> { // Dot
+          currentCanvas.circle(px, py, half / 2.0f);
+          currentCanvas.fill();
+        }
+        default -> {
+          // Fallback to Dot for other symbols for now
+          currentCanvas.circle(px, py, 20);
+          currentCanvas.fill();
+        }
+      }
+      graphicsState.setCurrentX(p.xCoordinate());
+      graphicsState.setCurrentY(p.yCoordinate());
+    }
+  }
+
+  private void renderGocaText(String text, int x, int y) {
+    if (text == null || text.isEmpty() || currentCanvas == null) {
+      return;
+    }
+    applyGraphicsState();
+    PdfFont font = resolveFont(graphicsState.getCharacterSet());
+    float fontSize = 100.0f; // Default font size for GOCA text
+
+    currentCanvas.beginText()
+        .setFontAndSize(font, fontSize)
+        .setTextMatrix(1, 0, 0, -1, x, y)
+        .showText(text)
+        .endText();
+
+    // Update current position based on text width (approximation)
+    float textWidth = font.getWidth(text, fontSize);
+    graphicsState.setCurrentX(x + Math.round(textWidth));
+    graphicsState.setCurrentY(y);
   }
 
   private void renderFullArc(int xc, int yc, short multiplierInt, short multiplierFrac) {
