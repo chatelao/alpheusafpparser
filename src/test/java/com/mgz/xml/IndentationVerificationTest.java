@@ -18,7 +18,7 @@ public class IndentationVerificationTest {
   @Test
   public void testCompactOutputByDefault() throws Exception {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos, null, false, false, false)) {
+    try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos, null, false, false)) {
       BDT_BeginDocument bdt = new BDT_BeginDocument();
       bdt.setName("DOC001");
       writer.handle(bdt);
@@ -33,7 +33,7 @@ public class IndentationVerificationTest {
   @Test
   public void testIndentedOutputWhenEnabled() throws Exception {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos, null, false, false, true)) {
+    try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos, null, false, true)) {
       BDT_BeginDocument bdt = new BDT_BeginDocument();
       bdt.setName("DOC001");
       writer.handle(bdt);
@@ -48,7 +48,7 @@ public class IndentationVerificationTest {
   @Test
   public void testJacksonIndentation() throws Exception {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos, null, false, false, true)) {
+    try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baos, null, false, true)) {
       BPG_BeginPage bpg = new BPG_BeginPage();
       bpg.setName("PAGE001");
       writer.handle(bpg);

@@ -35,7 +35,7 @@ public class DirectStreamEncodingTest {
   @Test
   public void testDirectEbcdicEncoding() throws Exception {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    XMLOutputFactory xof = JacksonXmlMapperProvider.getOutputFactory(true); // Woodstox
+    XMLOutputFactory xof = JacksonXmlMapperProvider.getOutputFactory();
     XMLStreamWriter2 rawXsw = (XMLStreamWriter2) xof.createXMLStreamWriter(baos, "UTF-8");
 
     AfpXmlStreamWriter afpXsw = new AfpXmlStreamWriter(rawXsw, baos);
@@ -67,7 +67,7 @@ public class DirectStreamEncodingTest {
   @Test
   public void testSanitization() throws Exception {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    XMLOutputFactory xof = JacksonXmlMapperProvider.getOutputFactory(true);
+    XMLOutputFactory xof = JacksonXmlMapperProvider.getOutputFactory();
     XMLStreamWriter2 rawXsw = (XMLStreamWriter2) xof.createXMLStreamWriter(baos, "UTF-8");
 
     AfpXmlStreamWriter afpXsw = new AfpXmlStreamWriter(rawXsw, baos);

@@ -6,14 +6,14 @@ This audit evaluates the implementation of Jackson XML serialization in the Alph
 ## 2. Current Implementation Overview
 The core of the Jackson implementation resides in:
 - `JacksonXmlMapperProvider`: Manages singleton `XmlMapper` instances.
-- `AfpJacksonXmlWriter`: A hybrid streaming writer using StAX (`Aalto-XML`) for document structure and manual fast-paths, while delegating to Jackson for individual objects.
+- `AfpJacksonXmlWriter`: A hybrid streaming writer using StAX (`Woodstox`) for document structure and manual fast-paths, while delegating to Jackson for individual objects.
 - Domain classes (`StructuredField`, `Triplet`, `PTOCAControlSequence`): Annotated with Jackson-specific annotations.
 
 ## 3. Best Practices Adherence
 
 ### 3.1. Mapper Management (Excellent)
 - **Singleton Pattern**: `JacksonXmlMapperProvider` correctly implements a thread-safe singleton for `XmlMapper`.
-- **High-Performance Backend**: Using `com.fasterxml.aalto.stax.InputFactoryImpl` and `OutputFactoryImpl` ensures the fastest possible StAX processing.
+- **High-Performance Backend**: Using `com.ctc.wstx.stax.WstxInputFactory` and `WstxOutputFactory` ensures the fastest possible StAX processing.
 - **Mapper Reuse**: The project uses `mapper.copy()` to create variants (e.g., for fragments), which is a thread-safe and efficient way to manage different configurations.
 
 ### 3.2. Streaming Integration (Excellent)

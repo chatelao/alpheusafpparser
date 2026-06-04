@@ -13,7 +13,7 @@ A pure file copy has a 1:1 I/O ratio (Input Size == Output Size). In contrast, A
 A file copy (especially using `FileChannel.transferTo`) can often be performed with minimal CPU involvement (zero-copy). Conversion requires:
 - **Parsing:** Decoding the binary AFP Structured Field Introducers (SFI) and triplets.
 - **PTOCA/GOCA Decoding:** High-frequency control sequences (like `AMI`, `RMI`) must be parsed and mapped to XML attributes or elements.
-- **XML Serialization:** Using Jackson/StAX2 (Aalto or Woodstox) to generate well-formed XML, which involves string encoding, escaping, and buffering.
+- **XML Serialization:** Using Jackson/StAX2 (Woodstox) to generate well-formed XML, which involves string encoding, escaping, and buffering.
 - **Sanitization:** The `SanitizingXMLStreamWriter` checks for invalid XML characters in every text segment.
 
 ## 3. Memory Allocation and Garbage Collection

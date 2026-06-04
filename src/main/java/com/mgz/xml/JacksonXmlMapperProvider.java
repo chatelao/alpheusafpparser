@@ -19,8 +19,6 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.xml;
 
-import com.fasterxml.aalto.stax.InputFactoryImpl;
-import com.fasterxml.aalto.stax.OutputFactoryImpl;
 import com.ctc.wstx.stax.WstxInputFactory;
 import com.ctc.wstx.stax.WstxOutputFactory;
 import javax.xml.stream.XMLInputFactory;
@@ -41,46 +39,30 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class JacksonXmlMapperProvider {
 
-  private static final InputFactoryImpl AALTO_INPUT_FACTORY = new InputFactoryImpl();
-  private static final OutputFactoryImpl AALTO_OUTPUT_FACTORY = new OutputFactoryImpl();
-  private static final WstxInputFactory WOODSTOX_INPUT_FACTORY = new WstxInputFactory();
-  private static final WstxOutputFactory WOODSTOX_OUTPUT_FACTORY = new WstxOutputFactory();
+  private static final WstxInputFactory INPUT_FACTORY = new WstxInputFactory();
+  private static final WstxOutputFactory OUTPUT_FACTORY = new WstxOutputFactory();
 
   private static final XmlMapper XML_MAPPER;
   private static final XmlMapper FRAGMENT_MAPPER;
 
-  private static final XmlMapper WOODSTOX_MAPPER;
-  private static final XmlMapper WOODSTOX_FRAGMENT_MAPPER;
-
   private static final ConcurrentHashMap<Class<?>, ObjectWriter> WRITER_CACHE = new ConcurrentHashMap<>();
   private static final ConcurrentHashMap<Class<?>, ObjectWriter> FRAGMENT_WRITER_CACHE = new ConcurrentHashMap<>();
-  private static final ConcurrentHashMap<Class<?>, ObjectWriter> WOODSTOX_WRITER_CACHE = new ConcurrentHashMap<>();
-  private static final ConcurrentHashMap<Class<?>, ObjectWriter> WOODSTOX_FRAGMENT_WRITER_CACHE = new ConcurrentHashMap<>();
 
   private static final ConcurrentHashMap<Class<?>, ObjectWriter> INDENT_WRITER_CACHE = new ConcurrentHashMap<>();
   private static final ConcurrentHashMap<Class<?>, ObjectWriter> FRAGMENT_INDENT_WRITER_CACHE = new ConcurrentHashMap<>();
-  private static final ConcurrentHashMap<Class<?>, ObjectWriter> WOODSTOX_INDENT_WRITER_CACHE = new ConcurrentHashMap<>();
-  private static final ConcurrentHashMap<Class<?>, ObjectWriter> WOODSTOX_FRAGMENT_INDENT_WRITER_CACHE = new ConcurrentHashMap<>();
 
   static {
-    AALTO_OUTPUT_FACTORY.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, false);
+    OUTPUT_FACTORY.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, false);
     try {
-      AALTO_OUTPUT_FACTORY.setProperty("org.codehaus.stax2.validation.checkStructure", false);
+      OUTPUT_FACTORY.setProperty("com.ctc.wstx.addSpaceAfterEmptyElem", false);
+      OUTPUT_FACTORY.setProperty("com.ctc.wstx.useDoubleQuotesInXmlDecl", true);
+      OUTPUT_FACTORY.setProperty("com.ctc.wstx.outputBufferSize", 65536);
+      OUTPUT_FACTORY.setProperty("org.codehaus.stax2.validation.checkStructure", false);
     } catch (Exception e) {
       // Ignore
     }
 
-    WOODSTOX_OUTPUT_FACTORY.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, false);
-    try {
-      WOODSTOX_OUTPUT_FACTORY.setProperty("com.ctc.wstx.addSpaceAfterEmptyElem", false);
-      WOODSTOX_OUTPUT_FACTORY.setProperty("com.ctc.wstx.useDoubleQuotesInXmlDecl", true);
-      WOODSTOX_OUTPUT_FACTORY.setProperty("com.ctc.wstx.outputBufferSize", 65536);
-      WOODSTOX_OUTPUT_FACTORY.setProperty("org.codehaus.stax2.validation.checkStructure", false);
-    } catch (Exception e) {
-      // Ignore
-    }
-
-    XML_MAPPER = XmlMapper.builder(new XmlFactory(AALTO_INPUT_FACTORY, AALTO_OUTPUT_FACTORY))
+    XML_MAPPER = XmlMapper.builder(new XmlFactory(INPUT_FACTORY, OUTPUT_FACTORY))
         .nameForTextElement("text")
         .enable(StreamWriteFeature.USE_FAST_DOUBLE_WRITER)
         .addModule(new BlackbirdModule())
@@ -95,19 +77,6 @@ public class JacksonXmlMapperProvider {
     FRAGMENT_MAPPER.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, false);
     // Avoid "Trying to output second root" in fragment mode
     FRAGMENT_MAPPER.configure(SerializationFeature.WRITE_SINGLE_ELEM_ARRAYS_UNWRAPPED, true);
-
-    WOODSTOX_MAPPER = XmlMapper.builder(new XmlFactory(WOODSTOX_INPUT_FACTORY, WOODSTOX_OUTPUT_FACTORY))
-        .nameForTextElement("text")
-        .enable(StreamWriteFeature.USE_FAST_DOUBLE_WRITER)
-        .addModule(new BlackbirdModule())
-        .build();
-    WOODSTOX_MAPPER.disable(SerializationFeature.INDENT_OUTPUT);
-    WOODSTOX_MAPPER.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
-    WOODSTOX_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-
-    WOODSTOX_FRAGMENT_MAPPER = WOODSTOX_MAPPER.copy();
-    WOODSTOX_FRAGMENT_MAPPER.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, false);
-    WOODSTOX_FRAGMENT_MAPPER.configure(SerializationFeature.WRITE_SINGLE_ELEM_ARRAYS_UNWRAPPED, true);
   }
 
   /**
@@ -116,17 +85,7 @@ public class JacksonXmlMapperProvider {
    * @return the XmlMapper
    */
   public static XmlMapper getMapper() {
-    return getMapper(false);
-  }
-
-  /**
-   * Returns the singleton {@link XmlMapper} instance based on the backend choice.
-   *
-   * @param useWoodstox if true, return Woodstox mapper
-   * @return the XmlMapper
-   */
-  public static XmlMapper getMapper(boolean useWoodstox) {
-    return useWoodstox ? WOODSTOX_MAPPER : XML_MAPPER;
+    return XML_MAPPER;
   }
 
   /**
@@ -135,91 +94,48 @@ public class JacksonXmlMapperProvider {
    * @return the fragment XmlMapper
    */
   public static XmlMapper getFragmentMapper() {
-    return getFragmentMapper(false);
-  }
-
-  /**
-   * Returns the singleton {@link XmlMapper} instance configured for fragment writing based on the backend choice.
-   *
-   * @param useWoodstox if true, return Woodstox fragment mapper
-   * @return the fragment XmlMapper
-   */
-  public static XmlMapper getFragmentMapper(boolean useWoodstox) {
-    return useWoodstox ? WOODSTOX_FRAGMENT_MAPPER : FRAGMENT_MAPPER;
+    return FRAGMENT_MAPPER;
   }
 
   /**
    * Returns a pre-cached {@link ObjectWriter} for the given class and configuration.
    *
    * @param clazz the class to get the writer for
-   * @param useWoodstox if true, use Woodstox backend
-   * @param fragment if true, use fragment configuration
-   * @return the cached ObjectWriter
-   * @deprecated Use {@link #getCachedWriter(Class, boolean, boolean, boolean)} instead.
-   */
-  @Deprecated
-  public static ObjectWriter getCachedWriter(Class<?> clazz, boolean useWoodstox, boolean fragment) {
-    return getCachedWriter(clazz, useWoodstox, fragment, false);
-  }
-
-  /**
-   * Returns a pre-cached {@link ObjectWriter} for the given class and configuration.
-   *
-   * @param clazz the class to get the writer for
-   * @param useWoodstox if true, use Woodstox backend
    * @param fragment if true, use fragment configuration
    * @param indent if true, enable indentation
    * @return the cached ObjectWriter
    */
-  public static ObjectWriter getCachedWriter(Class<?> clazz, boolean useWoodstox, boolean fragment, boolean indent) {
-    if (useWoodstox) {
-      if (fragment) {
-        if (indent) {
-          return WOODSTOX_FRAGMENT_INDENT_WRITER_CACHE.computeIfAbsent(clazz,
-              c -> WOODSTOX_FRAGMENT_MAPPER.writerFor(c).with(SerializationFeature.INDENT_OUTPUT));
-        }
-        return WOODSTOX_FRAGMENT_WRITER_CACHE.computeIfAbsent(clazz, WOODSTOX_FRAGMENT_MAPPER::writerFor);
-      } else {
-        if (indent) {
-          return WOODSTOX_INDENT_WRITER_CACHE.computeIfAbsent(clazz,
-              c -> WOODSTOX_MAPPER.writerFor(c).with(SerializationFeature.INDENT_OUTPUT));
-        }
-        return WOODSTOX_WRITER_CACHE.computeIfAbsent(clazz, WOODSTOX_MAPPER::writerFor);
+  public static ObjectWriter getCachedWriter(Class<?> clazz, boolean fragment, boolean indent) {
+    if (fragment) {
+      if (indent) {
+        return FRAGMENT_INDENT_WRITER_CACHE.computeIfAbsent(clazz,
+            c -> FRAGMENT_MAPPER.writerFor(c).with(SerializationFeature.INDENT_OUTPUT));
       }
+      return FRAGMENT_WRITER_CACHE.computeIfAbsent(clazz, FRAGMENT_MAPPER::writerFor);
     } else {
-      if (fragment) {
-        if (indent) {
-          return FRAGMENT_INDENT_WRITER_CACHE.computeIfAbsent(clazz,
-              c -> FRAGMENT_MAPPER.writerFor(c).with(SerializationFeature.INDENT_OUTPUT));
-        }
-        return FRAGMENT_WRITER_CACHE.computeIfAbsent(clazz, FRAGMENT_MAPPER::writerFor);
-      } else {
-        if (indent) {
-          return INDENT_WRITER_CACHE.computeIfAbsent(clazz,
-              c -> XML_MAPPER.writerFor(c).with(SerializationFeature.INDENT_OUTPUT));
-        }
-        return WRITER_CACHE.computeIfAbsent(clazz, XML_MAPPER::writerFor);
+      if (indent) {
+        return INDENT_WRITER_CACHE.computeIfAbsent(clazz,
+            c -> XML_MAPPER.writerFor(c).with(SerializationFeature.INDENT_OUTPUT));
       }
+      return WRITER_CACHE.computeIfAbsent(clazz, XML_MAPPER::writerFor);
     }
   }
 
   /**
-   * Returns the XML output factory based on the backend choice.
+   * Returns the XML output factory.
    *
-   * @param useWoodstox if true, return Woodstox factory
    * @return the XMLOutputFactory
    */
-  public static XMLOutputFactory getOutputFactory(boolean useWoodstox) {
-    return useWoodstox ? WOODSTOX_OUTPUT_FACTORY : AALTO_OUTPUT_FACTORY;
+  public static XMLOutputFactory getOutputFactory() {
+    return OUTPUT_FACTORY;
   }
 
   /**
-   * Returns the XML input factory based on the backend choice.
+   * Returns the XML input factory.
    *
-   * @param useWoodstox if true, return Woodstox factory
    * @return the XMLInputFactory
    */
-  public static XMLInputFactory getInputFactory(boolean useWoodstox) {
-    return useWoodstox ? WOODSTOX_INPUT_FACTORY : AALTO_INPUT_FACTORY;
+  public static XMLInputFactory getInputFactory() {
+    return INPUT_FACTORY;
   }
 }

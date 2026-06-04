@@ -59,7 +59,7 @@ public class IndentationPerformanceTest {
             public void write(byte[] b, int off, int len) {}
         };
 
-        try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(os, null, false, false, indent)) {
+        try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(os, null, false, indent)) {
             StructuredField sf;
             while ((sf = parser.parseNextSF()) != null) {
                 writer.handle(sf);

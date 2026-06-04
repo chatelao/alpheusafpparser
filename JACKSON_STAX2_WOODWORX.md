@@ -10,7 +10,7 @@ This document proposes advanced performance patterns for the Jackson XML, StAX2,
 - Register the module in `JacksonXmlMapperProvider.java`.
 
 ```java
-XML_MAPPER = XmlMapper.builder(new XmlFactory(new InputFactoryImpl(), new OutputFactoryImpl()))
+XML_MAPPER = XmlMapper.builder(new XmlFactory(new WstxInputFactory(), new WstxOutputFactory()))
     .addModule(new BlackbirdModule())
     .build();
 ```
@@ -23,7 +23,7 @@ XML_MAPPER = XmlMapper.builder(new XmlFactory(new InputFactoryImpl(), new Output
 - Use `writer.writeValue(generator, value)` to reuse the writer and generator.
 
 ## 3. StAX2 Typed Attribute Access
-**Description:** StAX2 (supported by Woodstox and Aalto) provides a Typed Access API. While Alpheus already uses `writeInt` and `writeLong` for elements, it can further optimize compact attribute-based fast-paths.
+**Description:** StAX2 (supported by Woodstox) provides a Typed Access API. While Alpheus already uses `writeInt` and `writeLong` for elements, it can further optimize compact attribute-based fast-paths.
 **Benefit:** `writeIntAttribute` and `writeLongAttribute` avoid the creation of temporary `String` objects (e.g., `String.valueOf(int)`) when writing attributes for sequences like `AMI`, `RMI`, or `SCFL`.
 **Proposal:**
 - Update `AfpJacksonXmlWriter.java` fast-paths to use `XMLStreamWriter2` typed attribute methods.
