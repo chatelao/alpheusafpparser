@@ -1137,17 +1137,17 @@ public abstract class GDD_Parameter implements IAFPDecodeableWriteable {
 
   public static class DrawingOrderSubsetParameterRetired extends GDD_Parameter {
     @AFPField
-    short drawingOrderSubset;
+    public short drawingOrderSubset;
     @AFPField(size = 2)
-    byte[] reserved3_4;
+    public byte[] reserved3_4;
     @AFPField
-    short subsetLevel;
+    public short subsetLevel;
     @AFPField
-    short version;
+    public short version;
     @AFPField
-    short lengthOfFollowingField;
+    public short lengthOfFollowingField;
     @AFPField
-    short coordinateFormat;
+    public short coordinateFormat;
 
     public DrawingOrderSubsetParameterRetired() {
       parameterType = PARAMETERTYPE_DrawingOrderSubset_RETIRED;
