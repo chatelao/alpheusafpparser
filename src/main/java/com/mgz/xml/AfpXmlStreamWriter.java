@@ -267,4 +267,26 @@ public class AfpXmlStreamWriter extends SanitizingXMLStreamWriter {
       throw new XMLStreamException("Failed to write direct EBCDIC stream", e);
     }
   }
+
+  /**
+   * Returns the underlying output stream.
+   *
+   * @return the output stream
+   */
+  public OutputStream getUnderlyingOutputStream() {
+    return (woodstoxOs != null) ? woodstoxOs : fallbackOs;
+  }
+
+  /**
+   * Ensures that the current XML state is flushed to the underlying stream.
+   *
+   * @throws XMLStreamException if flushing fails
+   */
+  public void ensureFlushed() throws XMLStreamException {
+    if (needsFlush) {
+      delegate.writeRaw(""); // Force closure of pending start tag
+      delegate.flush();
+      needsFlush = false;
+    }
+  }
 }
