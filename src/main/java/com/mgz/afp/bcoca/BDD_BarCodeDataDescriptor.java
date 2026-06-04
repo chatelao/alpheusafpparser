@@ -89,11 +89,30 @@ public class BDD_BarCodeDataDescriptor extends StructuredField implements IHasTr
 
     unitsPerUnitBaseX = UtilBinaryDecoding.parseShort(sfData, offset + 2, 2);
     unitsPerUnitBaseY = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
+    if (unitsPerUnitBaseX != unitsPerUnitBaseY) {
+      // [BCOCA-4-011] EC-0605
+      throw new AFPParserException("EC-0605: For a Bar Code Data Descriptor, the X-direction and Y-direction units per unit base must be equal.");
+    }
     presentationSpaceWidth = UtilBinaryDecoding.parseInt(sfData, offset + 6, 2);
     presentationSpaceLength = UtilBinaryDecoding.parseInt(sfData, offset + 8, 2);
     desiredSymbolWidth = UtilBinaryDecoding.parseShort(sfData, offset + 10, 2);
     barcodeType = BarCodeType.valueOf(sfData[offset + 12]);
+    if (barcodeType == null) {
+      // [BCOCA-4-032] EC-0300
+      throw new AFPParserException("EC-0300: For a Bar Code Data Descriptor, the bar code type specified is invalid: " + String.format("X'%02X'", sfData[offset + 12]));
+    }
     barcodeModifier = sfData[offset + 13];
+    boolean modifierValid = false;
+    for (byte b : barcodeType.getPossibleBarCodeModifier()) {
+      if (b == barcodeModifier) {
+        modifierValid = true;
+        break;
+      }
+    }
+    if (!modifierValid) {
+      // [BCOCA-4-016] EC-0B00
+      throw new AFPParserException("EC-0B00: For a Bar Code Data Descriptor, the bar code modifier specified is invalid for the bar code type: " + String.format("X'%02X'", barcodeModifier));
+    }
     fontLocalIDForHRI = UtilBinaryDecoding.parseShort(sfData, offset + 14, 1);
     color = UtilBinaryDecoding.parseInt(sfData, offset + 15, 2);
     moduleWidthInMils = UtilBinaryDecoding.parseShort(sfData, offset + 17, 1);
@@ -325,11 +344,17 @@ public class BDD_BarCodeDataDescriptor extends StructuredField implements IHasTr
     int code;
     boolean isBCD1;
     boolean isBCD2;
+    byte[] possibleBarCodeModifier;
 
-    BarCodeType(int code, boolean isBCD1, boolean isBCD2, byte[] possibleBarCodeModfier) {
+    BarCodeType(int code, boolean isBCD1, boolean isBCD2, byte[] possibleBarCodeModifier) {
       this.code = code;
       this.isBCD1 = isBCD1;
       this.isBCD2 = isBCD2;
+      this.possibleBarCodeModifier = possibleBarCodeModifier;
+    }
+
+    public byte[] getPossibleBarCodeModifier() {
+      return possibleBarCodeModifier;
     }
 
     public static BarCodeType valueOf(int barcodeTypeCode) {

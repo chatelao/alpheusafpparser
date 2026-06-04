@@ -107,12 +107,12 @@
 | BCOCA-4-008 | Byte 0 Unit base: Indicates the length of the measurement unit base. (EC-0505 validated) | ✅ |
 | BCOCA-4-009 | Byte 1: Reserved. | ✅ |
 | BCOCA-4-010 | Bytes 2–3 Xupub: Specifies the number of units per unit base in the Xbc direction. | ✅ |
-| BCOCA-4-011 | Bytes 4–5 Yupub: Specifies the number of units per unit base in the Ybc direction and must be equal to Xupub. | ✅ |
+| BCOCA-4-011 | Bytes 4–5 Yupub: Specifies the number of units per unit base in the Ybc direction and must be equal to Xupub. (EC-0605 validated) | ✅ |
 | BCOCA-4-012 | Bytes 6–7 X extent: Width of bar code presentation space in L-units. | ✅ |
 | BCOCA-4-013 | Bytes 8–9 Y extent: Length of bar code presentation space in L-units. | ✅ |
 | BCOCA-4-014 | Bytes 10–11 Symbol width: Desired symbol width. | ✅ |
 | BCOCA-4-015 | Byte 12 Type: Bar code type. | ✅ |
-| BCOCA-4-016 | Byte 13 Modifier: Bar code modifier. | ✅ |
+| BCOCA-4-016 | Byte 13 Modifier: Bar code modifier. (EC-0B00 validated) | ✅ |
 | BCOCA-4-017 | Byte 14 Local ID: Font Local ID for HRI. | ✅ |
 | BCOCA-4-018 | Bytes 15–16 Color: Bar code color. | ✅ |
 | BCOCA-4-019 | Byte 17 Module width: Module width in mils. | ✅ |
@@ -128,7 +128,7 @@
 | BCOCA-4-029 | The module-width value is used when the printer cannot generate a symbol that fits within the desired width (standard action for EC-0611). | ❓ |
 | BCOCA-4-030 | The module-width value is used when the bar code object is sent to a BCOCA receiver that does not support the desired-symbol-width parameter. | ❓ |
 | BCOCA-4-031 | The module-width value is used when X'0000' is specified in the desired-symbol-width field. | ✅ |
-| BCOCA-4-032 | Byte 12 (Type) indicates the type of bar code symbol to be generated. | ✅ |
+| BCOCA-4-032 | Byte 12 (Type) indicates the type of bar code symbol to be generated. (EC-0300 validated) | ✅ |
 | BCOCA-4-033 | Bar Code Type X'01' (Code 39) is in BCD1 and BCD2 subsets. | ✅ |
 | BCOCA-4-034 | Bar Code Type X'02' (MSI) is in BCD1 and BCD2 subsets. | ✅ |
 | BCOCA-4-035 | Bar Code Type X'03' (UPC-A) is in BCD1 and BCD2 subsets. | ✅ |
@@ -162,7 +162,7 @@
 | BCOCA-4-307 | Bar Code Symbol Data (BSA) data structure. | ✅ |
 | BCOCA-4-308 | Byte 0: Bar code flags. | ✅ |
 | BCOCA-4-309 | Bit 0: HRI presentation. | ✅ |
-| BCOCA-4-310 | Bits 1–2: Position of HRI. | ✅ |
+| BCOCA-4-310 | Bits 1–2: Position of HRI. (EC-1000 validated) | ✅ |
 | BCOCA-4-311 | Bit 3: SSCAST asterisk presentation. | ✅ |
 | BCOCA-4-312 | Bit 4: Reserved/Retired. | ✅ |
 | BCOCA-4-313 | Bit 5: Suppress bar code symbol. | ✅ |
@@ -182,7 +182,7 @@
 | BCOCA-5-007 | EC-0F0A: Incompatible Data Matrix parameters: macro with structured append, FNC1 or reader programming. | ✅ |
 | BCOCA-5-008 | Specification-Check Exceptions cont. | ✅ |
 | BCOCA-5-009 | EC-0F18/0F19/0F1A/0F1B/0F1C (Aztec), EC-0F22/0F23/0F24/0F25 (Han Xin). | ✅ |
-| BCOCA-5-010 | Specification-Check Exceptions cont. | ✅ |
+| BCOCA-5-010 | Specification-Check Exceptions cont. (EC-0F0F, EC-0F10 validated) | ✅ |
 | BCOCA-5-011 | EC-1100: Bar code extends outside the bar code presentation space. | ❓ |
 | BCOCA-5-012 | EC-1100: Bar code extends outside the intersection of the mapped bar code presentation space and the controlling environment object area. | ❓ |
 | BCOCA-5-013 | EC-1100: Bar code extends outside the maximum presentation area. | ❓ |

@@ -19,6 +19,8 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.bcoca;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.mgz.afp.exceptions.AFPParserException;
@@ -454,5 +456,90 @@ public class BCOCAChapter5Test {
         assertThrows(AFPParserException.class, () -> {
             bda.decodeAFP(data, 5, 10, config);
         });
+    }
+
+    @Test
+    public void testBDDInvalidBarcodeType() {
+        // [BCOCA-4-032] EC-0300: Invalid bar code type
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        byte[] data = new byte[23];
+        data[0] = 0x00; // Inches10
+        data[12] = (byte) 0xFF; // Invalid BarCodeType
+        assertThrows(AFPParserException.class, () -> {
+            bdd.decodeAFP(data, 0, 23, new AFPParserConfiguration());
+        }, "Should throw EC-0300 for invalid barcode type");
+    }
+
+    @Test
+    public void testBDDInvalidBarcodeModifier() {
+        // [BCOCA-4-016] EC-0B00: Invalid bar code modifier
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        byte[] data = new byte[23];
+        data[0] = 0x00; // Inches10
+        data[12] = 0x03; // UPC_CGPC_VersionA
+        data[13] = 0x01; // Invalid modifier for UPC-A (only 0x00 is valid)
+        assertThrows(AFPParserException.class, () -> {
+            bdd.decodeAFP(data, 0, 23, new AFPParserConfiguration());
+        }, "Should throw EC-0B00 for invalid barcode modifier");
+    }
+
+    @Test
+    public void testBDDIncompatibleUnits() {
+        // [BCOCA-4-011] EC-0605: Mismatched units per unit base
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        byte[] data = new byte[23];
+        data[0] = 0x00; // Inches10
+        data[2] = 0x05;
+        data[3] = (byte) 0xA0; // X = 1440
+        data[4] = 0x00;
+        data[5] = 0x01; // Y = 1 (Invalid, must be 1440)
+        assertThrows(AFPParserException.class, () -> {
+            bdd.decodeAFP(data, 0, 23, new AFPParserConfiguration());
+        }, "Should throw EC-0605 for mismatched units");
+    }
+
+    @Test
+    public void testBDAIncompatibleHRIPosition() {
+        // [BCOCA-4-310] EC-1000: HRI position bits both B'1'
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[5];
+        data[0] = 0x60; // Bits 1 and 2 are set (Above and Below)
+        assertThrows(AFPParserException.class, () -> {
+            bda.decodeAFP(data, 0, 5, new AFPParserConfiguration());
+        }, "Should throw EC-1000 for incompatible HRI position bits");
+    }
+
+    @Test
+    public void testBDAParametersQRInvalidVersionStandardAction() throws AFPParserException {
+        // [BCOCA-5-010] EC-0F0F: QR Code invalid version. Standard Action: use 0.
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[14];
+        data[7] = 41; // Invalid version (max 40)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.QRCode_2D);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        bda.decodeAFP(data, 0, 14, config);
+        assertNotNull(bda.parametersData);
+        assertEquals(0, ((BDA_BarCodeData.ParametersDataQRCode_2D) bda.parametersData).versionOfSymbol);
+    }
+
+    @Test
+    public void testBDAParametersQRInvalidECStandardAction() throws AFPParserException {
+        // [BCOCA-5-010] EC-0F10: QR Code invalid EC. Standard Action: use 3 (LevelH).
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[14];
+        data[8] = 4; // Invalid EC level (0-3)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.QRCode_2D);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        bda.decodeAFP(data, 0, 14, config);
+        assertNotNull(bda.parametersData);
+        assertEquals(BDA_BarCodeData.ParametersDataQRCode_2D.ErrorCorrectionLevel.LevelH, ((BDA_BarCodeData.ParametersDataQRCode_2D) bda.parametersData).errorCorrectionLevel);
     }
 }
