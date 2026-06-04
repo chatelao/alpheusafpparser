@@ -652,7 +652,7 @@
 | MODCA-5-146 | Structured Field Data | ❓ |
 | MODCA-5-147 | Offset   Type   Name   Range   Meaning   M/O   Exc | ❓ |
 | MODCA-5-148 | :---   :---   :---   :---   :---   :---:   :---: | ❓ |
-| MODCA-5-149 | 0–7   CHAR   MMName     Name of the medium map   M   X'06' | ❓ |
+| MODCA-5-149 | 0–7   CHAR   MMName     Name of the medium map   M   X'06' | ✅ |
 | MODCA-5-150 | 8–n   Triplets       See BMM Semantics for triplet applicability   O   X'10' | ❓ |
 | MODCA-5-151 | A medium map resource object must be terminated with a subsequent matching End Medium Map structu... | ❓ |
 | MODCA-5-152 | Triplets Appear as follows: | ❓ |
