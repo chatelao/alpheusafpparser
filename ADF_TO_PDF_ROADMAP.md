@@ -111,6 +111,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
 - ⏳ **BCOCA Renderer**: Implement barcode drawing using vector primitives for resolution independence.
     - ✅ **BCOCA State Tracking**: Implement tracking of barcode descriptors (`BDD`) and data (`BDA`) including type, modifier, and font for HRI.
     - 🚧 **Linear Barcode Support**: Implement rendering for common linear barcodes. (Basic set implemented).
+        - ✅ **Codabar**: Implement rendering for Codabar barcodes.
         - ✅ **Code 39**: Implement rendering for Code 39 (3 of 9) barcodes.
         - ✅ **Interleaved 2 of 5**: Implement rendering for Interleaved 2 of 5 (ITF) barcodes.
         - ✅ **UPC-A**: Implement rendering for UPC-A barcodes.

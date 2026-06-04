@@ -1190,6 +1190,34 @@ public class PdfHandlerStructureTest {
   }
 
   @Test
+  public void testCodabarBarcodeRendering() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+    bdd.setStructuredFieldIntroducer(createSfi(SFTypeID.BDD_BarCodeDataDescriptor));
+    bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.Codabar_2of7_AIM_USS_Codabar);
+    handler.handle(bdd);
+
+    BBC_BeginBarCodeObject bbc = new BBC_BeginBarCodeObject();
+    bbc.setStructuredFieldIntroducer(createSfi(SFTypeID.BBC_BeginBarCodeObject));
+    handler.handle(bbc);
+
+    BDA_BarCodeData bda = new BDA_BarCodeData();
+    bda.setStructuredFieldIntroducer(createSfi(SFTypeID.BDA_BarCodeData));
+    bda.barCodeData = "A12345B".getBytes();
+    handler.handle(bda);
+
+    EBC_EndBarCodeObject ebc = new EBC_EndBarCodeObject();
+    ebc.setStructuredFieldIntroducer(createSfi(SFTypeID.EBC_EndBarCodeObject));
+    handler.handle(ebc);
+
+    assertEquals(5, handler.getFieldCount());
+  }
+
+  @Test
   public void testCode128BarcodeRendering() throws Exception {
     PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
     BPG_BeginPage bpg = new BPG_BeginPage();
