@@ -28,8 +28,12 @@ import com.mgz.afp.base.RepeatingGroupWithTriplets;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.StructuredFieldBaseData;
 import com.mgz.afp.foca.FNC_FontControl;
+import com.mgz.afp.goca.BGR_BeginGraphicsObject;
+import com.mgz.afp.goca.EGR_EndGraphicsObject;
 import com.mgz.afp.goca.GAD_DrawingOrder;
 import com.mgz.afp.goca.GAD_GraphicsData;
+import com.mgz.afp.goca.GDD_GraphicsDataDescriptor;
+import com.mgz.afp.goca.GDD_Parameter;
 import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
 import com.mgz.afp.ioca.IDD_SelfDefiningField;
 import com.mgz.afp.ioca.IPD_ImagePictureData;
@@ -60,6 +64,10 @@ import com.mgz.afp.modca.PGP_PagePosition_Format2;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
 import com.mgz.afp.moca.MetadataObject;
 import com.mgz.afp.modca.OCD_ObjectContainerData;
+import com.mgz.afp.ptoca.BPT_BeginPresentationTextObject;
+import com.mgz.afp.ptoca.EPT_EndPresentationTextObject;
+import com.mgz.afp.ptoca.PTD_PresentationTextDataDescriptor_Format1;
+import com.mgz.afp.ptoca.PTD_PresentationTextDataDescriptor_Format2;
 import com.mgz.afp.ptoca.PTX_PresentationTextData;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.bcoca.BBC_BeginBarCodeObject;
@@ -262,6 +270,14 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeFncDirectly(fnc, level);
     } else if (sf instanceof LND_LineDescriptor lnd) {
       writeLndDirectly(lnd, level);
+    } else if (sf instanceof BPT_BeginPresentationTextObject bpt) {
+      writeNameAndTripletsDirectly(bpt, "BPT_BeginPresentationTextObject", level);
+    } else if (sf instanceof EPT_EndPresentationTextObject ept) {
+      writeNameAndTripletsDirectly(ept, "EPT_EndPresentationTextObject", level);
+    } else if (sf instanceof PTD_PresentationTextDataDescriptor_Format1 ptd) {
+      writePtdFormat1Directly(ptd, level);
+    } else if (sf instanceof PTD_PresentationTextDataDescriptor_Format2 ptd) {
+      writePtdFormat2Directly(ptd, level);
     } else if (sf instanceof GAD_GraphicsData gad) {
       writeGadDirectly(gad, level);
     } else if (sf instanceof IPD_ImagePictureData ipd) {
@@ -302,6 +318,12 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeNameAndTripletsDirectly(bng, "BNG_BeginNamedPageGroup", level);
     } else if (sf instanceof com.mgz.afp.modca.BPG_BeginPage bpg) {
       writeNameAndTripletsDirectly(bpg, "BPG_BeginPage", level);
+    } else if (sf instanceof BGR_BeginGraphicsObject bgr) {
+      writeNameAndTripletsDirectly(bgr, "BGR_BeginGraphicsObject", level);
+    } else if (sf instanceof EGR_EndGraphicsObject egr) {
+      writeNameAndTripletsDirectly(egr, "EGR_EndGraphicsObject", level);
+    } else if (sf instanceof GDD_GraphicsDataDescriptor gdd) {
+      writeGddDirectly(gdd, level);
     } else if (sf instanceof EDI_EndDocumentIndex edi) {
       writeNameDirectly(edi, "EDI_EndDocumentIndex", level);
     } else if (sf instanceof EMO_EndOverlay emo) {
@@ -1064,6 +1086,120 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       }
       if (rps.getRepeatData() != null) {
         writeBinaryElement(baseXsw, childLevel, "repeatData", rps.getRepeatData());
+      }
+      writeIndent(baseXsw, level);
+      baseXsw.writeEndElement();
+      MnemonicPerformanceMonitor.endWrite();
+    } else if (cs instanceof PTOCAControlSequence.UCT_UnicodeComplexText uct) {
+      MnemonicPerformanceMonitor.startWriteWithMnemonic("UCT");
+      baseXsw.writeStartElement("UCT_UnicodeComplexText");
+      writeElement(baseXsw, childLevel, "uctVers", uct.getUctVers());
+      writeElement(baseXsw, childLevel, "ctLength", uct.getCtLength());
+      writeElement(baseXsw, childLevel, "ctFlags", uct.getCtFlags());
+      writeElement(baseXsw, childLevel, "bidiCt", uct.getBidiCt());
+      writeElement(baseXsw, childLevel, "glyphCt", uct.getGlyphCt());
+      writeElement(baseXsw, childLevel, "altiPos", uct.getAltiPos());
+      if (uct.getComplexText() != null) {
+        writeBinaryElement(baseXsw, childLevel, "complexText", uct.getComplexText());
+      }
+      if (uct.getText() != null) {
+        writeElement(baseXsw, childLevel, "text", uct.getText());
+      }
+      writeIndent(baseXsw, level);
+      baseXsw.writeEndElement();
+      MnemonicPerformanceMonitor.endWrite();
+    } else if (cs instanceof PTOCAControlSequence.GLC_GlyphLayoutControl glc) {
+      MnemonicPerformanceMonitor.startWriteWithMnemonic("GLC");
+      baseXsw.writeStartElement("GLC_GlyphLayoutControl");
+      writeElement(baseXsw, childLevel, "iAdvance", glc.getIAdvance());
+      writeElement(baseXsw, childLevel, "oidLgth", glc.getOidLgth());
+      writeElement(baseXsw, childLevel, "ffnLgth", glc.getFfnLgth());
+      if (glc.getFontOid() != null) {
+        writeBinaryElement(baseXsw, childLevel, "fontOid", glc.getFontOid());
+      }
+      if (glc.getFfontName() != null) {
+        writeElement(baseXsw, childLevel, "ffontName", glc.getFfontName());
+      }
+      if (glc.getText() != null) {
+        writeElement(baseXsw, childLevel, "text", glc.getText());
+      }
+      writeIndent(baseXsw, level);
+      baseXsw.writeEndElement();
+      MnemonicPerformanceMonitor.endWrite();
+    } else if (cs instanceof PTOCAControlSequence.ENC_EncryptedData enc) {
+      MnemonicPerformanceMonitor.startWriteWithMnemonic("ENC");
+      baseXsw.writeStartElement("ENC_EncryptedData");
+      writeElement(baseXsw, childLevel, "reserved4_7", enc.getReserved4_7());
+      if (enc.getEncryptedData() != null) {
+        writeBinaryElement(baseXsw, childLevel, "encryptedData", enc.getEncryptedData());
+      }
+      writeIndent(baseXsw, level);
+      baseXsw.writeEndElement();
+      MnemonicPerformanceMonitor.endWrite();
+    } else if (cs instanceof PTOCAControlSequence.SKI_SetKeyInformation ski) {
+      MnemonicPerformanceMonitor.startWriteWithMnemonic("SKI");
+      baseXsw.writeStartElement("SKI_SetKeyInformation");
+      writeElement(baseXsw, childLevel, "reserved4_7", ski.getReserved4_7());
+      if (ski.getKeyInfo() != null) {
+        writeBinaryElement(baseXsw, childLevel, "keyInfo", ski.getKeyInfo());
+      }
+      writeIndent(baseXsw, level);
+      baseXsw.writeEndElement();
+      MnemonicPerformanceMonitor.endWrite();
+    } else if (cs instanceof PTOCAControlSequence.SEA_SetEncryptedAlternate sea) {
+      MnemonicPerformanceMonitor.startWriteWithMnemonic("SEA");
+      baseXsw.writeStartElement("SEA_SetEncryptedAlternate");
+      writeElement(baseXsw, childLevel, "reserved4_7", sea.getReserved4_7());
+      if (sea.getAlternateText() != null) {
+        writeBinaryElement(baseXsw, childLevel, "alternateText", sea.getAlternateText());
+      }
+      if (sea.getText() != null) {
+        writeElement(baseXsw, childLevel, "text", sea.getText());
+      }
+      writeIndent(baseXsw, level);
+      baseXsw.writeEndElement();
+      MnemonicPerformanceMonitor.endWrite();
+    } else if (cs instanceof PTOCAControlSequence.GIR_GlyphIdRun gir) {
+      MnemonicPerformanceMonitor.startWriteWithMnemonic("GIR");
+      baseXsw.writeStartElement("GIR_GlyphIdRun");
+      if (gir.getGlyphIds() != null) {
+        writeIndent(baseXsw, childLevel);
+        baseXsw.writeStartElement("glyphIds");
+        for (int id : gir.getGlyphIds()) {
+          writeElement(baseXsw, childLevel + 1, "glyphId", id);
+        }
+        writeIndent(baseXsw, childLevel);
+        baseXsw.writeEndElement();
+      }
+      writeIndent(baseXsw, level);
+      baseXsw.writeEndElement();
+      MnemonicPerformanceMonitor.endWrite();
+    } else if (cs instanceof PTOCAControlSequence.GAR_GlyphAdvanceRun gar) {
+      MnemonicPerformanceMonitor.startWriteWithMnemonic("GAR");
+      baseXsw.writeStartElement("GAR_GlyphAdvanceRun");
+      if (gar.getAdvances() != null) {
+        writeIndent(baseXsw, childLevel);
+        baseXsw.writeStartElement("advances");
+        for (short adv : gar.getAdvances()) {
+          writeElement(baseXsw, childLevel + 1, "advance", (int) adv);
+        }
+        writeIndent(baseXsw, childLevel);
+        baseXsw.writeEndElement();
+      }
+      writeIndent(baseXsw, level);
+      baseXsw.writeEndElement();
+      MnemonicPerformanceMonitor.endWrite();
+    } else if (cs instanceof PTOCAControlSequence.GOR_GlyphOffsetRun gor) {
+      MnemonicPerformanceMonitor.startWriteWithMnemonic("GOR");
+      baseXsw.writeStartElement("GOR_GlyphOffsetRun");
+      if (gor.getOffsets() != null) {
+        writeIndent(baseXsw, childLevel);
+        baseXsw.writeStartElement("offsets");
+        for (short off : gor.getOffsets()) {
+          writeElement(baseXsw, childLevel + 1, "offset", (int) off);
+        }
+        writeIndent(baseXsw, childLevel);
+        baseXsw.writeEndElement();
       }
       writeIndent(baseXsw, level);
       baseXsw.writeEndElement();
@@ -2277,6 +2413,218 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     baseXsw.writeEndElement();
     if (MnemonicPerformanceMonitor.isEnabled()) {
       MnemonicPerformanceMonitor.endWrite();
+    }
+  }
+
+  private void writePtdFormat1Directly(PTD_PresentationTextDataDescriptor_Format1 ptd, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("PTD");
+    baseXsw.writeStartElement("PTD_PresentationTextDataDescriptor_Format1");
+    int childLevel = level + 1;
+    if (ptd.getxUnitBase() != null) {
+      writeElement(baseXsw, childLevel, "xUnitBase", ptd.getxUnitBase().name());
+    }
+    if (ptd.getyUnitBase() != null) {
+      writeElement(baseXsw, childLevel, "yUnitBase", ptd.getyUnitBase().name());
+    }
+    writeElement(baseXsw, childLevel, "xUnitsPerUnitBase", ptd.getxUnitsPerUnitBase());
+    writeElement(baseXsw, childLevel, "yUnitsPerUnitBase", ptd.getyUnitsPerUnitBase());
+    writeElement(baseXsw, childLevel, "xSize", ptd.getxSize());
+    writeElement(baseXsw, childLevel, "ySize", ptd.getySize());
+    if (ptd.getReserved10_11() != null) {
+      writeBinaryElement(baseXsw, childLevel, "reserved10_11", ptd.getReserved10_11());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writePtdFormat2Directly(PTD_PresentationTextDataDescriptor_Format2 ptd, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("PTD");
+    baseXsw.writeStartElement("PTD_PresentationTextDataDescriptor_Format2");
+    int childLevel = level + 1;
+    if (ptd.getxUnitBase() != null) {
+      writeElement(baseXsw, childLevel, "xUnitBase", ptd.getxUnitBase().name());
+    }
+    if (ptd.getyUnitBase() != null) {
+      writeElement(baseXsw, childLevel, "yUnitBase", ptd.getyUnitBase().name());
+    }
+    writeElement(baseXsw, childLevel, "xUnitsPerUnitBase", ptd.getxUnitsPerUnitBase());
+    writeElement(baseXsw, childLevel, "yUnitsPerUnitBase", ptd.getyUnitsPerUnitBase());
+    writeElement(baseXsw, childLevel, "xSize", ptd.getxSize());
+    writeElement(baseXsw, childLevel, "ySize", ptd.getySize());
+    if (ptd.getReserved12_13() != null) {
+      writeBinaryElement(baseXsw, childLevel, "reserved12_13", ptd.getReserved12_13());
+    }
+    if (ptd.getControlSequences() != null) {
+      for (PTOCAControlSequence cs : ptd.getControlSequences()) {
+        writeIndent(baseXsw, childLevel);
+        writeControlSequence(cs, childLevel);
+      }
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeGddDirectly(GDD_GraphicsDataDescriptor gdd, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("GDD");
+    baseXsw.writeStartElement("GDD_GraphicsDataDescriptor");
+    int childLevel = level + 1;
+    if (gdd.getGddParameters() != null) {
+      for (GDD_Parameter param : gdd.getGddParameters()) {
+        writeGddParameterDirectly(baseXsw, param, childLevel);
+      }
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeGddParameterDirectly(XMLStreamWriter2 writer, GDD_Parameter param, int level) throws Exception {
+    int childLevel = level + 1;
+    writeIndent(writer, level);
+    if (param instanceof GDD_Parameter.SetCurrentDefaultInstruction scd) {
+      writer.writeStartElement(MnemonicPerformanceMonitor.getSimpleName(scd.getClass()));
+      writeElement(writer, childLevel, "parameterType", scd.getParameterType());
+      writeElement(writer, childLevel, "lengthOfFollowingData", scd.getLengthOfFollowingData());
+      writeElement(writer, childLevel, "attributeType", scd.getAttributeType());
+      if (scd.getMask() != null) {
+        writeBinaryElement(writer, childLevel, "mask", com.mgz.util.UtilBinaryDecoding.bitSetToByteArray(scd.getMask(), 2));
+      }
+      if (scd.getFlag() != null) {
+        writeElement(writer, childLevel, "flag", scd.getFlag().name());
+      }
+
+      if (scd instanceof GDD_Parameter.SetCurrentDefaultInstruction.DrawingAttributes da) {
+        if (da.getColor() != null) {
+          writeElement(writer, childLevel, "color", da.getColor().name());
+        }
+        if (da.getForegroundMix() != null) {
+          writeElement(writer, childLevel, "foregroundMix", da.getForegroundMix().name());
+        }
+        if (da.getBackgroundMix() != null) {
+          writeElement(writer, childLevel, "backgroundMix", da.getBackgroundMix().name());
+        }
+      } else if (scd instanceof GDD_Parameter.SetCurrentDefaultInstruction.LineAttributes la) {
+        if (la.getLineType() != null) {
+          writeElement(writer, childLevel, "lineType", la.getLineType().name());
+        }
+        if (la.getLineWidth() != null) {
+          writeElement(writer, childLevel, "lineWidth", la.getLineWidth());
+        }
+        if (la.getLineEnd() != null) {
+          writeElement(writer, childLevel, "lineEnd", la.getLineEnd().name());
+        }
+        if (la.getLineJoin() != null) {
+          writeElement(writer, childLevel, "lineJoin", la.getLineJoin().name());
+        }
+      } else if (scd instanceof GDD_Parameter.SetCurrentDefaultInstruction.CharacterAttributes ca) {
+        if (ca.getCharacterAngleXY() != null) {
+          writeElement(writer, childLevel, "characterAngleXY", ca.getCharacterAngleXY());
+        }
+        if (ca.getCharacterCellSizeWH() != null) {
+          writeElement(writer, childLevel, "characterCellSizeWH", ca.getCharacterCellSizeWH());
+        }
+        if (ca.getCharacterDirection() != null) {
+          writeElement(writer, childLevel, "characterDirection", ca.getCharacterDirection());
+        }
+        if (ca.getCharacterPrecision() != null) {
+          writeElement(writer, childLevel, "characterPrecision", ca.getCharacterPrecision());
+        }
+        if (ca.getCharacterSet() != null) {
+          writeElement(writer, childLevel, "characterSet", ca.getCharacterSet());
+        }
+        if (ca.getCharacterShearXY() != null) {
+          writeElement(writer, childLevel, "characterShearXY", ca.getCharacterShearXY());
+        }
+      } else if (scd instanceof GDD_Parameter.SetCurrentDefaultInstruction.MarkerAttributes ma) {
+        if (ma.getMarkerPrecision() != null) {
+          writeElement(writer, childLevel, "markerPrecision", ma.getMarkerPrecision());
+        }
+        if (ma.getMarkerSet() != null) {
+          writeElement(writer, childLevel, "markerSet", ma.getMarkerSet());
+        }
+        if (ma.getMarkerSymbol() != null) {
+          writeElement(writer, childLevel, "markerSymbol", ma.getMarkerSymbol());
+        }
+      } else if (scd instanceof GDD_Parameter.SetCurrentDefaultInstruction.PatternAttributes pa) {
+        if (pa.getPatternSet() != null) {
+          writeElement(writer, childLevel, "patternSet", pa.getPatternSet());
+        }
+        if (pa.getPatternSymbol() != null) {
+          writeElement(writer, childLevel, "patternSymbol", pa.getPatternSymbol());
+        }
+      } else if (scd instanceof GDD_Parameter.SetCurrentDefaultInstruction.ArcParameters ap) {
+        if (ap.getArcTransformP() != null) {
+          writeElement(writer, childLevel, "arcTransformP", ap.getArcTransformP());
+        }
+        if (ap.getArcTransformQ() != null) {
+          writeElement(writer, childLevel, "arcTransformQ", ap.getArcTransformQ());
+        }
+        if (ap.getArcTransformR() != null) {
+          writeElement(writer, childLevel, "arcTransformR", ap.getArcTransformR());
+        }
+        if (ap.getArcTransformS() != null) {
+          writeElement(writer, childLevel, "arcTransformS", ap.getArcTransformS());
+        }
+      } else if (scd instanceof GDD_Parameter.SetCurrentDefaultInstruction.ProcessColorAttributes pca) {
+        if (pca.getForegroundMix() != null) {
+          writeElement(writer, childLevel, "foregroundMix", pca.getForegroundMix().name());
+        }
+        if (pca.getBackgroundMix() != null) {
+          writeElement(writer, childLevel, "backgroundMix", pca.getBackgroundMix().name());
+        }
+        if (pca.getProcessColor() != null) {
+          writeBinaryElement(writer, childLevel, "processColor", pca.getProcessColor());
+        }
+      } else if (scd instanceof GDD_Parameter.SetCurrentDefaultInstruction.NormalLineWidthAttribute nlw) {
+        if (nlw.getNormalLineWidth() != null) {
+          writeElement(writer, childLevel, "normalLineWidth", nlw.getNormalLineWidth());
+        }
+      }
+
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (param instanceof GDD_Parameter.WindowSpecification ws) {
+      writer.writeStartElement("WindowSpecification");
+      writeElement(writer, childLevel, "parameterType", ws.getParameterType());
+      writeElement(writer, childLevel, "lengthOfFollowingData", ws.getLengthOfFollowingData());
+      if (ws.getFlags() != null) {
+        writeElement(writer, childLevel, "flags", ws.getFlags().name());
+      }
+      writeElement(writer, childLevel, "reserved3", ws.getReserved3());
+      writeElement(writer, childLevel, "geometricParameterFormat", ws.getGeometricParameterFormat());
+      if (ws.getUnitBaseGPS() != null) {
+        writeElement(writer, childLevel, "unitBaseGPS", ws.getUnitBaseGPS().name());
+      }
+      writeElement(writer, childLevel, "unitsPerUnitBaseX", ws.getUnitsPerUnitBaseX());
+      writeElement(writer, childLevel, "unitsPerUnitBaseY", ws.getUnitsPerUnitBaseY());
+      writeElement(writer, childLevel, "imageResolutionXY", ws.getImageResolutionXY());
+      writeElement(writer, childLevel, "leftEdgeOfGPSWindow", ws.getLeftEdgeOfGPSWindow());
+      writeElement(writer, childLevel, "rightEdgeOfGPSWindow", ws.getRightEdgeOfGPSWindow());
+      writeElement(writer, childLevel, "bottomEdgeOfGPSWindow", ws.getBottomEdgeOfGPSWindow());
+      writeElement(writer, childLevel, "topEdgeOfGPSWindow", ws.getTopEdgeOfGPSWindow());
+      if (ws.getReservedBytesObsolete() != null) {
+        writeBinaryElement(writer, childLevel, "reservedBytesObsolete", ws.getReservedBytesObsolete());
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (param instanceof GDD_Parameter.DrawingOrderSubsetParameterRetired dosp) {
+      writer.writeStartElement("DrawingOrderSubsetParameterRetired");
+      writeElement(writer, childLevel, "parameterType", dosp.getParameterType());
+      writeElement(writer, childLevel, "lengthOfFollowingData", dosp.getLengthOfFollowingData());
+      writeElement(writer, childLevel, "drawingOrderSubset", dosp.drawingOrderSubset);
+      if (dosp.reserved3_4 != null) {
+        writeBinaryElement(writer, childLevel, "reserved3_4", dosp.reserved3_4);
+      }
+      writeElement(writer, childLevel, "subsetLevel", dosp.subsetLevel);
+      writeElement(writer, childLevel, "version", dosp.version);
+      writeElement(writer, childLevel, "lengthOfFollowingField", dosp.lengthOfFollowingField);
+      writeElement(writer, childLevel, "coordinateFormat", dosp.coordinateFormat);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else {
+      JacksonXmlMapperProvider.getCachedWriter(param.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, param);
     }
   }
 
