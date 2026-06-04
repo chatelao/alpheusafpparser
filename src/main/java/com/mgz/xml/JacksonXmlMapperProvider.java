@@ -57,6 +57,11 @@ public class JacksonXmlMapperProvider {
   private static final ConcurrentHashMap<Class<?>, ObjectWriter> WOODSTOX_WRITER_CACHE = new ConcurrentHashMap<>();
   private static final ConcurrentHashMap<Class<?>, ObjectWriter> WOODSTOX_FRAGMENT_WRITER_CACHE = new ConcurrentHashMap<>();
 
+  private static final ConcurrentHashMap<Class<?>, ObjectWriter> INDENT_WRITER_CACHE = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<Class<?>, ObjectWriter> FRAGMENT_INDENT_WRITER_CACHE = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<Class<?>, ObjectWriter> WOODSTOX_INDENT_WRITER_CACHE = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<Class<?>, ObjectWriter> WOODSTOX_FRAGMENT_INDENT_WRITER_CACHE = new ConcurrentHashMap<>();
+
   static {
     AALTO_OUTPUT_FACTORY.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, false);
     try {
@@ -150,18 +155,49 @@ public class JacksonXmlMapperProvider {
    * @param useWoodstox if true, use Woodstox backend
    * @param fragment if true, use fragment configuration
    * @return the cached ObjectWriter
+   * @deprecated Use {@link #getCachedWriter(Class, boolean, boolean, boolean)} instead.
    */
+  @Deprecated
   public static ObjectWriter getCachedWriter(Class<?> clazz, boolean useWoodstox, boolean fragment) {
+    return getCachedWriter(clazz, useWoodstox, fragment, false);
+  }
+
+  /**
+   * Returns a pre-cached {@link ObjectWriter} for the given class and configuration.
+   *
+   * @param clazz the class to get the writer for
+   * @param useWoodstox if true, use Woodstox backend
+   * @param fragment if true, use fragment configuration
+   * @param indent if true, enable indentation
+   * @return the cached ObjectWriter
+   */
+  public static ObjectWriter getCachedWriter(Class<?> clazz, boolean useWoodstox, boolean fragment, boolean indent) {
     if (useWoodstox) {
       if (fragment) {
+        if (indent) {
+          return WOODSTOX_FRAGMENT_INDENT_WRITER_CACHE.computeIfAbsent(clazz,
+              c -> WOODSTOX_FRAGMENT_MAPPER.writerFor(c).with(SerializationFeature.INDENT_OUTPUT));
+        }
         return WOODSTOX_FRAGMENT_WRITER_CACHE.computeIfAbsent(clazz, WOODSTOX_FRAGMENT_MAPPER::writerFor);
       } else {
+        if (indent) {
+          return WOODSTOX_INDENT_WRITER_CACHE.computeIfAbsent(clazz,
+              c -> WOODSTOX_MAPPER.writerFor(c).with(SerializationFeature.INDENT_OUTPUT));
+        }
         return WOODSTOX_WRITER_CACHE.computeIfAbsent(clazz, WOODSTOX_MAPPER::writerFor);
       }
     } else {
       if (fragment) {
+        if (indent) {
+          return FRAGMENT_INDENT_WRITER_CACHE.computeIfAbsent(clazz,
+              c -> FRAGMENT_MAPPER.writerFor(c).with(SerializationFeature.INDENT_OUTPUT));
+        }
         return FRAGMENT_WRITER_CACHE.computeIfAbsent(clazz, FRAGMENT_MAPPER::writerFor);
       } else {
+        if (indent) {
+          return INDENT_WRITER_CACHE.computeIfAbsent(clazz,
+              c -> XML_MAPPER.writerFor(c).with(SerializationFeature.INDENT_OUTPUT));
+        }
         return WRITER_CACHE.computeIfAbsent(clazz, XML_MAPPER::writerFor);
       }
     }
