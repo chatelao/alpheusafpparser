@@ -35,6 +35,7 @@ public class XmlHandlerFactory implements HandlerFactory {
 
   private final String xpathExpression;
   private final boolean useWoodstox;
+  private final boolean indent;
 
   /**
    * Default constructor.
@@ -59,13 +60,25 @@ public class XmlHandlerFactory implements HandlerFactory {
    * @param useWoodstox if true, use Woodstox instead of Aalto
    */
   public XmlHandlerFactory(String xpathExpression, boolean useWoodstox) {
+    this(xpathExpression, useWoodstox, false);
+  }
+
+  /**
+   * Constructor with XPath filtering, backend choice and indentation.
+   *
+   * @param xpathExpression the XPath expression to filter fields
+   * @param useWoodstox if true, use Woodstox instead of Aalto
+   * @param indent if true, enable indentation
+   */
+  public XmlHandlerFactory(String xpathExpression, boolean useWoodstox, boolean indent) {
     this.xpathExpression = xpathExpression;
     this.useWoodstox = useWoodstox;
+    this.indent = indent;
   }
 
   @Override
   public StructuredFieldHandler createHandler(OutputStream os, boolean fragmentMode) throws Exception {
-    return new AfpJacksonXmlWriter(os, xpathExpression, fragmentMode, useWoodstox);
+    return new AfpJacksonXmlWriter(os, xpathExpression, fragmentMode, useWoodstox, indent);
   }
 
   @Override

@@ -28,7 +28,7 @@ import java.nio.charset.StandardCharsets;
 public class XmlIndenter {
   private static final String[] INDENTS;
   private static final byte[][] INDENT_BYTES;
-  private static final byte[][] PURE_INDENT_BYTES;
+  public static final byte[][] PURE_INDENT_BYTES;
   private static final int MAX_LEVEL = 32;
 
   static {
