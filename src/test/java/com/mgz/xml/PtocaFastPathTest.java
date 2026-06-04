@@ -91,16 +91,9 @@ public class PtocaFastPathTest {
         assertTrue(xml.contains("<BLN_BeginLine/>"));
         assertTrue(xml.contains("<BSU_BeginSuppression suppressionID=\"1\"/>"));
         assertTrue(xml.contains("<ESU_EndSuppression suppressionID=\"1\"/>"));
-        assertTrue(xml.contains("<STC_SetTextColor>"));
-        assertTrue(xml.contains("<foregroundColor>Blue_0x01</foregroundColor>"));
-        assertTrue(xml.contains("<precision>IfSpecifiedColorNotSupported_SubstitutColorOrDefaul0xFF07</precision>"));
+        assertTrue(xml.contains("<STC_SetTextColor foregroundColor=\"Blue_0x01\" precision=\"IfSpecifiedColorNotSupported_SubstitutColorOrDefaul0xFF07\"/>"));
         assertTrue(xml.contains("<USC_Underscore bypassFlag=\"NoBypass\"/>"));
-        assertTrue(xml.contains("<TBM_TemporaryBaselineMove>"));
-        assertTrue(xml.contains("<direction>MoveAwayFromIAxis</direction>"));
-        assertTrue(xml.contains("<precision>AccuratelyPlaced</precision>"));
-        assertTrue(xml.contains("<temporaryBaselineIncrement>20</temporaryBaselineIncrement>"));
-        assertTrue(xml.contains("<OVS_Overstrike>"));
-        assertTrue(xml.contains("<bypassFlag>NoBypass</bypassFlag>"));
-        assertTrue(xml.contains("<overStrikeCharacterCodePoint>96</overStrikeCharacterCodePoint>"));
+        assertTrue(xml.contains("<TBM_TemporaryBaselineMove direction=\"MoveAwayFromIAxis\" precision=\"AccuratelyPlaced\" temporaryBaselineIncrement=\"20\"/>"));
+        assertTrue(xml.contains("<OVS_Overstrike bypassFlag=\"NoBypass\" overStrikeCharacterCodePoint=\"96\"/>"));
     }
 }

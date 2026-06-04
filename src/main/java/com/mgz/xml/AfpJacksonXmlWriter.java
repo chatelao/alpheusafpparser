@@ -302,6 +302,14 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeNameAndTripletsDirectly(bng, "BNG_BeginNamedPageGroup", level);
     } else if (sf instanceof com.mgz.afp.modca.BPG_BeginPage bpg) {
       writeNameAndTripletsDirectly(bpg, "BPG_BeginPage", level);
+    } else if (sf instanceof com.mgz.afp.ptoca.BPT_BeginPresentationTextObject bpt) {
+      writeNameAndTripletsDirectly(bpt, "BPT_BeginPresentationTextObject", level);
+    } else if (sf instanceof com.mgz.afp.ptoca.EPT_EndPresentationTextObject ept) {
+      writeNameAndTripletsDirectly(ept, "EPT_EndPresentationTextObject", level);
+    } else if (sf instanceof com.mgz.afp.ptoca.PTD_PresentationTextDataDescriptor_Format1 ptd) {
+      writePtdFormat1Directly(ptd, level);
+    } else if (sf instanceof com.mgz.afp.ptoca.PTD_PresentationTextDataDescriptor_Format2 ptd) {
+      writePtdFormat2Directly(ptd, level);
     } else if (sf instanceof EDI_EndDocumentIndex edi) {
       writeNameDirectly(edi, "EDI_EndDocumentIndex", level);
     } else if (sf instanceof EMO_EndOverlay emo) {
@@ -410,6 +418,59 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writePtdFormat1Directly(com.mgz.afp.ptoca.PTD_PresentationTextDataDescriptor_Format1 ptd, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("PTD");
+    baseXsw.writeEmptyElement("PTD_PresentationTextDataDescriptor_Format1");
+    if (ptd.getxUnitBase() != null) {
+      baseXsw.writeAttribute("xUnitBase", ptd.getxUnitBase().name());
+    }
+    if (ptd.getyUnitBase() != null) {
+      baseXsw.writeAttribute("yUnitBase", ptd.getyUnitBase().name());
+    }
+    baseXsw.writeIntAttribute(null, null, "xUnitsPerUnitBase", ptd.getxUnitsPerUnitBase());
+    baseXsw.writeIntAttribute(null, null, "yUnitsPerUnitBase", ptd.getyUnitsPerUnitBase());
+    baseXsw.writeIntAttribute(null, null, "xSize", ptd.getxSize());
+    baseXsw.writeIntAttribute(null, null, "ySize", ptd.getySize());
+    if (ptd.getReserved10_11() != null) {
+      baseXsw.writeBinaryAttribute(null, null, "reserved10_11", ptd.getReserved10_11());
+    }
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writePtdFormat2Directly(com.mgz.afp.ptoca.PTD_PresentationTextDataDescriptor_Format2 ptd, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("PTD");
+    int childLevel = level + 1;
+    if (ptd.getControlSequences() == null || ptd.getControlSequences().isEmpty()) {
+      baseXsw.writeEmptyElement("PTD_PresentationTextDataDescriptor_Format2");
+    } else {
+      baseXsw.writeStartElement("PTD_PresentationTextDataDescriptor_Format2");
+    }
+
+    if (ptd.getxUnitBase() != null) {
+      baseXsw.writeAttribute("xUnitBase", ptd.getxUnitBase().name());
+    }
+    if (ptd.getyUnitBase() != null) {
+      baseXsw.writeAttribute("yUnitBase", ptd.getyUnitBase().name());
+    }
+    baseXsw.writeIntAttribute(null, null, "xUnitsPerUnitBase", ptd.getxUnitsPerUnitBase());
+    baseXsw.writeIntAttribute(null, null, "yUnitsPerUnitBase", ptd.getyUnitsPerUnitBase());
+    baseXsw.writeIntAttribute(null, null, "xSize", ptd.getxSize());
+    baseXsw.writeIntAttribute(null, null, "ySize", ptd.getySize());
+    if (ptd.getReserved12_13() != null) {
+      baseXsw.writeBinaryAttribute(null, null, "reserved12_13", ptd.getReserved12_13());
+    }
+
+    if (ptd.getControlSequences() != null && !ptd.getControlSequences().isEmpty()) {
+      for (PTOCAControlSequence cs : ptd.getControlSequences()) {
+        writeIndent(baseXsw, childLevel);
+        writeControlSequence(cs, childLevel);
+      }
+      writeIndent(baseXsw, level);
+      baseXsw.writeEndElement();
+    }
     MnemonicPerformanceMonitor.endWrite();
   }
 
@@ -1031,29 +1092,27 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.TBM_TemporaryBaselineMove tbm) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("TBM");
-      baseXsw.writeStartElement("TBM_TemporaryBaselineMove");
+      baseXsw.writeEmptyElement("TBM_TemporaryBaselineMove");
       if (tbm.getDirection() != null) {
-        writeElement(baseXsw, childLevel, "direction", tbm.getDirection().name());
+        baseXsw.writeAttribute("direction", tbm.getDirection().name());
       }
       if (tbm.getPrecision() != null) {
-        writeElement(baseXsw, childLevel, "precision", tbm.getPrecision().name());
+        baseXsw.writeAttribute("precision", tbm.getPrecision().name());
       }
       if (tbm.getTemporaryBaselineIncrement() != null) {
-        writeElement(baseXsw, childLevel, "temporaryBaselineIncrement", tbm.getTemporaryBaselineIncrement());
+        baseXsw.writeIntAttribute(null, null, "temporaryBaselineIncrement", tbm.getTemporaryBaselineIncrement());
       }
-      writeIndent(baseXsw, level);
-      baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.OVS_Overstrike ovs) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("OVS");
-      baseXsw.writeStartElement("OVS_Overstrike");
+      baseXsw.writeEmptyElement("OVS_Overstrike");
       if (ovs.getBypassFlag() != null) {
-        writeElement(baseXsw, childLevel, "bypassFlag", ovs.getBypassFlag().name());
+        baseXsw.writeAttribute("bypassFlag", ovs.getBypassFlag().name());
       }
-      writeElement(baseXsw, childLevel, "overStrikeCharacterCodePoint", ovs.getOverStrikeCharacterCodePoint());
-      writeElement(baseXsw, childLevel, "text", ovs.getText());
-      writeIndent(baseXsw, level);
-      baseXsw.writeEndElement();
+      baseXsw.writeIntAttribute(null, null, "overStrikeCharacterCodePoint", ovs.getOverStrikeCharacterCodePoint());
+      if (ovs.getText() != null) {
+        baseXsw.writeAttribute("text", ovs.getText());
+      }
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.RPS_RepeatString rps) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("RPS");

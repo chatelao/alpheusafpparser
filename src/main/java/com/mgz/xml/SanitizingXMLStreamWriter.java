@@ -83,4 +83,34 @@ public class SanitizingXMLStreamWriter extends StreamWriter2Delegate {
   public void writeRaw(char[] text, int offset, int length) throws XMLStreamException {
     mDelegate2.writeRaw(text, offset, length);
   }
+
+  @Override
+  public void writeBooleanAttribute(String prefix, String ns, String localName, boolean value) throws XMLStreamException {
+    mDelegate2.writeBooleanAttribute(prefix, ns, localName, value);
+  }
+
+  @Override
+  public void writeIntAttribute(String prefix, String ns, String localName, int value) throws XMLStreamException {
+    mDelegate2.writeIntAttribute(prefix, ns, localName, value);
+  }
+
+  @Override
+  public void writeLongAttribute(String prefix, String ns, String localName, long value) throws XMLStreamException {
+    mDelegate2.writeLongAttribute(prefix, ns, localName, value);
+  }
+
+  @Override
+  public void writeFloatAttribute(String prefix, String ns, String localName, float value) throws XMLStreamException {
+    mDelegate2.writeFloatAttribute(prefix, ns, localName, value);
+  }
+
+  @Override
+  public void writeDoubleAttribute(String prefix, String ns, String localName, double value) throws XMLStreamException {
+    mDelegate2.writeDoubleAttribute(prefix, ns, localName, value);
+  }
+
+  @Override
+  public void writeBinaryAttribute(String prefix, String ns, String localName, byte[] value) throws XMLStreamException {
+    mDelegate2.writeBinaryAttribute(prefix, ns, localName, value);
+  }
 }

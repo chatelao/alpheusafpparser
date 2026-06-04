@@ -216,6 +216,42 @@ public class AfpXmlStreamWriter extends SanitizingXMLStreamWriter {
     super.writeDouble(value);
   }
 
+  @Override
+  public void writeBooleanAttribute(String prefix, String ns, String localName, boolean value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeBooleanAttribute(prefix, ns, localName, value);
+  }
+
+  @Override
+  public void writeIntAttribute(String prefix, String ns, String localName, int value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeIntAttribute(prefix, ns, localName, value);
+  }
+
+  @Override
+  public void writeLongAttribute(String prefix, String ns, String localName, long value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeLongAttribute(prefix, ns, localName, value);
+  }
+
+  @Override
+  public void writeFloatAttribute(String prefix, String ns, String localName, float value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeFloatAttribute(prefix, ns, localName, value);
+  }
+
+  @Override
+  public void writeDoubleAttribute(String prefix, String ns, String localName, double value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeDoubleAttribute(prefix, ns, localName, value);
+  }
+
+  @Override
+  public void writeBinaryAttribute(String prefix, String ns, String localName, byte[] value) throws XMLStreamException {
+    needsFlush = true;
+    super.writeBinaryAttribute(prefix, ns, localName, value);
+  }
+
   /**
    * Writes raw bytes directly to the underlying output stream, flushing Woodstox first if necessary.
    *
