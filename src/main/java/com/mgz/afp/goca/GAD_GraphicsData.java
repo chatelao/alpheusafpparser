@@ -120,70 +120,71 @@ import java.util.function.Supplier;
  */
 public class GAD_GraphicsData extends StructuredField {
 
-  private static final Map<Short, Supplier<GAD_DrawingOrder>> DO_SUPPLIERS = new HashMap<>();
+  @SuppressWarnings("unchecked")
+  private static final Supplier<GAD_DrawingOrder>[] DO_SUPPLIERS = new Supplier[256];
   private static final Map<Short, Supplier<GAD_DrawingOrder>> DO_EXT_SUPPLIERS = new HashMap<>();
 
   static {
-    DO_SUPPLIERS.put((short) 0x00, GNOP1_NopOperation::new);
-    DO_SUPPLIERS.put((short) 0x01, GCOMT_Comment::new);
-    DO_SUPPLIERS.put((short) 0x04, GSGCH_SegmentCharacteristics::new);
-    DO_SUPPLIERS.put((short) 0x08, GSPS_SetPatternSet::new);
-    DO_SUPPLIERS.put((short) 0x0a, GSCOL_SetColor::new);
-    DO_SUPPLIERS.put((short) 0x0c, GSMX_SetMix::new);
-    DO_SUPPLIERS.put((short) 0x0d, GSBMX_SetBackgroundMix::new);
-    DO_SUPPLIERS.put((short) 0x11, GSFLW_SetFractionLineWidth::new);
-    DO_SUPPLIERS.put((short) 0x18, GSLT_SetLineType::new);
-    DO_SUPPLIERS.put((short) 0x19, GSLW_SetLineWidth::new);
-    DO_SUPPLIERS.put((short) 0x1a, GSLE_SetLineEnd::new);
-    DO_SUPPLIERS.put((short) 0x1b, GSLJ_SetLineJoin::new);
-    DO_SUPPLIERS.put((short) 0x20, GSCLT_SetCustomLineType::new);
-    DO_SUPPLIERS.put((short) 0x21, GSCP_SetCurrentPosition::new);
-    DO_SUPPLIERS.put((short) 0x22, GSAP_SetArcParameters::new);
-    DO_SUPPLIERS.put((short) 0x26, GSECOL_SetExtendedColor::new);
-    DO_SUPPLIERS.put((short) 0x28, GSPT_SetPatternSymbol::new);
-    DO_SUPPLIERS.put((short) 0x29, GSMT_SetMarkerSymbol::new);
-    DO_SUPPLIERS.put((short) 0x33, GSCC_SetCharacterCell::new);
-    DO_SUPPLIERS.put((short) 0x34, GSCA_SetCharacterAngle::new);
-    DO_SUPPLIERS.put((short) 0x35, GSCH_SetCharacterShear::new);
-    DO_SUPPLIERS.put((short) 0x37, GSMC_SetMarkerCell::new);
-    DO_SUPPLIERS.put((short) 0x38, GSCS_SetCharacterSet::new);
-    DO_SUPPLIERS.put((short) 0x39, GSCR_SetCharacterPrecision::new);
-    DO_SUPPLIERS.put((short) 0x3a, GSCD_SetCharacterDirection::new);
-    DO_SUPPLIERS.put((short) 0x3b, GSMP_SetMarkerPrecision::new);
-    DO_SUPPLIERS.put((short) 0x3c, GSMS_SetMarkerSet::new);
-    DO_SUPPLIERS.put((short) 0x3e, GEPROL_EndProlog::new);
-    DO_SUPPLIERS.put((short) 0x43, GSPIK_SetPickIdentifier::new);
-    DO_SUPPLIERS.put((short) 0x5e, GECP_EndCustomPattern::new);
-    DO_SUPPLIERS.put((short) 0x60, GEAR_EndArea::new);
-    DO_SUPPLIERS.put((short) 0x68, GBAR_BeginArea::new);
-    DO_SUPPLIERS.put((short) 0x70, GBSEG_BeginSegment::new);
-    DO_SUPPLIERS.put((short) 0x71, GESEG_EndSegment::new);
-    DO_SUPPLIERS.put((short) 0x80, GCBOX_BoxAtCurrentPosition::new);
-    DO_SUPPLIERS.put((short) 0x81, GCLINE_LineAtCurrentPosition::new);
-    DO_SUPPLIERS.put((short) 0x82, GCMRK_MarkerAtCurrentPosition::new);
-    DO_SUPPLIERS.put((short) 0x83, GCCHST_CharacterStringAtCurrentPosition::new);
-    DO_SUPPLIERS.put((short) 0x85, GCFLT_FilletAtCurrentPosition::new);
-    DO_SUPPLIERS.put((short) 0x87, GCFARC_FullArcAtCurrentPosition::new);
-    DO_SUPPLIERS.put((short) 0x91, GCBIMG_BeginImageAtCurrentPosition::new);
-    DO_SUPPLIERS.put((short) 0x92, GIMD_ImageData::new);
-    DO_SUPPLIERS.put((short) 0x93, GEIMG_EndImage::new);
-    DO_SUPPLIERS.put((short) 0xa0, GSPRP_SetPatternReferencePoint::new);
-    DO_SUPPLIERS.put((short) 0xa1, GCRLINE_RelativeLineAtCurrentPosition::new);
-    DO_SUPPLIERS.put((short) 0xa3, GCPARC_PartialArcAtCurrentPosition::new);
-    DO_SUPPLIERS.put((short) 0xa5, GCCBEZ_CubicBezierCurveAtCurrentPosition::new);
-    DO_SUPPLIERS.put((short) 0xb2, GSPCOL_SetProcessColor::new);
-    DO_SUPPLIERS.put((short) 0xc0, GBOX_BoxAtGivenPosition::new);
-    DO_SUPPLIERS.put((short) 0xc1, GLINE_LineAtGivenPosition::new);
-    DO_SUPPLIERS.put((short) 0xc2, GMRK_MarkerAtGivenPosition::new);
-    DO_SUPPLIERS.put((short) 0xc3, GCHST_CharacterStringAtGivenPosition::new);
-    DO_SUPPLIERS.put((short) 0xc5, GFLT_FilletAtGivenPosition::new);
-    DO_SUPPLIERS.put((short) 0xc7, GFARC_FullArcAtGivenPosition::new);
-    DO_SUPPLIERS.put((short) 0xd1, GBIMG_BeginImageAtGivenPosition::new);
-    DO_SUPPLIERS.put((short) 0xe1, GRLINE_RelativeLineAtGivenPosition::new);
-    DO_SUPPLIERS.put((short) 0xe3, GPARC_PartialArcAtGivenPosition::new);
-    DO_SUPPLIERS.put((short) 0xde, GBCP_BeginCustomPattern::new);
-    DO_SUPPLIERS.put((short) 0xdf, GDPT_DeletePattern::new);
-    DO_SUPPLIERS.put((short) 0xe5, GCBEZ_CubicBezierCurveAtGivenPosition::new);
+    DO_SUPPLIERS[0x00] = GNOP1_NopOperation::new;
+    DO_SUPPLIERS[0x01] = GCOMT_Comment::new;
+    DO_SUPPLIERS[0x04] = GSGCH_SegmentCharacteristics::new;
+    DO_SUPPLIERS[0x08] = GSPS_SetPatternSet::new;
+    DO_SUPPLIERS[0x0a] = GSCOL_SetColor::new;
+    DO_SUPPLIERS[0x0c] = GSMX_SetMix::new;
+    DO_SUPPLIERS[0x0d] = GSBMX_SetBackgroundMix::new;
+    DO_SUPPLIERS[0x11] = GSFLW_SetFractionLineWidth::new;
+    DO_SUPPLIERS[0x18] = GSLT_SetLineType::new;
+    DO_SUPPLIERS[0x19] = GSLW_SetLineWidth::new;
+    DO_SUPPLIERS[0x1a] = GSLE_SetLineEnd::new;
+    DO_SUPPLIERS[0x1b] = GSLJ_SetLineJoin::new;
+    DO_SUPPLIERS[0x20] = GSCLT_SetCustomLineType::new;
+    DO_SUPPLIERS[0x21] = GSCP_SetCurrentPosition::new;
+    DO_SUPPLIERS[0x22] = GSAP_SetArcParameters::new;
+    DO_SUPPLIERS[0x26] = GSECOL_SetExtendedColor::new;
+    DO_SUPPLIERS[0x28] = GSPT_SetPatternSymbol::new;
+    DO_SUPPLIERS[0x29] = GSMT_SetMarkerSymbol::new;
+    DO_SUPPLIERS[0x33] = GSCC_SetCharacterCell::new;
+    DO_SUPPLIERS[0x34] = GSCA_SetCharacterAngle::new;
+    DO_SUPPLIERS[0x35] = GSCH_SetCharacterShear::new;
+    DO_SUPPLIERS[0x37] = GSMC_SetMarkerCell::new;
+    DO_SUPPLIERS[0x38] = GSCS_SetCharacterSet::new;
+    DO_SUPPLIERS[0x39] = GSCR_SetCharacterPrecision::new;
+    DO_SUPPLIERS[0x3a] = GSCD_SetCharacterDirection::new;
+    DO_SUPPLIERS[0x3b] = GSMP_SetMarkerPrecision::new;
+    DO_SUPPLIERS[0x3c] = GSMS_SetMarkerSet::new;
+    DO_SUPPLIERS[0x3e] = GEPROL_EndProlog::new;
+    DO_SUPPLIERS[0x43] = GSPIK_SetPickIdentifier::new;
+    DO_SUPPLIERS[0x5e] = GECP_EndCustomPattern::new;
+    DO_SUPPLIERS[0x60] = GEAR_EndArea::new;
+    DO_SUPPLIERS[0x68] = GBAR_BeginArea::new;
+    DO_SUPPLIERS[0x70] = GBSEG_BeginSegment::new;
+    DO_SUPPLIERS[0x71] = GESEG_EndSegment::new;
+    DO_SUPPLIERS[0x80] = GCBOX_BoxAtCurrentPosition::new;
+    DO_SUPPLIERS[0x81] = GCLINE_LineAtCurrentPosition::new;
+    DO_SUPPLIERS[0x82] = GCMRK_MarkerAtCurrentPosition::new;
+    DO_SUPPLIERS[0x83] = GCCHST_CharacterStringAtCurrentPosition::new;
+    DO_SUPPLIERS[0x85] = GCFLT_FilletAtCurrentPosition::new;
+    DO_SUPPLIERS[0x87] = GCFARC_FullArcAtCurrentPosition::new;
+    DO_SUPPLIERS[0x91] = GCBIMG_BeginImageAtCurrentPosition::new;
+    DO_SUPPLIERS[0x92] = GIMD_ImageData::new;
+    DO_SUPPLIERS[0x93] = GEIMG_EndImage::new;
+    DO_SUPPLIERS[0xa0] = GSPRP_SetPatternReferencePoint::new;
+    DO_SUPPLIERS[0xa1] = GCRLINE_RelativeLineAtCurrentPosition::new;
+    DO_SUPPLIERS[0xa3] = GCPARC_PartialArcAtCurrentPosition::new;
+    DO_SUPPLIERS[0xa5] = GCCBEZ_CubicBezierCurveAtCurrentPosition::new;
+    DO_SUPPLIERS[0xb2] = GSPCOL_SetProcessColor::new;
+    DO_SUPPLIERS[0xc0] = GBOX_BoxAtGivenPosition::new;
+    DO_SUPPLIERS[0xc1] = GLINE_LineAtGivenPosition::new;
+    DO_SUPPLIERS[0xc2] = GMRK_MarkerAtGivenPosition::new;
+    DO_SUPPLIERS[0xc3] = GCHST_CharacterStringAtGivenPosition::new;
+    DO_SUPPLIERS[0xc5] = GFLT_FilletAtGivenPosition::new;
+    DO_SUPPLIERS[0xc7] = GFARC_FullArcAtGivenPosition::new;
+    DO_SUPPLIERS[0xd1] = GBIMG_BeginImageAtGivenPosition::new;
+    DO_SUPPLIERS[0xe1] = GRLINE_RelativeLineAtGivenPosition::new;
+    DO_SUPPLIERS[0xe3] = GPARC_PartialArcAtGivenPosition::new;
+    DO_SUPPLIERS[0xde] = GBCP_BeginCustomPattern::new;
+    DO_SUPPLIERS[0xdf] = GDPT_DeletePattern::new;
+    DO_SUPPLIERS[0xe5] = GCBEZ_CubicBezierCurveAtGivenPosition::new;
 
     DO_EXT_SUPPLIERS.put((short) 0xDC, GLGD_LinearGradient::new);
     DO_EXT_SUPPLIERS.put((short) 0xDD, GRGD_RadialGradient::new);
@@ -202,7 +203,7 @@ public class GAD_GraphicsData extends StructuredField {
 
     int actualLength = length != -1 ? length : sfData.length - offset;
 
-    List<GAD_DrawingOrder> drawingOrders = new ArrayList<GAD_DrawingOrder>();
+    List<GAD_DrawingOrder> drawingOrders = new ArrayList<>();
 
     int pos = 0;
     while (pos < actualLength) {
@@ -210,25 +211,28 @@ public class GAD_GraphicsData extends StructuredField {
       int dotLength = 0;
       GAD_DrawingOrder drawingOrder = null;
 
-      short drawingOrderCode = (short) (sfData[offset + pos] & 0xFF);
-      if (drawingOrderCode == (short) 0xFE) {
+      int codeInt = sfData[offset + pos] & 0xFF;
+      if (codeInt == 0xFE) {
         short qualifier = (short) (sfData[offset + pos + 1] & 0xFF);
-        drawingOrder = DrawingOrderPool.acquire(drawingOrderCode, qualifier);
+        drawingOrder = DrawingOrderPool.acquire((short) 0xFE, qualifier);
         if (drawingOrder == null) {
           drawingOrder = DO_EXT_SUPPLIERS.getOrDefault(qualifier, GEXO_ExtendedOrder::new).get();
         }
-        dotLength = UtilBinaryDecoding.parseInt(sfData, offset + pos + 2, 2) + 4;
+        dotLength = (((sfData[offset + pos + 2] & 0xFF) << 8) | (sfData[offset + pos + 3] & 0xFF)) + 4;
       } else {
-        drawingOrder = DrawingOrderPool.acquire(drawingOrderCode);
+        drawingOrder = DrawingOrderPool.acquire((short) codeInt);
         if (drawingOrder == null) {
-          drawingOrder = DO_SUPPLIERS.getOrDefault(drawingOrderCode, () -> null).get();
+          Supplier<GAD_DrawingOrder> supplier = DO_SUPPLIERS[codeInt];
+          if (supplier != null) {
+            drawingOrder = supplier.get();
+          }
         }
 
         if (drawingOrder == null) {
-          throw new AFPParserException("The drawing order code 0x" + Integer.toHexString(drawingOrderCode) + " is unknown.");
+          throw new AFPParserException("The drawing order code 0x" + Integer.toHexString(codeInt) + " is unknown.");
         }
 
-        switch (drawingOrderCode) {
+        switch (codeInt) {
           case 0x00:
             dotLength = 1;
             break;
@@ -255,7 +259,7 @@ public class GAD_GraphicsData extends StructuredField {
             dotLength = 2;
             break;
           case 0x70:
-            dotLength = 14 + UtilBinaryDecoding.parseInt(sfData, offset + pos + 8, 2);
+            dotLength = 14 + (((sfData[offset + pos + 8] & 0xFF) << 8) | (sfData[offset + pos + 9] & 0xFF));
             break;
           default:
             dotLength = (sfData[offset + pos + 1] & 0xFF) + 2;
@@ -297,9 +301,11 @@ public class GAD_GraphicsData extends StructuredField {
     if (drawingOrders != null && !drawingOrders.isEmpty()) {
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       for (GAD_DrawingOrder order : drawingOrders) {
-        order.writeAFP(baos, config);
+        if (order != null) {
+          order.writeAFP(baos, config);
+        }
       }
-      writeFullStructuredField(os, baos.toByteArray());
+      writeFullStructuredField(os, java.nio.ByteBuffer.wrap(baos.toByteArray()));
     } else {
       writeFullStructuredField(os, (byte[]) null);
     }
