@@ -556,6 +556,23 @@ public class PdfHandler implements StructuredFieldHandler {
       graphicsState.setArcTransformQ(gsap.getArcTransformQ());
       graphicsState.setArcTransformR(gsap.getArcTransformR());
       graphicsState.setArcTransformS(gsap.getArcTransformS());
+    } else if (order instanceof GAD_DrawingOrder.GSCC_SetCharacterCell gscc) {
+      float width = gscc.getWidthOfCharacterCellIntegerPart() + (gscc.getWidthOfCharacterCellFractionalPart() != null ? gscc.getWidthOfCharacterCellFractionalPart() / 65536.0f : 0.0f);
+      float height = gscc.getHeightOfCharacterCellIntegerPart() + (gscc.getHeightOfCharacterCellFractionalPart() != null ? gscc.getHeightOfCharacterCellFractionalPart() / 65536.0f : 0.0f);
+      graphicsState.setCharCellWidth(width);
+      graphicsState.setCharCellHeight(height);
+    } else if (order instanceof GAD_DrawingOrder.GSCA_SetCharacterAngle gsca) {
+      if (gsca.getAnglePoint() != null) {
+        graphicsState.setCharAngleX(gsca.getAnglePoint().xCoordinate());
+        graphicsState.setCharAngleY(gsca.getAnglePoint().yCoordinate());
+      }
+    } else if (order instanceof GAD_DrawingOrder.GSCH_SetCharacterShear gsch) {
+      graphicsState.setCharShearDividend(gsch.getDividendOfShearRatio());
+      graphicsState.setCharShearDivisor(gsch.getDivisorOfShearRatio());
+    } else if (order instanceof GAD_DrawingOrder.GSCD_SetCharacterDirection gscd) {
+      graphicsState.setCharDirection(gscd.getCharacterDirection());
+    } else if (order instanceof GAD_DrawingOrder.GSCR_SetCharacterPrecision gscr) {
+      graphicsState.setCharPrecision(gscr.getCharacterPrecision());
     } else if (order instanceof GSFLW_SetFractionLineWidth gsflw) {
       graphicsState.setLineWidth(gsflw.getIntegralMultiplier() + (gsflw.getFractionalMultiplier() / 256.0f));
     } else if (order instanceof GSPCOL_SetProcessColor gspcol) {
@@ -956,18 +973,46 @@ public class PdfHandler implements StructuredFieldHandler {
     }
     applyGraphicsState();
     PdfFont font = resolveFont(graphicsState.getCharacterSet());
-    float fontSize = 100.0f; // Default font size for GOCA text
+
+    float fontSize = graphicsState.getCharCellHeight() > 0 ? graphicsState.getCharCellHeight() : 100.0f;
+
+    // Determine rotation from character angle point
+    double angle = Math.atan2(graphicsState.getCharAngleY(), graphicsState.getCharAngleX());
+    float cos = (float) Math.cos(angle);
+    float sin = (float) Math.sin(angle);
+
+    // Determine shear
+    float shear = 0.0f;
+    if (graphicsState.getCharShearDivisor() != 0) {
+      shear = (float) graphicsState.getCharShearDividend() / graphicsState.getCharShearDivisor();
+    }
+
+    // Apply character direction (simplified)
+    float directionScale = 1.0f;
+    if (graphicsState.getCharDirection() == 3) { // Right to Left
+      directionScale = -1.0f;
+    }
 
     currentCanvas.beginText()
         .setFontAndSize(font, fontSize)
-        .setTextMatrix(1, 0, 0, -1, x, y)
+        // Matrix: [a b c d e f]
+        // Incorporates rotation, Y-flip, and shear.
+        .setTextMatrix(directionScale * (cos + shear * sin), directionScale * (sin - shear * cos), sin, -cos, x, y)
         .showText(text)
         .endText();
 
     // Update current position based on text width (approximation)
     float textWidth = font.getWidth(text, fontSize);
-    graphicsState.setCurrentX(x + Math.round(textWidth));
-    graphicsState.setCurrentY(y);
+    if (graphicsState.getCharDirection() == 2) { // Top to Bottom
+      graphicsState.setCurrentX(x);
+      graphicsState.setCurrentY(y - Math.round(textWidth));
+    } else if (graphicsState.getCharDirection() == 4) { // Bottom to Top
+      graphicsState.setCurrentX(x);
+      graphicsState.setCurrentY(y + Math.round(textWidth));
+    } else {
+      graphicsState.setCurrentX(x + Math.round(directionScale * textWidth * cos));
+      graphicsState.setCurrentY(y + Math.round(directionScale * textWidth * sin));
+    }
   }
 
   private void renderFullArc(int xc, int yc, short multiplierInt, short multiplierFrac) {

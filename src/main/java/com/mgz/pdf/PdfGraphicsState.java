@@ -41,6 +41,14 @@ public class PdfGraphicsState {
   private short markerSymbol = 0;
   private short markerPrecision = 0;
   private short characterSet = 0;
+  private float charCellWidth = 0.0f;
+  private float charCellHeight = 0.0f;
+  private short charAngleX = 1;
+  private short charAngleY = 0;
+  private short charShearDividend = 0;
+  private short charShearDivisor = 1;
+  private short charDirection = 1;
+  private short charPrecision = 0;
   private short mixMode = 0;
   private short backgroundMixMode = 0;
   private int currentX = 0;
@@ -76,6 +84,14 @@ public class PdfGraphicsState {
     this.markerSymbol = 0;
     this.markerPrecision = 0;
     this.characterSet = 0;
+    this.charCellWidth = 0.0f;
+    this.charCellHeight = 0.0f;
+    this.charAngleX = 1;
+    this.charAngleY = 0;
+    this.charShearDividend = 0;
+    this.charShearDivisor = 1;
+    this.charDirection = 1;
+    this.charPrecision = 0;
     this.mixMode = 0;
     this.backgroundMixMode = 0;
     this.currentX = 0;
@@ -181,6 +197,70 @@ public class PdfGraphicsState {
 
   public void setCharacterSet(short characterSet) {
     this.characterSet = characterSet;
+  }
+
+  public float getCharCellWidth() {
+    return charCellWidth;
+  }
+
+  public void setCharCellWidth(float charCellWidth) {
+    this.charCellWidth = charCellWidth;
+  }
+
+  public float getCharCellHeight() {
+    return charCellHeight;
+  }
+
+  public void setCharCellHeight(float charCellHeight) {
+    this.charCellHeight = charCellHeight;
+  }
+
+  public short getCharAngleX() {
+    return charAngleX;
+  }
+
+  public void setCharAngleX(short charAngleX) {
+    this.charAngleX = charAngleX;
+  }
+
+  public short getCharAngleY() {
+    return charAngleY;
+  }
+
+  public void setCharAngleY(short charAngleY) {
+    this.charAngleY = charAngleY;
+  }
+
+  public short getCharShearDividend() {
+    return charShearDividend;
+  }
+
+  public void setCharShearDividend(short charShearDividend) {
+    this.charShearDividend = charShearDividend;
+  }
+
+  public short getCharShearDivisor() {
+    return charShearDivisor;
+  }
+
+  public void setCharShearDivisor(short charShearDivisor) {
+    this.charShearDivisor = charShearDivisor;
+  }
+
+  public short getCharDirection() {
+    return charDirection;
+  }
+
+  public void setCharDirection(short charDirection) {
+    this.charDirection = charDirection;
+  }
+
+  public short getCharPrecision() {
+    return charPrecision;
+  }
+
+  public void setCharPrecision(short charPrecision) {
+    this.charPrecision = charPrecision;
   }
 
   public int getCurrentX() {
