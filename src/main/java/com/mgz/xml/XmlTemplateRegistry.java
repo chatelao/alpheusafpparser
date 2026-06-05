@@ -41,6 +41,7 @@ public class XmlTemplateRegistry {
     register("BSU", new String[] {"<BSU_BeginSuppression suppressionID=\"", "\"/>"});
     register("ESU", new String[] {"<ESU_EndSuppression suppressionID=\"", "\"/>"});
     register("BLN", new String[] {"<BLN_BeginLine/>"});
+    register("SVI", new String[] {"<SVI_SetVariableSpaceCharacterIncrement increment=\"", "\"/>"});
   }
 
   private static void register(String mnemonic, String[] parts) {
