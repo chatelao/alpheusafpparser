@@ -27,6 +27,12 @@ import com.mgz.afp.base.IRepeatingGroup;
 import com.mgz.afp.base.RepeatingGroupWithTriplets;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.StructuredFieldBaseData;
+import com.mgz.afp.foca.BCF_BeginCodedFont;
+import com.mgz.afp.foca.BCP_BeginCodePage;
+import com.mgz.afp.foca.BFN_BeginFont;
+import com.mgz.afp.foca.ECF_EndCodedFont;
+import com.mgz.afp.foca.ECP_EndCodePage;
+import com.mgz.afp.foca.EFN_EndFont;
 import com.mgz.afp.foca.FNC_FontControl;
 import com.mgz.afp.goca.BGR_BeginGraphicsObject;
 import com.mgz.afp.goca.EGR_EndGraphicsObject;
@@ -42,12 +48,23 @@ import com.mgz.afp.lineData.LND_LineDescriptor;
 import com.mgz.afp.modca.BAG_BeginActiveEnvironmentGroup;
 import com.mgz.afp.modca.BDG_BeginDocumentEnvironmentGroup;
 import com.mgz.afp.modca.BFG_BeginFormEnvironmentGroup;
+import com.mgz.afp.modca.BFM_BeginFormMap;
+import com.mgz.afp.modca.BII_BeginIMImageObject;
+import com.mgz.afp.modca.BMM_BeginMediumMap;
 import com.mgz.afp.modca.BOG_BeginObjectEnvironmentGroup;
+import com.mgz.afp.modca.BPF_BeginPrintFile;
+import com.mgz.afp.modca.BRS_BeginResource;
 import com.mgz.afp.modca.BSG_BeginResourceEnvironmentGroup;
 import com.mgz.afp.modca.EAG_EndActiveEnvironmentGroup;
 import com.mgz.afp.modca.EDG_EndDocumentEnvironmentGroup;
 import com.mgz.afp.modca.EFG_EndFormEnvironmentGroup;
+import com.mgz.afp.modca.EFM_EndFormMap;
+import com.mgz.afp.modca.EII_EndIMImageObject;
+import com.mgz.afp.modca.EMM_EndMediumMap;
 import com.mgz.afp.modca.EOG_EndObjectEnvironmentGroup;
+import com.mgz.afp.modca.EPF_EndPrintFile;
+import com.mgz.afp.modca.ERG_EndResourceGroup;
+import com.mgz.afp.modca.ERS_EndResource;
 import com.mgz.afp.modca.ESG_EndResourceEnvironmentGroup;
 import com.mgz.afp.modca.IOB_IncludeObject;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
@@ -282,6 +299,22 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeTleDirectly(tle, level);
     } else if (sf instanceof BAG_BeginActiveEnvironmentGroup bag) {
       writeBagDirectly(bag, level);
+    } else if (sf instanceof BCF_BeginCodedFont bcf) {
+      writeNameAndTripletsDirectly(bcf, "BCF_BeginCodedFont", level);
+    } else if (sf instanceof BCP_BeginCodePage bcp) {
+      writeNameAndTripletsDirectly(bcp, "BCP_BeginCodePage", level);
+    } else if (sf instanceof BFN_BeginFont bfn) {
+      writeNameAndTripletsDirectly(bfn, "BFN_BeginFont", level);
+    } else if (sf instanceof BFM_BeginFormMap bfm) {
+      writeNameAndTripletsDirectly(bfm, "BFM_BeginFormMap", level);
+    } else if (sf instanceof BII_BeginIMImageObject bii) {
+      writeNameAndTripletsDirectly(bii, "BII_BeginIMImageObject", level);
+    } else if (sf instanceof BMM_BeginMediumMap bmm) {
+      writeNameAndTripletsDirectly(bmm, "BMM_BeginMediumMap", level);
+    } else if (sf instanceof BPF_BeginPrintFile bpf) {
+      writeNameAndTripletsDirectly(bpf, "BPF_BeginPrintFile", level);
+    } else if (sf instanceof BRS_BeginResource brs) {
+      writeNameDirectly(brs, "BRS_BeginResource", level);
     } else if (sf instanceof BDG_BeginDocumentEnvironmentGroup bdg) {
       writeNameAndTripletsDirectly(bdg, "BDG_BeginDocumentEnvironmentGroup", level);
     } else if (sf instanceof BFG_BeginFormEnvironmentGroup bfg) {
@@ -292,6 +325,22 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeNameAndTripletsDirectly(bsg, "BSG_BeginResourceEnvironmentGroup", level);
     } else if (sf instanceof EAG_EndActiveEnvironmentGroup eag) {
       writeNameDirectly(eag, "EAG_EndActiveEnvironmentGroup", level);
+    } else if (sf instanceof ECF_EndCodedFont ecf) {
+      writeNameAndTripletsDirectly(ecf, "ECF_EndCodedFont", level);
+    } else if (sf instanceof ECP_EndCodePage ecp) {
+      writeNameAndTripletsDirectly(ecp, "ECP_EndCodePage", level);
+    } else if (sf instanceof EFN_EndFont efn) {
+      writeNameAndTripletsDirectly(efn, "EFN_EndFont", level);
+    } else if (sf instanceof EFM_EndFormMap efm) {
+      writeNameDirectly(efm, "EFM_EndFormMap", level);
+    } else if (sf instanceof EII_EndIMImageObject eii) {
+      writeNameDirectly(eii, "EII_EndIMImageObject", level);
+    } else if (sf instanceof EMM_EndMediumMap emm) {
+      writeNameDirectly(emm, "EMM_EndMediumMap", level);
+    } else if (sf instanceof EPF_EndPrintFile epf) {
+      writeNameAndTripletsDirectly(epf, "EPF_EndPrintFile", level);
+    } else if (sf instanceof ERS_EndResource ers) {
+      writeNameDirectly(ers, "ERS_EndResource", level);
     } else if (sf instanceof EDG_EndDocumentEnvironmentGroup edg) {
       writeNameDirectly(edg, "EDG_EndDocumentEnvironmentGroup", level);
     } else if (sf instanceof EFG_EndFormEnvironmentGroup efg) {
