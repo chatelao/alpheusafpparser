@@ -40,6 +40,16 @@ import com.mgz.afp.ioca.IPD_ImagePictureData;
 import com.mgz.afp.ioca.IPD_Segment;
 import com.mgz.afp.lineData.LND_LineDescriptor;
 import com.mgz.afp.modca.BAG_BeginActiveEnvironmentGroup;
+import com.mgz.afp.modca.BDG_BeginDocumentEnvironmentGroup;
+import com.mgz.afp.modca.BFG_BeginFormEnvironmentGroup;
+import com.mgz.afp.modca.BOG_BeginObjectEnvironmentGroup;
+import com.mgz.afp.modca.BSG_BeginResourceEnvironmentGroup;
+import com.mgz.afp.modca.EAG_EndActiveEnvironmentGroup;
+import com.mgz.afp.modca.EDG_EndDocumentEnvironmentGroup;
+import com.mgz.afp.modca.EFG_EndFormEnvironmentGroup;
+import com.mgz.afp.modca.EOG_EndObjectEnvironmentGroup;
+import com.mgz.afp.modca.ESG_EndResourceEnvironmentGroup;
+import com.mgz.afp.modca.IOB_IncludeObject;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
 import com.mgz.afp.modca.MMC_MediumModificationControl;
 import com.mgz.afp.modca.MCD_MapContainerData;
@@ -262,6 +272,26 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeTleDirectly(tle, level);
     } else if (sf instanceof BAG_BeginActiveEnvironmentGroup bag) {
       writeBagDirectly(bag, level);
+    } else if (sf instanceof BDG_BeginDocumentEnvironmentGroup bdg) {
+      writeNameAndTripletsDirectly(bdg, "BDG_BeginDocumentEnvironmentGroup", level);
+    } else if (sf instanceof BFG_BeginFormEnvironmentGroup bfg) {
+      writeNameAndTripletsDirectly(bfg, "BFG_BeginFormEnvironmentGroup", level);
+    } else if (sf instanceof BOG_BeginObjectEnvironmentGroup bog) {
+      writeNameAndTripletsDirectly(bog, "BOG_BeginObjectEnvironmentGroup", level);
+    } else if (sf instanceof BSG_BeginResourceEnvironmentGroup bsg) {
+      writeNameAndTripletsDirectly(bsg, "BSG_BeginResourceEnvironmentGroup", level);
+    } else if (sf instanceof EAG_EndActiveEnvironmentGroup eag) {
+      writeNameDirectly(eag, "EAG_EndActiveEnvironmentGroup", level);
+    } else if (sf instanceof EDG_EndDocumentEnvironmentGroup edg) {
+      writeNameDirectly(edg, "EDG_EndDocumentEnvironmentGroup", level);
+    } else if (sf instanceof EFG_EndFormEnvironmentGroup efg) {
+      writeNameDirectly(efg, "EFG_EndFormEnvironmentGroup", level);
+    } else if (sf instanceof EOG_EndObjectEnvironmentGroup eog) {
+      writeNameDirectly(eog, "EOG_EndObjectEnvironmentGroup", level);
+    } else if (sf instanceof ESG_EndResourceEnvironmentGroup esg) {
+      writeNameDirectly(esg, "ESG_EndResourceEnvironmentGroup", level);
+    } else if (sf instanceof IOB_IncludeObject iob) {
+      writeIobDirectly(iob, level);
     } else if (sf instanceof PTX_PresentationTextData ptx) {
       writePtxDirectly(ptx, level);
     } else if (sf instanceof MCF_MapCodedFont_Format2 mcf) {
@@ -3648,5 +3678,42 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
+  }
+
+  private void writeIobDirectly(IOB_IncludeObject iob, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("IOB");
+    baseXsw.writeStartElement("IOB_IncludeObject");
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "name", iob.getName());
+    writeElement(baseXsw, childLevel, "reserved8", (int) iob.getReserved8());
+    if (iob.getObjectType() != null) {
+      writeElement(baseXsw, childLevel, "objectType", iob.getObjectType().name());
+    }
+    writeElement(baseXsw, childLevel, "xOrigin", iob.getxOrigin());
+    writeElement(baseXsw, childLevel, "yOrigin", iob.getyOrigin());
+    if (iob.getxRotation() != null) {
+      writeElement(baseXsw, childLevel, "xRotation", iob.getxRotation().name());
+    }
+    if (iob.getyRotation() != null) {
+      writeElement(baseXsw, childLevel, "yRotation", iob.getyRotation().name());
+    }
+    writeElement(baseXsw, childLevel, "xOriginOfContent", iob.getxOriginOfContent());
+    writeElement(baseXsw, childLevel, "yOriginOfContent", iob.getyOriginOfContent());
+    writeElement(baseXsw, childLevel, "referenceCoordinateSystem", (int) iob.getReferenceCoordinateSystem());
+    if (iob.getTriplets() != null && !iob.getTriplets().isEmpty()) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("triplets");
+      for (Triplet triplet : iob.getTriplets()) {
+        writeTriplet(baseXsw, triplet, childLevel + 1);
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    if (iob.getText() != null) {
+      writeElement(baseXsw, childLevel, "text", iob.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
   }
 }
