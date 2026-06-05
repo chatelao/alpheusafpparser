@@ -11,15 +11,17 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
 ## Phase 2: Datenerhebung & Profiling ⌛
 - [ ] Erzeugung der Performance-Baseline für v3.4 (CPU & Allocation Profile). ⌛
 - [ ] Erzeugung der Profile für v7.0 (Referenz für ersten Performance-Drop). ⌛
-- [ ] Erzeugung der Profile für die aktuelle Version (v15.4). ⌛
+- [ ] Erzeugung der Profile für die aktuelle Version (v15.6). ⌛
 - [ ] Archivierung der Rohdaten (`.jfr`, `.html`) im Verzeichnis `perf_test/profiles/`. ⌛
 
 ## Phase 3: Analyse & Hotspot-Identifikation ⌛
-- [ ] Erstellung von Differential Flame Graphs (v3.4 vs v15.4). ⌛
-- [ ] Quantifizierung des Overheads durch:
-    - Thread-Orchestrierung in `ParallelAfpConverter`. ⌛
-    - Jackson Fallback vs. Fast-Path Serialisierung. ⌛
-    - Validierungslogik in BCOCA/GOCA. ⌛
+- [ ] Erstellung von Differential Flame Graphs (v3.4 vs v15.6). ⌛
+- [ ] Quantifizierung des Overheads (v3.4 vs v15.6):
+    - [ ] Extraktion der I/O Metriken (jdk.FileWrite) via `tools/jfr_metrics.py`. ⌛
+    - [ ] Analyse der Allocation-Raten (jdk.ObjectAllocationInNewTLAB). ⌛
+    - [ ] Vergleich der Jackson Fallback vs. Fast-Path Serialisierung via CPU-Samples. ⌛
+    - [ ] Messung des Validierungs-Overheads in BCOCA/GOCA. ⌛
+    - [ ] Bestimmung des Thread-Orchestrierungs-Overheads bei kleinen Dateien. ⌛
 - [ ] Identifikation von "Infrastruktur-Drift" (JVM-Interaktionen, GC). ⌛
 
 ## Phase 4: Integration & Dokumentation ⌛

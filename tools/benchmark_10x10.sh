@@ -2,9 +2,16 @@
 
 # Capture current branch to return to it later
 INITIAL_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [ "$INITIAL_BRANCH" = "HEAD" ]; then
+    INITIAL_BRANCH=$(git rev-parse HEAD)
+fi
 
-# Selected releases to investigate further, including first (v0.1) and last (v12.0)
-RELEASES=("v0.1" "v1.0" "v3.0" "v3.4" "v3.5" "v4.0" "v4.1" "v4.2" "v4.3" "v5.0" "v5.1" "v5.2" "v5.3" "v7.0" "v9.11" "v12.0")
+# Selected releases to investigate further, including first (v0.1) and latest (v15.6)
+if [ -n "$RELEASES_TO_BENCHMARK" ]; then
+    IFS=' ' read -r -a RELEASES <<< "$RELEASES_TO_BENCHMARK"
+else
+    RELEASES=("v0.1" "v1.0" "v3.0" "v3.4" "v5.3" "v7.0" "v9.11" "v12.0" "v12.1" "v12.2" "v13.1" "v14.4" "v15.1" "v15.2" "v15.3" "v15.4" "v15.6")
+fi
 TEST_DIR="perf_test"
 ITERATIONS=10
 OUTPUT_DIR="test_output_bench_10x10"
