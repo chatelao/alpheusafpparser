@@ -161,6 +161,43 @@ public class PdfHandlerStructureTest {
   }
 
   @Test
+  public void testGocaHatchPatternHandling() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg);
+
+    GAD_GraphicsData gad = new GAD_GraphicsData();
+    gad.setStructuredFieldIntroducer(createSfi(SFTypeID.GAD_GraphicsData));
+    List<GAD_DrawingOrder> orders = new ArrayList<>();
+
+    // GSPT: Set Pattern Symbol to 9 (Vertical lines)
+    GSPT_SetPatternSymbol gspt = new GSPT_SetPatternSymbol();
+    gspt.setPatternSymbolCodePoint((short) 9);
+    orders.add(gspt);
+
+    // GBAR: Begin Area
+    GBAR_BeginArea gbar = new GBAR_BeginArea();
+    orders.add(gbar);
+
+    // BOX
+    GBOX_BoxAtGivenPosition gbox = new GBOX_BoxAtGivenPosition();
+    gbox.setFirstCorner(new GAD_DrawingOrder.GOCA_Point((short) 0, (short) 0));
+    gbox.setDiagonalCorner(new GAD_DrawingOrder.GOCA_Point((short) 1000, (short) 1000));
+    orders.add(gbox);
+
+    // GEAR: End Area (this triggers applyPattern)
+    orders.add(new GEAR_EndArea());
+
+    gad.setDrawingOrders(orders);
+    handler.handle(gad);
+
+    assertEquals(9, handler.getGraphicsState().getPatternSymbol());
+    // Verification of the actual PDF output is internal, but this ensures code path coverage
+  }
+
+  @Test
   public void testGocaCharacterSetTracking() throws Exception {
     PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
     BPG_BeginPage bpg = new BPG_BeginPage();
