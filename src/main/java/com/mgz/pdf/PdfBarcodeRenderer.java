@@ -104,6 +104,12 @@ public class PdfBarcodeRenderer {
       "10100"  // 9
   };
 
+  private static final String[] JAPAN_POSTAL_PATTERNS = {
+      "FFT", "FTF", "FTT", "TFF", "TFT", "TTF", "FFA", "FAF", "FAA", "AFF", // 0-9
+      "AFA", // 10 (-)
+      "AAF", "FFD", "FDF", "FDD", "DFF", "DFA", "DAF", "ADF"  // 11-18 (CC1-CC8)
+  };
+
   static {
     // Code 39 pattern: 5 bars, 4 spaces. 'w' for wide, 'n' for narrow.
     // Total 9 elements, 3 of which are wide (2 bars, 1 space OR 1 bar, 2 spaces).
@@ -253,6 +259,9 @@ public class PdfBarcodeRenderer {
           break;
         case POSTNET_PLANET:
           totalWidth = renderPostnetPlanet(content, startX, startY, state, canvas);
+          break;
+        case JapanPostalBarCode:
+          totalWidth = renderJapanPostal(content, startX, startY, state, canvas);
           break;
         default:
           // TODO: Implement other barcode types
@@ -1004,6 +1013,118 @@ public class PdfBarcodeRenderer {
       curX += pitch;
     }
     return curX;
+  }
+
+  private static float renderJapanPostal(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    java.util.List<Integer> values = new java.util.ArrayList<>();
+
+    if (state.getBarcodeModifier() == 0x01) {
+      // Direct input (EBCDIC-based code points)
+      for (int i = 0; i < content.length(); i++) {
+        char c = content.charAt(i);
+        int val = switch (c) {
+          case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> c - '0';
+          case '-' -> 10;
+          case 'A' -> 11; // CC1
+          case 'B' -> 12; // CC2
+          case 'C' -> 13; // CC3
+          case 'D' -> 14; // CC4
+          case 'E' -> 15; // CC5
+          case 'F' -> 16; // CC6
+          case 'G' -> 17; // CC7
+          case 'H' -> 18; // CC8
+          default -> -1;
+        };
+        if (val != -1) values.add(val);
+      }
+    } else {
+      // Standard input: Postal code (7) + Address (up to 13)
+      String cleaned = content.replaceAll("-", "");
+      if (cleaned.length() < 7) return 0;
+
+      // 1. Postal Code (7 digits)
+      for (int i = 0; i < 7; i++) {
+        values.add(cleaned.charAt(i) - '0');
+      }
+
+      // 2. Address Indication (expand A-Z)
+      String address = cleaned.substring(7);
+      java.util.List<Integer> addressValues = new java.util.ArrayList<>();
+      for (int i = 0; i < address.length() && addressValues.size() < 13; i++) {
+        char c = Character.toUpperCase(address.charAt(i));
+        if (c >= '0' && c <= '9') {
+          addressValues.add(c - '0');
+        } else if (c == '-') {
+          addressValues.add(10);
+        } else if (c >= 'A' && c <= 'J') {
+          addressValues.add(11); // CC1
+          if (addressValues.size() < 13) addressValues.add(c - 'A');
+        } else if (c >= 'K' && c <= 'T') {
+          addressValues.add(12); // CC2
+          if (addressValues.size() < 13) addressValues.add(c - 'K');
+        } else if (c >= 'U' && c <= 'Z') {
+          addressValues.add(13); // CC3
+          if (addressValues.size() < 13) addressValues.add(c - 'U');
+        }
+      }
+
+      // 3. Padding with CC4
+      while (addressValues.size() < 13) {
+        addressValues.add(14); // CC4
+      }
+      values.addAll(addressValues);
+
+      // 4. Check Digit (Modulo 19)
+      int sum = 0;
+      for (int v : values) sum += v;
+      values.add((19 - (sum % 19)) % 19);
+    }
+
+    // Standard dimensions (1440 units per inch base)
+    float pitch = 1.3f * 1.44f * 20.0f; // ~37.44 AFP units
+    float barWidth = 0.6f * 1.44f * 20.0f; // ~17.28 AFP units
+    float height = state.getElementHeight() > 0 ? state.getElementHeight() : 500.0f;
+
+    canvas.saveState();
+    float curX = x;
+    float curY = y;
+
+    // Start bar: Ascender (A) + Full (F)? Actually Japanese Post says Start is specific.
+    // Standard 4-state Japan Postal: Start=Full+Ascender (FA), Stop=Full+Ascender (AF) wait.
+    // Patterns found: Start=FA, Stop=AF. Values: 0-18 are 3 bars each.
+    renderJapanPostalBar('F', curX, curY, height, barWidth, canvas); curX += pitch;
+    renderJapanPostalBar('A', curX, curY, height, barWidth, canvas); curX += pitch;
+
+    for (int val : values) {
+      if (val < 0 || val >= JAPAN_POSTAL_PATTERNS.length) continue;
+      String pattern = JAPAN_POSTAL_PATTERNS[val];
+      for (int i = 0; i < pattern.length(); i++) {
+        renderJapanPostalBar(pattern.charAt(i), curX, curY, height, barWidth, canvas);
+        curX += pitch;
+      }
+    }
+
+    // Stop bar
+    renderJapanPostalBar('A', curX, curY, height, barWidth, canvas); curX += pitch;
+    renderJapanPostalBar('F', curX, curY, height, barWidth, canvas); curX += pitch;
+
+    canvas.restoreState();
+    return curX - x;
+  }
+
+  private static void renderJapanPostalBar(char state, float x, float y, float height, float width, PdfCanvas canvas) {
+    // Logic for 4-state bar positions:
+    // Full: top=y, bottom=y-height
+    // Tracker: top=y-height/3, bottom=y-2*height/3 (centered)
+    // Ascender: top=y, bottom=y-2*height/3
+    // Descender: top=y-height/3, bottom=y-height
+    float top = y;
+    float bottom = y - height;
+    if (state == 'T') { top = y - height/3.0f; bottom = y - 2.0f*height/3.0f; }
+    else if (state == 'A') { bottom = y - 2.0f*height/3.0f; }
+    else if (state == 'D') { top = y - height/3.0f; }
+
+    canvas.rectangle(x, bottom, width, top - bottom).fill();
   }
 
   private static void renderHRI(String content, int x, int y, float barcodeWidth, EnumSet<BarCodeFlag> flags, PdfBarcodeState state, PdfCanvas canvas) {

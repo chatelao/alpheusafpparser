@@ -170,4 +170,30 @@ public class PdfBarcodeLinearTest {
     // Total: 2 + 5+5+6+4 + 2 = 24 bars.
     assertEquals(24, canvas.rectangles.size());
   }
+
+  @Test
+  public void testJapanPostalBarcode() {
+    PdfBarcodeState state = new PdfBarcodeState();
+    state.setBarcodeType(BarCodeType.JapanPostalBarCode);
+    state.setBarcodeModifier((byte) 0x00);
+
+    BDA_BarCodeData bda = new BDA_BarCodeData() {
+        @Override
+        public String getText() {
+            return "123-4567"; // 7 digits
+        }
+    };
+    state.addBarcodeData(bda);
+
+    PdfCanvasStub canvas = new PdfCanvasStub();
+    PdfBarcodeRenderer.render(state, canvas);
+
+    // Modifier X'00' with "123-4567":
+    // 1. Postal code: 1234567 (7 digits)
+    // 2. Address: empty -> padded with 13 CC4 characters
+    // 3. Check digit calculated for [1,2,3,4,5,6,7, 14,14,14,14,14,14,14,14,14,14,14,14,14]
+    // Total code points: 7 + 13 + 1 = 21.
+    // Bars: Start (2) + 21 * 3 + Stop (2) = 2 + 63 + 2 = 67.
+    assertEquals(67, canvas.rectangles.size());
+  }
 }

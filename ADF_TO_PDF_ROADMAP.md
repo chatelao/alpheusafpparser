@@ -107,9 +107,9 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Markers**: Map `GMRK` and `GCMRK` to PDF vector primitives.
     - ⏳ **Pattern Handling**:
         - ✅ **Pattern State Tracking**: Track active pattern attributes (`GSPS`, `GSPT`).
-            - 🚧 **Standard Patterns**: Map GOCA standard patterns to PDF tiling patterns.
+            - ✅ **Standard Patterns**: Map GOCA standard patterns to PDF tiling patterns.
                 - ✅ **Solid and No Fill**: Implement basic fill/no-fill logic for Pattern Set 0.
-                - ⏳ **Hatch Patterns**: Map lines and cross-hatches (symbols 1-14) to tiling patterns.
+                - ✅ **Hatch Patterns**: Map lines and cross-hatches (symbols 1-14) to tiling patterns.
             - ⏳ **Custom Patterns**: Map `GBCP`/`GECP` to PDF tiling patterns.
     - 🚧 **Resource Mapping**:
         - 🚧 **Segment Mapping**: Implement inline rendering for GOCA segments (`GBSEG`). (XObject conversion pending).
@@ -133,7 +133,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - 🚧 **Postal Barcode Support**:
         - ✅ **POSTNET/PLANET**: Implement rendering for POSTNET and PLANET barcodes.
         - ⏳ **Intelligent Mail Barcode (IMB)**: Implement rendering for USPS IMB.
-        - ⏳ **Japan Postal**: Implement rendering for Japan Postal barcodes.
+        - ✅ **Japan Postal**: Implement rendering for Japan Postal barcodes.
     - ✅ **HRI Rendering**: Implement Human Readable Interpretation (HRI) text placement and font mapping.
 - ⏳ **IOCA Renderer**: Map image data to PDF Image XObjects.
     - ✅ **Implement IOCA Segment Tracking**: Identify and group IOCA segments within the AFP stream.

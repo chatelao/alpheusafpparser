@@ -22,6 +22,7 @@ package com.mgz.pdf;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.DeviceRgb;
+import com.itextpdf.kernel.colors.PatternColor;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.AffineTransform;
@@ -29,11 +30,13 @@ import com.itextpdf.kernel.pdf.PdfArray;
 import com.itextpdf.kernel.pdf.PdfDictionary;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfName;
+import com.itextpdf.kernel.pdf.PdfStream;
 import com.itextpdf.kernel.pdf.PdfOutputIntent;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfString;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import com.itextpdf.kernel.pdf.colorspace.PdfPattern;
 import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
@@ -168,6 +171,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private final Deque<PdfDictionary> dpartStack = new ArrayDeque<>();
   private final Deque<PdfCanvas> canvasStack = new ArrayDeque<>();
   private final Map<String, PdfFormXObject> resourceCache = new HashMap<>();
+  private final Map<String, com.itextpdf.kernel.pdf.colorspace.PdfPattern.Tiling> patternCache = new HashMap<>();
   private final Map<String, com.itextpdf.kernel.pdf.xobject.PdfImageXObject> imageCache = new HashMap<>();
   private final Set<String> mmoResources = new HashSet<>();
   private final Set<String> mpsResources = new HashSet<>();
@@ -597,6 +601,10 @@ public class PdfHandler implements StructuredFieldHandler {
         short pattern = graphicsState.getPatternSymbol();
         // X'0F' and X'40' are No Fill. X'00' is default (usually solid X'10').
         boolean noFill = (pattern == 0x0F || pattern == 0x40);
+
+        if (!noFill) {
+          applyPattern(pattern);
+        }
 
         if (graphicsState.isDrawAreaBoundary()) {
           if (noFill) {
@@ -1044,6 +1052,47 @@ public class PdfHandler implements StructuredFieldHandler {
         currentCanvas.stroke();
       }
     }
+  }
+
+  private void applyPattern(short symbol) {
+    if (symbol <= 0 || symbol >= 16 || symbol == 0x0F) {
+      // Use current solid color
+      Color color = ColorHandler.getColor(graphicsState.getColor());
+      currentCanvas.setFillColor(color);
+      return;
+    }
+
+    Color color = ColorHandler.getColor(graphicsState.getColor());
+    String key = symbol + "_" + graphicsState.getColor().name();
+    PdfPattern.Tiling tiling = patternCache.get(key);
+
+    if (tiling == null) {
+      float step = 100.0f; // ~7 points in 1440 units
+      tiling = new PdfPattern.Tiling(new com.itextpdf.kernel.geom.Rectangle(step, step));
+      PdfCanvas pCanvas = new PdfCanvas((PdfStream) tiling.getPdfObject(), tiling.getResources(), pdfDoc);
+      pCanvas.setStrokeColor(color);
+      pCanvas.setFillColor(color);
+      pCanvas.setLineWidth(10.0f); // ~0.7 points
+
+      if (symbol >= 1 && symbol <= 8) {
+        // Dotted patterns (decreasing density)
+        float dotSize = (9 - symbol) * 10.0f;
+        pCanvas.circle(step / 2, step / 2, dotSize / 2).fill();
+      } else {
+        switch (symbol) {
+          case 9 -> // Vertical lines
+              pCanvas.moveTo(step / 2, 0).lineTo(step / 2, step).stroke();
+          case 10 -> // Horizontal lines
+              pCanvas.moveTo(0, step / 2).lineTo(step, step / 2).stroke();
+          case 11, 12 -> // Diagonal lines 1 (bottom-left to top-right)
+              pCanvas.moveTo(0, 0).lineTo(step, step).stroke();
+          case 13, 14 -> // Diagonal lines 1 (top-left to bottom-right)
+              pCanvas.moveTo(0, step).lineTo(step, 0).stroke();
+        }
+      }
+      patternCache.put(key, tiling);
+    }
+    currentCanvas.setFillColor(new PatternColor(tiling));
   }
 
   private void applyGraphicsState() {
