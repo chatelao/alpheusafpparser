@@ -48,6 +48,7 @@ public class PdfGraphicsStateTest {
     assertEquals(LineJoin.Default, graphicsState.getLineJoin());
     assertEquals(0, graphicsState.getMixMode());
     assertEquals(0, graphicsState.getBackgroundMixMode());
+    assertEquals(16, graphicsState.getPatternSymbol());
     assertEquals(0, graphicsState.getCurrentX());
     assertEquals(0, graphicsState.getCurrentY());
     assertEquals(0.0f, graphicsState.getCharCellWidth());

@@ -594,13 +594,19 @@ public class PdfHandler implements StructuredFieldHandler {
     } else if (order instanceof GEAR_EndArea) {
       if (currentCanvas != null && graphicsState.isInArea()) {
         currentCanvas.closePath();
+        short pattern = graphicsState.getPatternSymbol();
+        // X'0F' and X'40' are No Fill. X'00' is default (usually solid X'10').
+        boolean noFill = (pattern == 0x0F || pattern == 0x40);
+
         if (graphicsState.isDrawAreaBoundary()) {
-          if (graphicsState.isEvenOddRule()) {
+          if (noFill) {
+            currentCanvas.stroke();
+          } else if (graphicsState.isEvenOddRule()) {
             currentCanvas.eoFillStroke();
           } else {
             currentCanvas.fillStroke();
           }
-        } else {
+        } else if (!noFill) {
           if (graphicsState.isEvenOddRule()) {
             currentCanvas.eoFill();
           } else {

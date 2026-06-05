@@ -107,7 +107,9 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Markers**: Map `GMRK` and `GCMRK` to PDF vector primitives.
     - ⏳ **Pattern Handling**:
         - ✅ **Pattern State Tracking**: Track active pattern attributes (`GSPS`, `GSPT`).
-            - ⏳ **Standard Patterns**: Map GOCA standard patterns to PDF tiling patterns.
+            - 🚧 **Standard Patterns**: Map GOCA standard patterns to PDF tiling patterns.
+                - ✅ **Solid and No Fill**: Implement basic fill/no-fill logic for Pattern Set 0.
+                - ⏳ **Hatch Patterns**: Map lines and cross-hatches (symbols 1-14) to tiling patterns.
             - ⏳ **Custom Patterns**: Map `GBCP`/`GECP` to PDF tiling patterns.
     - 🚧 **Resource Mapping**:
         - 🚧 **Segment Mapping**: Implement inline rendering for GOCA segments (`GBSEG`). (XObject conversion pending).
@@ -124,18 +126,23 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **EAN-8 / EAN-13**: Implement rendering for EAN-8 and EAN-13 barcodes.
         - ✅ **Code 128 (Subset B)**: Implement rendering for Code 128 (Subset B) barcodes.
         - ✅ **UPC-E**: Implement rendering for UPC-E barcodes.
-    - ⏳ **2D Barcode Support**: Implement rendering for 2D barcodes (Data Matrix, QR Code, PDF417).
-    - 🚧 **Postal Barcode Support**: Implement rendering for postal codes (POSTNET, Intelligent Mail, Japan Postal).
+    - ⏳ **2D Barcode Support**:
+        - ⏳ **QR Code**: Implement rendering for QR Code barcodes.
+        - ⏳ **Data Matrix**: Implement rendering for Data Matrix barcodes.
+        - ⏳ **PDF417**: Implement rendering for PDF417 barcodes.
+    - 🚧 **Postal Barcode Support**:
         - ✅ **POSTNET/PLANET**: Implement rendering for POSTNET and PLANET barcodes.
+        - ⏳ **Intelligent Mail Barcode (IMB)**: Implement rendering for USPS IMB.
+        - ⏳ **Japan Postal**: Implement rendering for Japan Postal barcodes.
     - ✅ **HRI Rendering**: Implement Human Readable Interpretation (HRI) text placement and font mapping.
 - ⏳ **IOCA Renderer**: Map image data to PDF Image XObjects.
     - ✅ **Implement IOCA Segment Tracking**: Identify and group IOCA segments within the AFP stream.
     - ⏳ **Implement IOCA Data Decoding**:
         - ✅ **FS10 Support**: Support FS10 (Bilevel) image data (uncompressed).
         - ✅ **FS11 Support**: Support FS11 (Grayscale/Color) image data (uncompressed).
-        - ⏳ **FS40 Support**: Support FS40 (Tiled) image data.
+        - ⏳ **FS40 (Tiled) support**: Support FS40 (Tiled) image data structures.
         - ✅ **G3/G4 Decoding**: Implement CCITT Group 3/4 decompression.
-        - ⏳ **LZW Decoding**: Implement LZW decompression.
+        - ⏳ **LZW Decoding**: Implement LZW decompression for FS10/FS11.
         - ✅ **JPEG Decoding**: Implement JPEG (DCT) decompression.
     - ✅ **Implement Image XObject Creation**: Convert decoded data to iText `PdfImageXObject`.
     - ✅ **Implement Image Placement Logic**: Map IOCA positioning parameters to PDF `do` operator calls.
@@ -145,14 +152,17 @@ Ensure the generated output meets the PDF/VT-1 standard and accurately reflects 
 
 - ⏳ **PDF/VT-1 Validation**: Validate generated files against PDF/VT-1 profiles using preflight tools.
     - ⏳ **Integrate VeraPDF**: Implement automated compliance checks for PDF/VT-1 and PDF/X-4.
+    - ⏳ **VeraPDF CLI Wrapper**: Create a helper to run VeraPDF from within Alpheus tests.
     - ⏳ **Preflight Automation**: Establish CI/CD integration for automated validation.
 - ⏳ **DPart Hierarchy Verification**:
     - ⏳ **Programmatic Structure Verification**: Verify `/DPart` hierarchy and `/Property` entries using iText or low-level parsing.
+    - ⏳ **Metadata Extraction Tool**: Implement a utility to extract DPart metadata to JSON for comparison.
     - ⏳ **Viewer Validation**: Verify navigation and structure in PDF/VT-aware viewers.
 - ⏳ **Metadata Integrity**: Compare record-level extraction from PDF metadata against original AFP `TLE` values.
 - ⏳ **Visual Regression**:
     - ⏳ **Snapshot Comparison**: Compare rendered PDF output against XML/Baseline snapshots.
     - ⏳ **Pixel-Perfect Verification**: Establish a suite for pixel-level regression testing against golden PDFs.
+    - ⏳ **PDF-to-Image Rasterizer**: Integrate a tool (e.g., PDFBox or Ghostscript) to rasterize PDF pages for visual diffing.
 
 ---
 

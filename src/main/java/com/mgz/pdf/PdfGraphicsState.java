@@ -36,7 +36,8 @@ public class PdfGraphicsState {
   private LineEnd lineEnd = LineEnd.Default;
   private LineJoin lineJoin = LineJoin.Default;
   private short patternSet = 0;
-  private short patternSymbol = 0;
+  /** GSPT X'10' = Solid fill (Standard default for GOCA Pattern Set 0) */
+  private short patternSymbol = 16;
   private short markerSet = 0;
   private short markerSymbol = 0;
   private short markerPrecision = 0;
@@ -79,7 +80,7 @@ public class PdfGraphicsState {
     this.lineEnd = LineEnd.Default;
     this.lineJoin = LineJoin.Default;
     this.patternSet = 0;
-    this.patternSymbol = 0;
+    this.patternSymbol = 16;
     this.markerSet = 0;
     this.markerSymbol = 0;
     this.markerPrecision = 0;
