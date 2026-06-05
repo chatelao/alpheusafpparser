@@ -221,6 +221,9 @@ public class PdfBarcodeRenderer {
         case Code39_3of9Code_AIM_USS_39:
           totalWidth = renderCode39(content, startX, startY, state, canvas);
           break;
+        case MSI_MmodifiedPlesseyCode:
+          totalWidth = renderMsi(content, startX, startY, state, canvas);
+          break;
         case Interleaved_2of5__ITF14__AIM_USS_I_2of5:
           totalWidth = renderInterleaved2of5(content, startX, startY, state, canvas);
           break;
@@ -260,6 +263,49 @@ public class PdfBarcodeRenderer {
     if (!flags.contains(BarCodeFlag.HRINotPresent)) {
       renderHRI(content, startX, startY, totalWidth, flags, state, canvas);
     }
+  }
+
+  private static float renderMsi(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    String digits = content.replaceAll("[^0-9]", "");
+    if (state.getBarcodeModifier() == 0x02) {
+      digits += calculateIbmModulo10(digits);
+    }
+
+    float narrowWidth = state.getModuleWidthInMils() * 1.44f;
+    if (narrowWidth <= 0) {
+      narrowWidth = 20.0f;
+    }
+
+    float height = state.getElementHeight();
+    if (height <= 0) {
+      height = 500.0f;
+    }
+
+    canvas.saveState();
+    float curX = x;
+    float curY = y;
+
+    // Start pattern: 110
+    renderBitPattern("110", curX, curY, height, narrowWidth, canvas);
+    curX += 3 * narrowWidth;
+
+    for (int i = 0; i < digits.length(); i++) {
+      int d = digits.charAt(i) - '0';
+      // 4 bits per digit, BCD
+      for (int bit = 3; bit >= 0; bit--) {
+        boolean isOne = ((d >> bit) & 1) == 1;
+        String pattern = isOne ? "110" : "100";
+        renderBitPattern(pattern, curX, curY, height, narrowWidth, canvas);
+        curX += 3 * narrowWidth;
+      }
+    }
+
+    // Stop pattern: 1001
+    renderBitPattern("1001", curX, curY, height, narrowWidth, canvas);
+    curX += 4 * narrowWidth;
+
+    canvas.restoreState();
+    return curX - x;
   }
 
   private static float renderCode39(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
@@ -463,6 +509,18 @@ public class PdfBarcodeRenderer {
     for (int i = 0; i < 11; i++) {
       int d = digits11.charAt(i) - '0';
       sum += (i % 2 == 0) ? d * 3 : d;
+    }
+    return (10 - (sum % 10)) % 10;
+  }
+
+  private static int calculateIbmModulo10(String digits) {
+    int sum = 0;
+    int len = digits.length();
+    for (int i = 0; i < len; i++) {
+      int d = digits.charAt(len - 1 - i) - '0';
+      int weight = (i % 2 == 0) ? 2 : 1;
+      int prod = d * weight;
+      sum += (prod / 10) + (prod % 10);
     }
     return (10 - (sum % 10)) % 10;
   }
