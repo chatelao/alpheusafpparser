@@ -117,6 +117,8 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Codabar**: Implement rendering for Codabar barcodes.
         - ✅ **Code 39**: Implement rendering for Code 39 (3 of 9) barcodes.
         - ✅ **Interleaved 2 of 5**: Implement rendering for Interleaved 2 of 5 (ITF) barcodes.
+        - ✅ **Industrial 2 of 5**: Implement rendering for Industrial 2 of 5 barcodes.
+        - ✅ **Matrix 2 of 5**: Implement rendering for Matrix 2 of 5 barcodes.
         - ✅ **UPC-A**: Implement rendering for UPC-A barcodes.
         - ✅ **EAN-8 / EAN-13**: Implement rendering for EAN-8 and EAN-13 barcodes.
         - ✅ **Code 128 (Subset B)**: Implement rendering for Code 128 (Subset B) barcodes.

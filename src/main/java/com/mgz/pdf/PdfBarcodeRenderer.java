@@ -242,6 +242,12 @@ public class PdfBarcodeRenderer {
         case Codabar_2of7_AIM_USS_Codabar:
           totalWidth = renderCodabar(content, startX, startY, state, canvas);
           break;
+        case Industrial_2of5:
+          totalWidth = renderIndustrial2of5(content, startX, startY, state, canvas);
+          break;
+        case Matrix_2ofFive:
+          totalWidth = renderMatrix2of5(content, startX, startY, state, canvas);
+          break;
         case POSTNET_PLANET:
           totalWidth = renderPostnetPlanet(content, startX, startY, state, canvas);
           break;
@@ -708,6 +714,112 @@ public class PdfBarcodeRenderer {
     canvas.rectangle(curX, curY - height, wideWidth, height).fill();
     curX += wideWidth;
     curX += narrowWidth; // space
+    canvas.rectangle(curX, curY - height, narrowWidth, height).fill();
+    curX += narrowWidth;
+
+    canvas.restoreState();
+    return curX - x;
+  }
+
+  private static float renderIndustrial2of5(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    String digits = content.replaceAll("[^0-9]", "");
+    if (state.getBarcodeModifier() == 0x02) {
+      digits += calculateUpcACheckDigit(digits);
+    }
+
+    float narrowWidth = state.getModuleWidthInMils() * 1.44f;
+    if (narrowWidth <= 0) {
+      narrowWidth = 20.0f;
+    }
+    float wideWidth = narrowWidth * (state.getWideToNarrowRatio() / 100.0f);
+    if (wideWidth <= narrowWidth) {
+      wideWidth = narrowWidth * 2.5f;
+    }
+
+    float height = state.getElementHeight();
+    if (height <= 0) {
+      height = 500.0f;
+    }
+
+    canvas.saveState();
+    float curX = x;
+    float curY = y;
+
+    // Start pattern: W bar, W bar, N space
+    canvas.rectangle(curX, curY - height, wideWidth, height).fill();
+    curX += wideWidth + narrowWidth;
+    canvas.rectangle(curX, curY - height, wideWidth, height).fill();
+    curX += wideWidth + narrowWidth;
+
+    for (int i = 0; i < digits.length(); i++) {
+      String pattern = ITF_PATTERNS[digits.charAt(i) - '0'];
+      for (int j = 0; j < 5; j++) {
+        float w = (pattern.charAt(j) == 'w') ? wideWidth : narrowWidth;
+        canvas.rectangle(curX, curY - height, w, height).fill();
+        curX += w + narrowWidth;
+      }
+    }
+
+    // Stop pattern: W bar, N space, W bar
+    canvas.rectangle(curX, curY - height, wideWidth, height).fill();
+    curX += wideWidth + narrowWidth;
+    canvas.rectangle(curX, curY - height, wideWidth, height).fill();
+    curX += wideWidth;
+
+    canvas.restoreState();
+    return curX - x;
+  }
+
+  private static float renderMatrix2of5(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    String digits = content.replaceAll("[^0-9]", "");
+    if (state.getBarcodeModifier() == 0x02) {
+      digits += calculateUpcACheckDigit(digits);
+    }
+
+    float narrowWidth = state.getModuleWidthInMils() * 1.44f;
+    if (narrowWidth <= 0) {
+      narrowWidth = 20.0f;
+    }
+    float wideWidth = narrowWidth * (state.getWideToNarrowRatio() / 100.0f);
+    if (wideWidth <= narrowWidth) {
+      wideWidth = narrowWidth * 2.5f;
+    }
+
+    float height = state.getElementHeight();
+    if (height <= 0) {
+      height = 500.0f;
+    }
+
+    canvas.saveState();
+    float curX = x;
+    float curY = y;
+
+    // Start pattern: W bar, N space, N bar, N space, N bar
+    canvas.rectangle(curX, curY - height, wideWidth, height).fill();
+    curX += wideWidth + narrowWidth;
+    canvas.rectangle(curX, curY - height, narrowWidth, height).fill();
+    curX += narrowWidth + narrowWidth;
+    canvas.rectangle(curX, curY - height, narrowWidth, height).fill();
+    curX += narrowWidth + narrowWidth;
+
+    for (int i = 0; i < digits.length(); i++) {
+      String pattern = ITF_PATTERNS[digits.charAt(i) - '0'];
+      for (int j = 0; j < 5; j++) {
+        float w = (pattern.charAt(j) == 'w') ? wideWidth : narrowWidth;
+        boolean isBar = (j % 2 == 0);
+        if (isBar) {
+          canvas.rectangle(curX, curY - height, w, height).fill();
+        }
+        curX += w;
+      }
+      curX += narrowWidth; // inter-character gap
+    }
+
+    // Stop pattern: W bar, N space, N bar, N space, N bar
+    canvas.rectangle(curX, curY - height, wideWidth, height).fill();
+    curX += wideWidth + narrowWidth;
+    canvas.rectangle(curX, curY - height, narrowWidth, height).fill();
+    curX += narrowWidth + narrowWidth;
     canvas.rectangle(curX, curY - height, narrowWidth, height).fill();
     curX += narrowWidth;
 
