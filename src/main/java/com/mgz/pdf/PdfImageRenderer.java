@@ -134,6 +134,8 @@ public class PdfImageRenderer {
 
           itextImageData = ImageDataFactory.create(
               width, height, components, bitsPerComponent, data, null);
+        } else if (compression == IPD_CompressionAlgorithm.JPEG) {
+          itextImageData = ImageDataFactory.create(data);
         } else if (compression == IPD_CompressionAlgorithm.G3_ModifiedHuffman
             || compression == IPD_CompressionAlgorithm.G3_ModifiedREAD
             || compression == IPD_CompressionAlgorithm.G4_ModifiedModifiedREAD) {

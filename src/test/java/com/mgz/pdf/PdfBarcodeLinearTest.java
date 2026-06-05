@@ -104,4 +104,70 @@ public class PdfBarcodeLinearTest {
     // Total bars: 3 + 3 + 3 = 9.
     assertEquals(9, canvas.rectangles.size());
   }
+
+  @Test
+  public void testMsiPlessey() {
+    PdfBarcodeState state = new PdfBarcodeState();
+    state.setBarcodeType(BarCodeType.MSI_MmodifiedPlesseyCode);
+    state.setBarcodeModifier((byte) 0x01); // No check digit
+
+    BDA_BarCodeData bda = new BDA_BarCodeData() {
+        @Override
+        public String getText() {
+            return "1";
+        }
+    };
+    state.addBarcodeData(bda);
+
+    PdfCanvasStub canvas = new PdfCanvasStub();
+    PdfBarcodeRenderer.render(state, canvas);
+
+    // Start: 110 (2 bars)
+    // Digit "1": BCD 0001
+    //   '0': 100 (1 bar)
+    //   '0': 100 (1 bar)
+    //   '0': 100 (1 bar)
+    //   '1': 110 (2 bars)
+    // Stop: 1001 (2 bars)
+    // Total bars: 2 + (1+1+1+2) + 2 = 9 bars.
+    assertEquals(9, canvas.rectangles.size());
+  }
+
+  @Test
+  public void testMsiPlesseyWithCheckDigit() {
+    PdfBarcodeState state = new PdfBarcodeState();
+    state.setBarcodeType(BarCodeType.MSI_MmodifiedPlesseyCode);
+    state.setBarcodeModifier((byte) 0x02); // IBM Modulo 10
+
+    BDA_BarCodeData bda = new BDA_BarCodeData() {
+        @Override
+        public String getText() {
+            return "123";
+        }
+    };
+    state.addBarcodeData(bda);
+
+    PdfCanvasStub canvas = new PdfCanvasStub();
+    PdfBarcodeRenderer.render(state, canvas);
+
+    // Data "123"
+    // IBM Modulo 10 for "123":
+    //   Digits: 1, 2, 3
+    //   Weights: 1, 2, 1 (from right: 3*2, 2*1, 1*2 -> no, weights 1, 2 from right: 3*2=6, 2*1=2, 1*2=2)
+    //   Let's re-calculate manually:
+    //   i=0 (digit '3'): weight=2, prod=6, sum=6
+    //   i=1 (digit '2'): weight=1, prod=2, sum=6+2=8
+    //   i=2 (digit '1'): weight=2, prod=2, sum=8+2=10
+    //   (10 - (10 % 10)) % 10 = 0.
+    // So "1230".
+    // Start: 2 bars
+    // 4 digits * 4 bits * bars:
+    //   '1' (0001): 1+1+1+2 = 5 bars
+    //   '2' (0010): 1+1+2+1 = 5 bars
+    //   '3' (0011): 1+1+2+2 = 6 bars
+    //   '0' (0000): 1+1+1+1 = 4 bars
+    // Stop: 2 bars
+    // Total: 2 + 5+5+6+4 + 2 = 24 bars.
+    assertEquals(24, canvas.rectangles.size());
+  }
 }
