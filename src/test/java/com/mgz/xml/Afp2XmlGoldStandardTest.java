@@ -36,7 +36,7 @@ class Afp2XmlGoldStandardTest {
         AFPParserConfiguration config = new AFPParserConfiguration();
         config.setAFPFile(afpFile);
         AFPParser parser = new AFPParser(config);
-        try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(out)) {
+        try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(out, null, false, true)) {
             StructuredField sf;
             while ((sf = parser.parseNextSF()) != null) {
                 writer.writeField(sf);
