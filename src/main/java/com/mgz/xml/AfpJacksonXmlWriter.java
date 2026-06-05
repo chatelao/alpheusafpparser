@@ -594,16 +594,12 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.MappingOption mo) {
-      writer.writeStartElement("MappingOption");
-      writeElement(writer, childLevel, "dataObjecMapingOption", mo.getDataObjecMapingOption().name());
-      writeIndent(writer, level);
-      writer.writeEndElement();
+      writer.writeEmptyElement("MappingOption");
+      writer.writeAttribute("dataObjecMapingOption", mo.getDataObjecMapingOption().name());
     } else if (triplet instanceof Triplet.AttributeQualifier aq) {
-      writer.writeStartElement("AttributeQualifier");
-      writeElement(writer, childLevel, "sequenceNumber", aq.sequenceNumber);
-      writeElement(writer, childLevel, "levelNumber", aq.levelNumber);
-      writeIndent(writer, level);
-      writer.writeEndElement();
+      writer.writeEmptyElement("AttributeQualifier");
+      writer.writeIntAttribute(null, null, "sequenceNumber", aq.sequenceNumber);
+      writer.writeIntAttribute(null, null, "levelNumber", aq.levelNumber);
     } else if (triplet instanceof Triplet.Comment c) {
       writer.writeStartElement("Comment");
       writeElement(writer, childLevel, "comment", c.comment);
@@ -611,13 +607,11 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ResourceLocalIdentifier rli) {
-      writer.writeStartElement("ResourceLocalIdentifier");
+      writer.writeEmptyElement("ResourceLocalIdentifier");
       if (rli.getResourceType() != null) {
-        writeElement(writer, childLevel, "resourceType", rli.getResourceType().name());
+        writer.writeAttribute("resourceType", rli.getResourceType().name());
       }
-      writeElement(writer, childLevel, "resourceLocalID", rli.getResourceLocalID());
-      writeIndent(writer, level);
-      writer.writeEndElement();
+      writer.writeIntAttribute(null, null, "resourceLocalID", rli.getResourceLocalID());
     } else if (triplet instanceof Triplet.ObjectClassification oc) {
       writer.writeStartElement("ObjectClassification");
       writeElement(writer, childLevel, "reserved2", oc.reserved2);
@@ -655,39 +649,31 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.CharacterRotation cr) {
-      writer.writeStartElement("CharacterRotation");
+      writer.writeEmptyElement("CharacterRotation");
       if (cr.characterRotation != null) {
-        writeElement(writer, childLevel, "characterRotation", cr.characterRotation.name());
+        writer.writeAttribute("characterRotation", cr.characterRotation.name());
       }
-      writeIndent(writer, level);
-      writer.writeEndElement();
     } else if (triplet instanceof Triplet.ObjectByteOffset obo) {
-      writer.writeStartElement("ObjectByteOffset");
-      writeElement(writer, childLevel, "byteOffset", obo.byteOffset);
+      writer.writeEmptyElement("ObjectByteOffset");
+      writer.writeLongAttribute(null, null, "byteOffset", obo.byteOffset);
       if (obo.byteOffsetHighOrder != null) {
-        writeElement(writer, childLevel, "byteOffsetHighOrder", obo.byteOffsetHighOrder);
+        writer.writeLongAttribute(null, null, "byteOffsetHighOrder", obo.byteOffsetHighOrder);
       }
-      writeIndent(writer, level);
-      writer.writeEndElement();
     } else if (triplet instanceof Triplet.MeasurementUnits mu) {
-      writer.writeStartElement("MeasurementUnits");
+      writer.writeEmptyElement("MeasurementUnits");
       if (mu.xUnitBase != null) {
-        writeElement(writer, childLevel, "xUnitBase", mu.xUnitBase.name());
+        writer.writeAttribute("xUnitBase", mu.xUnitBase.name());
       }
       if (mu.yUnitBase != null) {
-        writeElement(writer, childLevel, "yUnitBase", mu.yUnitBase.name());
+        writer.writeAttribute("yUnitBase", mu.yUnitBase.name());
       }
-      writeElement(writer, childLevel, "xUnitsPerUnitbase", mu.xUnitsPerUnitbase);
-      writeElement(writer, childLevel, "yUnitsPerUnitbase", mu.yUnitsPerUnitbase);
-      writeIndent(writer, level);
-      writer.writeEndElement();
+      writer.writeIntAttribute(null, null, "xUnitsPerUnitbase", mu.xUnitsPerUnitbase);
+      writer.writeIntAttribute(null, null, "yUnitsPerUnitbase", mu.yUnitsPerUnitbase);
     } else if (triplet instanceof Triplet.ObjectAreaSize oas) {
-      writer.writeStartElement("ObjectAreaSize");
-      writeElement(writer, childLevel, "sizeType_0x02", oas.sizeType_0x02);
-      writeElement(writer, childLevel, "xSize", oas.xSize);
-      writeElement(writer, childLevel, "ySize", oas.ySize);
-      writeIndent(writer, level);
-      writer.writeEndElement();
+      writer.writeEmptyElement("ObjectAreaSize");
+      writer.writeIntAttribute(null, null, "sizeType_0x02", (int) oas.sizeType_0x02);
+      writer.writeIntAttribute(null, null, "xSize", oas.xSize);
+      writer.writeIntAttribute(null, null, "ySize", oas.ySize);
     } else if (triplet instanceof Triplet.AreaDefinition ad) {
       writer.writeStartElement("AreaDefinition");
       writeElement(writer, childLevel, "reserved2", ad.reserved2);
@@ -738,15 +724,13 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ObjectCount oc) {
-      writer.writeStartElement("ObjectCount");
-      writeElement(writer, childLevel, "subordinateObjectType", oc.subordinateObjectType);
-      writeElement(writer, childLevel, "reserved3", oc.reserved3);
-      writeElement(writer, childLevel, "numberOfObjectsLow", oc.numberOfObjectsLow);
+      writer.writeEmptyElement("ObjectCount");
+      writer.writeIntAttribute(null, null, "subordinateObjectType", (int) oc.subordinateObjectType);
+      writer.writeIntAttribute(null, null, "reserved3", (int) oc.reserved3);
+      writer.writeLongAttribute(null, null, "numberOfObjectsLow", oc.numberOfObjectsLow);
       if (oc.numberOfObjectsHigh != null) {
-        writeElement(writer, childLevel, "numberOfObjectsHigh", oc.numberOfObjectsHigh);
+        writer.writeLongAttribute(null, null, "numberOfObjectsHigh", oc.numberOfObjectsHigh);
       }
-      writeIndent(writer, level);
-      writer.writeEndElement();
     } else if (triplet instanceof Triplet.LocalObjectDateAndTimeStamp lodts) {
       writer.writeStartElement("LocalObjectDateAndTimeStamp");
       if (lodts.dateAndTimeStampType != null) {
@@ -1822,45 +1806,29 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       }
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSCC_SetCharacterCell gscc) {
-      writer.writeStartElement("GSCC_SetCharacterCell");
-      writeElement(writer, childLevel, "lengthOfFollowingData", gscc.lengthOfFollowingData);
-      writeElement(writer, childLevel, "widthOfCharacterCellIntegerPart", gscc.getWidthOfCharacterCellIntegerPart());
-      writeElement(writer, childLevel, "heightOfCharacterCellIntegerPart", gscc.getHeightOfCharacterCellIntegerPart());
+      writer.writeEmptyElement("GSCC_SetCharacterCell");
+      writer.writeIntAttribute(null, null, "widthOfCharacterCellIntegerPart", gscc.getWidthOfCharacterCellIntegerPart());
+      writer.writeIntAttribute(null, null, "heightOfCharacterCellIntegerPart", gscc.getHeightOfCharacterCellIntegerPart());
       if (gscc.getWidthOfCharacterCellFractionalPart() != null) {
-        writeElement(writer, childLevel, "widthOfCharacterCellFractionalPart", gscc.getWidthOfCharacterCellFractionalPart());
+        writer.writeIntAttribute(null, null, "widthOfCharacterCellFractionalPart", gscc.getWidthOfCharacterCellFractionalPart());
       }
       if (gscc.getHeightOfCharacterCellFractionalPart() != null) {
-        writeElement(writer, childLevel, "heightOfCharacterCellFractionalPart", gscc.getHeightOfCharacterCellFractionalPart());
+        writer.writeIntAttribute(null, null, "heightOfCharacterCellFractionalPart", gscc.getHeightOfCharacterCellFractionalPart());
       }
-      writeIndent(writer, level);
-      writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GSCA_SetCharacterAngle gsca) {
-      writer.writeStartElement("GSCA_SetCharacterAngle");
-      writeElement(writer, childLevel, "lengthOfFollowingData", gsca.lengthOfFollowingData);
+      writer.writeEmptyElement("GSCA_SetCharacterAngle");
       if (gsca.getAnglePoint() != null) {
-        writeIndent(writer, childLevel);
-        writer.writeStartElement("anglePoint");
-        writeElement(writer, childLevel + 1, "xCoordinate", gsca.getAnglePoint().xCoordinate());
-        writeElement(writer, childLevel + 1, "yCoordinate", gsca.getAnglePoint().yCoordinate());
-        writeIndent(writer, childLevel);
-        writer.writeEndElement();
+        writer.writeIntAttribute(null, null, "xCoordinate", gsca.getAnglePoint().xCoordinate());
+        writer.writeIntAttribute(null, null, "yCoordinate", gsca.getAnglePoint().yCoordinate());
       }
-      writeIndent(writer, level);
-      writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GSCH_SetCharacterShear gsch) {
-      writer.writeStartElement("GSCH_SetCharacterShear");
-      writeElement(writer, childLevel, "lengthOfFollowingData", gsch.lengthOfFollowingData);
-      writeElement(writer, childLevel, "dividendOfShearRatio", gsch.getDividendOfShearRatio());
-      writeElement(writer, childLevel, "divisorOfShearRatio", gsch.getDivisorOfShearRatio());
-      writeIndent(writer, level);
-      writer.writeEndElement();
+      writer.writeEmptyElement("GSCH_SetCharacterShear");
+      writer.writeIntAttribute(null, null, "dividendOfShearRatio", gsch.getDividendOfShearRatio());
+      writer.writeIntAttribute(null, null, "divisorOfShearRatio", gsch.getDivisorOfShearRatio());
     } else if (order instanceof GAD_DrawingOrder.GSMC_SetMarkerCell gsmc) {
-      writer.writeStartElement("GSMC_SetMarkerCell");
-      writeElement(writer, childLevel, "lengthOfFollowingData", gsmc.lengthOfFollowingData);
-      writeElement(writer, childLevel, "widthOfMarkerCell", gsmc.getWidthOfMarkerCell());
-      writeElement(writer, childLevel, "heightOfMarkerCell", gsmc.getHeightOfMarkerCell());
-      writeIndent(writer, level);
-      writer.writeEndElement();
+      writer.writeEmptyElement("GSMC_SetMarkerCell");
+      writer.writeIntAttribute(null, null, "widthOfMarkerCell", gsmc.getWidthOfMarkerCell());
+      writer.writeIntAttribute(null, null, "heightOfMarkerCell", gsmc.getHeightOfMarkerCell());
     } else if (order instanceof GAD_DrawingOrder.GSLW_SetLineWidth gslw) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GSLW");
       writer.writeEmptyElement("GSLW_SetLineWidth");
@@ -1938,23 +1906,17 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writer.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSAP_SetArcParameters gsap) {
-      writer.writeStartElement("GSAP_SetArcParameters");
-      writeElement(writer, childLevel, "lengthOfFollowingData", gsap.lengthOfFollowingData);
-      writeElement(writer, childLevel, "arcTransformP", gsap.getArcTransformP());
-      writeElement(writer, childLevel, "arcTransformQ", gsap.getArcTransformQ());
-      writeElement(writer, childLevel, "arcTransformR", gsap.getArcTransformR());
-      writeElement(writer, childLevel, "arcTransformS", gsap.getArcTransformS());
-      writeIndent(writer, level);
-      writer.writeEndElement();
+      writer.writeEmptyElement("GSAP_SetArcParameters");
+      writer.writeIntAttribute(null, null, "arcTransformP", gsap.getArcTransformP());
+      writer.writeIntAttribute(null, null, "arcTransformQ", gsap.getArcTransformQ());
+      writer.writeIntAttribute(null, null, "arcTransformR", gsap.getArcTransformR());
+      writer.writeIntAttribute(null, null, "arcTransformS", gsap.getArcTransformS());
     } else if (order instanceof GAD_DrawingOrder.GSPRP_SetPatternReferencePoint gsprp) {
-      writer.writeStartElement("GSPRP_SetPatternReferencePoint");
-      writeElement(writer, childLevel, "lengthOfFollowingData", gsprp.lengthOfFollowingData);
-      writeElement(writer, childLevel, "flags", gsprp.getFlags());
-      writeElement(writer, childLevel, "reserved3", gsprp.getReserved3());
-      writeElement(writer, childLevel, "coordinateX", gsprp.getCoordinateX());
-      writeElement(writer, childLevel, "coordinateY", gsprp.getCoordinateY());
-      writeIndent(writer, level);
-      writer.writeEndElement();
+      writer.writeEmptyElement("GSPRP_SetPatternReferencePoint");
+      writer.writeIntAttribute(null, null, "flags", (int) gsprp.getFlags());
+      writer.writeIntAttribute(null, null, "reserved3", (int) gsprp.getReserved3());
+      writer.writeIntAttribute(null, null, "coordinateX", gsprp.getCoordinateX());
+      writer.writeIntAttribute(null, null, "coordinateY", gsprp.getCoordinateY());
     } else if (order instanceof GAD_DrawingOrder.GCPARC_PartialArcAtCurrentPosition gcparc) {
       writer.writeStartElement("GCPARC_PartialArcAtCurrentPosition");
       writeElement(writer, childLevel, "lengthOfFollowingData", gcparc.lengthOfFollowingData);
