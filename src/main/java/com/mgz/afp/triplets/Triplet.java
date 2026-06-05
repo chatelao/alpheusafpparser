@@ -1298,10 +1298,10 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
   @JacksonXmlRootElement(localName = "ObjectFunctionSetSpecification_Retired")
   public static final class ObjectFunctionSetSpecification_Retired extends Triplet {
     public ResourceObjectType.ROT_ObjectType objectType;
-    byte ocaArchitectureLevel;
-    int modcaFunctionSetIdentifier;
-    OCAFunctionSet ocaFunctionSet;
-    byte[] reserved;
+    public byte ocaArchitectureLevel;
+    public int modcaFunctionSetIdentifier;
+    public OCAFunctionSet ocaFunctionSet;
+    public byte[] reserved;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1708,7 +1708,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "DescriptorPosition")
   public static final class DescriptorPosition extends Triplet {
-    short objectAreaDescriptorID;
+    public short objectAreaDescriptorID;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1739,8 +1739,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "MediaEjectControl")
   public static final class MediaEjectControl extends Triplet {
-    byte reserved2 = 0x00;
-    MediaEjectControlType mediaEjectControl;
+    public byte reserved2 = 0x00;
+    public MediaEjectControlType mediaEjectControl;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1810,8 +1810,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "PageOverlayConditionalProcessing")
   public static final class PageOverlayConditionalProcessing extends Triplet {
-    PageOverlayType pageOverlayType;
-    Short levelOfOverlay;
+    public PageOverlayType pageOverlayType;
+    public Short levelOfOverlay;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1873,7 +1873,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "ResourceUsageAttribute")
   public static final class ResourceUsageAttribute extends Triplet {
-    FrequencyOfUse frequencyOfUse;
+    public FrequencyOfUse frequencyOfUse;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -1929,9 +1929,9 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "ObjectChecksum")
   public static final class ObjectChecksum extends Triplet {
-    CheckSumFormat checksumFormat;
-    int crcCheckSum;
-    EnumSet<ChecksumFlag> objectCheckSumFlags;
+    public CheckSumFormat checksumFormat;
+    public int crcCheckSum;
+    public EnumSet<ChecksumFlag> objectCheckSumFlags;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -2075,10 +2075,10 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "ObjectOriginIdentifier")
   public static final class ObjectOriginIdentifier extends Triplet {
-    AFPSystem originationSystem;
-    String systemIDSerialNumber;
-    String storageMediaID;
-    String dataSetID;
+    public AFPSystem originationSystem;
+    public String systemIDSerialNumber;
+    public String storageMediaID;
+    public String dataSetID;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -2153,7 +2153,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "IMMInsertionTriplet")
   public static final class IMMInsertionTriplet extends Triplet {
-    byte[] reserved2_3 = new byte[2];
+    public byte[] reserved2_3 = new byte[2];
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -2195,8 +2195,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "TextOrientation")
   public static final class TextOrientation extends Triplet {
-    AFPOrientation xOrientation;
-    AFPOrientation yOrientation;
+    public AFPOrientation xOrientation;
+    public AFPOrientation yOrientation;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -2235,7 +2235,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "LineDataObjectPositionMigration")
   public static final class LineDataObjectPositionMigration extends Triplet {
-    LocationAndOrientation locationAndOrientation;
+    public LocationAndOrientation locationAndOrientation;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -4550,9 +4550,9 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "UP3iFinishingOperation")
   public static final class UP3iFinishingOperation extends Triplet {
-    short sequenceNumber;
-    byte reserved3 = 0x00;
-    byte[] up3iData;
+    public short sequenceNumber;
+    public byte reserved3 = 0x00;
+    public byte[] up3iData;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
@@ -4645,8 +4645,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "SetupName")
   public static final class SetupName extends Triplet {
-    byte[] reserved2_3 = {0x00, 0x00};
-    String setupName;
+    public byte[] reserved2_3 = {0x00, 0x00};
+    public String setupName;
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

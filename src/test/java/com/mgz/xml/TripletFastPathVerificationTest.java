@@ -49,6 +49,26 @@ public class TripletFastPathVerificationTest {
         verifyTriplet(createPresentationSpaceMixingRule(), "PresentationSpaceMixingRule");
         verifyTriplet(createObjectContainerPresentationSpaceSize(), "ObjectContainerPresentationSpaceSize");
         verifyTriplet(createDeviceAppearance(), "DeviceAppearance");
+
+        // Remaining 18
+        verifyTriplet(createObjectFunctionSetSpecification_Retired(), "ObjectFunctionSetSpecification_Retired");
+        verifyTriplet(createDescriptorPosition(), "DescriptorPosition");
+        verifyTriplet(createMediaEjectControl(), "MediaEjectControl");
+        verifyTriplet(createPageOverlayConditionalProcessing(), "PageOverlayConditionalProcessing");
+        verifyTriplet(createResourceUsageAttribute(), "ResourceUsageAttribute");
+        verifyTriplet(createObjectChecksum(), "ObjectChecksum");
+        verifyTriplet(createObjectOriginIdentifier(), "ObjectOriginIdentifier");
+        verifyTriplet(createIMMInsertionTriplet(), "IMMInsertionTriplet");
+        verifyTriplet(createTextOrientation(), "TextOrientation");
+        verifyTriplet(createLineDataObjectPositionMigration(), "LineDataObjectPositionMigration");
+        verifyTriplet(createResourceObjectInclude(), "ResourceObjectInclude");
+        verifyTriplet(createPagePositionInformation(), "PagePositionInformation");
+        verifyTriplet(createParameterValue(), "ParameterValue");
+        verifyTriplet(createDataObjectFontDescriptor(), "DataObjectFontDescriptor");
+        verifyTriplet(createLocaleSelector(), "LocaleSelector");
+        verifyTriplet(createUP3iFinishingOperation(), "UP3iFinishingOperation");
+        verifyTriplet(createKeepGroupTogether(), "KeepGroupTogether");
+        verifyTriplet(createSetupName(), "SetupName");
     }
 
     private void verifyTriplet(Triplet triplet, String rootName) throws Exception {
@@ -304,5 +324,148 @@ public class TripletFastPathVerificationTest {
         da.appearance = Triplet.DeviceAppearance.Appearance.DeviceDefaultMonochrome;
         da.reserved5_6 = new byte[]{0x00, 0x00};
         return da;
+    }
+
+    private Triplet.ObjectFunctionSetSpecification_Retired createObjectFunctionSetSpecification_Retired() {
+        Triplet.ObjectFunctionSetSpecification_Retired ofss = new Triplet.ObjectFunctionSetSpecification_Retired();
+        ofss.objectType = Triplet.ResourceObjectType.ROT_ObjectType.PresentationText;
+        ofss.ocaArchitectureLevel = 1;
+        ofss.modcaFunctionSetIdentifier = 0x01;
+        ofss.ocaFunctionSet = Triplet.ObjectFunctionSetSpecification_Retired.OCAFunctionSet.PTOCA_PT1_or_BCOCA_BCD1;
+        ofss.reserved = new byte[]{0x00};
+        return ofss;
+    }
+
+    private Triplet.DescriptorPosition createDescriptorPosition() {
+        Triplet.DescriptorPosition dp = new Triplet.DescriptorPosition();
+        dp.objectAreaDescriptorID = 1;
+        return dp;
+    }
+
+    private Triplet.MediaEjectControl createMediaEjectControl() {
+        Triplet.MediaEjectControl mec = new Triplet.MediaEjectControl();
+        mec.reserved2 = 0x00;
+        mec.mediaEjectControl = Triplet.MediaEjectControl.MediaEjectControlType.EjectToNewSheet;
+        return mec;
+    }
+
+    private Triplet.PageOverlayConditionalProcessing createPageOverlayConditionalProcessing() {
+        Triplet.PageOverlayConditionalProcessing pocp = new Triplet.PageOverlayConditionalProcessing();
+        pocp.pageOverlayType = Triplet.PageOverlayConditionalProcessing.PageOverlayType.Normal;
+        pocp.levelOfOverlay = 1;
+        return pocp;
+    }
+
+    private Triplet.ResourceUsageAttribute createResourceUsageAttribute() {
+        Triplet.ResourceUsageAttribute rua = new Triplet.ResourceUsageAttribute();
+        rua.frequencyOfUse = Triplet.ResourceUsageAttribute.FrequencyOfUse.High;
+        return rua;
+    }
+
+    private Triplet.ObjectChecksum createObjectChecksum() {
+        Triplet.ObjectChecksum oc = new Triplet.ObjectChecksum();
+        oc.checksumFormat = Triplet.ObjectChecksum.CheckSumFormat.ObjectCycleRedundancyCheck;
+        oc.crcCheckSum = 0x1234;
+        oc.objectCheckSumFlags = EnumSet.of(Triplet.ObjectChecksum.ChecksumFlag.UsageScope_PrivateLimited);
+        return oc;
+    }
+
+    private Triplet.ObjectOriginIdentifier createObjectOriginIdentifier() {
+        Triplet.ObjectOriginIdentifier ooi = new Triplet.ObjectOriginIdentifier();
+        ooi.originationSystem = Triplet.ObjectOriginIdentifier.AFPSystem.MVS;
+        ooi.systemIDSerialNumber = "12345678";
+        ooi.storageMediaID = "ABCDEF";
+        ooi.dataSetID = "DATA.SET.NAME";
+        return ooi;
+    }
+
+    private Triplet.IMMInsertionTriplet createIMMInsertionTriplet() {
+        Triplet.IMMInsertionTriplet imm = new Triplet.IMMInsertionTriplet();
+        imm.reserved2_3 = new byte[]{0x00, 0x00};
+        return imm;
+    }
+
+    private Triplet.TextOrientation createTextOrientation() {
+        Triplet.TextOrientation to = new Triplet.TextOrientation();
+        to.xOrientation = AFPOrientation.ori0;
+        to.yOrientation = AFPOrientation.ori90;
+        return to;
+    }
+
+    private Triplet.LineDataObjectPositionMigration createLineDataObjectPositionMigration() {
+        Triplet.LineDataObjectPositionMigration ldopm = new Triplet.LineDataObjectPositionMigration();
+        ldopm.locationAndOrientation = Triplet.LineDataObjectPositionMigration.LocationAndOrientation.Standard_0;
+        return ldopm;
+    }
+
+    private Triplet.ResourceObjectInclude createResourceObjectInclude() {
+        Triplet.ResourceObjectInclude roi = new Triplet.ResourceObjectInclude();
+        roi.objectType = 0xDF;
+        roi.objectName = "RESNAME";
+        roi.xOrigin = 100;
+        roi.yOrigin = 200;
+        roi.orientation = AFPOrientation.ori0;
+        return roi;
+    }
+
+    private Triplet.PagePositionInformation createPagePositionInformation() {
+        Triplet.PagePositionInformation ppi = new Triplet.PagePositionInformation();
+        ppi.repeatingGroupNumber = 1;
+        return ppi;
+    }
+
+    private Triplet.ParameterValue createParameterValue() {
+        Triplet.ParameterValue pv = new Triplet.ParameterValue();
+        pv.reserved2 = 0x00;
+        pv.parameterSyntax = Triplet.ParameterValue.ParameterSyntax.CharacterString;
+        pv.parameterValue = "PARAMVAL".getBytes(StandardCharsets.US_ASCII);
+        return pv;
+    }
+
+    private Triplet.DataObjectFontDescriptor createDataObjectFontDescriptor() {
+        Triplet.DataObjectFontDescriptor dofd = new Triplet.DataObjectFontDescriptor();
+        dofd.fontInformationFlags = EnumSet.of(Triplet.DataObjectFontDescriptor.FontInformationFlag.MICR_MICR);
+        dofd.fontTechnology = 1;
+        dofd.specifiedVerticalFontSize = 120;
+        dofd.horizontalScaleFactor = 1000;
+        dofd.characterOrientation = AFPOrientation.ori0;
+        dofd.encodingEnvironment = 1;
+        dofd.encodingIdentifier = 1;
+        dofd.reserved14_15 = new byte[]{0x00, 0x00};
+        return dofd;
+    }
+
+    private Triplet.LocaleSelector createLocaleSelector() {
+        Triplet.LocaleSelector ls = new Triplet.LocaleSelector();
+        ls.reserved2 = 0x00;
+        ls.flags = EnumSet.of(Triplet.LocaleSelector.LocalSelectorFlag.LanguageCode_TwoBytes);
+        ls.languageCode = "en";
+        ls.scriptCode = "Latn";
+        ls.regionCode = "US";
+        ls.reserved28_35 = new byte[8];
+        ls.variantCode = "VAR";
+        return ls;
+    }
+
+    private Triplet.UP3iFinishingOperation createUP3iFinishingOperation() {
+        Triplet.UP3iFinishingOperation up3i = new Triplet.UP3iFinishingOperation();
+        up3i.sequenceNumber = 1;
+        up3i.reserved3 = 0x00;
+        up3i.up3iData = new byte[]{0x01, 0x02, 0x03};
+        return up3i;
+    }
+
+    private Triplet.KeepGroupTogether createKeepGroupTogether() {
+        Triplet.KeepGroupTogether kgt = new Triplet.KeepGroupTogether();
+        kgt.reserved2_3 = new byte[]{0x00, 0x00};
+        kgt.grpFnct = 1;
+        return kgt;
+    }
+
+    private Triplet.SetupName createSetupName() {
+        Triplet.SetupName sn = new Triplet.SetupName();
+        sn.reserved2_3 = new byte[]{0x00, 0x00};
+        sn.setupName = "SETUP";
+        return sn;
     }
 }

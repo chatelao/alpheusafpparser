@@ -1118,6 +1118,200 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       }
       writeIndent(writer, level);
       writer.writeEndElement();
+    } else if (triplet instanceof Triplet.ObjectFunctionSetSpecification_Retired ofss) {
+      writer.writeStartElement("ObjectFunctionSetSpecification_Retired");
+      if (ofss.objectType != null) {
+        writeElement(writer, childLevel, "objectType", ofss.objectType.name());
+      }
+      writeElement(writer, childLevel, "ocaArchitectureLevel", (int) ofss.ocaArchitectureLevel);
+      writeElement(writer, childLevel, "modcaFunctionSetIdentifier", ofss.modcaFunctionSetIdentifier);
+      if (ofss.ocaFunctionSet != null) {
+        writeElement(writer, childLevel, "ocaFunctionSet", ofss.ocaFunctionSet.name());
+      }
+      if (ofss.reserved != null) {
+        writeBinaryElement(writer, childLevel, "reserved", ofss.reserved);
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.DescriptorPosition dp) {
+      writer.writeStartElement("DescriptorPosition");
+      writeElement(writer, childLevel, "objectAreaDescriptorID", (int) dp.objectAreaDescriptorID);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.MediaEjectControl mec) {
+      writer.writeStartElement("MediaEjectControl");
+      writeElement(writer, childLevel, "reserved2", (int) mec.reserved2);
+      if (mec.mediaEjectControl != null) {
+        writeElement(writer, childLevel, "mediaEjectControl", mec.mediaEjectControl.name());
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.PageOverlayConditionalProcessing pocp) {
+      writer.writeStartElement("PageOverlayConditionalProcessing");
+      if (pocp.pageOverlayType != null) {
+        writeElement(writer, childLevel, "pageOverlayType", pocp.pageOverlayType.name());
+      }
+      if (pocp.levelOfOverlay != null) {
+        writeElement(writer, childLevel, "levelOfOverlay", (int) pocp.levelOfOverlay);
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.ResourceUsageAttribute rua) {
+      writer.writeStartElement("ResourceUsageAttribute");
+      if (rua.frequencyOfUse != null) {
+        writeElement(writer, childLevel, "frequencyOfUse", rua.frequencyOfUse.name());
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.ObjectChecksum oc) {
+      writer.writeStartElement("ObjectChecksum");
+      if (oc.checksumFormat != null) {
+        writeElement(writer, childLevel, "checksumFormat", oc.checksumFormat.name());
+      }
+      writeElement(writer, childLevel, "crcCheckSum", oc.crcCheckSum);
+      if (oc.objectCheckSumFlags != null) {
+        writeIndent(writer, childLevel);
+        writer.writeStartElement("objectCheckSumFlags");
+        for (Triplet.ObjectChecksum.ChecksumFlag flag : oc.objectCheckSumFlags) {
+          writeElement(writer, childLevel + 1, "objectCheckSumFlags", flag.name());
+        }
+        writeIndent(writer, childLevel);
+        writer.writeEndElement();
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.ObjectOriginIdentifier ooi) {
+      writer.writeStartElement("ObjectOriginIdentifier");
+      if (ooi.originationSystem != null) {
+        writeElement(writer, childLevel, "originationSystem", ooi.originationSystem.name());
+      }
+      writeElement(writer, childLevel, "systemIDSerialNumber", ooi.systemIDSerialNumber);
+      writeElement(writer, childLevel, "storageMediaID", ooi.storageMediaID);
+      writeElement(writer, childLevel, "dataSetID", ooi.dataSetID);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.IMMInsertionTriplet imm) {
+      writer.writeStartElement("IMMInsertionTriplet");
+      if (imm.reserved2_3 != null) {
+        writeBinaryElement(writer, childLevel, "reserved2_3", imm.reserved2_3);
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.TextOrientation to) {
+      writer.writeStartElement("TextOrientation");
+      if (to.xOrientation != null) {
+        writeElement(writer, childLevel, "xOrientation", to.xOrientation.name());
+      }
+      if (to.yOrientation != null) {
+        writeElement(writer, childLevel, "yOrientation", to.yOrientation.name());
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.LineDataObjectPositionMigration ldopm) {
+      writer.writeStartElement("LineDataObjectPositionMigration");
+      if (ldopm.locationAndOrientation != null) {
+        writeElement(writer, childLevel, "locationAndOrientation", ldopm.locationAndOrientation.name());
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.ResourceObjectInclude roi) {
+      writer.writeStartElement("ResourceObjectInclude");
+      writeElement(writer, childLevel, "objectType", (int) roi.objectType);
+      writeElement(writer, childLevel, "objectName", roi.objectName);
+      writeElement(writer, childLevel, "xOrigin", roi.xOrigin);
+      writeElement(writer, childLevel, "yOrigin", roi.yOrigin);
+      if (roi.orientation != null) {
+        writeElement(writer, childLevel, "orientation", roi.orientation.name());
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.PagePositionInformation ppi) {
+      writer.writeStartElement("PagePositionInformation");
+      writeElement(writer, childLevel, "repeatingGroupNumber", (int) ppi.repeatingGroupNumber);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.ParameterValue pv) {
+      writer.writeStartElement("ParameterValue");
+      writeElement(writer, childLevel, "reserved2", (int) pv.reserved2);
+      if (pv.parameterSyntax != null) {
+        writeElement(writer, childLevel, "parameterSyntax", pv.parameterSyntax.name());
+      }
+      if (pv.parameterValue != null) {
+        writeBinaryElement(writer, childLevel, "parameterValue", pv.parameterValue);
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.DataObjectFontDescriptor dofd) {
+      writer.writeStartElement("DataObjectFontDescriptor");
+      if (dofd.fontInformationFlags != null) {
+        writeIndent(writer, childLevel);
+        writer.writeStartElement("fontInformationFlags");
+        for (Triplet.DataObjectFontDescriptor.FontInformationFlag flag : dofd.fontInformationFlags) {
+          writeElement(writer, childLevel + 1, "fontInformationFlags", flag.name());
+        }
+        writeIndent(writer, childLevel);
+        writer.writeEndElement();
+      }
+      writeElement(writer, childLevel, "fontTechnology", (int) dofd.fontTechnology);
+      writeElement(writer, childLevel, "specifiedVerticalFontSize", (int) dofd.specifiedVerticalFontSize);
+      writeElement(writer, childLevel, "horizontalScaleFactor", (int) dofd.horizontalScaleFactor);
+      if (dofd.characterOrientation != null) {
+        writeElement(writer, childLevel, "characterOrientation", dofd.characterOrientation.name());
+      }
+      writeElement(writer, childLevel, "encodingEnvironment", (int) dofd.encodingEnvironment);
+      writeElement(writer, childLevel, "encodingIdentifier", (int) dofd.encodingIdentifier);
+      if (dofd.reserved14_15 != null) {
+        writeBinaryElement(writer, childLevel, "reserved14_15", dofd.reserved14_15);
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.LocaleSelector ls) {
+      writer.writeStartElement("LocaleSelector");
+      writeElement(writer, childLevel, "reserved2", (int) ls.reserved2);
+      if (ls.flags != null) {
+        writeIndent(writer, childLevel);
+        writer.writeStartElement("flags");
+        for (Triplet.LocaleSelector.LocalSelectorFlag flag : ls.flags) {
+          writeElement(writer, childLevel + 1, "flags", flag.name());
+        }
+        writeIndent(writer, childLevel);
+        writer.writeEndElement();
+      }
+      writeElement(writer, childLevel, "languageCode", ls.languageCode);
+      writeElement(writer, childLevel, "scriptCode", ls.scriptCode);
+      writeElement(writer, childLevel, "regionCode", ls.regionCode);
+      if (ls.reserved28_35 != null) {
+        writeBinaryElement(writer, childLevel, "reserved28_35", ls.reserved28_35);
+      }
+      writeElement(writer, childLevel, "variantCode", ls.variantCode);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.UP3iFinishingOperation up3i) {
+      writer.writeStartElement("UP3iFinishingOperation");
+      writeElement(writer, childLevel, "sequenceNumber", (int) up3i.sequenceNumber);
+      writeElement(writer, childLevel, "reserved3", (int) up3i.reserved3);
+      if (up3i.up3iData != null) {
+        writeBinaryElement(writer, childLevel, "up3iData", up3i.up3iData);
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.KeepGroupTogether kgt) {
+      writer.writeStartElement("KeepGroupTogether");
+      if (kgt.reserved2_3 != null) {
+        writeBinaryElement(writer, childLevel, "reserved2_3", kgt.reserved2_3);
+      }
+      writeElement(writer, childLevel, "grpFnct", (int) kgt.grpFnct);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.SetupName sn) {
+      writer.writeStartElement("SetupName");
+      if (sn.reserved2_3 != null) {
+        writeBinaryElement(writer, childLevel, "reserved2_3", sn.reserved2_3);
+      }
+      writeElement(writer, childLevel, "setupName", sn.setupName);
+      writeElement(writer, childLevel, "text", sn.setupName);
+      writeIndent(writer, level);
+      writer.writeEndElement();
     } else {
       JacksonXmlMapperProvider.getCachedWriter(triplet.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, triplet);
     }
