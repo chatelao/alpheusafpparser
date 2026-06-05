@@ -595,15 +595,35 @@ public class PdfHandler implements StructuredFieldHandler {
       graphicsState.setDrawAreaBoundary((gbar.getInternalFlags() & 0x40) != 0);
       // Bit 2 (0x20): INSIDE indicator. B'0' = Alternate (Even-Odd), B'1' = Nonzero Winding.
       graphicsState.setEvenOddRule((gbar.getInternalFlags() & 0x20) == 0);
+    } else if (order instanceof GAD_DrawingOrder.GBCP_BeginCustomPattern gbcp) {
+      float width = Math.abs(gbcp.xRightWindow - gbcp.xLeftWindow);
+      float height = Math.abs(gbcp.yTopWindow - gbcp.yBottomWindow);
+      if (width <= 0) width = 100;
+      if (height <= 0) height = 100;
+
+      PdfPattern.Tiling tiling = new PdfPattern.Tiling(new com.itextpdf.kernel.geom.Rectangle(width, height));
+      String key = "CUSTOM_" + gbcp.patternSet + "_" + gbcp.patternSymbol;
+      patternCache.put(key, tiling);
+
+      if (currentCanvas != null) {
+        canvasStack.push(currentCanvas);
+      }
+      this.currentCanvas = new PdfCanvas((PdfStream) tiling.getPdfObject(), tiling.getResources(), pdfDoc);
+      // We don't apply the global flip here because custom patterns are often defined in their own space
+    } else if (order instanceof GAD_DrawingOrder.GECP_EndCustomPattern) {
+      if (!canvasStack.isEmpty()) {
+        this.currentCanvas = canvasStack.pop();
+      }
     } else if (order instanceof GEAR_EndArea) {
       if (currentCanvas != null && graphicsState.isInArea()) {
         currentCanvas.closePath();
         short pattern = graphicsState.getPatternSymbol();
+        short patternSet = graphicsState.getPatternSet();
         // X'0F' and X'40' are No Fill. X'00' is default (usually solid X'10').
         boolean noFill = (pattern == 0x0F || pattern == 0x40);
 
         if (!noFill) {
-          applyPattern(pattern);
+          applyPattern(patternSet, pattern);
         }
 
         if (graphicsState.isDrawAreaBoundary()) {
@@ -703,7 +723,13 @@ public class PdfHandler implements StructuredFieldHandler {
         float y = Math.min(gbox.getFirstCorner().yCoordinate(), gbox.getDiagonalCorner().yCoordinate());
         float width = Math.abs(gbox.getFirstCorner().xCoordinate() - gbox.getDiagonalCorner().xCoordinate());
         float height = Math.abs(gbox.getFirstCorner().yCoordinate() - gbox.getDiagonalCorner().yCoordinate());
-        currentCanvas.rectangle(x, y, width, height);
+        float rx = gbox.getxAxisLengthForRoundCorner() != null ? gbox.getxAxisLengthForRoundCorner() : 0;
+        float ry = gbox.getyAxisLengthForRoundCorner() != null ? gbox.getyAxisLengthForRoundCorner() : rx;
+        if (rx > 0 || ry > 0) {
+          currentCanvas.roundRectangle(x, y, width, height, Math.max(rx, ry));
+        } else {
+          currentCanvas.rectangle(x, y, width, height);
+        }
         if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
           currentCanvas.stroke();
         }
@@ -717,7 +743,13 @@ public class PdfHandler implements StructuredFieldHandler {
         float y = Math.min(graphicsState.getCurrentY(), gcbox.getDiagonalCorner().yCoordinate());
         float width = Math.abs(graphicsState.getCurrentX() - gcbox.getDiagonalCorner().xCoordinate());
         float height = Math.abs(graphicsState.getCurrentY() - gcbox.getDiagonalCorner().yCoordinate());
-        currentCanvas.rectangle(x, y, width, height);
+        float rx = gcbox.getxAxisLengthForRoundCorner() != null ? gcbox.getxAxisLengthForRoundCorner() : 0;
+        float ry = gcbox.getyAxisLengthForRoundCorner() != null ? gcbox.getyAxisLengthForRoundCorner() : rx;
+        if (rx > 0 || ry > 0) {
+          currentCanvas.roundRectangle(x, y, width, height, Math.max(rx, ry));
+        } else {
+          currentCanvas.rectangle(x, y, width, height);
+        }
         if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
           currentCanvas.stroke();
         }
@@ -1054,7 +1086,16 @@ public class PdfHandler implements StructuredFieldHandler {
     }
   }
 
-  private void applyPattern(short symbol) {
+  private void applyPattern(short set, short symbol) {
+    if (set != 0) {
+      String customKey = "CUSTOM_" + set + "_" + symbol;
+      PdfPattern.Tiling tiling = patternCache.get(customKey);
+      if (tiling != null) {
+        currentCanvas.setFillColor(new PatternColor(tiling));
+        return;
+      }
+    }
+
     if (symbol <= 0 || symbol >= 16 || symbol == 0x0F) {
       // Use current solid color
       Color color = ColorHandler.getColor(graphicsState.getColor());

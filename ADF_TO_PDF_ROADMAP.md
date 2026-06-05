@@ -110,7 +110,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
             - ✅ **Standard Patterns**: Map GOCA standard patterns to PDF tiling patterns.
                 - ✅ **Solid and No Fill**: Implement basic fill/no-fill logic for Pattern Set 0.
                 - ✅ **Hatch Patterns**: Map lines and cross-hatches (symbols 1-14) to tiling patterns.
-            - ⏳ **Custom Patterns**: Map `GBCP`/`GECP` to PDF tiling patterns.
+                - ✅ **Custom Patterns**: Map `GBCP`/`GECP` to PDF tiling patterns.
     - 🚧 **Resource Mapping**:
         - 🚧 **Segment Mapping**: Implement inline rendering for GOCA segments (`GBSEG`). (XObject conversion pending).
 - ⏳ **BCOCA Renderer**: Implement barcode drawing using vector primitives for resolution independence.
@@ -132,7 +132,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ⏳ **PDF417**: Implement rendering for PDF417 barcodes.
     - 🚧 **Postal Barcode Support**:
         - ✅ **POSTNET/PLANET**: Implement rendering for POSTNET and PLANET barcodes.
-        - ⏳ **Intelligent Mail Barcode (IMB)**: Implement rendering for USPS IMB.
+        - ✅ **Intelligent Mail Barcode (IMB)**: Implement rendering for USPS IMB. (Direct mode 0x01).
         - ✅ **Japan Postal**: Implement rendering for Japan Postal barcodes.
     - ✅ **HRI Rendering**: Implement Human Readable Interpretation (HRI) text placement and font mapping.
 - ⏳ **IOCA Renderer**: Map image data to PDF Image XObjects.
