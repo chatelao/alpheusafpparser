@@ -17,6 +17,16 @@ public class PtocaFastPathTest {
         PTX_PresentationTextData ptx = new PTX_PresentationTextData();
         List<PTOCAControlSequence> sequences = new ArrayList<>();
 
+        // AMI
+        PTOCAControlSequence.AMI_AbsoluteMoveInline ami = new PTOCAControlSequence.AMI_AbsoluteMoveInline();
+        ami.setDisplacement((short) 100);
+        sequences.add(ami);
+
+        // AMB
+        PTOCAControlSequence.AMB_AbsoluteMoveBaseline amb = new PTOCAControlSequence.AMB_AbsoluteMoveBaseline();
+        amb.setDisplacement((short) 200);
+        sequences.add(amb);
+
         // RMI
         PTOCAControlSequence.RMI_RelativeMoveInline rmi = new PTOCAControlSequence.RMI_RelativeMoveInline();
         rmi.setIncrement((short) 100);
@@ -74,6 +84,11 @@ public class PtocaFastPathTest {
         ovs.setOverStrikeCharacterCodePoint(0x60);
         sequences.add(ovs);
 
+        // SVI
+        PTOCAControlSequence.SVI_SetVariableSpaceCharacterIncrement svi = new PTOCAControlSequence.SVI_SetVariableSpaceCharacterIncrement();
+        svi.setIncrement((short) 15);
+        sequences.add(svi);
+
         ptx.setControlSequences(sequences);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -84,6 +99,8 @@ public class PtocaFastPathTest {
         String xml = baos.toString();
         System.out.println("XML Output:\n" + xml);
 
+        assertTrue(xml.contains("<AMI_AbsoluteMoveInline displacement=\"100\"/>"));
+        assertTrue(xml.contains("<AMB_AbsoluteMoveBaseline displacement=\"200\"/>"));
         assertTrue(xml.contains("<RMI_RelativeMoveInline increment=\"100\"/>"));
         assertTrue(xml.contains("<RMB_RelativeMoveBaseline increment=\"50\"/>"));
         assertTrue(xml.contains("<SIM_SetInlineMargin displacement=\"200\"/>"));
@@ -93,12 +110,8 @@ public class PtocaFastPathTest {
         assertTrue(xml.contains("<ESU_EndSuppression suppressionID=\"1\"/>"));
         assertTrue(xml.contains("<STC_SetTextColor foregroundColor=\"Blue_0x01\" precision=\"IfSpecifiedColorNotSupported_SubstitutColorOrDefaul0xFF07\"/>"));
         assertTrue(xml.contains("<USC_Underscore bypassFlag=\"NoBypass\"/>"));
-        assertTrue(xml.contains("<TBM_TemporaryBaselineMove>"));
-        assertTrue(xml.contains("<direction>MoveAwayFromIAxis</direction>"));
-        assertTrue(xml.contains("<precision>AccuratelyPlaced</precision>"));
-        assertTrue(xml.contains("<temporaryBaselineIncrement>20</temporaryBaselineIncrement>"));
-        assertTrue(xml.contains("<OVS_Overstrike>"));
-        assertTrue(xml.contains("<bypassFlag>NoBypass</bypassFlag>"));
-        assertTrue(xml.contains("<overStrikeCharacterCodePoint>96</overStrikeCharacterCodePoint>"));
+        assertTrue(xml.contains("<TBM_TemporaryBaselineMove direction=\"MoveAwayFromIAxis\" precision=\"AccuratelyPlaced\" temporaryBaselineIncrement=\"20\"/>"));
+        assertTrue(xml.contains("<OVS_Overstrike bypassFlag=\"NoBypass\" overStrikeCharacterCodePoint=\"96\"/>"));
+        assertTrue(xml.contains("<SVI_SetVariableSpaceCharacterIncrement increment=\"15\"/>"));
     }
 }

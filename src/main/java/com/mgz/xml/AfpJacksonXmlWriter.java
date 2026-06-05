@@ -1578,29 +1578,27 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.TBM_TemporaryBaselineMove tbm) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("TBM");
-      baseXsw.writeStartElement("TBM_TemporaryBaselineMove");
+      baseXsw.writeEmptyElement("TBM_TemporaryBaselineMove");
       if (tbm.getDirection() != null) {
-        writeElement(baseXsw, childLevel, "direction", tbm.getDirection().name());
+        baseXsw.writeAttribute("direction", tbm.getDirection().name());
       }
       if (tbm.getPrecision() != null) {
-        writeElement(baseXsw, childLevel, "precision", tbm.getPrecision().name());
+        baseXsw.writeAttribute("precision", tbm.getPrecision().name());
       }
       if (tbm.getTemporaryBaselineIncrement() != null) {
-        writeElement(baseXsw, childLevel, "temporaryBaselineIncrement", tbm.getTemporaryBaselineIncrement());
+        baseXsw.writeIntAttribute(null, null, "temporaryBaselineIncrement", tbm.getTemporaryBaselineIncrement());
       }
-      writeIndent(baseXsw, level);
-      baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.OVS_Overstrike ovs) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("OVS");
-      baseXsw.writeStartElement("OVS_Overstrike");
+      baseXsw.writeEmptyElement("OVS_Overstrike");
       if (ovs.getBypassFlag() != null) {
-        writeElement(baseXsw, childLevel, "bypassFlag", ovs.getBypassFlag().name());
+        baseXsw.writeAttribute("bypassFlag", ovs.getBypassFlag().name());
       }
-      writeElement(baseXsw, childLevel, "overStrikeCharacterCodePoint", ovs.getOverStrikeCharacterCodePoint());
-      writeElement(baseXsw, childLevel, "text", ovs.getText());
-      writeIndent(baseXsw, level);
-      baseXsw.writeEndElement();
+      baseXsw.writeIntAttribute(null, null, "overStrikeCharacterCodePoint", ovs.getOverStrikeCharacterCodePoint());
+      if (ovs.getText() != null) {
+        baseXsw.writeAttribute("text", ovs.getText());
+      }
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.RPS_RepeatString rps) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("RPS");
