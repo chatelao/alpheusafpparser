@@ -1445,94 +1445,45 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(baseXsw, level);
       baseXsw.writeRawBytes(XmlTagTemplates.GC_END, 0, XmlTagTemplates.GC_END.length);
       MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.AMI_AbsoluteMoveInline ami && !indentEnabled) {
+    } else if (cs instanceof PTOCAControlSequence.AMI_AbsoluteMoveInline ami) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("AMI");
       XmlTemplateRegistry.getTemplate("AMI").write(baseXsw, ami.getDisplacement());
       MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.AMB_AbsoluteMoveBaseline amb && !indentEnabled) {
+    } else if (cs instanceof PTOCAControlSequence.AMB_AbsoluteMoveBaseline amb) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("AMB");
       XmlTemplateRegistry.getTemplate("AMB").write(baseXsw, amb.getDisplacement());
       MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.RMI_RelativeMoveInline rmi && !indentEnabled) {
+    } else if (cs instanceof PTOCAControlSequence.RMI_RelativeMoveInline rmi) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("RMI");
       XmlTemplateRegistry.getTemplate("RMI").write(baseXsw, rmi.getIncrement());
       MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.RMB_RelativeMoveBaseline rmb && !indentEnabled) {
+    } else if (cs instanceof PTOCAControlSequence.RMB_RelativeMoveBaseline rmb) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("RMB");
       XmlTemplateRegistry.getTemplate("RMB").write(baseXsw, rmb.getIncrement());
       MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.SIM_SetInlineMargin sim && !indentEnabled) {
+    } else if (cs instanceof PTOCAControlSequence.SIM_SetInlineMargin sim) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SIM");
       XmlTemplateRegistry.getTemplate("SIM").write(baseXsw, sim.getDisplacement());
       MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.SCFL_SetCodedFontLocal scfl && !indentEnabled) {
+    } else if (cs instanceof PTOCAControlSequence.SCFL_SetCodedFontLocal scfl) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SCFL");
       XmlTemplateRegistry.getTemplate("SCFL").write(baseXsw, scfl.getCodedFontLocalID());
       MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.SBI_SetBaselineIncrement sbi && !indentEnabled) {
+    } else if (cs instanceof PTOCAControlSequence.SBI_SetBaselineIncrement sbi) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SBI");
       XmlTemplateRegistry.getTemplate("SBI").write(baseXsw, sbi.getIncrement());
       MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.BLN_BeginLine && !indentEnabled) {
+    } else if (cs instanceof PTOCAControlSequence.BLN_BeginLine) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("BLN");
       XmlTemplateRegistry.getTemplate("BLN").write(baseXsw);
       MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.BSU_BeginSuppression bsu && !indentEnabled) {
+    } else if (cs instanceof PTOCAControlSequence.BSU_BeginSuppression bsu) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("BSU");
       XmlTemplateRegistry.getTemplate("BSU").write(baseXsw, bsu.getSuppressionID());
       MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.ESU_EndSuppression esu && !indentEnabled) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("ESU");
-      XmlTemplateRegistry.getTemplate("ESU").write(baseXsw, esu.getSuppressionID());
-      MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.AMI_AbsoluteMoveInline ami) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("AMI");
-      baseXsw.writeEmptyElement("AMI_AbsoluteMoveInline");
-      baseXsw.writeIntAttribute(null, null, "displacement", ami.getDisplacement());
-      MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.AMB_AbsoluteMoveBaseline amb) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("AMB");
-      baseXsw.writeEmptyElement("AMB_AbsoluteMoveBaseline");
-      baseXsw.writeIntAttribute(null, null, "displacement", amb.getDisplacement());
-      MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.RMI_RelativeMoveInline rmi) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("RMI");
-      baseXsw.writeEmptyElement("RMI_RelativeMoveInline");
-      baseXsw.writeIntAttribute(null, null, "increment", rmi.getIncrement());
-      MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.RMB_RelativeMoveBaseline rmb) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("RMB");
-      baseXsw.writeEmptyElement("RMB_RelativeMoveBaseline");
-      baseXsw.writeIntAttribute(null, null, "increment", rmb.getIncrement());
-      MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.SIM_SetInlineMargin sim) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("SIM");
-      baseXsw.writeEmptyElement("SIM_SetInlineMargin");
-      baseXsw.writeIntAttribute(null, null, "displacement", sim.getDisplacement());
-      MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.SCFL_SetCodedFontLocal scfl) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("SCFL");
-      baseXsw.writeEmptyElement("SCFL_SetCodedFontLocal");
-      baseXsw.writeIntAttribute(null, null, "codedFontLocalID", scfl.getCodedFontLocalID());
-      MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.SBI_SetBaselineIncrement sbi) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("SBI");
-      baseXsw.writeEmptyElement("SBI_SetBaselineIncrement");
-      baseXsw.writeIntAttribute(null, null, "increment", sbi.getIncrement());
-      MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.BLN_BeginLine) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("BLN");
-      baseXsw.writeEmptyElement("BLN_BeginLine");
-      MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.BSU_BeginSuppression bsu) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("BSU");
-      baseXsw.writeEmptyElement("BSU_BeginSuppression");
-      baseXsw.writeIntAttribute(null, null, "suppressionID", bsu.getSuppressionID());
-      MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.ESU_EndSuppression esu) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("ESU");
-      baseXsw.writeEmptyElement("ESU_EndSuppression");
-      baseXsw.writeIntAttribute(null, null, "suppressionID", esu.getSuppressionID());
+      XmlTemplateRegistry.getTemplate("ESU").write(baseXsw, esu.getSuppressionID());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.STO_SetTextOrientation sto) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("STO");
@@ -1571,8 +1522,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.SVI_SetVariableSpaceCharacterIncrement svi) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SVI");
-      baseXsw.writeEmptyElement("SVI_SetVariableSpaceCharacterIncrement");
-      baseXsw.writeIntAttribute(null, null, "increment", svi.getIncrement());
+      XmlTemplateRegistry.getTemplate("SVI").write(baseXsw, svi.getIncrement());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.SEC_SetExtendedTextColor sec) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SEC");
@@ -1628,29 +1578,27 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.TBM_TemporaryBaselineMove tbm) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("TBM");
-      baseXsw.writeStartElement("TBM_TemporaryBaselineMove");
+      baseXsw.writeEmptyElement("TBM_TemporaryBaselineMove");
       if (tbm.getDirection() != null) {
-        writeElement(baseXsw, childLevel, "direction", tbm.getDirection().name());
+        baseXsw.writeAttribute("direction", tbm.getDirection().name());
       }
       if (tbm.getPrecision() != null) {
-        writeElement(baseXsw, childLevel, "precision", tbm.getPrecision().name());
+        baseXsw.writeAttribute("precision", tbm.getPrecision().name());
       }
       if (tbm.getTemporaryBaselineIncrement() != null) {
-        writeElement(baseXsw, childLevel, "temporaryBaselineIncrement", tbm.getTemporaryBaselineIncrement());
+        baseXsw.writeIntAttribute(null, null, "temporaryBaselineIncrement", tbm.getTemporaryBaselineIncrement());
       }
-      writeIndent(baseXsw, level);
-      baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.OVS_Overstrike ovs) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("OVS");
-      baseXsw.writeStartElement("OVS_Overstrike");
+      baseXsw.writeEmptyElement("OVS_Overstrike");
       if (ovs.getBypassFlag() != null) {
-        writeElement(baseXsw, childLevel, "bypassFlag", ovs.getBypassFlag().name());
+        baseXsw.writeAttribute("bypassFlag", ovs.getBypassFlag().name());
       }
-      writeElement(baseXsw, childLevel, "overStrikeCharacterCodePoint", ovs.getOverStrikeCharacterCodePoint());
-      writeElement(baseXsw, childLevel, "text", ovs.getText());
-      writeIndent(baseXsw, level);
-      baseXsw.writeEndElement();
+      baseXsw.writeIntAttribute(null, null, "overStrikeCharacterCodePoint", ovs.getOverStrikeCharacterCodePoint());
+      if (ovs.getText() != null) {
+        baseXsw.writeAttribute("text", ovs.getText());
+      }
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.RPS_RepeatString rps) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("RPS");

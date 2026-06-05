@@ -40,6 +40,7 @@ public class XmlTemplateRegistry {
     register("SIM", new String[] {"<SIM_SetInlineMargin displacement=\"", "\"/>"});
     register("BSU", new String[] {"<BSU_BeginSuppression suppressionID=\"", "\"/>"});
     register("ESU", new String[] {"<ESU_EndSuppression suppressionID=\"", "\"/>"});
+    register("SVI", new String[] {"<SVI_SetVariableSpaceCharacterIncrement increment=\"", "\"/>"});
     register("BLN", new String[] {"<BLN_BeginLine/>"});
   }
 
