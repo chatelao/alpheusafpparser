@@ -35,6 +35,9 @@ public class PTXPerformanceMonitor {
   private static final LongAdder totalPtxCount = new LongAdder();
   private static final LongAdder totalPtxParseTime = new LongAdder();
   private static final LongAdder totalPtxWriteTime = new LongAdder();
+  private static final LongAdder totalPtxIndentationTime = new LongAdder();
+  private static final LongAdder totalPtxEncodingTime = new LongAdder();
+  private static final LongAdder totalPtxFlushTime = new LongAdder();
   private static final LongAdder totalPtxXmlSize = new LongAdder();
   private static final LongAdder totalPtxPayloadSize = new LongAdder();
   private static final LongAdder totalPtxControlSequences = new LongAdder();
@@ -49,6 +52,8 @@ public class PTXPerformanceMonitor {
 
   private static final ThreadLocal<LocalPtxStats> localStats = ThreadLocal.withInitial(LocalPtxStats::new);
 
+  private static final ThreadLocal<Boolean> inPtx = ThreadLocal.withInitial(() -> Boolean.FALSE);
+
   public static void setEnabled(boolean enabled) {
     PTXPerformanceMonitor.enabled = enabled;
   }
@@ -57,6 +62,9 @@ public class PTXPerformanceMonitor {
     totalPtxCount.reset();
     totalPtxParseTime.reset();
     totalPtxWriteTime.reset();
+    totalPtxIndentationTime.reset();
+    totalPtxEncodingTime.reset();
+    totalPtxFlushTime.reset();
     totalPtxXmlSize.reset();
     totalPtxPayloadSize.reset();
     totalPtxControlSequences.reset();
@@ -72,6 +80,14 @@ public class PTXPerformanceMonitor {
 
   public static boolean isEnabled() {
     return enabled;
+  }
+
+  public static void setInPtx(boolean in) {
+    inPtx.set(in);
+  }
+
+  public static boolean isInPtx() {
+    return inPtx.get();
   }
 
   /**
@@ -126,6 +142,18 @@ public class PTXPerformanceMonitor {
     local.totalPtxXmlSize += xmlSize;
   }
 
+  public static void recordPtxIndentation(long durationNs) {
+    localStats.get().indentationTime += durationNs;
+  }
+
+  public static void recordPtxEncoding(long durationNs) {
+    localStats.get().encodingTime += durationNs;
+  }
+
+  public static void recordPtxFlush(long durationNs) {
+    localStats.get().flushTime += durationNs;
+  }
+
   public static void recordPtocaParse(String functionName, long durationNs, int payloadSize) {
     LocalPtocaStats stats = localStats.get().ptocaStats.computeIfAbsent(functionName, k -> new LocalPtocaStats());
     stats.count++;
@@ -170,6 +198,9 @@ public class PTXPerformanceMonitor {
     totalPtxCount.add(local.totalPtxCount);
     totalPtxParseTime.add(local.totalPtxParseTime);
     totalPtxWriteTime.add(local.totalPtxWriteTime);
+    totalPtxIndentationTime.add(local.indentationTime);
+    totalPtxEncodingTime.add(local.encodingTime);
+    totalPtxFlushTime.add(local.flushTime);
     totalPtxXmlSize.add(local.totalPtxXmlSize);
     totalPtxPayloadSize.add(local.totalPtxPayloadSize);
     totalPtxControlSequences.add(local.totalPtxControlSequences);
@@ -228,6 +259,28 @@ public class PTXPerformanceMonitor {
     System.out.println(String.format("| Avg CS per PTX | %.2f |", (double) totalPtxControlSequences.sum() / count));
     System.out.println(String.format("| Avg Payload per PTX | %.2f bytes |", (double) totalPtxPayloadSize.sum() / count));
 
+    System.out.println("\n#### PTX Write Breakdown");
+    System.out.println();
+    System.out.println("| Category | Total Time (ms) | % of Write Time |");
+    System.out.println("| :--- | ---: | ---: |");
+    long writeTimeNs = totalPtxWriteTime.sum();
+    long writeTimeMs = writeTimeNs / 1_000_000;
+    if (writeTimeNs > 0) {
+      long indentNs = totalPtxIndentationTime.sum();
+      long encodingNs = totalPtxEncodingTime.sum();
+      long flushNs = totalPtxFlushTime.sum();
+      long otherNs = writeTimeNs - indentNs - encodingNs - flushNs;
+      System.out.println(String.format("| Indentation | %d ms | %.1f%% |", indentNs / 1_000_000, (double) indentNs * 100 / writeTimeNs));
+      System.out.println(String.format("| EBCDIC Encoding | %d ms | %.1f%% |", encodingNs / 1_000_000, (double) encodingNs * 100 / writeTimeNs));
+      System.out.println(String.format("| Woodstox Flush | %d ms | %.1f%% |", flushNs / 1_000_000, (double) flushNs * 100 / writeTimeNs));
+      System.out.println(String.format("| Other (Jackson/StAX) | %d ms | %.1f%% |", otherNs / 1_000_000, (double) otherNs * 100 / writeTimeNs));
+    } else {
+      System.out.println("| Indentation | 0 ms | 0.0% |");
+      System.out.println("| EBCDIC Encoding | 0 ms | 0.0% |");
+      System.out.println("| Woodstox Flush | 0 ms | 0.0% |");
+      System.out.println("| Other (Jackson/StAX) | 0 ms | 0.0% |");
+    }
+
     if (!ptocaFunctionCounts.isEmpty()) {
       System.out.println("\n#### PTOCA Function Breakdown");
       System.out.println();
@@ -262,6 +315,9 @@ public class PTXPerformanceMonitor {
     long totalPtxCount = 0;
     long totalPtxParseTime = 0;
     long totalPtxWriteTime = 0;
+    long indentationTime = 0;
+    long encodingTime = 0;
+    long flushTime = 0;
     long totalPtxXmlSize = 0;
     long totalPtxPayloadSize = 0;
     long totalPtxControlSequences = 0;
@@ -271,6 +327,9 @@ public class PTXPerformanceMonitor {
       totalPtxCount = 0;
       totalPtxParseTime = 0;
       totalPtxWriteTime = 0;
+      indentationTime = 0;
+      encodingTime = 0;
+      flushTime = 0;
       totalPtxXmlSize = 0;
       totalPtxPayloadSize = 0;
       totalPtxControlSequences = 0;
