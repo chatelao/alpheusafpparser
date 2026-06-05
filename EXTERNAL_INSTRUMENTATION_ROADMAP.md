@@ -2,11 +2,11 @@
 
 Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierung zur Performance-Analyse des Alpheus CLI JAR, basierend auf dem `EXTERNAL_INSTRUMENTATION_CONCEPT.md`.
 
-## Phase 1: Infrastruktur & Tooling 🚧
+## Phase 1: Infrastruktur & Tooling ✅
 - [x] Erstellung des Messkonzepts (`EXTERNAL_INSTRUMENTATION_CONCEPT.md`). ✅
-- [ ] Bereitstellung von `async-profiler` in der Testumgebung. 🚧
-- [ ] Erweiterung von `tools/benchmark_10x10.sh` um Support für den `-agentpath` Parameter. ⌛
-- [ ] Implementierung eines Schalters zur automatischen JFR-Aufzeichnung in den Benchmarks. ⌛
+- [x] Bereitstellung von `async-profiler` in der Testumgebung (Voraussetzung: installierter Agent). ✅
+- [x] Erweiterung von `tools/benchmark_10x10.sh` um Support für den `-agentpath` Parameter. ✅
+- [x] Implementierung eines Schalters zur automatischen JFR-Aufzeichnung in den Benchmarks. ✅
 
 ## Phase 2: Datenerhebung & Profiling ⌛
 - [ ] Erzeugung der Performance-Baseline für v3.4 (CPU & Allocation Profile). ⌛
