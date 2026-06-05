@@ -232,8 +232,12 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   @Override
   public void handle(StructuredField sf) throws Exception {
     boolean isPtx = sf instanceof PTX_PresentationTextData;
-    long startTime = (isPtx && com.mgz.util.PTXPerformanceMonitor.isEnabled()) ? System.nanoTime() : 0;
-    long startCount = (isPtx && com.mgz.util.PTXPerformanceMonitor.isEnabled()) ? cos.getCount() : 0;
+    boolean ptxDebug = isPtx && com.mgz.util.PTXPerformanceMonitor.isEnabled();
+    long startTime = ptxDebug ? System.nanoTime() : 0;
+    long startCount = ptxDebug ? cos.getCount() : 0;
+    if (ptxDebug) {
+      com.mgz.util.PTXPerformanceMonitor.setInPtx(true);
+    }
     try {
       if (xpathExpression != null) {
         writeFieldWithXpath(sf);
@@ -241,11 +245,17 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writeFieldDirectly(sf);
       }
     } finally {
-      if (startTime > 0) {
-        if (xsw != null) {
-          xsw.flush();
+      try {
+        if (startTime > 0) {
+          if (xsw != null) {
+            xsw.flush();
+          }
+          com.mgz.util.PTXPerformanceMonitor.recordPtxWrite(System.nanoTime() - startTime, cos.getCount() - startCount);
         }
-        com.mgz.util.PTXPerformanceMonitor.recordPtxWrite(System.nanoTime() - startTime, cos.getCount() - startCount);
+      } finally {
+        if (ptxDebug) {
+          com.mgz.util.PTXPerformanceMonitor.setInPtx(false);
+        }
       }
     }
   }
@@ -3268,10 +3278,14 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   private void writeIndent(XMLStreamWriter2 writer, int level) throws Exception {
     if (indentEnabled) {
+      long start = com.mgz.util.PTXPerformanceMonitor.isInPtx() ? System.nanoTime() : 0;
       if (writer instanceof AfpXmlStreamWriter afpXsw) {
         XmlIndenter.writeIndent(afpXsw, level);
       } else {
         writer.writeRaw(XmlIndenter.getIndent(level));
+      }
+      if (start > 0) {
+        com.mgz.util.PTXPerformanceMonitor.recordPtxIndentation(System.nanoTime() - start);
       }
     }
   }

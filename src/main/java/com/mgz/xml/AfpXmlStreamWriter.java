@@ -294,6 +294,15 @@ public class AfpXmlStreamWriter extends SanitizingXMLStreamWriter {
     super.writeBinaryAttribute(prefix, nsURI, localName, value);
   }
 
+  @Override
+  public void flush() throws XMLStreamException {
+    long start = com.mgz.util.PTXPerformanceMonitor.isInPtx() ? System.nanoTime() : 0;
+    super.flush();
+    if (start > 0) {
+      com.mgz.util.PTXPerformanceMonitor.recordPtxFlush(System.nanoTime() - start);
+    }
+  }
+
   /**
    * Writes raw bytes directly to the underlying output stream, flushing Woodstox first if necessary.
    *
@@ -309,7 +318,11 @@ public class AfpXmlStreamWriter extends SanitizingXMLStreamWriter {
     try {
       if (needsFlush) {
         delegate.writeRaw(""); // Force closure of pending start tag
+        long start = com.mgz.util.PTXPerformanceMonitor.isInPtx() ? System.nanoTime() : 0;
         delegate.flush();
+        if (start > 0) {
+          com.mgz.util.PTXPerformanceMonitor.recordPtxFlush(System.nanoTime() - start);
+        }
         needsFlush = false;
       }
       OutputStream target = (woodstoxOs != null) ? woodstoxOs : fallbackOs;
@@ -335,12 +348,20 @@ public class AfpXmlStreamWriter extends SanitizingXMLStreamWriter {
     try {
       if (needsFlush) {
         delegate.writeRaw(""); // Force closure of pending start tag
+        long start = com.mgz.util.PTXPerformanceMonitor.isInPtx() ? System.nanoTime() : 0;
         delegate.flush();
+        if (start > 0) {
+          com.mgz.util.PTXPerformanceMonitor.recordPtxFlush(System.nanoTime() - start);
+        }
         needsFlush = false;
       }
 
       OutputStream target = (woodstoxOs != null) ? woodstoxOs : fallbackOs;
+      long start = com.mgz.util.PTXPerformanceMonitor.isInPtx() ? System.nanoTime() : 0;
       EbcdicToUtf8XmlEncoder.encodeAndWrite(data, offset, len, target, charset);
+      if (start > 0) {
+        com.mgz.util.PTXPerformanceMonitor.recordPtxEncoding(System.nanoTime() - start);
+      }
     } catch (IOException e) {
       throw new XMLStreamException("Failed to write direct EBCDIC stream", e);
     }
@@ -363,7 +384,11 @@ public class AfpXmlStreamWriter extends SanitizingXMLStreamWriter {
   public void ensureFlushed() throws XMLStreamException {
     if (needsFlush) {
       delegate.writeRaw(""); // Force closure of pending start tag
+      long start = com.mgz.util.PTXPerformanceMonitor.isInPtx() ? System.nanoTime() : 0;
       delegate.flush();
+      if (start > 0) {
+        com.mgz.util.PTXPerformanceMonitor.recordPtxFlush(System.nanoTime() - start);
+      }
       needsFlush = false;
     }
   }
