@@ -49,17 +49,30 @@ for rel in "${RELEASES[@]}"; do
         SUPPORTED_FLAGS="$SUPPORTED_FLAGS -c"
     fi
 
+    # JVM Arguments for instrumentation
+    JVM_ARGS=""
+    if [ -n "$AGENT_PATH" ]; then
+        JVM_ARGS="$JVM_ARGS -agentpath:$AGENT_PATH"
+    fi
+
     # Start timing
     START_TIME=$(date +%s%3N)
     for i in $(seq 1 $ITERATIONS); do
+        # Enable JFR if requested
+        JFR_ARGS=""
+        if [ "$ENABLE_JFR" = "true" ]; then
+            mkdir -p perf_test/profiles/
+            JFR_ARGS="-XX:StartFlightRecording=filename=perf_test/profiles/profile_${rel}_run${i}.jfr"
+        fi
+
         # Check if -d (directory mode) is supported
         if echo "$HELP_OUTPUT" | grep -q -- "-d"; then
-             java -jar "$JAR_FILE" $SUPPORTED_FLAGS -d "$TEMP_TEST_DIR" "$OUTPUT_DIR" > /dev/null 2>&1
+             java $JVM_ARGS $JFR_ARGS -jar "$JAR_FILE" $SUPPORTED_FLAGS -d "$TEMP_TEST_DIR" "$OUTPUT_DIR" > /dev/null 2>&1
         else
             # Manual loop for old versions that don't support -d
             for f in "$TEMP_TEST_DIR"/*.afp; do
                 fname=$(basename "$f")
-                java -jar "$JAR_FILE" "$f" "$OUTPUT_DIR/$fname.xml" > /dev/null 2>&1
+                java $JVM_ARGS $JFR_ARGS -jar "$JAR_FILE" "$f" "$OUTPUT_DIR/$fname.xml" > /dev/null 2>&1
             done
         fi
     done
