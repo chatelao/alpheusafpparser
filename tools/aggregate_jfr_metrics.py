@@ -10,7 +10,10 @@ def extract_metrics(jfr_file):
         'fw_count': 0,
         'alloc_main': 0,
         'tlab_bytes': 0,
-        'tlab_count': 0
+        'tlab_count': 0,
+        'gc_pauses': 0,
+        'gc_count': 0,
+        'sp_count': 0
     }
 
     # FileWrite
@@ -49,6 +52,21 @@ def extract_metrics(jfr_file):
     except Exception:
         pass
 
+    # GC
+    try:
+        gc_output = subprocess.check_output(["jfr", "print", "--events", "jdk.GarbageCollection", jfr_file], text=True)
+        metrics['gc_pauses'] = sum(float(m.group(1)) for m in re.finditer(r"sumOfPauses = ([\d\.]+) ms", gc_output))
+        metrics['gc_count'] = len(re.findall(r"jdk.GarbageCollection", gc_output))
+    except Exception:
+        pass
+
+    # Safepoints
+    try:
+        sp_output = subprocess.check_output(["jfr", "print", "--events", "jdk.SafepointBegin", jfr_file], text=True)
+        metrics['sp_count'] = len(re.findall(r"jdk.SafepointBegin", sp_output))
+    except Exception:
+        pass
+
     return metrics
 
 def main():
@@ -79,8 +97,8 @@ def main():
         return
 
     print("# Performance Metrics Summary (Averages over runs)")
-    print("\n| Version | FileWrite (Events) | FileWrite (Bytes) | Thread Allocation (Main) | TLAB Allocation (Events) | TLAB Allocation (Bytes) |")
-    print("| :--- | :--- | :--- | :--- | :--- | :--- |")
+    print("\n| Version | FileWrite (Events) | FileWrite (Bytes) | Thread Allocation (Main) | TLAB Allocation (Events) | GC Pauses (ms) | GC Count | Safepoints |")
+    print("| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |")
 
     def version_key(v):
         return [int(x) for x in v[1:].split('.')]
@@ -92,9 +110,11 @@ def main():
         avg_fw_bytes = sum(d['fw_bytes'] for d in data) / n
         avg_alloc_main = sum(d['alloc_main'] for d in data) / n
         avg_tlab_count = sum(d['tlab_count'] for d in data) / n
-        avg_tlab_bytes = sum(d['tlab_bytes'] for d in data) / n
+        avg_gc_pauses = sum(d['gc_pauses'] for d in data) / n
+        avg_gc_count = sum(d['gc_count'] for d in data) / n
+        avg_sp_count = sum(d['sp_count'] for d in data) / n
 
-        print(f"| {version} | {avg_fw_count:.1f} | {avg_fw_bytes:.0f} | {avg_alloc_main:.0f} | {avg_tlab_count:.1f} | {avg_tlab_bytes:.0f} |")
+        print(f"| {version} | {avg_fw_count:.1f} | {avg_fw_bytes:.0f} | {avg_alloc_main:.0f} | {avg_tlab_count:.1f} | {avg_gc_pauses:.2f} | {avg_gc_count:.1f} | {avg_sp_count:.1f} |")
 
 if __name__ == "__main__":
     main()

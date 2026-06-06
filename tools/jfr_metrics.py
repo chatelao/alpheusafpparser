@@ -49,6 +49,23 @@ def get_jfr_metrics(jfr_file):
     except Exception as e:
         print(f"  Error extracting Allocation metrics: {e}")
 
+    # Extract GC metrics
+    try:
+        gc_output = subprocess.check_output(["jfr", "print", "--events", "jdk.GarbageCollection", jfr_file], text=True)
+        gc_pauses = sum(float(m.group(1)) for m in re.finditer(r"sumOfPauses = ([\d\.]+) ms", gc_output))
+        gc_count = len(re.findall(r"jdk.GarbageCollection", gc_output))
+        print(f"  jdk.GarbageCollection: {gc_count} events, {gc_pauses:.2f} ms total pauses")
+    except Exception as e:
+        print(f"  Error extracting GC metrics: {e}")
+
+    # Extract Safepoint metrics
+    try:
+        sp_output = subprocess.check_output(["jfr", "print", "--events", "jdk.SafepointBegin", jfr_file], text=True)
+        sp_count = len(re.findall(r"jdk.SafepointBegin", sp_output))
+        print(f"  jdk.SafepointBegin: {sp_count} events")
+    except Exception as e:
+        print(f"  Error extracting Safepoint metrics: {e}")
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python3 tools/jfr_metrics.py <file.jfr>")
