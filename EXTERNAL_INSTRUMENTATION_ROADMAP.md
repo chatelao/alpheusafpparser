@@ -15,7 +15,10 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
 - [x] Archivierung der Rohdaten (`.jfr`, `.html`) im Verzeichnis `perf_test/profiles/`. ✅
 
 ## Phase 3: Analyse & Hotspot-Identifikation 🚧
-- [ ] Erstellung von Differential Flame Graphs (v3.4 vs v15.6). ⌛
+- [ ] Erstellung von Differential Flame Graphs (v3.4 vs v15.6):
+    - [x] Verbesserung der JFR-Datentreue (Nutzung von `settings=profile`). ✅
+    - [ ] Export von JFR-Daten in Flame-Graph-kompatible Formate. ⌛
+    - [ ] Generierung der Differential Flame Graphs. ⌛
 - [ ] Quantifizierung des Overheads (v3.4 vs v15.6):
     - [x] Extraktion der I/O Metriken (jdk.FileWrite) via `tools/jfr_metrics.py`. ✅
     - [x] Analyse der Allocation-Raten (jdk.ObjectAllocationInNewTLAB). ✅
@@ -23,10 +26,14 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
     - [ ] Vergleich der Jackson Fallback vs. Fast-Path Serialisierung via CPU-Samples. ⌛
     - [ ] Messung des Validierungs-Overheads in BCOCA/GOCA. ⌛
     - [ ] Bestimmung des Thread-Orchestrierungs-Overheads bei kleinen Dateien. ⌛
-- [ ] Identifikation von "Infrastruktur-Drift" (JVM-Interaktionen, GC). ⌛
+- [ ] Identifikation von "Infrastruktur-Drift" (JVM-Interaktionen, GC):
+    - [ ] Vergleich der GC-Pause-Zeiten (Young/Old Generation). ⌛
+    - [ ] Analyse der Safepoint-Statistiken. ⌛
 
-## Phase 4: Integration & Dokumentation ⌛
-- [ ] Zusammenfassung der Erkenntnisse in `PROFILE_PERF_TEST.md`. ⌛
+## Phase 4: Integration & Documentation 🚧
+- [ ] Zusammenfassung der Erkenntnisse in `PROFILE_PERF_TEST.md`:
+    - [x] Dokumentation der initialen Allocation-Metriken (Trend v3.4 -> v15.6). ✅
+    - [ ] Visualisierung der Hotspots aus Flame Graphs. ⌛
 - [ ] Ableitung von konkreten Optimierungstickets aus den Profiling-Daten. ⌛
 - [ ] Integration der Profiling-Schritte in den CI-Workflow für Performance-Regressionen. ⌛
 - [ ] Abschlussbericht zur 10x10 Performance-Stabilisierung. ⌛
