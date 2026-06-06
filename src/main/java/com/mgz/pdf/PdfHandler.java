@@ -998,8 +998,40 @@ public class PdfHandler implements StructuredFieldHandler {
           currentCanvas.rectangle(px - half, py - half, size, size);
           currentCanvas.stroke();
         }
+        case 5 -> { // Six-point star
+          float r1 = half;
+          float r2 = half * 0.4f;
+          drawStar(currentCanvas, px, py, 6, r1, r2);
+          currentCanvas.stroke();
+        }
+        case 6 -> { // Eight-point star
+          float r1 = half;
+          float r2 = half * 0.4f;
+          drawStar(currentCanvas, px, py, 8, r1, r2);
+          currentCanvas.stroke();
+        }
+        case 7 -> { // Solid diamond
+          currentCanvas.moveTo(px, py - half).lineTo(px + half, py).lineTo(px, py + half).lineTo(px - half, py).closePath();
+          currentCanvas.fill();
+        }
+        case 8 -> { // Solid square
+          currentCanvas.rectangle(px - half, py - half, size, size);
+          currentCanvas.fill();
+        }
         case 9 -> { // Dot
           currentCanvas.circle(px, py, half / 2.0f);
+          currentCanvas.fill();
+        }
+        case 10 -> { // Circle
+          currentCanvas.circle(px, py, half);
+          currentCanvas.stroke();
+        }
+        case 11 -> { // Triangle
+          currentCanvas.moveTo(px, py - half).lineTo(px + half, py + half).lineTo(px - half, py + half).closePath();
+          currentCanvas.stroke();
+        }
+        case 12 -> { // Solid triangle
+          currentCanvas.moveTo(px, py - half).lineTo(px + half, py + half).lineTo(px - half, py + half).closePath();
           currentCanvas.fill();
         }
         default -> {
@@ -1011,6 +1043,21 @@ public class PdfHandler implements StructuredFieldHandler {
       graphicsState.setCurrentX(p.xCoordinate());
       graphicsState.setCurrentY(p.yCoordinate());
     }
+  }
+
+  private void drawStar(PdfCanvas canvas, float x, float y, int points, float r1, float r2) {
+    double angle = Math.PI / points;
+    for (int i = 0; i < 2 * points; i++) {
+      float r = (i % 2 == 0) ? r1 : r2;
+      float px = (float) (x + r * Math.sin(i * angle));
+      float py = (float) (y + r * Math.cos(i * angle));
+      if (i == 0) {
+        canvas.moveTo(px, py);
+      } else {
+        canvas.lineTo(px, py);
+      }
+    }
+    canvas.closePath();
   }
 
   private void renderGocaText(String text, int x, int y) {

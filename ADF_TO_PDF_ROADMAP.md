@@ -154,9 +154,9 @@ Ensure the generated output meets the PDF/VT-1 standard and accurately reflects 
     - ⏳ **Integrate VeraPDF**: Implement automated compliance checks for PDF/VT-1 and PDF/X-4.
     - ⏳ **VeraPDF CLI Wrapper**: Create a helper to run VeraPDF from within Alpheus tests.
     - ⏳ **Preflight Automation**: Establish CI/CD integration for automated validation.
-- ⏳ **DPart Hierarchy Verification**:
-    - ⏳ **Programmatic Structure Verification**: Verify `/DPart` hierarchy and `/Property` entries using iText or low-level parsing.
-    - ⏳ **Metadata Extraction Tool**: Implement a utility to extract DPart metadata to JSON for comparison.
+- 🚧 **DPart Hierarchy Verification**:
+    - ✅ **Programmatic Structure Verification**: Verify `/DPart` hierarchy and `/Property` entries using iText or low-level parsing.
+    - ✅ **Metadata Extraction Tool**: Implement a utility to extract DPart metadata to JSON for comparison.
     - ⏳ **Viewer Validation**: Verify navigation and structure in PDF/VT-aware viewers.
 - ⏳ **Metadata Integrity**: Compare record-level extraction from PDF metadata against original AFP `TLE` values.
 - ⏳ **Visual Regression**:
