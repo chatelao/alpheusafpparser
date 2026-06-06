@@ -19,7 +19,7 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
     - [x] Verbesserung der JFR-Datentreue (Nutzung von `settings=profile`). ✅
 - [x] Export von JFR-Daten in Flame-Graph-kompatible Formate (via `tools/jfr_to_collapsed.py`). ✅
 - [ ] Generierung der Differential Flame Graphs:
-    - [ ] Erzeugung von Collapsed Stacks für v3.4 und v15.6. ⌛
+    - [x] Erzeugung von Collapsed Stacks für v3.4 und v15.6 (via `tools/aggregate_collapsed_stacks.py`). ✅
     - [ ] Differenzbildung der aggregierten Stacks (Diff-Graph). ⌛
 - [ ] Quantifizierung des Overheads (v3.4 vs v15.6):
     - [x] Extraktion der I/O Metriken (jdk.FileWrite) via `tools/jfr_metrics.py`. ✅

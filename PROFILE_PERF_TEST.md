@@ -28,3 +28,14 @@ Um detailliertere Einblicke (z.B. Flame Graphs) zu ermöglichen, wurden folgende
 1. Erneute Durchführung des Benchmarks mit dem `profile` Setting für v3.4 und v15.6.
 2. Generierung von CPU-Profilen zur Identifikation der Hotspots in der Serialisierung (Jackson vs. Fast-Path).
 3. Untersuchung der Ursache für den 6%igen Anstieg der Allokationsrate.
+
+## 4. Aggregierte Flame Graph Daten (CPU)
+
+Um die statistische Relevanz zu erhöhen, wurden die CPU-Samples aus 10 Benchmark-Läufen aggregiert (`tools/aggregate_collapsed_stacks.py`).
+
+### Ergebnisse der Aggregation:
+- **v15.6**: Insgesamt wurden 20 Samples erfasst. Die Aggregation zeigt Hotspots in `AfpJacksonXmlWriter.writeControlSequence` und `EbcdicToUtf8XmlEncoder.encodeAndWrite`, sowie signifikanten Overhead durch Class Loading und Method Handle Linking beim ersten Start.
+- **v3.4**: 0 Samples. Die Ausführungszeit pro Datei ist so gering (< 20ms), dass das JVM-Standard-Sampling (10ms Intervall) selbst bei 100 Dateien (10 Runs x 10 Files) kaum Treffer erzielt.
+
+### Schlussfolgerung für Phase 3:
+Für eine aussagekräftige Differenzanalyse (v3.4 vs v15.6) muss die Last für v3.4 künstlich erhöht werden (z.B. 100x100 statt 10x10) oder das Sampling-Intervall drastisch verkürzt werden (erfordert `async-profiler`).
