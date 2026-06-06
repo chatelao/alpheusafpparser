@@ -11,6 +11,8 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
 ## Phase 2: Datenerhebung & Profiling ✅
 - [x] Erzeugung der Performance-Baseline für v3.4 (CPU & Allocation Profile). ✅
 - [x] Erzeugung der Profile für v7.0 (Referenz für ersten Performance-Drop). ✅
+- [x] Erzeugung der Profile für v12.1 (Stabilitätscheck). ✅
+- [x] Erzeugung der Profile für v14.4 (Stabilitätscheck). ✅
 - [x] Erzeugung der Profile für die aktuelle Version (v15.6). ✅
 - [x] Archivierung der Rohdaten (`.jfr`, `.html`) im Verzeichnis `perf_test/profiles/`. ✅
 
