@@ -20,12 +20,12 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
 - [x] Export von JFR-Daten in Flame-Graph-kompatible Formate (via `tools/jfr_to_collapsed.py`). ✅
 - [ ] Generierung der Differential Flame Graphs:
     - [x] Erzeugung von Collapsed Stacks für v3.4 und v15.6 (via `tools/aggregate_collapsed_stacks.py`). ✅
-    - [ ] Differenzbildung der aggregierten Stacks (Diff-Graph). ⌛
+    - [x] Differenzbildung der aggregierten Stacks (Diff-Graph) via `tools/diff_collapsed_stacks.py`. ✅
 - [ ] Quantifizierung des Overheads (v3.4 vs v15.6):
     - [x] Extraktion der I/O Metriken (jdk.FileWrite) via `tools/jfr_metrics.py`. ✅
     - [x] Analyse der Allocation-Raten (jdk.ObjectAllocationInNewTLAB). ✅
     - [x] Aggregation der JFR-Metriken in `perf_test/profiles/METRICS_SUMMARY.md`. ✅
-    - [ ] Vergleich der Jackson Fallback vs. Fast-Path Serialisierung via CPU-Samples. ⌛
+    - [x] Vergleich der Jackson Fallback vs. Fast-Path Serialisierung via CPU-Samples (Automatisierung via `tools/analyze_hotspots.py`). ✅
     - [ ] Messung des Validierungs-Overheads in BCOCA/GOCA. ⌛
     - [ ] Bestimmung des Thread-Orchestrierungs-Overheads bei kleinen Dateien. ⌛
 - [ ] Identifikation von "Infrastruktur-Drift" (JVM-Interaktionen, GC):
