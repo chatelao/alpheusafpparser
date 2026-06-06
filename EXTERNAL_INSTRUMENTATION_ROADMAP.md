@@ -17,8 +17,10 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
 ## Phase 3: Analyse & Hotspot-Identifikation 🚧
 - [ ] Erstellung von Differential Flame Graphs (v3.4 vs v15.6):
     - [x] Verbesserung der JFR-Datentreue (Nutzung von `settings=profile`). ✅
-    - [ ] Export von JFR-Daten in Flame-Graph-kompatible Formate. ⌛
-    - [ ] Generierung der Differential Flame Graphs. ⌛
+- [x] Export von JFR-Daten in Flame-Graph-kompatible Formate (via `tools/jfr_to_collapsed.py`). ✅
+- [ ] Generierung der Differential Flame Graphs:
+    - [ ] Erzeugung von Collapsed Stacks für v3.4 und v15.6. ⌛
+    - [ ] Differenzbildung der aggregierten Stacks (Diff-Graph). ⌛
 - [ ] Quantifizierung des Overheads (v3.4 vs v15.6):
     - [x] Extraktion der I/O Metriken (jdk.FileWrite) via `tools/jfr_metrics.py`. ✅
     - [x] Analyse der Allocation-Raten (jdk.ObjectAllocationInNewTLAB). ✅
