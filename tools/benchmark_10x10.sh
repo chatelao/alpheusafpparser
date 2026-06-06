@@ -69,7 +69,7 @@ for rel in "${RELEASES[@]}"; do
         JFR_ARGS=""
         if [ "$ENABLE_JFR" = "true" ]; then
             mkdir -p perf_test/profiles/
-            JFR_ARGS="-XX:StartFlightRecording=filename=perf_test/profiles/profile_${rel}_run${i}.jfr"
+            JFR_ARGS="-XX:StartFlightRecording=settings=profile,filename=perf_test/profiles/profile_${rel}_run${i}.jfr"
         fi
 
         # Check if -d (directory mode) is supported
