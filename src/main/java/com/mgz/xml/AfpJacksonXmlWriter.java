@@ -67,6 +67,8 @@ import com.mgz.afp.modca.ERG_EndResourceGroup;
 import com.mgz.afp.modca.ERS_EndResource;
 import com.mgz.afp.modca.ESG_EndResourceEnvironmentGroup;
 import com.mgz.afp.modca.IOB_IncludeObject;
+import com.mgz.afp.modca.MCC_MediumCopyCount;
+import com.mgz.afp.modca.MCF_MapCodedFont_Format1;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format2;
 import com.mgz.afp.modca.MMC_MediumModificationControl;
 import com.mgz.afp.modca.MCD_MapContainerData;
@@ -353,8 +355,12 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIobDirectly(iob, level);
     } else if (sf instanceof PTX_PresentationTextData ptx) {
       writePtxDirectly(ptx, level);
+    } else if (sf instanceof MCF_MapCodedFont_Format1 mcf) {
+      writeMcf1Directly(mcf, level);
     } else if (sf instanceof MCF_MapCodedFont_Format2 mcf) {
       writeMcfDirectly(mcf, level);
+    } else if (sf instanceof MCC_MediumCopyCount mcc) {
+      writeMccDirectly(mcc, level);
     } else if (sf instanceof FNC_FontControl fnc) {
       writeFncDirectly(fnc, level);
     } else if (sf instanceof LND_LineDescriptor lnd) {
@@ -1404,6 +1410,87 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else {
       JacksonXmlMapperProvider.getCachedWriter(triplet.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, triplet);
     }
+  }
+
+  private void writeMccDirectly(MCC_MediumCopyCount mcc, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("MCC");
+    baseXsw.writeStartElement("MCC_MediumCopyCount");
+    int childLevel = level + 1;
+    if (mcc.getRepeatingGroups() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("repeatingGroups");
+      for (MCC_MediumCopyCount.MCC_RepeatingGroup rg : mcc.getRepeatingGroups()) {
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeStartElement("repeatingGroups");
+        int rgLevel = childLevel + 2;
+        writeElement(baseXsw, rgLevel, "startingCopyNumber", (int) rg.startingCopyNumber());
+        writeElement(baseXsw, rgLevel, "endingCopyNumber", (int) rg.endingCopyNumber());
+        writeElement(baseXsw, rgLevel, "reserved4", (int) rg.reserved4());
+        writeElement(baseXsw, rgLevel, "mediumModificationControlIdentifier", (int) rg.mediumModificationControlIdentifier());
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeEndElement();
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeMcf1Directly(MCF_MapCodedFont_Format1 mcf, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("MCF");
+    baseXsw.writeStartElement("MCF_MapCodedFont_Format1");
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "lengthOfRepeatingGroup", (int) mcf.getLengthOfRepeatingGroup());
+    if (mcf.getReserved1_3() != null) {
+      writeBinaryElement(baseXsw, childLevel, "reserved1_3", mcf.getReserved1_3());
+    }
+    if (mcf.getRepeatingGroups() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("repeatingGroups");
+      for (MCF_MapCodedFont_Format1.MCF_RepeatingGroup rg : mcf.getRepeatingGroups()) {
+        writeMcf1RepeatingGroup(rg, childLevel + 1);
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeMcf1RepeatingGroup(MCF_MapCodedFont_Format1.MCF_RepeatingGroup rg, int level) throws Exception {
+    writeIndent(baseXsw, level);
+    baseXsw.writeStartElement("repeatingGroups");
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "codedFontLocalID", (int) rg.getCodedFontLocalID());
+    writeElement(baseXsw, childLevel, "reserved1", (int) rg.getReserved1());
+    writeElement(baseXsw, childLevel, "codedFontSectionID", (int) rg.getCodedFontSectionID());
+    writeElement(baseXsw, childLevel, "reserved3", (int) rg.getReserved3());
+    if (rg.getCodedFontName() != null) {
+      writeElement(baseXsw, childLevel, "codedFontName", rg.getCodedFontName());
+    }
+    if (rg.getCodedFontNullName() != null) {
+      writeBinaryElement(baseXsw, childLevel, "codedFontNullName", rg.getCodedFontNullName());
+    }
+    if (rg.getCodePageName() != null) {
+      writeElement(baseXsw, childLevel, "codePageName", rg.getCodePageName());
+    }
+    if (rg.getCodePageNullName() != null) {
+      writeBinaryElement(baseXsw, childLevel, "codePageNullName", rg.getCodePageNullName());
+    }
+    if (rg.getFontCharacterSetName() != null) {
+      writeElement(baseXsw, childLevel, "fontCharacterSetName", rg.getFontCharacterSetName());
+    }
+    if (rg.getFontCharacterSetNullName() != null) {
+      writeBinaryElement(baseXsw, childLevel, "fontCharacterSetNullName", rg.getFontCharacterSetNullName());
+    }
+    if (rg.getCharacterRotation() != null) {
+      writeElement(baseXsw, childLevel, "characterRotation", rg.getCharacterRotation().name());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
   }
 
   private void writeMcfDirectly(MCF_MapCodedFont_Format2 mcf, int level) throws Exception {
