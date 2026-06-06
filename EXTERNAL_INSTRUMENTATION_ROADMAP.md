@@ -27,8 +27,8 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
     - [ ] Messung des Validierungs-Overheads in BCOCA/GOCA. ⌛
     - [ ] Bestimmung des Thread-Orchestrierungs-Overheads bei kleinen Dateien. ⌛
 - [ ] Identifikation von "Infrastruktur-Drift" (JVM-Interaktionen, GC):
-    - [ ] Vergleich der GC-Pause-Zeiten (Young/Old Generation). ⌛
-    - [ ] Analyse der Safepoint-Statistiken. ⌛
+    - [x] Vergleich der GC-Pause-Zeiten (Young/Old Generation). ✅
+    - [x] Analyse der Safepoint-Statistiken. ✅
 
 ## Phase 4: Integration & Documentation 🚧
 - [ ] Zusammenfassung der Erkenntnisse in `PROFILE_PERF_TEST.md`:
