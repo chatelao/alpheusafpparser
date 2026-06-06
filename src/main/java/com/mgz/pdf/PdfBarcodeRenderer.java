@@ -263,6 +263,9 @@ public class PdfBarcodeRenderer {
         case JapanPostalBarCode:
           totalWidth = renderJapanPostal(content, startX, startY, state, canvas);
           break;
+        case AustraliaPostBarCode:
+          totalWidth = renderAustraliaPost(content, startX, startY, state, canvas);
+          break;
         case IntelligentMailBarcode:
           totalWidth = renderIntelligentMailBarcode(content, startX, startY, state, canvas);
           break;
@@ -898,21 +901,53 @@ public class PdfBarcodeRenderer {
     float curX = x;
     float curY = y;
 
-    // Start code for Subset B is 104.
-    int checkSum = 104;
-    renderWidthPattern(CODE128_PATTERNS[104], curX, curY, height, narrowWidth, canvas);
+    // Initial subset selection
+    int startCode;
+    java.util.List<Integer> values = new java.util.ArrayList<>();
+
+    // Heuristic: if numeric and length is even and at least 4, use Subset C.
+    // If it has control characters (ASCII < 32), use Subset A.
+    // Otherwise use Subset B.
+    if (content.matches("^\\d+$") && content.length() >= 4 && content.length() % 2 == 0) {
+      startCode = 105; // Start C
+      for (int i = 0; i < content.length(); i += 2) {
+        values.add(Integer.parseInt(content.substring(i, i + 2)));
+      }
+    } else {
+      boolean hasControl = false;
+      for (int i = 0; i < content.length(); i++) {
+        if (content.charAt(i) < 32) {
+          hasControl = true;
+          break;
+        }
+      }
+
+      if (hasControl) {
+        startCode = 103; // Start A
+        for (int i = 0; i < content.length(); i++) {
+          char c = content.charAt(i);
+          if (c < 32) values.add(c + 64);
+          else if (c >= 32 && c <= 95) values.add(c - 32);
+          else values.add(0); // Fallback for characters > 95 in Subset A
+        }
+      } else {
+        startCode = 104; // Start B
+        for (int i = 0; i < content.length(); i++) {
+          char c = content.charAt(i);
+          int val = c - 32;
+          if (val >= 0 && val <= 102) values.add(val);
+        }
+      }
+    }
+
+    int checkSum = startCode;
+    renderWidthPattern(CODE128_PATTERNS[startCode], curX, curY, height, narrowWidth, canvas);
     curX += 11 * narrowWidth;
 
-    int position = 1;
-    for (int i = 0; i < content.length(); i++) {
-      char c = content.charAt(i);
-      int value = c - 32;
-      if (value < 0 || value > 102) {
-        continue; // Unsupported character in Subset B
-      }
-      checkSum += value * position;
-      position++;
-      renderWidthPattern(CODE128_PATTERNS[value], curX, curY, height, narrowWidth, canvas);
+    for (int i = 0; i < values.size(); i++) {
+      int val = values.get(i);
+      checkSum += val * (i + 1);
+      renderWidthPattern(CODE128_PATTERNS[val], curX, curY, height, narrowWidth, canvas);
       curX += 11 * narrowWidth;
     }
 
@@ -1172,6 +1207,77 @@ public class PdfBarcodeRenderer {
       case 'D' -> {
         top = y - offset;
       }
+    }
+
+    canvas.rectangle(x, bottom, width, top - bottom).fill();
+  }
+
+  private static float renderAustraliaPost(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    // This implementation focuses on Proprietary Encoding (Modifiers 0x04 and 0x07)
+    // where input data digits 0-3 directly specify the 4 bar states.
+    if (state.getBarcodeModifier() != 0x04 && state.getBarcodeModifier() != 0x07) {
+      // TODO: Implement other modifiers (requires Reed-Solomon and Table N/C encoding)
+      return 0;
+    }
+
+    // Extract sorting code (first 8 digits) - for Proprietary these are usually ignored or handled separately
+    // The spec says: An 8 digit number representing the Sorting Code followed by up to 16/31 numeric digits (0–3)
+    String cleaned = content.replaceAll("[^0-9]", "");
+    if (cleaned.length() <= 8) {
+      return 0;
+    }
+
+    String barStates = cleaned.substring(8);
+
+    // Australia Post Dimensions (Optimal in 1440 units)
+    // Pitch: 1440 / 23.5 ≈ 61.28 units
+    // Bar Width: 20.0 * 1.44 = 28.8 units
+    // Full Height: 197 mils * 1.44 ≈ 283.68 units
+    float pitch = 61.28f;
+    float barWidth = 28.8f;
+    float height = state.getElementHeight() > 0 ? state.getElementHeight() : 284.0f;
+
+    canvas.saveState();
+    float curX = x;
+    float curY = y;
+
+    // Start bar (Proprietary doesn't specify if it's auto-generated, but BCOCA says printer generates start/stop)
+    // For AusPost, start is usually a Full bar.
+    renderAusPostBar('0', curX, curY, height, barWidth, canvas);
+    curX += pitch;
+
+    for (int i = 0; i < barStates.length(); i++) {
+      renderAusPostBar(barStates.charAt(i), curX, curY, height, barWidth, canvas);
+      curX += pitch;
+    }
+
+    // Stop bar
+    renderAusPostBar('0', curX, curY, height, barWidth, canvas);
+    curX += pitch;
+
+    canvas.restoreState();
+    return curX - x;
+  }
+
+  private static void renderAusPostBar(char state, float x, float y, float height, float width, PdfCanvas canvas) {
+    float trackerHeight = height / 3.0f;
+    float offset = trackerHeight;
+
+    float top = y;
+    float bottom = y - height;
+
+    switch (state) {
+      case '1' -> { // Ascender
+        bottom = y - 2 * trackerHeight;
+      }
+      case '2' -> { // Descender
+        top = y - trackerHeight;
+      }
+      case '3' -> { // Timing (Tracker)
+        top = y - trackerHeight;
+        bottom = y - 2 * trackerHeight;
+      }
+      // '0' is Full bar, already set defaults
     }
 
     canvas.rectangle(x, bottom, width, top - bottom).fill();
