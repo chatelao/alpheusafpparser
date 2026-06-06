@@ -34,8 +34,20 @@ Um detailliertere Einblicke (z.B. Flame Graphs) zu ermöglichen, wurden folgende
 Um die statistische Relevanz zu erhöhen, wurden die CPU-Samples aus 10 Benchmark-Läufen aggregiert (`tools/aggregate_collapsed_stacks.py`).
 
 ### Ergebnisse der Aggregation:
-- **v15.6**: Insgesamt wurden 20 Samples erfasst. Die Aggregation zeigt Hotspots in `AfpJacksonXmlWriter.writeControlSequence` und `EbcdicToUtf8XmlEncoder.encodeAndWrite`, sowie signifikanten Overhead durch Class Loading und Method Handle Linking beim ersten Start.
+- **v15.6**: Insgesamt wurden 19 Samples erfasst. Die Aggregation zeigt Hotspots in `AfpJacksonXmlWriter.writeControlSequence` und `EbcdicToUtf8XmlEncoder.encodeAndWrite`, sowie signifikanten Overhead durch Class Loading und Method Handle Linking beim ersten Start.
 - **v3.4**: 0 Samples. Die Ausführungszeit pro Datei ist so gering (< 20ms), dass das JVM-Standard-Sampling (10ms Intervall) selbst bei 100 Dateien (10 Runs x 10 Files) kaum Treffer erzielt.
 
+### Automatisierte Hotspot-Analyse (v15.6):
+Mit `tools/analyze_hotspots.py` wurden die Samples kategorisiert:
+
+| Bereich | Samples | Anteil |
+| :--- | :--- | :--- |
+| **JVM & Infrastructure** | 14 | 73.68% |
+| **Fast-Path Serialization** | 2 | 10.53% |
+| **Encoding & Sanitization** | 1 | 5.26% |
+| **Other** | 2 | 10.53% |
+
+*Hinweis: Der hohe Anteil an JVM-Infrastruktur resultiert aus dem Class-Loading-Overhead bei den sehr kurzen Benchmark-Läufen.*
+
 ### Schlussfolgerung für Phase 3:
-Für eine aussagekräftige Differenzanalyse (v3.4 vs v15.6) muss die Last für v3.4 künstlich erhöht werden (z.B. 100x100 statt 10x10) oder das Sampling-Intervall drastisch verkürzt werden (erfordert `async-profiler`).
+Für eine aussagekräftige Differenzanalyse (v3.4 vs v15.6) muss die Last für v3.4 künstlich erhöht werden (z.B. 100x100 statt 10x10) oder das Sampling-Intervall drastisch verkürzt werden (erfordert `async-profiler`). Die automatisierte Analyse ermöglicht jedoch bereits jetzt die Quantifizierung der Fast-Path-Effizienz in neueren Versionen.
