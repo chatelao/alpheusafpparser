@@ -263,6 +263,9 @@ public class PdfBarcodeRenderer {
         case JapanPostalBarCode:
           totalWidth = renderJapanPostal(content, startX, startY, state, canvas);
           break;
+        case IntelligentMailBarcode:
+          totalWidth = renderIntelligentMailBarcode(content, startX, startY, state, canvas);
+          break;
         default:
           // TODO: Implement other barcode types
           break;
@@ -439,7 +442,7 @@ public class PdfBarcodeRenderer {
 
     // Expand to find check digit if needed
     String expanded = expandUpcE(ns, upce);
-    int checkDigit = calculateUpcACheckDigit(expanded);
+    int checkDigit = calculateModulo10_31(expanded);
 
     float narrowWidth = state.getModuleWidthInMils() * 1.44f;
     if (narrowWidth <= 0) {
@@ -513,10 +516,11 @@ public class PdfBarcodeRenderer {
     }
   }
 
-  private static int calculateUpcACheckDigit(String digits11) {
+  private static int calculateModulo10_31(String digits) {
     int sum = 0;
-    for (int i = 0; i < 11; i++) {
-      int d = digits11.charAt(i) - '0';
+    int len = digits.length();
+    for (int i = 0; i < len; i++) {
+      int d = digits.charAt(len - 1 - i) - '0';
       sum += (i % 2 == 0) ? d * 3 : d;
     }
     return (10 - (sum % 10)) % 10;
@@ -545,12 +549,7 @@ public class PdfBarcodeRenderer {
       digits = digits.substring(0, 12);
     } else if (digits.length() == 11) {
       // Calculate check digit (Standard UPC-A)
-      int sum = 0;
-      for (int i = 0; i < 11; i++) {
-        int d = digits.charAt(i) - '0';
-        sum += (i % 2 == 0) ? d * 3 : d;
-      }
-      digits += calculateUpcACheckDigit(digits);
+      digits += calculateModulo10_31(digits);
     }
 
     float narrowWidth = state.getModuleWidthInMils() * 1.44f;
@@ -613,7 +612,7 @@ public class PdfBarcodeRenderer {
     if (digits.length() > 8) {
       digits = digits.substring(0, 8);
     } else if (digits.length() == 7) {
-      digits += calculateEanCheckDigit(digits);
+      digits += calculateModulo10_31(digits);
     }
 
     float narrowWidth = state.getModuleWidthInMils() * 1.44f;
@@ -668,7 +667,7 @@ public class PdfBarcodeRenderer {
     if (digits.length() > 13) {
       digits = digits.substring(0, 13);
     } else if (digits.length() == 12) {
-      digits += calculateEanCheckDigit(digits);
+      digits += calculateModulo10_31(digits);
     }
 
     float narrowWidth = state.getModuleWidthInMils() * 1.44f;
@@ -718,16 +717,6 @@ public class PdfBarcodeRenderer {
 
     canvas.restoreState();
     return curX - x;
-  }
-
-  private static int calculateEanCheckDigit(String digits) {
-    int sum = 0;
-    int len = digits.length();
-    for (int i = 0; i < len; i++) {
-      int d = digits.charAt(len - 1 - i) - '0';
-      sum += (i % 2 == 0) ? d * 3 : d;
-    }
-    return (10 - (sum % 10)) % 10;
   }
 
   private static float renderInterleaved2of5(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
@@ -791,7 +780,7 @@ public class PdfBarcodeRenderer {
   private static float renderIndustrial2of5(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
     String digits = content.replaceAll("[^0-9]", "");
     if (state.getBarcodeModifier() == 0x02) {
-      digits += calculateUpcACheckDigit(digits);
+      digits += calculateModulo10_31(digits);
     }
 
     float narrowWidth = state.getModuleWidthInMils() * 1.44f;
@@ -840,7 +829,7 @@ public class PdfBarcodeRenderer {
   private static float renderMatrix2of5(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
     String digits = content.replaceAll("[^0-9]", "");
     if (state.getBarcodeModifier() == 0x02) {
-      digits += calculateUpcACheckDigit(digits);
+      digits += calculateModulo10_31(digits);
     }
 
     float narrowWidth = state.getModuleWidthInMils() * 1.44f;
@@ -1123,6 +1112,67 @@ public class PdfBarcodeRenderer {
     if (state == 'T') { top = y - height/3.0f; bottom = y - 2.0f*height/3.0f; }
     else if (state == 'A') { bottom = y - 2.0f*height/3.0f; }
     else if (state == 'D') { top = y - height/3.0f; }
+
+    canvas.rectangle(x, bottom, width, top - bottom).fill();
+  }
+
+  private static float renderIntelligentMailBarcode(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    // Modifier 0x01: Direct input of 'F', 'A', 'D', 'T' (65 characters)
+    if (state.getBarcodeModifier() != 0x01) {
+      // TODO: Implement other modifiers (requires complex encoding)
+      return 0;
+    }
+
+    String bars = content.toUpperCase().replaceAll("[^FADT]", "");
+    if (bars.length() < 65) {
+      return 0;
+    }
+    if (bars.length() > 65) {
+      bars = bars.substring(0, 65);
+    }
+
+    // USPS IMB Dimensions (Optimal in 1440 units)
+    // Pitch: 0.045" -> 0.045 * 1440 = 64.8 units
+    // Bar Width: 0.020" -> 0.020 * 1440 = 28.8 units
+    // Full Height: 0.125" -> 0.125 * 1440 = 180 units
+    // Tracker Height: 0.039" -> 0.039 * 1440 = 56.16 units
+
+    float pitch = 64.8f;
+    float barWidth = 28.8f;
+    float height = state.getElementHeight() > 0 ? state.getElementHeight() : 180.0f;
+
+    canvas.saveState();
+    float curX = x;
+    float curY = y;
+
+    for (int i = 0; i < bars.length(); i++) {
+      renderImbBar(bars.charAt(i), curX, curY, height, barWidth, canvas);
+      curX += pitch;
+    }
+
+    canvas.restoreState();
+    return curX - x;
+  }
+
+  private static void renderImbBar(char state, float x, float y, float height, float width, PdfCanvas canvas) {
+    float trackerHeight = height * 0.312f; // 0.039 / 0.125
+    float offset = (height - trackerHeight) / 2.0f;
+
+    float top = y;
+    float bottom = y - height;
+
+    switch (state) {
+      case 'T' -> {
+        top = y - offset;
+        bottom = y - height + offset;
+      }
+      case 'A' -> {
+        bottom = y - height + offset;
+      }
+      case 'D' -> {
+        top = y - offset;
+      }
+    }
 
     canvas.rectangle(x, bottom, width, top - bottom).fill();
   }
