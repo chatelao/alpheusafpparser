@@ -9,7 +9,9 @@ Basierend auf den JFR-Aufzeichnungen der Versionen v3.4, v7.0 und v15.6 wurden f
 | Version | Thread Allocation (Main Thread) | Trend (vs v3.4) |
 | :--- | :--- | :--- |
 | **v3.4** | 21.8 MB | - |
-| **v7.0** | 22.4 MB | +2.7% |
+| **v7.0** | 22.4 MB | +2.9% |
+| **v12.1** | 23.2 MB | +6.3% |
+| **v14.4** | 23.2 MB | +6.3% |
 | **v15.6** | 23.2 MB | +6.2% |
 
 ### Beobachtungen:
