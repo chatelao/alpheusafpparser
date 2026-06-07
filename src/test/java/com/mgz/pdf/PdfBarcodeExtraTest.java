@@ -119,4 +119,46 @@ public class PdfBarcodeExtraTest {
     // Total bars: 7 * 3 = 21. Plus the final 2-unit bar = 22.
     assertEquals(22, canvas.rectangles.size());
   }
+
+  @Test
+  public void testRM4SCC() {
+    PdfBarcodeState state = new PdfBarcodeState();
+    state.setBarcodeType(BarCodeType.RM4SCC_DutchKIX);
+    state.setBarcodeModifier((byte) 0x00); // RM4SCC
+
+    BDA_BarCodeData bda = new BDA_BarCodeData() {
+        @Override
+        public String getText() {
+            return "SN34RD"; // 6 chars
+        }
+    };
+    state.addBarcodeData(bda);
+
+    PdfCanvasStub canvas = new PdfCanvasStub();
+    PdfBarcodeRenderer.render(state, canvas);
+
+    // RM4SCC: Start(1) + Data(6*4=24) + Check(4) + Stop(1) = 30 bars.
+    assertEquals(30, canvas.rectangles.size());
+  }
+
+  @Test
+  public void testDutchKIX() {
+    PdfBarcodeState state = new PdfBarcodeState();
+    state.setBarcodeType(BarCodeType.RM4SCC_DutchKIX);
+    state.setBarcodeModifier((byte) 0x01); // Dutch KIX
+
+    BDA_BarCodeData bda = new BDA_BarCodeData() {
+        @Override
+        public String getText() {
+            return "123XYZ"; // 6 chars
+        }
+    };
+    state.addBarcodeData(bda);
+
+    PdfCanvasStub canvas = new PdfCanvasStub();
+    PdfBarcodeRenderer.render(state, canvas);
+
+    // KIX: Data(6*4=24) only.
+    assertEquals(24, canvas.rectangles.size());
+  }
 }
