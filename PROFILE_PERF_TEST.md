@@ -39,19 +39,38 @@ Um die statistische Relevanz zu erhöhen, wurden die CPU-Samples aus 10 Benchmar
 - **v15.6**: Insgesamt wurden 19 Samples erfasst. Die Aggregation zeigt Hotspots in `AfpJacksonXmlWriter.writeControlSequence` und `EbcdicToUtf8XmlEncoder.encodeAndWrite`, sowie signifikanten Overhead durch Class Loading und Method Handle Linking beim ersten Start.
 - **v3.4**: 0 Samples. Die Ausführungszeit pro Datei ist so gering (< 20ms), dass das JVM-Standard-Sampling (10ms Intervall) selbst bei 100 Dateien (10 Runs x 10 Files) kaum Treffer erzielt.
 
-### Automatisierte Hotspot-Analyse (v15.6):
-Mit `tools/analyze_hotspots.py` wurden die Samples kategorisiert:
+### Automatisierte Hotspot-Analyse (Trend v12.1 - v15.6):
+Mit `tools/analyze_hotspots.py` wurden die Samples der aggregierten Läufe kategorisiert:
 
-| Bereich | Samples | Anteil |
-| :--- | :--- | :--- |
-| **JVM & Infrastructure** | 14 | 73.68% |
-| **Fast-Path Serialization** | 2 | 10.53% |
-| **Encoding & Sanitization** | 1 | 5.26% |
-| **Validation** | 0 | 0.00% |
-| **Thread Orchestration** | 0 | 0.00% |
-| **Other** | 2 | 10.53% |
+| Bereich | v12.1 | v14.4 | v15.6 |
+| :--- | :--- | :--- | :--- |
+| **Fast-Path Serialization** | 15.38% | 11.54% | 10.53% |
+| **Jackson Fallback** | 0.00% | 0.00% | 0.00% |
+| **Encoding & Sanitization** | 0.00% | 1.92% | 5.26% |
+| **I/O & Scanning** | 10.77% | 1.92% | 0.00% |
+| **Field Parsing** | 1.54% | 3.85% | 0.00% |
+| **Validation** | 0.00% | 0.00% | 0.00% |
+| **Thread Orchestration** | 9.23% | 13.46% | 0.00% |
+| **JVM & Infrastructure** | 43.08% | 53.85% | 73.68% |
+| **Other** | 20.00% | 13.46% | 10.53% |
 
-*Hinweis: Der hohe Anteil an JVM-Infrastruktur resultiert aus dem Class-Loading-Overhead bei den sehr kurzen Benchmark-Läufen (10x10). Validierung und Thread-Orchestrierung sind in diesen Kleinst-Szenarien statistisch nicht signifikant erfassbar, die Tooling-Unterstützung zur Quantifizierung wurde jedoch implementiert.*
+*Hinweis: Der hohe Anteil an JVM-Infrastruktur (Class Loading, Method Handle Linking) resultiert aus dem Overhead bei den sehr kurzen Benchmark-Läufen (10x10). Da v15.6 insgesamt weniger Samples lieferte (kürzere Laufzeit), verschiebt sich das prozentuale Gewicht stärker zur Infrastruktur.*
 
 ### Schlussfolgerung für Phase 3:
-Für eine aussagekräftige Differenzanalyse (v3.4 vs v15.6) muss die Last für v3.4 künstlich erhöht werden (z.B. 100x100 statt 10x10) oder das Sampling-Intervall drastisch verkürzt werden (erfordert `async-profiler`). Die automatisierte Analyse ermöglicht jedoch bereits jetzt die Quantifizierung der Fast-Path-Effizienz in neueren Versionen.
+Für eine aussagekräftige Differenzanalyse (v3.4 vs v15.6) muss die Last für v3.4 künstlich erhöht werden (z.B. 100x100 statt 10x10) oder das Sampling-Intervall drastisch verkürzt werden (erfordert `async-profiler`). Die automatisierte Analyse ermöglicht jedoch bereits jetzt die Quantifizierung der Fast-Path-Effizienz und zeigt, dass Jackson Fallbacks (Reflection) in den getesteten Pfaden erfolgreich vermieden werden.
+
+## 5. Ableitung von Optimierungspotenzialen
+
+Basierend auf den Profiling-Daten wurden folgende Optimierungsbereiche identifiziert:
+
+1. **Reduzierung der Thread-Allokation (+6% Trend)**:
+   - Untersuchung der Feld-Instanziierung in `StructuredFieldFactory`. Die Zunahme der Allokation korreliert mit der Einführung neuerer Feldtypen und Validierungen.
+   - **Ticket-Vorschlag**: Einführung von Object-Pooling für häufige, kurzlebige Metadaten-Objekte oder Triplets.
+
+2. **Dämpfung des Class-Loading-Overheads**:
+   - Bei kleinen Dateien (10x10) dominiert die JVM-Initialisierung.
+   - **Ticket-Vorschlag**: Optimierung der statischen Initialisierer in `SFTypeID` und `AfpJacksonXmlWriter`, um "Lazy Loading" für selten genutzte Triplets zu forcieren.
+
+3. **Effizienz der EBCDIC-Konvertierung**:
+   - Obwohl der Anteil gering ist, steigt er in v15.6 prozentual an.
+   - **Ticket-Vorschlag**: Untersuchung von SIMD-basierten Ansätzen oder vorab berechneten Lookup-Tables für die EBCDIC-zu-UTF8 Konvertierung in `EbcdicToUtf8`.
