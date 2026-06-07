@@ -28,8 +28,8 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
     - [x] Analyse der Allocation-Raten (jdk.ObjectAllocationInNewTLAB). ✅
     - [x] Aggregation der JFR-Metriken in `perf_test/profiles/METRICS_SUMMARY.md`. ✅
     - [x] Vergleich der Jackson Fallback vs. Fast-Path Serialisierung via CPU-Samples (Automatisierung via `tools/analyze_hotspots.py`). ✅
-    - [ ] Messung des Validierungs-Overheads in BCOCA/GOCA. ⌛
-    - [ ] Bestimmung des Thread-Orchestrierungs-Overheads bei kleinen Dateien. ⌛
+    - [x] Messung des Validierungs-Overheads in BCOCA/GOCA (Automatisierung via `tools/analyze_hotspots.py`). ✅
+    - [x] Bestimmung des Thread-Orchestrierungs-Overheads bei kleinen Dateien (Automatisierung via `tools/analyze_hotspots.py`). ✅
 - [ ] Identifikation von "Infrastruktur-Drift" (JVM-Interaktionen, GC):
     - [x] Vergleich der GC-Pause-Zeiten (Young/Old Generation). ✅
     - [x] Analyse der Safepoint-Statistiken. ✅

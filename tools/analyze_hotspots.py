@@ -27,6 +27,15 @@ AREAS = [
         r"com\.mgz\.afp\.parser\.AFPParser",
         r"com\.mgz\.afp\.StructuredFieldFactory"
     ]),
+    ("Validation", [
+        r"com\.mgz\.afp\..*\.validate",
+        r"com\.mgz\.afp\.base\.StructuredField\.checkDataLength",
+        r"com\.mgz\.afp\.bcoca\.BDD_BarCodeDataDescriptor\.decodeAFP"
+    ]),
+    ("Thread Orchestration", [
+        r"com\.mgz\.afp\.parser\.Parallel",
+        r"java\.util\.concurrent"
+    ]),
     ("JVM & Infrastructure", [
         r"java\.lang\.ClassLoader",
         r"java\.lang\.invoke",
