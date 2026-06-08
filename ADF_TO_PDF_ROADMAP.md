@@ -133,9 +133,9 @@ Implement the drivers for converting AFP content architectures to PDF operators.
             - ✅ **Model 2 Support**: Implement standard QR Code Model 2. (iText default).
             - ⏳ **Model 1 Support**: Implement standard QR Code Model 1.
             - ⏳ **GS1 QR Code**: Implement Modifier 0x12 for GS1-compliant QR Codes.
-        - ⏳ **Data Matrix**: Implement rendering for Data Matrix barcodes (Type 0x1C).
-            - ⏳ **ECC 200 Support**: Implement the ECC 200 Reed-Solomon error correction.
-        - ⏳ **PDF417**: Implement rendering for PDF417 barcodes (Type 0x1E).
+        - ✅ **Data Matrix**: Implement rendering for Data Matrix barcodes (Type 0x1C). (✅ Basic support using iText).
+            - ✅ **ECC 200 Support**: Implement the ECC 200 Reed-Solomon error correction. (✅ Supported by iText).
+        - ✅ **PDF417**: Implement rendering for PDF417 barcodes (Type 0x1E). (✅ Basic support using iText).
     - ✅ **Postal Barcode Support**:
         - ✅ **POSTNET/PLANET**: Implement rendering for POSTNET and PLANET barcodes.
         - ✅ **Intelligent Mail Barcode (IMB)**: Implement rendering for USPS IMB. (Direct mode 0x01).

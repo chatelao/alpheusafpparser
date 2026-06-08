@@ -19,6 +19,8 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.pdf;
 
+import com.itextpdf.barcodes.BarcodeDataMatrix;
+import com.itextpdf.barcodes.BarcodePDF417;
 import com.itextpdf.barcodes.BarcodeQRCode;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
@@ -281,6 +283,12 @@ public class PdfBarcodeRenderer {
           break;
         case QRCode_2D:
           totalWidth = renderQrCode(content, startX, startY, state, canvas);
+          break;
+        case DataMatrix_GS1DataMatrix_2D:
+          totalWidth = renderDataMatrix(content, startX, startY, state, canvas);
+          break;
+        case PDF417_2D:
+          totalWidth = renderPdf417(content, startX, startY, state, canvas);
           break;
         default:
           // TODO: Implement other barcode types
@@ -1238,6 +1246,45 @@ public class PdfBarcodeRenderer {
     // QR Code modules are 1x1 in iText FormXObject.
     // Scale by moduleSize and flip Y because AFP is top-down and our canvas CTM is already flipped.
     // We want the QR code to grow downwards from (x, y) in the AFP coordinate system.
+    canvas.concatMatrix(moduleSize, 0, 0, -moduleSize, x, y);
+    canvas.addXObject(xObject);
+    canvas.restoreState();
+
+    return width * moduleSize;
+  }
+
+  private static float renderDataMatrix(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    BarcodeDataMatrix dm = new BarcodeDataMatrix(content);
+    PdfFormXObject xObject = dm.createFormXObject(canvas.getDocument());
+
+    float moduleSize = state.getModuleWidthInMils() * 1.44f;
+    if (moduleSize <= 0) {
+      moduleSize = 20.0f;
+    }
+
+    float width = xObject.getWidth();
+
+    canvas.saveState();
+    canvas.concatMatrix(moduleSize, 0, 0, -moduleSize, x, y);
+    canvas.addXObject(xObject);
+    canvas.restoreState();
+
+    return width * moduleSize;
+  }
+
+  private static float renderPdf417(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    BarcodePDF417 pdf = new BarcodePDF417();
+    pdf.setCode(content);
+    PdfFormXObject xObject = pdf.createFormXObject(canvas.getDocument());
+
+    float moduleSize = state.getModuleWidthInMils() * 1.44f;
+    if (moduleSize <= 0) {
+      moduleSize = 20.0f;
+    }
+
+    float width = xObject.getWidth();
+
+    canvas.saveState();
     canvas.concatMatrix(moduleSize, 0, 0, -moduleSize, x, y);
     canvas.addXObject(xObject);
     canvas.restoreState();
