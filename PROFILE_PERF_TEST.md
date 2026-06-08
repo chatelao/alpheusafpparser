@@ -87,3 +87,16 @@ Die Phase der externen Instrumentierung ist hiermit offiziell abgeschlossen. Die
 
 ### Fazit:
 Alpheus hat die Phase der "Blindmessung" verlassen. Durch den Einsatz von JFR und automatisierter Stack-Aggregation können wir nun präzise sagen, wo CPU-Zyklen verloren gehen und wo Speicher allokiert wird. Die nächste Phase wird sich auf die Umsetzung der identifizierten Optimierungspotenziale (Object Pooling, Lazy Loading, SIMD) konzentrieren, um das Ziel "10x Faster" zu erreichen.
+
+## 7. Messungen mit größeren Dateien (Phase 6)
+
+Um den Einfluss der JVM-Infrastruktur (Class Loading, Initialisierung) zu minimieren und den tatsächlichen Durchsatz besser zu bewerten, wurde ein Benchmark für größere Dateien eingeführt.
+
+### 7.1. Setup (Large File Benchmark)
+- **Testdaten**: 20 AFP-Dateien aus `test/async/` mit einer Größe von jeweils ca. 93 KB (Gesamtvolumen ~1.8 MB).
+- **Verzeichnis**: `perf_test_large/`
+- **Tool**: `tools/benchmark_large.sh`
+- **Ziel**: Reduzierung des Infrastruktur-Anteils am Gesamtprofil und bessere Sichtbarkeit der Serialisierungslogik.
+
+### 7.2. Durchführung (Geplant)
+Die Messungen für v3.4 (Baseline) und die aktuelle Version werden durchgeführt, um die Effektivität der Fast-Paths bei größerer Last zu bestätigen.
