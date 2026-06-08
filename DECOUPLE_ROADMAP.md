@@ -33,9 +33,9 @@ This roadmap outlines the serial implementation plan for decoupling the parser f
     - ✅ **4.3.1.3.2 Resource Inheritance:** Verify that handlers correctly inherit preamble state in parallel mode.
   - ⏳ **4.3.2.1 Heap Dump Analysis:**
     - ✅ **4.3.2.1.1 100MB+ Scaling Test:** Execute conversion on synthetic 100MB+ files to stress memory management.
-    - ⏳ **4.3.2.1.2 Capture Dumps:**
-      - ⏳ **4.3.2.1.2.1: Implement programmatic heap dump utility.**
-      - ⏳ **4.3.2.1.2.2: Integrate utility into `Afp2XmlBenchmarkTest`.**
+    - ✅ **4.3.2.1.2 Capture Dumps:**
+      - ✅ **4.3.2.1.2.1: Implement programmatic heap dump utility.**
+      - ✅ **4.3.2.1.2.2: Integrate utility into `Afp2XmlBenchmarkTest`.**
     - ⏳ **4.3.2.1.3 Leak Analysis:** Analyze dumps for suspected memory leaks in handler state (e.g., using MAT or VisualVM).
     - ⏳ **4.3.2.1.4 Verification:** Verify fix efficacy for any identified leaks.
   - ✅ **4.3.2.2 Native Memory Tracking:** Monitor DirectBuffer usage when `--aggressive-io` is enabled.

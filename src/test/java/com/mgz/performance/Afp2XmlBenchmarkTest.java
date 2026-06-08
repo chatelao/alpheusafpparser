@@ -1,6 +1,7 @@
 package com.mgz.performance;
 
 import com.mgz.cli.Afp2Xml;
+import com.mgz.util.HeapDumpUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import java.io.File;
@@ -73,6 +74,13 @@ public class Afp2XmlBenchmarkTest {
 
         // Run with JFR enabled for hotspot identification [DECOUPLE-4.2.3.1.1]
         runModeBenchmark("Stress-Parallel", new String[]{"--parallel", stressFile.toString(), tempDir.resolve("stress.xml").toString()}, Files.size(stressFile), true);
+
+        // Capture heap dump [DECOUPLE-4.3.2.1.2.2]
+        Path dumpDir = Path.of("build/reports/heapdumps");
+        Files.createDirectories(dumpDir);
+        String dumpPath = dumpDir.resolve("stress-test.hprof").toString();
+        System.out.println("Capturing heap dump to: " + dumpPath);
+        HeapDumpUtil.dumpHeap(dumpPath, true);
     }
 
     private void runModeBenchmark(String modeName, String[] args, long fileSize, boolean useJfr) throws Exception {
