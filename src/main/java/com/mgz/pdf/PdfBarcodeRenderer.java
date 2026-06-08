@@ -1227,6 +1227,10 @@ public class PdfBarcodeRenderer {
   private static float renderQrCode(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
     // Modifier 0x12 indicates GS1 compliance.
     // In many QR implementations, GS1 is indicated by a leading FNC1 character.
+    if (state.getBarcodeModifier() == (byte) 0x12) {
+      content = "\u00f1" + content;
+    }
+
     // For now, we use the standard BarcodeQRCode which defaults to Model 2.
     BarcodeQRCode qrCode = new BarcodeQRCode(content);
     PdfFormXObject xObject = qrCode.createFormXObject(canvas.getDocument());

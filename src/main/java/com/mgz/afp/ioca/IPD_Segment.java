@@ -142,6 +142,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
     ColorCompressionUsedByOS2(0x0B),
     TIFF_PackBits(0x0C),
     TIFF_LZW(0x0D),
+    TIFF_LZW_with_Differencing_Predictor(0x0E),
     SolidFillRectangle(0x20),
     G3_ModifiedHuffman(0x80),
     G3_ModifiedREAD(0x81),
