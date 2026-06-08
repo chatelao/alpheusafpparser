@@ -65,7 +65,8 @@ if [ "$LATEST" != "$BASE" ] && [ -n "$LATEST" ]; then
 
     if [ -f "$COLLAPSED_BASE" ] && [ -f "$COLLAPSED_LATEST" ]; then
         python3 "$TOOLS_DIR/diff_collapsed_stacks.py" "$COLLAPSED_BASE" "$COLLAPSED_LATEST" > "$DIFF_FILE"
-        python3 "$TOOLS_DIR/analyze_hotspots.py" "$DIFF_FILE"
+        # Enable automated drift detection with a 5% threshold
+        python3 "$TOOLS_DIR/analyze_hotspots.py" "$DIFF_FILE" --check-drift --threshold 5.0
     else
         echo "Differential analysis skipped: Missing collapsed stacks for $BASE or $LATEST"
     fi
