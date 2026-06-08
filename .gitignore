@@ -99,6 +99,10 @@ gradle-app.setting
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
 
+# Benchmark outputs
+test_output_bench_large/
+test_output_bench_10x10/
+
 # Cache of project
 .gradletasknamecache
 

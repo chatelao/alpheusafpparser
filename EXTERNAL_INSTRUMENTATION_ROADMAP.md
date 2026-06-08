@@ -35,7 +35,7 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
     - [x] Vergleich der GC-Pause-Zeiten (Young/Old Generation). ✅
     - [x] Analyse der Safepoint-Statistiken. ✅
 
-## Phase 4: Integration & Documentation 🚧
+## Phase 4: Integration & Documentation ✅
 - [x] Zusammenfassung der Erkenntnisse in `PROFILE_PERF_TEST.md`:
     - [x] Dokumentation der initialen Allocation-Metriken (Trend v3.4 -> v15.6). ✅
     - [x] Visualisierung der Hotspots aus Flame Graphs (Textuelle Analyse). ✅
@@ -49,7 +49,7 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
 - [x] Erweiterung der Hotspot-Analyse zur Erkennung von "Area-Drift" (prozentuale Verschiebungen). ✅
 
 ## Phase 6: Messungen mit grösseren Dateien 🚧
-- [ ] Auswahl repräsentativer Dateien aus `test/async/` (~100KB Bereich).
-- [ ] Erstellung eines spezialisierten Benchmark-Skripts `tools/benchmark_large.sh`.
+- [x] Auswahl repräsentativer Dateien aus `test/async/` (~100KB Bereich) in `perf_test_large/`. ✅
+- [x] Erstellung eines spezialisierten Benchmark-Skripts `tools/benchmark_large.sh`. ✅
 - [ ] Durchführung der Benchmarks für Baseline (v3.4) und aktuelle Version.
 - [ ] Dokumentation der Ergebnisse in `PROFILE_PERF_TEST.md`.
