@@ -59,3 +59,8 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
 - [x] Automatisierung der Allokations-Hotspot-Analyse in `perf_audit.sh`. ✅
 - [x] Erzeugung von Differential Allocation Flame Graphs (v3.4 vs v15.6) zur Identifikation des 6% Drifts. ✅
 - [ ] Optimierung der Datenerhebung für extrem schnelle Läufe (Erhöhung der Sampling-Frequenz oder Iterationen).
+
+## Phase 8: Erstelle einen umfassenden Bericht `PROFILE_PERF_AUDIT.md`
+- [ ] Integriere graphische Darstellungen der Flame Graphs.
+- [ ] Benenne die Verbesserungen / Verschlechterungen der in der Software.
+- [ ] Benenne das mögliche Verbesserungspotential in der Software.
