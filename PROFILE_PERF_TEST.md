@@ -74,3 +74,16 @@ Basierend auf den Profiling-Daten wurden folgende Optimierungsbereiche identifiz
 3. **Effizienz der EBCDIC-Konvertierung**:
    - Obwohl der Anteil gering ist, steigt er in v15.6 prozentual an.
    - **Ticket-Vorschlag**: Untersuchung von SIMD-basierten Ansätzen oder vorab berechneten Lookup-Tables für die EBCDIC-zu-UTF8 Konvertierung in `EbcdicToUtf8`.
+
+## 6. Abschlussbericht: Externe Instrumentierung & 10x10 Stabilisierung
+
+Die Phase der externen Instrumentierung ist hiermit offiziell abgeschlossen. Die gewonnenen Daten bieten eine solide Basis für die finale Phase der Performance-Optimierung.
+
+### Kernerkenntnisse:
+1. **Regressions-Bestätigung**: Die Instrumentierung bestätigt einen realen Anstieg der Thread-Allokation um ca. 6% seit v3.4. Dieser Anstieg ist stabil und zieht sich durch alle Folgeversionen bis v15.6.
+2. **Fast-Path Effektivität**: CPU-Profile zeigen, dass die manuellen StAX Fast-Paths in `AfpJacksonXmlWriter` die Reflection-basierten Jackson-Fallbacks vollständig aus den Hot-Paths verdrängt haben. Dies ist ein entscheidender Sieg für die Stabilität bei hoher Last.
+3. **Infrastruktur-Dominanz**: Bei dem gewählten 10x10 Szenario (viele kleine Dateien) dominiert der JVM-Overhead (Class Loading, Method Handle Linking) mit bis zu 70% der CPU-Zeit. Zukünftige Benchmarks für Durchsatzmessungen sollten größere AFP-Dateien oder deutlich mehr Iterationen verwenden.
+4. **Automatisierung**: Mit `tools/perf_audit.sh` und den erweiterten Python-Skripten (`aggregate_jfr_metrics.py --check`) verfügt das Projekt nun über einen automatisierten Performance-Wächter, der Regressions in CI-Umgebungen frühzeitig erkennt.
+
+### Fazit:
+Alpheus hat die Phase der "Blindmessung" verlassen. Durch den Einsatz von JFR und automatisierter Stack-Aggregation können wir nun präzise sagen, wo CPU-Zyklen verloren gehen und wo Speicher allokiert wird. Die nächste Phase wird sich auf die Umsetzung der identifizierten Optimierungspotenziale (Object Pooling, Lazy Loading, SIMD) konzentrieren, um das Ziel "10x Faster" zu erreichen.

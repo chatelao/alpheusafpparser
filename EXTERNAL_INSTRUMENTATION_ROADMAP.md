@@ -41,4 +41,9 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
     - [x] Visualisierung der Hotspots aus Flame Graphs (Textuelle Analyse). ✅
 - [x] Ableitung von konkreten Optimierungstickets aus den Profiling-Daten. ✅
 - [x] Integration der Profiling-Schritte in den CI-Workflow (via `tools/perf_audit.sh`). ✅
-- [ ] Abschlussbericht zur 10x10 Performance-Stabilisierung. ⌛
+- [x] Abschlussbericht zur 10x10 Performance-Stabilisierung (in `PROFILE_PERF_TEST.md`). ✅
+
+## Phase 5: Automated Performance Guarding 🚧
+- [x] Implementierung automatisierter Regressions-Checks für Key-Metriken (Allocation, GC). ✅
+- [x] Integration von Schwellenwert-Warnungen in den `perf_audit.sh` Workflow. ✅
+- [ ] Erweiterung der Hotspot-Analyse zur Erkennung von "Area-Drift" (prozentuale Verschiebungen).
