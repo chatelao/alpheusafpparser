@@ -47,3 +47,6 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
 - [x] Implementierung automatisierter Regressions-Checks für Key-Metriken (Allocation, GC). ✅
 - [x] Integration von Schwellenwert-Warnungen in den `perf_audit.sh` Workflow. ✅
 - [ ] Erweiterung der Hotspot-Analyse zur Erkennung von "Area-Drift" (prozentuale Verschiebungen).
+
+## Phase 6: Messungen mit grösseren Dateien ⌛
+- [ ] Wiederholung der Messungen mit 10x grösseren Dateien aus `/test/`.
