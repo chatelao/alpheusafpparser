@@ -135,6 +135,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Intelligent Mail Barcode (IMB)**: Implement rendering for USPS IMB. (Direct mode 0x01).
         - ✅ **Japan Postal**: Implement rendering for Japan Postal barcodes.
         - ✅ **Australia Post**: Implement rendering for Australia Post barcodes (Proprietary modifiers 0x04/0x07).
+        - ✅ **RM4SCC / Dutch KIX**: Implement rendering for RM4SCC and Dutch KIX barcodes.
     - ✅ **HRI Rendering**: Implement Human Readable Interpretation (HRI) text placement and font mapping.
 - ⏳ **IOCA Renderer**: Map image data to PDF Image XObjects.
     - ✅ **Implement IOCA Segment Tracking**: Identify and group IOCA segments within the AFP stream.

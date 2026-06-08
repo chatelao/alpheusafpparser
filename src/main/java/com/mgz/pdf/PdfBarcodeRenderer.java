@@ -110,6 +110,11 @@ public class PdfBarcodeRenderer {
       "AAF", "FFD", "FDF", "FDD", "DFF", "DFA", "DAF", "ADF"  // 11-18 (CC1-CC8)
   };
 
+  private static final String RM4SCC_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  private static final String[] RM4SCC_PATTERNS = {
+      "1100", "1010", "1001", "0110", "0101", "0011"
+  };
+
   static {
     // Code 39 pattern: 5 bars, 4 spaces. 'w' for wide, 'n' for narrow.
     // Total 9 elements, 3 of which are wide (2 bars, 1 space OR 1 bar, 2 spaces).
@@ -265,6 +270,9 @@ public class PdfBarcodeRenderer {
           break;
         case AustraliaPostBarCode:
           totalWidth = renderAustraliaPost(content, startX, startY, state, canvas);
+          break;
+        case RM4SCC_DutchKIX:
+          totalWidth = renderRM4SCC(content, startX, startY, state, canvas);
           break;
         case IntelligentMailBarcode:
           totalWidth = renderIntelligentMailBarcode(content, startX, startY, state, canvas);
@@ -1136,19 +1144,29 @@ public class PdfBarcodeRenderer {
     return curX - x;
   }
 
-  private static void renderJapanPostalBar(char state, float x, float y, float height, float width, PdfCanvas canvas) {
-    // Logic for 4-state bar positions:
-    // Full: top=y, bottom=y-height
-    // Tracker: top=y-height/3, bottom=y-2*height/3 (centered)
-    // Ascender: top=y, bottom=y-2*height/3
-    // Descender: top=y-height/3, bottom=y-height
+  private static void renderFourStateBar(char state, float x, float y, float height, float width, float trackerHeight, PdfCanvas canvas) {
+    float offset = (height - trackerHeight) / 2.0f;
     float top = y;
     float bottom = y - height;
-    if (state == 'T') { top = y - height/3.0f; bottom = y - 2.0f*height/3.0f; }
-    else if (state == 'A') { bottom = y - 2.0f*height/3.0f; }
-    else if (state == 'D') { top = y - height/3.0f; }
 
+    switch (state) {
+      case 'T' -> { // Tracker / Timing
+        top = y - offset;
+        bottom = y - height + offset;
+      }
+      case 'A' -> { // Ascender
+        bottom = y - height + offset;
+      }
+      case 'D' -> { // Descender
+        top = y - offset;
+      }
+      // 'F' or other is Full, uses defaults
+    }
     canvas.rectangle(x, bottom, width, top - bottom).fill();
+  }
+
+  private static void renderJapanPostalBar(char state, float x, float y, float height, float width, PdfCanvas canvas) {
+    renderFourStateBar(state, x, y, height, width, height / 3.0f, canvas);
   }
 
   private static float renderIntelligentMailBarcode(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
@@ -1190,26 +1208,7 @@ public class PdfBarcodeRenderer {
   }
 
   private static void renderImbBar(char state, float x, float y, float height, float width, PdfCanvas canvas) {
-    float trackerHeight = height * 0.312f; // 0.039 / 0.125
-    float offset = (height - trackerHeight) / 2.0f;
-
-    float top = y;
-    float bottom = y - height;
-
-    switch (state) {
-      case 'T' -> {
-        top = y - offset;
-        bottom = y - height + offset;
-      }
-      case 'A' -> {
-        bottom = y - height + offset;
-      }
-      case 'D' -> {
-        top = y - offset;
-      }
-    }
-
-    canvas.rectangle(x, bottom, width, top - bottom).fill();
+    renderFourStateBar(state, x, y, height, width, height * 0.312f, canvas);
   }
 
   private static float renderAustraliaPost(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
@@ -1260,27 +1259,71 @@ public class PdfBarcodeRenderer {
   }
 
   private static void renderAusPostBar(char state, float x, float y, float height, float width, PdfCanvas canvas) {
+    char mappedState = switch (state) {
+      case '1' -> 'A';
+      case '2' -> 'D';
+      case '3' -> 'T';
+      default -> 'F';
+    };
+    renderFourStateBar(mappedState, x, y, height, width, height / 3.0f, canvas);
+  }
+
+  private static float renderRM4SCC(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    String cleaned = content.toUpperCase().replaceAll("[^0-9A-Z]", "");
+    boolean isKix = (state.getBarcodeModifier() == 0x01);
+
+    float pitch = 64.8f;
+    float barWidth = 18.0f;
+    float height = state.getElementHeight() > 0 ? state.getElementHeight() : 288.0f;
     float trackerHeight = height / 3.0f;
-    float offset = trackerHeight;
 
-    float top = y;
-    float bottom = y - height;
+    canvas.saveState();
+    float curX = x;
+    float curY = y;
 
-    switch (state) {
-      case '1' -> { // Ascender
-        bottom = y - 2 * trackerHeight;
-      }
-      case '2' -> { // Descender
-        top = y - trackerHeight;
-      }
-      case '3' -> { // Timing (Tracker)
-        top = y - trackerHeight;
-        bottom = y - 2 * trackerHeight;
-      }
-      // '0' is Full bar, already set defaults
+    if (!isKix) {
+      renderFourStateBar('A', curX, curY, height, barWidth, trackerHeight, canvas);
+      curX += pitch;
     }
 
-    canvas.rectangle(x, bottom, width, top - bottom).fill();
+    int sumRow = 0;
+    int sumCol = 0;
+
+    for (int i = 0; i < cleaned.length(); i++) {
+      int idx = RM4SCC_CHARS.indexOf(cleaned.charAt(i));
+      if (idx == -1) continue;
+      int row = idx / 6;
+      int col = idx % 6;
+      sumRow += row;
+      sumCol += col;
+      curX = renderRM4SCCChar(row, col, curX, curY, height, barWidth, trackerHeight, pitch, canvas);
+    }
+
+    if (!isKix) {
+      curX = renderRM4SCCChar(sumRow % 6, sumCol % 6, curX, curY, height, barWidth, trackerHeight, pitch, canvas);
+      renderFourStateBar('F', curX, curY, height, barWidth, trackerHeight, canvas);
+      curX += pitch;
+    }
+
+    canvas.restoreState();
+    return curX - x;
+  }
+
+  private static float renderRM4SCCChar(int row, int col, float curX, float curY, float height, float barWidth, float trackerHeight, float pitch, PdfCanvas canvas) {
+    String top = RM4SCC_PATTERNS[row];
+    String bottom = RM4SCC_PATTERNS[col];
+    for (int j = 0; j < 4; j++) {
+      char state;
+      boolean t = top.charAt(j) == '1';
+      boolean b = bottom.charAt(j) == '1';
+      if (t && b) state = 'F';
+      else if (t) state = 'A';
+      else if (b) state = 'D';
+      else state = 'T';
+      renderFourStateBar(state, curX, curY, height, barWidth, trackerHeight, canvas);
+      curX += pitch;
+    }
+    return curX;
   }
 
   private static void renderHRI(String content, int x, int y, float barcodeWidth, EnumSet<BarCodeFlag> flags, PdfBarcodeState state, PdfCanvas canvas) {
