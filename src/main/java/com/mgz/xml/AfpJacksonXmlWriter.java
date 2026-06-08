@@ -246,18 +246,6 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
   }
 
-  /**
-   * Writes a single structured field to the XML output.
-   *
-   * @param sf the structured field to write
-   * @throws Exception if writing fails
-   * @deprecated Use {@link #handle(StructuredField)} instead.
-   */
-  @Deprecated
-  public void writeField(StructuredField sf) throws Exception {
-    handle(sf);
-  }
-
   @Override
   public void handle(StructuredField sf) throws Exception {
     boolean isPtx = sf instanceof PTX_PresentationTextData;

@@ -57,13 +57,13 @@ public class PerformanceInstrumentationTest {
             // Record a fake parse to increment totalPtxCount
             PTXPerformanceMonitor.recordPtxParse(1000, 11, 1);
 
-            writer.writeField(ptx);
+            writer.handle(ptx);
 
             // Write a NOP field to exercise MnemonicPerformanceMonitor
             NOP_NoOperation nop = new NOP_NoOperation();
             byte[] nopData = new byte[]{0x01, 0x02};
             nop.decodeAFP(nopData, 0, nopData.length, config);
-            writer.writeField(nop);
+            writer.handle(nop);
         }
 
         // Verify monitors have data and print summaries

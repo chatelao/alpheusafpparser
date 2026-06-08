@@ -42,7 +42,7 @@ public class PerformanceRegressionTest {
         try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(bos, null)) {
             StructuredField sf;
             while ((sf = parser.parseNextSF()) != null) {
-                writer.writeField(sf);
+                writer.handle(sf);
                 sf.release();
             }
         } finally {
@@ -128,7 +128,7 @@ public class PerformanceRegressionTest {
                 String className = sf.getClass().getSimpleName();
                 long startField = System.nanoTime();
                 try {
-                    writer.writeField(sf);
+                    writer.handle(sf);
                 } catch (Throwable e) {
                     result.errorCount++;
                 }

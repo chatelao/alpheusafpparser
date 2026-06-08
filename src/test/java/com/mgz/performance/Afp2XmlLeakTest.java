@@ -55,18 +55,22 @@ public class Afp2XmlLeakTest {
         long finalHandlers = getHandlerCount(finalCounts);
         System.out.println("Final StructuredFieldHandler instances (after GC): " + finalHandlers);
 
-        // We expect handlers to be eligible for GC after conversion.
+        // We expect handlers and pooled objects to be eligible for GC after conversion.
         // Allowing a small buffer or same as initial.
-        assertTrue(finalHandlers <= initialHandlers + 1,
-            "Potential leak detected: StructuredFieldHandler instances increased from "
+        assertTrue(finalHandlers <= initialHandlers + 5,
+            "Potential leak detected: tracked object instances increased from "
             + initialHandlers + " to " + finalHandlers);
     }
 
     private long getHandlerCount(Map<String, Long> counts) {
         long total = 0;
-        // Check for known implementations
+        // Check for known handler implementations
         total += counts.getOrDefault("com.mgz.xml.AfpJacksonXmlWriter", 0L);
         total += counts.getOrDefault("com.mgz.pdf.PdfHandler", 0L);
+
+        // Check for core pooled objects [DECOUPLE-4.3.2.1.4]
+        total += counts.getOrDefault("com.mgz.afp.base.StructuredFieldIntroducer", 0L);
+        total += counts.getOrDefault("com.mgz.afp.base.StructuredFieldBaseData", 0L);
         return total;
     }
 }
