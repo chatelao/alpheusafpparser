@@ -12,7 +12,7 @@ if [ -n "$RELEASES_TO_BENCHMARK" ]; then
 else
     RELEASES=("v0.1" "v1.0" "v3.0" "v3.4" "v5.3" "v7.0" "v9.11" "v12.0" "v12.1" "v12.2" "v13.1" "v14.4" "v15.1" "v15.2" "v15.3" "v15.4" "v15.6")
 fi
-TEST_DIR="perf_test"
+TEST_DIR="${TEST_DIR:-perf_test}"
 ITERATIONS=10
 OUTPUT_DIR="test_output_bench_10x10"
 

@@ -16,21 +16,22 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
 - [x] Erzeugung der Profile für die aktuelle Version (v15.6). ✅
 - [x] Archivierung der Rohdaten (`.jfr`, `.html`) im Verzeichnis `perf_test/profiles/`. ✅
 
-## Phase 3: Analyse & Hotspot-Identifikation 🚧
-- [ ] Erstellung von Differential Flame Graphs (v3.4 vs v15.6):
+## Phase 3: Analyse & Hotspot-Identifikation ✅
+- [x] Erstellung von Differential Flame Graphs (v3.4 vs v15.6): ✅
     - [x] Verbesserung der JFR-Datentreue (Nutzung von `settings=profile`). ✅
 - [x] Export von JFR-Daten in Flame-Graph-kompatible Formate (via `tools/jfr_to_collapsed.py`). ✅
-- [x] Generierung der Differential Flame Graphs:
+- [x] Generierung der Differential Flame Graphs: ✅
     - [x] Erzeugung von Collapsed Stacks für v3.4 und v15.6 (via `tools/aggregate_collapsed_stacks.py`). ✅
     - [x] Differenzbildung der aggregierten Stacks (Diff-Graph) via `tools/diff_collapsed_stacks.py`. ✅
-- [x] Quantifizierung des Overheads (v3.4 vs v15.6):
+    - [x] Automatisierte Analyse der differentiellen Hotspots (via `tools/analyze_hotspots.py`). ✅
+- [x] Quantifizierung des Overheads (v3.4 vs v15.6): ✅
     - [x] Extraktion der I/O Metriken (jdk.FileWrite) via `tools/jfr_metrics.py`. ✅
     - [x] Analyse der Allocation-Raten (jdk.ObjectAllocationInNewTLAB). ✅
     - [x] Aggregation der JFR-Metriken in `perf_test/profiles/METRICS_SUMMARY.md`. ✅
     - [x] Vergleich der Jackson Fallback vs. Fast-Path Serialisierung via CPU-Samples (Automatisierung via `tools/analyze_hotspots.py`). ✅
     - [x] Messung des Validierungs-Overheads in BCOCA/GOCA (Automatisierung via `tools/analyze_hotspots.py`). ✅
     - [x] Bestimmung des Thread-Orchestrierungs-Overheads bei kleinen Dateien (Automatisierung via `tools/analyze_hotspots.py`). ✅
-- [ ] Identifikation von "Infrastruktur-Drift" (JVM-Interaktionen, GC):
+- [x] Identifikation von "Infrastruktur-Drift" (JVM-Interaktionen, GC): ✅
     - [x] Vergleich der GC-Pause-Zeiten (Young/Old Generation). ✅
     - [x] Analyse der Safepoint-Statistiken. ✅
 
