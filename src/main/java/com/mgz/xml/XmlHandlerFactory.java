@@ -21,6 +21,7 @@ package com.mgz.xml;
 
 import com.mgz.afp.base.handler.HandlerFactory;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
+import com.mgz.util.SFSizeEstimator;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -120,5 +121,10 @@ public class XmlHandlerFactory implements HandlerFactory {
     data.position(pos + startIdx);
     data.limit(pos + endIdx);
     return data.slice();
+  }
+
+  @Override
+  public long estimateOutputSize(long inputSize) {
+    return SFSizeEstimator.estimateXmlSize(inputSize);
   }
 }

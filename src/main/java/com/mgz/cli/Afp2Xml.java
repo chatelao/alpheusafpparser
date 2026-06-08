@@ -30,7 +30,7 @@ import com.mgz.util.FileChannelMappedBufferProvider;
 import com.mgz.util.MappedBufferOutputStream;
 import com.mgz.util.SegmentedMappedBufferOutputStream;
 import com.mgz.xml.XmlHandlerFactory;
-import com.mgz.xml.OrderedOutputOrchestrator;
+import com.mgz.afp.base.handler.OrderedOutputOrchestrator;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -284,7 +284,7 @@ public class Afp2Xml {
                     os.flush();
                   }
                 } else {
-                  long estimatedSize = finalAggressiveIo ? com.mgz.util.SFSizeEstimator.estimateXmlSize(f.length()) : 0;
+                  long estimatedSize = finalAggressiveIo ? handlerFactory.estimateOutputSize(f.length()) : 0;
                   if (finalAggressiveIo && estimatedSize >= MMAP_THRESHOLD) {
                     try (RandomAccessFile raf = new RandomAccessFile(outputFile, "rw")) {
                       raf.setLength(estimatedSize);
@@ -338,7 +338,7 @@ public class Afp2Xml {
           var outputFilePath = outputPath != null ? outputPath : inputPath + extension;
           var outputFile = new File(outputFilePath);
 
-          long estimatedSize = aggressiveIo ? com.mgz.util.SFSizeEstimator.estimateXmlSize(input.length()) : 0;
+          long estimatedSize = aggressiveIo ? handlerFactory.estimateOutputSize(input.length()) : 0;
           if (aggressiveIo && estimatedSize >= MMAP_THRESHOLD) {
             // Use MMap for single-file mode if aggressive IO is on and file is large
             try (RandomAccessFile raf = new RandomAccessFile(outputFile, "rw")) {
@@ -399,7 +399,7 @@ public class Afp2Xml {
       boolean ptxDebug, boolean parallel, int threadsPerFile, boolean charsetOpt, boolean aggressiveIo) throws Exception {
     try (var fos = new FileOutputStream(outputFile)) {
       if (aggressiveIo) {
-        long estimatedSize = com.mgz.util.SFSizeEstimator.estimateXmlSize(f.length());
+        long estimatedSize = handlerFactory.estimateOutputSize(f.length());
         if (estimatedSize > 0) {
           fos.getChannel().position(estimatedSize - 1);
           fos.write(0);

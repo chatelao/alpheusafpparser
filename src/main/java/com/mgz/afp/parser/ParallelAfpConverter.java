@@ -23,10 +23,9 @@ import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.handler.HandlerFactory;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.exceptions.AFPParserException;
-import com.mgz.util.SFSizeEstimator;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.PTXPerformanceMonitor;
-import com.mgz.xml.OrderedResultCollector;
+import com.mgz.afp.base.handler.OrderedResultCollector;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -170,7 +169,7 @@ public class ParallelAfpConverter {
 
     @Override
     public Void call() throws Exception {
-      int initialCapacity = (int) SFSizeEstimator.estimateXmlSize((int) (endOffset - startOffset));
+      int initialCapacity = (int) handlerFactory.estimateOutputSize(endOffset - startOffset);
       java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream(initialCapacity);
       try {
         if (taskConfig.getByteBuffer() == null && taskConfig.getAsyncFileChannel() != null) {

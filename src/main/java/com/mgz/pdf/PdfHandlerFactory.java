@@ -41,4 +41,11 @@ public class PdfHandlerFactory implements HandlerFactory {
   public StructuredFieldHandler createHandler(OutputStream os, boolean fragmentMode) throws Exception {
     return new PdfHandler(os);
   }
+
+  @Override
+  public long estimateOutputSize(long inputSize) {
+    // PDF output can be larger than AFP due to fonts and metadata, but often images are smaller.
+    // Use a safe factor of 2.0.
+    return inputSize * 2;
+  }
 }

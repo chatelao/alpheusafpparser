@@ -148,6 +148,7 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.TBM_TemporaryBasel
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.TRN_TransparentData;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.UCT_UnicodeComplexText;
 import com.mgz.afp.triplets.Triplet;
+import com.mgz.util.MnemonicPerformanceMonitor;
 import java.io.OutputStream;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -218,6 +219,22 @@ public class PdfHandler implements StructuredFieldHandler {
   public void handle(StructuredField sf) throws Exception {
     fieldCount.incrementAndGet();
 
+    if (MnemonicPerformanceMonitor.isEnabled()) {
+      String rootName = MnemonicPerformanceMonitor.getSimpleName(sf.getClass());
+      String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
+      MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
+    }
+
+    try {
+      handleInternal(sf);
+    } finally {
+      if (MnemonicPerformanceMonitor.isEnabled()) {
+        MnemonicPerformanceMonitor.endWrite();
+      }
+    }
+  }
+
+  private void handleInternal(StructuredField sf) throws Exception {
     if (sf instanceof PTX_PresentationTextData
         || sf instanceof GAD_GraphicsData
         || sf instanceof BIM_BeginImageObject
@@ -485,8 +502,6 @@ public class PdfHandler implements StructuredFieldHandler {
     } else if (sf instanceof IPS_IncludePageSegment ips) {
       renderXObject(ips.getPageSegmentName(), ips.getxOrigin(), ips.getyOrigin(), null);
     }
-
-    // TODO: Implement iText 9 based translation logic
   }
 
   private void renderXObject(String name, int x, int y, AFPOrientation rotation) {
@@ -527,6 +542,22 @@ public class PdfHandler implements StructuredFieldHandler {
   }
 
   private void handleDrawingOrder(GAD_DrawingOrder order) {
+    if (MnemonicPerformanceMonitor.isEnabled()) {
+      String rootName = MnemonicPerformanceMonitor.getSimpleName(order.getClass());
+      String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
+      MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
+    }
+
+    try {
+      handleDrawingOrderInternal(order);
+    } finally {
+      if (MnemonicPerformanceMonitor.isEnabled()) {
+        MnemonicPerformanceMonitor.endWrite();
+      }
+    }
+  }
+
+  private void handleDrawingOrderInternal(GAD_DrawingOrder order) {
     if (order instanceof GSCOL_SetColor gscol) {
       graphicsState.setColor(gscol.getColor());
     } else if (order instanceof GSECOL_SetExtendedColor gsecol) {

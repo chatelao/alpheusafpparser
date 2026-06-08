@@ -63,6 +63,11 @@ public class HandlerLifecycleTest {
         public ByteBuffer stripFragmentWrapper(ByteBuffer data) {
             return data;
         }
+
+        @Override
+        public long estimateOutputSize(long inputSize) {
+            return inputSize * 2;
+        }
     }
 
     @Test

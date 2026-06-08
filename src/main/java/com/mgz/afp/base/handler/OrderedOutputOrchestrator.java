@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 */
 
-package com.mgz.xml;
+package com.mgz.afp.base.handler;
 
 import java.io.IOException;
 import java.io.OutputStream;
