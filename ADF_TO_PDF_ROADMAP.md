@@ -117,7 +117,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - 🚧 **Segment Mapping**: Implement inline rendering for GOCA segments (`GBSEG`). (XObject conversion pending).
 - ⏳ **BCOCA Renderer**: Implement barcode drawing using vector primitives for resolution independence.
     - ✅ **BCOCA State Tracking**: Implement tracking of barcode descriptors (`BDD`) and data (`BDA`) including type, modifier, and font for HRI.
-    - 🚧 **Linear Barcode Support**: Implement rendering for common linear barcodes. (Basic set implemented).
+    - ✅ **Linear Barcode Support**: Implement rendering for common linear barcodes.
         - ✅ **Codabar**: Implement rendering for Codabar barcodes.
         - ✅ **Code 39**: Implement rendering for Code 39 (3 of 9) barcodes.
         - ✅ **MSI Plessey**: Implement rendering for MSI Plessey barcodes.
@@ -128,14 +128,15 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **EAN-8 / EAN-13**: Implement rendering for EAN-8 and EAN-13 barcodes.
         - ✅ **Code 128 (Subsets A, B, C)**: Implement rendering for Code 128 (Subsets A, B, C) barcodes.
         - ✅ **UPC-E**: Implement rendering for UPC-E barcodes.
-    - ⏳ **2D Barcode Support**:
-        - ⏳ **QR Code**: Implement rendering for QR Code barcodes (Type 0x20).
-            - ⏳ **Model 1/2 Support**: Implement standard QR Code models.
-            - ⏳ **GS1 QR Code**: Implement Modifier 0x02 for GS1-compliant QR Codes.
+    - 🚧 **2D Barcode Support**:
+        - 🚧 **QR Code**: Implement rendering for QR Code barcodes (Type 0x20).
+            - ✅ **Model 2 Support**: Implement standard QR Code Model 2. (iText default).
+            - ⏳ **Model 1 Support**: Implement standard QR Code Model 1.
+            - ⏳ **GS1 QR Code**: Implement Modifier 0x12 for GS1-compliant QR Codes.
         - ⏳ **Data Matrix**: Implement rendering for Data Matrix barcodes (Type 0x1C).
             - ⏳ **ECC 200 Support**: Implement the ECC 200 Reed-Solomon error correction.
         - ⏳ **PDF417**: Implement rendering for PDF417 barcodes (Type 0x1E).
-    - 🚧 **Postal Barcode Support**:
+    - ✅ **Postal Barcode Support**:
         - ✅ **POSTNET/PLANET**: Implement rendering for POSTNET and PLANET barcodes.
         - ✅ **Intelligent Mail Barcode (IMB)**: Implement rendering for USPS IMB. (Direct mode 0x01).
         - ✅ **Japan Postal**: Implement rendering for Japan Postal barcodes.
