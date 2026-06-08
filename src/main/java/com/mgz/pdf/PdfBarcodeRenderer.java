@@ -19,8 +19,10 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.pdf;
 
+import com.itextpdf.barcodes.BarcodeQRCode;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
 import com.mgz.afp.bcoca.BDA_BarCodeData;
 import com.mgz.afp.bcoca.BDA_BarCodeData.BarCodeFlag;
 import java.util.EnumSet;
@@ -276,6 +278,9 @@ public class PdfBarcodeRenderer {
           break;
         case IntelligentMailBarcode:
           totalWidth = renderIntelligentMailBarcode(content, startX, startY, state, canvas);
+          break;
+        case QRCode_2D:
+          totalWidth = renderQrCode(content, startX, startY, state, canvas);
           break;
         default:
           // TODO: Implement other barcode types
@@ -1209,6 +1214,35 @@ public class PdfBarcodeRenderer {
 
   private static void renderImbBar(char state, float x, float y, float height, float width, PdfCanvas canvas) {
     renderFourStateBar(state, x, y, height, width, height * 0.312f, canvas);
+  }
+
+  private static float renderQrCode(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    // Modifier 0x12 indicates GS1 compliance.
+    // In many QR implementations, GS1 is indicated by a leading FNC1 character.
+    // For now, we use the standard BarcodeQRCode which defaults to Model 2.
+    BarcodeQRCode qrCode = new BarcodeQRCode(content);
+    PdfFormXObject xObject = qrCode.createFormXObject(canvas.getDocument());
+
+    // Scaling: 1 mil = 1/1000 inch.
+    // AFP units (as configured in PdfHandler) are 1/1440 inch.
+    // Therefore, 1 mil = 1.44 AFP units.
+    // Since the canvas is already scaled to AFP units, we use 1.44f.
+    float moduleSize = state.getModuleWidthInMils() * 1.44f;
+    if (moduleSize <= 0) {
+      moduleSize = 20.0f; // Default ~14 mils
+    }
+
+    float width = xObject.getWidth();
+
+    canvas.saveState();
+    // QR Code modules are 1x1 in iText FormXObject.
+    // Scale by moduleSize and flip Y because AFP is top-down and our canvas CTM is already flipped.
+    // We want the QR code to grow downwards from (x, y) in the AFP coordinate system.
+    canvas.concatMatrix(moduleSize, 0, 0, -moduleSize, x, y);
+    canvas.addXObject(xObject);
+    canvas.restoreState();
+
+    return width * moduleSize;
   }
 
   private static float renderAustraliaPost(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {

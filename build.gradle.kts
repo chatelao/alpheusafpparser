@@ -39,6 +39,7 @@ dependencies {
     implementation("com.itextpdf:kernel:9.0.0")
     implementation("com.itextpdf:io:9.0.0")
     implementation("com.itextpdf:layout:9.0.0")
+    implementation("com.itextpdf:barcodes:9.0.0")
     testImplementation("junit:junit:4.12")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
     testImplementation("org.apache.pdfbox:pdfbox:3.0.7")
