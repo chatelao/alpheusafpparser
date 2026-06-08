@@ -13,7 +13,8 @@ else
     RELEASES=("v0.1" "v1.0" "v3.0" "v3.4" "v5.3" "v7.0" "v9.11" "v12.0" "v12.1" "v12.2" "v13.1" "v14.4" "v15.1" "v15.2" "v15.3" "v15.4" "v15.6")
 fi
 TEST_DIR="${TEST_DIR:-perf_test}"
-ITERATIONS=10
+ITERATIONS="${ITERATIONS:-10}"
+WARMUP_ITERATIONS="${WARMUP_ITERATIONS:-2}"
 OUTPUT_DIR="test_output_bench_10x10"
 
 # Temporary directory to hold test files across checkouts
@@ -22,7 +23,7 @@ cp "$TEST_DIR"/*.afp "$TEMP_TEST_DIR"
 
 mkdir -p "$OUTPUT_DIR"
 
-echo "| Release | Optimization Flags | Total Time (10 runs of 10 files) | Avg Time per run |"
+echo "| Release | Optimization Flags | Total Time ($ITERATIONS runs) | Avg Time per run |"
 echo "| :--- | :--- | :--- | :--- |"
 
 # Stash current changes to allow checkout
@@ -62,6 +63,21 @@ for rel in "${RELEASES[@]}"; do
         JVM_ARGS="$JVM_ARGS -agentpath:$AGENT_PATH"
     fi
 
+    # Warmup runs
+    if [ "$WARMUP_ITERATIONS" -gt 0 ]; then
+        echo "  Warming up ($WARMUP_ITERATIONS iterations)..." >&2
+        for i in $(seq 1 $WARMUP_ITERATIONS); do
+             if echo "$HELP_OUTPUT" | grep -q -- "-d"; then
+                 java $JVM_ARGS -jar "$JAR_FILE" $SUPPORTED_FLAGS -d "$TEMP_TEST_DIR" "$OUTPUT_DIR" > /dev/null 2>&1
+            else
+                for f in "$TEMP_TEST_DIR"/*.afp; do
+                    fname=$(basename "$f")
+                    java $JVM_ARGS -jar "$JAR_FILE" "$f" "$OUTPUT_DIR/$fname.xml" > /dev/null 2>&1
+                done
+            fi
+        done
+    fi
+
     # Start timing
     START_TIME=$(date +%s%3N)
     for i in $(seq 1 $ITERATIONS); do
@@ -69,7 +85,8 @@ for rel in "${RELEASES[@]}"; do
         JFR_ARGS=""
         if [ "$ENABLE_JFR" = "true" ]; then
             mkdir -p perf_test/profiles/
-            JFR_ARGS="-XX:StartFlightRecording=settings=profile,filename=perf_test/profiles/profile_${rel}_run${i}.jfr"
+            # Optimize for fast runs: Increase sampling frequency to 1ms
+            JFR_ARGS="-XX:StartFlightRecording=settings=profile,jdk.ExecutionSample#period=1ms,filename=perf_test/profiles/profile_${rel}_run${i}.jfr"
         fi
 
         # Check if -d (directory mode) is supported
@@ -87,10 +104,14 @@ for rel in "${RELEASES[@]}"; do
 
     TOTAL_TIME=$((END_TIME - START_TIME))
 
-    # Manual division since bc might be missing
-    AVG_TIME_INT=$((TOTAL_TIME / ITERATIONS))
-    AVG_TIME_DEC=$(( (TOTAL_TIME % ITERATIONS) ))
-    AVG_TIME="${AVG_TIME_INT}.${AVG_TIME_DEC}"
+    # Accurate average calculation
+    if command -v bc > /dev/null; then
+        AVG_TIME=$(echo "scale=1; $TOTAL_TIME / $ITERATIONS" | bc)
+    else
+        AVG_TIME_INT=$((TOTAL_TIME / ITERATIONS))
+        AVG_TIME_FRAC=$(( (TOTAL_TIME * 10 / ITERATIONS) % 10 ))
+        AVG_TIME="${AVG_TIME_INT}.${AVG_TIME_FRAC}"
+    fi
 
     # Trim leading space from flags
     FLAGS_DISPLAY=$(echo "$SUPPORTED_FLAGS" | xargs)
