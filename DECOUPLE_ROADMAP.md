@@ -36,9 +36,9 @@ This roadmap outlines the serial implementation plan for decoupling the parser f
     - ✅ **4.3.2.1.2 Capture Dumps:**
       - ✅ **4.3.2.1.2.1: Implement programmatic heap dump utility.**
       - ✅ **4.3.2.1.2.2: Integrate utility into `Afp2XmlBenchmarkTest`.**
-    - ⏳ **4.3.2.1.3 Leak Analysis:**
-      - ⏳ **4.3.2.1.3.1:** Automated "Surviving Object" count for Handlers after GC.
-      - ⏳ **4.3.2.1.3.2:** Comparative analysis of heap histograms (Before vs. After).
+    - ✅ **4.3.2.1.3 Leak Analysis:**
+      - ✅ **4.3.2.1.3.1:** Automated "Surviving Object" count for Handlers after GC.
+      - ✅ **4.3.2.1.3.2:** Comparative analysis of heap histograms (Before vs. After).
     - ⏳ **4.3.2.1.4 Verification:** Verify fix efficacy for any identified leaks.
   - ✅ **4.3.2.2 Native Memory Tracking:** Monitor DirectBuffer usage when `--aggressive-io` is enabled.
   - ✅ **4.3.3 Handler Lifecycle Verification:** Verify that all handler instances are correctly closed in both sequential and parallel modes.
