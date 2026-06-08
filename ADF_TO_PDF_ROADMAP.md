@@ -53,6 +53,8 @@ Optimize resource handling for high-performance variable data printing.
 - ⏳ **FOCA to PDF/X-4 Font Embedding**: Ensure all fonts are fully embedded and subsetted per PDF/X-4 requirements.
     - ✅ **Font Registry**: Implement a global registry for `PdfFont` instances mapped by FOCA resource name. (✅ Basic `PdfFontRegistry` implemented in `PdfHandler`).
     - ⏳ **Subset Generation**: Enable iText font subsetting for PDF/X-4 compliance.
+        - ⏳ **iText Subsetting API Integration**: Configure `FontSet` and `FontProvider` to support subsetting.
+        - ⏳ **LID-to-Subset Mapping**: Track glyph usage per Local ID to ensure minimal subset size.
 - ✅ **IOCA Image Optimizer**: Map repeated IOCA objects to a single Image XObject instance to reduce file size.
 
 ## Phase 3: Content Conversion (Base Operators) ⏳
@@ -127,9 +129,12 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Code 128 (Subsets A, B, C)**: Implement rendering for Code 128 (Subsets A, B, C) barcodes.
         - ✅ **UPC-E**: Implement rendering for UPC-E barcodes.
     - ⏳ **2D Barcode Support**:
-        - ⏳ **QR Code**: Implement rendering for QR Code barcodes.
-        - ⏳ **Data Matrix**: Implement rendering for Data Matrix barcodes.
-        - ⏳ **PDF417**: Implement rendering for PDF417 barcodes.
+        - ⏳ **QR Code**: Implement rendering for QR Code barcodes (Type 0x20).
+            - ⏳ **Model 1/2 Support**: Implement standard QR Code models.
+            - ⏳ **GS1 QR Code**: Implement Modifier 0x02 for GS1-compliant QR Codes.
+        - ⏳ **Data Matrix**: Implement rendering for Data Matrix barcodes (Type 0x1C).
+            - ⏳ **ECC 200 Support**: Implement the ECC 200 Reed-Solomon error correction.
+        - ⏳ **PDF417**: Implement rendering for PDF417 barcodes (Type 0x1E).
     - 🚧 **Postal Barcode Support**:
         - ✅ **POSTNET/PLANET**: Implement rendering for POSTNET and PLANET barcodes.
         - ✅ **Intelligent Mail Barcode (IMB)**: Implement rendering for USPS IMB. (Direct mode 0x01).
@@ -143,6 +148,8 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **FS10 Support**: Support FS10 (Bilevel) image data (uncompressed).
         - ✅ **FS11 Support**: Support FS11 (Grayscale/Color) image data (uncompressed).
         - ⏳ **FS40 (Tiled) support**: Support FS40 (Tiled) image data structures.
+            - ⏳ **Tiling Descriptor Mapping**: Map tile positions to PDF coordinates.
+            - ⏳ **Tile-to-XObject Optimization**: Handle repeated tiles as XObjects.
         - ✅ **G3/G4 Decoding**: Implement CCITT Group 3/4 decompression.
         - ⏳ **LZW Decoding**: Implement LZW decompression for FS10/FS11.
         - ✅ **JPEG Decoding**: Implement JPEG (DCT) decompression.
@@ -162,9 +169,11 @@ Ensure the generated output meets the PDF/VT-1 standard and accurately reflects 
     - ⏳ **Viewer Validation**: Verify navigation and structure in PDF/VT-aware viewers.
 - ⏳ **Metadata Integrity**: Compare record-level extraction from PDF metadata against original AFP `TLE` values.
 - ⏳ **Visual Regression**:
-    - ⏳ **Snapshot Comparison**: Compare rendered PDF output against XML/Baseline snapshots.
+    - 🚧 **Snapshot Comparison**: Compare rendered PDF output against XML/Baseline snapshots.
+        - ⏳ **Baseline Generation**: Create a tool to generate "golden" images from validated PDFs.
+        - ⏳ **Automated Image Diffing**: Implement pixel-by-pixel comparison with configurable tolerance.
     - ⏳ **Pixel-Perfect Verification**: Establish a suite for pixel-level regression testing against golden PDFs.
-    - ⏳ **PDF-to-Image Rasterizer**: Integrate a tool (e.g., PDFBox or Ghostscript) to rasterize PDF pages for visual diffing.
+    - ✅ **PDF-to-Image Rasterizer**: Integrate a tool (e.g., PDFBox or Ghostscript) to rasterize PDF pages for visual diffing. (✅ Implemented `PdfVerificationUtils` using PDFBox 3.0).
 
 ---
 
