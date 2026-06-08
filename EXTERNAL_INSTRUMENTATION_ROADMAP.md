@@ -43,10 +43,13 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
 - [x] Integration der Profiling-Schritte in den CI-Workflow (via `tools/perf_audit.sh`). ✅
 - [x] Abschlussbericht zur 10x10 Performance-Stabilisierung (in `PROFILE_PERF_TEST.md`). ✅
 
-## Phase 5: Automated Performance Guarding 🚧
+## Phase 5: Automated Performance Guarding ✅
 - [x] Implementierung automatisierter Regressions-Checks für Key-Metriken (Allocation, GC). ✅
 - [x] Integration von Schwellenwert-Warnungen in den `perf_audit.sh` Workflow. ✅
-- [ ] Erweiterung der Hotspot-Analyse zur Erkennung von "Area-Drift" (prozentuale Verschiebungen).
+- [x] Erweiterung der Hotspot-Analyse zur Erkennung von "Area-Drift" (prozentuale Verschiebungen). ✅
 
-## Phase 6: Messungen mit grösseren Dateien ⌛
-- [ ] Wiederholung der Messungen mit 10x grösseren Dateien aus `/test/`.
+## Phase 6: Messungen mit grösseren Dateien 🚧
+- [ ] Auswahl repräsentativer Dateien aus `test/async/` (~100KB Bereich).
+- [ ] Erstellung eines spezialisierten Benchmark-Skripts `tools/benchmark_large.sh`.
+- [ ] Durchführung der Benchmarks für Baseline (v3.4) und aktuelle Version.
+- [ ] Dokumentation der Ergebnisse in `PROFILE_PERF_TEST.md`.

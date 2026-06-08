@@ -1,6 +1,7 @@
 import sys
 import collections
 import re
+import argparse
 
 # Functional area definitions (ordered by priority)
 AREAS = [
@@ -53,11 +54,14 @@ def categorize(stack):
     return "Other"
 
 def main():
-    if len(sys.argv) < 2:
-        print("Usage: python3 tools/analyze_hotspots.py <collapsed_file.txt>")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description="Analyze hotspots and detect performance drift.")
+    parser.add_argument("collapsed_file", help="Path to the collapsed stack file (standard or differential format).")
+    parser.add_argument("--check-drift", action="store_true", help="Check for percentage share drift in functional areas.")
+    parser.add_argument("--threshold", type=float, default=5.0, help="Drift threshold in percent (default: 5.0%%).")
 
-    collapsed_file = sys.argv[1]
+    args = parser.parse_args()
+
+    collapsed_file = args.collapsed_file
     stats1 = collections.defaultdict(int)
     stats2 = collections.defaultdict(int)
     total1 = 0
@@ -99,6 +103,8 @@ def main():
         print(f"No samples found in {collapsed_file}")
         return
 
+    drifts = []
+
     if is_diff:
         print(f"Differential Analysis for {collapsed_file}")
         print(f"Baseline (V1) Total: {total1} samples")
@@ -122,7 +128,7 @@ def main():
             print(f"{'Area':<30} | {'V1 %':<8} | {'V2 %':<8} | {'Shift %':<10} | {'Delta':<10}")
             print("-" * 85)
 
-            for area_name, _ in AREAS:
+            for area_name, _ in AREAS + [("Other", [])]:
                 c1 = stats1.get(area_name, 0)
                 c2 = stats2.get(area_name, 0)
                 p1 = (c1 / total1 * 100) if total1 > 0 else 0
@@ -131,14 +137,12 @@ def main():
                 delta = c2 - c1
                 print(f"{area_name:<30} | {p1:>6.2f}% | {p2:>6.2f}% | {shift:>+8.2f}% | {delta:>10}")
 
-            # Other
-            c1 = stats1.get("Other", 0)
-            c2 = stats2.get("Other", 0)
-            p1 = (c1 / total1 * 100) if total1 > 0 else 0
-            p2 = (c2 / total2 * 100) if total2 > 0 else 0
-            shift = p2 - p1
-            delta = c2 - c1
-            print(f"{'Other':<30} | {p1:>6.2f}% | {p2:>6.2f}% | {shift:>+8.2f}% | {delta:>10}")
+                # Drift detection: Only relevant for functional areas, excluding "JVM & Infrastructure" and "Other"
+                # as they are often noise or outside direct control.
+                # Actually, let's include all except "JVM & Infrastructure" and "Other" for strict guarding.
+                if args.check_drift and area_name not in ["JVM & Infrastructure", "Other"]:
+                    if shift > args.threshold:
+                        drifts.append((area_name, shift))
     else:
         print(f"Analysis for {collapsed_file} (Total samples: {total1})")
         print("-" * 60)
@@ -154,6 +158,14 @@ def main():
         other_count = stats1.get("Other", 0)
         other_percentage = (other_count / total1 * 100) if total1 > 0 else 0
         print(f"{'Other':<30} | {other_count:<10} | {other_percentage:>9.2f}%")
+
+    if drifts:
+        print(f"\nERROR: Area-Drift detected (Threshold: {args.threshold}%):")
+        for area, shift in drifts:
+            print(f"- {area}: {shift:>+6.2f}% shift")
+        sys.exit(1)
+    elif args.check_drift and is_diff:
+        print("\nArea percentages are within stable limits.")
 
 if __name__ == "__main__":
     main()
