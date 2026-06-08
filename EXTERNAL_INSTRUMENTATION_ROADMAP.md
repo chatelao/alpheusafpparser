@@ -48,8 +48,8 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
 - [x] Integration von Schwellenwert-Warnungen in den `perf_audit.sh` Workflow. ✅
 - [x] Erweiterung der Hotspot-Analyse zur Erkennung von "Area-Drift" (prozentuale Verschiebungen). ✅
 
-## Phase 6: Messungen mit grösseren Dateien 🚧
+## Phase 6: Messungen mit grösseren Dateien ✅
 - [x] Auswahl repräsentativer Dateien aus `test/async/` (~100KB Bereich) in `perf_test_large/`. ✅
 - [x] Erstellung eines spezialisierten Benchmark-Skripts `tools/benchmark_large.sh`. ✅
-- [ ] Durchführung der Benchmarks für Baseline (v3.4) und aktuelle Version.
-- [ ] Dokumentation der Ergebnisse in `PROFILE_PERF_TEST.md`.
+- [x] Durchführung der Benchmarks für Baseline (v3.4) und aktuelle Version. ✅
+- [x] Dokumentation der Ergebnisse in `PROFILE_PERF_TEST.md`. ✅

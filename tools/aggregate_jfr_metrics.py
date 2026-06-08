@@ -71,7 +71,8 @@ def extract_metrics(jfr_file):
     return metrics
 
 def version_key(v):
-    return [int(x) for x in v[1:].split('.')]
+    clean_v = v[len("large_"):] if v.startswith("large_") else v
+    return [int(x) for x in clean_v[1:].split('.')]
 
 def main():
     parser = argparse.ArgumentParser(description="Aggregate JFR metrics and optionally check for regressions.")
@@ -95,8 +96,8 @@ def main():
         return
 
     for filename in sorted(files):
-        # Extract version: profile_<version> run<n>.jfr
-        match = re.match(r"profile_(v[\d\.]+)_run\d+\.jfr", filename)
+        # Extract version: profile_<version> run<n>.jfr or profile_large_<version> run<n>.jfr
+        match = re.match(r"profile_((?:large_)?v[\d\.]+)_run\d+\.jfr", filename)
         if match:
             version = match.group(1)
             filepath = os.path.join(profile_dir, filename)
