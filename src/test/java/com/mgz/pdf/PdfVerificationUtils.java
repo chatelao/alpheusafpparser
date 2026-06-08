@@ -22,6 +22,7 @@ package com.mgz.pdf;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 import java.io.InputStream;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.io.RandomAccessReadBuffer;
@@ -122,5 +123,19 @@ public class PdfVerificationUtils {
       }
     }
     return true;
+  }
+
+  /**
+   * Saves a BufferedImage to a file.
+   *
+   * @param image the image to save
+   * @param formatName the format name (e.g., "png", "jpg")
+   * @param outputFile the output file
+   * @throws IOException if an error occurs during writing
+   */
+  public static void saveImage(BufferedImage image, String formatName, File outputFile) throws IOException {
+    if (!ImageIO.write(image, formatName, outputFile)) {
+      throw new IOException("No appropriate writer found for format " + formatName);
+    }
   }
 }

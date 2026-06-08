@@ -46,11 +46,17 @@ import com.itextpdf.layout.element.Paragraph;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 public class PdfVerificationUtilsTest {
+
+  @TempDir
+  File tempDir;
 
   @Test
   public void testRasterizeAndCompare() throws IOException {
@@ -83,5 +89,35 @@ public class PdfVerificationUtilsTest {
     // 5. Negative test (different DPI)
     BufferedImage img3 = PdfVerificationUtils.rasterize(new ByteArrayInputStream(pdfBytes), 144);
     Assertions.assertFalse(PdfVerificationUtils.compareImages(img1, img3));
+
+    // 6. Test saveImage
+    File outputFile = new File(tempDir, "test.png");
+    PdfVerificationUtils.saveImage(img1, "png", outputFile);
+    Assertions.assertTrue(outputFile.exists());
+    BufferedImage loadedImg = ImageIO.read(outputFile);
+    Assertions.assertTrue(PdfVerificationUtils.compareImages(img1, loadedImg));
+  }
+
+  @Test
+  public void testBaselineGeneratorTool() throws IOException {
+    // 1. Create a simple PDF
+    File pdfFile = new File(tempDir, "test.pdf");
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    PdfWriter writer = new PdfWriter(baos);
+    PdfDocument pdfDoc = new PdfDocument(writer);
+    Document document = new Document(pdfDoc, PageSize.A4);
+    document.add(new Paragraph("Baseline Test"));
+    document.close();
+    java.nio.file.Files.write(pdfFile.toPath(), baos.toByteArray());
+
+    // 2. Run the tool
+    File imageFile = new File(tempDir, "baseline.png");
+    PdfBaselineGeneratorTool.main(new String[]{pdfFile.getAbsolutePath(), imageFile.getAbsolutePath(), "72"});
+
+    // 3. Verify
+    Assertions.assertTrue(imageFile.exists());
+    BufferedImage img = ImageIO.read(imageFile);
+    Assertions.assertNotNull(img);
+    Assertions.assertEquals(595, img.getWidth());
   }
 }
