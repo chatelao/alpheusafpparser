@@ -60,19 +60,15 @@
     </MediumOrientation>
   </MDD_MediumDescriptor>
   <MCC_MediumCopyCount>
-  <repeatingGroups>
     <repeatingGroups>
-      <startingCopyNumber>1</startingCopyNumber>
-      <endingCopyNumber>1</endingCopyNumber>
-      <reserved4>0</reserved4>
-      <mediumModificationControlIdentifier>1</mediumModificationControlIdentifier>
+      <repeatingGroups>
+        <startingCopyNumber>1</startingCopyNumber>
+        <endingCopyNumber>1</endingCopyNumber>
+        <reserved4>0</reserved4>
+        <mediumModificationControlIdentifier>1</mediumModificationControlIdentifier>
+      </repeatingGroups>
     </repeatingGroups>
-  </repeatingGroups>
-  <beginSF>false</beginSF>
-  <endSF>false</endSF>
-  <shallow>false</shallow>
-</MCC_MediumCopyCount>
-
+  </MCC_MediumCopyCount>
   <MMC_MediumModificationControl>
     <mmcIdentifier>1</mmcIdentifier>
     <constantData1>-1</constantData1>

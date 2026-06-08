@@ -39,7 +39,7 @@ class Afp2XmlGoldStandardTest {
         try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(out, null, false, true)) {
             StructuredField sf;
             while ((sf = parser.parseNextSF()) != null) {
-                writer.writeField(sf);
+                writer.handle(sf);
                 sf.release();
             }
         } finally {

@@ -81,7 +81,7 @@ public class MnemonicSpeedTest {
 
                 long start = System.nanoTime();
                 try {
-                    writer.writeField(sf);
+                    writer.handle(sf);
                     long end = System.nanoTime();
                     result.jacksonTimings.computeIfAbsent(mnemonic, k -> new AtomicLong()).addAndGet(end - start);
                 } catch (Exception e) {}
