@@ -98,5 +98,17 @@ Um den Einfluss der JVM-Infrastruktur (Class Loading, Initialisierung) zu minimi
 - **Tool**: `tools/benchmark_large.sh`
 - **Ziel**: Reduzierung des Infrastruktur-Anteils am Gesamtprofil und bessere Sichtbarkeit der Serialisierungslogik.
 
-### 7.2. Durchführung (Geplant)
-Die Messungen für v3.4 (Baseline) und die aktuelle Version werden durchgeführt, um die Effektivität der Fast-Paths bei größerer Last zu bestätigen.
+### 7.2. Durchführung (Abgeschlossen)
+Die Messungen für v3.4 (Baseline) und v15.6 wurden durchgeführt.
+
+### 7.3. Ergebnisse (Phase 6)
+
+| Version | Avg Time per run | Thread Allocation (Main) | GC Pauses (Avg) | Safepoints (Avg) |
+| :--- | :--- | :--- | :--- | :--- |
+| **v3.4 (Large)** | 712.6 ms | 21.8 MB | 0.00 ms | 4.0 |
+| **v15.6 (Large)** | 2436.0 ms | 23.2 MB | 26.84 ms | 13.3 |
+
+#### Analyse der Ergebnisse:
+1.  **Durchsatz**: Die Version v15.6 ist im Large-File-Szenario deutlich langsamer als v3.4 (~3.4x). Dies steht im Kontrast zum 10x10 Szenario, wo v15.6 oft schneller ist (wegen JVM Overhead Dominanz dort).
+2.  **Speicher & GC**: Die Thread-Allokation bleibt stabil bei dem bekannten +6% Trend. Allerdings nehmen die GC-Pausen bei v15.6 im Large-File-Szenario signifikant zu (durchschnittlich 26.84 ms), was auf eine höhere Last durch komplexere Objektstrukturen hindeutet.
+3.  **Fazit**: Während die Fast-Paths bei kleinen Dateien den JVM-Overhead maskieren, zeigt das Large-File-Szenario, dass die zusätzliche Komplexität (Validierungen, erweiterte Triplet-Unterstützung) in v15.6 ihren Preis im Gesamtdurchsatz hat. Zukünftige Optimierungen sollten sich auf die Effizienz der Kern-Parsing-Loops bei großen Datenmengen konzentrieren.
