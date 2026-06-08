@@ -23,6 +23,7 @@ import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.kernel.pdf.xobject.PdfImageXObject;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.io.image.RawImageHelper;
+import com.mgz.util.LzwDecoder;
 import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
 import com.mgz.afp.ioca.IDD_SelfDefiningField;
 import com.mgz.afp.ioca.IPD_ImagePictureData;
@@ -103,39 +104,21 @@ public class PdfImageRenderer {
         com.itextpdf.io.image.ImageData itextImageData = null;
 
         if (compression == IPD_CompressionAlgorithm.NoCompression) {
-          int components = 1;
-          int bitsPerComponent = 1;
-
-          // Try to get structure from IOCA segments first
-          for (IPD_ImagePictureData ipd : state.getImageSegments()) {
-            if (ipd.getListOfSegments() != null) {
-              for (IPD_Segment segment : ipd.getListOfSegments()) {
-                if (segment instanceof IPD_Segment.IDEStructure ide) {
-                  if (ide.getComponentSizes() != null && !ide.getComponentSizes().isEmpty()) {
-                    components = ide.getComponentSizes().size();
-                    bitsPerComponent = ide.getComponentSizes().get(0);
-                  }
-                }
-              }
-            }
-          }
-
-          // Fallback to descriptor's self-defining fields if not in image segments
-          if (components == 1 && bitsPerComponent == 1 && descriptor.getSelfDefiningFields() != null) {
-            for (IDD_SelfDefiningField sdf : descriptor.getSelfDefiningFields()) {
-              if (sdf instanceof IDD_SelfDefiningField.IDEStructure ide) {
-                if (ide.getComponentSizes() != null && ide.getComponentSizes().length > 0) {
-                  components = ide.getComponentSizes().length;
-                  bitsPerComponent = ide.getComponentSizes()[0];
-                }
-              }
-            }
-          }
-
+          ImageStructure structure = resolveImageStructure(state);
           itextImageData = ImageDataFactory.create(
-              width, height, components, bitsPerComponent, data, null);
+              width, height, structure.components(), structure.bitsPerComponent(), data, null);
         } else if (compression == IPD_CompressionAlgorithm.JPEG) {
           itextImageData = ImageDataFactory.create(data);
+        } else if (compression == IPD_CompressionAlgorithm.TIFF_LZW
+            || compression == IPD_CompressionAlgorithm.TIFF_LZW_with_Differencing_Predictor) {
+
+          byte[] decoded = LzwDecoder.decode(data);
+          ImageStructure structure = resolveImageStructure(state);
+          if (compression == IPD_CompressionAlgorithm.TIFF_LZW_with_Differencing_Predictor) {
+            applyDifferencingPredictor(decoded, width, structure);
+          }
+
+          itextImageData = ImageDataFactory.create(width, height, structure.components(), structure.bitsPerComponent(), decoded, null);
         } else if (compression == IPD_CompressionAlgorithm.G3_ModifiedHuffman
             || compression == IPD_CompressionAlgorithm.G3_ModifiedREAD
             || compression == IPD_CompressionAlgorithm.G4_ModifiedModifiedREAD) {
@@ -183,6 +166,64 @@ public class PdfImageRenderer {
       return String.valueOf(java.util.Arrays.hashCode(data)) + compression + width + height;
     }
   }
+
+  private static ImageStructure resolveImageStructure(PdfImageState state) {
+    int components = 1;
+    int bitsPerComponent = 1;
+
+    for (IPD_ImagePictureData ipd : state.getImageSegments()) {
+      if (ipd.getListOfSegments() != null) {
+        for (IPD_Segment segment : ipd.getListOfSegments()) {
+          if (segment instanceof IPD_Segment.IDEStructure ide) {
+            if (ide.getComponentSizes() != null && !ide.getComponentSizes().isEmpty()) {
+              components = ide.getComponentSizes().size();
+              bitsPerComponent = ide.getComponentSizes().get(0);
+              return new ImageStructure(components, bitsPerComponent);
+            }
+          }
+        }
+      }
+    }
+
+    IDD_ImageDataDescriptor descriptor = state.getDescriptor();
+    if (descriptor.getSelfDefiningFields() != null) {
+      for (IDD_SelfDefiningField sdf : descriptor.getSelfDefiningFields()) {
+        if (sdf instanceof IDD_SelfDefiningField.IDEStructure ide) {
+          if (ide.getComponentSizes() != null && ide.getComponentSizes().length > 0) {
+            components = ide.getComponentSizes().length;
+            bitsPerComponent = ide.getComponentSizes()[0];
+          }
+        }
+      }
+    }
+    return new ImageStructure(components, bitsPerComponent);
+  }
+
+  private static void applyDifferencingPredictor(byte[] data, int width, ImageStructure structure) {
+    // Horizontal differencing predictor (Predictor 2)
+    // For each row, pixel(i) = pixel(i) + pixel(i-1)
+    if (structure.bitsPerComponent() != 8) {
+      // Predictor is mostly used with 8-bit components.
+      // Other bit depths would require bit manipulation.
+      return;
+    }
+
+    int bytesPerPixel = structure.components();
+    int rowStride = width * bytesPerPixel;
+
+    for (int y = 0; y < data.length / rowStride; y++) {
+      int rowStart = y * rowStride;
+      for (int x = 1; x < width; x++) {
+        for (int c = 0; c < bytesPerPixel; c++) {
+          int idx = rowStart + x * bytesPerPixel + c;
+          int prevIdx = rowStart + (x - 1) * bytesPerPixel + c;
+          data[idx] = (byte) ((data[idx] & 0xFF) + (data[prevIdx] & 0xFF));
+        }
+      }
+    }
+  }
+
+  private record ImageStructure(int components, int bitsPerComponent) {}
 
   private static void renderImage(PdfImageXObject imageXObject, int width, int height, PdfImageState state, PdfCanvas canvas) {
     // Placement at (xOrigin, yOrigin) with its own size in AFP units

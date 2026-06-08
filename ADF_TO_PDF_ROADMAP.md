@@ -129,10 +129,10 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Code 128 (Subsets A, B, C)**: Implement rendering for Code 128 (Subsets A, B, C) barcodes.
         - ✅ **UPC-E**: Implement rendering for UPC-E barcodes.
     - 🚧 **2D Barcode Support**:
-        - 🚧 **QR Code**: Implement rendering for QR Code barcodes (Type 0x20).
+        - ✅ **QR Code**: Implement rendering for QR Code barcodes (Type 0x20).
             - ✅ **Model 2 Support**: Implement standard QR Code Model 2. (iText default).
             - ⏳ **Model 1 Support**: Implement standard QR Code Model 1.
-            - ⏳ **GS1 QR Code**: Implement Modifier 0x12 for GS1-compliant QR Codes.
+            - ✅ **GS1 QR Code**: Implement Modifier 0x12 for GS1-compliant QR Codes.
         - ✅ **Data Matrix**: Implement rendering for Data Matrix barcodes (Type 0x1C). (✅ Basic support using iText).
             - ✅ **ECC 200 Support**: Implement the ECC 200 Reed-Solomon error correction. (✅ Supported by iText).
         - ✅ **PDF417**: Implement rendering for PDF417 barcodes (Type 0x1E). (✅ Basic support using iText).
@@ -152,7 +152,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
             - ⏳ **Tiling Descriptor Mapping**: Map tile positions to PDF coordinates.
             - ⏳ **Tile-to-XObject Optimization**: Handle repeated tiles as XObjects.
         - ✅ **G3/G4 Decoding**: Implement CCITT Group 3/4 decompression.
-        - ⏳ **LZW Decoding**: Implement LZW decompression for FS10/FS11.
+        - ✅ **LZW Decoding**: Implement LZW decompression for FS10/FS11.
         - ✅ **JPEG Decoding**: Implement JPEG (DCT) decompression.
     - ✅ **Implement Image XObject Creation**: Convert decoded data to iText `PdfImageXObject`.
     - ✅ **Implement Image Placement Logic**: Map IOCA positioning parameters to PDF `do` operator calls.

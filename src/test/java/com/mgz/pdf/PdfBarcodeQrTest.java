@@ -64,7 +64,7 @@ public class PdfBarcodeQrTest {
   public void testQrCodeRendering() {
     PdfBarcodeState state = new PdfBarcodeState();
     state.setBarcodeType(BarCodeType.QRCode_2D);
-    state.setBarcodeModifier((byte) 0x02); // GS1 QR Code
+    state.setBarcodeModifier((byte) 0x02); // Model 2
 
     BDA_BarCodeData bda = new BDA_BarCodeData() {
         @Override
@@ -91,5 +91,26 @@ public class PdfBarcodeQrTest {
     assertEquals(-20.0, matrix[3], 0.01);
     assertEquals(0.0, matrix[4], 0.01);
     assertEquals(0.0, matrix[5], 0.01);
+  }
+
+  @Test
+  public void testGs1QrCodeRendering() {
+    PdfBarcodeState state = new PdfBarcodeState();
+    state.setBarcodeType(BarCodeType.QRCode_2D);
+    state.setBarcodeModifier((byte) 0x12); // GS1 QR Code
+
+    BDA_BarCodeData bda = new BDA_BarCodeData() {
+        @Override
+        public String getText() {
+            return "ALPHF-TEST-GS1-QR";
+        }
+    };
+    state.addBarcodeData(bda);
+
+    PdfCanvasStub canvas = new PdfCanvasStub();
+    PdfBarcodeRenderer.render(state, canvas);
+
+    // Verify that at least one XObject (the QR code) was added to the canvas
+    assertEquals(1, canvas.xObjects.size());
   }
 }
