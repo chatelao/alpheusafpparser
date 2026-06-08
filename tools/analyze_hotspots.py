@@ -103,27 +103,42 @@ def main():
         print(f"Differential Analysis for {collapsed_file}")
         print(f"Baseline (V1) Total: {total1} samples")
         print(f"Target   (V2) Total: {total2} samples")
-        print("-" * 85)
-        print(f"{'Area':<30} | {'V1 %':<8} | {'V2 %':<8} | {'Shift %':<10} | {'Delta':<10}")
-        print("-" * 85)
 
-        for area_name, _ in AREAS:
-            c1 = stats1.get(area_name, 0)
-            c2 = stats2.get(area_name, 0)
+        if total1 == 0:
+            print("\nWARNING: Baseline (V1) has 0 samples. Shift percentages are not meaningful.")
+            print("-" * 60)
+            print(f"{'Area':<30} | {'V2 Samples':<10} | {'V2 %':<10}")
+            print("-" * 60)
+            for area_name, _ in AREAS:
+                c2 = stats2.get(area_name, 0)
+                p2 = (c2 / total2 * 100) if total2 > 0 else 0
+                print(f"{area_name:<30} | {c2:<10} | {p2:>9.2f}%")
+            # Other
+            c2 = stats2.get("Other", 0)
+            p2 = (c2 / total2 * 100) if total2 > 0 else 0
+            print(f"{'Other':<30} | {c2:<10} | {p2:>9.2f}%")
+        else:
+            print("-" * 85)
+            print(f"{'Area':<30} | {'V1 %':<8} | {'V2 %':<8} | {'Shift %':<10} | {'Delta':<10}")
+            print("-" * 85)
+
+            for area_name, _ in AREAS:
+                c1 = stats1.get(area_name, 0)
+                c2 = stats2.get(area_name, 0)
+                p1 = (c1 / total1 * 100) if total1 > 0 else 0
+                p2 = (c2 / total2 * 100) if total2 > 0 else 0
+                shift = p2 - p1
+                delta = c2 - c1
+                print(f"{area_name:<30} | {p1:>6.2f}% | {p2:>6.2f}% | {shift:>+8.2f}% | {delta:>10}")
+
+            # Other
+            c1 = stats1.get("Other", 0)
+            c2 = stats2.get("Other", 0)
             p1 = (c1 / total1 * 100) if total1 > 0 else 0
             p2 = (c2 / total2 * 100) if total2 > 0 else 0
             shift = p2 - p1
             delta = c2 - c1
-            print(f"{area_name:<30} | {p1:>6.2f}% | {p2:>6.2f}% | {shift:>+8.2f}% | {delta:>10}")
-
-        # Other
-        c1 = stats1.get("Other", 0)
-        c2 = stats2.get("Other", 0)
-        p1 = (c1 / total1 * 100) if total1 > 0 else 0
-        p2 = (c2 / total2 * 100) if total2 > 0 else 0
-        shift = p2 - p1
-        delta = c2 - c1
-        print(f"{'Other':<30} | {p1:>6.2f}% | {p2:>6.2f}% | {shift:>+8.2f}% | {delta:>10}")
+            print(f"{'Other':<30} | {p1:>6.2f}% | {p2:>6.2f}% | {shift:>+8.2f}% | {delta:>10}")
     else:
         print(f"Analysis for {collapsed_file} (Total samples: {total1})")
         print("-" * 60)

@@ -17,9 +17,10 @@ echo "      Generated on: $(date)"
 echo "============================================================"
 echo ""
 
-# 1. Metrics Summary (Table)
-echo "--- 1. Aggregated Metrics Summary ---"
-python3 "$TOOLS_DIR/aggregate_jfr_metrics.py"
+# 1. Metrics Summary & Regression Check
+echo "--- 1. Aggregated Metrics & Regression Check ---"
+# Check against v3.4 baseline with a 10% threshold
+python3 "$TOOLS_DIR/aggregate_jfr_metrics.py" --check --baseline v3.4 --threshold 10.0
 echo ""
 
 # 2. Hotspot Analysis for each version

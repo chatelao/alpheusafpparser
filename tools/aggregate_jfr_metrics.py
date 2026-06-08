@@ -2,6 +2,7 @@ import subprocess
 import os
 import re
 import sys
+import argparse
 from collections import defaultdict
 
 def extract_metrics(jfr_file):
@@ -69,8 +70,19 @@ def extract_metrics(jfr_file):
 
     return metrics
 
+def version_key(v):
+    return [int(x) for x in v[1:].split('.')]
+
 def main():
-    profile_dir = "perf_test/profiles"
+    parser = argparse.ArgumentParser(description="Aggregate JFR metrics and optionally check for regressions.")
+    parser.add_argument("--check", action="store_true", help="Check for performance regressions against baseline.")
+    parser.add_argument("--baseline", default="v3.4", help="Baseline version for regression check (default: v3.4).")
+    parser.add_argument("--threshold", type=float, default=10.0, help="Regression threshold in percent (default: 10.0%%).")
+    parser.add_argument("--dir", default="perf_test/profiles", help="Directory containing JFR profiles.")
+
+    args = parser.parse_args()
+
+    profile_dir = args.dir
     if not os.path.exists(profile_dir):
         print(f"Directory {profile_dir} not found.")
         return
@@ -96,14 +108,15 @@ def main():
         print("No versioned JFR data found.")
         return
 
+    sorted_versions = sorted(version_data.keys(), key=version_key)
+
+    averages = {}
+
     print("# Performance Metrics Summary (Averages over runs)")
     print("\n| Version | FileWrite (Events) | FileWrite (Bytes) | Thread Allocation (Main) | TLAB Allocation (Events) | GC Pauses (ms) | GC Count | Safepoints |")
     print("| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |")
 
-    def version_key(v):
-        return [int(x) for x in v[1:].split('.')]
-
-    for version in sorted(version_data.keys(), key=version_key):
+    for version in sorted_versions:
         data = version_data[version]
         n = len(data)
         avg_fw_count = sum(d['fw_count'] for d in data) / n
@@ -114,7 +127,64 @@ def main():
         avg_gc_count = sum(d['gc_count'] for d in data) / n
         avg_sp_count = sum(d['sp_count'] for d in data) / n
 
+        averages[version] = {
+            'alloc_main': avg_alloc_main,
+            'gc_pauses': avg_gc_pauses
+        }
+
         print(f"| {version} | {avg_fw_count:.1f} | {avg_fw_bytes:.0f} | {avg_alloc_main:.0f} | {avg_tlab_count:.1f} | {avg_gc_pauses:.2f} | {avg_gc_count:.1f} | {avg_sp_count:.1f} |")
+
+    if args.check:
+        print("\n## Regression Check")
+        baseline = args.baseline
+        latest = sorted_versions[-1]
+
+        if baseline not in averages:
+            print(f"Error: Baseline version {baseline} not found in data.")
+            return
+
+        if latest == baseline:
+            print("Latest version is the same as baseline. Skipping regression check.")
+            return
+
+        b_alloc = averages[baseline]['alloc_main']
+        l_alloc = averages[latest]['alloc_main']
+
+        b_gc = averages[baseline]['gc_pauses']
+        l_gc = averages[latest]['gc_pauses']
+
+        print(f"Comparing {latest} against {baseline} (Threshold: {args.threshold}%):")
+
+        regressions = []
+
+        # Allocation check
+        if b_alloc > 0:
+            diff_p = (l_alloc - b_alloc) / b_alloc * 100
+            status = "OK" if diff_p <= args.threshold else "REGRESSION"
+            print(f"- Thread Allocation (Main): {l_alloc:.0f} vs {b_alloc:.0f} ({diff_p:>+6.2f}%) -> {status}")
+            if status == "REGRESSION":
+                regressions.append("Thread Allocation")
+        else:
+            print(f"- Thread Allocation (Main): {l_alloc:.0f} vs 0 (N/A)")
+
+        # GC Pause check
+        if b_gc > 0:
+            diff_p = (l_gc - b_gc) / b_gc * 100
+            status = "OK" if diff_p <= args.threshold else "REGRESSION"
+            print(f"- GC Pauses (ms): {l_gc:.2f} vs {b_gc:.2f} ({diff_p:>+6.2f}%) -> {status}")
+            if status == "REGRESSION":
+                regressions.append("GC Pauses")
+        elif l_gc > 0:
+             print(f"- GC Pauses (ms): {l_gc:.2f} vs 0.00 (INF%) -> REGRESSION")
+             regressions.append("GC Pauses")
+        else:
+            print(f"- GC Pauses (ms): 0.00 vs 0.00 (0.00%) -> OK")
+
+        if regressions:
+            print(f"\nERROR: Performance regression(s) detected in: {', '.join(regressions)}")
+            sys.exit(1)
+        else:
+            print("\nPerformance is within acceptable limits.")
 
 if __name__ == "__main__":
     main()
