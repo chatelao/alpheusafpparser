@@ -42,3 +42,6 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
 - [x] Ableitung von konkreten Optimierungstickets aus den Profiling-Daten. ✅
 - [x] Integration der Profiling-Schritte in den CI-Workflow (via `tools/perf_audit.sh`). ✅
 - [ ] Abschlussbericht zur 10x10 Performance-Stabilisierung. ⌛
+
+## Phase 5: Messungen mit grösseren Dateien ⌛
+- [ ] Wiederholung der Messungen mit 10x grösseren Dateien aus `/test/`.
