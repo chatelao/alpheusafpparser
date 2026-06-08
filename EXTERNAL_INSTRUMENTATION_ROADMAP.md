@@ -53,3 +53,9 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
 - [x] Erstellung eines spezialisierten Benchmark-Skripts `tools/benchmark_large.sh`. ✅
 - [x] Durchführung der Benchmarks für Baseline (v3.4) und aktuelle Version. ✅
 - [x] Dokumentation der Ergebnisse in `PROFILE_PERF_TEST.md`. ✅
+
+## Phase 7: Verfeinerte Analyse & Allokations-Tracking ✅
+- [x] Erweiterung von `tools/jfr_to_collapsed.py` um gewichtete Aggregation (z.B. nach Allokationsgröße). ✅
+- [x] Automatisierung der Allokations-Hotspot-Analyse in `perf_audit.sh`. ✅
+- [x] Erzeugung von Differential Allocation Flame Graphs (v3.4 vs v15.6) zur Identifikation des 6% Drifts. ✅
+- [ ] Optimierung der Datenerhebung für extrem schnelle Läufe (Erhöhung der Sampling-Frequenz oder Iterationen).
