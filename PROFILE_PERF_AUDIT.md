@@ -6,7 +6,7 @@ Dieser Bericht fasst die Ergebnisse der umfassenden Performance-Analyse des Alph
 **Haupterkenntnisse:**
 - Die **Thread-Allokation** ist stabil um **6,2%** gestiegen, was auf zusätzliche Validierungen und komplexere Feld-Strukturen zurückzuführen ist.
 - Im **10x10 Szenario** (viele kleine Dateien) dominiert der JVM-Overhead, wobei v15.6 durch Fast-Path Serialisierung stabil bleibt.
-- Im **Large-File Szenario** (~100KB Dateien) wurde eine **3,4-fache Durchsatz-Regression** festgestellt, die primär durch erhöhte GC-Last und Komplexität der neuen Features getrieben wird.
+- Im **Large-File Szenario** (20 Dateien, gesamt ~1.8 MB) wurde eine **3,4-fache Durchsatz-Regression** festgestellt, die primär durch erhöhte GC-Last und Komplexität der neuen Features getrieben wird.
 
 ## 2. Detaillierte Regressionsanalyse (v3.4 bis v15.6)
 
@@ -26,7 +26,7 @@ Der signifikante Anstieg erfolgte zwischen v7.0 und v12.1. Seitdem ist die Allok
 
 Ein Vergleich der Performance-Charakteristik bei unterschiedlichen Dateigrößen offenbart grundlegende Unterschiede im Laufzeitverhalten:
 
-| Metrik | 10x10 Szenario (Kleine Dateien) | Large-File Szenario (~100KB) |
+| Metrik | 10x10 Szenario (Kleine Dateien) | Large-File Szenario (20 Dateien, gesamt ~1.8 MB) |
 | :--- | :--- | :--- |
 | **Dominanter Faktor** | JVM Initialisierung / Class Loading | Serialisierungslogik / GC |
 | **v3.4 Avg Time** | ~20ms (pro Datei) | 712.6 ms (pro Run) |
@@ -37,11 +37,50 @@ Ein Vergleich der Performance-Charakteristik bei unterschiedlichen Dateigrößen
 ### Analyse:
 Während die manuellen StAX Fast-Paths in v15.6 den Reflection-Overhead bei kleinen Dateien effektiv minimieren, zeigt das Large-File-Szenario, dass die kumulative Last der erweiterten MO:DCA Unterstützung (Validierungen, Triplet-Handling) den Gesamtdurchsatz bei großen Datenmengen spürbar reduziert.
 
-## 4. Hotspot-Visualisierung (Referenz)
-*TBD in Phase 8.4*
+**Hinweis zum Messverfahren:**
+Im Large-File Szenario nutzt v15.6 den optimierten **Directory-Mode** (`-d`), bei dem die gesamte Menge von 1.8 MB in einer einzigen JVM-Instanz ohne erneuten Prozessstart verarbeitet wird. Dies isoliert die reine Verarbeitungsleistung von der JVM-Startzeit.
+
+## 4. Hotspot-Analyse (Large-File Szenario v15.6)
+Die automatisierte Hotspot-Analyse der aggregierten JFR-Profile für das Large-File Szenario zeigt die Verteilung der CPU-Zyklen über die funktionalen Bereiche:
+
+| Bereich | Anteil (v15.6) | Beschreibung |
+| :--- | :--- | :--- |
+| **Jackson Fallback** | 27.52% | Generische Serialisierung via Reflection für nicht-optimierte Felder/Tripletts. |
+| **XML Library (Woodstox)** | 26.85% | Interner Overhead des StAX-Writers und Buffer-Management. |
+| **Field Parsing** | 13.42% | Dekodierung der MO:DCA Feldstrukturen und Validierung. |
+| **JVM & Infrastructure** | 10.07% | Class Loading, Method Handle Linking und JIT-Kompilierung. |
+| **Fast-Path Serialization** | 6.71% | Optimierte, manuelle StAX-Schreibvorgänge. |
+| **Thread Orchestration** | 4.03% | Overhead der parallelen Verarbeitung (ParallelAfpConverter). |
+| **Encoding & Sanitization** | 2.68% | EBCDIC-zu-UTF8 Konvertierung und XML-Sanitierung. |
+| **I/O & Scanning** | 1.34% | Dateizugriff und Record-Boundary Erkennung. |
+| **Other** | 7.38% | Sonstige interne JVM-Funktionen und nicht zugeordnete Stacks. |
+
+**Erkenntnis:**
+Im Gegensatz zum 10x10 Szenario dominiert hier nicht die JVM-Infrastruktur, sondern die Serialisierungslogik. Über 50% der Zeit entfallen auf Jackson (Fallback) und die Woodstox XML-Bibliothek, was ein klares Optimierungspotenzial durch den Ausbau der Fast-Paths aufzeigt.
 
 ## 5. Quick Wins & Optimierungen
-*TBD in Phase 8.4*
+Basierend auf der Hotspot-Identifikation wurden folgende Maßnahmen mit hohem Performance-Hebel (Quick Wins) definiert:
+
+1.  **Vollständige Fast-Path Abdeckung (Ziel: 0% Jackson Fallback)**:
+    - Implementierung der verbleibenden Tripletts und selteneren Structured Fields in `AfpJacksonXmlWriter`.
+    - **Impact**: Reduzierung der CPU-Last um bis zu 25% im Large-File Szenario durch Elimination von Reflection.
+2.  **Optimierung des StructuredFieldFactory (Field Parsing)**:
+    - Einführung eines Branch-Free Dispatching oder Map-basierten Lookups für die SF-Identifikation.
+    - **Impact**: Beschleunigung des initialen Parsings um ca. 5-8%.
+3.  **Direkte Woodstox-Integration**:
+    - Umgehung des `ToXmlGenerator` Abstraktionslayers von Jackson und direkte Nutzung des `WstxOutputFactory`.
+    - **Impact**: Reduzierung des Woodstox-Overheads und bessere Buffer-Kontrolle.
 
 ## 6. Performance-Abnahme-Protokoll
-*TBD in Phase 8.5*
+Um die langfristige Performance-Stabilität sicherzustellen, werden folgende Kriterien für die Abnahme neuer Features und Refactorings definiert:
+
+| Kriterium | Schwellenwert | Verifizierungstool |
+| :--- | :--- | :--- |
+| **Allocation Drift** | Max. +6.5% vs v3.4 | `tools/perf_audit.sh` |
+| **Throughput (Large)** | Keine Regression (> 5%) | `tools/benchmark_large.sh` |
+| **Area Shift** | Max. 5.0% pro Hotspot | `tools/analyze_hotspots.py` |
+| **Leak-Check** | 0 überlebende Handlers | `Afp2XmlLeakTest` |
+
+**Prozess:**
+- Jede Major-Release muss ein vollständiges JFR-Profiling für das 10x10 und Large-File Szenario durchlaufen.
+- Die Ergebnisse sind in `METRICS_SUMMARY.md` zu dokumentieren und gegen die Baseline (v3.4) zu validieren.
