@@ -55,6 +55,31 @@ public class PdfFontMappingTest {
   }
 
   @Test
+  public void testX0PrefixMapping() {
+    PdfFontRegistry registry = new PdfFontRegistry();
+
+    PdfFont fontPlain = registry.getFont("X0H20010");
+    assertNotNull(fontPlain);
+    assertTrue(fontPlain.getFontProgram().getFontNames().getFontName().contains("Helvetica"));
+
+    PdfFont fontBold = registry.getFont("X0H30010");
+    assertNotNull(fontBold);
+    assertTrue(fontBold.getFontProgram().getFontNames().getFontName().contains("Helvetica-Bold"));
+  }
+
+  @Test
+  public void testSizeExtraction() {
+    assertEquals(10.0f, PdfFontRegistry.extractSizeFromName("C0H20010"), 0.01f);
+    assertEquals(12.0f, PdfFontRegistry.extractSizeFromName("C0H20012"), 0.01f);
+    assertEquals(8.0f, PdfFontRegistry.extractSizeFromName("X0H20008"), 0.01f);
+    assertEquals(144.0f, PdfFontRegistry.extractSizeFromName("C0H20144"), 0.01f);
+    assertEquals(10.0f, PdfFontRegistry.extractSizeFromName("C0H20000"), 0.01f); // Invalid size
+    assertEquals(10.0f, PdfFontRegistry.extractSizeFromName("C0H200XX"), 0.01f); // Not a number
+    assertEquals(10.0f, PdfFontRegistry.extractSizeFromName(null), 0.01f);
+    assertEquals(10.0f, PdfFontRegistry.extractSizeFromName(""), 0.01f);
+  }
+
+  @Test
   public void testSwissMapping() {
     PdfFontRegistry registry = new PdfFontRegistry();
 

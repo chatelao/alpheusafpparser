@@ -78,18 +78,20 @@ public class PdfFontRegistry {
 
   /**
    * Maps a standard AFP font name to a PDF standard font.
-   * AFP font names often follow the pattern C0xxxxxx.
+   * AFP font names often follow the pattern C0xxxxxx or X0xxxxxx.
    *
    * @param afpFontName the AFP font name
    * @return the mapped {@link PdfFont}, or null if no mapping found
    */
   private PdfFont mapToStandardFont(String afpFontName) {
-    if (afpFontName.length() < 4 || !afpFontName.startsWith("C0")) {
+    if (afpFontName.length() < 4 || (!afpFontName.startsWith("C0") && !afpFontName.startsWith("X0"))) {
       return null;
     }
 
-    String prefix = afpFontName.substring(0, 3);
-    char style = afpFontName.charAt(3);
+    // Standardize to C0 prefix for mapping logic
+    String mappingName = "C0" + afpFontName.substring(2);
+    String prefix = mappingName.substring(0, 3);
+    char style = mappingName.charAt(3);
     String standardFontName = null;
 
     if (prefix.equals("C0H") || prefix.equals("C0S")) { // Helvetica / Swiss
@@ -137,6 +139,40 @@ public class PdfFontRegistry {
   public PdfFont getFontWithFallback(String fontName) {
     PdfFont font = getFont(fontName);
     return (font != null) ? font : defaultFont;
+  }
+
+  /**
+   * Extracts the point size from a standard AFP font name.
+   * e.g., 'C0H20012' -> 12.0f
+   *
+   * @param afpFontName the font name
+   * @return the extracted size, or 10.0f as default
+   */
+  public static float extractSizeFromName(String afpFontName) {
+    if (afpFontName == null || afpFontName.isEmpty()) {
+      return 10.0f;
+    }
+
+    String trimmed = afpFontName.trim();
+    int len = trimmed.length();
+
+    // Try to extract up to 3 digits from the end
+    for (int d = 3; d >= 1; d--) {
+      if (len >= d) {
+        String sub = trimmed.substring(len - d);
+        if (sub.matches("\\d+")) {
+          try {
+            int size = Integer.parseInt(sub);
+            if (size > 0 && size <= 144) {
+              return (float) size;
+            }
+          } catch (NumberFormatException e) {
+            // Should not happen with matches("\\d+")
+          }
+        }
+      }
+    }
+    return 10.0f;
   }
 
   /**
