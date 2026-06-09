@@ -58,9 +58,14 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
 - [x] Erweiterung von `tools/jfr_to_collapsed.py` um gewichtete Aggregation (z.B. nach Allokationsgröße). ✅
 - [x] Automatisierung der Allokations-Hotspot-Analyse in `perf_audit.sh`. ✅
 - [x] Erzeugung von Differential Allocation Flame Graphs (v3.4 vs v15.6) zur Identifikation des 6% Drifts. ✅
-- [ ] Optimierung der Datenerhebung für extrem schnelle Läufe (Erhöhung der Sampling-Frequenz oder Iterationen).
+- [x] Optimierung der Datenerhebung für extrem schnelle Läufe (Erhöhung der Sampling-Frequenz oder Iterationen). ✅
+- [x] Verfeinerung der Hotspot-Kategorisierung (Einbeziehung von Woodstox und PTOCA-Sub-Decoding). ✅
 
 ## Phase 8: Erstelle einen umfassenden Bericht `PROFILE_PERF_AUDIT.md`
-- [ ] Integriere graphische Darstellungen der Flame Graphs.
-- [ ] Benenne die Verbesserungen / Verschlechterungen der in der Software.
-- [ ] Benenne das mögliche Verbesserungspotential in der Software.
+- [ ] Strukturierung des Berichts:
+    - [ ] Management Summary (Executive Overview).
+    - [ ] Detaillierte Regressionsanalyse pro Major-Release (v3.4 bis v15.6).
+    - [ ] Gegenüberstellung 10x10 vs. Large-File Performance.
+    - [ ] Visualisierung der Hotspots (Referenz auf Flame Graph Daten).
+- [ ] Dokumentation der identifizierten "Quick Wins" und langfristigen Optimierungen.
+- [ ] Finalisierung des Performance-Abnahme-Protokolls für zukünftige Versionen.

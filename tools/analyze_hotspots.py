@@ -14,10 +14,15 @@ AREAS = [
         r"com\.fasterxml\.jackson",
         r"com\.mgz\.xml\.AfpJacksonXmlWriter\.writeFieldViaJackson"
     ]),
+    ("XML Library (Woodstox)", [
+        r"com\.ctc\.wstx",
+        r"org\.codehaus\.stax2"
+    ]),
     ("Encoding & Sanitization", [
         r"com\.mgz\.xml\.EbcdicToUtf8",
         r"com\.mgz\.xml\.SanitizingXMLStreamWriter",
-        r"com\.mgz\.xml\.AfpXmlStreamWriter\.writeEbcdic"
+        r"com\.mgz\.xml\.AfpXmlStreamWriter\.writeEbcdic",
+        r"com\.mgz\.util\.UtilCharacterEncoding"
     ]),
     ("I/O & Scanning", [
         r"com\.mgz\.afp\.parser\.AFPScanner",
@@ -26,7 +31,9 @@ AREAS = [
     ]),
     ("Field Parsing", [
         r"com\.mgz\.afp\.parser\.AFPParser",
-        r"com\.mgz\.afp\.StructuredFieldFactory"
+        r"com\.mgz\.afp\.StructuredFieldFactory",
+        r"decodeAFP",
+        r"parseControlSequences"
     ]),
     ("Validation", [
         r"com\.mgz\.afp\..*\.validate",
