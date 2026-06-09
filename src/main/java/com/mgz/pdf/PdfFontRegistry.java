@@ -92,14 +92,14 @@ public class PdfFontRegistry {
     char style = afpFontName.charAt(3);
     String standardFontName = null;
 
-    if (prefix.equals("C0H")) { // Helvetica
+    if (prefix.equals("C0H") || prefix.equals("C0S")) { // Helvetica / Swiss
       standardFontName = switch (style) {
         case '3' -> StandardFonts.HELVETICA_BOLD;
         case '4' -> StandardFonts.HELVETICA_OBLIQUE;
         case '5' -> StandardFonts.HELVETICA_BOLDOBLIQUE;
         default -> StandardFonts.HELVETICA;
       };
-    } else if (prefix.equals("C0N")) { // Times New Roman
+    } else if (prefix.equals("C0N") || prefix.equals("C0D")) { // Times New Roman / Dutch
       standardFontName = switch (style) {
         case '3' -> StandardFonts.TIMES_BOLD;
         case '4' -> StandardFonts.TIMES_ITALIC;

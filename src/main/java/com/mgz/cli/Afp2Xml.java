@@ -93,6 +93,7 @@ public class Afp2Xml {
     String outputPath = null;
     String xpathExpression = null;
     String format = "xml";
+    String iccProfile = null;
     java.util.Map<String, String> formatOptions = new java.util.HashMap<>();
 
     for (var i = 0; i < args.length; i++) {
@@ -148,6 +149,15 @@ public class Afp2Xml {
         case "-i", "--indent" -> {
           indent = true;
           formatOptions.put("indent", "true");
+        }
+        case "--icc-profile" -> {
+          if (i + 1 < args.length) {
+            iccProfile = args[++i];
+            formatOptions.put("icc-profile", iccProfile);
+          } else {
+            System.err.println("Error: --icc-profile requires a path.");
+            return 1;
+          }
         }
         case "-t", "--threads" -> {
           if (i + 1 < args.length) {
@@ -433,7 +443,7 @@ public class Afp2Xml {
     out.println("Usage: java -jar alpheus-afp-parser-cli.jar "
         + "[-d|--directory <dir>] [-x|--xpath <expression>] [-f|--format <type>] [-m|--measure] "
         + "[-p|--parallel] [-c|--charset-opt] [-P|--ptx-debug] [-a|--aggressive-io] "
-        + "[-i|--indent] [-t|--threads <n>] <input-afp-file/dir> [output-file]");
+        + "[-i|--indent] [--icc-profile <path>] [-t|--threads <n>] <input-afp-file/dir> [output-file]");
     out.println("Options:");
     out.println("  -d, --directory <dir>     Convert all .afp files in the specified directory.");
     out.println("                            If a directory is provided as a positional "
@@ -447,6 +457,7 @@ public class Afp2Xml {
     out.println("  -P, --ptx-debug           Detailed PTX/PTOCA performance analysis.");
     out.println("  -a, --aggressive-io       Enable experimental high-performance I/O (pre-allocation).");
     out.println("  -i, --indent              Enable XML indentation (default is compact).");
+    out.println("  --icc-profile <path>      Path to the ICC color profile for PDF/X and PDF/VT compliance.");
     out.println("  -t, --threads <n>         Number of threads for parallel processing.");
     out.println("                            Defaults to the number of available processors.");
     out.println("  -h, --help                Show this help message.");

@@ -55,6 +55,32 @@ public class PdfFontMappingTest {
   }
 
   @Test
+  public void testSwissMapping() {
+    PdfFontRegistry registry = new PdfFontRegistry();
+
+    PdfFont fontPlain = registry.getFont("C0S20010");
+    assertNotNull(fontPlain);
+    assertTrue(fontPlain.getFontProgram().getFontNames().getFontName().contains("Helvetica"));
+
+    PdfFont fontBold = registry.getFont("C0S30010");
+    assertNotNull(fontBold);
+    assertTrue(fontBold.getFontProgram().getFontNames().getFontName().contains("Helvetica-Bold"));
+  }
+
+  @Test
+  public void testDutchMapping() {
+    PdfFontRegistry registry = new PdfFontRegistry();
+
+    PdfFont fontPlain = registry.getFont("C0D20010");
+    assertNotNull(fontPlain);
+    assertTrue(fontPlain.getFontProgram().getFontNames().getFontName().contains("Times-Roman"));
+
+    PdfFont fontBold = registry.getFont("C0D30010");
+    assertNotNull(fontBold);
+    assertTrue(fontBold.getFontProgram().getFontNames().getFontName().contains("Times-Bold"));
+  }
+
+  @Test
   public void testTimesMapping() {
     PdfFontRegistry registry = new PdfFontRegistry();
 

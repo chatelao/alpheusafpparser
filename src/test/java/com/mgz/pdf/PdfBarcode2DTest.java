@@ -55,6 +55,26 @@ public class PdfBarcode2DTest {
   }
 
   @Test
+  public void testGs1DataMatrix() {
+    PdfBarcodeState state = new PdfBarcodeState();
+    state.setBarcodeType(BarCodeType.DataMatrix_GS1DataMatrix_2D);
+    state.setBarcodeModifier((byte) 0x02);
+
+    BDA_BarCodeData bda = new BDA_BarCodeData() {
+        @Override
+        public String getText() {
+            return "0101234567890128";
+        }
+    };
+    state.addBarcodeData(bda);
+
+    PdfCanvasStub canvas = new PdfCanvasStub();
+    PdfBarcodeRenderer.render(state, canvas);
+
+    assertTrue(canvas.xObjectAdded, "XObject should have been added for GS1 Data Matrix");
+  }
+
+  @Test
   public void testDataMatrix() {
     PdfBarcodeState state = new PdfBarcodeState();
     state.setBarcodeType(BarCodeType.DataMatrix_GS1DataMatrix_2D);

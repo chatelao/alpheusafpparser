@@ -33,7 +33,7 @@ Initialize the core PDF/VT structure and map the MO:DCA document hierarchy using
 - ✅ **BNG Name Mapping**: Map `BNG` group names to `/GroupName` property in the `/DPart` hierarchy.
 - ✅ **Output Intents**: Define `/OutputIntents` (e.g., FOGRA39) for PDF/X compliance as required by ISO 16612-2.
     - ✅ **Structural Output Intent**: Initialize the `/OutputIntents` array in the PDF Catalog.
-    - 🚧 **ICC Profile Integration**: Load and embed standard ICC profiles (FOGRA39, GRACoL). (Basic method implemented).
+    - ✅ **ICC Profile Integration**: Load and embed standard ICC profiles (FOGRA39, GRACoL). (Supported via `--icc-profile` CLI flag).
 
 ## Phase 2: Resource Management & Optimization ⏳
 Optimize resource handling for high-performance variable data printing.
@@ -53,7 +53,7 @@ Optimize resource handling for high-performance variable data printing.
         - ✅ **Create PdfFormXObject Resource Cache**: Ensure each unique resource is converted only once.
 - ⏳ **FOCA to PDF/X-4 Font Embedding**: Ensure all fonts are fully embedded and subsetted per PDF/X-4 requirements.
     - ✅ **Font Registry**: Implement a global registry for `PdfFont` instances mapped by FOCA resource name. (✅ Basic `PdfFontRegistry` implemented in `PdfHandler`).
-    - ✅ **Font Mapping**: Map standard AFP core fonts (e.g., Helvetica, Times) to PDF equivalents.
+    - ✅ **Font Mapping**: Map standard AFP core fonts (e.g., Helvetica, Swiss, Times, Dutch, Courier) to PDF equivalents.
     - ⏳ **Subset Generation**: Enable iText font subsetting for PDF/X-4 compliance.
         - ⏳ **iText Subsetting API Integration**: Configure `FontSet` and `FontProvider` to support subsetting.
         - ⏳ **LID-to-Subset Mapping**: Track glyph usage per Local ID to ensure minimal subset size.
@@ -138,6 +138,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
             - ✅ **GS1 QR Code**: Implement Modifier 0x12 for GS1-compliant QR Codes.
         - ✅ **Data Matrix**: Implement rendering for Data Matrix barcodes (Type 0x1C). (✅ Basic support using iText).
             - ✅ **ECC 200 Support**: Implement the ECC 200 Reed-Solomon error correction. (✅ Supported by iText).
+            - ✅ **GS1 Data Matrix**: Implement Modifier 0x02 for GS1-compliant Data Matrix.
         - ✅ **PDF417**: Implement rendering for PDF417 barcodes (Type 0x1E). (✅ Basic support using iText).
     - ✅ **Postal Barcode Support**:
         - ✅ **POSTNET/PLANET**: Implement rendering for POSTNET and PLANET barcodes.
@@ -172,7 +173,7 @@ Ensure the generated output meets the PDF/VT-1 standard and accurately reflects 
     - ✅ **Programmatic Structure Verification**: Verify `/DPart` hierarchy and `/Property` entries using iText or low-level parsing.
     - ✅ **Metadata Extraction Tool**: Implement a utility to extract DPart metadata to JSON for comparison.
     - ⏳ **Viewer Validation**: Verify navigation and structure in PDF/VT-aware viewers.
-- ⏳ **Metadata Integrity**: Compare record-level extraction from PDF metadata against original AFP `TLE` values.
+- ✅ **Metadata Integrity**: Compare record-level extraction from PDF metadata against original AFP `TLE` values. (Verified in `PdfMetadataIntegrityTest`).
 - ⏳ **Visual Regression**:
     - 🚧 **Snapshot Comparison**: Compare rendered PDF output against XML/Baseline snapshots.
         - ✅ **Baseline Generation**: Create a tool to generate "golden" images from validated PDFs. (✅ Implemented `PdfBaselineGeneratorTool.java`).
