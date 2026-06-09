@@ -6,7 +6,7 @@ Dieser Bericht fasst die Ergebnisse der umfassenden Performance-Analyse des Alph
 **Haupterkenntnisse:**
 - Die **Thread-Allokation** ist stabil um **6,2%** gestiegen, was auf zusätzliche Validierungen und komplexere Feld-Strukturen zurückzuführen ist.
 - Im **10x10 Szenario** (viele kleine Dateien) dominiert der JVM-Overhead, wobei v15.6 durch Fast-Path Serialisierung stabil bleibt.
-- Im **Large-File Szenario** (~100KB Dateien) wurde eine **3,4-fache Durchsatz-Regression** festgestellt, die primär durch erhöhte GC-Last und Komplexität der neuen Features getrieben wird.
+- Im **Large-File Szenario** (20 Dateien, gesamt ~1.8 MB) wurde eine **3,4-fache Durchsatz-Regression** festgestellt, die primär durch erhöhte GC-Last und Komplexität der neuen Features getrieben wird.
 
 ## 2. Detaillierte Regressionsanalyse (v3.4 bis v15.6)
 
@@ -26,7 +26,7 @@ Der signifikante Anstieg erfolgte zwischen v7.0 und v12.1. Seitdem ist die Allok
 
 Ein Vergleich der Performance-Charakteristik bei unterschiedlichen Dateigrößen offenbart grundlegende Unterschiede im Laufzeitverhalten:
 
-| Metrik | 10x10 Szenario (Kleine Dateien) | Large-File Szenario (~100KB) |
+| Metrik | 10x10 Szenario (Kleine Dateien) | Large-File Szenario (20 Dateien, gesamt ~1.8 MB) |
 | :--- | :--- | :--- |
 | **Dominanter Faktor** | JVM Initialisierung / Class Loading | Serialisierungslogik / GC |
 | **v3.4 Avg Time** | ~20ms (pro Datei) | 712.6 ms (pro Run) |
@@ -36,6 +36,9 @@ Ein Vergleich der Performance-Charakteristik bei unterschiedlichen Dateigrößen
 
 ### Analyse:
 Während die manuellen StAX Fast-Paths in v15.6 den Reflection-Overhead bei kleinen Dateien effektiv minimieren, zeigt das Large-File-Szenario, dass die kumulative Last der erweiterten MO:DCA Unterstützung (Validierungen, Triplet-Handling) den Gesamtdurchsatz bei großen Datenmengen spürbar reduziert.
+
+**Hinweis zum Messverfahren:**
+Im Large-File Szenario nutzt v15.6 den optimierten **Directory-Mode** (`-d`), bei dem die gesamte Menge von 1.8 MB in einer einzigen JVM-Instanz ohne erneuten Prozessstart verarbeitet wird. Dies isoliert die reine Verarbeitungsleistung von der JVM-Startzeit.
 
 ## 4. Hotspot-Analyse (Large-File Szenario v15.6)
 Die automatisierte Hotspot-Analyse der aggregierten JFR-Profile für das Large-File Szenario zeigt die Verteilung der CPU-Zyklen über die funktionalen Bereiche:
