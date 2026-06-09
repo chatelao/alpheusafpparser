@@ -36,12 +36,12 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
     - [x] Analyse der Safepoint-Statistiken. ✅
 
 ## Phase 4: Integration & Documentation ✅
-- [x] Zusammenfassung der Erkenntnisse in `PROFILE_PERF_TEST.md`:
+- [x] Zusammenfassung der Erkenntnisse in `PROFILE_PERF_AUDIT.md`:
     - [x] Dokumentation der initialen Allocation-Metriken (Trend v3.4 -> v15.6). ✅
     - [x] Visualisierung der Hotspots aus Flame Graphs (Textuelle Analyse). ✅
 - [x] Ableitung von konkreten Optimierungstickets aus den Profiling-Daten. ✅
 - [x] Integration der Profiling-Schritte in den CI-Workflow (via `tools/perf_audit.sh`). ✅
-- [x] Abschlussbericht zur 10x10 Performance-Stabilisierung (in `PROFILE_PERF_TEST.md`). ✅
+- [x] Abschlussbericht zur 10x10 Performance-Stabilisierung (in `PROFILE_PERF_AUDIT.md`). ✅
 
 ## Phase 5: Automated Performance Guarding ✅
 - [x] Implementierung automatisierter Regressions-Checks für Key-Metriken (Allocation, GC). ✅
@@ -52,7 +52,7 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
 - [x] Auswahl repräsentativer Dateien aus `test/async/` (~100KB Bereich) in `perf_test_large/`. ✅
 - [x] Erstellung eines spezialisierten Benchmark-Skripts `tools/benchmark_large.sh`. ✅
 - [x] Durchführung der Benchmarks für Baseline (v3.4) und aktuelle Version. ✅
-- [x] Dokumentation der Ergebnisse in `PROFILE_PERF_TEST.md`. ✅
+- [x] Dokumentation der Ergebnisse in `PROFILE_PERF_AUDIT.md`. ✅
 
 ## Phase 7: Verfeinerte Analyse & Allokations-Tracking ✅
 - [x] Erweiterung von `tools/jfr_to_collapsed.py` um gewichtete Aggregation (z.B. nach Allokationsgröße). ✅
@@ -74,3 +74,13 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
 - [x] 9.3 Erzeugung der PDF-Performance-Baseline (v15.6). ✅
 - [x] 9.4 Durchführung von Differential-Analysen zwischen XML- und PDF-Export zur Identifikation von iText-Overhead. ✅
 - [x] 9.5 Dokumentation der PDF-Performance-Charakteristik in `PROFILE_PERF_AUDIT.md`. ✅
+
+## Phase 10: Analyse von Kaltstart- und Infrastruktur-Overhead
+- [ ] 10.1 Automatisierung der Kaltstart-Benchmarks (`tools/benchmark_cold_start.sh`).
+- [ ] 10.2 Integration der Kaltstart-Metriken in den `perf_audit.sh` Bericht.
+- [ ] 10.3 Analyse der Class-Loading Profile zur Identifikation von Initialisierungs-Hotspots.
+
+## Phase 11: Verfeinerte Differential-Analyse & Grossdatei-Guarding
+- [ ] 11.1 Erweiterung von `tools/perf_audit.sh` um Differential CPU-Analyse für Grossdateien.
+- [ ] 11.2 Implementierung einer robusten Baseline-Selektion (erstes Profil mit Samples).
+- [ ] 11.3 Integration von Schwellenwert-Checks für CPU-Area-Drift in Grossdateien.

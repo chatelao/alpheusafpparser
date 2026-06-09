@@ -9,10 +9,21 @@ def get_jfr_metrics(jfr_file):
     try:
         fw_output = subprocess.check_output(["jfr", "print", "--events", "jdk.FileWrite", jfr_file], text=True)
         fw_bytes = sum(int(m.group(1)) for m in re.finditer(r"bytesWritten = (\d+)", fw_output))
+        fw_duration = sum(float(m.group(1)) for m in re.finditer(r"duration = ([\d\.]+) ms", fw_output))
         fw_count = len(re.findall(r"jdk.FileWrite", fw_output))
-        print(f"  jdk.FileWrite: {fw_count} events, {fw_bytes} bytes total")
+        print(f"  jdk.FileWrite: {fw_count} events, {fw_bytes} bytes total, {fw_duration:.2f} ms total duration")
     except Exception as e:
         print(f"  Error extracting jdk.FileWrite: {e}")
+
+    # Extract FileRead metrics
+    try:
+        fr_output = subprocess.check_output(["jfr", "print", "--events", "jdk.FileRead", jfr_file], text=True)
+        fr_bytes = sum(int(m.group(1)) for m in re.finditer(r"bytesRead = (\d+)", fr_output))
+        fr_duration = sum(float(m.group(1)) for m in re.finditer(r"duration = ([\d\.]+) ms", fr_output))
+        fr_count = len(re.findall(r"jdk.FileRead", fr_output))
+        print(f"  jdk.FileRead: {fr_count} events, {fr_bytes} bytes total, {fr_duration:.2f} ms total duration")
+    except Exception as e:
+        print(f"  Error extracting jdk.FileRead: {e}")
 
     # Extract Allocation metrics
     try:
@@ -65,6 +76,14 @@ def get_jfr_metrics(jfr_file):
         print(f"  jdk.SafepointBegin: {sp_count} events")
     except Exception as e:
         print(f"  Error extracting Safepoint metrics: {e}")
+
+    # Extract Class Loading metrics
+    try:
+        cl_output = subprocess.check_output(["jfr", "print", "--events", "jdk.ClassLoad", jfr_file], text=True)
+        cl_count = len(re.findall(r"jdk.ClassLoad", cl_output))
+        print(f"  jdk.ClassLoad: {cl_count} events")
+    except Exception as e:
+        print(f"  Error extracting jdk.ClassLoad: {e}")
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

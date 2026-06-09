@@ -9,19 +9,34 @@ def extract_metrics(jfr_file):
     metrics = {
         'fw_bytes': 0,
         'fw_count': 0,
+        'fw_duration': 0.0,
+        'fr_bytes': 0,
+        'fr_count': 0,
+        'fr_duration': 0.0,
         'alloc_main': 0,
         'tlab_bytes': 0,
         'tlab_count': 0,
         'gc_pauses': 0,
         'gc_count': 0,
-        'sp_count': 0
+        'sp_count': 0,
+        'class_load_count': 0
     }
 
     # FileWrite
     try:
         fw_output = subprocess.check_output(["jfr", "print", "--events", "jdk.FileWrite", jfr_file], text=True)
         metrics['fw_bytes'] = sum(int(m.group(1)) for m in re.finditer(r"bytesWritten = (\d+)", fw_output))
+        metrics['fw_duration'] = sum(float(m.group(1)) for m in re.finditer(r"duration = ([\d\.]+) ms", fw_output))
         metrics['fw_count'] = len(re.findall(r"jdk.FileWrite", fw_output))
+    except Exception:
+        pass
+
+    # FileRead
+    try:
+        fr_output = subprocess.check_output(["jfr", "print", "--events", "jdk.FileRead", jfr_file], text=True)
+        metrics['fr_bytes'] = sum(int(m.group(1)) for m in re.finditer(r"bytesRead = (\d+)", fr_output))
+        metrics['fr_duration'] = sum(float(m.group(1)) for m in re.finditer(r"duration = ([\d\.]+) ms", fr_output))
+        metrics['fr_count'] = len(re.findall(r"jdk.FileRead", fr_output))
     except Exception:
         pass
 
@@ -65,6 +80,13 @@ def extract_metrics(jfr_file):
     try:
         sp_output = subprocess.check_output(["jfr", "print", "--events", "jdk.SafepointBegin", jfr_file], text=True)
         metrics['sp_count'] = len(re.findall(r"jdk.SafepointBegin", sp_output))
+    except Exception:
+        pass
+
+    # Class Loading
+    try:
+        cl_output = subprocess.check_output(["jfr", "print", "--events", "jdk.ClassLoad", jfr_file], text=True)
+        metrics['class_load_count'] = len(re.findall(r"jdk.ClassLoad", cl_output))
     except Exception:
         pass
 
@@ -118,26 +140,27 @@ def main():
     averages = {}
 
     print("# Performance Metrics Summary (Averages over runs)")
-    print("\n| Version | FileWrite (Events) | FileWrite (Bytes) | Thread Allocation (Main) | TLAB Allocation (Events) | GC Pauses (ms) | GC Count | Safepoints |")
-    print("| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |")
+    print("\n| Version | FW (MB) | FW (ms) | FR (MB) | FR (ms) | Alloc (Main) | GC (ms) | Safepoints | Classes |")
+    print("| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |")
 
     for version in sorted_versions:
         data = version_data[version]
         n = len(data)
-        avg_fw_count = sum(d['fw_count'] for d in data) / n
         avg_fw_bytes = sum(d['fw_bytes'] for d in data) / n
+        avg_fw_duration = sum(d['fw_duration'] for d in data) / n
+        avg_fr_bytes = sum(d['fr_bytes'] for d in data) / n
+        avg_fr_duration = sum(d['fr_duration'] for d in data) / n
         avg_alloc_main = sum(d['alloc_main'] for d in data) / n
-        avg_tlab_count = sum(d['tlab_count'] for d in data) / n
         avg_gc_pauses = sum(d['gc_pauses'] for d in data) / n
-        avg_gc_count = sum(d['gc_count'] for d in data) / n
         avg_sp_count = sum(d['sp_count'] for d in data) / n
+        avg_cl_count = sum(d['class_load_count'] for d in data) / n
 
         averages[version] = {
             'alloc_main': avg_alloc_main,
             'gc_pauses': avg_gc_pauses
         }
 
-        print(f"| {version} | {avg_fw_count:.1f} | {avg_fw_bytes:.0f} | {avg_alloc_main:.0f} | {avg_tlab_count:.1f} | {avg_gc_pauses:.2f} | {avg_gc_count:.1f} | {avg_sp_count:.1f} |")
+        print(f"| {version} | {avg_fw_bytes/1024/1024:.2f} | {avg_fw_duration:.2f} | {avg_fr_bytes/1024/1024:.2f} | {avg_fr_duration:.2f} | {avg_alloc_main:.0f} | {avg_gc_pauses:.2f} | {avg_sp_count:.1f} | {avg_cl_count:.0f} |")
 
     if args.check:
         print("\n## Regression Check")

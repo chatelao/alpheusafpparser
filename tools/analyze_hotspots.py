@@ -33,11 +33,29 @@ AREAS = [
         r"java\.nio\.MappedByteBuffer",
         r"java\.io\.File"
     ]),
+    ("IOCA Decoding", [
+        r"com\.mgz\.afp\.ioca",
+        r"IPD_ImagePictureData\.decodeAFP",
+        r"parseIOCASegments"
+    ]),
+    ("PTOCA Processing", [
+        r"com\.mgz\.afp\.ptoca",
+        r"PTX_PresentationTextData\.decodeAFP",
+        r"parseControlSequences"
+    ]),
+    ("GOCA Processing", [
+        r"com\.mgz\.afp\.goca",
+        r"GAD_GraphicsData\.decodeAFP",
+        r"parseDrawingOrders"
+    ]),
+    ("BCOCA Processing", [
+        r"com\.mgz\.afp\.bcoca",
+        r"BDA_BarCodeData\.decodeAFP"
+    ]),
     ("Field Parsing", [
         r"com\.mgz\.afp\.parser\.AFPParser",
         r"com\.mgz\.afp\.StructuredFieldFactory",
-        r"decodeAFP",
-        r"parseControlSequences"
+        r"decodeAFP"
     ]),
     ("Validation", [
         r"com\.mgz\.afp\..*\.validate",
@@ -138,6 +156,11 @@ def main():
             print("-" * 85)
             print(f"{'Area':<30} | {'V1 %':<8} | {'V2 %':<8} | {'Shift %':<10} | {'Delta':<10}")
             print("-" * 85)
+
+            # Safeguard: if total1 is 0, skip shift calculations even if is_diff is true
+            if total1 == 0:
+                print("WARNING: Baseline total is 0. Shift analysis skipped.")
+                return
 
             for area_name, _ in AREAS + [("Other", [])]:
                 c1 = stats1.get(area_name, 0)
