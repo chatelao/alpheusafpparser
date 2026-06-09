@@ -127,4 +127,9 @@ public class XmlHandlerFactory implements HandlerFactory {
   public long estimateOutputSize(long inputSize) {
     return SFSizeEstimator.estimateXmlSize(inputSize);
   }
+
+  @Override
+  public String getFormatName() {
+    return "xml";
+  }
 }

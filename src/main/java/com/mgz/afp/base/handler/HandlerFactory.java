@@ -54,4 +54,11 @@ public interface HandlerFactory {
    * @return the estimated output size in bytes
    */
   long estimateOutputSize(long inputSize);
+
+  /**
+   * Returns the name of the format supported by this factory (e.g., "xml", "pdf").
+   *
+   * @return the format name
+   */
+  String getFormatName();
 }
