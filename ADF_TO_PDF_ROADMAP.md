@@ -174,11 +174,11 @@ Ensure the generated output meets the PDF/VT-1 standard and accurately reflects 
     - ✅ **Metadata Extraction Tool**: Implement a utility to extract DPart metadata to JSON for comparison.
     - ⏳ **Viewer Validation**: Verify navigation and structure in PDF/VT-aware viewers.
 - ✅ **Metadata Integrity**: Compare record-level extraction from PDF metadata against original AFP `TLE` values. (Verified in `PdfMetadataIntegrityTest`).
-- ⏳ **Visual Regression**:
-    - 🚧 **Snapshot Comparison**: Compare rendered PDF output against XML/Baseline snapshots.
+- ✅ **Visual Regression**:
+    - ✅ **Snapshot Comparison**: Compare rendered PDF output against XML/Baseline snapshots.
         - ✅ **Baseline Generation**: Create a tool to generate "golden" images from validated PDFs. (✅ Implemented `PdfBaselineGeneratorTool.java`).
         - ✅ **Automated Image Diffing**: Implement pixel-by-pixel comparison with configurable tolerance. (✅ Implemented in `PdfVerificationUtils.java`).
-    - ⏳ **Pixel-Perfect Verification**: Establish a suite for pixel-level regression testing against golden PDFs.
+    - ✅ **Pixel-Perfect Verification**: Establish a suite for pixel-level regression testing against golden PDFs. (✅ Implemented `PdfPixelPerfectVerificationTest.java`).
     - ✅ **PDF-to-Image Rasterizer**: Integrate a tool (e.g., PDFBox or Ghostscript) to rasterize PDF pages for visual diffing. (✅ Implemented `PdfVerificationUtils` using PDFBox 3.0).
 
 ---
