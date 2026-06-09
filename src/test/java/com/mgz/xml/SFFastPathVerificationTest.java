@@ -6,7 +6,18 @@ import com.mgz.afp.foca.CFC_CodedFontControl;
 import com.mgz.afp.foca.CFI_CodedFontIndex;
 import com.mgz.afp.foca.CPC_CodePageControl;
 import com.mgz.afp.foca.CPD_CodePageDescriptor;
+import com.mgz.afp.foca.CPI_CodePageIndex;
+import com.mgz.afp.foca.FND_FontDescriptor;
+import com.mgz.afp.foca.FNG_FontPatterns;
+import com.mgz.afp.foca.FNI_FontIndex;
+import com.mgz.afp.foca.FNM_FontPatternsMap;
+import com.mgz.afp.foca.FNN_FontNameMap;
+import com.mgz.afp.foca.FNN_RepeatingGroup;
+import com.mgz.afp.foca.FNN_TSIdentifier;
+import com.mgz.afp.foca.FNO_FontOrientation;
+import com.mgz.afp.foca.FNP_FontPosition;
 import com.mgz.afp.enums.AFPOrientation;
+import com.mgz.afp.base.IRepeatingGroup;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -31,6 +42,14 @@ public class SFFastPathVerificationTest {
         verifySF(createCFI(), "CFI_CodedFontIndex");
         verifySF(createCPC(), "CPC_CodePageControl");
         verifySF(createCPD(), "CPD_CodePageDescriptor");
+        verifySF(createCPI(), "CPI_CodePageIndex");
+        verifySF(createFND(), "FND_FontDescriptor");
+        verifySF(createFNG(), "FNG_FontPatterns");
+        verifySF(createFNI(), "FNI_FontIndex");
+        verifySF(createFNM(), "FNM_FontPatternsMap");
+        verifySF(createFNN(), "FNN_FontNameMap");
+        verifySF(createFNO(), "FNO_FontOrientation");
+        verifySF(createFNP(), "FNP_FontPosition");
     }
 
     private void verifySF(com.mgz.afp.base.StructuredField sf, String rootName) throws Exception {
@@ -129,5 +148,128 @@ public class SFFastPathVerificationTest {
         cpd.setCodePageGID(500);
         cpd.setEncodingScheme(CPD_CodePageDescriptor.EncodingScheme.SingleByte_EBCDICPresentation);
         return cpd;
+    }
+
+    private CPI_CodePageIndex createCPI() {
+        CPI_CodePageIndex cpi = new CPI_CodePageIndex();
+        List<CPI_CodePageIndex.CPI_RepeatingGroup> rgs = new ArrayList<>();
+        CPI_CodePageIndex.CPI_RepeatingGroup rg = new CPI_CodePageIndex.CPI_RepeatingGroup();
+        rg.setGraphicCharacterGID("SP010000");
+        rg.setGraphicCharacterUseFlags(EnumSet.of(CPI_CodePageIndex.GraphicCharacterUseFlag.InvalidCodedCharacter));
+        rg.setCodePoint(64);
+        rg.setUnicodeScalarValues(List.of(0x0020L));
+        rgs.add(rg);
+        cpi.setRepeatingGroups(rgs);
+        return cpi;
+    }
+
+    private FND_FontDescriptor createFND() {
+        FND_FontDescriptor fnd = new FND_FontDescriptor();
+        fnd.setTypefaceDescription("Helvetica");
+        fnd.setFontWeightClass((byte) 5);
+        fnd.setFontWidthClass((byte) 5);
+        fnd.setMaxVerticalSize((short) 1000);
+        fnd.setNominalVerticalSize((short) 1000);
+        fnd.setMinimumVerticalSize((short) 1000);
+        fnd.setMaxHorizontalSize((short) 1000);
+        fnd.setNominalHorizontalSize((short) 1000);
+        fnd.setMinimumHorizontalSize((short) 1000);
+        fnd.setDesignGeneralClass((byte) 1);
+        fnd.setDesignSubclass((byte) 1);
+        fnd.setDesignSpecificGroup((byte) 1);
+        fnd.setFontDesignFlags((short) 0);
+        fnd.setGcsgid((short) 103);
+        fnd.setFgid((short) 1);
+        return fnd;
+    }
+
+    private FNG_FontPatterns createFNG() {
+        FNG_FontPatterns fng = new FNG_FontPatterns();
+        fng.setData(new byte[]{0x01, 0x02, 0x03, 0x04});
+        return fng;
+    }
+
+    private FNI_FontIndex createFNI() {
+        FNI_FontIndex fni = new FNI_FontIndex();
+        List<FNI_FontIndex.FNI_RepeatingGroup> rgs = new ArrayList<>();
+        FNI_FontIndex.FNI_RepeatingGroup rg = new FNI_FontIndex.FNI_RepeatingGroup();
+        rg.setGcgid("SP010000");
+        rg.setCharIncrement((short) 120);
+        rg.setAscenderHeight((short) 100);
+        rg.setDescenderDepth((short) 20);
+        rg.setKernableCharacterFlags((short) 0);
+        rg.setReserved15((byte) 0);
+        rg.setASpace((short) 10);
+        rg.setBSpace((short) 100);
+        rg.setCSpace((short) 10);
+        rg.setBaselineOffset((short) 50);
+        rgs.add(rg);
+        fni.setRepeatingGroups(rgs);
+        return fni;
+    }
+
+    private FNM_FontPatternsMap createFNM() {
+        FNM_FontPatternsMap fnm = new FNM_FontPatternsMap();
+        List<FNM_FontPatternsMap.FNM_RepeatingGroup> rgs = new ArrayList<>();
+        FNM_FontPatternsMap.FNM_RepeatingGroup rg = new FNM_FontPatternsMap.FNM_RepeatingGroup();
+        rg.setCharDataOffset(1000);
+        rg.setCharDataCount(500);
+        rgs.add(rg);
+        fnm.setRepeatingGroups(rgs);
+        return fnm;
+    }
+
+    private FNN_FontNameMap createFNN() {
+        FNN_FontNameMap fnn = new FNN_FontNameMap();
+        fnn.setIbmFormat((byte) 2);
+        fnn.setTechnologyFormat((byte) 3);
+
+        FNN_RepeatingGroup rg = new FNN_RepeatingGroup();
+        rg.setGcgid("SP010000");
+        rg.setTsOffset(100);
+        fnn.addRepeatingGroup(rg);
+
+        FNN_TSIdentifier tsid = new FNN_TSIdentifier();
+        tsid.setTsidLen(5);
+        tsid.setTsid("test");
+        fnn.setTsIdentifiers(List.of(tsid));
+
+        return fnn;
+    }
+
+    private FNO_FontOrientation createFNO() {
+        FNO_FontOrientation fno = new FNO_FontOrientation();
+        List<FNO_FontOrientation.FNO_RepeatingGroup> rgs = new ArrayList<>();
+        FNO_FontOrientation.FNO_RepeatingGroup rg = new FNO_FontOrientation.FNO_RepeatingGroup();
+        rg.setCharRotation(AFPOrientation.ori0);
+        rg.setMaxBaselineOffset((short) 100);
+        rg.setMaxCharacterIncrement((short) 120);
+        rg.setSpaceCharacterIncrement((short) 120);
+        rg.setMaxBaselineExtent((short) 150);
+        rg.setControlFlags(EnumSet.of(FNO_FontOrientation.FnoControlFlag.UniformASpace));
+        rg.setEmSpaceIncrement((short) 1000);
+        rg.setFigureSpaceIncrement((short) 500);
+        rg.setNominalCharacterIncrement((short) 120);
+        rg.setDefaultBaselineIncrement(120);
+        rg.setMinASpace((short) 10);
+        rgs.add(rg);
+        fno.setRepeatingGroups(rgs);
+        return fno;
+    }
+
+    private FNP_FontPosition createFNP() {
+        FNP_FontPosition fnp = new FNP_FontPosition();
+        FNP_FontPosition.FNP_RepeatingGroup rg = new FNP_FontPosition.FNP_RepeatingGroup();
+        rg.setLowercaseHeight((short) 400);
+        rg.setCapMHeight((short) 700);
+        rg.setMaxAscenderHeight((short) 750);
+        rg.setMaxDescenderDepth((short) 250);
+        rg.setRetired15((byte) 1);
+        rg.setReserved16((byte) 0);
+        rg.setUnderscoreWidth((short) 50);
+        rg.setUnderscoreWidthFraction((byte) 0);
+        rg.setUnderscorePosition((short) -100);
+        fnp.addFNPRepeatingGroup(rg);
+        return fnp;
     }
 }
