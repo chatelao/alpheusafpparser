@@ -31,6 +31,7 @@ TEST_DIR="${TEST_DIR:-perf_test_large}"
 ITERATIONS="${ITERATIONS:-5}"
 WARMUP_ITERATIONS="${WARMUP_ITERATIONS:-1}"
 OUTPUT_DIR="test_output_bench_large"
+FORMAT="${FORMAT:-xml}"
 
 # Count files in TEST_DIR
 FILE_COUNT=$(ls "$TEST_DIR"/*.afp 2>/dev/null | wc -l)
@@ -77,6 +78,12 @@ for rel in "${RELEASES[@]}"; do
     HELP_OUTPUT=$(java -jar "$JAR_FILE" -h 2>&1)
     SUPPORTED_FLAGS=""
 
+    if [ "$FORMAT" != "xml" ]; then
+        if echo "$HELP_OUTPUT" | grep -q -- "-f"; then
+            SUPPORTED_FLAGS="$SUPPORTED_FLAGS -f $FORMAT"
+        fi
+    fi
+
     # Priority flags: -p (parallel), -P (ptx-debug), -a (aggressive-io), -c (charset-opt)
     if echo "$HELP_OUTPUT" | grep -q -- "-p"; then
         SUPPORTED_FLAGS="$SUPPORTED_FLAGS -p"
@@ -119,8 +126,11 @@ for rel in "${RELEASES[@]}"; do
         JFR_ARGS=""
         if [ "$ENABLE_JFR" = "true" ]; then
             mkdir -p perf_test/profiles/
+            # Add format suffix if not xml
+            FORMAT_SUFFIX=""
+            if [ "$FORMAT" != "xml" ]; then FORMAT_SUFFIX="_${FORMAT}"; fi
             # Optimize for fast runs: Increase sampling frequency to 1ms
-            JFR_ARGS="-XX:StartFlightRecording=settings=profile,jdk.ExecutionSample#period=1ms,filename=perf_test/profiles/profile_large_${rel}_run${i}.jfr"
+            JFR_ARGS="-XX:StartFlightRecording=settings=profile,jdk.ExecutionSample#period=1ms,filename=perf_test/profiles/profile_large_${rel}${FORMAT_SUFFIX}_run${i}.jfr"
         fi
 
         # Check if -d (directory mode) is supported

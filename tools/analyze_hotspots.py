@@ -10,6 +10,10 @@ AREAS = [
         r"com\.mgz\.xml\.AfpJacksonXmlWriter\.writeControlSequence",
         r"com\.mgz\.xml\.AfpJacksonXmlWriter\.writeTripletDirectly"
     ]),
+    ("PDF Generation (iText)", [
+        r"com\.mgz\.pdf",
+        r"com\.itextpdf"
+    ]),
     ("Jackson Fallback", [
         r"com\.fasterxml\.jackson",
         r"com\.mgz\.xml\.AfpJacksonXmlWriter\.writeFieldViaJackson"
