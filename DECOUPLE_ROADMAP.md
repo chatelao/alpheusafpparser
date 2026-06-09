@@ -63,4 +63,4 @@ This roadmap outlines the serial implementation plan for decoupling the parser f
     - ✅ **4.6.1 Implement HandlerRegistry:** Discover all available `HandlerFactory` instances using `ServiceLoader`.
     - ✅ **4.6.2 CLI Integration:** Refactor `Afp2Xml` CLI to use the registry instead of hardcoded factory instantiation.
 3.  **Extensibility Verification:**
-    - [ ] **4.7.1 Verification:** Verify that third-party handlers can be added by placing a JAR in the classpath.
+    - ✅ **4.7.1 Verification:** Verify that third-party handlers can be added by placing a JAR in the classpath. (Verified via `SPIExtensibilityTest.java` and CLI integration).

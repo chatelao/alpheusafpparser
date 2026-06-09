@@ -121,12 +121,8 @@ public class Afp2Xml {
         case "-f", "--format" -> {
           if (i + 1 < args.length) {
             format = args[++i].toLowerCase();
-            if (!"xml".equals(format) && !"pdf".equals(format)) {
-              System.err.println("Error: Unsupported format: " + format);
-              return 1;
-            }
           } else {
-            System.err.println("Error: --format requires a value (xml or pdf).");
+            System.err.println("Error: --format requires a value.");
             return 1;
           }
         }
@@ -439,7 +435,7 @@ public class Afp2Xml {
     out.println("                            If a directory is provided as a positional "
         + "argument, directory mode is enabled automatically.");
     out.println("  -x, --xpath <expression>  Filter the generated XML using an XPath expression.");
-    out.println("  -f, --format <type>       Output format: xml (default) or pdf.");
+    out.println("  -f, --format <type>       Output format: " + HandlerRegistry.getRegisteredFormats() + " (default: xml).");
     out.println("  -m, --measure             Measure and sum up the time needed to parse and "
         + "write each mnemonic.");
     out.println("  -p, --parallel            Enable parallel conversion for single files.");
