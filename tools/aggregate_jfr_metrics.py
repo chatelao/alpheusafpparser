@@ -72,7 +72,9 @@ def extract_metrics(jfr_file):
 
 def version_key(v):
     clean_v = v[len("large_"):] if v.startswith("large_") else v
-    return [int(x) for x in clean_v[1:].split('.')]
+    # Remove any suffix like _pdf
+    base_v = clean_v.split('_')[0]
+    return [int(x) for x in base_v[1:].split('.')]
 
 def main():
     parser = argparse.ArgumentParser(description="Aggregate JFR metrics and optionally check for regressions.")
@@ -96,14 +98,16 @@ def main():
         return
 
     for filename in sorted(files):
-        # Extract version: profile_<version> run<n>.jfr or profile_large_<version> run<n>.jfr
-        match = re.match(r"profile_((?:large_)?v[\d\.]+)_run\d+\.jfr", filename)
+        # Extract version and variant: profile_<version>[_<format>]_run<n>.jfr
+        match = re.match(r"profile_((?:large_)?v[\d\.]+)(?:_(\w+))?_run\d+\.jfr", filename)
         if match:
             version = match.group(1)
+            variant = match.group(2)
+            full_version = version + (("_" + variant) if variant else "")
             filepath = os.path.join(profile_dir, filename)
             sys.stderr.write(f"Processing {filename}...\n")
             metrics = extract_metrics(filepath)
-            version_data[version].append(metrics)
+            version_data[full_version].append(metrics)
 
     if not version_data:
         print("No versioned JFR data found.")
