@@ -167,6 +167,11 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class PdfHandler implements StructuredFieldHandler {
 
+  /**
+   * Represents a font resource with its name and size.
+   */
+  public record FontResource(String name, float size) {}
+
   private final AtomicLong fieldCount = new AtomicLong(0);
   private final Deque<StructuredField> structureStack = new ArrayDeque<>();
   private final Deque<PdfDictionary> dpartStack = new ArrayDeque<>();
@@ -176,7 +181,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private final Map<String, com.itextpdf.kernel.pdf.xobject.PdfImageXObject> imageCache = new HashMap<>();
   private final Set<String> mmoResources = new HashSet<>();
   private final Set<String> mpsResources = new HashSet<>();
-  private final Deque<Map<Short, String>> fontMapStack = new ArrayDeque<>();
+  private final Deque<Map<Short, FontResource>> fontMapStack = new ArrayDeque<>();
   private final PdfFontRegistry fontRegistry = new PdfFontRegistry();
   private final PdfDocument pdfDoc;
   private final Document document;
@@ -379,9 +384,9 @@ public class PdfHandler implements StructuredFieldHandler {
       }
     } else if (sf instanceof MCF_MapCodedFont_Format1 mcf1) {
       if (mcf1.getRepeatingGroups() != null) {
-        Map<Short, String> currentFontMap = fontMapStack.peek();
+        Map<Short, FontResource> currentFontMap = fontMapStack.peek();
         for (MCF_MapCodedFont_Format1.MCF_RepeatingGroup rg : mcf1.getRepeatingGroups()) {
-          currentFontMap.put(rg.getCodedFontLocalID(), rg.getCodedFontName());
+          currentFontMap.put(rg.getCodedFontLocalID(), new FontResource(rg.getCodedFontName(), 10.0f));
         }
       }
     } else if (sf instanceof MCF_MapCodedFont_Format2 mcf2) {
@@ -390,6 +395,7 @@ public class PdfHandler implements StructuredFieldHandler {
           if (irg instanceof MCF_MapCodedFont_Format2.MCF_RepeatingGroup rg && rg.getTriplets() != null) {
             Short lid = null;
             String name = null;
+            float size = 10.0f;
             for (Triplet t : rg.getTriplets()) {
               if (t instanceof Triplet.ResourceLocalIdentifier rli
                   && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
@@ -397,10 +403,14 @@ public class PdfHandler implements StructuredFieldHandler {
               } else if (t instanceof Triplet.FullyQualifiedName fqn
                   && fqn.getType() == Triplet.GlobalID_Use.CodedFontNameReference) {
                 name = fqn.getNameAsString();
+              } else if (t instanceof Triplet.FontDescriptorSpecification fds) {
+                if (fds.fontHeight > 0) {
+                  size = fds.fontHeight / 20.0f;
+                }
               }
             }
             if (lid != null && name != null) {
-              fontMapStack.peek().put(lid, name);
+              fontMapStack.peek().put(lid, new FontResource(name, size));
             }
           }
         }
@@ -411,6 +421,7 @@ public class PdfHandler implements StructuredFieldHandler {
           if (irg instanceof MDR_MapDataResource.MDR_RepeatingGroup rg && rg.getTriplets() != null) {
             Short lid = null;
             String name = null;
+            float size = 10.0f;
             for (Triplet t : rg.getTriplets()) {
               if (t instanceof Triplet.ResourceLocalIdentifier rli
                   && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
@@ -419,10 +430,14 @@ public class PdfHandler implements StructuredFieldHandler {
                   && (fqn.getType() == Triplet.GlobalID_Use.CodedFontNameReference
                   || fqn.getType() == Triplet.GlobalID_Use.DataObjectExternalResourceReference)) {
                 name = fqn.getNameAsString();
+              } else if (t instanceof Triplet.DataObjectFontDescriptor dofd) {
+                if (dofd.specifiedVerticalFontSize > 0) {
+                  size = dofd.specifiedVerticalFontSize / 20.0f;
+                }
               }
             }
             if (lid != null && name != null) {
-              fontMapStack.peek().put(lid, name);
+              fontMapStack.peek().put(lid, new FontResource(name, size));
             }
           }
         }
@@ -1096,9 +1111,10 @@ public class PdfHandler implements StructuredFieldHandler {
       return;
     }
     applyGraphicsState();
-    PdfFont font = resolveFont(graphicsState.getCharacterSet());
+    FontResource resource = resolveFontResource(graphicsState.getCharacterSet());
+    PdfFont font = fontRegistry.getFontWithFallback(resource != null ? resource.name() : null);
 
-    float fontSize = graphicsState.getCharCellHeight() > 0 ? graphicsState.getCharCellHeight() : 100.0f;
+    float fontSize = graphicsState.getCharCellHeight() > 0 ? graphicsState.getCharCellHeight() : (resource != null ? resource.size() / defaultScaleY : 100.0f);
 
     // Determine rotation from character angle point
     double angle = Math.atan2(graphicsState.getCharAngleY(), graphicsState.getCharAngleX());
@@ -1337,7 +1353,10 @@ public class PdfHandler implements StructuredFieldHandler {
     }
 
     try {
-      PdfFont font = resolveFont(textState.getFontLid());
+      FontResource resource = resolveFontResource(textState.getFontLid());
+      PdfFont font = fontRegistry.getFontWithFallback(resource != null ? resource.name() : null);
+      float fontSizePoints = resource != null ? resource.size() : 10.0f;
+      float fontSizeAfp = fontSizePoints / defaultScaleY;
 
       int afpX = CoordinateTransformer.getAfpX(textState.getInlinePos(), textState.getBaselinePos(),
           textState.getIOrientation(), textState.getBOrientation());
@@ -1353,14 +1372,13 @@ public class PdfHandler implements StructuredFieldHandler {
       float sin = (float) Math.sin(rad);
 
       currentCanvas.beginText()
-          .setFontAndSize(font, 10)
+          .setFontAndSize(font, fontSizeAfp)
           .setTextMatrix(cos, sin, sin, -cos, afpX, afpY)
           .showText(text)
           .endText();
 
       // Update inline position based on text width (approximation in AFP units)
-      float widthPoints = font.getWidth(text, 10);
-      float scaleX = currentPage.getMediaBox().getWidth() / (defaultPageWidth / defaultScaleX); // Rough scale
+      float widthPoints = font.getWidth(text, fontSizePoints);
       if (defaultPageWidth > 0) {
         textState.setInlinePos(textState.getInlinePos() + (int) (widthPoints / defaultScaleX));
       }
@@ -1473,14 +1491,24 @@ public class PdfHandler implements StructuredFieldHandler {
    * @return the resolved {@link PdfFont}
    */
   private PdfFont resolveFont(short lid) {
-    String fontName = null;
-    for (Map<Short, String> map : fontMapStack) {
-      fontName = map.get(lid);
-      if (fontName != null) {
-        break;
+    FontResource resource = resolveFontResource(lid);
+    return fontRegistry.getFontWithFallback(resource != null ? resource.name() : null);
+  }
+
+  /**
+   * Resolves the font resource for the given Local ID (LID).
+   *
+   * @param lid the local ID
+   * @return the resolved {@link FontResource}, or null if not found
+   */
+  private FontResource resolveFontResource(short lid) {
+    for (Map<Short, FontResource> map : fontMapStack) {
+      FontResource resource = map.get(lid);
+      if (resource != null) {
+        return resource;
       }
     }
-    return fontRegistry.getFontWithFallback(fontName);
+    return null;
   }
 
   /**
@@ -1489,11 +1517,11 @@ public class PdfHandler implements StructuredFieldHandler {
    *
    * @return the font map
    */
-  public Map<Short, String> getFontMap() {
-    Map<Short, String> merged = new HashMap<>();
-    List<Map<Short, String>> list = new java.util.ArrayList<>(fontMapStack);
+  public Map<Short, FontResource> getFontMap() {
+    Map<Short, FontResource> merged = new HashMap<>();
+    List<Map<Short, FontResource>> list = new java.util.ArrayList<>(fontMapStack);
     Collections.reverse(list);
-    for (Map<Short, String> map : list) {
+    for (Map<Short, FontResource> map : list) {
       merged.putAll(map);
     }
     return Collections.unmodifiableMap(merged);

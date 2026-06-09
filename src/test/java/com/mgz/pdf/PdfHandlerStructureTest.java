@@ -322,10 +322,10 @@ public class PdfHandlerStructureTest {
 
     handler.handle(mdr);
 
-    Map<Short, String> fontMap = handler.getFontMap();
+    Map<Short, PdfHandler.FontResource> fontMap = handler.getFontMap();
     assertEquals(2, fontMap.size());
-    assertEquals("TrueTypeFont", fontMap.get((short) 10));
-    assertEquals("OtherTrueTypeFont", fontMap.get((short) 11));
+    assertEquals("TrueTypeFont", fontMap.get((short) 10).name());
+    assertEquals("OtherTrueTypeFont", fontMap.get((short) 11).name());
   }
 
   @Test
@@ -576,9 +576,9 @@ public class PdfHandlerStructureTest {
     mcf1.addRepeatingGroup(rg1);
     handler.handle(mcf1);
 
-    Map<Short, String> fontMap = handler.getFontMap();
+    Map<Short, PdfHandler.FontResource> fontMap = handler.getFontMap();
     assertEquals(1, fontMap.size());
-    assertEquals("X0H200  ", fontMap.get((short) 1));
+    assertEquals("X0H200  ", fontMap.get((short) 1).name());
 
     // MCF Format 2
     MCF_MapCodedFont_Format2 mcf2 = new MCF_MapCodedFont_Format2();
@@ -601,7 +601,7 @@ public class PdfHandlerStructureTest {
 
     fontMap = handler.getFontMap();
     assertEquals(2, fontMap.size());
-    assertEquals("X0H300", fontMap.get((short) 2));
+    assertEquals("X0H300", fontMap.get((short) 2).name());
   }
 
   @Test
@@ -1193,8 +1193,72 @@ public class PdfHandlerStructureTest {
 
     // Verification: We can't easily check which font was used on the canvas without mocking
     // but we've verified that no exceptions were thrown and the logic is integrated.
-    assertEquals("X0H200", handler.getFontMap().get((short) 1));
+    assertEquals("X0H200", handler.getFontMap().get((short) 1).name());
     assertTrue(handler.getFontRegistry().hasFont("X0H200"));
+  }
+
+  @Test
+  public void testFontSizeExtractionFromMcf2() throws Exception {
+    PdfHandler handler = new PdfHandler(new ByteArrayOutputStream());
+
+    MCF_MapCodedFont_Format2 mcf2 = new MCF_MapCodedFont_Format2();
+    MCF_MapCodedFont_Format2.MCF_RepeatingGroup rg = new MCF_MapCodedFont_Format2.MCF_RepeatingGroup();
+
+    Triplet.ResourceLocalIdentifier rli = new Triplet.ResourceLocalIdentifier();
+    rli.setTripletID(Triplet.TripletID.ResourceLocalIdentifier);
+    rli.setResourceType(Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont);
+    rli.setResourceLocalID((short) 5);
+    rg.addTriplet(rli);
+
+    Triplet.FullyQualifiedName fqn = new Triplet.FullyQualifiedName();
+    fqn.setTripletID(Triplet.TripletID.FullyQualifiedName);
+    fqn.setType(Triplet.GlobalID_Use.CodedFontNameReference);
+    fqn.setNameAsString("X0H200");
+    rg.addTriplet(fqn);
+
+    Triplet.FontDescriptorSpecification fds = new Triplet.FontDescriptorSpecification();
+    fds.setTripletID(Triplet.TripletID.FontDescriptorSpecification);
+    fds.fontHeight = 240; // 240 / 20 = 12 points
+    rg.addTriplet(fds);
+
+    mcf2.addRepeatingGroup(rg);
+    handler.handle(mcf2);
+
+    PdfHandler.FontResource res = handler.getFontMap().get((short) 5);
+    assertEquals("X0H200", res.name());
+    assertEquals(12.0f, res.size());
+  }
+
+  @Test
+  public void testFontSizeExtractionFromMdr() throws Exception {
+    PdfHandler handler = new PdfHandler(new ByteArrayOutputStream());
+
+    MDR_MapDataResource mdr = new MDR_MapDataResource();
+    MDR_MapDataResource.MDR_RepeatingGroup rg = new MDR_MapDataResource.MDR_RepeatingGroup();
+
+    Triplet.ResourceLocalIdentifier rli = new Triplet.ResourceLocalIdentifier();
+    rli.setTripletID(Triplet.TripletID.ResourceLocalIdentifier);
+    rli.setResourceType(Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont);
+    rli.setResourceLocalID((short) 10);
+    rg.addTriplet(rli);
+
+    Triplet.FullyQualifiedName fqn = new Triplet.FullyQualifiedName();
+    fqn.setTripletID(Triplet.TripletID.FullyQualifiedName);
+    fqn.setType(Triplet.GlobalID_Use.DataObjectExternalResourceReference);
+    fqn.setNameAsString("TrueTypeFont");
+    rg.addTriplet(fqn);
+
+    Triplet.DataObjectFontDescriptor dofd = new Triplet.DataObjectFontDescriptor();
+    dofd.setTripletID(Triplet.TripletID.DataObjectFontDescriptor);
+    dofd.specifiedVerticalFontSize = 280; // 280 / 20 = 14 points
+    rg.addTriplet(dofd);
+
+    mdr.addRepeatingGroup(rg);
+    handler.handle(mdr);
+
+    PdfHandler.FontResource res = handler.getFontMap().get((short) 10);
+    assertEquals("TrueTypeFont", res.name());
+    assertEquals(14.0f, res.size());
   }
 
   @Test
@@ -1516,7 +1580,7 @@ public class PdfHandlerStructureTest {
     mcfDoc.addRepeatingGroup(rgDoc);
     handler.handle(mcfDoc);
 
-    assertEquals("DOCFONT ", handler.getFontMap().get((short) 1));
+    assertEquals("DOCFONT ", handler.getFontMap().get((short) 1).name());
 
     // 2. Page Scope Mapping (Shadowing)
     BPG_BeginPage bpg1 = new BPG_BeginPage();
@@ -1530,14 +1594,14 @@ public class PdfHandlerStructureTest {
     mcfPage.addRepeatingGroup(rgPage);
     handler.handle(mcfPage);
 
-    assertEquals("PAGFONT1", handler.getFontMap().get((short) 1));
+    assertEquals("PAGFONT1", handler.getFontMap().get((short) 1).name());
 
     EPG_EndPage epg1 = new EPG_EndPage();
     epg1.setStructuredFieldIntroducer(createSfi(SFTypeID.EPG_EndPage));
     handler.handle(epg1);
 
     // After Page End, should revert to Document Scope
-    assertEquals("DOCFONT ", handler.getFontMap().get((short) 1));
+    assertEquals("DOCFONT ", handler.getFontMap().get((short) 1).name());
 
     // 3. Environment Group Scope (REG)
     BSG_BeginResourceEnvironmentGroup bsg = new BSG_BeginResourceEnvironmentGroup();
@@ -1551,7 +1615,7 @@ public class PdfHandlerStructureTest {
     mcfReg.addRepeatingGroup(rgReg);
     handler.handle(mcfReg);
 
-    assertEquals("REGFONT ", handler.getFontMap().get((short) 2));
+    assertEquals("REGFONT ", handler.getFontMap().get((short) 2).name());
 
     ESG_EndResourceEnvironmentGroup esg = new ESG_EndResourceEnvironmentGroup();
     esg.setStructuredFieldIntroducer(createSfi(SFTypeID.ESG_EndResourceEnvironmentGroup));
@@ -1559,7 +1623,7 @@ public class PdfHandlerStructureTest {
 
     // After REG end, font 2 should be gone from merged view
     assertTrue(!handler.getFontMap().containsKey((short) 2));
-    assertEquals("DOCFONT ", handler.getFontMap().get((short) 1));
+    assertEquals("DOCFONT ", handler.getFontMap().get((short) 1).name());
 
     // 4. Active Environment Group (AEG) inside Page
     handler.handle(bpg1);
@@ -1574,7 +1638,7 @@ public class PdfHandlerStructureTest {
     mcfAeg.addRepeatingGroup(rgAeg);
     handler.handle(mcfAeg);
 
-    assertEquals("AEGFONT ", handler.getFontMap().get((short) 3));
+    assertEquals("AEGFONT ", handler.getFontMap().get((short) 3).name());
 
     EAG_EndActiveEnvironmentGroup eag = new EAG_EndActiveEnvironmentGroup();
     eag.setStructuredFieldIntroducer(createSfi(SFTypeID.EAG_EndActiveEnvironmentGroup));
