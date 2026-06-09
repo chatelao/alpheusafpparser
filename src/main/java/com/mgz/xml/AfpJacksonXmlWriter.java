@@ -34,10 +34,20 @@ import com.mgz.afp.foca.CFC_CodedFontControl;
 import com.mgz.afp.foca.CFI_CodedFontIndex;
 import com.mgz.afp.foca.CPC_CodePageControl;
 import com.mgz.afp.foca.CPD_CodePageDescriptor;
+import com.mgz.afp.foca.CPI_CodePageIndex;
 import com.mgz.afp.foca.ECF_EndCodedFont;
 import com.mgz.afp.foca.ECP_EndCodePage;
 import com.mgz.afp.foca.EFN_EndFont;
 import com.mgz.afp.foca.FNC_FontControl;
+import com.mgz.afp.foca.FND_FontDescriptor;
+import com.mgz.afp.foca.FNG_FontPatterns;
+import com.mgz.afp.foca.FNI_FontIndex;
+import com.mgz.afp.foca.FNM_FontPatternsMap;
+import com.mgz.afp.foca.FNN_FontNameMap;
+import com.mgz.afp.foca.FNN_RepeatingGroup;
+import com.mgz.afp.foca.FNN_TSIdentifier;
+import com.mgz.afp.foca.FNO_FontOrientation;
+import com.mgz.afp.foca.FNP_FontPosition;
 import com.mgz.afp.goca.BGR_BeginGraphicsObject;
 import com.mgz.afp.goca.EGR_EndGraphicsObject;
 import com.mgz.afp.goca.GAD_DrawingOrder;
@@ -361,6 +371,22 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeCpcDirectly(cpc, level);
     } else if (sf instanceof CPD_CodePageDescriptor cpd) {
       writeCpdDirectly(cpd, level);
+    } else if (sf instanceof CPI_CodePageIndex cpi) {
+      writeCpiDirectly(cpi, level);
+    } else if (sf instanceof FND_FontDescriptor fnd) {
+      writeFndDirectly(fnd, level);
+    } else if (sf instanceof FNG_FontPatterns fng) {
+      writeFngDirectly(fng, level);
+    } else if (sf instanceof FNI_FontIndex fni) {
+      writeFniDirectly(fni, level);
+    } else if (sf instanceof FNM_FontPatternsMap fnm) {
+      writeFnmDirectly(fnm, level);
+    } else if (sf instanceof FNN_FontNameMap fnn) {
+      writeFnnDirectly(fnn, level);
+    } else if (sf instanceof FNO_FontOrientation fno) {
+      writeFnoDirectly(fno, level);
+    } else if (sf instanceof FNP_FontPosition fnp) {
+      writeFnpDirectly(fnp, level);
     } else if (sf instanceof FNC_FontControl fnc) {
       writeFncDirectly(fnc, level);
     } else if (sf instanceof LND_LineDescriptor lnd) {
@@ -3892,6 +3918,277 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
     writeElement(baseXsw, childLevel, "unicodeScalarValue", cpc.getUnicodeScalarValue());
 
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeCpiDirectly(CPI_CodePageIndex cpi, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("CPI");
+    baseXsw.writeStartElement("CPI_CodePageIndex");
+    int childLevel = level + 1;
+    if (cpi.getRepeatingGroups() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("repeatingGroups");
+      for (CPI_CodePageIndex.CPI_RepeatingGroup rg : cpi.getRepeatingGroups()) {
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeStartElement("repeatingGroups");
+        int rgLevel = childLevel + 2;
+        writeElement(baseXsw, rgLevel, "graphicCharacterGID", rg.getGraphicCharacterGID());
+        if (rg.getGraphicCharacterUseFlags() != null) {
+          writeIndent(baseXsw, rgLevel);
+          baseXsw.writeStartElement("graphicCharacterUseFlags");
+          for (CPI_CodePageIndex.GraphicCharacterUseFlag flag : rg.getGraphicCharacterUseFlags()) {
+            writeElement(baseXsw, rgLevel + 1, "graphicCharacterUseFlags", flag.name());
+          }
+          writeIndent(baseXsw, rgLevel);
+          baseXsw.writeEndElement();
+        }
+        writeElement(baseXsw, rgLevel, "codePoint", rg.getCodePoint());
+        if (rg.getUnicodeScalarValues() != null) {
+          writeIndent(baseXsw, rgLevel);
+          baseXsw.writeStartElement("unicodeScalarValues");
+          for (Long usv : rg.getUnicodeScalarValues()) {
+            writeElement(baseXsw, rgLevel + 1, "unicodeScalarValues", usv);
+          }
+          writeIndent(baseXsw, rgLevel);
+          baseXsw.writeEndElement();
+        }
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeEndElement();
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeFndDirectly(FND_FontDescriptor fnd, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("FND");
+    baseXsw.writeStartElement("FND_FontDescriptor");
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "typefaceDescription", fnd.getTypefaceDescription());
+    writeElement(baseXsw, childLevel, "fontWeightClass", (int) fnd.getFontWeightClass());
+    writeElement(baseXsw, childLevel, "fontWidthClass", (int) fnd.getFontWidthClass());
+    writeElement(baseXsw, childLevel, "maxVerticalSize", (int) fnd.getMaxVerticalSize());
+    writeElement(baseXsw, childLevel, "nominalVerticalSize", (int) fnd.getNominalVerticalSize());
+    writeElement(baseXsw, childLevel, "minimumVerticalSize", (int) fnd.getMinimumVerticalSize());
+    writeElement(baseXsw, childLevel, "maxHorizontalSize", (int) fnd.getMaxHorizontalSize());
+    writeElement(baseXsw, childLevel, "nominalHorizontalSize", (int) fnd.getNominalHorizontalSize());
+    writeElement(baseXsw, childLevel, "minimumHorizontalSize", (int) fnd.getMinimumHorizontalSize());
+    writeElement(baseXsw, childLevel, "designGeneralClass", (int) fnd.getDesignGeneralClass());
+    writeElement(baseXsw, childLevel, "designSubclass", (int) fnd.getDesignSubclass());
+    writeElement(baseXsw, childLevel, "designSpecificGroup", (int) fnd.getDesignSpecificGroup());
+    // FND doesn't have public getter for reserved49_63 or reserved66_75, and we don't usually serialize them if they are just reserved zero bytes
+    writeElement(baseXsw, childLevel, "fontDesignFlags", (int) fnd.getFontDesignFlags());
+    writeElement(baseXsw, childLevel, "gcsgid", (int) fnd.getGcsgid());
+    writeElement(baseXsw, childLevel, "fgid", (int) fnd.getFgid());
+    writeElement(baseXsw, childLevel, "text", fnd.getText());
+    if (fnd.getTriplets() != null) {
+      for (Triplet t : fnd.getTriplets()) {
+        writeTriplet(baseXsw, t, childLevel);
+      }
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeFniDirectly(FNI_FontIndex fni, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("FNI");
+    baseXsw.writeStartElement("FNI_FontIndex");
+    int childLevel = level + 1;
+    if (fni.getRepeatingGroups() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("repeatingGroups");
+      for (FNI_FontIndex.FNI_RepeatingGroup rg : fni.getRepeatingGroups()) {
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeStartElement("repeatingGroups");
+        int rgLevel = childLevel + 2;
+        writeElement(baseXsw, rgLevel, "gcgid", rg.getGcgid());
+        writeElement(baseXsw, rgLevel, "charIncrement", (int) rg.getCharIncrement());
+        writeElement(baseXsw, rgLevel, "ascenderHeight", (int) rg.getAscenderHeight());
+        writeElement(baseXsw, rgLevel, "descenderDepth", (int) rg.getDescenderDepth());
+        writeElement(baseXsw, rgLevel, "kernableCharacterFlags", (int) rg.getKernableCharacterFlags());
+        writeElement(baseXsw, rgLevel, "reserved15", (int) rg.getReserved15());
+        writeElement(baseXsw, rgLevel, "baselineOffset", (int) rg.getBaselineOffset());
+        writeElement(baseXsw, rgLevel, "aspace", (int) rg.getASpace());
+        writeElement(baseXsw, rgLevel, "bspace", (int) rg.getBSpace());
+        writeElement(baseXsw, rgLevel, "cspace", (int) rg.getCSpace());
+        // reserved26_27 is not public
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeEndElement();
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeFnmDirectly(FNM_FontPatternsMap fnm, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("FNM");
+    baseXsw.writeStartElement("FNM_FontPatternsMap");
+    int childLevel = level + 1;
+    if (fnm.getRepeatingGroups() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("repeatingGroups");
+      for (FNM_FontPatternsMap.FNM_RepeatingGroup rg : fnm.getRepeatingGroups()) {
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeStartElement("repeatingGroups");
+        int rgLevel = childLevel + 2;
+        writeElement(baseXsw, rgLevel, "charDataOffset", rg.getCharDataOffset());
+        writeElement(baseXsw, rgLevel, "charDataCount", rg.getCharDataCount());
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeEndElement();
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeFnoDirectly(FNO_FontOrientation fno, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("FNO");
+    baseXsw.writeStartElement("FNO_FontOrientation");
+    int childLevel = level + 1;
+    if (fno.getRepeatingGroups() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("repeatingGroups");
+      for (FNO_FontOrientation.FNO_RepeatingGroup rg : fno.getRepeatingGroups()) {
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeStartElement("repeatingGroups");
+        int rgLevel = childLevel + 2;
+        if (rg.getCharRotation() != null) {
+          writeElement(baseXsw, rgLevel, "charRotation", rg.getCharRotation().name());
+        }
+        writeElement(baseXsw, rgLevel, "maxBaselineOffset", (int) rg.getMaxBaselineOffset());
+        writeElement(baseXsw, rgLevel, "maxCharacterIncrement", (int) rg.getMaxCharacterIncrement());
+        writeElement(baseXsw, rgLevel, "spaceCharacterIncrement", (int) rg.getSpaceCharacterIncrement());
+        writeElement(baseXsw, rgLevel, "maxBaselineExtent", (int) rg.getMaxBaselineExtent());
+        if (rg.getControlFlags() != null) {
+          writeIndent(baseXsw, rgLevel);
+          baseXsw.writeStartElement("controlFlags");
+          for (FNO_FontOrientation.FnoControlFlag flag : rg.getControlFlags()) {
+            writeElement(baseXsw, rgLevel + 1, "controlFlags", flag.name());
+          }
+          writeIndent(baseXsw, rgLevel);
+          baseXsw.writeEndElement();
+        }
+        writeElement(baseXsw, rgLevel, "emSpaceIncrement", (int) rg.getEmSpaceIncrement());
+        writeElement(baseXsw, rgLevel, "figureSpaceIncrement", (int) rg.getFigureSpaceIncrement());
+        writeElement(baseXsw, rgLevel, "nominalCharacterIncrement", (int) rg.getNominalCharacterIncrement());
+        writeElement(baseXsw, rgLevel, "defaultBaselineIncrement", rg.getDefaultBaselineIncrement());
+        writeElement(baseXsw, rgLevel, "minASpace", (int) rg.getMinASpace());
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeEndElement();
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeFnpDirectly(FNP_FontPosition fnp, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("FNP");
+    baseXsw.writeStartElement("FNP_FontPosition");
+    int childLevel = level + 1;
+    if (fnp.getRepeatingGroups() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("repeatingGroups");
+      for (FNP_FontPosition.FNP_RepeatingGroup rg : fnp.getRepeatingGroups()) {
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeStartElement("repeatingGroups");
+        int rgLevel = childLevel + 2;
+        if (rg.getReserved0_1() != null) {
+          writeBinaryElement(baseXsw, rgLevel, "reserved0_1", rg.getReserved0_1());
+        }
+        writeElement(baseXsw, rgLevel, "lowercaseHeight", (int) rg.getLowercaseHeight());
+        writeElement(baseXsw, rgLevel, "capMHeight", (int) rg.getCapMHeight());
+        writeElement(baseXsw, rgLevel, "maxAscenderHeight", (int) rg.getMaxAscenderHeight());
+        writeElement(baseXsw, rgLevel, "maxDescenderDepth", (int) rg.getMaxDescenderDepth());
+        if (rg.getReserved10_14() != null) {
+          writeBinaryElement(baseXsw, rgLevel, "reserved10_14", rg.getReserved10_14());
+        }
+        writeElement(baseXsw, rgLevel, "retired15", (int) rg.getRetired15());
+        writeElement(baseXsw, rgLevel, "reserved16", (int) rg.getReserved16());
+        writeElement(baseXsw, rgLevel, "underscoreWidth", (int) rg.getUnderscoreWidth());
+        writeElement(baseXsw, rgLevel, "underscoreWidthFraction", (int) rg.getUnderscoreWidthFraction());
+        writeElement(baseXsw, rgLevel, "underscorePosition", (int) rg.getUnderscorePosition());
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeEndElement();
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeFnnDirectly(FNN_FontNameMap fnn, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("FNN");
+    baseXsw.writeStartElement("FNN_FontNameMap");
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "ibmFormat", (int) fnn.getIbmFormat());
+    writeElement(baseXsw, childLevel, "technologyFormat", (int) fnn.getTechnologyFormat());
+
+    if (fnn.getRepeatingGroups() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("repeatingGroupsXml");
+      for (IRepeatingGroup rg : fnn.getRepeatingGroups()) {
+        if (rg instanceof FNN_RepeatingGroup fnnrg) {
+          writeIndent(baseXsw, childLevel + 1);
+          baseXsw.writeStartElement("repeatingGroupsXml");
+          int rgLevel = childLevel + 2;
+          writeElement(baseXsw, rgLevel, "gcgid", fnnrg.getGcgid());
+          writeElement(baseXsw, rgLevel, "tsOffset", fnnrg.getTsOffset());
+          writeIndent(baseXsw, childLevel + 1);
+          baseXsw.writeEndElement();
+        }
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+
+    if (fnn.getTsIdentifiers() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("tsIdentifier");
+      for (FNN_TSIdentifier tsid : fnn.getTsIdentifiers()) {
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeStartElement("tsIdentifier");
+        int tsLevel = childLevel + 2;
+        writeElement(baseXsw, tsLevel, "tsidLen", tsid.getTsidLen());
+        writeElement(baseXsw, tsLevel, "tsid", tsid.getTsid());
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeEndElement();
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeFngDirectly(FNG_FontPatterns fng, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("FNG");
+    baseXsw.writeStartElement("FNG_FontPatterns");
+    int childLevel = level + 1;
+    if (fng.getData() != null) {
+      writeBinaryElement(baseXsw, childLevel, "data", fng.getData());
+    }
+    if (fng.getText() != null) {
+      writeElement(baseXsw, childLevel, "text", fng.getText());
+    }
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
