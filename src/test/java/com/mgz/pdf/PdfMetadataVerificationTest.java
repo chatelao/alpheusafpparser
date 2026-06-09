@@ -23,8 +23,10 @@ import com.mgz.afp.enums.SFTypeID;
 import com.mgz.afp.enums.SFFlag;
 import com.mgz.afp.base.StructuredFieldIntroducer;
 import com.mgz.afp.modca.BDT_BeginDocument;
+import com.mgz.afp.modca.BNG_BeginNamedPageGroup;
 import com.mgz.afp.modca.BPG_BeginPage;
 import com.mgz.afp.modca.EDT_EndDocument;
+import com.mgz.afp.modca.ENG_EndNamedPageGroup;
 import com.mgz.afp.modca.EPG_EndPage;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
 import com.mgz.afp.triplets.Triplet;
@@ -62,6 +64,12 @@ public class PdfMetadataVerificationTest {
     TLE_TagLogicalElement tleDoc = createTle("DocKey", "DocValue");
     handler.handle(tleDoc);
 
+    // 2.1 Begin Named Group
+    BNG_BeginNamedPageGroup bng = new BNG_BeginNamedPageGroup();
+    bng.setStructuredFieldIntroducer(createSfi(SFTypeID.BNG_BeginNamedPageGroup));
+    bng.setName("Batch01");
+    handler.handle(bng);
+
     // 3. Begin Page 1
     BPG_BeginPage bpg1 = new BPG_BeginPage();
     bpg1.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
@@ -90,6 +98,11 @@ public class PdfMetadataVerificationTest {
     epg2.setStructuredFieldIntroducer(createSfi(SFTypeID.EPG_EndPage));
     handler.handle(epg2);
 
+    // 8.1 End Named Group
+    ENG_EndNamedPageGroup eng = new ENG_EndNamedPageGroup();
+    eng.setStructuredFieldIntroducer(createSfi(SFTypeID.ENG_EndNamedPageGroup));
+    handler.handle(eng);
+
     // 9. End Document
     EDT_EndDocument edt = new EDT_EndDocument();
     edt.setStructuredFieldIntroducer(createSfi(SFTypeID.EDT_EndDocument));
@@ -107,10 +120,12 @@ public class PdfMetadataVerificationTest {
     Map<String, String> page1 = metadata.get(0);
     assertEquals("DocValue", page1.get("DocKey"));
     assertEquals("Page1Value", page1.get("PageKey"));
+    assertEquals("Batch01", page1.get("GroupName"));
 
     Map<String, String> page2 = metadata.get(1);
     assertEquals("DocValue", page2.get("DocKey"));
     assertEquals("Page2Value", page2.get("PageKey"));
+    assertEquals("Batch01", page2.get("GroupName"));
   }
 
   private TLE_TagLogicalElement createTle(String key, String value) {
