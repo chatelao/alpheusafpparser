@@ -29,6 +29,7 @@ fi
 
 TEST_DIR="${TEST_DIR:-perf_test_large}"
 ITERATIONS="${ITERATIONS:-5}"
+WARMUP_ITERATIONS="${WARMUP_ITERATIONS:-1}"
 OUTPUT_DIR="test_output_bench_large"
 
 # Count files in TEST_DIR
@@ -96,6 +97,21 @@ for rel in "${RELEASES[@]}"; do
         JVM_ARGS="$JVM_ARGS -agentpath:$AGENT_PATH"
     fi
 
+    # Warmup runs
+    if [ "$WARMUP_ITERATIONS" -gt 0 ]; then
+        echo "  Warming up ($WARMUP_ITERATIONS iterations)..." >&2
+        for i in $(seq 1 $WARMUP_ITERATIONS); do
+             if echo "$HELP_OUTPUT" | grep -q -- "-d"; then
+                 java $JVM_ARGS -jar "$JAR_FILE" $SUPPORTED_FLAGS -d "$TEMP_TEST_DIR" "$OUTPUT_DIR" > /dev/null 2>&1
+            else
+                for f in "$TEMP_TEST_DIR"/*.afp; do
+                    fname=$(basename "$f")
+                    java $JVM_ARGS -jar "$JAR_FILE" "$f" "$OUTPUT_DIR/$fname.xml" > /dev/null 2>&1
+                done
+            fi
+        done
+    fi
+
     # Start timing
     START_TIME=$(date +%s%3N)
     for i in $(seq 1 $ITERATIONS); do
@@ -103,7 +119,8 @@ for rel in "${RELEASES[@]}"; do
         JFR_ARGS=""
         if [ "$ENABLE_JFR" = "true" ]; then
             mkdir -p perf_test/profiles/
-            JFR_ARGS="-XX:StartFlightRecording=settings=profile,filename=perf_test/profiles/profile_large_${rel}_run${i}.jfr"
+            # Optimize for fast runs: Increase sampling frequency to 1ms
+            JFR_ARGS="-XX:StartFlightRecording=settings=profile,jdk.ExecutionSample#period=1ms,filename=perf_test/profiles/profile_large_${rel}_run${i}.jfr"
         fi
 
         # Check if -d (directory mode) is supported

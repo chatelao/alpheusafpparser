@@ -117,3 +117,6 @@ __pycache__/
 # Jazzer/CIFuzz corpus
 .cifuzz-corpus/
 test/big/
+
+# Performance and profiling artifacts
+perf_test/profiles/
