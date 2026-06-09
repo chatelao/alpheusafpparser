@@ -465,15 +465,14 @@ public class PdfHandler implements StructuredFieldHandler {
       float widthPoints = pgd.getxSize() * scaleX;
       float heightPoints = pgd.getySize() * scaleY;
 
+      this.defaultPageWidth = widthPoints;
+      this.defaultPageHeight = heightPoints;
+      this.defaultScaleX = scaleX;
+      this.defaultScaleY = scaleY;
+
       if (currentPage != null) {
         currentPage.setMediaBox(new com.itextpdf.kernel.geom.Rectangle(widthPoints, heightPoints));
         applyTransformation(heightPoints, scaleX, scaleY);
-      } else {
-        // Store as default if no page is active
-        this.defaultPageWidth = widthPoints;
-        this.defaultPageHeight = heightPoints;
-        this.defaultScaleX = scaleX;
-        this.defaultScaleY = scaleY;
       }
     } else if (sf instanceof PTX_PresentationTextData ptx) {
       if (ptx.getControlSequences() != null) {
@@ -1638,6 +1637,15 @@ public class PdfHandler implements StructuredFieldHandler {
    */
   public PdfImageState getImageState() {
     return imageState;
+  }
+
+  /**
+   * Returns the current vertical scale factor (points per AFP unit).
+   *
+   * @return the scale factor
+   */
+  public float getDefaultScaleY() {
+    return defaultScaleY;
   }
 
   /**
