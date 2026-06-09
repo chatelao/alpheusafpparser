@@ -196,4 +196,36 @@ public class PdfBarcodeLinearTest {
     // Bars: Start (2) + 21 * 3 + Stop (2) = 2 + 63 + 2 = 67.
     assertEquals(67, canvas.rectangles.size());
   }
+
+  @Test
+  public void testCode93() {
+    PdfBarcodeState state = new PdfBarcodeState();
+    state.setBarcodeType(BarCodeType.Code93);
+    state.setBarcodeModifier((byte) 0x00);
+
+    BDA_BarCodeData bda = new BDA_BarCodeData() {
+        @Override
+        public String getText() {
+            return "12";
+        }
+    };
+    state.addBarcodeData(bda);
+
+    PdfCanvasStub canvas = new PdfCanvasStub();
+    PdfBarcodeRenderer.render(state, canvas);
+
+    // Data "12" -> values {1, 2}
+    // Check C for {1, 2}: 2*1 + 1*2 = 4. values {1, 2, 4}
+    // Check K for {1, 2, 4}: 4*1 + 2*2 + 1*3 = 11. values {1, 2, 4, 11}
+    // Patterns:
+    // Start: 47 (6 bars)
+    // '1': index 1 ("101001000") -> 3 bars
+    // '2': index 2 ("101000100") -> 3 bars
+    // '4': index 4 ("100101000") -> 3 bars
+    // '11': index 11 ("110100100") -> 4 bars
+    // Stop: index 47 ("101011110") -> 6 bars
+    // Termination: 1 bar
+    // Total: 6 + 3 + 3 + 3 + 4 + 6 + 1 = 26 bars.
+    assertEquals(26, canvas.rectangles.size(), "Expected 26 bars but got " + canvas.rectangles.size());
+  }
 }

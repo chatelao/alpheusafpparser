@@ -95,6 +95,20 @@ public class PdfBarcodeRenderer {
       "114131", "311141", "411131", "211412", "211214", "211232", "233111"
   };
 
+  private static final String CODE93_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
+  private static final String[] CODE93_PATTERNS = {
+      "100010100", "101001000", "101000100", "101000010", "100101000",
+      "100100100", "100100010", "101010000", "100010010", "100001010",
+      "110101000", "110100100", "110100010", "110010100", "110010010",
+      "110001010", "101101000", "101100100", "101100010", "100110100",
+      "100011010", "101011000", "101001100", "101000110", "100101100",
+      "100010110", "110110100", "110110010", "110101100", "110100110",
+      "110010110", "110011010", "101101100", "101100110", "100110110",
+      "100111010", "100101110", "111010100", "111010010", "111001010",
+      "101101110", "101110110", "110101110", "100100110", "111011010",
+      "111010110", "100110010", "101011110"
+  };
+
   private static final String[] POSTNET_PATTERNS = {
       "11000", // 0
       "00011", // 1
@@ -236,6 +250,9 @@ public class PdfBarcodeRenderer {
         case Code39_3of9Code_AIM_USS_39:
           totalWidth = renderCode39(content, startX, startY, state, canvas);
           break;
+        case Code93:
+          totalWidth = renderCode93(content, startX, startY, state, canvas);
+          break;
         case MSI_MmodifiedPlesseyCode:
           totalWidth = renderMsi(content, startX, startY, state, canvas);
           break;
@@ -339,6 +356,76 @@ public class PdfBarcodeRenderer {
     // Stop pattern: 1001
     renderBitPattern("1001", curX, curY, height, narrowWidth, canvas);
     curX += 4 * narrowWidth;
+
+    canvas.restoreState();
+    return curX - x;
+  }
+
+  private static float renderCode93(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    java.util.List<Integer> values = new java.util.ArrayList<>();
+    for (int i = 0; i < content.length(); i++) {
+      int idx = CODE93_CHARS.indexOf(content.charAt(i));
+      if (idx != -1) {
+        values.add(idx);
+      }
+    }
+
+    // Calculate Check C
+    int cSum = 0;
+    int weight = 1;
+    for (int i = values.size() - 1; i >= 0; i--) {
+      cSum += values.get(i) * weight;
+      weight++;
+      if (weight > 20) {
+        weight = 1;
+      }
+    }
+    int cVal = cSum % 47;
+    values.add(cVal);
+
+    // Calculate Check K
+    int kSum = 0;
+    weight = 1;
+    for (int i = values.size() - 1; i >= 0; i--) {
+      kSum += values.get(i) * weight;
+      weight++;
+      if (weight > 15) {
+        weight = 1;
+      }
+    }
+    int kVal = kSum % 47;
+    values.add(kVal);
+
+    float narrowWidth = state.getModuleWidthInMils() * 1.44f;
+    if (narrowWidth <= 0) {
+      narrowWidth = 20.0f;
+    }
+
+    float height = state.getElementHeight();
+    if (height <= 0) {
+      height = 500.0f;
+    }
+
+    canvas.saveState();
+    float curX = x;
+    float curY = y;
+
+    // Start pattern
+    renderBitPattern(CODE93_PATTERNS[47], curX, curY, height, narrowWidth, canvas);
+    curX += 9 * narrowWidth;
+
+    for (int val : values) {
+      renderBitPattern(CODE93_PATTERNS[val], curX, curY, height, narrowWidth, canvas);
+      curX += 9 * narrowWidth;
+    }
+
+    // Stop pattern
+    renderBitPattern(CODE93_PATTERNS[47], curX, curY, height, narrowWidth, canvas);
+    curX += 9 * narrowWidth;
+
+    // Termination bar (1-module wide)
+    canvas.rectangle(curX, curY - height, narrowWidth, height).fill();
+    curX += narrowWidth;
 
     canvas.restoreState();
     return curX - x;
