@@ -14,10 +14,10 @@ This roadmap outlines the steps required to eliminate "Jackson Fallback" in `Afp
 ## Phase 1: FOCA Structured Fields ⏳
 Implement manual StAX fast-paths for all FOCA (Font Object Content Architecture) structured fields to eliminate reflection-based serialization.
 
-- [ ] **CFC** (Coded Font Control)
-- [ ] **CFI** (Coded Font Index)
-- [ ] **CPC** (Code Page Control)
-- [ ] **CPD** (Code Page Descriptor)
+- [x] **CFC** (Coded Font Control) ✅
+- [x] **CFI** (Coded Font Index) ✅
+- [x] **CPC** (Code Page Control) ✅
+- [x] **CPD** (Code Page Descriptor) ✅
 - [ ] **CPI** (Code Page Index)
 - [ ] **FND** (Font Descriptor)
 - [ ] **FNG** (Font Patterns)

@@ -2,12 +2,17 @@ package com.mgz.xml;
 
 import com.mgz.afp.modca.MCC_MediumCopyCount;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format1;
+import com.mgz.afp.foca.CFC_CodedFontControl;
+import com.mgz.afp.foca.CFI_CodedFontIndex;
+import com.mgz.afp.foca.CPC_CodePageControl;
+import com.mgz.afp.foca.CPD_CodePageDescriptor;
 import com.mgz.afp.enums.AFPOrientation;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -18,6 +23,14 @@ public class SFFastPathVerificationTest {
     public void testSFFastPaths() throws Exception {
         verifySF(createMCC(), "MCC_MediumCopyCount");
         verifySF(createMCF1(), "MCF_MapCodedFont_Format1");
+    }
+
+    @Test
+    public void testFocaFastPaths() throws Exception {
+        verifySF(createCFC(), "CFC_CodedFontControl");
+        verifySF(createCFI(), "CFI_CodedFontIndex");
+        verifySF(createCPC(), "CPC_CodePageControl");
+        verifySF(createCPD(), "CPD_CodePageDescriptor");
     }
 
     private void verifySF(com.mgz.afp.base.StructuredField sf, String rootName) throws Exception {
@@ -74,5 +87,47 @@ public class SFFastPathVerificationTest {
 
         mcf1.addRepeatingGroup(rg);
         return mcf1;
+    }
+
+    private CFC_CodedFontControl createCFC() {
+        CFC_CodedFontControl cfc = new CFC_CodedFontControl();
+        cfc.setCfiRepeatingGroupLength((byte) 0x19);
+        cfc.setRetired((byte) 0x01);
+        return cfc;
+    }
+
+    private CFI_CodedFontIndex createCFI() {
+        CFI_CodedFontIndex cfi = new CFI_CodedFontIndex();
+        CFI_CodedFontIndex.CFIRepeatingGroup rg = new CFI_CodedFontIndex.CFIRepeatingGroup();
+        rg.setFcsName("C0TEST");
+        rg.setCpName("T1TEST");
+        rg.setSvSize(240);
+        rg.setShScale(240);
+        rg.setSection((short) 0);
+        cfi.addCFIRepeatingGroup(rg);
+        return cfi;
+    }
+
+    private CPC_CodePageControl createCPC() {
+        CPC_CodePageControl cpc = new CPC_CodePageControl();
+        cpc.setDefaultGraphicCharacterGlobalID("SP010000");
+        cpc.setDefaultCharacterUseFlags(EnumSet.of(CPC_CodePageControl.DefaultCharacterUseFlag.InvalidCodedCharacter));
+        cpc.setCpiRepeatingGroupLength(CPC_CodePageControl.CPIRepeatingGroupLength.SingleByteCodePage);
+        cpc.setSpaceCharacterSectionNumber((short) 0);
+        cpc.setSpaceCharacterCodePoint((short) 64);
+        cpc.setCodePageUseFlags(EnumSet.of(CPC_CodePageControl.CodePageUseFlag.SortOrder));
+        cpc.setUnicodeScalarValue(0);
+        return cpc;
+    }
+
+    private CPD_CodePageDescriptor createCPD() {
+        CPD_CodePageDescriptor cpd = new CPD_CodePageDescriptor();
+        cpd.setCodePageDescription("Test Code Page");
+        cpd.setGraphicCharacterGIDLength((short) 8);
+        cpd.setNumberOfCodedGraphicCharactersAssigned(256);
+        cpd.setGraphicCharacterSetGID(103);
+        cpd.setCodePageGID(500);
+        cpd.setEncodingScheme(CPD_CodePageDescriptor.EncodingScheme.SingleByte_EBCDICPresentation);
+        return cpd;
     }
 }

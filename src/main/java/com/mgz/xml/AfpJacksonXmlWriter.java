@@ -30,6 +30,10 @@ import com.mgz.afp.base.StructuredFieldBaseData;
 import com.mgz.afp.foca.BCF_BeginCodedFont;
 import com.mgz.afp.foca.BCP_BeginCodePage;
 import com.mgz.afp.foca.BFN_BeginFont;
+import com.mgz.afp.foca.CFC_CodedFontControl;
+import com.mgz.afp.foca.CFI_CodedFontIndex;
+import com.mgz.afp.foca.CPC_CodePageControl;
+import com.mgz.afp.foca.CPD_CodePageDescriptor;
 import com.mgz.afp.foca.ECF_EndCodedFont;
 import com.mgz.afp.foca.ECP_EndCodePage;
 import com.mgz.afp.foca.EFN_EndFont;
@@ -349,6 +353,14 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeMcfDirectly(mcf, level);
     } else if (sf instanceof MCC_MediumCopyCount mcc) {
       writeMccDirectly(mcc, level);
+    } else if (sf instanceof CFC_CodedFontControl cfc) {
+      writeCfcDirectly(cfc, level);
+    } else if (sf instanceof CFI_CodedFontIndex cfi) {
+      writeCfiDirectly(cfi, level);
+    } else if (sf instanceof CPC_CodePageControl cpc) {
+      writeCpcDirectly(cpc, level);
+    } else if (sf instanceof CPD_CodePageDescriptor cpd) {
+      writeCpdDirectly(cpd, level);
     } else if (sf instanceof FNC_FontControl fnc) {
       writeFncDirectly(fnc, level);
     } else if (sf instanceof LND_LineDescriptor lnd) {
@@ -3798,6 +3810,106 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     if (iob.getText() != null) {
       writeElement(baseXsw, childLevel, "text", iob.getText());
     }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeCfcDirectly(CFC_CodedFontControl cfc, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("CFC");
+    baseXsw.writeStartElement("CFC_CodedFontControl");
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "cfiRepeatingGroupLength", (int) cfc.getCfiRepeatingGroupLength());
+    writeElement(baseXsw, childLevel, "retired", (int) cfc.getRetired());
+    if (cfc.getTriplets() != null) {
+      for (Triplet triplet : cfc.getTriplets()) {
+        writeTriplet(baseXsw, triplet, childLevel);
+      }
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeCfiDirectly(CFI_CodedFontIndex cfi, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("CFI");
+    baseXsw.writeStartElement("CFI_CodedFontIndex");
+    int childLevel = level + 1;
+    if (cfi.getCfiRepeatingGroups() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("cfiRepeatingGroups");
+      for (CFI_CodedFontIndex.CFIRepeatingGroup rg : cfi.getCfiRepeatingGroups()) {
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeStartElement("cfiRepeatingGroups");
+        int rgLevel = childLevel + 2;
+        writeElement(baseXsw, rgLevel, "fcsName", rg.getFcsName());
+        writeElement(baseXsw, rgLevel, "cpName", rg.getCpName());
+        writeElement(baseXsw, rgLevel, "svSize", rg.getSvSize());
+        writeElement(baseXsw, rgLevel, "shScale", rg.getShScale());
+        writeElement(baseXsw, rgLevel, "section", (int) rg.getSection());
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeEndElement();
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeCpcDirectly(CPC_CodePageControl cpc, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("CPC");
+    baseXsw.writeStartElement("CPC_CodePageControl");
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "defaultGraphicCharacterGlobalID", cpc.getDefaultGraphicCharacterGlobalID());
+
+    if (cpc.getDefaultCharacterUseFlags() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("defaultCharacterUseFlags");
+      for (CPC_CodePageControl.DefaultCharacterUseFlag flag : cpc.getDefaultCharacterUseFlags()) {
+        writeElement(baseXsw, childLevel + 1, "defaultCharacterUseFlags", flag.name());
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+
+    if (cpc.getCpiRepeatingGroupLength() != null) {
+      writeElement(baseXsw, childLevel, "cpiRepeatingGroupLength", cpc.getCpiRepeatingGroupLength().name());
+    }
+    writeElement(baseXsw, childLevel, "spaceCharacterSectionNumber", (int) cpc.getSpaceCharacterSectionNumber());
+    writeElement(baseXsw, childLevel, "spaceCharacterCodePoint", (int) cpc.getSpaceCharacterCodePoint());
+
+    if (cpc.getCodePageUseFlags() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("codePageUseFlags");
+      for (CPC_CodePageControl.CodePageUseFlag flag : cpc.getCodePageUseFlags()) {
+        writeElement(baseXsw, childLevel + 1, "codePageUseFlags", flag.name());
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+
+    writeElement(baseXsw, childLevel, "unicodeScalarValue", cpc.getUnicodeScalarValue());
+
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeCpdDirectly(CPD_CodePageDescriptor cpd, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("CPD");
+    baseXsw.writeStartElement("CPD_CodePageDescriptor");
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "graphicCharacterGIDLength", (int) cpd.getGraphicCharacterGIDLength());
+    writeElement(baseXsw, childLevel, "codePageDescription", cpd.getCodePageDescription());
+    writeElement(baseXsw, childLevel, "numberOfCodedGraphicCharactersAssigned", cpd.getNumberOfCodedGraphicCharactersAssigned());
+    writeElement(baseXsw, childLevel, "graphicCharacterSetGID", cpd.getGraphicCharacterSetGID());
+    writeElement(baseXsw, childLevel, "codePageGID", cpd.getCodePageGID());
+    if (cpd.getEncodingScheme() != null) {
+      writeElement(baseXsw, childLevel, "encodingScheme", cpd.getEncodingScheme().name());
+    }
+    writeElement(baseXsw, childLevel, "text", cpd.getText());
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
