@@ -23,6 +23,13 @@ echo "--- 1. Aggregated Metrics & Regression Check ---"
 python3 "$TOOLS_DIR/aggregate_jfr_metrics.py" --check --baseline v3.4 --threshold 10.0
 echo ""
 
+# 1b. Cold-Start Performance
+if [ -f "$TOOLS_DIR/benchmark_cold_start.sh" ]; then
+    echo "--- 1b. Cold-Start Performance Benchmark ---"
+    bash "$TOOLS_DIR/benchmark_cold_start.sh"
+    echo ""
+fi
+
 # Function to perform analysis for a set of versions
 perform_hotspot_analysis() {
     local VERSIONS=$1
@@ -74,26 +81,62 @@ perform_hotspot_analysis "$LARGE_VERSIONS" "Large File CPU" "jdk.ExecutionSample
 # 3. Allocation Hotspot Analysis (Deep Dive)
 perform_hotspot_analysis "$LARGE_VERSIONS" "Large File Allocation" "jdk.ObjectAllocationSample" "weight" "_alloc"
 
-# 4. Differential Analysis (Baseline v3.4 vs Latest)
-echo "--- 4. Differential Hotspot Analysis (v3.4 vs Latest) ---"
-LATEST_STD=$(echo "$STD_VERSIONS" | tail -n 1)
-BASE_STD="v3.4"
+# Function to find the first version with samples
+find_baseline_with_samples() {
+    local VERSIONS=$1
+    local SUFFIX=$2
+    for v in $VERSIONS; do
+        local COLLAPSED="$PROFILE_DIR/collapsed_${v}${SUFFIX}.txt"
+        if [ -s "$COLLAPSED" ]; then
+            echo "$v"
+            return
+        fi
+    done
+}
 
-if [ "$LATEST_STD" != "$BASE_STD" ] && [ -n "$LATEST_STD" ]; then
+# 4. Differential Analysis (Baseline vs Latest)
+echo "--- 4. Differential Hotspot Analysis (Standard) ---"
+LATEST_STD=$(echo "$STD_VERSIONS" | tail -n 1)
+BASE_STD=$(find_baseline_with_samples "$STD_VERSIONS" "")
+
+if [ -n "$LATEST_STD" ] && [ -n "$BASE_STD" ] && [ "$LATEST_STD" != "$BASE_STD" ]; then
     COLLAPSED_BASE="$PROFILE_DIR/collapsed_$BASE_STD.txt"
     COLLAPSED_LATEST="$PROFILE_DIR/collapsed_$LATEST_STD.txt"
     DIFF_FILE="$PROFILE_DIR/diff_${BASE_STD}_${LATEST_STD}.txt"
 
+    echo "Comparing $LATEST_STD against baseline $BASE_STD"
     if [ -f "$COLLAPSED_BASE" ] && [ -f "$COLLAPSED_LATEST" ]; then
         python3 "$TOOLS_DIR/diff_collapsed_stacks.py" "$COLLAPSED_BASE" "$COLLAPSED_LATEST" > "$DIFF_FILE"
-        # Enable automated drift detection with a 5% threshold
         python3 "$TOOLS_DIR/analyze_hotspots.py" "$DIFF_FILE" --check-drift --threshold 5.0
     else
-        echo "Differential analysis skipped: Missing collapsed stacks for $BASE_STD or $LATEST_STD"
+        echo "Differential analysis skipped: Missing collapsed stacks."
     fi
 else
-    echo "Differential analysis skipped: Only one version or $BASE_STD is the latest."
+    echo "Differential analysis skipped: Insufficient data or same version."
 fi
+echo ""
+
+# 4b. Differential Analysis (Large Files)
+echo "--- 4b. Differential Hotspot Analysis (Large Files) ---"
+LATEST_LARGE_CPU=$(echo "$LARGE_VERSIONS" | tail -n 1)
+BASE_LARGE_CPU=$(find_baseline_with_samples "$LARGE_VERSIONS" "")
+
+if [ -n "$LATEST_LARGE_CPU" ] && [ -n "$BASE_LARGE_CPU" ] && [ "$LATEST_LARGE_CPU" != "$BASE_LARGE_CPU" ]; then
+    COLLAPSED_BASE="$PROFILE_DIR/collapsed_$BASE_LARGE_CPU.txt"
+    COLLAPSED_LATEST="$PROFILE_DIR/collapsed_$LATEST_LARGE_CPU.txt"
+    DIFF_FILE="$PROFILE_DIR/diff_${BASE_LARGE_CPU}_${LATEST_LARGE_CPU}.txt"
+
+    echo "Comparing $LATEST_LARGE_CPU against baseline $BASE_LARGE_CPU"
+    if [ -f "$COLLAPSED_BASE" ] && [ -f "$COLLAPSED_LATEST" ]; then
+        python3 "$TOOLS_DIR/diff_collapsed_stacks.py" "$COLLAPSED_BASE" "$COLLAPSED_LATEST" > "$DIFF_FILE"
+        python3 "$TOOLS_DIR/analyze_hotspots.py" "$DIFF_FILE" --check-drift --threshold 5.0
+    else
+        echo "Differential analysis skipped: Missing collapsed stacks."
+    fi
+else
+    echo "Differential analysis skipped: Insufficient data or same version."
+fi
+echo ""
 
 # 5. Differential Allocation Analysis (Large Files)
 BASE_LARGE=$(echo "$LARGE_VERSIONS" | head -n 1)
