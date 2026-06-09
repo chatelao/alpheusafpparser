@@ -1258,6 +1258,10 @@ public class PdfBarcodeRenderer {
   }
 
   private static float renderDataMatrix(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    // Modifier 0x02 indicates GS1 compliance. Prepend FNC1.
+    if (state.getBarcodeModifier() == (byte) 0x02) {
+      content = "\u00f1" + content;
+    }
     BarcodeDataMatrix dm = new BarcodeDataMatrix(content);
     PdfFormXObject xObject = dm.createFormXObject(canvas.getDocument());
 

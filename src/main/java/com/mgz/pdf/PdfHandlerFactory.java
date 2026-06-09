@@ -30,6 +30,15 @@ import java.util.Map;
  */
 public class PdfHandlerFactory implements HandlerFactory {
 
+  private String iccProfilePath;
+
+  @Override
+  public void configure(Map<String, String> options) {
+    if (options != null) {
+      this.iccProfilePath = options.get("icc-profile");
+    }
+  }
+
   @Override
   public boolean isParallelSupported() {
     return false;
@@ -50,7 +59,16 @@ public class PdfHandlerFactory implements HandlerFactory {
    */
   @Override
   public StructuredFieldHandler createHandler(OutputStream os, boolean fragmentMode) throws Exception {
-    return new PdfHandler(os);
+    PdfHandler handler = new PdfHandler(os);
+    if (iccProfilePath != null) {
+      java.io.File iccFile = new java.io.File(iccProfilePath);
+      if (iccFile.exists()) {
+        try (java.io.InputStream is = new java.io.FileInputStream(iccFile)) {
+          handler.setOutputIntent("Custom", "", "http://www.color.org", "Custom ICC Profile", is);
+        }
+      }
+    }
+    return handler;
   }
 
   @Override
