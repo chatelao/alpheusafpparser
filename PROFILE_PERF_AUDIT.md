@@ -45,8 +45,8 @@ Die automatisierte Hotspot-Analyse der aggregierten JFR-Profile für das Large-F
 
 | Bereich | Anteil (v15.6) | Beschreibung |
 | :--- | :--- | :--- |
-| **Jackson Fallback** | 27.52% | Generische Serialisierung via Reflection für nicht-optimierte Felder/Tripletts. |
-| **XML Library (Woodstox)** | 26.85% | Interner Overhead des StAX-Writers und Buffer-Management. |
+| **Jackson Fallback** | 27.52% | Generische Serialisierung via Reflection für nicht-optimierte Felder/Tripletts (siehe Liste unten). |
+| **XML Library (Woodstox)** | 26.85% | Interner Overhead des StAX-Writers und Buffer-Management (siehe Details unten). |
 | **Field Parsing** | 13.42% | Dekodierung der MO:DCA Feldstrukturen und Validierung. |
 | **JVM & Infrastructure** | 10.07% | Class Loading, Method Handle Linking und JIT-Kompilierung. |
 | **Fast-Path Serialization** | 6.71% | Optimierte, manuelle StAX-Schreibvorgänge. |
@@ -57,6 +57,27 @@ Die automatisierte Hotspot-Analyse der aggregierten JFR-Profile für das Large-F
 
 **Erkenntnis:**
 Im Gegensatz zum 10x10 Szenario dominiert hier nicht die JVM-Infrastruktur, sondern die Serialisierungslogik. Über 50% der Zeit entfallen auf Jackson (Fallback) und die Woodstox XML-Bibliothek, was ein klares Optimierungspotenzial durch den Ausbau der Fast-Paths aufzeigt.
+
+### Details zum Jackson Fallback
+Der "Jackson Fallback" tritt immer dann auf, wenn für ein MO:DCA-Element kein manueller StAX-Fast-Path in `AfpJacksonXmlWriter` existiert. In diesen Fällen wird ein vorkonfigurierter `ObjectWriter` verwendet, der das Objekt via Reflection in XML transformiert.
+
+**Liste der betroffenen (nicht-optimierten) Elemente:**
+- **FOCA Structured Fields:** CFC (Coded Font Control), CFI (Coded Font Index), CPC (Code Page Control), CPD (Code Page Descriptor), CPI (CodePageIndex), FND (Font Descriptor), FNG (Font Patterns), FNI (Font Index), FNM (Font Patterns Map), FNN (Font Name Map), FNO (Font Orientation), FNP (Font Position).
+- **Tripletts:** Undefined (0x00), TripletExtender (0xFF).
+- **Sonstige:** Seltene GOCA Drawing Orders, IOCA Self-Defining Fields und PTOCA Control Sequences, die nicht explizit in den `if-else` Blöcken des Writers behandelt werden.
+
+Obwohl der `JacksonXmlMapperProvider` einen `WRITER_CACHE` (ConcurrentHashMap) verwendet, um den Overhead der Mapper-Initialisierung zu reduzieren, bleibt die eigentliche Serialisierung (Reflection und Baum-Traversierung) deutlich langsamer als die direkten StAX-Aufrufe.
+
+### Interner Overhead und Buffer-Management (Woodstox)
+Die Woodstox-Bibliothek stellt die StAX-Implementierung bereit. Der Anteil von 26.85% an der CPU-Zeit resultiert aus der Zeichen-Eskalierung, dem Attribut-Handling und dem Management interner Puffer.
+
+**Konfigurationsdetails (JacksonXmlMapperProvider):**
+- **Puffergröße:** `com.ctc.wstx.outputBufferSize` ist auf **64 KB** (65536 Bytes) optimiert, um die Anzahl der Systemaufrufe bei großen AFP-Konvertierungen zu minimieren.
+- **Strukturprüfung:** `org.codehaus.stax2.validation.checkStructure` ist auf `false` gesetzt, um den Overhead der XML-Validierung während des Schreibens zu eliminieren.
+- **Leerraum-Optimierung:** `com.ctc.wstx.addSpaceAfterEmptyElem` ist deaktiviert (`false`), um kompaktere XML-Tags (z.B. `<NOP/>`) zu erzeugen.
+
+**Der "ToXmlGenerator" Abstraktionslayer:**
+Ein signifikanter Teil des Overheads entsteht durch die Kapselung des Woodstox-Writers in Jacksons `ToXmlGenerator`. Jeder Aufruf von `writeStartElement` oder `writeAttribute` durchläuft mehrere Delegationsstufen. In zukünftigen Versionen könnte die direkte Nutzung der Woodstox `WstxOutputFactory` (unter Umgehung von Jackson für Fast-Paths) diesen Hotspot weiter reduzieren.
 
 ## 5. Quick Wins & Optimierungen
 Basierend auf der Hotspot-Identifikation wurden folgende Maßnahmen mit hohem Performance-Hebel (Quick Wins) definiert:
