@@ -48,4 +48,9 @@ public class PdfHandlerFactory implements HandlerFactory {
     // Use a safe factor of 2.0.
     return inputSize * 2;
   }
+
+  @Override
+  public String getFormatName() {
+    return "pdf";
+  }
 }

@@ -68,6 +68,11 @@ public class HandlerLifecycleTest {
         public long estimateOutputSize(long inputSize) {
             return inputSize * 2;
         }
+
+        @Override
+        public String getFormatName() {
+            return "mock";
+        }
     }
 
     @Test

@@ -52,3 +52,15 @@ This roadmap outlines the serial implementation plan for decoupling the parser f
     - ✅ **4.4.3 Decouple Output Estimation:** Add `estimateOutputSize` to `HandlerFactory` to decouple buffer pre-allocation.
     - ✅ **4.4.4 Consistent Monitoring:** Integrate `MnemonicPerformanceMonitor` into `PdfHandler`.
     - ✅ **4.4.5 Format-Neutral Utilities:** Move parallel orchestration utilities to generic package.
+
+## Phase 6: Plugin Architecture & SPI Integration
+**Goal:** Enable dynamic discovery and loading of handlers via Java SPI.
+
+1.  **SPI Definition:**
+    - ✅ **4.5.1 Identify Format Name:** Add `getFormatName()` to `HandlerFactory` for format identification.
+    - ✅ **4.5.2 SPI Registration:** Register existing `XmlHandlerFactory` and `PdfHandlerFactory` as SPI providers.
+2.  **Dynamic Discovery:**
+    - [ ] **4.6.1 Implement HandlerRegistry:** Discover all available `HandlerFactory` instances using `ServiceLoader`.
+    - [ ] **4.6.2 CLI Integration:** Refactor `Afp2Xml` CLI to use the registry instead of hardcoded factory instantiation.
+3.  **Extensibility Verification:**
+    - [ ] **4.7.1 Verification:** Verify that third-party handlers can be added by placing a JAR in the classpath.
