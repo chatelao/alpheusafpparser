@@ -53,7 +53,7 @@ Optimize resource handling for high-performance variable data printing.
         - ✅ **Create PdfFormXObject Resource Cache**: Ensure each unique resource is converted only once.
 - ⏳ **FOCA to PDF/X-4 Font Embedding**: Ensure all fonts are fully embedded and subsetted per PDF/X-4 requirements.
     - ✅ **Font Registry**: Implement a global registry for `PdfFont` instances mapped by FOCA resource name. (✅ Basic `PdfFontRegistry` implemented in `PdfHandler`).
-    - ⏳ **Font Mapping**: Map standard AFP core fonts (e.g., Helvetica, Times) to PDF equivalents.
+    - ✅ **Font Mapping**: Map standard AFP core fonts (e.g., Helvetica, Times) to PDF equivalents.
     - ⏳ **Subset Generation**: Enable iText font subsetting for PDF/X-4 compliance.
         - ⏳ **iText Subsetting API Integration**: Configure `FontSet` and `FontProvider` to support subsetting.
         - ⏳ **LID-to-Subset Mapping**: Track glyph usage per Local ID to ensure minimal subset size.

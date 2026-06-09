@@ -22,19 +22,21 @@ package com.mgz.pdf;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Registry for mapping AFP font names to iText {@link PdfFont} instances.
  */
 public class PdfFontRegistry {
 
-  private final Map<String, PdfFont> registry = new HashMap<>();
+  private final Map<String, PdfFont> registry = new ConcurrentHashMap<>();
   private PdfFont defaultFont;
 
   public PdfFontRegistry() {
     try {
+      // PDF/A and PDF/X require fonts to be embedded.
+      // StandardFonts are usually not embedded by default in iText.
       this.defaultFont = PdfFontFactory.createFont(StandardFonts.HELVETICA);
     } catch (Exception e) {
       // Should not happen with StandardFonts
@@ -63,7 +65,67 @@ public class PdfFontRegistry {
     if (fontName == null) {
       return null;
     }
-    return registry.get(fontName.trim());
+    String trimmedName = fontName.trim();
+    PdfFont font = registry.get(trimmedName);
+    if (font == null) {
+      font = mapToStandardFont(trimmedName);
+      if (font != null) {
+        registry.put(trimmedName, font);
+      }
+    }
+    return font;
+  }
+
+  /**
+   * Maps a standard AFP font name to a PDF standard font.
+   * AFP font names often follow the pattern C0xxxxxx.
+   *
+   * @param afpFontName the AFP font name
+   * @return the mapped {@link PdfFont}, or null if no mapping found
+   */
+  private PdfFont mapToStandardFont(String afpFontName) {
+    if (afpFontName.length() < 4 || !afpFontName.startsWith("C0")) {
+      return null;
+    }
+
+    String prefix = afpFontName.substring(0, 3);
+    char style = afpFontName.charAt(3);
+    String standardFontName = null;
+
+    if (prefix.equals("C0H")) { // Helvetica
+      standardFontName = switch (style) {
+        case '3' -> StandardFonts.HELVETICA_BOLD;
+        case '4' -> StandardFonts.HELVETICA_OBLIQUE;
+        case '5' -> StandardFonts.HELVETICA_BOLDOBLIQUE;
+        default -> StandardFonts.HELVETICA;
+      };
+    } else if (prefix.equals("C0N")) { // Times New Roman
+      standardFontName = switch (style) {
+        case '3' -> StandardFonts.TIMES_BOLD;
+        case '4' -> StandardFonts.TIMES_ITALIC;
+        case '5' -> StandardFonts.TIMES_BOLDITALIC;
+        default -> StandardFonts.TIMES_ROMAN;
+      };
+    } else if (prefix.equals("C04") || prefix.equals("C06")) { // Courier
+      standardFontName = switch (style) {
+        case '3' -> StandardFonts.COURIER_BOLD;
+        case '4' -> StandardFonts.COURIER_OBLIQUE;
+        case '5' -> StandardFonts.COURIER_BOLDOBLIQUE;
+        default -> StandardFonts.COURIER;
+      };
+    }
+
+    if (standardFontName != null) {
+      try {
+        // For PDF/VT and PDF/X-4 compliance, we should ideally embed fonts.
+        // iText 9 createFont with StandardFonts usually creates a non-embedded font.
+        return PdfFontFactory.createFont(standardFontName);
+      } catch (Exception e) {
+        // Fallback or log error
+      }
+    }
+
+    return null;
   }
 
   /**
