@@ -182,6 +182,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private final Set<String> mmoResources = new HashSet<>();
   private final Set<String> mpsResources = new HashSet<>();
   private final Deque<Map<Short, FontResource>> fontMapStack = new ArrayDeque<>();
+  private final Deque<Boolean> canvasTransformedStack = new ArrayDeque<>();
   private final PdfFontRegistry fontRegistry = new PdfFontRegistry();
   private final PdfDocument pdfDoc;
   private final Document document;
@@ -196,6 +197,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private float defaultPageHeight = -1;
   private float defaultScaleX = 1.0f;
   private float defaultScaleY = 1.0f;
+  private boolean isCanvasTransformed = false;
 
   public PdfHandler(OutputStream os) {
     this.pdfDoc = new PdfDocument(new PdfWriter(os));
@@ -1449,8 +1451,10 @@ public class PdfHandler implements StructuredFieldHandler {
 
     if (currentCanvas != null) {
       canvasStack.push(currentCanvas);
+      canvasTransformedStack.push(isCanvasTransformed);
     }
     this.currentCanvas = new PdfCanvas(xObject, pdfDoc);
+    this.isCanvasTransformed = false;
 
     // Apply transformation to the XObject canvas
     applyTransformation(height, defaultScaleX, defaultScaleY);
@@ -1459,15 +1463,18 @@ public class PdfHandler implements StructuredFieldHandler {
   private void endResourceCapture() {
     if (!canvasStack.isEmpty()) {
       this.currentCanvas = canvasStack.pop();
+      this.isCanvasTransformed = canvasTransformedStack.pop();
     } else {
       this.currentCanvas = null;
+      this.isCanvasTransformed = false;
     }
   }
 
   private void applyTransformation(float heightPoints, float scaleX, float scaleY) {
-    if (currentCanvas != null) {
+    if (currentCanvas != null && !isCanvasTransformed) {
       AffineTransform at = CoordinateTransformer.getAfpToPdfTransform(heightPoints, scaleX, scaleY);
       currentCanvas.concatMatrix(at);
+      this.isCanvasTransformed = true;
     }
   }
 
@@ -1480,6 +1487,7 @@ public class PdfHandler implements StructuredFieldHandler {
       barcodeState.reset();
       imageState.reset();
       currentCanvas.setFillColor(DeviceRgb.BLACK);
+      this.isCanvasTransformed = false;
 
       // Apply default page size and transformation if defined (from PGD)
       if (defaultPageWidth > 0 && defaultPageHeight > 0) {
