@@ -31,7 +31,7 @@ This roadmap outlines the serial implementation plan for decoupling the parser f
   - ✅ **4.3.1.3 Global State Consistency:**
     - ✅ **4.3.1.3.1 State Isolation:** Ensure `AFPParserConfiguration` clones perform deep copies of maps to prevent page-local state leakage.
     - ✅ **4.3.1.3.2 Resource Inheritance:** Verify that handlers correctly inherit preamble state in parallel mode.
-  - ⏳ **4.3.2.1 Heap Dump Analysis:**
+  - ✅ **4.3.2.1 Heap Dump Analysis:**
     - ✅ **4.3.2.1.1 100MB+ Scaling Test:** Execute conversion on synthetic 100MB+ files to stress memory management.
     - ✅ **4.3.2.1.2 Capture Dumps:**
       - ✅ **4.3.2.1.2.1: Implement programmatic heap dump utility.**
@@ -49,3 +49,6 @@ This roadmap outlines the serial implementation plan for decoupling the parser f
 1.  **Standardize Handler Access:**
     - ✅ **4.4.1 Remove Deprecated Methods:** Remove `writeField` from `AfpJacksonXmlWriter`.
     - ✅ **4.4.2 Update Callers:** Standardize all unit tests and internal callers to use `handle(sf)`.
+    - ✅ **4.4.3 Decouple Output Estimation:** Add `estimateOutputSize` to `HandlerFactory` to decouple buffer pre-allocation.
+    - ✅ **4.4.4 Consistent Monitoring:** Integrate `MnemonicPerformanceMonitor` into `PdfHandler`.
+    - ✅ **4.4.5 Format-Neutral Utilities:** Move parallel orchestration utilities to generic package.

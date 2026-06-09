@@ -46,4 +46,12 @@ public interface HandlerFactory {
   default ByteBuffer stripFragmentWrapper(ByteBuffer data) {
     return data;
   }
+
+  /**
+   * Estimates the size of the output for a given input size.
+   *
+   * @param inputSize the size of the AFP input in bytes
+   * @return the estimated output size in bytes
+   */
+  long estimateOutputSize(long inputSize);
 }
