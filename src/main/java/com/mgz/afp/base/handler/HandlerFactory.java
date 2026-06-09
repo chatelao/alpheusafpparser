@@ -21,11 +21,38 @@ package com.mgz.afp.base.handler;
 
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.util.Map;
 
 /**
  * Factory interface for creating {@link StructuredFieldHandler} instances.
  */
 public interface HandlerFactory {
+
+  /**
+   * Configures the factory with the provided options.
+   *
+   * @param options a map of configuration options
+   */
+  default void configure(Map<String, String> options) {
+    // Default implementation does nothing
+  }
+
+  /**
+   * Returns true if this factory supports parallel conversion.
+   *
+   * @return true if parallel conversion is supported
+   */
+  default boolean isParallelSupported() {
+    return true;
+  }
+
+  /**
+   * Returns the default file extension for the output format (e.g., ".xml", ".pdf").
+   *
+   * @param options the configuration options that might affect the extension
+   * @return the default file extension including the dot
+   */
+  String getDefaultExtension(Map<String, String> options);
 
   /**
    * Creates a new structured field handler.

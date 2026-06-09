@@ -23,6 +23,7 @@ import com.mgz.afp.base.handler.HandlerFactory;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.util.SFSizeEstimator;
 import java.io.OutputStream;
+import java.util.Map;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
@@ -34,8 +35,8 @@ public class XmlHandlerFactory implements HandlerFactory {
   private static final byte[] START_TAG = "<AfpFragments>".getBytes(StandardCharsets.UTF_8);
   private static final byte[] END_TAG = "</AfpFragments>".getBytes(StandardCharsets.UTF_8);
 
-  private final String xpathExpression;
-  private final boolean indent;
+  private String xpathExpression;
+  private boolean indent;
 
   /**
    * Default constructor.
@@ -62,6 +63,25 @@ public class XmlHandlerFactory implements HandlerFactory {
   public XmlHandlerFactory(String xpathExpression, boolean indent) {
     this.xpathExpression = xpathExpression;
     this.indent = indent;
+  }
+
+  @Override
+  public void configure(Map<String, String> options) {
+    if (options.containsKey("xpath")) {
+      this.xpathExpression = options.get("xpath");
+    }
+    if (options.containsKey("indent")) {
+      this.indent = Boolean.parseBoolean(options.get("indent"));
+    }
+  }
+
+  @Override
+  public String getDefaultExtension(Map<String, String> options) {
+    String xpath = options.get("xpath");
+    if (xpath != null && xpath.endsWith("/text()")) {
+      return ".txt";
+    }
+    return ".xml";
   }
 
   @Override

@@ -22,6 +22,7 @@ package com.mgz.pdf;
 import com.mgz.afp.base.handler.HandlerFactory;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import java.io.OutputStream;
+import java.util.Map;
 
 /**
  * Concrete implementation of {@link HandlerFactory} for PDF output.
@@ -37,6 +38,16 @@ public class PdfHandlerFactory implements HandlerFactory {
    * @return a new PdfHandler
    * @throws Exception if creation fails
    */
+  @Override
+  public boolean isParallelSupported() {
+    return false;
+  }
+
+  @Override
+  public String getDefaultExtension(Map<String, String> options) {
+    return ".pdf";
+  }
+
   @Override
   public StructuredFieldHandler createHandler(OutputStream os, boolean fragmentMode) throws Exception {
     return new PdfHandler(os);

@@ -29,7 +29,7 @@ import com.mgz.util.NonClosingOutputStream;
 import com.mgz.util.FileChannelMappedBufferProvider;
 import com.mgz.util.MappedBufferOutputStream;
 import com.mgz.util.SegmentedMappedBufferOutputStream;
-import com.mgz.xml.XmlHandlerFactory;
+import com.mgz.afp.base.handler.HandlerRegistry;
 import com.mgz.afp.base.handler.OrderedOutputOrchestrator;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -89,6 +89,7 @@ public class Afp2Xml {
     String outputPath = null;
     String xpathExpression = null;
     String format = "xml";
+    java.util.Map<String, String> formatOptions = new java.util.HashMap<>();
 
     for (var i = 0; i < args.length; i++) {
       var arg = args[i];
@@ -106,6 +107,7 @@ public class Afp2Xml {
         case "-x", "--xpath" -> {
           if (i + 1 < args.length) {
             xpathExpression = args[++i];
+            formatOptions.put("xpath", xpathExpression);
           } else {
             System.err.println("Error: --xpath requires an expression.");
             printUsage(System.err);
@@ -141,6 +143,7 @@ public class Afp2Xml {
         }
         case "-i", "--indent" -> {
           indent = true;
+          formatOptions.put("indent", "true");
         }
         case "-t", "--threads" -> {
           if (i + 1 < args.length) {
@@ -179,10 +182,18 @@ public class Afp2Xml {
       return 1;
     }
 
-    if ("pdf".equals(format) && parallel) {
+    final HandlerFactory handlerFactory = HandlerRegistry.getFactory(format);
+    if (handlerFactory == null) {
+      System.err.println("Error: Unsupported format: " + format);
+      System.err.println("Available formats: " + HandlerRegistry.getRegisteredFormats());
+      return 1;
+    }
+    handlerFactory.configure(formatOptions);
+
+    if (parallel && !handlerFactory.isParallelSupported()) {
       parallel = false;
-      System.err.println("Warning: Parallel processing is currently unsupported for PDF output. "
-          + "Falling back to sequential processing.");
+      System.err.println("Warning: Parallel processing is currently unsupported for " + format
+          + " output. Falling back to sequential processing.");
     }
 
     if (measure) {
@@ -203,8 +214,7 @@ public class Afp2Xml {
         isDirectoryMode = true;
       }
 
-      var isTxt = xpathExpression != null && xpathExpression.endsWith("/text()");
-      var extension = "pdf".equals(format) ? ".pdf" : (isTxt ? ".txt" : ".xml");
+      var extension = handlerFactory.getDefaultExtension(formatOptions);
 
       if (isDirectoryMode) {
         if (!input.isDirectory()) {
@@ -233,9 +243,6 @@ public class Afp2Xml {
 
         var hasErrors = new AtomicBoolean(false);
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
-        final HandlerFactory handlerFactory = "pdf".equals(format)
-            ? new com.mgz.pdf.PdfHandlerFactory()
-            : new XmlHandlerFactory(xpathExpression, indent);
 
         final OrderedOutputOrchestrator orchestrator;
         if ("-".equals(outputPath)) {
@@ -325,9 +332,6 @@ public class Afp2Xml {
         }
         return hasErrors.get() ? 1 : 0;
       } else {
-        HandlerFactory handlerFactory = "pdf".equals(format)
-            ? new com.mgz.pdf.PdfHandlerFactory()
-            : new XmlHandlerFactory(xpathExpression, indent);
         if ("-".equals(outputPath)) {
           OutputStream nonClosingStdout = new NonClosingOutputStream(System.out);
           try (OutputStream os = new BufferedOutputStream(nonClosingStdout)) {
