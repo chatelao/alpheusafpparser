@@ -27,12 +27,12 @@ Implement manual StAX fast-paths for all FOCA (Font Object Content Architecture)
 - [x] **FNO** (Font Orientation) ✅
 - [x] **FNP** (Font Position) ✅
 
-## Phase 2: Triplets ⏳
+## Phase 2: Triplets ✅
 Eliminate fallback for remaining rare or special-purpose MO:DCA triplets.
 
-- [ ] **Undefined Triplet** (0x00)
-- [ ] **Triplet Extender** (0xFF)
-- [ ] **Full Coverage Check**: Verify that all 67+ standard triplets use `writeTriplet` fast-paths.
+- [x] **Undefined Triplet** (0x00) ✅
+- [x] **Triplet Extender** (0xFF) ✅
+- [x] **Full Coverage Check**: Verify that all 67+ standard triplets use `writeTriplet` fast-paths. ✅
 
 ## Phase 3: GOCA Drawing Orders ⏳
 Optimize remaining GOCA (Graphics Object Content Architecture) drawing orders.
@@ -44,7 +44,7 @@ Optimize remaining GOCA (Graphics Object Content Architecture) drawing orders.
 Complete the fast-path implementation for IOCA (Image), PTOCA (Text), and GDD (Graphics Data Descriptor) sub-elements.
 
 - [ ] **IOCA Self-Defining Fields**: Implement fast-paths in `writeIddSelfDefiningFieldDirectly`.
-- [ ] **IOCA Segments**: Ensure all `IPD_Segment` types are handled in `writeIpdSegmentDirectly`.
+- [ ] **IOCA Segments**: Ensure all `IPD_Segment` types are handled in `writeIpdSegmentDirectly`. (Partially completed: BeginSegment, EndSegment, IDESize, ImageLUTID, FunctionSetIdentification)
 - [ ] **PTOCA Control Sequences**: Audit `writeControlSequence` and implement missing sequences.
 - [ ] **GDD Parameters**: Implement fast-paths for all `GDD_Parameter` types in `writeGddParameterDirectly`.
 

@@ -694,7 +694,21 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private void writeTriplet(XMLStreamWriter2 writer, Triplet triplet, int level) throws Exception {
     int childLevel = level + 1;
     writeIndent(writer, level);
-    if (triplet instanceof Triplet.FullyQualifiedName fqn) {
+    if (triplet instanceof Triplet.Undefined u) {
+      writer.writeStartElement("tripletUndefined");
+      if (u.getTripletData() != null) {
+        writeBinaryElement(writer, childLevel, "tripletData", u.getTripletData());
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.TripletExtender te) {
+      writer.writeStartElement("TripletExtender");
+      if (te.getDatExt() != null) {
+        writeBinaryElement(writer, childLevel, "datExt", te.getDatExt());
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (triplet instanceof Triplet.FullyQualifiedName fqn) {
       writer.writeStartElement("FullyQualifiedName");
       writeElement(writer, childLevel, "type", fqn.getType().name());
       writeElement(writer, childLevel, "format", fqn.getFormat().name());
@@ -2680,7 +2694,19 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   private void writeIpdSegmentDirectly(XMLStreamWriter2 writer, IPD_Segment segment, int level) throws Exception {
     int childLevel = level + 1;
-    if (segment instanceof IPD_Segment.ImageData id) {
+    if (segment instanceof IPD_Segment.BeginSegment bs) {
+      writer.writeStartElement("iocaBeginSegment");
+      if (bs.getName() != null) {
+        writeBinaryElement(writer, childLevel, "name", bs.getName());
+      }
+      if (bs.getText() != null) {
+        writeElement(writer, childLevel, "text", bs.getText());
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.EndSegment) {
+      writer.writeEmptyElement("EndSegment");
+    } else if (segment instanceof IPD_Segment.ImageData id) {
       writer.writeStartElement("ImageData");
       if (id.getImageData() != null) {
         writeBinaryElement(writer, childLevel, "imageData", id.getImageData());
@@ -2724,6 +2750,22 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       if (ie.getBitOrder() != null) {
         writeElement(writer, childLevel, "bitOrder", ie.getBitOrder().name());
       }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.IDESize ideSize) {
+      writer.writeStartElement("IDESize");
+      writeElement(writer, childLevel, "numberOfBitsInEachIDE", ideSize.numberOfBitsInEachIDE);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.ImageLUTID lutId) {
+      writer.writeStartElement("ImageLUTID");
+      writeElement(writer, childLevel, "lutId", lutId.getLutId());
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.FunctionSetIdentification fsi) {
+      writer.writeStartElement("FunctionSetIdentification");
+      writeElement(writer, childLevel, "category", fsi.category);
+      writeElement(writer, childLevel, "functionSet", fsi.functionSet);
       writeIndent(writer, level);
       writer.writeEndElement();
     } else {
