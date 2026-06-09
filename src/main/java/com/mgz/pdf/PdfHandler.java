@@ -192,6 +192,8 @@ public class PdfHandler implements StructuredFieldHandler {
   private final PdfImageState imageState;
   private PdfPage currentPage;
   private PdfCanvas currentCanvas;
+  private boolean isCanvasTransformed = false;
+  private final Deque<Boolean> canvasTransformedStack = new ArrayDeque<>();
   private float defaultPageWidth = -1;
   private float defaultPageHeight = -1;
   private float defaultScaleX = 1.0f;
@@ -247,6 +249,7 @@ public class PdfHandler implements StructuredFieldHandler {
         || sf instanceof IPO_IncludePageOverlay
         || sf instanceof IPS_IncludePageSegment) {
       ensurePageExists();
+      ensureCanvasTransformed();
     }
 
     if (sf.isBeginSF()) {
@@ -308,6 +311,7 @@ public class PdfHandler implements StructuredFieldHandler {
         if (sf instanceof BPG_BeginPage) {
           this.currentPage = pdfDoc.addNewPage();
           this.currentCanvas = new PdfCanvas(currentPage);
+          this.isCanvasTransformed = false;
           currentPage.put(PdfName.DPart, dpart);
           textState.reset();
           graphicsState.reset();
@@ -315,11 +319,7 @@ public class PdfHandler implements StructuredFieldHandler {
           imageState.reset();
           currentCanvas.setFillColor(DeviceRgb.BLACK);
 
-          // Apply default page size and transformation if defined (from PGD)
-          if (defaultPageWidth > 0 && defaultPageHeight > 0) {
-            currentPage.setMediaBox(new com.itextpdf.kernel.geom.Rectangle(defaultPageWidth, defaultPageHeight));
-            applyTransformation(defaultPageHeight, defaultScaleX, defaultScaleY);
-          }
+          // Default page size will be applied lazily in ensureCanvasTransformed if no page-level PGD exists
         }
       }
     } else if (sf.isEndSF()) {
@@ -465,10 +465,10 @@ public class PdfHandler implements StructuredFieldHandler {
       float widthPoints = pgd.getxSize() * scaleX;
       float heightPoints = pgd.getySize() * scaleY;
 
-      if (currentPage != null) {
+      if (currentPage != null && !isCanvasTransformed) {
         currentPage.setMediaBox(new com.itextpdf.kernel.geom.Rectangle(widthPoints, heightPoints));
         applyTransformation(heightPoints, scaleX, scaleY);
-      } else {
+      } else if (currentPage == null) {
         // Store as default if no page is active
         this.defaultPageWidth = widthPoints;
         this.defaultPageHeight = heightPoints;
@@ -1137,7 +1137,7 @@ public class PdfHandler implements StructuredFieldHandler {
     FontResource resource = resolveFontResource(graphicsState.getCharacterSet());
     PdfFont font = fontRegistry.getFontWithFallback(resource != null ? resource.name() : null);
 
-    float fontSize = graphicsState.getCharCellHeight() > 0 ? graphicsState.getCharCellHeight() : (resource != null ? resource.size() / defaultScaleY : 100.0f);
+    float fontSize = graphicsState.getCharCellHeight() > 0 ? graphicsState.getCharCellHeight() : (resource != null ? resource.size() / defaultScaleY : 10.0f / defaultScaleY);
 
     // Determine rotation from character angle point
     double angle = Math.atan2(graphicsState.getCharAngleY(), graphicsState.getCharAngleX());
@@ -1450,8 +1450,10 @@ public class PdfHandler implements StructuredFieldHandler {
 
     if (currentCanvas != null) {
       canvasStack.push(currentCanvas);
+      canvasTransformedStack.push(isCanvasTransformed);
     }
     this.currentCanvas = new PdfCanvas(xObject, pdfDoc);
+    this.isCanvasTransformed = false;
 
     // Apply transformation to the XObject canvas
     applyTransformation(height, defaultScaleX, defaultScaleY);
@@ -1460,8 +1462,10 @@ public class PdfHandler implements StructuredFieldHandler {
   private void endResourceCapture() {
     if (!canvasStack.isEmpty()) {
       this.currentCanvas = canvasStack.pop();
+      this.isCanvasTransformed = canvasTransformedStack.pop();
     } else {
       this.currentCanvas = null;
+      this.isCanvasTransformed = false;
     }
   }
 
@@ -1469,22 +1473,29 @@ public class PdfHandler implements StructuredFieldHandler {
     if (currentCanvas != null) {
       AffineTransform at = CoordinateTransformer.getAfpToPdfTransform(heightPoints, scaleX, scaleY);
       currentCanvas.concatMatrix(at);
+      isCanvasTransformed = true;
     }
   }
 
   private void ensurePageExists() {
-    if (pdfDoc.getNumberOfPages() == 0) {
+    if (currentPage == null) {
       this.currentPage = pdfDoc.addNewPage();
       this.currentCanvas = new PdfCanvas(currentPage);
+      this.isCanvasTransformed = false;
       textState.reset();
       graphicsState.reset();
       barcodeState.reset();
       imageState.reset();
       currentCanvas.setFillColor(DeviceRgb.BLACK);
+    }
+  }
 
-      // Apply default page size and transformation if defined (from PGD)
+  private void ensureCanvasTransformed() {
+    if (currentCanvas != null && !isCanvasTransformed) {
       if (defaultPageWidth > 0 && defaultPageHeight > 0) {
-        currentPage.setMediaBox(new com.itextpdf.kernel.geom.Rectangle(defaultPageWidth, defaultPageHeight));
+        if (currentPage != null) {
+          currentPage.setMediaBox(new com.itextpdf.kernel.geom.Rectangle(defaultPageWidth, defaultPageHeight));
+        }
         applyTransformation(defaultPageHeight, defaultScaleX, defaultScaleY);
       }
     }
