@@ -20,20 +20,25 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.pdf;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.mgz.afp.bcoca.BDA_BarCodeData;
 import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor.BarCodeType;
-import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.Test;
 
+/**
+ * Tests for linear barcode rendering.
+ */
 public class PdfBarcodeLinearTest {
 
+  /**
+   * Stub for PdfCanvas to capture drawing operations.
+   */
   static class PdfCanvasStub extends PdfCanvas {
     List<float[]> rectangles = new ArrayList<>();
 
@@ -43,16 +48,24 @@ public class PdfBarcodeLinearTest {
 
     @Override
     public PdfCanvas rectangle(double x, double y, double w, double h) {
-      rectangles.add(new float[]{(float)x, (float)y, (float)w, (float)h});
+      rectangles.add(new float[] {(float) x, (float) y, (float) w, (float) h});
       return this;
     }
 
     @Override
-    public PdfCanvas saveState() { return this; }
+    public PdfCanvas saveState() {
+      return this;
+    }
+
     @Override
-    public PdfCanvas restoreState() { return this; }
+    public PdfCanvas restoreState() {
+      return this;
+    }
+
     @Override
-    public PdfCanvas fill() { return this; }
+    public PdfCanvas fill() {
+      return this;
+    }
   }
 
   @Test
@@ -62,10 +75,10 @@ public class PdfBarcodeLinearTest {
     state.setBarcodeModifier((byte) 0x01); // No check digit
 
     BDA_BarCodeData bda = new BDA_BarCodeData() {
-        @Override
-        public String getText() {
-            return "12";
-        }
+      @Override
+      public String getText() {
+        return "12";
+      }
     };
     state.addBarcodeData(bda);
 
@@ -73,7 +86,8 @@ public class PdfBarcodeLinearTest {
     PdfBarcodeRenderer.render(state, canvas);
 
     // Start: 2 bars.
-    // "1": "wnnnw" -> 2 wide, 3 narrow. Industrial: wide bars, narrow spaces. Total 5 bars per digit.
+    // "1": "wnnnw" -> 2 wide, 3 narrow. Industrial: wide bars, narrow spaces.
+    // Total 5 bars per digit.
     // Digit "1": 5 bars. Digit "2": 5 bars.
     // Stop: 2 bars.
     // Total bars: 2 + 5 + 5 + 2 = 14.
@@ -87,10 +101,10 @@ public class PdfBarcodeLinearTest {
     state.setBarcodeModifier((byte) 0x01); // No check digit
 
     BDA_BarCodeData bda = new BDA_BarCodeData() {
-        @Override
-        public String getText() {
-            return "3";
-        }
+      @Override
+      public String getText() {
+        return "3";
+      }
     };
     state.addBarcodeData(bda);
 
@@ -112,10 +126,10 @@ public class PdfBarcodeLinearTest {
     state.setBarcodeModifier((byte) 0x01); // No check digit
 
     BDA_BarCodeData bda = new BDA_BarCodeData() {
-        @Override
-        public String getText() {
-            return "1";
-        }
+      @Override
+      public String getText() {
+        return "1";
+      }
     };
     state.addBarcodeData(bda);
 
@@ -140,10 +154,10 @@ public class PdfBarcodeLinearTest {
     state.setBarcodeModifier((byte) 0x02); // IBM Modulo 10
 
     BDA_BarCodeData bda = new BDA_BarCodeData() {
-        @Override
-        public String getText() {
-            return "123";
-        }
+      @Override
+      public String getText() {
+        return "123";
+      }
     };
     state.addBarcodeData(bda);
 
@@ -153,7 +167,8 @@ public class PdfBarcodeLinearTest {
     // Data "123"
     // IBM Modulo 10 for "123":
     //   Digits: 1, 2, 3
-    //   Weights: 1, 2, 1 (from right: 3*2, 2*1, 1*2 -> no, weights 1, 2 from right: 3*2=6, 2*1=2, 1*2=2)
+    //   Weights: 1, 2, 1 (from right: 3*2, 2*1, 1*2 -> no, weights 1, 2 from right:
+    //   3*2=6, 2*1=2, 1*2=2)
     //   Let's re-calculate manually:
     //   i=0 (digit '3'): weight=2, prod=6, sum=6
     //   i=1 (digit '2'): weight=1, prod=2, sum=6+2=8
@@ -178,10 +193,10 @@ public class PdfBarcodeLinearTest {
     state.setBarcodeModifier((byte) 0x00);
 
     BDA_BarCodeData bda = new BDA_BarCodeData() {
-        @Override
-        public String getText() {
-            return "123-4567"; // 7 digits
-        }
+      @Override
+      public String getText() {
+        return "123-4567"; // 7 digits
+      }
     };
     state.addBarcodeData(bda);
 
@@ -204,10 +219,10 @@ public class PdfBarcodeLinearTest {
     state.setBarcodeModifier((byte) 0x00);
 
     BDA_BarCodeData bda = new BDA_BarCodeData() {
-        @Override
-        public String getText() {
-            return "12";
-        }
+      @Override
+      public String getText() {
+        return "12";
+      }
     };
     state.addBarcodeData(bda);
 
@@ -226,6 +241,7 @@ public class PdfBarcodeLinearTest {
     // Stop: index 47 ("101011110") -> 6 bars
     // Termination: 1 bar
     // Total: 6 + 3 + 3 + 3 + 4 + 6 + 1 = 26 bars.
-    assertEquals(26, canvas.rectangles.size(), "Expected 26 bars but got " + canvas.rectangles.size());
+    assertEquals(26, canvas.rectangles.size(),
+        "Expected 26 bars but got " + canvas.rectangles.size());
   }
 }

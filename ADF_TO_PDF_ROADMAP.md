@@ -123,7 +123,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ✅ **Linear Barcode Support**: Implement rendering for common linear barcodes.
         - ✅ **Codabar**: Implement rendering for Codabar barcodes.
         - ✅ **Code 39**: Implement rendering for Code 39 (3 of 9) barcodes.
-        - ⏳ **Code 93**: Implement rendering for Code 93 barcodes.
+        - ✅ **Code 93**: Implement rendering for Code 93 barcodes.
         - ✅ **MSI Plessey**: Implement rendering for MSI Plessey barcodes.
         - ✅ **Interleaved 2 of 5**: Implement rendering for Interleaved 2 of 5 (ITF) barcodes.
         - ✅ **Industrial 2 of 5**: Implement rendering for Industrial 2 of 5 barcodes.
