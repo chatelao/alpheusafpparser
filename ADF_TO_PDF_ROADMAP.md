@@ -30,6 +30,7 @@ Initialize the core PDF/VT structure and map the MO:DCA document hierarchy using
 - ✅ **TLE Metadata Mapping**: Map `TLE` (Tag Logical Element) values to record-level metadata within the `/DPart` hierarchy.
     - ✅ **Tag Extraction**: Extract key/value pairs from `TLE` structured fields.
     - ✅ **Metadata Injection**: Write extracted tags to the `/DPart` dictionary as `/Property` entries.
+- ✅ **BNG Name Mapping**: Map `BNG` group names to `/GroupName` property in the `/DPart` hierarchy.
 - ✅ **Output Intents**: Define `/OutputIntents` (e.g., FOGRA39) for PDF/X compliance as required by ISO 16612-2.
     - ✅ **Structural Output Intent**: Initialize the `/OutputIntents` array in the PDF Catalog.
     - 🚧 **ICC Profile Integration**: Load and embed standard ICC profiles (FOGRA39, GRACoL). (Basic method implemented).
@@ -52,9 +53,11 @@ Optimize resource handling for high-performance variable data printing.
         - ✅ **Create PdfFormXObject Resource Cache**: Ensure each unique resource is converted only once.
 - ⏳ **FOCA to PDF/X-4 Font Embedding**: Ensure all fonts are fully embedded and subsetted per PDF/X-4 requirements.
     - ✅ **Font Registry**: Implement a global registry for `PdfFont` instances mapped by FOCA resource name. (✅ Basic `PdfFontRegistry` implemented in `PdfHandler`).
+    - ⏳ **Font Mapping**: Map standard AFP core fonts (e.g., Helvetica, Times) to PDF equivalents.
     - ⏳ **Subset Generation**: Enable iText font subsetting for PDF/X-4 compliance.
         - ⏳ **iText Subsetting API Integration**: Configure `FontSet` and `FontProvider` to support subsetting.
         - ⏳ **LID-to-Subset Mapping**: Track glyph usage per Local ID to ensure minimal subset size.
+        - ⏳ **Font Caching**: Implement a robust caching mechanism for subsetted font instances.
 - ✅ **IOCA Image Optimizer**: Map repeated IOCA objects to a single Image XObject instance to reduce file size.
 
 ## Phase 3: Content Conversion (Base Operators) ⏳
@@ -163,6 +166,7 @@ Ensure the generated output meets the PDF/VT-1 standard and accurately reflects 
 - ⏳ **PDF/VT-1 Validation**: Validate generated files against PDF/VT-1 profiles using preflight tools.
     - ⏳ **Integrate VeraPDF**: Implement automated compliance checks for PDF/VT-1 and PDF/X-4.
     - ⏳ **VeraPDF CLI Wrapper**: Create a helper to run VeraPDF from within Alpheus tests.
+    - ⏳ **Preflight Report Parser**: Implement a parser to extract and assert on VeraPDF validation results.
     - ⏳ **Preflight Automation**: Establish CI/CD integration for automated validation.
 - 🚧 **DPart Hierarchy Verification**:
     - ✅ **Programmatic Structure Verification**: Verify `/DPart` hierarchy and `/Property` entries using iText or low-level parsing.

@@ -283,6 +283,23 @@ public class PdfHandler implements StructuredFieldHandler {
         dparts.add(dpart);
         dpartStack.push(dpart);
 
+        // Map MO:DCA name to DPart metadata if available
+        String name = null;
+        if (sf instanceof BDT_BeginDocument bdt) {
+          name = bdt.getName();
+        } else if (sf instanceof BNG_BeginNamedPageGroup bng) {
+          name = bng.getName();
+        } else if (sf instanceof BPG_BeginPage bpg) {
+          name = bpg.getName();
+        }
+
+        if (name != null && !name.trim().isEmpty()) {
+          PdfDictionary property = new PdfDictionary();
+          property.makeIndirect(pdfDoc);
+          dpart.put(new PdfName("Property"), property);
+          property.put(new PdfName("GroupName"), new PdfString(name.trim()));
+        }
+
         if (sf instanceof BPG_BeginPage) {
           this.currentPage = pdfDoc.addNewPage();
           this.currentCanvas = new PdfCanvas(currentPage);
