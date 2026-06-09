@@ -56,6 +56,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Afp2Xml {
   private static final long MMAP_THRESHOLD = 5 * 1024 * 1024; // 5MB
 
+  private Afp2Xml() {
+    // Utility class
+  }
+
   /**
    * Main entry point for the CLI.
    *

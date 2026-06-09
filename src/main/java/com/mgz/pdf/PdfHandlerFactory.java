@@ -30,14 +30,6 @@ import java.util.Map;
  */
 public class PdfHandlerFactory implements HandlerFactory {
 
-  /**
-   * Creates a new {@link PdfHandler}.
-   *
-   * @param os           the output stream
-   * @param fragmentMode currently unsupported and ignored for PDF output
-   * @return a new PdfHandler
-   * @throws Exception if creation fails
-   */
   @Override
   public boolean isParallelSupported() {
     return false;
@@ -48,6 +40,14 @@ public class PdfHandlerFactory implements HandlerFactory {
     return ".pdf";
   }
 
+  /**
+   * Creates a new {@link PdfHandler}.
+   *
+   * @param os           the output stream
+   * @param fragmentMode currently unsupported and ignored for PDF output
+   * @return a new PdfHandler
+   * @throws Exception if creation fails
+   */
   @Override
   public StructuredFieldHandler createHandler(OutputStream os, boolean fragmentMode) throws Exception {
     return new PdfHandler(os);
