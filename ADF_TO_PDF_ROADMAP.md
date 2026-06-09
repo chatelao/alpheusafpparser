@@ -18,7 +18,7 @@ Establish the technical foundation and select the primary PDF engine.
 - ✅ **Architectural Design**: Defined `PdfHandler` and `PdfHandlerFactory` integration with the decoupled handler architecture.
 - ✅ **Structural Mapping Strategy**: Defined MO:DCA to DPart hierarchy mapping.
 
-## Phase 1: PDF/VT Structural Implementation ⏳
+## Phase 1: PDF/VT Structural Implementation ✅
 Initialize the core PDF/VT structure and map the MO:DCA document hierarchy using iText 9.
 
 - ✅ **Initialize DPart Hierarchy**: Create `/DPartRoot` in the PDF Catalog.
@@ -123,6 +123,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ✅ **Linear Barcode Support**: Implement rendering for common linear barcodes.
         - ✅ **Codabar**: Implement rendering for Codabar barcodes.
         - ✅ **Code 39**: Implement rendering for Code 39 (3 of 9) barcodes.
+        - ✅ **Code 93**: Implement rendering for Code 93 barcodes.
         - ✅ **MSI Plessey**: Implement rendering for MSI Plessey barcodes.
         - ✅ **Interleaved 2 of 5**: Implement rendering for Interleaved 2 of 5 (ITF) barcodes.
         - ✅ **Industrial 2 of 5**: Implement rendering for Industrial 2 of 5 barcodes.
@@ -149,7 +150,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ✅ **HRI Rendering**: Implement Human Readable Interpretation (HRI) text placement and font mapping.
 - ⏳ **IOCA Renderer**: Map image data to PDF Image XObjects.
     - ✅ **Implement IOCA Segment Tracking**: Identify and group IOCA segments within the AFP stream.
-    - ⏳ **Implement IOCA Data Decoding**:
+    - ✅ **Implement IOCA Data Decoding**:
         - ✅ **FS10 Support**: Support FS10 (Bilevel) image data (uncompressed).
         - ✅ **FS11 Support**: Support FS11 (Grayscale/Color) image data (uncompressed).
         - ✅ **FS40 (Tiled) support**: Support FS40 (Tiled) image data structures.
