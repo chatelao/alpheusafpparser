@@ -405,7 +405,11 @@ public class PdfHandler implements StructuredFieldHandler {
       if (mcf1.getRepeatingGroups() != null) {
         Map<Short, FontResource> currentFontMap = fontMapStack.peek();
         for (MCF_MapCodedFont_Format1.MCF_RepeatingGroup rg : mcf1.getRepeatingGroups()) {
-          currentFontMap.put(rg.getCodedFontLocalID(), new FontResource(rg.getCodedFontName(), 10.0f));
+          float size = PdfFontRegistry.extractSizeFromName(rg.getCodedFontName());
+          if (size == 10.0f && rg.getFontCharacterSetName() != null) {
+            size = PdfFontRegistry.extractSizeFromName(rg.getFontCharacterSetName());
+          }
+          currentFontMap.put(rg.getCodedFontLocalID(), new FontResource(rg.getCodedFontName(), size));
         }
       }
     } else if (sf instanceof MCF_MapCodedFont_Format2 mcf2) {
