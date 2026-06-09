@@ -68,9 +68,9 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
 - [x] 8.4 Integration der Hotspot-Visualisierungen und "Quick Wins". ✅
 - [x] 8.5 Finalisierung des Performance-Abnahme-Protokolls. ✅
 
-## Phase 9: PDF Performance Analysis ⏳
-- [ ] 9.1 Erweiterung der Hotspot-Kategorisierung um den PDF-Handler und iText.
-- [ ] 9.2 Anpassung der Benchmark-Skripte (`benchmark_10x10.sh`, `benchmark_large.sh`) an die PDF-Ausgabe.
-- [ ] 9.3 Erzeugung der PDF-Performance-Baseline (v15.6).
-- [ ] 9.4 Durchführung von Differential-Analysen zwischen XML- und PDF-Export zur Identifikation von iText-Overhead.
-- [ ] 9.5 Dokumentation der PDF-Performance-Charakteristik in `PROFILE_PERF_AUDIT.md`.
+## Phase 9: PDF Performance Analysis ✅
+- [x] 9.1 Erweiterung der Hotspot-Kategorisierung um den PDF-Handler und iText. ✅
+- [x] 9.2 Anpassung der Benchmark-Skripte (`benchmark_10x10.sh`, `benchmark_large.sh`) an die PDF-Ausgabe. ✅
+- [x] 9.3 Erzeugung der PDF-Performance-Baseline (v15.6). ✅
+- [x] 9.4 Durchführung von Differential-Analysen zwischen XML- und PDF-Export zur Identifikation von iText-Overhead. ✅
+- [x] 9.5 Dokumentation der PDF-Performance-Charakteristik in `PROFILE_PERF_AUDIT.md`. ✅

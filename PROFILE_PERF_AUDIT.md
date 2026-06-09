@@ -24,7 +24,7 @@ Der signifikante Anstieg erfolgte zwischen v7.0 und v12.1. Seitdem ist die Allok
 
 ## 3. Gegenüberstellung: 10x10 vs. Large-File Performance
 
-Ein Vergleich der Performance-Charakteristik bei unterschiedlichen Dateigrößen offenbart grundlegende Unterschiede im Laufzeitverhalten:
+Ein Vergleich der Performance-Charakteristik bei unterschiedlichen Dateigrößen offenbart grundlegende Unterschiede im Laufzeitverhalten (Daten für XML-Export):
 
 | Metrik | 10x10 Szenario (Kleine Dateien) | Large-File Szenario (20 Dateien, gesamt ~1.8 MB) |
 | :--- | :--- | :--- |
@@ -37,26 +37,40 @@ Ein Vergleich der Performance-Charakteristik bei unterschiedlichen Dateigrößen
 ### Analyse:
 Während die manuellen StAX Fast-Paths in v15.6 den Reflection-Overhead bei kleinen Dateien effektiv minimieren, zeigt das Large-File-Szenario, dass die kumulative Last der erweiterten MO:DCA Unterstützung (Validierungen, Triplet-Handling) den Gesamtdurchsatz bei großen Datenmengen spürbar reduziert.
 
-**Hinweis zum Messverfahren:**
-Im Large-File Szenario nutzt v15.6 den optimierten **Directory-Mode** (`-d`), bei dem die gesamte Menge von 1.8 MB in einer einzigen JVM-Instanz ohne erneuten Prozessstart verarbeitet wird. Dies isoliert die reine Verarbeitungsleistung von der JVM-Startzeit.
+## 4. PDF Performance Charakteristik (v15.6)
+Mit der Einführung des PDF-Exports via iText 9 wurden eigene Performance-Benchmarks durchgeführt, um den Overhead der PDF-Generierung im Vergleich zum XML-Export zu bewerten.
 
-## 4. Hotspot-Analyse (Large-File Szenario v15.6)
-Die automatisierte Hotspot-Analyse der aggregierten JFR-Profile für das Large-File Szenario zeigt die Verteilung der CPU-Zyklen über die funktionalen Bereiche:
+| Metrik | XML (v15.6) | PDF (v15.6) | Delta |
+| :--- | :--- | :--- | :--- |
+| **Avg Time (10x10)** | ~250 ms (Gesamt) | 1329.5 ms (Gesamt) | +430% |
+| **Avg Time (Large)** | 2436.0 ms | 1839.5 ms | **-24.5%** |
+| **Thread Alloc (Main)** | 23.2 MB | 24.0 MB | +3.4% |
+| **GC Pausen (Large)** | 26.84 ms | 7.69 ms | -71.3% |
 
-| Bereich | Anteil (v15.6) | Beschreibung |
-| :--- | :--- | :--- |
-| **Jackson Fallback** | 27.52% | Generische Serialisierung via Reflection für nicht-optimierte Felder/Tripletts (siehe Liste unten). |
-| **XML Library (Woodstox)** | 26.85% | Interner Overhead des StAX-Writers und Buffer-Management (siehe Details unten). |
-| **Field Parsing** | 13.42% | Dekodierung der MO:DCA Feldstrukturen und Validierung. |
-| **JVM & Infrastructure** | 10.07% | Class Loading, Method Handle Linking und JIT-Kompilierung. |
-| **Fast-Path Serialization** | 6.71% | Optimierte, manuelle StAX-Schreibvorgänge. |
-| **Thread Orchestration** | 4.03% | Overhead der parallelen Verarbeitung (ParallelAfpConverter). |
-| **Encoding & Sanitization** | 2.68% | EBCDIC-zu-UTF8 Konvertierung und XML-Sanitierung. |
-| **I/O & Scanning** | 1.34% | Dateizugriff und Record-Boundary Erkennung. |
-| **Other** | 7.38% | Sonstige interne JVM-Funktionen und nicht zugeordnete Stacks. |
+### Analyse PDF vs. XML:
+- **Kleine Dateien (10x10)**: Der PDF-Export ist signifikant langsamer (+430%). Dies liegt an der massiven Initialisierungszeit der iText-Bibliothek (Fonts, Ressourcen, PDF-Strukturen) pro Prozessstart oder bei der ersten Nutzung.
+- **Große Dateien (Large)**: Überraschenderweise ist der PDF-Export bei größeren Dateien **24.5% schneller** als der XML-Export. Dies ist darauf zurückzuführen, dass der PDF-Handler direkt die iText-API bedient und somit den teuren Umweg über Jacksons Reflection-Fallback und Woodstox' XML-Serialisierung vermeidet. Zudem ist die GC-Last bei der PDF-Generierung in diesem Szenario deutlich geringer.
+
+## 5. Hotspot-Analyse (Large-File Szenario v15.6)
+Die automatisierte Hotspot-Analyse der aggregierten JFR-Profile für das Large-File Szenario zeigt die Verteilung der CPU-Zyklen:
+
+| Bereich | Anteil (XML) | Anteil (PDF) | Beschreibung (XML) |
+| :--- | :--- | :--- | :--- |
+| **Jackson Fallback** | 27.52% | 0.00% | Generische Serialisierung via Reflection. |
+| **XML Library (Woodstox)** | 26.85% | 0.00% | Interner Overhead des StAX-Writers. |
+| **PDF Generation (iText)** | 0.00% | 38.49% | iText Layout-Engine, Font-Handling und Canvas-Operations. |
+| **Field Parsing** | 13.42% | 12.95% | Dekodierung der MO:DCA Feldstrukturen. |
+| **JVM & Infrastructure** | 10.07% | 22.66% | Class Loading, Method Handle Linking und JIT. |
+| **Fast-Path Serialization** | 6.71% | 0.00% | Optimierte StAX-Schreibvorgänge. |
+| **Thread Orchestration** | 4.03% | 5.76% | Overhead der parallelen Verarbeitung. |
+| **Encoding & Sanitization** | 2.68% | 1.08% | EBCDIC-Konvertierung. |
+| **Other** | 7.38% | 18.71% | Sonstige interne JVM-Funktionen. |
 
 **Erkenntnis:**
-Im Gegensatz zum 10x10 Szenario dominiert hier nicht die JVM-Infrastruktur, sondern die Serialisierungslogik. Über 50% der Zeit entfallen auf Jackson (Fallback) und die Woodstox XML-Bibliothek, was ein klares Optimierungspotenzial durch den Ausbau der Fast-Paths aufzeigt.
+Während beim XML-Export die Serialisierungs-Bibliotheken (Jackson/Woodstox) über 50% der CPU-Zeit binden, ist beim PDF-Export die iText-Bibliothek selbst der Hauptfaktor (38.5%). Die Effizienz von iText bei großen Dateien erklärt, warum der PDF-Export den XML-Export im Durchsatz schlägt, sobald die Initialisierungshürde genommen ist.
+
+**Hinweis zum Messverfahren:**
+Im Large-File Szenario nutzt v15.6 den optimierten **Directory-Mode** (`-d`), bei dem die gesamte Menge von 1.8 MB in einer einzigen JVM-Instanz ohne erneuten Prozessstart verarbeitet wird. Dies isoliert die reine Verarbeitungsleistung von der JVM-Startzeit.
 
 ### Details zum Jackson Fallback
 Der "Jackson Fallback" tritt immer dann auf, wenn für ein MO:DCA-Element kein manueller StAX-Fast-Path in `AfpJacksonXmlWriter` existiert. In diesen Fällen wird ein vorkonfigurierter `ObjectWriter` verwendet, der das Objekt via Reflection in XML transformiert.
@@ -77,9 +91,9 @@ Die Woodstox-Bibliothek stellt die StAX-Implementierung bereit. Der Anteil von 2
 - **Leerraum-Optimierung:** `com.ctc.wstx.addSpaceAfterEmptyElem` ist deaktiviert (`false`), um kompaktere XML-Tags (z.B. `<NOP/>`) zu erzeugen.
 
 **Der "ToXmlGenerator" Abstraktionslayer:**
-Ein signifikanter Teil des Overheads entsteht durch die Kapselung des Woodstox-Writers in Jacksons `ToXmlGenerator`. Jeder Aufruf von `writeStartElement` oder `writeAttribute` durchläuft mehrere Delegationsstufen. In zukünftigen Versionen könnte die direkte Nutzung der Woodstox `WstxOutputFactory` (unter Umgehung von Jackson für Fast-Paths) diesen Hotspot weiter reduzieren.
+Ein signifikanter Teil des Overheads entsteht durch die Kapselung des Woodstox-Writers in Jacksons `ToXmlGenerator`. Jeder Aufruf von `writeStartElement` oder `writeAttribute` durchläuft mehrere Delegationsstufen. In zukünftigen Versionen könnte die direkte Nutzung der Woodstox `WstxOutputFactory` (unter Umgehung von Jackson for Fast-Paths) diesen Hotspot weiter reduzieren.
 
-## 5. Quick Wins & Optimierungen
+## 6. Quick Wins & Optimierungen
 Basierend auf der Hotspot-Identifikation wurden folgende Maßnahmen mit hohem Performance-Hebel (Quick Wins) definiert:
 
 1.  **Vollständige Fast-Path Abdeckung (Ziel: 0% Jackson Fallback)**:
@@ -92,7 +106,7 @@ Basierend auf der Hotspot-Identifikation wurden folgende Maßnahmen mit hohem Pe
     - Umgehung des `ToXmlGenerator` Abstraktionslayers von Jackson und direkte Nutzung des `WstxOutputFactory`.
     - **Impact**: Reduzierung des Woodstox-Overheads und bessere Buffer-Kontrolle.
 
-## 6. Performance-Abnahme-Protokoll
+## 7. Performance-Abnahme-Protokoll
 Um die langfristige Performance-Stabilität sicherzustellen, werden folgende Kriterien für die Abnahme neuer Features und Refactorings definiert:
 
 | Kriterium | Schwellenwert | Verifizierungstool |

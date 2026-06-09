@@ -59,9 +59,9 @@ perform_hotspot_analysis() {
 
 # Extract unique versions (including large_)
 if sort -V </dev/null >/dev/null 2>&1; then
-    ALL_VERSIONS=$(ls "$PROFILE_DIR"/profile_*.jfr 2>/dev/null | sed -n 's/.*profile_\(\(large_\)\?v[0-9.]*\)_run.*/\1/p' | sort -V | uniq)
+    ALL_VERSIONS=$(ls "$PROFILE_DIR"/profile_*.jfr 2>/dev/null | sed -n 's/.*profile_\(\(large_\)\?v[0-9.]*\(_[a-z]*\)\?\)_run.*/\1/p' | sort -V | uniq)
 else
-    ALL_VERSIONS=$(ls "$PROFILE_DIR"/profile_*.jfr 2>/dev/null | sed -n 's/.*profile_\(\(large_\)\?v[0-9.]*\)_run.*/\1/p' | sort -u)
+    ALL_VERSIONS=$(ls "$PROFILE_DIR"/profile_*.jfr 2>/dev/null | sed -n 's/.*profile_\(\(large_\)\?v[0-9.]*\(_[a-z]*\)\?\)_run.*/\1/p' | sort -u)
 fi
 
 STD_VERSIONS=$(echo "$ALL_VERSIONS" | grep -v "large_")
