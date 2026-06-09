@@ -857,11 +857,17 @@ public class PdfHandler implements StructuredFieldHandler {
     } else if (order instanceof GAD_DrawingOrder.DrawingOrder_HasPoints marker && (marker instanceof GMRK_MarkerAtGivenPosition || marker instanceof GCMRK_MarkerAtCurrentPosition)) {
       renderMarkers(marker.getPoints(), marker instanceof GCMRK_MarkerAtCurrentPosition);
     } else if (order instanceof GBSEG_BeginSegment gbseg) {
-      if (gbseg.getDrawingOrders() != null) {
-        for (GAD_DrawingOrder subOrder : gbseg.getDrawingOrders()) {
-          handleDrawingOrder(subOrder);
+      String name = gbseg.getNameOfSegment();
+      if (!resourceCache.containsKey(name)) {
+        startResourceCapture(name);
+        if (gbseg.getDrawingOrders() != null) {
+          for (GAD_DrawingOrder subOrder : gbseg.getDrawingOrders()) {
+            handleDrawingOrder(subOrder);
+          }
         }
+        endResourceCapture();
       }
+      renderXObject(name, graphicsState.getCurrentX(), graphicsState.getCurrentY(), null);
     } else if (order instanceof GESEG_EndSegment || order instanceof GNOP1_NopOperation || order instanceof GCOMT_Comment) {
       // No-op
     }
