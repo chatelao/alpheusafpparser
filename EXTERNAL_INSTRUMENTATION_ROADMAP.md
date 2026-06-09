@@ -62,10 +62,8 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
 - [x] Verfeinerung der Hotspot-Kategorisierung (Einbeziehung von Woodstox und PTOCA-Sub-Decoding). ✅
 
 ## Phase 8: Erstelle einen umfassenden Bericht `PROFILE_PERF_AUDIT.md`
-- [ ] Strukturierung des Berichts:
-    - [ ] Management Summary (Executive Overview).
-    - [ ] Detaillierte Regressionsanalyse pro Major-Release (v3.4 bis v15.6).
-    - [ ] Gegenüberstellung 10x10 vs. Large-File Performance.
-    - [ ] Visualisierung der Hotspots (Referenz auf Flame Graph Daten).
-- [ ] Dokumentation der identifizierten "Quick Wins" und langfristigen Optimierungen.
-- [ ] Finalisierung des Performance-Abnahme-Protokolls für zukünftige Versionen.
+- [x] 8.1 Erstellung der Grundstruktur von `PROFILE_PERF_AUDIT.md`. ✅
+- [x] 8.2 Dokumentation des Management Summary und der Regressionsanalyse (v3.4 bis v15.6). ✅
+- [x] 8.3 Analyse des Vergleichs zwischen 10x10 und Large-File Szenarien. ✅
+- [ ] 8.4 Integration der Hotspot-Visualisierungen und "Quick Wins".
+- [ ] 8.5 Finalisierung des Performance-Abnahme-Protokolls.
