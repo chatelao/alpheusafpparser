@@ -28,9 +28,13 @@ import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
 import com.mgz.afp.ioca.IDD_SelfDefiningField;
 import com.mgz.afp.ioca.IPD_ImagePictureData;
 import com.mgz.afp.ioca.IPD_Segment;
+import com.mgz.afp.ioca.IPD_Segment.BeginTile;
+import com.mgz.afp.ioca.IPD_Segment.EndTile;
 import com.mgz.afp.ioca.IPD_Segment.ImageData;
 import com.mgz.afp.ioca.IPD_Segment.ImageEncoding;
 import com.mgz.afp.ioca.IPD_Segment.IPD_CompressionAlgorithm;
+import com.mgz.afp.ioca.IPD_Segment.TilePosition;
+import com.mgz.afp.ioca.IPD_Segment.TileSize;
 import java.io.ByteArrayOutputStream;
 import java.security.MessageDigest;
 import java.util.HexFormat;
@@ -55,6 +59,27 @@ public class PdfImageRenderer {
       return;
     }
 
+    boolean isTiled = false;
+    for (IPD_ImagePictureData ipd : state.getImageSegments()) {
+      if (ipd.getListOfSegments() != null) {
+        for (IPD_Segment segment : ipd.getListOfSegments()) {
+          if (segment instanceof BeginTile) {
+            isTiled = true;
+            break;
+          }
+        }
+      }
+      if (isTiled) break;
+    }
+
+    if (isTiled) {
+      renderTiled(state, canvas, imageCache);
+    } else {
+      renderSimple(state, canvas, imageCache);
+    }
+  }
+
+  private static void renderSimple(PdfImageState state, PdfCanvas canvas, Map<String, PdfImageXObject> imageCache) {
     IDD_ImageDataDescriptor descriptor = state.getDescriptor();
     int width = descriptor.getWidthOfImageInImagePoints();
     int height = descriptor.getHeightOfImageInImagePoints();
@@ -97,62 +122,122 @@ public class PdfImageRenderer {
         }
       }
 
-      String cacheKey = generateCacheKey(data, compression, width, height);
-      PdfImageXObject imageXObject = (imageCache != null) ? imageCache.get(cacheKey) : null;
-
-      if (imageXObject == null) {
-        com.itextpdf.io.image.ImageData itextImageData = null;
-
-        if (compression == IPD_CompressionAlgorithm.NoCompression) {
-          ImageStructure structure = resolveImageStructure(state);
-          itextImageData = ImageDataFactory.create(
-              width, height, structure.components(), structure.bitsPerComponent(), data, null);
-        } else if (compression == IPD_CompressionAlgorithm.JPEG) {
-          itextImageData = ImageDataFactory.create(data);
-        } else if (compression == IPD_CompressionAlgorithm.TIFF_LZW
-            || compression == IPD_CompressionAlgorithm.TIFF_LZW_with_Differencing_Predictor) {
-
-          byte[] decoded = LzwDecoder.decode(data);
-          ImageStructure structure = resolveImageStructure(state);
-          if (compression == IPD_CompressionAlgorithm.TIFF_LZW_with_Differencing_Predictor) {
-            applyDifferencingPredictor(decoded, width, structure);
-          }
-
-          itextImageData = ImageDataFactory.create(width, height, structure.components(), structure.bitsPerComponent(), decoded, null);
-        } else if (compression == IPD_CompressionAlgorithm.G3_ModifiedHuffman
-            || compression == IPD_CompressionAlgorithm.G3_ModifiedREAD
-            || compression == IPD_CompressionAlgorithm.G4_ModifiedModifiedREAD) {
-
-          int k = 0;
-          if (compression == IPD_CompressionAlgorithm.G4_ModifiedModifiedREAD) {
-            k = -1;
-          } else if (compression == IPD_CompressionAlgorithm.G3_ModifiedREAD) {
-            k = 1;
-          }
-
-          itextImageData = ImageDataFactory.createRawImage(data);
-          RawImageHelper.updateImageAttributes((com.itextpdf.io.image.RawImageData) itextImageData,
-              java.util.Map.of(
-                  "Width", width,
-                  "Height", height,
-                  "CCITT_K", k
-              ));
-        }
-
-        if (itextImageData != null) {
-          imageXObject = new PdfImageXObject(itextImageData);
-          if (imageCache != null) {
-            imageCache.put(cacheKey, imageXObject);
-          }
-        }
-      }
-
+      PdfImageXObject imageXObject = getOrCreateImageXObject(data, compression, width, height, state, imageCache);
       if (imageXObject != null) {
-        renderImage(imageXObject, width, height, state, canvas);
+        renderImage(imageXObject, width, height, state.getxOrigin(), state.getyOrigin() - height, canvas);
       }
     } catch (Exception e) {
       System.err.println("Error rendering IOCA image: " + e.getMessage());
     }
+  }
+
+  private static void renderTiled(PdfImageState state, PdfCanvas canvas, Map<String, PdfImageXObject> imageCache) {
+    IPD_CompressionAlgorithm defaultCompression = IPD_CompressionAlgorithm.NoCompression;
+    // Find default compression from ImageEncoding segments before tiles
+    for (IPD_ImagePictureData ipd : state.getImageSegments()) {
+      if (ipd.getListOfSegments() != null) {
+        for (IPD_Segment segment : ipd.getListOfSegments()) {
+          if (segment instanceof ImageEncoding ie) {
+            defaultCompression = ie.getCompressionAlgorithm();
+          } else if (segment instanceof BeginTile) {
+            break;
+          }
+        }
+      }
+    }
+
+    ByteArrayOutputStream tileBaos = null;
+    int tileX = 0, tileY = 0, tileW = 0, tileH = 0;
+    IPD_CompressionAlgorithm tileCompression = defaultCompression;
+
+    for (IPD_ImagePictureData ipd : state.getImageSegments()) {
+      if (ipd.getListOfSegments() != null) {
+        for (IPD_Segment segment : ipd.getListOfSegments()) {
+          if (segment instanceof BeginTile) {
+            tileBaos = new ByteArrayOutputStream();
+            tileCompression = defaultCompression;
+          } else if (segment instanceof TilePosition tp) {
+            tileX = tp.horizontalOffset;
+            tileY = tp.verticalOffset;
+          } else if (segment instanceof TileSize ts) {
+            tileW = ts.horizontalSizeInImagePoints;
+            tileH = ts.verticalSizeInImagePoints;
+          } else if (segment instanceof ImageEncoding ie) {
+            tileCompression = ie.getCompressionAlgorithm();
+          } else if (segment instanceof ImageData id && tileBaos != null) {
+            try {
+              tileBaos.write(id.getImageData());
+            } catch (Exception e) { /* Ignore */ }
+          } else if (segment instanceof EndTile && tileBaos != null) {
+            byte[] tileData = tileBaos.toByteArray();
+            if (tileData.length > 0) {
+              try {
+                PdfImageXObject tileXObject = getOrCreateImageXObject(tileData, tileCompression, tileW, tileH, state, imageCache);
+                if (tileXObject != null) {
+                  renderImage(tileXObject, tileW, tileH, state.getxOrigin() + tileX, state.getyOrigin() - tileY - tileH, canvas);
+                }
+              } catch (Exception e) {
+                System.err.println("Error rendering IOCA tile: " + e.getMessage());
+              }
+            }
+            tileBaos = null;
+          }
+        }
+      }
+    }
+  }
+
+  private static PdfImageXObject getOrCreateImageXObject(byte[] data, IPD_CompressionAlgorithm compression, int width, int height, PdfImageState state, Map<String, PdfImageXObject> imageCache) throws Exception {
+    String cacheKey = generateCacheKey(data, compression, width, height);
+    PdfImageXObject imageXObject = (imageCache != null) ? imageCache.get(cacheKey) : null;
+
+    if (imageXObject == null) {
+      com.itextpdf.io.image.ImageData itextImageData = null;
+
+      if (compression == IPD_CompressionAlgorithm.NoCompression) {
+        ImageStructure structure = resolveImageStructure(state);
+        itextImageData = ImageDataFactory.create(
+            width, height, structure.components(), structure.bitsPerComponent(), data, null);
+      } else if (compression == IPD_CompressionAlgorithm.JPEG) {
+        itextImageData = ImageDataFactory.create(data);
+      } else if (compression == IPD_CompressionAlgorithm.TIFF_LZW
+          || compression == IPD_CompressionAlgorithm.TIFF_LZW_with_Differencing_Predictor) {
+
+        byte[] decoded = LzwDecoder.decode(data);
+        ImageStructure structure = resolveImageStructure(state);
+        if (compression == IPD_CompressionAlgorithm.TIFF_LZW_with_Differencing_Predictor) {
+          applyDifferencingPredictor(decoded, width, structure);
+        }
+
+        itextImageData = ImageDataFactory.create(width, height, structure.components(), structure.bitsPerComponent(), decoded, null);
+      } else if (compression == IPD_CompressionAlgorithm.G3_ModifiedHuffman
+          || compression == IPD_CompressionAlgorithm.G3_ModifiedREAD
+          || compression == IPD_CompressionAlgorithm.G4_ModifiedModifiedREAD) {
+
+        int k = 0;
+        if (compression == IPD_CompressionAlgorithm.G4_ModifiedModifiedREAD) {
+          k = -1;
+        } else if (compression == IPD_CompressionAlgorithm.G3_ModifiedREAD) {
+          k = 1;
+        }
+
+        itextImageData = ImageDataFactory.createRawImage(data);
+        RawImageHelper.updateImageAttributes((com.itextpdf.io.image.RawImageData) itextImageData,
+            java.util.Map.of(
+                "Width", width,
+                "Height", height,
+                "CCITT_K", k
+            ));
+      }
+
+      if (itextImageData != null) {
+        imageXObject = new PdfImageXObject(itextImageData);
+        if (imageCache != null) {
+          imageCache.put(cacheKey, imageXObject);
+        }
+      }
+    }
+    return imageXObject;
   }
 
   private static String generateCacheKey(byte[] data, IPD_CompressionAlgorithm compression, int width, int height) {
@@ -225,10 +310,10 @@ public class PdfImageRenderer {
 
   private record ImageStructure(int components, int bitsPerComponent) {}
 
-  private static void renderImage(PdfImageXObject imageXObject, int width, int height, PdfImageState state, PdfCanvas canvas) {
-    // Placement at (xOrigin, yOrigin) with its own size in AFP units
+  private static void renderImage(PdfImageXObject imageXObject, int width, int height, int x, int y, PdfCanvas canvas) {
+    // Placement at (x, y) with its own size in AFP units
     canvas.saveState();
-    canvas.concatMatrix(width, 0, 0, height, state.getxOrigin(), state.getyOrigin() - height);
+    canvas.concatMatrix(width, 0, 0, height, x, y);
     canvas.addXObject(imageXObject);
     canvas.restoreState();
   }

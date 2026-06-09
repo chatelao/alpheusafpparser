@@ -107,14 +107,14 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ✅ **Text and Markers**:
         - ✅ **Character Strings**: Map `GCHST` and `GCCHST` to PDF text objects with full attribute support.
         - ✅ **Markers**: Map `GMRK` and `GCMRK` to PDF vector primitives.
-    - ⏳ **Pattern Handling**:
+    - ✅ **Pattern Handling**:
         - ✅ **Pattern State Tracking**: Track active pattern attributes (`GSPS`, `GSPT`).
             - ✅ **Standard Patterns**: Map GOCA standard patterns to PDF tiling patterns.
                 - ✅ **Solid and No Fill**: Implement basic fill/no-fill logic for Pattern Set 0.
                 - ✅ **Hatch Patterns**: Map lines and cross-hatches (symbols 1-14) to tiling patterns.
                 - ✅ **Custom Patterns**: Map `GBCP`/`GECP` to PDF tiling patterns.
-    - 🚧 **Resource Mapping**:
-        - 🚧 **Segment Mapping**: Implement inline rendering for GOCA segments (`GBSEG`). (XObject conversion pending).
+    - ✅ **Resource Mapping**:
+        - ✅ **Segment Mapping**: Implement XObject-based rendering for GOCA segments (`GBSEG`).
 - ⏳ **BCOCA Renderer**: Implement barcode drawing using vector primitives for resolution independence.
     - ✅ **BCOCA State Tracking**: Implement tracking of barcode descriptors (`BDD`) and data (`BDA`) including type, modifier, and font for HRI.
     - ✅ **Linear Barcode Support**: Implement rendering for common linear barcodes.
@@ -148,9 +148,9 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ⏳ **Implement IOCA Data Decoding**:
         - ✅ **FS10 Support**: Support FS10 (Bilevel) image data (uncompressed).
         - ✅ **FS11 Support**: Support FS11 (Grayscale/Color) image data (uncompressed).
-        - ⏳ **FS40 (Tiled) support**: Support FS40 (Tiled) image data structures.
-            - ⏳ **Tiling Descriptor Mapping**: Map tile positions to PDF coordinates.
-            - ⏳ **Tile-to-XObject Optimization**: Handle repeated tiles as XObjects.
+        - ✅ **FS40 (Tiled) support**: Support FS40 (Tiled) image data structures.
+            - ✅ **Tiling Descriptor Mapping**: Map tile positions to PDF coordinates.
+            - ✅ **Tile-to-XObject Optimization**: Handle repeated tiles as XObjects.
         - ✅ **G3/G4 Decoding**: Implement CCITT Group 3/4 decompression.
         - ✅ **LZW Decoding**: Implement LZW decompression for FS10/FS11.
         - ✅ **JPEG Decoding**: Implement JPEG (DCT) decompression.
