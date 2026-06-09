@@ -60,7 +60,7 @@ This roadmap outlines the serial implementation plan for decoupling the parser f
     - ✅ **4.5.1 Identify Format Name:** Add `getFormatName()` to `HandlerFactory` for format identification.
     - ✅ **4.5.2 SPI Registration:** Register existing `XmlHandlerFactory` and `PdfHandlerFactory` as SPI providers.
 2.  **Dynamic Discovery:**
-    - [ ] **4.6.1 Implement HandlerRegistry:** Discover all available `HandlerFactory` instances using `ServiceLoader`.
-    - [ ] **4.6.2 CLI Integration:** Refactor `Afp2Xml` CLI to use the registry instead of hardcoded factory instantiation.
+    - ✅ **4.6.1 Implement HandlerRegistry:** Discover all available `HandlerFactory` instances using `ServiceLoader`.
+    - ✅ **4.6.2 CLI Integration:** Refactor `Afp2Xml` CLI to use the registry instead of hardcoded factory instantiation.
 3.  **Extensibility Verification:**
     - [ ] **4.7.1 Verification:** Verify that third-party handlers can be added by placing a JAR in the classpath.

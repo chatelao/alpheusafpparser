@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.file.Path;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -72,6 +73,11 @@ public class HandlerLifecycleTest {
         @Override
         public String getFormatName() {
             return "mock";
+        }
+
+        @Override
+        public String getDefaultExtension(Map<String, String> options) {
+            return ".mock";
         }
     }
 
