@@ -2056,45 +2056,26 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     if (order instanceof GAD_DrawingOrder.GNOP1_NopOperation) {
       writer.writeEmptyElement("GNOP1_NopOperation");
     } else if (order instanceof GAD_DrawingOrder.GCLINE_LineAtCurrentPosition gcline) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GCLINE");
       writeDrawingOrderWithPoints(writer, gcline, "GCLINE_LineAtCurrentPosition", level);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GLINE_LineAtGivenPosition gline) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GLINE");
       writeDrawingOrderWithPoints(writer, gline, "GLINE_LineAtGivenPosition", level);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GCMRK_MarkerAtCurrentPosition gcmrk) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GCMRK");
       writeDrawingOrderWithPoints(writer, gcmrk, "GCMRK_MarkerAtCurrentPosition", level);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GMRK_MarkerAtGivenPosition gmrk) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GMRK");
       writeDrawingOrderWithPoints(writer, gmrk, "GMRK_MarkerAtGivenPosition", level);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GCFLT_FilletAtCurrentPosition gcflt) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GCFLT");
       writeDrawingOrderWithPoints(writer, gcflt, "GCFLT_FilletAtCurrentPosition", level);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GFLT_FilletAtGivenPosition gflt) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GFLT");
       writeDrawingOrderWithPoints(writer, gflt, "GFLT_FilletAtGivenPosition", level);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GCCBEZ_CubicBezierCurveAtCurrentPosition gccbez) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GCCBEZ");
       writeDrawingOrderWithPoints(writer, gccbez, "GCCBEZ_CubicBezierCurveAtCurrentPosition", level);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GCBEZ_CubicBezierCurveAtGivenPosition gcbez) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GCBEZ");
       writeDrawingOrderWithPoints(writer, gcbez, "GCBEZ_CubicBezierCurveAtGivenPosition", level);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GCFARC_FullArcAtCurrentPosition gcfarc) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GCFARC");
       writer.writeEmptyElement("GCFARC_FullArcAtCurrentPosition");
       writer.writeIntAttribute(null, null, "multiplierIntegerPortion", gcfarc.getMultiplierIntegerPortion());
       writer.writeIntAttribute(null, null, "multiplierFractionalPortion", gcfarc.getMultiplierFractionalPortion());
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GCOMT_Comment gcomt) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GCOMT");
       writer.writeStartElement("GCOMT_Comment");
       writer.writeIntAttribute(null, null, "lengthOfFollowingData", gcomt.getLengthOfFollowingData());
       if (gcomt.getText() != null) {
@@ -2105,60 +2086,40 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       }
       writeIndent(writer, level);
       writer.writeEndElement();
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSCP_SetCurrentPosition gcp) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSCP");
       writer.writeEmptyElement("GSCP_SetCurrentPosition");
       writer.writeIntAttribute(null, null, "coordinateX", gcp.getCoordinateX());
       writer.writeIntAttribute(null, null, "coordinateY", gcp.getCoordinateY());
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSCOL_SetColor gsc) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSCOL");
       if (gsc.getColor() != null) {
         writer.writeEmptyElement("GSCOL_SetColor");
         writer.writeAttribute("color", gsc.getColor().name());
       } else {
         writer.writeEmptyElement("GSCOL_SetColor");
       }
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSCS_SetCharacterSet gscs) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSCS");
       writer.writeEmptyElement("GSCS_SetCharacterSet");
       writer.writeIntAttribute(null, null, "characterSetLocalID", gscs.getCharacterSetLocalID());
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSPS_SetPatternSet gsps) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSPS");
       writer.writeEmptyElement("GSPS_SetPatternSet");
       writer.writeIntAttribute(null, null, "patternLocalID", gsps.patternLocalID);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSMX_SetMix gsmx) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSMX");
       writer.writeEmptyElement("GSMX_SetMix");
       writer.writeIntAttribute(null, null, "mixMode", gsmx.mixMode);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSBMX_SetBackgroundMix gsbmx) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSBMX");
       writer.writeEmptyElement("GSBMX_SetBackgroundMix");
       writer.writeIntAttribute(null, null, "mixMode", gsbmx.mixMode);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSFLW_SetFractionLineWidth gsflw) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSFLW");
       writer.writeEmptyElement("GSFLW_SetFractionLineWidth");
       writer.writeIntAttribute(null, null, "integralMultiplier", gsflw.integralMultiplier);
       writer.writeIntAttribute(null, null, "fractionalMultiplier", gsflw.fractionalMultiplier);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSLT_SetLineType gslt) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSLT");
       writer.writeEmptyElement("GSLT_SetLineType");
       writer.writeIntAttribute(null, null, "lineType", gslt.lineType);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSPIK_SetPickIdentifier gspik) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSPIK");
       writer.writeEmptyElement("GSPIK_SetPickIdentifier");
       writer.writeIntAttribute(null, null, "pickIdentifier", gspik.pickIdentifier);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSGCH_SegmentCharacteristics gsgch) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSGCH");
       writer.writeStartElement("GSGCH_SegmentCharacteristics");
       writer.writeIntAttribute(null, null, "lengthOfFollowingData", gsgch.lengthOfFollowingData);
       writer.writeIntAttribute(null, null, "identificationCode", gsgch.getIdentificationCode());
@@ -2167,16 +2128,13 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       }
       writeIndent(writer, level);
       writer.writeEndElement();
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSECOL_SetExtendedColor gsecol) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSECOL");
       if (gsecol.getColor() != null) {
         writer.writeEmptyElement("GSECOL_SetExtendedColor");
         writer.writeAttribute("color", gsecol.getColor().name());
       } else {
         writer.writeEmptyElement("GSECOL_SetExtendedColor");
       }
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSCC_SetCharacterCell gscc) {
       writer.writeEmptyElement("GSCC_SetCharacterCell");
       writer.writeIntAttribute(null, null, "widthOfCharacterCellIntegerPart", gscc.getWidthOfCharacterCellIntegerPart());
@@ -2202,60 +2160,41 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writer.writeIntAttribute(null, null, "widthOfMarkerCell", gsmc.getWidthOfMarkerCell());
       writer.writeIntAttribute(null, null, "heightOfMarkerCell", gsmc.getHeightOfMarkerCell());
     } else if (order instanceof GAD_DrawingOrder.GSLW_SetLineWidth gslw) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSLW");
       writer.writeEmptyElement("GSLW_SetLineWidth");
       writer.writeIntAttribute(null, null, "lineWidth", gslw.lineWidth);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSLE_SetLineEnd gsle) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSLE");
       if (gsle.lineEnd != null) {
         writer.writeEmptyElement("GSLE_SetLineEnd");
         writer.writeAttribute("lineEnd", gsle.lineEnd.name());
       } else {
         writer.writeEmptyElement("GSLE_SetLineEnd");
       }
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSLJ_SetLineJoin gslj) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSLJ");
       if (gslj.lineJoin != null) {
         writer.writeEmptyElement("GSLJ_SetLineJoin");
         writer.writeAttribute("lineJoin", gslj.lineJoin.name());
       } else {
         writer.writeEmptyElement("GSLJ_SetLineJoin");
       }
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSPT_SetPatternSymbol gspt) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSPT");
       writer.writeEmptyElement("GSPT_SetPatternSymbol");
       writer.writeIntAttribute(null, null, "patternSymbolCodePoint", gspt.patternSymbolCodePoint);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSMT_SetMarkerSymbol gsmt) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSMT");
       writer.writeEmptyElement("GSMT_SetMarkerSymbol");
       writer.writeIntAttribute(null, null, "markerSymbolCodePoint", gsmt.markerSymbolCodePoint);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSCR_SetCharacterPrecision gscr) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSCR");
       writer.writeEmptyElement("GSCR_SetCharacterPrecision");
       writer.writeIntAttribute(null, null, "characterPrecision", gscr.characterPrecision);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSCD_SetCharacterDirection gscd) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSCD");
       writer.writeEmptyElement("GSCD_SetCharacterDirection");
       writer.writeIntAttribute(null, null, "characterDirection", gscd.characterDirection);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSMP_SetMarkerPrecision gsmp) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSMP");
       writer.writeEmptyElement("GSMP_SetMarkerPrecision");
       writer.writeIntAttribute(null, null, "markerPrecision", gsmp.markerPrecision);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSMS_SetMarkerSet gsms) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSMS");
       writer.writeEmptyElement("GSMS_SetMarkerSet");
       writer.writeIntAttribute(null, null, "markerSetLocalID", gsms.markerSetLocalID);
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSCLT_SetCustomLineType gsclt) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSCLT");
       writer.writeStartElement("GSCLT_SetCustomLineType");
       writeElement(writer, childLevel, "lengthOfFollowingData", gsclt.lengthOfFollowingData);
       if (gsclt.repeatingGroups != null) {
@@ -2276,7 +2215,6 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       }
       writeIndent(writer, level);
       writer.writeEndElement();
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GSAP_SetArcParameters gsap) {
       writer.writeEmptyElement("GSAP_SetArcParameters");
       writer.writeIntAttribute(null, null, "arcTransformP", gsap.getArcTransformP());
@@ -2307,7 +2245,6 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GSPCOL_SetProcessColor gspcol) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GSPCOL");
       writer.writeStartElement("GSPCOL_SetProcessColor");
       writeElement(writer, childLevel, "lengthOfFollowingData", gspcol.lengthOfFollowingData);
       writeElement(writer, childLevel, "reserved2", gspcol.getReserved2());
@@ -2324,7 +2261,6 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       }
       writeIndent(writer, level);
       writer.writeEndElement();
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GFARC_FullArcAtGivenPosition gfarc) {
       writer.writeStartElement("GFARC_FullArcAtGivenPosition");
       writeElement(writer, childLevel, "lengthOfFollowingData", gfarc.lengthOfFollowingData);
@@ -2421,29 +2357,24 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (order instanceof GAD_DrawingOrder.GESEG_EndSegment) {
       writer.writeEmptyElement("GESEG_EndSegment");
     } else if (order instanceof GAD_DrawingOrder.GEPROL_EndProlog geprol) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GEPROL");
       writer.writeEmptyElement("GEPROL_EndProlog");
       writer.writeIntAttribute(null, null, "reserved0", geprol.getReserved0());
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GBSEG_BeginSegment gbseg) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GBSEG");
-      writer.writeStartElement("GBSEG_BeginSegment");
+      baseXsw.writeStartElement("GBSEG_BeginSegment");
       if (gbseg.getNameOfSegment() != null) {
-        writer.writeAttribute("nameOfSegment", gbseg.getNameOfSegment());
+        baseXsw.writeAttribute("nameOfSegment", gbseg.getNameOfSegment());
       }
       if (gbseg.getText() != null) {
-        writer.writeAttribute("text", gbseg.getText());
+        baseXsw.writeAttribute("text", gbseg.getText());
       }
       if (gbseg.getDrawingOrders() != null) {
         for (GAD_DrawingOrder childOrder : gbseg.getDrawingOrders()) {
-          writeDrawingOrderDirectly(writer, childOrder, childLevel);
+          writeDrawingOrderDirectly(baseXsw, childOrder, childLevel);
         }
       }
-      writeIndent(writer, level);
-      writer.writeEndElement();
-      MnemonicPerformanceMonitor.endWrite();
+      writeIndent(baseXsw, level);
+      baseXsw.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GBCP_BeginCustomPattern gbcp) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GBCP");
       writer.writeStartElement("GBCP_BeginCustomPattern");
       writeElement(writer, childLevel, "lengthOfFollowingData", gbcp.lengthOfFollowingData);
       writeElement(writer, childLevel, "reserved2_3", gbcp.reserved2_3);
@@ -2456,9 +2387,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeElement(writer, childLevel, "yTopWindow", gbcp.yTopWindow);
       writeIndent(writer, level);
       writer.writeEndElement();
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GDPT_DeletePattern gdpt) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GDPT");
       writer.writeStartElement("GDPT_DeletePattern");
       writeElement(writer, childLevel, "lengthOfFollowingData", gdpt.lengthOfFollowingData);
       writeElement(writer, childLevel, "reserved2_3", gdpt.reserved2_3);
@@ -2468,19 +2397,13 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       }
       writeIndent(writer, level);
       writer.writeEndElement();
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GECP_EndCustomPattern gecp) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GECP");
       writer.writeEmptyElement("GECP_EndCustomPattern");
       writer.writeIntAttribute(null, null, "reserved0", gecp.getReserved0());
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GBAR_BeginArea gbar) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GBAR");
       writer.writeEmptyElement("GBAR_BeginArea");
       writer.writeIntAttribute(null, null, "internalFlags", gbar.getInternalFlags());
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GEAR_EndArea gear) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GEAR");
       String text = gear.getText();
       if (text != null && !text.isEmpty()) {
         writer.writeEmptyElement("GEAR_EndArea");
@@ -2488,7 +2411,6 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       } else {
         writer.writeEmptyElement("GEAR_EndArea");
       }
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GIMD_ImageData gimd) {
       writer.writeStartElement("GIMD_ImageData");
       if (gimd.getImageData() != null) {
@@ -2497,7 +2419,6 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GEIMG_EndImage geimg) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GEIMG");
       writer.writeStartElement("GEIMG_EndImage");
       writeElement(writer, childLevel, "lengthOfFollowingData", geimg.getLengthOfFollowingData());
       if (geimg.reservedData != null) {
@@ -2505,7 +2426,6 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       }
       writeIndent(writer, level);
       writer.writeEndElement();
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GCBOX_BoxAtCurrentPosition gcbox) {
       writer.writeStartElement("GCBOX_BoxAtCurrentPosition");
       writeElement(writer, childLevel, "reserved2_3", gcbox.getReserved2_3());
@@ -2553,27 +2473,23 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GCRLINE_RelativeLineAtCurrentPosition gcrline) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GCRLINE");
       writer.writeStartElement("GCRLINE_RelativeLineAtCurrentPosition");
-      if (gcrline.relativeOffsets != null) {
+      if (gcrline.relativeOffsets != null && !gcrline.relativeOffsets.isEmpty()) {
         writeIndent(writer, childLevel);
         writer.writeStartElement("relativeOffsets");
+        StringBuilder sb = new StringBuilder(gcrline.relativeOffsets.size() * 10);
         for (GAD_DrawingOrder.GOCA_RelativePoint rp : gcrline.relativeOffsets) {
-          writeIndent(writer, childLevel + 1);
-          writer.writeStartElement("GOCA_RelativePoint");
-          writeElement(writer, childLevel + 2, "xOffset", rp.xOffset());
-          writeElement(writer, childLevel + 2, "yOffset", rp.yOffset());
-          writeIndent(writer, childLevel + 1);
-          writer.writeEndElement();
+          if (!sb.isEmpty()) {
+            sb.append(' ');
+          }
+          sb.append((int) rp.xOffset()).append(' ').append((int) rp.yOffset());
         }
-        writeIndent(writer, childLevel);
+        writer.writeRaw(sb.toString());
         writer.writeEndElement();
       }
       writeIndent(writer, level);
       writer.writeEndElement();
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GRLINE_RelativeLineAtGivenPosition grline) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GRLINE");
       writer.writeStartElement("GRLINE_RelativeLineAtGivenPosition");
       if (grline.startPoint != null) {
         writeIndent(writer, childLevel);
@@ -2583,25 +2499,22 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writeIndent(writer, childLevel);
         writer.writeEndElement();
       }
-      if (grline.relativeOffsets != null) {
+      if (grline.relativeOffsets != null && !grline.relativeOffsets.isEmpty()) {
         writeIndent(writer, childLevel);
         writer.writeStartElement("relativeOffsets");
+        StringBuilder sb = new StringBuilder(grline.relativeOffsets.size() * 10);
         for (GAD_DrawingOrder.GOCA_RelativePoint rp : grline.relativeOffsets) {
-          writeIndent(writer, childLevel + 1);
-          writer.writeStartElement("GOCA_RelativePoint");
-          writeElement(writer, childLevel + 2, "xOffset", rp.xOffset());
-          writeElement(writer, childLevel + 2, "yOffset", rp.yOffset());
-          writeIndent(writer, childLevel + 1);
-          writer.writeEndElement();
+          if (!sb.isEmpty()) {
+            sb.append(' ');
+          }
+          sb.append((int) rp.xOffset()).append(' ').append((int) rp.yOffset());
         }
-        writeIndent(writer, childLevel);
+        writer.writeRaw(sb.toString());
         writer.writeEndElement();
       }
       writeIndent(writer, level);
       writer.writeEndElement();
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GLGD_LinearGradient glgd) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GLGD");
       writer.writeStartElement("GLGD_LinearGradient");
       writeElement(writer, childLevel, "qualifier", glgd.qualifier);
       writeElement(writer, childLevel, "lengthOfFollowingData", glgd.lengthOfFollowingData);
@@ -2631,9 +2544,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       }
       writeIndent(writer, level);
       writer.writeEndElement();
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.GRGD_RadialGradient grgd) {
-      MnemonicPerformanceMonitor.startWriteWithMnemonic("GRGD");
       writer.writeStartElement("GRGD_RadialGradient");
       writeElement(writer, childLevel, "qualifier", grgd.qualifier);
       writeElement(writer, childLevel, "lengthOfFollowingData", grgd.lengthOfFollowingData);
@@ -2667,42 +2578,26 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       }
       writeIndent(writer, level);
       writer.writeEndElement();
-      MnemonicPerformanceMonitor.endWrite();
     } else if (order instanceof GAD_DrawingOrder.DrawingOrder_HasPoints dohp) {
       String rootName = MnemonicPerformanceMonitor.getSimpleName(order.getClass());
-      if (MnemonicPerformanceMonitor.isEnabled()) {
-        MnemonicPerformanceMonitor.startWriteWithMnemonic(MnemonicPerformanceMonitor.extractMnemonicFromString(rootName));
-      }
       writer.writeStartElement(rootName);
-      if (dohp.getPoints() != null) {
+      if (dohp.getPoints() != null && !dohp.getPoints().isEmpty()) {
         writeIndent(writer, childLevel);
         writer.writeStartElement("points");
+        StringBuilder sb = new StringBuilder(dohp.getPoints().size() * 10);
         for (GAD_DrawingOrder.GOCA_Point p : dohp.getPoints()) {
-          writeIndent(writer, childLevel + 1);
-          writer.writeStartElement("GOCA_Point");
-          writeElement(writer, childLevel + 2, "xCoordinate", p.xCoordinate());
-          writeElement(writer, childLevel + 2, "yCoordinate", p.yCoordinate());
-          writeIndent(writer, childLevel + 1);
-          writer.writeEndElement();
+          if (!sb.isEmpty()) {
+            sb.append(' ');
+          }
+          sb.append(p.xCoordinate()).append(' ').append(p.yCoordinate());
         }
-        writeIndent(writer, childLevel);
+        writer.writeRaw(sb.toString());
         writer.writeEndElement();
       }
       writeIndent(writer, level);
       writer.writeEndElement();
-      if (MnemonicPerformanceMonitor.isEnabled()) {
-        MnemonicPerformanceMonitor.endWrite();
-      }
     } else {
-      if (MnemonicPerformanceMonitor.isEnabled()) {
-        String rootName = MnemonicPerformanceMonitor.getSimpleName(order.getClass());
-        String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
-        MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
-      }
       JacksonXmlMapperProvider.getCachedWriter(order.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, order);
-      if (MnemonicPerformanceMonitor.isEnabled()) {
-        MnemonicPerformanceMonitor.endWrite();
-      }
     }
   }
 
@@ -3701,30 +3596,18 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private void writeDrawingOrderWithPoints(XMLStreamWriter2 writer, GAD_DrawingOrder.DrawingOrder_HasPoints order, String rootName, int level) throws Exception {
     writer.writeStartElement(rootName);
     int childLevel = level + 1;
-    if (order.getPoints() != null) {
-      if (writer instanceof AfpXmlStreamWriter afpXsw) {
-        writeIndent(afpXsw, childLevel);
-        afpXsw.writeRawBytes(XmlTagTemplates.POINTS_START, 0, XmlTagTemplates.POINTS_START.length);
-        for (GAD_DrawingOrder.GOCA_Point p : order.getPoints()) {
-          writeIndent(afpXsw, childLevel + 1);
-          afpXsw.writeEmptyElement("GOCA_Point");
-          afpXsw.writeIntAttribute(null, null, "xCoordinate", p.xCoordinate());
-          afpXsw.writeIntAttribute(null, null, "yCoordinate", p.yCoordinate());
+    if (order.getPoints() != null && !order.getPoints().isEmpty()) {
+      writeIndent(writer, childLevel);
+      writer.writeStartElement("points");
+      StringBuilder sb = new StringBuilder(order.getPoints().size() * 10);
+      for (GAD_DrawingOrder.GOCA_Point p : order.getPoints()) {
+        if (!sb.isEmpty()) {
+          sb.append(' ');
         }
-        writeIndent(afpXsw, childLevel);
-        afpXsw.writeRawBytes(XmlTagTemplates.POINTS_END, 0, XmlTagTemplates.POINTS_END.length);
-      } else {
-        writeIndent(writer, childLevel);
-        writer.writeStartElement("points");
-        for (GAD_DrawingOrder.GOCA_Point p : order.getPoints()) {
-          writeIndent(writer, childLevel + 1);
-          writer.writeEmptyElement("GOCA_Point");
-          writer.writeIntAttribute(null, null, "xCoordinate", p.xCoordinate());
-          writer.writeIntAttribute(null, null, "yCoordinate", p.yCoordinate());
-        }
-        writeIndent(writer, childLevel);
-        writer.writeEndElement();
+        sb.append(p.xCoordinate()).append(' ').append(p.yCoordinate());
       }
+      writer.writeRaw(sb.toString());
+      writer.writeEndElement();
     }
     writeIndent(writer, level);
     writer.writeEndElement();
