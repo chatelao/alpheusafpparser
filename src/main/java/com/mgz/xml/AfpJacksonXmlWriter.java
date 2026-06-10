@@ -3171,7 +3171,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writer.writeStartElement("IOCAFunctionSetIdentification");
       writeElement(writer, childLevel, "functionSetCategory", fsi.getFunctionSetCategory());
       if (fsi.getFunctionSetIdentifier() != null) {
-        writeElement(writer, childLevel, "functionSetIdentifier", fsi.getFunctionSetIdentifier().name());
+        writeElement(writer, childLevel, "functionSetIdentifier",
+            fsi.getFunctionSetIdentifier().name());
       }
       writeIndent(writer, level);
       writer.writeEndElement();

@@ -43,10 +43,10 @@ Optimize remaining GOCA (Graphics Object Content Architecture) drawing orders.
 ## Phase 4: IOCA, PTOCA & GDD Elements ⏳
 Complete the fast-path implementation for IOCA (Image), PTOCA (Text), and GDD (Graphics Data Descriptor) sub-elements.
 
-- [x] **IOCA Self-Defining Fields**: Implement fast-paths in `writeIddSelfDefiningFieldDirectly`. ✅
+- [ ] **IOCA Self-Defining Fields**: Implement fast-paths in `writeIddSelfDefiningFieldDirectly`.
 - [x] **IOCA Segments**: Ensure all `IPD_Segment` types are handled in `writeIpdSegmentDirectly`. ✅
-- [x] **PTOCA Control Sequences**: Audit `writeControlSequence` and implement missing sequences. ✅
-- [x] **GDD Parameters**: Implement fast-paths for all `GDD_Parameter` types in `writeGddParameterDirectly`. ✅
+- [ ] **PTOCA Control Sequences**: Audit `writeControlSequence` and implement missing sequences.
+- [ ] **GDD Parameters**: Implement fast-paths for all `GDD_Parameter` types in `writeGddParameterDirectly`.
 
 ## Phase 5: Verification & Full Coverage ⏳
 Ensure zero fallback usage and verify performance gains.
