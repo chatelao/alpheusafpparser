@@ -23,6 +23,9 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.BSU_BeginSuppression;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.ESU_EndSuppression;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RPS_RepeatString;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.OVS_Overstrike;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.USC_Underscore;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.PTOCA_BypassFlag;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.TRN_TransparentData;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import org.junit.jupiter.api.Test;
@@ -30,7 +33,9 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Method;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -99,5 +104,39 @@ public class PdfPtocaExtraTest {
 
     // This should not crash and should call renderText
     m.invoke(handler, rps);
+  }
+
+  @Test
+  public void testUnderscoreAndOverstrike() throws Exception {
+    PdfHandler handler = new PdfHandler(new ByteArrayOutputStream());
+    PdfTextState state = handler.getTextState();
+
+    Method m = PdfHandler.class.getDeclaredMethod("handleControlSequence", PTOCAControlSequence.class);
+    m.setAccessible(true);
+
+    // USC - Enable
+    USC_Underscore usc = new USC_Underscore();
+    usc.decodeAFP(new byte[] {0x01}, 0, 1, new AFPParserConfiguration());
+    m.invoke(handler, usc);
+    assertEquals(PTOCA_BypassFlag.NoBypass, state.getUnderscoreMode());
+
+    // OVS - Enable
+    OVS_Overstrike ovs = new OVS_Overstrike();
+    // Bypass flag 0x01, char 'X' (0xE7 in Cp500)
+    ovs.decodeAFP(new byte[] {0x01, 0x00, (byte) 0xE7}, 0, 3, new AFPParserConfiguration());
+    m.invoke(handler, ovs);
+    assertEquals(PTOCA_BypassFlag.NoBypass, state.getOverstrikeMode());
+    assertEquals("X", state.getOverstrikeCharacter());
+
+    // USC - Disable (0x00 is not in enum, so it might return null from valueOf if we are not careful)
+    // Actually PTOCA_BypassFlag.valueOf returns null for anything not 1, 2, 4, 8.
+    usc.decodeAFP(new byte[] {0x00}, 0, 1, new AFPParserConfiguration());
+    m.invoke(handler, usc);
+    assertNull(state.getUnderscoreMode());
+
+    // OVS - Disable
+    ovs.decodeAFP(new byte[] {0x00, 0x00, (byte) 0xE7}, 0, 3, new AFPParserConfiguration());
+    m.invoke(handler, ovs);
+    assertNull(state.getOverstrikeMode());
   }
 }
