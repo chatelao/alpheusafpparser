@@ -31,11 +31,11 @@ This document analyzes the performance bottlenecks associated with the `GAD`, `G
 
 ## Proposed Improvements
 
-### 1. Instrumentation Pruning
+### 1. Instrumentation Pruning [x]
 *   **Strategy:** Disable granular monitoring for nested GOCA drawing orders.
 *   **Action:** Modify `writeGadDirectly` and `writeDrawingOrderDirectly` to only record performance at the `GAD` level. Bypassing `MnemonicPerformanceMonitor` for internal orders will reduce CPU cycles in the hottest loops.
 
-### 2. Compact Point Representation
+### 2. Compact Point Representation [x]
 *   **Strategy:** Use a more efficient XML format for coordinate lists.
 *   **Action:** Replace the individual `GOCA_Point` elements with a space-separated coordinate string:
     ```xml
@@ -43,13 +43,14 @@ This document analyzes the performance bottlenecks associated with the `GAD`, `G
     ```
     This reduces the XML node count and leverages fast `writeCharacters` operations.
 
-### 3. Direct Stream Access
+### 3. Direct Stream Access [x]
 *   **Strategy:** Bypass the decorator chain for known-safe numeric data.
 *   **Action:** Use `baseXsw` (or even the underlying `woodstoxOs`) directly when writing numeric attributes and coordinate points. Since these values are guaranteed to be XML-safe, sanitization is redundant.
 
-### 4. Segment Flattening
+### 4. Segment Flattening [x]
 *   **Strategy:** Optimize `GBSEG` recursion.
 *   **Action:** Implement a non-recursive path for writing segments or use a specialized fast-path that avoids the general `Jackson` serialization fallback for complex segment structures.
 
 ---
 *Documented on: September 2026*
+*Completed on: October 2026*
