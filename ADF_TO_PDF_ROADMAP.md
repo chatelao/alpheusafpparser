@@ -38,24 +38,24 @@ Initialize the core PDF/VT structure and map the MO:DCA document hierarchy using
 ## Phase 2: Resource Management & Optimization ⏳
 Optimize resource handling for high-performance variable data printing.
 
-- ⏳ **Global Resource Manager**: Implement logic to move shared XObjects (Overlays, Page Segments) to global Page Tree resources.
+- ✅ **Global Resource Manager**: Implement logic to move shared XObjects (Overlays, Page Segments) to global Page Tree resources.
     - ✅ **Global Overlay Tracking (MMO)**: Identify and track Medium Overlays across the document.
     - ✅ **Global Page Segment Tracking (MPS)**: Identify and track Page Segments across the document.
     - ✅ **Resource conversion to PdfFormXObject**: Convert AFP resources to reusable PDF Form XObjects.
-            - ✅ **Initialize `PdfFormXObject` for resource capture**: Create XObject instances for each unique resource.
-            - ✅ **Implement XObject-specific canvas and state management**: Manage independent coordinate systems and states within XObjects.
-        - ✅ **Implement Overlay conversion logic**: Map GOCA/IOCA content of Medium Overlays to `PdfFormXObject` streams.
-        - ✅ **Implement Page Segment conversion logic**: Map GOCA/IOCA content of Page Segments to `PdfFormXObject` streams.
-        - ✅ **Implement Resource Inclusion (IPO/IPS)**: Support inclusion of Overlays and Page Segments on pages.
-        - ✅ **Implement GOCA/PTOCA/IOCA/BCOCA content mapping to XObject**: Ensure all content drivers support writing to XObject streams.
-        - ✅ **Handle resource inheritance and local dictionaries**: Manage nested resource references within XObjects.
-        - ✅ **Implement Resource Environment Group (REG) mapping**: Ensure resources defined in REG are converted.
-        - ✅ **Create PdfFormXObject Resource Cache**: Ensure each unique resource is converted only once.
+        - ✅ **Initialize `PdfFormXObject` for resource capture**: Create XObject instances for each unique resource.
+        - ✅ **Implement XObject-specific canvas and state management**: Manage independent coordinate systems and states within XObjects.
+    - ✅ **Implement Overlay conversion logic**: Map GOCA/IOCA content of Medium Overlays to `PdfFormXObject` streams.
+    - ✅ **Implement Page Segment conversion logic**: Map GOCA/IOCA content of Page Segments to `PdfFormXObject` streams.
+    - ✅ **Implement Resource Inclusion (IPO/IPS)**: Support inclusion of Overlays and Page Segments on pages.
+    - ✅ **Implement GOCA/PTOCA/IOCA/BCOCA content mapping to XObject**: Ensure all content drivers support writing to XObject streams.
+    - ✅ **Handle resource inheritance and local dictionaries**: Manage nested resource references within XObjects.
+    - ✅ **Implement Resource Environment Group (REG) mapping**: Ensure resources defined in REG are converted.
+    - ✅ **Create PdfFormXObject Resource Cache**: Ensure each unique resource is converted only once.
 - ⏳ **FOCA to PDF/X-4 Font Embedding**: Ensure all fonts are fully embedded and subsetted per PDF/X-4 requirements.
-    - ✅ **Font Registry**: Implement a global registry for `PdfFont` instances mapped by FOCA resource name. (✅ Basic `PdfFontRegistry` implemented in `PdfHandler`).
+    - ✅ **Font Registry**: Implement a global registry for `PdfFont` instances mapped by FOCA resource name.
     - ✅ **Font Mapping**: Map standard AFP core fonts (e.g., Helvetica, Swiss, Times, Dutch, Courier) to PDF equivalents.
     - ⏳ **Subset Generation**: Enable iText font subsetting for PDF/X-4 compliance.
-        - ⏳ **iText Subsetting API Integration**: Configure `FontSet` and `FontProvider` to support subsetting.
+        - ✅ **iText Subsetting API Integration**: Configure `FontSet` and `FontProvider` to support subsetting.
         - ⏳ **LID-to-Subset Mapping**: Track glyph usage per Local ID to ensure minimal subset size.
         - ⏳ **Font Caching**: Implement a robust caching mechanism for subsetted font instances.
 - ✅ **IOCA Image Optimizer**: Map repeated IOCA objects to a single Image XObject instance to reduce file size.
@@ -169,7 +169,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
 Ensure the generated output meets the PDF/VT-1 standard and accurately reflects the source AFP.
 
 - ⏳ **PDF/VT-1 Validation**: Validate generated files against PDF/VT-1 profiles using preflight tools.
-    - ⏳ **Integrate VeraPDF**: Implement automated compliance checks for PDF/VT-1 and PDF/X-4.
+    - ⏳ **Integrate VeraPDF**: Implement automated compliance checks for PDF/VT-1 and PDF/X-4. (Blocked: VeraPDF not available in environment).
     - ⏳ **VeraPDF CLI Wrapper**: Create a helper to run VeraPDF from within Alpheus tests.
     - ⏳ **Preflight Report Parser**: Implement a parser to extract and assert on VeraPDF validation results.
     - ⏳ **Preflight Automation**: Establish CI/CD integration for automated validation.
