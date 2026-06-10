@@ -69,6 +69,38 @@ public class FastIntConverter {
   }
 
   /**
+   * Writes a long to the output stream as UTF-8 bytes.
+   *
+   * @param value the long value
+   * @param os the output stream
+   * @throws IOException if writing fails
+   */
+  public static void writeLong(long value, OutputStream os) throws IOException {
+    if (value >= 0 && value < 100) {
+      os.write(SMALL_INTS[(int) value]);
+      return;
+    }
+    if (value == Long.MIN_VALUE) {
+      os.write("-9223372036854775808".getBytes());
+      return;
+    }
+
+    if (value < 0) {
+      os.write('-');
+      value = -value;
+    }
+
+    byte[] buf = new byte[20];
+    int pos = 20;
+    do {
+      buf[--pos] = (byte) ('0' + (value % 10));
+      value /= 10;
+    } while (value > 0);
+
+    os.write(buf, pos, 20 - pos);
+  }
+
+  /**
    * Converts an integer to UTF-8 bytes and writes them into the provided buffer.
    *
    * @param value the integer value
@@ -85,6 +117,50 @@ public class FastIntConverter {
     if (value == Integer.MIN_VALUE) {
       System.arraycopy(MIN_VALUE_BYTES, 0, buffer, offset, MIN_VALUE_BYTES.length);
       return MIN_VALUE_BYTES.length;
+    }
+
+    int pos = offset;
+    if (value < 0) {
+      buffer[pos++] = '-';
+      value = -value;
+    }
+
+    int start = pos;
+    do {
+      buffer[pos++] = (byte) ('0' + (value % 10));
+      value /= 10;
+    } while (value > 0);
+
+    int end = pos - 1;
+    int written = pos - offset;
+    while (start < end) {
+      byte tmp = buffer[start];
+      buffer[start] = buffer[end];
+      buffer[end] = tmp;
+      start++;
+      end--;
+    }
+    return written;
+  }
+
+  /**
+   * Converts a long to UTF-8 bytes and writes them into the provided buffer.
+   *
+   * @param value the long value
+   * @param buffer the target buffer
+   * @param offset the start offset
+   * @return the number of bytes written
+   */
+  public static int longToUtf8(long value, byte[] buffer, int offset) {
+    if (value >= 0 && value < 100) {
+      byte[] small = SMALL_INTS[(int) value];
+      System.arraycopy(small, 0, buffer, offset, small.length);
+      return small.length;
+    }
+    if (value == Long.MIN_VALUE) {
+      byte[] minBytes = "-9223372036854775808".getBytes();
+      System.arraycopy(minBytes, 0, buffer, offset, minBytes.length);
+      return minBytes.length;
     }
 
     int pos = offset;

@@ -736,9 +736,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writer.writeEmptyElement("MappingOption");
       writer.writeAttribute("dataObjecMapingOption", mo.getDataObjecMapingOption().name());
     } else if (triplet instanceof Triplet.AttributeQualifier aq) {
-      writer.writeEmptyElement("AttributeQualifier");
-      writer.writeIntAttribute(null, null, "sequenceNumber", aq.sequenceNumber);
-      writer.writeIntAttribute(null, null, "levelNumber", aq.levelNumber);
+      XmlTemplateRegistry.getTemplate("AQ").write(baseXsw, aq.sequenceNumber, aq.levelNumber);
     } else if (triplet instanceof Triplet.Comment c) {
       writer.writeStartElement("Comment");
       writeElement(writer, childLevel, "comment", c.comment);
@@ -746,11 +744,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ResourceLocalIdentifier rli) {
-      writer.writeEmptyElement("ResourceLocalIdentifier");
-      if (rli.getResourceType() != null) {
-        writer.writeAttribute("resourceType", rli.getResourceType().name());
-      }
-      writer.writeIntAttribute(null, null, "resourceLocalID", rli.getResourceLocalID());
+      XmlTemplateRegistry.getTemplate("RLI").writeObjects(baseXsw, rli.getResourceType(), (int) rli.getResourceLocalID());
     } else if (triplet instanceof Triplet.ObjectClassification oc) {
       writer.writeStartElement("ObjectClassification");
       writeElement(writer, childLevel, "reserved2", oc.reserved2);
@@ -788,10 +782,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.CharacterRotation cr) {
-      writer.writeEmptyElement("CharacterRotation");
-      if (cr.characterRotation != null) {
-        writer.writeAttribute("characterRotation", cr.characterRotation.name());
-      }
+      XmlTemplateRegistry.getTemplate("CR").writeObjects(baseXsw, cr.characterRotation);
     } else if (triplet instanceof Triplet.ObjectByteOffset obo) {
       writer.writeEmptyElement("ObjectByteOffset");
       writer.writeLongAttribute(null, null, "byteOffset", obo.byteOffset);
@@ -799,15 +790,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writer.writeLongAttribute(null, null, "byteOffsetHighOrder", obo.byteOffsetHighOrder);
       }
     } else if (triplet instanceof Triplet.MeasurementUnits mu) {
-      writer.writeEmptyElement("MeasurementUnits");
-      if (mu.xUnitBase != null) {
-        writer.writeAttribute("xUnitBase", mu.xUnitBase.name());
-      }
-      if (mu.yUnitBase != null) {
-        writer.writeAttribute("yUnitBase", mu.yUnitBase.name());
-      }
-      writer.writeIntAttribute(null, null, "xUnitsPerUnitbase", mu.xUnitsPerUnitbase);
-      writer.writeIntAttribute(null, null, "yUnitsPerUnitbase", mu.yUnitsPerUnitbase);
+      XmlTemplateRegistry.getTemplate("MU").writeObjects(baseXsw, mu.xUnitBase, mu.yUnitBase, (int) mu.xUnitsPerUnitbase, (int) mu.yUnitsPerUnitbase);
     } else if (triplet instanceof Triplet.ObjectAreaSize oas) {
       writer.writeEmptyElement("ObjectAreaSize");
       writer.writeIntAttribute(null, null, "sizeType_0x02", (int) oas.sizeType_0x02);
@@ -1667,13 +1650,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.STO_SetTextOrientation sto) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("STO");
-      baseXsw.writeEmptyElement("STO_SetTextOrientation");
-      if (sto.getxOrientation() != null) {
-        baseXsw.writeAttribute("xOrientation", sto.getxOrientation().name());
-      }
-      if (sto.getyOrientation() != null) {
-        baseXsw.writeAttribute("yOrientation", sto.getyOrientation().name());
-      }
+      XmlTemplateRegistry.getTemplate("STO").writeObjects(baseXsw, sto.getxOrientation(), sto.getyOrientation());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.STC_SetTextColor stc) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("STC");
@@ -1694,11 +1671,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.SIA_SetIntercharacterAdjustment sia) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SIA");
-      baseXsw.writeEmptyElement("SIA_SetIntercharacterAdjustment");
-      baseXsw.writeIntAttribute(null, null, "adjustment", sia.getAdjustment());
-      if (sia.getDirection() != null) {
-        baseXsw.writeAttribute("direction", sia.getDirection().name());
-      }
+      XmlTemplateRegistry.getTemplate("SIA").writeObjects(baseXsw, (int) sia.getAdjustment(), sia.getDirection());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.SVI_SetVariableSpaceCharacterIncrement svi) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SVI");

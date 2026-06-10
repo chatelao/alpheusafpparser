@@ -20,16 +20,16 @@ Establish the foundation for byte-level templating.
 ## Phase 2: Static Structured Field Templates 🚧
 Generate byte templates for fixed-structure fields.
 
-- ⏳ **Template Generator**: Implement a utility to pre-calculate the XML structure for each Structured Field type.
+- ✅ **Template Generator**: Implemented `TemplateGenerator` utility to generate fragments from XML snippets.
 - ✅ **Mnemonic-Based Registry**: Implemented `XmlTemplateRegistry` to map AFP mnemonics to their respective XML byte templates.
-- ⏳ **Triplet Templating**: Extend templating to common triplets (e.g., FQN, ResourceLocalIdentifier).
+- 🚧 **Triplet Templating**: Extended templating to common triplets (AQ, RLI, CR, MU).
 
-## Phase 3: Dynamic Hole-Punching Engine 🚧
+## Phase 3: Dynamic Hole-Punching Engine ✅
 Inject variable data directly into the pre-computed byte buffers.
 
 - ✅ **Offset Mapping**: (Alternative) Implemented fragment-based `XmlTemplate` which effectively maps offsets for variable data.
 - ✅ **Fast Integer-to-Byte Conversion**: Implemented `FastIntConverter` for high-performance integer-to-UTF8-byte conversion.
-- ⏳ **Buffer Orchestration**: Manage a pool of "hot" templates that can be quickly filled and flushed.
+- ✅ **Buffer Orchestration**: Implemented `ThreadLocal` assembly buffer in `XmlTemplate` for single-copy flushed writing.
 
 ## Phase 4: Vectorized Assembly & Output ⏳
 Maximize throughput by minimizing individual syscalls and buffer copies.

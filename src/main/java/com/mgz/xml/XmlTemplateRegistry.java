@@ -42,7 +42,14 @@ public class XmlTemplateRegistry {
     register("ESU", new String[] {"<ESU_EndSuppression suppressionID=\"", "\"/>"});
     register("SVI", new String[] {"<SVI_SetVariableSpaceCharacterIncrement increment=\"", "\"/>"});
     register("BLN", new String[] {"<BLN_BeginLine/>"});
-    register("SVI", new String[] {"<SVI_SetVariableSpaceCharacterIncrement increment=\"", "\"/>"});
+    register("STO", new String[] {"<STO_SetTextOrientation xOrientation=\"", "\" yOrientation=\"", "\"/>"});
+    register("SIA", new String[] {"<SIA_SetIntercharacterAdjustment adjustment=\"", "\" direction=\"", "\"/>"});
+
+    // Triplets
+    register("AQ", new String[] {"<AttributeQualifier sequenceNumber=\"", "\" levelNumber=\"", "\"/>"});
+    register("RLI", new String[] {"<ResourceLocalIdentifier resourceType=\"", "\" resourceLocalID=\"", "\"/>"});
+    register("CR", new String[] {"<CharacterRotation characterRotation=\"", "\"/>"});
+    register("MU", new String[] {"<MeasurementUnits xUnitBase=\"", "\" yUnitBase=\"", "\" xUnitsPerUnitbase=\"", "\" yUnitsPerUnitbase=\"", "\"/>"});
   }
 
   private static void register(String mnemonic, String[] parts) {
