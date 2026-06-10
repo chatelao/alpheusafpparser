@@ -22,9 +22,14 @@ package com.mgz.afp.moca;
 import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.base.annotations.AFPType;
 import com.mgz.afp.exceptions.AFPParserException;
+import com.mgz.afp.parser.AFPParserConfiguration;
+import com.mgz.afp.parser.TripletParser;
 import com.mgz.util.UtilBinaryDecoding;
 import com.mgz.util.UtilCharacterEncoding;
+import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import javax.xml.parsers.DocumentBuilderFactory;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 /**
@@ -58,6 +63,10 @@ public class MetadataObject {
   private byte[] moData;
 
   public void decode(byte[] data) throws AFPParserException {
+    decode(data, new AFPParserConfiguration());
+  }
+
+  public void decode(byte[] data, AFPParserConfiguration config) throws AFPParserException {
     if (data == null || data.length < 50) {
       // [MOCA-4-020] [MOCA-4-030]
       throw new AFPParserException("EC-0100 Invalid Length Value: Metadata Object data is too short, minimum length is 50 bytes.");
@@ -122,6 +131,38 @@ public class MetadataObject {
       System.arraycopy(data, dataStartOffset, moData, 0, dataLength);
     } else {
       moData = new byte[0];
+    }
+
+    validateMoData(config);
+  }
+
+  private void validateMoData(AFPParserConfiguration config) throws AFPParserException {
+    if (moData == null || moData.length == 0) {
+      return;
+    }
+
+    String format = getMoFormat();
+    if ("XMP".equals(format)) {
+      try {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        // Disable external entities to prevent XXE
+        factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+        factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+        factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+        factory.newDocumentBuilder().parse(new ByteArrayInputStream(moData));
+      } catch (Exception e) {
+        // [MOCA-4-027] [MOCA-4-037]
+        throw new AFPParserException("EC-0300 Invalid MOData: XMP data is not valid XML. " + e.getMessage());
+      }
+    } else if ("AFPT".equals(format)) {
+      List<com.mgz.afp.triplets.Triplet> triplets = TripletParser.parseTriplets(moData, 0, moData.length, config);
+      for (com.mgz.afp.triplets.Triplet triplet : triplets) {
+        if (triplet instanceof com.mgz.afp.triplets.Triplet.Undefined undef) {
+          // [MOCA-4-027] [MOCA-4-037]
+          throw new AFPParserException("EC-0300 Invalid MOData: AFPT data does not consist of valid triplets. " + undef.getParsingException().getMessage());
+        }
+      }
     }
   }
 
