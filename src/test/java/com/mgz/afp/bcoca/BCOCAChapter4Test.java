@@ -272,7 +272,7 @@ public class BCOCAChapter4Test {
             0x5A, 0x00, 0x1F, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00,
             // Aztec (15 bytes)
-            (byte) 0xA0, 0x00, 0x05, 0x17, (byte) 0xC0, 0x01, 0x02, 0x03, 0x02, 0x58, 0x59, 0x02, 0x11, 0x22, 0x00,
+            (byte) 0xA0, 0x00, 0x05, 0x17, (byte) 0x80, 0x01, 0x02, 0x03, 0x02, 0x58, 0x59, 0x02, 0x11, 0x22, 0x00,
             // Barcode data
             0x41, 0x42, 0x43
         };
@@ -378,6 +378,65 @@ public class BCOCAChapter4Test {
     }
 
     @Test
+    public void testBDAParametersCode39RoundTrip() throws Exception {
+        // Linear barcode without special function parameters
+        // Payload: 5 bytes header + 3 bytes data = 8 bytes.
+        // SFLen = 8 + 8 = 16 (0x0010)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x10, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00,
+            0x41, 0x42, 0x43 // ABC
+        };
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.Code39_3of9Code_AIM_USS_39);
+        bdd.setBarcodeModifier((byte) 0x02);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        RoundTripTestUtils.assertRoundTrip(new BDA_BarCodeData(), data, config);
+    }
+
+    @Test
+    public void testBDAParametersCode128RoundTrip() throws Exception {
+        // Standard Code 128 (not IM package)
+        // Payload: 5 bytes header + 3 bytes data = 8 bytes.
+        // SFLen = 8 + 8 = 16 (0x0010)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x10, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00,
+            0x41, 0x42, 0x43 // ABC
+        };
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode);
+        bdd.setBarcodeModifier((byte) 0x02);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        RoundTripTestUtils.assertRoundTrip(new BDA_BarCodeData(), data, config);
+    }
+
+    @Test
+    public void testBDAParametersAustraliaPostRoundTrip() throws Exception {
+        // Payload: 5 bytes header + 3 bytes data = 8 bytes.
+        // SFLen = 8 + 8 = 16 (0x0010)
+        byte[] data = new byte[] {
+            0x5A, 0x00, 0x10, (byte) 0xD3, (byte) 0xEE, (byte) 0xEB, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00,
+            0x41, 0x42, 0x43 // ABC
+        };
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.AustraliaPostBarCode);
+        bdd.setBarcodeModifier((byte) 0x01);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        RoundTripTestUtils.assertRoundTrip(new BDA_BarCodeData(), data, config);
+    }
+
+    @Test
     public void testBDDWithColorSpecificationTriplet() throws Exception {
         // [BCOCA-4-003] BCD2 subset adds support for the Color Specification triplet in the BDD.
 
@@ -390,7 +449,7 @@ public class BCOCAChapter4Test {
         byte[] data = new byte[] {
             0x5A, 0x00, 0x25, (byte) 0xD3, (byte) 0xA6, (byte) 0xEB, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x38, 0x40, 0x38, 0x40, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00,
-            0x01, 0x00, (byte) 0xFF, 0x00, 0x07, (byte) 0xFF, 0x03, (byte) 0xFF, 0x01, (byte) 0xFF, (byte) 0xFF,
+            0x01, 0x01, (byte) 0xFF, 0x00, 0x07, (byte) 0xFF, 0x03, (byte) 0xFF, 0x01, (byte) 0xFF, (byte) 0xFF,
             0x06, 0x4E, 0x00, 0x00, 0x00, 0x08
         };
 

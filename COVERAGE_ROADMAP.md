@@ -33,7 +33,8 @@ This document outlines a phased, actionable plan to increase the code coverage o
 
 ## Phase 4: Full Compliance & Optimization (Target: 85%+) 🚧
 - 🚧 **4.1. Special Specifications**
-    - 🚧 CMOCA, BCOCA, and MOCA verification (Currently 35-45% coverage).
+    - ✅ BCOCA verification (Completed: 85% coverage).
+    - 🚧 CMOCA and MOCA verification (Currently 82-88% coverage).
     - 🚧 IPDS and DB2Z verification (Target: 85% coverage).
     - 🚧 Implementation of remaining 1,000+ normative requirements per spec (Progress: EC-0505, EC-0F18-25 validated).
 - 🚧 **4.2. Performance fast-paths**
