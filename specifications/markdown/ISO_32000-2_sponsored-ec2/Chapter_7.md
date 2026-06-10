@@ -13,7 +13,9 @@ Subclause 7.5, "File structure" describes the file structure. Subclause 7.6, "En
 • Document structure. The PDF file structure specifies how the basic object types are used to represent components of a PDF file: pages, fonts, annotations, and so forth. Subclause 7.7, "Document structure" describes the overall document structure; later clauses address the detailed semantics of the components.
 • Content streams. A PDF content stream contains a sequence of instructions describing the appearance of a page or other graphical entity. These instructions, while also represented as objects, are conceptually distinct from the objects that represent the document structure and are described separately. Subclause 7.8, "Content streams and resources" discusses PDF content streams and their associated resources.
 
-Figure 1 — PDF file components In addition, this clause describes some data structures, built from basic objects, that are so widely used that they can almost be considered basic object types in their own right. These objects are covered in: 7.9, "Common data structures"; 7.10, "Functions"; and 7.11, "File specifications". Subclause 7.12, "Extensions dictionary" describes a dictionary used to identify developer-defined extensions to this document that are used in the file.
+Figure 1 — PDF file components
+
+In addition, this clause describes some data structures, built from basic objects, that are so widely used that they can almost be considered basic object types in their own right. These objects are covered in: 7.9, "Common data structures"; 7.10, "Functions"; and 7.11, "File specifications". Subclause 7.12, "Extensions dictionary" describes a dictionary used to identify developer-defined extensions to this document that are used in the file.
 
 
 > **NOTE** Variants of PDF’s object and file syntax are also used as the basis for other file formats. These include the Forms Data Format (FDF), described in 12.7.8, "Forms data format", and the Portable Job Ticket Format (PJTF), described in Adobe Technical Note #5620, Portable Job Ticket Format.
@@ -148,7 +150,10 @@ A string object shall consist of a series of zero or more bytes. The maximum len
 
 String objects shall be written in one of the following two ways:
 
-• As a sequence of literal characters enclosed in parentheses () (using LEFT PARENTHESIS (28h) and RIGHT PARENTHESIS (29h)); see 7.3.4.2, "Literal strings" •    As hexadecimal data enclosed in angle brackets <> (using LESS-THAN SIGN (3Ch) and GREATERTHAN SIGN (3Eh)); see 7.3.4.3, "Hexadecimal strings" NOTE         In many contexts, conventions exist for the interpretation of the contents of a string value. This subclause defines only the basic syntax for writing a string as a sequence of bytes; conventions or rules governing the contents of strings in particular contexts are described with the definition of those particular contexts.
+• As a sequence of literal characters enclosed in parentheses () (using LEFT PARENTHESIS (28h) and RIGHT PARENTHESIS (29h)); see 7.3.4.2, "Literal strings"
+• As hexadecimal data enclosed in angle brackets <> (using LESS-THAN SIGN (3Ch) and GREATER-THAN SIGN (3Eh)); see 7.3.4.3, "Hexadecimal strings"
+
+> **NOTE** In many contexts, conventions exist for the interpretation of the contents of a string value. This subclause defines only the basic syntax for writing a string as a sequence of bytes; conventions or rules governing the contents of strings in particular contexts are described with the definition of those particular contexts.
 Subclause 7.9.2, "String object types" describes the encoding schemes used for the contents of string objects.
 
 #### 7.3.4.2 Literal strings
@@ -304,10 +309,9 @@ The first element of each entry is the key and the second element is the value. 
 > **NOTE 1** The statement requiring dictionary keys to always be direct objects was added in this d ocument (2020).
 The entries in a dictionary represent an associative table and as such shall be unordered even though an arbitrary order may be imposed upon them when written in a file. That ordering shall be ignored.
 
-| Multiple entries in the same dictionar | y shall not have the same key. |
-| --- | --- |
-| A dictionary shall be written as a sequence of key | -value pairs enclosed in double angle brackets |
-| (<<…>>) (using LESS-THAN SIGNs (3Ch) and GREATER | -THAN SIGNs (3Eh)). |
+Multiple entries in the same dictionary shall not have the same key.
+
+A dictionary shall be written as a sequence of key-value pairs enclosed in double angle brackets (<<…>>) (using LESS-THAN SIGNs (3Ch) and GREATER-THAN SIGNs (3Eh)).
 
 EXAMPLE
 
@@ -330,7 +334,7 @@ A stream shall consist of a dictionary followed by zero or more bytes bracketed 
 
 dictionary stream …Zero or more bytes… endstream
 
-All streams shall be indirect objects (see 7.3.10, "Indirect objects") and the stream dictionary shall be a direct object. The keyword stream that follows the stream dictionary shall be followed by an end-ofline marker consisting of either a CARRIAGE RETURN and a LINE FEED or just a LINE FEED, and not by a CARRIAGE RETURN alone. The sequence of bytes that make up a stream lie between the end-of-line marker following the stream keyword and the endstream keyword; the stream dictionary specifies the exact number of bytes. There should be an end-of-line marker after the data and before endstream; this marker shall not be included in the stream length. There shall not be any extra bytes, other than white-space, between endstream and endobj.
+All streams shall be indirect objects (see 7.3.10, "Indirect objects") and the stream dictionary shall be a direct object. The keyword stream that follows the stream dictionary shall be followed by an end-of-line marker consisting of either a CARRIAGE RETURN and a LINE FEED or just a LINE FEED, and not by a CARRIAGE RETURN alone. The sequence of bytes that make up a stream lie between the end-of-line marker following the stream keyword and the endstream keyword; the stream dictionary specifies the exact number of bytes. There should be an end-of-line marker after the data and before endstream; this marker shall not be included in the stream length. There shall not be any extra bytes, other than white-space, between endstream and endobj.
 
 > **NOTE 2** Without the restriction against following the keyword stream by a CARRIAGE RETURN alone, differentiating a stream that uses CARRIAGE RETURN as its end-of-line marker and has a LINE FEED as its first byte of data from one that uses a CARRIAGE RETURN –LINE FEED sequence to denote end-of-line is not possible.
 Alternatively, beginning with PDF 1.2, the bytes may be contained in an external file, in which case the stream dictionary specifies the file, and any bytes between stream and endstream shall be ignored by a PDF processor.
@@ -447,7 +451,6 @@ Compression in which no loss of data occurs is called lossless. Though somehow o
 The standard filters are summarised in "Table 6 — Standard filters", which also indicates whether they accept any optional parameters. The following subclauses describe these filters and their parameters (if any) in greater detail, including specifications of encoding algorithms for some filters.
 
 Table 6 — Standard filters
-Table 6 — Standard filters
 
 | FILTER name | Parameters | Description |
 | --- | --- | --- |
@@ -519,13 +522,6 @@ The LZW and Flate compression methods can discover and exploit many patterns in 
 
 Data encoded using the LZW compression method shall consist of a sequence of codes that are 9 to 12 bits long. Each code shall represent a single character of input data (0–255), a clear-table marker (256), an EOD marker (257), or a table entry representing a multiple-character sequence that has been encountered previously in the input (258 or greater).
 
-Initially, the code length shall be 9 bits and the LZW table shall contain only entries for the 258 fixed codes. As encoding proceeds, entries shall be appended to the table, associating new codes with longer
-
-
-and longer sequences of input characters. The encoder and the decoder shall maintain identical copies of this table.
-
-Whenever both the encoder and the decoder independently (but synchronously) realise that the current code length is no longer sufficient to represent the number of entries in the table, they shall increase the number of bits per code by 1. The first output code that is 10 bits long shall be the one following the creation of table entry 511, and similarly for 11 (1023) and 12 (2047) bits. Codes shall never be longer than 12 bits; therefore, entry 4095 is the last entry of the LZW table.
-
 Initially, the code length shall be 9 bits and the LZW table shall contain only entries for the 258 fixed codes. As encoding proceeds, entries shall be appended to the table, associating new codes with longer and longer sequences of input characters. The encoder and the decoder shall maintain identical copies of this table.
 
 Whenever both the encoder and the decoder independently (but synchronously) realise that the current code length is no longer sufficient to represent the number of entries in the table, they shall increase the number of bits per code by 1. The first output code that is 10 bits long shall be the one following the creation of table entry 511, and similarly for 11 (1023) and 12 (2047) bits. Codes shall never be longer than 12 bits; therefore, entry 4095 is the last entry of the LZW table.
@@ -536,15 +532,19 @@ a) Accumulate a sequence of one or more input characters matching a sequence alr
 b) For maximum compression, the encoder looks for the longest such sequence.
 c) Emit the code corresponding to that sequence.
 d) Create a new table entry for the first unused code. Its value is the sequence found in step (a) followed by the next input character.
-| – | 256 (clear-table) | – | – |
+
+Table 7 — LZW encoding example
+
+| Input sequence | Output code | Code added to table | Sequence added to table |
 | --- | --- | --- | --- |
-| 45 | 258 | 45 45 |  |
+| — | 256 (clear-table) | — | — |
+| 45 | 258 | 45 45 | — |
 | 45 45 | 258 | 259 | 45 45 45 |
 | 45 45 | 258 | 260 | 45 45 65 |
-| 65 | 261 | 65 45 |  |
+| 65 | 261 | 65 45 | — |
 | 45 45 45 | 259 | 262 | 45 45 45 66 |
-| 66 | – | – |  |
-| – | 257 (EOD) | – | – |
+| 66 | — | — | — |
+| — | 257 (EOD) | — | — |
 
 Codes shall be packed into a continuous bit stream, high-order bit first. This stream shall then be divided into bytes, high-order bit first. Thus, codes may straddle byte boundaries arbitrarily. After the EOD marker (code value 257), any leftover bits in the final byte shall be set to 0.
 
@@ -575,6 +575,8 @@ Table 8 — Optional parameters for LZWDecode and FlateDecode filters
 | BitsPerComponent | integer | (May be used only if Predictor is greater than 1) The number of bits used to represent each colour component in a sample. Valid values are 1, 2, 4, 8, and (PDF 1.5) 16. Default value: 8. |
 | Columns | integer | (May be used only if Predictor is greater than 1) The number of samples in each row. Default value: 1. |
 | EarlyChange | integer | (LZWDecode only) An indication of when to increase the code length. If the value of this entry is 0, code length increases shall be postponed as long as possible. If the value is 1, code length increases shall occur one code early. This parameter is included because LZW sample code distributed by some vendors increases the code length one code earlier than necessary. Default value: 1. |
+
+### 7.4.4.4 LZW and Flate predictor functions
 
 LZW and Flate encoding compress more compactly if their input data are highly predictable. One way of increasing the predictability of many continuous-tone sampled images is to replace each sample with the difference between that sample and a predictor function applied to earlier neighbouring samples. If the predictor function works well, the postprediction data clusters toward 0.
 
@@ -898,7 +900,9 @@ This subclause describes how objects are organised in a PDF file for efficient r
 • A one-line header identifying the version of the PDF specification to which the PDF file conforms •    A body containing the objects that make up the document contained in the PDF file •    A cross-reference table containing information about the indirect objects in the PDF file •    A trailer giving the location of the cross-reference table and of certain special objects within the body of the PDF file This initial structure may be modified by later updates, which append additional elements to the end of the file; see 7.5.6, "Incremental updates" for details.
 
 
-Figure 2 — Initial structure of a PDF file As a matter of convention, the tokens in a PDF file are arranged into lines; see 7.2, "Lexical conventions". PDF files with binary data may have arbitrarily long lines.
+Figure 2 — Initial structure of a PDF file
+
+As a matter of convention, the tokens in a PDF file are arranged into lines; see 7.2, "Lexical conventions". PDF files with binary data may have arbitrarily long lines.
 
 The rules described here are sufficient to produce a basic conforming PDF file. However, additional rules apply to organising a PDF file to enable efficient incremental access to a document’s components in a network environment. This form of organisation, called Linearized PDF, is described in Annex F, "Linearized PDF" and Annex G, " Linearized PDF access strategies". With the exception of linearized PDF files, all PDF files should be read using the trailer and cross-reference table as described in the following subclauses. Reading a non-linearized file in a serial manner is not reliable because of the way objects are to be processed after an incremental update. (See 6.3.2, "Conformance of PDF processors".)
 
@@ -1087,7 +1091,9 @@ In versions of PDF 1.4 or later a PDF writer may use the Version entry in the do
 > **NOTE 4** The Version entry enables the version to be altered when performing an incremental update.
 
 
-Figure 3 — Structure of an updated PDF file 7.5.7    Object streams
+Figure 3 — Structure of an updated PDF file
+
+### 7.5.7 Object streams
 
 An object stream is a stream object in which a sequence of indirect objects may be stored, as an alternative to their being stored at the outermost PDF file level.
 
@@ -1165,11 +1171,9 @@ xref 0 32 0000000000 65535 f … cross-reference entries for objects 1 through 1
 
 > **EXAMPLE 4** The following shows the same objects from the previous example stored in an object stream in a PDF 1.5 file, along with a cross-reference stream.
 
-The cross-reference stream (see 7.5.8, "Cross-reference streams") contains entries for the fonts (objects 11
-| and 13) and the descriptor (object 12), which are | compressed objects in an object stream. The first field of, along with a cross-reference table field is the number of the object stream (15), and the third field is the |
-| --- | --- |
-| position within the sequence of objects in the object stream (0, 1, and 2). The cross | -reference stream also contains a Type 1 entry for the object stream itself. |
-| 15 0 obj | %The object stream <</Type /ObjStm /Length 1856 |
+The cross-reference stream (see 7.5.8, "Cross-reference streams") contains entries for the fonts (objects 11 and 13) and the descriptor (object 12), which are compressed objects in an object stream. The first field of, along with a cross-reference table field is the number of the object stream (15), and the third field is the position within the sequence of objects in the object stream (0, 1, and 2). The cross-reference stream also contains a Type 1 entry for the object stream itself.
+
+15 0 obj %The object stream <</Type /ObjStm /Length 1856
 | /N 3 | %The number of objects in the stream |
 | /First 24 | %The byte offset in the decoded stream of the first object %The object numbers and offsets of the objects, %relative to the first are shown on the first line of %the stream (i.e., 11 0 12 547 13 665). >> stream 11 0 12 547 13 665 <</Type /Font /Subtype /TrueType … other keys … /FontDescriptor 12 0 R >> |
 | <</Type /FontDescriptor /Ascent 891 …other keys… /FontFile2 22 0 R >> <</Type /Font /Subtype /Type0 … other keys … /ToUnicode 10 0 R >> … endstream endobj |  |
@@ -1218,12 +1222,7 @@ In linearized PDF files (see F.3, "Linearized PDF document structure"), the docu
 
 #### 7.5.8.2 Cross-reference stream dictionary
 
-Cross-reference streams shall contain the required entries and may contain the optional entries shown
-| in "Table 17 — Additional entries specific to a cross-reference stream dictionary | " in addition to the |
-| --- | --- |
-| entries common to all streams ("Table 5 — Entries common to all stream dictionaries | ") and trailer |
-
-dictionaries ("Table 15 — Entries in the file trailer dictionary"). Since some of the information in the cross-reference stream is needed by the PDF processor to construct the index that allows indirect references to be resolved, the entries in cross-reference streams shall be subject to the following restrictions:
+Cross-reference streams shall contain the required entries and may contain the optional entries shown in "Table 17 — Additional entries specific to a cross-reference stream dictionary" in addition to the entries common to all streams ("Table 5 — Entries common to all stream dictionaries") and trailer dictionaries ("Table 15 — Entries in the file trailer dictionary"). Since some of the information in the cross-reference stream is needed by the PDF processor to construct the index that allows indirect references to be resolved, the entries in cross-reference streams shall be subject to the following restrictions:
 
 • The values of all entries shown in "Table 17 — Additional entries specific to a cross-reference stream dictionary" shall be direct objects; indirect references shall not be permitted. For arrays (the Index and W entries), all of their elements shall be direct objects as well. If the stream is encoded, the Filter and DecodeParms entries in "Table 5 — Entries common to all stream dictionaries" shall also be direct objects.
 • Other cross-reference stream entries not listed in "Table 17 — Additional entries specific to a cross-reference stream dictionary" may be indirect; in fact, some (such as Root in "Table 15 — Entries in the file trailer dictionary ") shall be indirect.
@@ -2047,7 +2046,9 @@ PDF content could be generated, based on an implementation-dependent algorithm. 
 "Figure 4 — Public-key encryption algorithm" illustrates how CMS objects shall be used when encrypting PDF files. A CMS object is designed to encapsulate and encrypt what is referred to as the enveloped data.
 
 
-Figure 4 — Public-key encryption algorithm The enveloped data in the CMS object contains keying material that shall be used to decrypt the document (or individual strings or streams in the document, when crypt filters are used; see 7.6.6, "Crypt filters"). A key shall be used to encrypt (and decrypt) the enveloped data. This key (the plaintext key in "Figure 4 — Public-key encryption algorithm") shall be encrypted for each recipient, using that recipient’s public key, and shall be stored in the CMS object (as the encrypted key for each recipient).
+Figure 4 — Public-key encryption algorithm
+
+The enveloped data in the CMS object contains keying material that shall be used to decrypt the document (or individual strings or streams in the document, when crypt filters are used; see 7.6.6, "Crypt filters"). A key shall be used to encrypt (and decrypt) the enveloped data. This key (the plaintext key in "Figure 4 — Public-key encryption algorithm") shall be encrypted for each recipient, using that recipient’s public key, and shall be stored in the CMS object (as the encrypted key for each recipient).
 To decrypt the document, that key shall be decrypted using the recipient’s private key, which yields a decrypted (plaintext) key. That key, in turn, shall be used to decrypt the enveloped data in the CMS object, resulting in a byte array that includes the following information:
 
 • A 20-byte seed that shall be used to create the file encryption key that is used by "Algorithm 1: Encryption of data using the RC4 or AES algorithms" or "Algorithm 1.A: Encryption of data using the AES algorithms". The seed shall be a unique random number generated by the security handler that encrypted the document.
@@ -2441,8 +2442,9 @@ In a document conforming to Linearized PDF (see Annex F, "Linearized PDF" and An
 
 "Figure 6 — Inheritance of attributes" illustrates the inheritance of attributes. In the page tree shown, pages 1, 2, and 4 are rotated clockwise by 90 degrees, page 3 by 270 degrees, page 6 by 180 degrees, and pages 5 and 7 not at all (0 degrees).
 
+Figure 6 — Inheritance of attributes
 
-Figure 6 — Inheritance of attributes 7.7.4     Name dictionary
+### 7.7.4 Name dictionary
 
 Some categories of objects in a PDF file can be referred to by name rather than by object reference. The correspondence between names and objects is established by the document’s name dictionary (PDF 1.2), located by means of the Names entry in the document’s catalog dictionary (see 7.7.2, "Document catalog dictionary"). Each entry in this dictionary designates the root of a name tree (see 7.9.6, "Name trees") defining names for a particular category of objects. "Table 32 — Entries in the name dictionary" shows the contents of the name dictionary.
 
@@ -2615,8 +2617,9 @@ PDF supports one fundamental string object (see 7.3.4, "String objects"). The st
 
 The string types described in "Table 35 — PDF data types" specify increasingly specific encoding schemes, as shown in "Figure 7 — Relationship between string types ".
 
+Figure 7 — Relationship between string types
 
-Figure 7 — Relationship between string types 7.9.2.2             Text string type
+#### 7.9.2.2 Text string type
 
 ##### 7.9.2.2.1 General
 
@@ -2955,7 +2958,9 @@ The first byte contains the sample for the point (-1.0, -1.0) in the high-order 
 
 effective range of [-1.0 1.0] is achieved, and the range value 0.0 is represented by the sample value 7.
 
-Figure 8 — Mapping with the Decode array The Size value for an input dimension can be 1, in which case all input values in that dimension shall be mapped to the single allowed value. If Size is less than 4, cubic spline interpolation is not possible and Order 3 shall be ignored if specified.
+Figure 8 — Mapping with the Decode array
+
+The Size value for an input dimension can be 1, in which case all input values in that dimension shall be mapped to the single allowed value. If Size is less than 4, cubic spline interpolation is not possible and Order 3 shall be ignored if specified.
 
 ### 7.10.3 Type 2 (exponential interpolation) functions
 

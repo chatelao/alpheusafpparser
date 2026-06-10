@@ -39,12 +39,12 @@ The following criteria must be verified for each file:
 - ✅ `Chapter_6.md` (Conformance)
 
 ### Phase 2: Syntax & Graphics ⏳
-- ⏳ **2.1. Chapter 7**: Syntax.
+- ✅ **2.1. Chapter 7**: Syntax.
     - ✅ 2.1.1. Clause 7.1 (General).
     - ✅ 2.1.2. Clause 7.2 (Lexical conventions).
     - ✅ 2.1.3. Clause 7.3 (Objects).
-    - ⏳ 2.1.4. Clause 7.4 (Filters).
-    - ⏳ 2.1.5. Clause 7.5 (File structure).
+    - ✅ 2.1.4. Clause 7.4 (Filters).
+    - ✅ 2.1.5. Clause 7.5 (File structure).
     - ⏳ 2.1.6. Clause 7.6 (Encryption).
     - ⏳ 2.1.7. Clause 7.7 (Document structure).
     - ⏳ 2.1.8. Clause 7.8 (Content streams and resources).
@@ -116,11 +116,11 @@ The following criteria must be verified for each file:
     - ⏳ 5.1.13. Clause 14.13 (Associated files).
 
 ### Phase 6: Appendices & Bibliography 🚧
-- 🚧 **6.1. Appendix A to E**: Basic structural cleanup.
+- ✅ **6.1. Appendix A to E**: Basic structural cleanup.
     - ✅ 6.1.1. Appendix A (Operator Summary).
     - ✅ 6.1.2. Appendix B (Operators in Type 4 Functions).
     - ✅ 6.1.3. Appendix C (Maximising portability).
-    - 🚧 6.1.4. Appendix D (Character sets and encodings).
+    - ✅ 6.1.4. Appendix D (Character sets and encodings).
     - ✅ 6.1.5. Appendix E (PDF Name Registry).
 - ⏳ **6.2. Appendix F to J**: Complex tables and examples.
 - ⏳ **6.3. Appendix K to O**: Technical relationships and fragments.
@@ -145,7 +145,7 @@ The following criteria must be verified for each file:
 | `Chapter_4.md` | ✅ Completed | 1 | Fixed headings and merged paragraphs. |
 | `Chapter_5.md` | ✅ Completed | 1 | Verified as clean. |
 | `Chapter_6.md` | ✅ Completed | 1 | Fixed paragraph breakage in 6.3.2.1. |
-| `Chapter_7.md` | 🚧 In Progress | 2.1 | Standardized NOTE/EXAMPLE; merged Tables 3, 4; Clauses 7.1-7.3 clean. |
+| `Chapter_7.md` | ✅ Completed | 2.1 | Standardized NOTE/EXAMPLE; merged Tables 3, 4; Clauses 7.1-7.12 clean. |
 | `Chapter_8.md` | ⏳ Pending | 2.2 | |
 | `Chapter_9.md` | ⏳ Pending | 3.1 | Verified: Fragmented formulas and notes. |
 | `Chapter_10.md` | ⏳ Pending | 3.2 | |
@@ -156,7 +156,7 @@ The following criteria must be verified for each file:
 | `Appendix_A.md` | ✅ Completed | 6.1 | Merged fragmented table rows and integrated operators. |
 | `Appendix_B.md` | ✅ Completed | 6.1 | Fixed table structures and merged fragmented rows. |
 | `Appendix_C.md` | ✅ Completed | 6.1 | Merged fragmented tables and fixed CID requirement formatting. |
-| `Appendix_D.md` | 🚧 In Progress | 6.1 | Standardized NOTES; merged Tables D.1, D.2, D.4 parts. |
+| `Appendix_D.md` | ✅ Completed | 6.1 | Standardized NOTES; merged Tables D.1, D.2, D.4, D.5, D.6 parts. |
 | `Appendix_E.md` | ✅ Completed | 6.1 | Standardized NOTE formatting and fixed name class merging. |
 | `Appendix_F.md` | ⏳ Pending | 6.2 | |
 | `Appendix_G.md` | ⏳ Pending | 6.2 | |
