@@ -1418,15 +1418,45 @@ public class PdfHandler implements StructuredFieldHandler {
       float sin = (float) Math.sin(rad);
 
       currentCanvas.beginText()
-          .setFontAndSize(font, fontSizeAfp)
-          .setTextMatrix(cos, sin, sin, -cos, afpX, afpY)
+          .setFontAndSize(font, fontSizeAfp);
+
+      if (textState.getIntercharacterAdjustment() != 0) {
+        currentCanvas.setCharacterSpacing((float) textState.getIntercharacterAdjustment());
+      }
+
+      int spaceCount = 0;
+      if (textState.getVariableSpaceIncrement() != 0) {
+        for (int i = 0; i < text.length(); i++) {
+          if (text.charAt(i) == ' ') {
+            spaceCount++;
+          }
+        }
+        float fontSpaceWidthAfp = font.getWidth(" ", fontSizeAfp);
+        currentCanvas.setWordSpacing((float) textState.getVariableSpaceIncrement() - fontSpaceWidthAfp - textState.getIntercharacterAdjustment());
+      }
+
+      currentCanvas.setTextMatrix(cos, sin, sin, -cos, afpX, afpY)
           .showText(text)
           .endText();
 
+      // Reset spacings for next text objects
+      if (textState.getIntercharacterAdjustment() != 0) {
+        currentCanvas.setCharacterSpacing(0);
+      }
+      if (textState.getVariableSpaceIncrement() != 0) {
+        currentCanvas.setWordSpacing(0);
+      }
+
       // Update inline position based on text width (approximation in AFP units)
-      float widthPoints = font.getWidth(text, fontSizePoints);
+      float totalWidthAfp = font.getWidth(text, fontSizeAfp)
+          + (textState.getIntercharacterAdjustment() * text.length());
+
+      if (textState.getVariableSpaceIncrement() != 0) {
+        totalWidthAfp += spaceCount * (textState.getVariableSpaceIncrement() - font.getWidth(" ", fontSizeAfp) - textState.getIntercharacterAdjustment());
+      }
+
       if (defaultPageWidth > 0) {
-        textState.setInlinePos(textState.getInlinePos() + (int) (widthPoints / defaultScaleX));
+        textState.setInlinePos(textState.getInlinePos() + (int) totalWidthAfp);
       }
     } catch (Exception e) {
       System.err.println("Error rendering text: " + e.getMessage());
