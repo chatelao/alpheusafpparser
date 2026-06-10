@@ -160,6 +160,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private final XmlMapper fragmentMapper;
   private ToXmlGenerator baseFragmentGenerator;
 
+  public ToXmlGenerator getBaseFragmentGenerator() {
+    return baseFragmentGenerator;
+  }
+
   private javax.xml.parsers.DocumentBuilder cachedDocumentBuilder;
   private javax.xml.xpath.XPath cachedXpath;
   private javax.xml.transform.Transformer cachedTransformer;
@@ -1903,6 +1907,16 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(baseXsw, level);
       baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
+    } else if (cs instanceof PTOCAControlSequence.Undefined u) {
+      baseXsw.writeStartElement("Undefined");
+      if (u.getUndefinedData() != null) {
+        writeBinaryElement(baseXsw, childLevel, "undefinedData", u.getUndefinedData());
+      }
+      if (u.getText() != null) {
+        writeElement(baseXsw, childLevel, "text", u.getText());
+      }
+      writeIndent(baseXsw, level);
+      baseXsw.writeEndElement();
     } else {
       if (MnemonicPerformanceMonitor.isEnabled()) {
         String simpleName = MnemonicPerformanceMonitor.getSimpleName(cs.getClass());
@@ -3157,7 +3171,27 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writer.writeStartElement("IOCAFunctionSetIdentification");
       writeElement(writer, childLevel, "functionSetCategory", fsi.getFunctionSetCategory());
       if (fsi.getFunctionSetIdentifier() != null) {
-        writeElement(writer, childLevel, "functionSetIdentifier", fsi.getFunctionSetIdentifier().name());
+        writeElement(writer, childLevel, "functionSetIdentifier",
+            fsi.getFunctionSetIdentifier().name());
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (sdf instanceof IDD_SelfDefiningField.IDEStructure ides) {
+      writer.writeStartElement("IDEStructure");
+      writeElement(writer, childLevel, "flags", (int) ides.getFlags());
+      if (ides.getColorSpace() != null) {
+        writeElement(writer, childLevel, "colorSpace", ides.getColorSpace().name());
+      }
+      if (ides.getComponentSizes() != null) {
+        writeBinaryElement(writer, childLevel, "componentSizes", ides.getComponentSizes());
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (sdf instanceof IDD_SelfDefiningField.UnknownSelfDefiningField usdf) {
+      writer.writeStartElement("UnknownSelfDefiningField");
+      writeElement(writer, childLevel, "unknownFieldType", (int) usdf.getUnknownFieldType());
+      if (usdf.getData() != null) {
+        writeBinaryElement(writer, childLevel, "data", usdf.getData());
       }
       writeIndent(writer, level);
       writer.writeEndElement();

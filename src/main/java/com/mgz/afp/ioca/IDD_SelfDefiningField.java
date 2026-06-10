@@ -359,6 +359,22 @@ public abstract class IDD_SelfDefiningField implements IAFPDecodeableWriteable {
     short unknownFieldType;
     byte[] data;
 
+    public short getUnknownFieldType() {
+      return unknownFieldType;
+    }
+
+    public void setUnknownFieldType(short unknownFieldType) {
+      this.unknownFieldType = unknownFieldType;
+    }
+
+    public byte[] getData() {
+      return data;
+    }
+
+    public void setData(byte[] data) {
+      this.data = data;
+    }
+
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       unknownFieldType = UtilBinaryDecoding.parseShort(sfData, offset, 1);
