@@ -139,6 +139,13 @@ public class PdfFontMappingTest {
     PdfFont font2 = registry.getFont("C0H20010");
 
     assertSame(font1, font2, "Should return the same instance from cache");
+
+    // Test sharing between different AFP names mapping to same standard font
+    PdfFont font3 = registry.getFont("C0H20012");
+    assertSame(font1, font3, "Should share the same PdfFont instance for same standard font at different size");
+
+    PdfFont font4 = registry.getFont("C0S20010");
+    assertSame(font1, font4, "Should share the same PdfFont instance for Helvetica vs Swiss");
   }
 
   @Test

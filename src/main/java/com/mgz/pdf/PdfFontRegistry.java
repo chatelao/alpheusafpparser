@@ -32,7 +32,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class PdfFontRegistry {
 
-  private final Map<String, PdfFont> registry = new ConcurrentHashMap<>();
+  private final Map<String, PdfFont> afpNameCache = new ConcurrentHashMap<>();
+  private final Map<String, PdfFont> standardFontCache = new ConcurrentHashMap<>();
   private final FontProvider fontProvider;
   private final FontSet fontSet;
   private PdfFont defaultFont;
@@ -60,7 +61,7 @@ public class PdfFontRegistry {
    */
   public void registerFont(String fontName, PdfFont font) {
     if (fontName != null && font != null) {
-      registry.put(fontName.trim(), font);
+      afpNameCache.put(fontName.trim(), font);
     }
   }
 
@@ -75,11 +76,11 @@ public class PdfFontRegistry {
       return null;
     }
     String trimmedName = fontName.trim();
-    PdfFont font = registry.get(trimmedName);
+    PdfFont font = afpNameCache.get(trimmedName);
     if (font == null) {
       font = mapToStandardFont(trimmedName);
       if (font != null) {
-        registry.put(trimmedName, font);
+        afpNameCache.put(trimmedName, font);
       }
     }
     return font;
@@ -127,13 +128,22 @@ public class PdfFontRegistry {
     }
 
     if (standardFontName != null) {
-      try {
-        // For PDF/VT and PDF/X-4 compliance, we should ideally embed fonts.
-        // iText 9 createFont with StandardFonts usually creates a non-embedded font.
-        return PdfFontFactory.createFont(standardFontName);
-      } catch (Exception e) {
-        // Fallback or log error
-      }
+      final String finalStandardFontName = standardFontName;
+      return standardFontCache.computeIfAbsent(finalStandardFontName, k -> {
+        try {
+          // For PDF/VT and PDF/X-4 compliance, we should ideally embed fonts.
+          // iText 9 createFont with StandardFonts usually creates a non-embedded font.
+          // Passing embedding = true and subset = true for compliance.
+          return PdfFontFactory.createFont(finalStandardFontName, null, PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED);
+        } catch (Exception e) {
+          // Fallback
+          try {
+            return PdfFontFactory.createFont(finalStandardFontName);
+          } catch (Exception ex) {
+            return null;
+          }
+        }
+      });
     }
 
     return null;
@@ -152,7 +162,7 @@ public class PdfFontRegistry {
 
   /**
    * Extracts the point size from a standard AFP font name.
-   * e.g., 'C0H20012' -> 12.0f
+   * e.g., 'C0H20012' -> 12.0f, 'C0H200A0' -> 10.0f
    *
    * @param afpFontName the font name
    * @return the extracted size, or 10.0f as default
@@ -165,18 +175,28 @@ public class PdfFontRegistry {
     String trimmed = afpFontName.trim();
     int len = trimmed.length();
 
-    // Try to extract up to 3 digits from the end
-    for (int d = 3; d >= 1; d--) {
+    // AFP font names with size usually have at least 8 characters: C0H20012
+    if (len < 6) {
+      return 10.0f;
+    }
+
+    // Try to extract digits from the end, but only if they follow a common pattern.
+    // Standard names are C0xxxxxx where the last 2 or 3 digits are size.
+    // However, some might have A0 etc. which is NOT a size.
+
+    // Look for last 3 digits
+    for (int d = 3; d >= 2; d--) {
       if (len >= d) {
         String sub = trimmed.substring(len - d);
         if (sub.matches("\\d+")) {
           try {
             int size = Integer.parseInt(sub);
-            if (size > 0 && size <= 144) {
+            // Reasonable font sizes are 4 to 144 points
+            if (size >= 4 && size <= 144) {
               return (float) size;
             }
           } catch (NumberFormatException e) {
-            // Should not happen with matches("\\d+")
+            // Should not happen
           }
         }
       }
@@ -214,7 +234,7 @@ public class PdfFontRegistry {
     if (fontName == null) {
       return false;
     }
-    return registry.containsKey(fontName.trim());
+    return afpNameCache.containsKey(fontName.trim());
   }
 
   /**
@@ -239,6 +259,7 @@ public class PdfFontRegistry {
    * Clears all registered fonts.
    */
   public void clear() {
-    registry.clear();
+    afpNameCache.clear();
+    standardFontCache.clear();
   }
 }
