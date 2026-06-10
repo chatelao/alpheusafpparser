@@ -19,12 +19,14 @@ This document outlines the architectural shift required to achieve an order-of-m
 Eliminate `XmlMapper` and `ToXmlGenerator` from the hot path entirely.
 
 - ✅ **Core MO:DCA Fast-Paths**: Implemented manual StAX writing for `MDR`, `MGO`, `MPO`, `MSU`, `MMC`, `PGP` (Formats 1 & 2), `MCD`, and `OCD`.
+- ✅ **FOCA Fast-Paths**: Implemented manual writing for `CFC`, `CFI`, `CPC`, `CPD`, `CPI`, `FND`, `FNG`, `FNI`, `FNM`, `FNN`, `FNO`, and `FNP`.
 - ✅ **BCOCA Fast-Paths**: Implemented manual writing for `BBC`, `EBC`, `BDD`, and `BDA`.
 - ✅ **PTOCA SF Fast-Paths**: Implemented manual writing for `BPT`, `EPT`, and `PTD` (Format 1 & 2).
 - ✅ **GOCA SF Fast-Paths**: Implemented manual writing for `BGR`, `EGR`, and `GDD`.
-- ✅ **PTOCA CS Fast-Paths**: Implemented manual writing for `ENC`, `GAR`, `GIR`, `GLC`, `GOR`, `SEA`, `SKI`, and `UCT`.
-- 🚧 **Complete Coverage**: Implement manual `write` methods for every remaining Structured Field, Triplet, and Control Sequence.
-  - **Missing Triplets**: ~48 triplets including `FinishingOperation`, `ColorManagementResourceDescriptor`, `ImageResolution`, `RenderingIntent`, and various Fidelity triplets.
+- ✅ **IOCA Segment Fast-Paths**: Implemented manual writing for all `IPD_Segment` types.
+- ✅ **Triplets Fast-Paths**: Full coverage achieved for all 67+ standard triplets.
+- ✅ **PTOCA CS Fast-Paths**: Implemented manual writing for `TRN`, `GC`, `AMI`, `AMB`, `RMI`, `RMB`, `SIM`, `SCFL`, `SBI`, `BLN`, `BSU`, `ESU`, `STO`, `STC`, `USC`, `SIA`, `SVI`, `SEC`, `DIR`, `DBR`, `NOP`, `TBM`, `OVS`, `RPS`, `UCT`, `GLC`, `ENC`, `SKI`, `SEA`, `GIR`, `GAR`, and `GOR`.
+- 🚧 **Complete Coverage**: Implement manual `write` methods for every remaining Structured Field and Drawing Order.
 - ⏳ **Annotation Removal**: Remove Jackson annotations from domain classes to prevent accidental slow-path invocation.
 - ⏳ **Direct Woodstox Integration**: Use `WstxOutputFactory` directly to bypass the abstraction layer.
 
@@ -54,7 +56,7 @@ Utilize hardware-level parallelism for record-skipping and character validation.
 ## 6. Template-Based Serialization
 Serialize a field in a single memory copy operation. See [TEMPLATE_BASED_ROADMAP.md](TEMPLATE_BASED_ROADMAP.md).
 
-- 🚧 **Infrastructure**: Implemented `XmlTagTemplates` and integrated `writeRawBytes` into `AfpXmlStreamWriter`.
+- ✅ **Infrastructure**: Implemented `XmlTagTemplates` and integrated `writeRawBytes` into `AfpXmlStreamWriter`.
 - ⏳ **XML Byte Templates**: Generate pre-computed XML byte templates for each Structured Field type.
 - ⏳ **Hole-Punching**: Inject variable data (like coordinates or lengths) directly into the template.
 
