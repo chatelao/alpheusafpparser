@@ -1,12 +1,16 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<AFPDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="UTF-8"?><AFPDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <BRG_BeginResourceGroup>
-    <name></name>
-    <text></text>
+    <name>&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;</name>
+    <text>&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;</text>
   </BRG_BeginResourceGroup>
-  <BRS_BeginResource><name>F1VORNAL</name><triplets><triplets><length>10</length><tripletID>ResourceObjectType</tripletID><objectType>FormMapObject</objectType></triplets></triplets><beginSF>true</beginSF><endSF>false</endSF><shallow>false</shallow><text>F1VORNAL</text></BRS_BeginResource>
-  <BFM_BeginFormMap><beginSF>true</beginSF><endSF>false</endSF><shallow>false</shallow></BFM_BeginFormMap>
-  <BDG_BeginDocumentEnvironmentGroup><beginSF>true</beginSF><endSF>false</endSF><shallow>false</shallow></BDG_BeginDocumentEnvironmentGroup>
+  <BRS_BeginResource>
+    <name>F1VORNAL</name>
+    <text>F1VORNAL</text>
+  </BRS_BeginResource>
+  <BFM_BeginFormMap>
+  </BFM_BeginFormMap>
+  <BDG_BeginDocumentEnvironmentGroup>
+  </BDG_BeginDocumentEnvironmentGroup>
   <PGP_PagePosition_Format2>
     <constant0>1</constant0>
     <pgpRepeatingGroup>
@@ -24,10 +28,16 @@
     <xMediumExtent>0</xMediumExtent>
     <yMediumExtent>0</yMediumExtent>
     <flag>DoNotPassMediumOrientationToCutsheetPrinter</flag>
-    <MediumOrientation><length>3</length><tripletID>MediumOrientation</tripletID><mediumOrientation>Portrait</mediumOrientation></MediumOrientation>
+    <MediumOrientation>
+      <mediumOrientation>Portrait</mediumOrientation>
+    </MediumOrientation>
   </MDD_MediumDescriptor>
-  <EDG_EndDocumentEnvironmentGroup><beginSF>false</beginSF><endSF>true</endSF><shallow>false</shallow></EDG_EndDocumentEnvironmentGroup>
-  <BMM_BeginMediumMap><name>MM000000</name><beginSF>true</beginSF><endSF>false</endSF><shallow>false</shallow><text>MM000000</text></BMM_BeginMediumMap>
+  <EDG_EndDocumentEnvironmentGroup>
+  </EDG_EndDocumentEnvironmentGroup>
+  <BMM_BeginMediumMap>
+    <name>MM000000</name>
+    <text>MM000000</text>
+  </BMM_BeginMediumMap>
   <PGP_PagePosition_Format2>
     <constant0>1</constant0>
     <pgpRepeatingGroup>
@@ -45,9 +55,20 @@
     <xMediumExtent>0</xMediumExtent>
     <yMediumExtent>0</yMediumExtent>
     <flag>DoNotPassMediumOrientationToCutsheetPrinter</flag>
-    <MediumOrientation><length>3</length><tripletID>MediumOrientation</tripletID><mediumOrientation>Portrait</mediumOrientation></MediumOrientation>
+    <MediumOrientation>
+      <mediumOrientation>Portrait</mediumOrientation>
+    </MediumOrientation>
   </MDD_MediumDescriptor>
-  <MCC_MediumCopyCount><repeatingGroups><repeatingGroups><startingCopyNumber>1</startingCopyNumber><endingCopyNumber>1</endingCopyNumber><reserved4>0</reserved4><mediumModificationControlIdentifier>1</mediumModificationControlIdentifier></repeatingGroups></repeatingGroups><beginSF>false</beginSF><endSF>false</endSF><shallow>false</shallow></MCC_MediumCopyCount>
+  <MCC_MediumCopyCount>
+    <repeatingGroups>
+      <repeatingGroups>
+        <startingCopyNumber>1</startingCopyNumber>
+        <endingCopyNumber>1</endingCopyNumber>
+        <reserved4>0</reserved4>
+        <mediumModificationControlIdentifier>1</mediumModificationControlIdentifier>
+      </repeatingGroups>
+    </repeatingGroups>
+  </MCC_MediumCopyCount>
   <MMC_MediumModificationControl>
     <mmcIdentifier>1</mmcIdentifier>
     <constantData1>-1</constantData1>
@@ -78,10 +99,20 @@
       </keyword>
     </keywords>
   </MMC_MediumModificationControl>
-  <EMM_EndMediumMap><name>MM000000</name><beginSF>false</beginSF><endSF>true</endSF><shallow>false</shallow><text>MM000000</text></EMM_EndMediumMap>
-  <EFM_EndFormMap><beginSF>false</beginSF><endSF>true</endSF><shallow>false</shallow></EFM_EndFormMap>
-  <ERS_EndResource><name>F1VORNAL</name><beginSF>false</beginSF><endSF>true</endSF><shallow>false</shallow><text>F1VORNAL</text></ERS_EndResource>
-  <BRS_BeginResource><name>O1VORNAL</name><triplets><triplets><length>10</length><tripletID>ResourceObjectType</tripletID><objectType>OverlayObject</objectType></triplets></triplets><beginSF>true</beginSF><endSF>false</endSF><shallow>false</shallow><text>O1VORNAL</text></BRS_BeginResource>
+  <EMM_EndMediumMap>
+    <name>MM000000</name>
+    <text>MM000000</text>
+  </EMM_EndMediumMap>
+  <EFM_EndFormMap>
+  </EFM_EndFormMap>
+  <ERS_EndResource>
+    <name>F1VORNAL</name>
+    <text>F1VORNAL</text>
+  </ERS_EndResource>
+  <BRS_BeginResource>
+    <name>O1VORNAL</name>
+    <text>O1VORNAL</text>
+  </BRS_BeginResource>
   <BMO_BeginOverlay>
     <name>O1VORNAL</name>
     <text>O1VORNAL</text>
@@ -97,8 +128,8 @@
       <FullyQualifiedName>
         <type>DataObjectExternalResourceReference</type>
         <format>CharacterString</format>
-        <nameAsString>   Ê Ñ / %  ê Á Å Í % / Ê</nameAsString>
-        <text>   Ê Ñ / %  ê Á Å Í % / Ê</text>
+        <nameAsString>   Ê Ñ / % &#x80; ê Á Å Í % / Ê</nameAsString>
+        <text>   Ê Ñ / % &#x80; ê Á Å Í % / Ê</text>
       </FullyQualifiedName>
       <ObjectClassification>
         <reserved2>0</reserved2>
@@ -129,7 +160,19 @@
           <encodingScheme>CodeExtension_NotSpecified</encodingScheme>
         </encodingSchemeForUserData>
       </EncodingSchemeID>
-      <DataObjectFontDescriptor><length>16</length><tripletID>DataObjectFontDescriptor</tripletID><fontInformationFlags><fontInformationFlags>MICR_NonMICR</fontInformationFlags><fontInformationFlags>Location_Anyware</fontInformationFlags></fontInformationFlags><fontTechnology>32</fontTechnology><specifiedVerticalFontSize>480</specifiedVerticalFontSize><horizontalScaleFactor>0</horizontalScaleFactor><characterOrientation>ori0</characterOrientation><encodingEnvironment>3</encodingEnvironment><encodingIdentifier>1</encodingIdentifier><reserved14_15>AAA=</reserved14_15></DataObjectFontDescriptor>
+      <DataObjectFontDescriptor>
+        <fontInformationFlags>
+          <fontInformationFlags>MICR_NonMICR</fontInformationFlags>
+          <fontInformationFlags>Location_Anyware</fontInformationFlags>
+        </fontInformationFlags>
+        <fontTechnology>32</fontTechnology>
+        <specifiedVerticalFontSize>480</specifiedVerticalFontSize>
+        <horizontalScaleFactor>0</horizontalScaleFactor>
+        <characterOrientation>ori0</characterOrientation>
+        <encodingEnvironment>3</encodingEnvironment>
+        <encodingIdentifier>1</encodingIdentifier>
+        <reserved14_15>AAA=</reserved14_15>
+      </DataObjectFontDescriptor>
     </mdrRepeatingGroup>
     <mdrRepeatingGroup>
       <CodedGraphicCharacterSetGlobalID>
@@ -139,8 +182,8 @@
       <FullyQualifiedName>
         <type>DataObjectExternalResourceReference</type>
         <format>CharacterString</format>
-        <nameAsString>   Ê Ñ / %  ê Á Å Í % / Ê</nameAsString>
-        <text>   Ê Ñ / %  ê Á Å Í % / Ê</text>
+        <nameAsString>   Ê Ñ / % &#x80; ê Á Å Í % / Ê</nameAsString>
+        <text>   Ê Ñ / % &#x80; ê Á Å Í % / Ê</text>
       </FullyQualifiedName>
       <ObjectClassification>
         <reserved2>0</reserved2>
@@ -171,7 +214,19 @@
           <encodingScheme>CodeExtension_NotSpecified</encodingScheme>
         </encodingSchemeForUserData>
       </EncodingSchemeID>
-      <DataObjectFontDescriptor><length>16</length><tripletID>DataObjectFontDescriptor</tripletID><fontInformationFlags><fontInformationFlags>MICR_NonMICR</fontInformationFlags><fontInformationFlags>Location_Anyware</fontInformationFlags></fontInformationFlags><fontTechnology>32</fontTechnology><specifiedVerticalFontSize>960</specifiedVerticalFontSize><horizontalScaleFactor>0</horizontalScaleFactor><characterOrientation>ori0</characterOrientation><encodingEnvironment>3</encodingEnvironment><encodingIdentifier>1</encodingIdentifier><reserved14_15>AAA=</reserved14_15></DataObjectFontDescriptor>
+      <DataObjectFontDescriptor>
+        <fontInformationFlags>
+          <fontInformationFlags>MICR_NonMICR</fontInformationFlags>
+          <fontInformationFlags>Location_Anyware</fontInformationFlags>
+        </fontInformationFlags>
+        <fontTechnology>32</fontTechnology>
+        <specifiedVerticalFontSize>960</specifiedVerticalFontSize>
+        <horizontalScaleFactor>0</horizontalScaleFactor>
+        <characterOrientation>ori0</characterOrientation>
+        <encodingEnvironment>3</encodingEnvironment>
+        <encodingIdentifier>1</encodingIdentifier>
+        <reserved14_15>AAA=</reserved14_15>
+      </DataObjectFontDescriptor>
     </mdrRepeatingGroup>
   </MDR_MapDataResource>
   <PGD_PageDescriptor>
@@ -183,9 +238,19 @@
     <ySize>3016</ySize>
     <reserved12_14>000000</reserved12_14>
   </PGD_PageDescriptor>
-  <PTD_PresentationTextDataDescriptor_Format2><xUnitBase>Inches10</xUnitBase><yUnitBase>Inches10</yUnitBase><xUnitsPerUnitBase>3000</xUnitsPerUnitBase><yUnitsPerUnitBase>3000</yUnitsPerUnitBase><xSize>2496</xSize><ySize>3016</ySize><reserved12_13>AAA=</reserved12_13><beginSF>false</beginSF><endSF>false</endSF><shallow>false</shallow></PTD_PresentationTextDataDescriptor_Format2>
-  <EAG_EndActiveEnvironmentGroup><beginSF>false</beginSF><endSF>true</endSF><shallow>false</shallow></EAG_EndActiveEnvironmentGroup>
-  <BPT_BeginPresentationTextObject><beginSF>true</beginSF><endSF>false</endSF><shallow>false</shallow></BPT_BeginPresentationTextObject>
+  <PTD_PresentationTextDataDescriptor_Format2>
+    <xUnitBase>Inches10</xUnitBase>
+    <yUnitBase>Inches10</yUnitBase>
+    <xUnitsPerUnitBase>3000</xUnitsPerUnitBase>
+    <yUnitsPerUnitBase>3000</yUnitsPerUnitBase>
+    <xSize>2496</xSize>
+    <ySize>3016</ySize>
+    <reserved12_13>AAA=</reserved12_13>
+  </PTD_PresentationTextDataDescriptor_Format2>
+  <EAG_EndActiveEnvironmentGroup>
+  </EAG_EndActiveEnvironmentGroup>
+  <BPT_BeginPresentationTextObject>
+  </BPT_BeginPresentationTextObject>
   <PTX_PresentationTextData>
     <STO_SetTextOrientation xOrientation="ori0" yOrientation="ori90"/>
     <STC_SetTextColor foregroundColor="DeviceDefault_0x00"/>
@@ -272,11 +337,16 @@
     <NOP_NoOperation>
     </NOP_NoOperation>
   </PTX_PresentationTextData>
-  <EPT_EndPresentationTextObject><beginSF>false</beginSF><endSF>true</endSF><shallow>false</shallow></EPT_EndPresentationTextObject>
+  <EPT_EndPresentationTextObject>
+  </EPT_EndPresentationTextObject>
   <EMO_EndOverlay>
   </EMO_EndOverlay>
-  <ERS_EndResource><beginSF>false</beginSF><endSF>true</endSF><shallow>false</shallow></ERS_EndResource>
-  <BRS_BeginResource><name>TTF00001</name><triplets><triplets><length>6</length><tripletID>CodedGraphicCharacterSetGlobalID</tripletID><graphicCharacterSetGlobalID>0</graphicCharacterSetGlobalID><codePageGlobalID_codedCharacterSetID>1200</codePageGlobalID_codedCharacterSetID><ccsidform>true</ccsidform></triplets><triplets><length>30</length><tripletID>FullyQualifiedName</tripletID><type>ReplaceFirstGIDBame</type><format>CharacterString</format><nameAsBytes>AEEAcgBpAGEAbAAgAFIAZQBnAHUAbABhAHI=</nameAsBytes><nameAsString>   Ê Ñ / %  ê Á Å Í % / Ê</nameAsString><text>   Ê Ñ / %  ê Á Å Í % / Ê</text></triplets><triplets><length>24</length><tripletID>ObjectClassification</tripletID><reserved2>0</reserved2><objectClass>DataObjectFont</objectClass><reserved4_5>AAA=</reserved4_5><structureFlags><structureFlags>OC_DataCarriedInObjectContainer</structureFlags><structureFlags>OEG_NotIncluded</structureFlags><structureFlags>OCD_DataCarriedInOCD</structureFlags></structureFlags><registeredObjectID>BgcrEgAEAQEzAAAAAAAAAA==</registeredObjectID></triplets><triplets><length>10</length><tripletID>ResourceObjectType</tripletID><objectType>ObjectContainer</objectType></triplets></triplets><beginSF>true</beginSF><endSF>false</endSF><shallow>false</shallow><text>TTF00001</text></BRS_BeginResource>
+  <ERS_EndResource>
+  </ERS_EndResource>
+  <BRS_BeginResource>
+    <name>TTF00001</name>
+    <text>TTF00001</text>
+  </BRS_BeginResource>
   <BOC_BeginObjectContainer>
     <name>TTF00001</name>
     <ObjectClassification>
@@ -6766,32 +6836,30 @@ VPxQ0/5ijTgFZvB4OOOBH2uOKywykbjY/wcKhIlMlj9t2J2FYTsmmT67c5ehCrKeqS44ow5fs1Pp
     <name>TTF00001</name>
     <text>TTF00001</text>
   </EOC_EndObjectContainer>
-  <ERS_EndResource><beginSF>false</beginSF><endSF>true</endSF><shallow>false</shallow></ERS_EndResource>
+  <ERS_EndResource>
+  </ERS_EndResource>
   <ERG_EndResourceGroup>
-    <name></name>
-    <text></text>
+    <name>&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;</name>
+    <text>&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;</text>
   </ERG_EndResourceGroup>
   <BDT_BeginDocument>
-    <name></name>
+    <name>&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;</name>
     <reserved8_9>0000</reserved8_9>
-    <text></text>
+    <text>&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;</text>
   </BDT_BeginDocument>
   <IMM_InvokeMediumMap>
     <name>MM000000</name>
     <text>MM000000</text>
   </IMM_InvokeMediumMap>
   <BPG_BeginPage>
-    <name></name>
-    <text></text>
+    <name>&#x90;&#x90;&#x90;&#x90;&#x90;&#x90;&#x90;&#x91;</name>
+    <text>&#x90;&#x90;&#x90;&#x90;&#x90;&#x90;&#x90;&#x91;</text>
   </BPG_BeginPage>
   <BAG_BeginActiveEnvironmentGroup>
   </BAG_BeginActiveEnvironmentGroup>
   <MPO_MapPageOverlay>
     <mpoRepeatingGroup>
-      <ResourceLocalIdentifier>
-        <resourceType>PageOverlay</resourceType>
-        <resourceLocalID>1</resourceLocalID>
-      </ResourceLocalIdentifier>
+      <ResourceLocalIdentifier resourceType="PageOverlay" resourceLocalID="1"/>
       <FullyQualifiedName>
         <type>ResourceObjectReference</type>
         <format>CharacterString</format>
@@ -6809,27 +6877,30 @@ VPxQ0/5ijTgFZvB4OOOBH2uOKywykbjY/wcKhIlMlj9t2J2FYTsmmT67c5ehCrKeqS44ow5fs1Pp
     <ySize>2806</ySize>
     <reserved12_14>0004A0</reserved12_14>
   </PGD_PageDescriptor>
-  <PTD_PresentationTextDataDescriptor_Format2><xUnitBase>Inches10</xUnitBase><yUnitBase>Inches10</yUnitBase><xUnitsPerUnitBase>2400</xUnitsPerUnitBase><yUnitsPerUnitBase>2400</yUnitsPerUnitBase><xSize>1984</xSize><ySize>2806</ySize><reserved12_13>AAA=</reserved12_13><beginSF>false</beginSF><endSF>false</endSF><shallow>false</shallow></PTD_PresentationTextDataDescriptor_Format2>
-  <EAG_EndActiveEnvironmentGroup><beginSF>false</beginSF><endSF>true</endSF><shallow>false</shallow></EAG_EndActiveEnvironmentGroup>
+  <PTD_PresentationTextDataDescriptor_Format2>
+    <xUnitBase>Inches10</xUnitBase>
+    <yUnitBase>Inches10</yUnitBase>
+    <xUnitsPerUnitBase>2400</xUnitsPerUnitBase>
+    <yUnitsPerUnitBase>2400</yUnitsPerUnitBase>
+    <xSize>1984</xSize>
+    <ySize>2806</ySize>
+    <reserved12_13>AAA=</reserved12_13>
+  </PTD_PresentationTextDataDescriptor_Format2>
+  <EAG_EndActiveEnvironmentGroup>
+  </EAG_EndActiveEnvironmentGroup>
   <IPO_IncludePageOverlay>
   </IPO_IncludePageOverlay>
   <BBC_BeginBarCodeObject name="INSDMBCP">
     <text>INSDMBCP</text>
   </BBC_BeginBarCodeObject>
-  <BOG_BeginObjectEnvironmentGroup><beginSF>true</beginSF><endSF>false</endSF><shallow>false</shallow></BOG_BeginObjectEnvironmentGroup>
+  <BOG_BeginObjectEnvironmentGroup>
+  </BOG_BeginObjectEnvironmentGroup>
   <OBD_ObjectAreaDescriptor>
-    <DescriptorPosition><length>3</length><tripletID>DescriptorPosition</tripletID></DescriptorPosition>
-    <MeasurementUnits>
-      <xUnitBase>Inches10</xUnitBase>
-      <yUnitBase>Inches10</yUnitBase>
-      <xUnitsPerUnitbase>2400</xUnitsPerUnitbase>
-      <yUnitsPerUnitbase>2400</yUnitsPerUnitbase>
-    </MeasurementUnits>
-    <ObjectAreaSize>
-      <sizeType_0x02>2</sizeType_0x02>
-      <xSize>1984</xSize>
-      <ySize>2806</ySize>
-    </ObjectAreaSize>
+    <DescriptorPosition>
+      <objectAreaDescriptorID>1</objectAreaDescriptorID>
+    </DescriptorPosition>
+    <MeasurementUnits xUnitBase="Inches10" yUnitBase="Inches10" xUnitsPerUnitbase="2400" yUnitsPerUnitbase="2400"/>
+    <ObjectAreaSize sizeType_0x02="2" xSize="1984" ySize="2806"/>
   </OBD_ObjectAreaDescriptor>
   <OBP_ObjectAreaPosition>
     <objectAreaPositionID>1</objectAreaPositionID>
@@ -6847,7 +6918,18 @@ VPxQ0/5ijTgFZvB4OOOBH2uOKywykbjY/wcKhIlMlj9t2J2FYTsmmT67c5ehCrKeqS44ow5fs1Pp
       <referenceCoordinateSystem>Standard</referenceCoordinateSystem>
     </repeatingGroup>
   </OBP_ObjectAreaPosition>
-  <MBC_MapBarCodeObject><lengthOfRepeatingGroup>5</lengthOfRepeatingGroup><triplet><length>3</length><tripletID>MappingOption</tripletID><dataObjecMapingOption>Position</dataObjecMapingOption></triplet><beginSF>false</beginSF><endSF>false</endSF><shallow>false</shallow></MBC_MapBarCodeObject>
+  <MBC_MapBarCodeObject>
+  <lengthOfRepeatingGroup>5</lengthOfRepeatingGroup>
+  <triplet>
+    <length>3</length>
+    <tripletID>MappingOption</tripletID>
+    <dataObjecMapingOption>Position</dataObjecMapingOption>
+  </triplet>
+  <beginSF>false</beginSF>
+  <endSF>false</endSF>
+  <shallow>false</shallow>
+</MBC_MapBarCodeObject>
+
   <BDD_BarCodeDataDescriptor>
     <unitBase>Inches10</unitBase>
     <unitsPerUnitBaseX>3000</unitsPerUnitBaseX>
@@ -6864,7 +6946,8 @@ VPxQ0/5ijTgFZvB4OOOBH2uOKywykbjY/wcKhIlMlj9t2J2FYTsmmT67c5ehCrKeqS44ow5fs1Pp
     <heightMultiplier>1</heightMultiplier>
     <wideToNarrowRatio>65535</wideToNarrowRatio>
   </BDD_BarCodeDataDescriptor>
-  <EOG_EndObjectEnvironmentGroup><beginSF>false</beginSF><endSF>true</endSF><shallow>false</shallow></EOG_EndObjectEnvironmentGroup>
+  <EOG_EndObjectEnvironmentGroup>
+  </EOG_EndObjectEnvironmentGroup>
   <BDA_BarCodeData>
     <barCodeFlags>
       <barCodeFlag>HRINotPresent</barCodeFlag>
@@ -6885,11 +6968,11 @@ VPxQ0/5ijTgFZvB4OOOBH2uOKywykbjY/wcKhIlMlj9t2J2FYTsmmT67c5ehCrKeqS44ow5fs1Pp
     <text>INSDMBCP</text>
   </EBC_EndBarCodeObject>
   <EPG_EndPage>
-    <name></name>
-    <text></text>
+    <name>&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;</name>
+    <text>&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;</text>
   </EPG_EndPage>
   <EDT_EndDocument>
-    <name></name>
-    <text></text>
+    <name>&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;</name>
+    <text>&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;</text>
   </EDT_EndDocument>
 </AFPDocument>
