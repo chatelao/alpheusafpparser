@@ -16,7 +16,11 @@ import com.mgz.afp.foca.FNN_RepeatingGroup;
 import com.mgz.afp.foca.FNN_TSIdentifier;
 import com.mgz.afp.foca.FNO_FontOrientation;
 import com.mgz.afp.foca.FNP_FontPosition;
+import com.mgz.afp.ioca.IPD_Segment;
+import com.mgz.afp.ioca.IPD_ImagePictureData;
 import com.mgz.afp.enums.AFPOrientation;
+import com.mgz.afp.enums.AFPColorSpace;
+import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.base.IRepeatingGroup;
 import org.junit.jupiter.api.Test;
 
@@ -34,6 +38,159 @@ public class SFFastPathVerificationTest {
     public void testSFFastPaths() throws Exception {
         verifySF(createMCC(), "MCC_MediumCopyCount");
         verifySF(createMCF1(), "MCF_MapCodedFont_Format1");
+    }
+
+    @Test
+    public void testIocaFastPaths() throws Exception {
+        IPD_ImagePictureData ipd = new IPD_ImagePictureData();
+        List<IPD_Segment> segments = new ArrayList<>();
+
+        IPD_Segment.BeginSegment bs = new IPD_Segment.BeginSegment();
+        bs.setSegmentType(IPD_Segment.IPD_SegmentType.BeginSegment);
+        bs.setLengthOfFollowingData(2);
+        bs.setName(new byte[]{0x01, 0x02});
+        segments.add(bs);
+
+        segments.add(new IPD_Segment.EndSegment());
+
+        IPD_Segment.ImageData id = new IPD_Segment.ImageData();
+        id.setSegmentType(IPD_Segment.IPD_SegmentType.ImageData);
+        id.setImageData(new byte[]{0x05, 0x06});
+        segments.add(id);
+
+        IPD_Segment.BandImageData bid = new IPD_Segment.BandImageData();
+        bid.setSegmentType(IPD_Segment.IPD_SegmentType.BandImageData);
+        bid.setBandNumber((short)1);
+        bid.setBandData(new byte[]{0x03, 0x04});
+        segments.add(bid);
+
+        IPD_Segment.BeginImageContent bic = new IPD_Segment.BeginImageContent();
+        bic.setSegmentType(IPD_Segment.IPD_SegmentType.BeginImageContent);
+        bic.setObjectType((short)1);
+        segments.add(bic);
+
+        segments.add(new IPD_Segment.EndImageContent());
+
+        IPD_Segment.ImageSize is = new IPD_Segment.ImageSize();
+        is.setSegmentType(IPD_Segment.IPD_SegmentType.ImageSize);
+        is.setUnitBase(AFPUnitBase.Inches10);
+        is.setxUnitsPerUnitBase((short)3000);
+        is.setyUnitsPerUnitBase((short)3000);
+        is.setxImageSize((short)2400);
+        is.setyImageSize((short)3300);
+        segments.add(is);
+
+        IPD_Segment.ImageEncoding ie = new IPD_Segment.ImageEncoding();
+        ie.setSegmentType(IPD_Segment.IPD_SegmentType.ImageEncoding);
+        ie.setCompressionAlgorithm(IPD_Segment.IPD_CompressionAlgorithm.G4_ModifiedModifiedREAD);
+        ie.setRecordingAlgorithm(IPD_Segment.IPD_RecordingAlgorithm.RIDIC_RecordingImageDataInlineCoding);
+        ie.setBitOrder(IPD_Segment.IPD_BitOrder.LeftToRight);
+        segments.add(ie);
+
+        IPD_Segment.IDESize ideSize = new IPD_Segment.IDESize();
+        ideSize.setSegmentType(IPD_Segment.IPD_SegmentType.IDESize);
+        ideSize.numberOfBitsInEachIDE = 1;
+        segments.add(ideSize);
+
+        IPD_Segment.ImageLUTID lutId = new IPD_Segment.ImageLUTID();
+        lutId.setSegmentType(IPD_Segment.IPD_SegmentType.ImageLUTID);
+        lutId.setLutId((short)1);
+        segments.add(lutId);
+
+        IPD_Segment.FunctionSetIdentification fsi = new IPD_Segment.FunctionSetIdentification();
+        fsi.setSegmentType(IPD_Segment.IPD_SegmentType.FunctionSetIdentification);
+        fsi.functionSet = 10;
+        segments.add(fsi);
+
+        IPD_Segment.IDEStructure ids = new IPD_Segment.IDEStructure();
+        ids.setSegmentType(IPD_Segment.IPD_SegmentType.IDEStructure);
+        ids.setColorSpace(AFPColorSpace.RGB);
+        ids.setFlags(EnumSet.of(IPD_Segment.IDEStructure.IDEStructureFlag.Subtractive, IPD_Segment.IDEStructure.IDEStructureFlag.GrayCodingOn));
+        ids.setComponentSizes(List.of((short)8, (short)8, (short)8));
+        segments.add(ids);
+
+        IPD_Segment.BandImage bi = new IPD_Segment.BandImage();
+        bi.setSegmentType(IPD_Segment.IPD_SegmentType.BandImage);
+        segments.add(bi);
+
+        IPD_Segment.ExternalAlgorithmSpecification eas = new IPD_Segment.ExternalAlgorithmSpecification();
+        eas.setSegmentType(IPD_Segment.IPD_SegmentType.ExternalAlgorithmSpecification);
+        eas.reserved3 = 5;
+        segments.add(eas);
+
+        IPD_Segment.ImageSubsampling issub = new IPD_Segment.ImageSubsampling();
+        issub.setSegmentType(IPD_Segment.IPD_SegmentType.ImageSubsampling);
+        segments.add(issub);
+
+        IPD_Segment.BeginTile bt = new IPD_Segment.BeginTile();
+        bt.setSegmentType(IPD_Segment.IPD_SegmentType.BeginTile);
+        segments.add(bt);
+
+        IPD_Segment.EndTile et = new IPD_Segment.EndTile();
+        et.setSegmentType(IPD_Segment.IPD_SegmentType.EndTile);
+        segments.add(et);
+
+        IPD_Segment.TilePosition tp = new IPD_Segment.TilePosition();
+        tp.setSegmentType(IPD_Segment.IPD_SegmentType.TilePosition);
+        tp.horizontalOffset = 10;
+        tp.verticalOffset = 20;
+        segments.add(tp);
+
+        IPD_Segment.TileSize ts = new IPD_Segment.TileSize();
+        ts.setSegmentType(IPD_Segment.IPD_SegmentType.TileSize);
+        ts.horizontalSizeInImagePoints = 100;
+        ts.verticalSizeInImagePoints = 200;
+        ts.relativeResolution = IPD_Segment.TileSize.RelativeTileResolution.HalfOfImagePresentationSpace;
+        segments.add(ts);
+
+        IPD_Segment.TileSetColor tsc = new IPD_Segment.TileSetColor();
+        tsc.setSegmentType(IPD_Segment.IPD_SegmentType.TileSetColor);
+        tsc.colorSpace = AFPColorSpace.RGB;
+        segments.add(tsc);
+
+        IPD_Segment.IncludeTile it = new IPD_Segment.IncludeTile();
+        it.setSegmentType(IPD_Segment.IPD_SegmentType.IncludeTile);
+        it.tileResourceLocalID = 12345L;
+        segments.add(it);
+
+        IPD_Segment.TileTOC toc = new IPD_Segment.TileTOC();
+        toc.setSegmentType(IPD_Segment.IPD_SegmentType.TileTOC);
+        toc.listOfRepeatingGroups = List.of(new IPD_Segment.TileTOC.TileTOC_RepeatingGroup(0, 0, 100, 100, IPD_Segment.TileSize.RelativeTileResolution.SameAsImagePresentationSpace, IPD_Segment.IPD_CompressionAlgorithm.G4_ModifiedModifiedREAD, 1024L));
+        segments.add(toc);
+
+        IPD_Segment.BeginTransparencyMask btm = new IPD_Segment.BeginTransparencyMask();
+        btm.setSegmentType(IPD_Segment.IPD_SegmentType.BeginTransparencyMask);
+        segments.add(btm);
+
+        IPD_Segment.EndTransparencyMask etm = new IPD_Segment.EndTransparencyMask();
+        etm.setSegmentType(IPD_Segment.IPD_SegmentType.EndTransparencyMask);
+        segments.add(etm);
+
+        IPD_Segment.SetBilevelImageColor sbic = new IPD_Segment.SetBilevelImageColor();
+        sbic.setSegmentType(IPD_Segment.IPD_SegmentType.SetBilevelImageColor);
+        sbic.area = 1;
+        sbic.nameColor = 7;
+        segments.add(sbic);
+
+        IPD_Segment.SetExtendedBilevelImageColor sebic = new IPD_Segment.SetExtendedBilevelImageColor();
+        sebic.setSegmentType(IPD_Segment.IPD_SegmentType.SetExtendedBilevelImageColor);
+        sebic.colorSpace = AFPColorSpace.RGB;
+        segments.add(sebic);
+
+        IPD_Segment.nColorNames ncn = new IPD_Segment.nColorNames();
+        ncn.setSegmentType(IPD_Segment.IPD_SegmentType.nColorNames);
+        segments.add(ncn);
+
+        IPD_Segment.UnknownSegmentLong usl = new IPD_Segment.UnknownSegmentLong();
+        usl.setSegmentType(IPD_Segment.IPD_SegmentType.UnknownIPDSegmentLong);
+        segments.add(usl);
+
+        IPD_Segment.UnknownSegmentExtended use = new IPD_Segment.UnknownSegmentExtended();
+        use.setSegmentType(IPD_Segment.IPD_SegmentType.UnknownIPDSegmentExtended);
+        segments.add(use);
+
+        ipd.setListOfSegments(segments);
+        verifySF(ipd, "IPD_ImagePictureData");
     }
 
     @Test
