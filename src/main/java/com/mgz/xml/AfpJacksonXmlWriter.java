@@ -2693,9 +2693,14 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   }
 
   private void writeIpdSegmentDirectly(XMLStreamWriter2 writer, IPD_Segment segment, int level) throws Exception {
+    writeIndent(writer, level);
     int childLevel = level + 1;
     if (segment instanceof IPD_Segment.BeginSegment bs) {
-      writer.writeStartElement("iocaBeginSegment");
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", bs.getLengthOfFollowingData());
       if (bs.getName() != null) {
         writeBinaryElement(writer, childLevel, "name", bs.getName());
       }
@@ -2705,16 +2710,30 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (segment instanceof IPD_Segment.EndSegment) {
-      writer.writeEmptyElement("EndSegment");
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", segment.getLengthOfFollowingData());
+      writeIndent(writer, level);
+      writer.writeEndElement();
     } else if (segment instanceof IPD_Segment.ImageData id) {
-      writer.writeStartElement("ImageData");
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", id.getLengthOfFollowingData());
       if (id.getImageData() != null) {
         writeBinaryElement(writer, childLevel, "imageData", id.getImageData());
       }
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (segment instanceof IPD_Segment.BandImageData bid) {
-      writer.writeStartElement("BandImageData");
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", bid.getLengthOfFollowingData());
       writeElement(writer, childLevel, "bandNumber", bid.getBandNumber());
       if (bid.getBandData() != null) {
         writeBinaryElement(writer, childLevel, "bandData", bid.getBandData());
@@ -2722,14 +2741,28 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (segment instanceof IPD_Segment.BeginImageContent bic) {
-      writer.writeStartElement("BeginImageContent");
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", bic.getLengthOfFollowingData());
       writeElement(writer, childLevel, "objectType", bic.getObjectType());
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (segment instanceof IPD_Segment.EndImageContent) {
-      writer.writeEmptyElement("EndImageContent");
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", segment.getLengthOfFollowingData());
+      writeIndent(writer, level);
+      writer.writeEndElement();
     } else if (segment instanceof IPD_Segment.ImageSize is) {
-      writer.writeStartElement("ImageSize");
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", is.getLengthOfFollowingData());
       if (is.getUnitBase() != null) {
         writeElement(writer, childLevel, "unitBase", is.getUnitBase().name());
       }
@@ -2740,7 +2773,11 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (segment instanceof IPD_Segment.ImageEncoding ie) {
-      writer.writeStartElement("ImageEncoding");
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", ie.getLengthOfFollowingData());
       if (ie.getCompressionAlgorithm() != null) {
         writeElement(writer, childLevel, "compressionAlgorithm", ie.getCompressionAlgorithm().name());
       }
@@ -2753,19 +2790,265 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (segment instanceof IPD_Segment.IDESize ideSize) {
-      writer.writeStartElement("IDESize");
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", ideSize.getLengthOfFollowingData());
       writeElement(writer, childLevel, "numberOfBitsInEachIDE", ideSize.numberOfBitsInEachIDE);
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (segment instanceof IPD_Segment.ImageLUTID lutId) {
-      writer.writeStartElement("ImageLUTID");
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", lutId.getLengthOfFollowingData());
       writeElement(writer, childLevel, "lutId", lutId.getLutId());
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (segment instanceof IPD_Segment.FunctionSetIdentification fsi) {
-      writer.writeStartElement("FunctionSetIdentification");
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", fsi.getLengthOfFollowingData());
       writeElement(writer, childLevel, "category", fsi.category);
       writeElement(writer, childLevel, "functionSet", fsi.functionSet);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.BeginTile) {
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", segment.getLengthOfFollowingData());
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.EndTile) {
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", segment.getLengthOfFollowingData());
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.TilePosition tp) {
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", tp.getLengthOfFollowingData());
+      writeElement(writer, childLevel, "horizontalOffset", tp.horizontalOffset);
+      writeElement(writer, childLevel, "verticalOffset", tp.verticalOffset);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.TileSize ts) {
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", ts.getLengthOfFollowingData());
+      writeElement(writer, childLevel, "horizontalSizeInImagePoints", ts.horizontalSizeInImagePoints);
+      writeElement(writer, childLevel, "verticalSizeInImagePoints", ts.verticalSizeInImagePoints);
+      if (ts.relativeResolution != null) {
+        writeElement(writer, childLevel, "relativeResolution", ts.relativeResolution.name());
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.TileSetColor tsc) {
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", tsc.getLengthOfFollowingData());
+      if (tsc.colorSpace != null) {
+        writeElement(writer, childLevel, "colorSpace", tsc.colorSpace.name());
+      }
+      if (tsc.reserved3_5 != null) {
+        writeBinaryElement(writer, childLevel, "reserved3_5", tsc.reserved3_5);
+      }
+      writeElement(writer, childLevel, "nrOfBitsIDEsComponent1", tsc.nrOfBitsIDEsComponent1);
+      writeElement(writer, childLevel, "nrOfBitsIDEsComponent2", tsc.nrOfBitsIDEsComponent2);
+      writeElement(writer, childLevel, "nrOfBitsIDEsComponent3", tsc.nrOfBitsIDEsComponent3);
+      writeElement(writer, childLevel, "nrOfBitsIDEsComponent4", tsc.nrOfBitsIDEsComponent4);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.IncludeTile it) {
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", it.getLengthOfFollowingData());
+      writeElement(writer, childLevel, "tileResourceLocalID", it.tileResourceLocalID);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.TileTOC toc) {
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", toc.getLengthOfFollowingData());
+      if (toc.listOfRepeatingGroups != null) {
+        writeIndent(writer, childLevel);
+        writer.writeStartElement("listOfRepeatingGroups");
+        for (IPD_Segment.TileTOC.TileTOC_RepeatingGroup rg : toc.listOfRepeatingGroups) {
+          writeIndent(writer, childLevel + 1);
+          writer.writeStartElement("listOfRepeatingGroups");
+          int rgLevel = childLevel + 2;
+          writeElement(writer, rgLevel, "horizontalOffset", rg.horizontalOffset());
+          writeElement(writer, rgLevel, "verticalOffset", rg.verticalOffset());
+          writeElement(writer, rgLevel, "horizontalSize", rg.horizontalSize());
+          writeElement(writer, rgLevel, "verticalSize", rg.verticalSize());
+          if (rg.relativeTileResolution() != null) {
+            writeElement(writer, rgLevel, "relativeTileResolution", rg.relativeTileResolution().name());
+          }
+          if (rg.compressionAlgorithmID() != null) {
+            writeElement(writer, rgLevel, "compressionAlgorithmID", rg.compressionAlgorithmID().name());
+          }
+          writeElement(writer, rgLevel, "offsetInBytesFromBeginSegmentToBeginTile", rg.offsetInBytesFromBeginSegmentToBeginTile());
+          writeIndent(writer, childLevel + 1);
+          writer.writeEndElement();
+        }
+        writeIndent(writer, childLevel);
+        writer.writeEndElement();
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.BeginTransparencyMask) {
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", segment.getLengthOfFollowingData());
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.EndTransparencyMask) {
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", segment.getLengthOfFollowingData());
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.SetBilevelImageColor sbic) {
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", sbic.getLengthOfFollowingData());
+      writeElement(writer, childLevel, "area", sbic.area);
+      writeElement(writer, childLevel, "reserved3", sbic.reserved3);
+      writeElement(writer, childLevel, "nameColor", sbic.nameColor);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.SetExtendedBilevelImageColor sebic) {
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", sebic.getLengthOfFollowingData());
+      writeElement(writer, childLevel, "reserved2", sebic.reserved2);
+      if (sebic.colorSpace != null) {
+        writeElement(writer, childLevel, "colorSpace", sebic.colorSpace.name());
+      }
+      if (sebic.reserved4_7 != null) {
+        writeBinaryElement(writer, childLevel, "reserved4_7", sebic.reserved4_7);
+      }
+      writeElement(writer, childLevel, "colSize1", sebic.colSize1);
+      writeElement(writer, childLevel, "colSize2", sebic.colSize2);
+      writeElement(writer, childLevel, "colSize3", sebic.colSize3);
+      writeElement(writer, childLevel, "colSize4", sebic.colSize4);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.IDEStructure ids) {
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", ids.getLengthOfFollowingData());
+      if (ids.flags != null) {
+        writeIndent(writer, childLevel);
+        writer.writeStartElement("flags");
+        for (IPD_Segment.IDEStructure.IDEStructureFlag flag : ids.flags) {
+          writeElement(writer, childLevel + 1, "flags", flag.name());
+        }
+        writeIndent(writer, childLevel);
+        writer.writeEndElement();
+      }
+      if (ids.colorSpace != null) {
+        writeElement(writer, childLevel, "colorSpace", ids.colorSpace.name());
+      }
+      if (ids.reserved4_6 != null) {
+        writeBinaryElement(writer, childLevel, "reserved4_6", ids.reserved4_6);
+      }
+      if (ids.componentSizes != null) {
+        writeIndent(writer, childLevel);
+        writer.writeStartElement("componentSizes");
+        for (Short s : ids.componentSizes) {
+          writeElement(writer, childLevel + 1, "componentSizes", (int) s);
+        }
+        writeIndent(writer, childLevel);
+        writer.writeEndElement();
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.BandImage bi) {
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", bi.getLengthOfFollowingData());
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.ExternalAlgorithmSpecification eas) {
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", eas.getLengthOfFollowingData());
+      writeElement(writer, childLevel, "reserved3", eas.reserved3);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.ImageSubsampling issub) {
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", issub.getLengthOfFollowingData());
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.nColorNames ncn) {
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", ncn.getLengthOfFollowingData());
+      if (ncn.getText() != null) {
+        writeElement(writer, childLevel, "text", ncn.getText());
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.UnknownSegmentLong usl) {
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", usl.getLengthOfFollowingData());
+      if (usl.getText() != null) {
+        writeElement(writer, childLevel, "text", usl.getText());
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (segment instanceof IPD_Segment.UnknownSegmentExtended use) {
+      writer.writeStartElement("listOfSegments");
+      if (segment.getSegmentType() != null) {
+        writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
+      }
+      writeElement(writer, childLevel, "lengthOfFollowingData", use.getLengthOfFollowingData());
+      if (use.getText() != null) {
+        writeElement(writer, childLevel, "text", use.getText());
+      }
       writeIndent(writer, level);
       writer.writeEndElement();
     } else {
@@ -2778,10 +3061,14 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     baseXsw.writeStartElement("IPD_ImagePictureData");
     int childLevel = level + 1;
     List<IPD_Segment> segments = ipd.getListOfSegments();
-    if (segments != null) {
+    if (segments != null && !segments.isEmpty()) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("listOfSegments");
       for (IPD_Segment segment : segments) {
-        writeIpdSegmentDirectly(baseXsw, segment, childLevel);
+        writeIpdSegmentDirectly(baseXsw, segment, childLevel + 1);
       }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
     }
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
