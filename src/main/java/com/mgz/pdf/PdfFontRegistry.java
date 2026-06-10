@@ -22,6 +22,8 @@ package com.mgz.pdf;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.layout.font.FontProvider;
+import com.itextpdf.layout.font.FontSet;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,9 +33,16 @@ import java.util.concurrent.ConcurrentHashMap;
 public class PdfFontRegistry {
 
   private final Map<String, PdfFont> registry = new ConcurrentHashMap<>();
+  private final FontProvider fontProvider;
+  private final FontSet fontSet;
   private PdfFont defaultFont;
 
   public PdfFontRegistry() {
+    this.fontSet = new FontSet();
+    this.fontProvider = new FontProvider(fontSet);
+    // Add standard fonts to the provider to support basic resolution
+    this.fontProvider.addStandardPdfFonts();
+
     try {
       // PDF/A and PDF/X require fonts to be embedded.
       // StandardFonts are usually not embedded by default in iText.
@@ -206,6 +215,24 @@ public class PdfFontRegistry {
       return false;
     }
     return registry.containsKey(fontName.trim());
+  }
+
+  /**
+   * Returns the font provider.
+   *
+   * @return the font provider
+   */
+  public FontProvider getFontProvider() {
+    return fontProvider;
+  }
+
+  /**
+   * Returns the font set.
+   *
+   * @return the font set
+   */
+  public FontSet getFontSet() {
+    return fontSet;
   }
 
   /**
