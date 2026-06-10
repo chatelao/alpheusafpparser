@@ -423,9 +423,12 @@ public class PdfHandler implements StructuredFieldHandler {
               if (t instanceof Triplet.ResourceLocalIdentifier rli
                   && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
                 lid = rli.getResourceLocalID();
-              } else if (t instanceof Triplet.FullyQualifiedName fqn
-                  && fqn.getType() == Triplet.GlobalID_Use.CodedFontNameReference) {
-                name = fqn.getNameAsString();
+              } else if (t instanceof Triplet.FullyQualifiedName fqn) {
+                if (fqn.getType() == Triplet.GlobalID_Use.CodedFontNameReference) {
+                  name = fqn.getNameAsString();
+                } else if (fqn.getType() == Triplet.GlobalID_Use.FontCharacterSetNameReference && name == null) {
+                  name = fqn.getNameAsString();
+                }
               } else if (t instanceof Triplet.FontDescriptorSpecification fds) {
                 if (fds.fontHeight > 0) {
                   size = fds.fontHeight / 20.0f;
@@ -455,10 +458,13 @@ public class PdfHandler implements StructuredFieldHandler {
               if (t instanceof Triplet.ResourceLocalIdentifier rli
                   && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
                 lid = rli.getResourceLocalID();
-              } else if (t instanceof Triplet.FullyQualifiedName fqn
-                  && (fqn.getType() == Triplet.GlobalID_Use.CodedFontNameReference
-                  || fqn.getType() == Triplet.GlobalID_Use.DataObjectExternalResourceReference)) {
-                name = fqn.getNameAsString();
+              } else if (t instanceof Triplet.FullyQualifiedName fqn) {
+                if (fqn.getType() == Triplet.GlobalID_Use.CodedFontNameReference
+                    || fqn.getType() == Triplet.GlobalID_Use.DataObjectExternalResourceReference) {
+                  name = fqn.getNameAsString();
+                } else if (fqn.getType() == Triplet.GlobalID_Use.FontCharacterSetNameReference && name == null) {
+                  name = fqn.getNameAsString();
+                }
               } else if (t instanceof Triplet.DataObjectFontDescriptor dofd) {
                 if (dofd.specifiedVerticalFontSize > 0) {
                   size = dofd.specifiedVerticalFontSize / 20.0f;
