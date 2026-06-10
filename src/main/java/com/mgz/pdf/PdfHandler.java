@@ -418,7 +418,7 @@ public class PdfHandler implements StructuredFieldHandler {
           if (irg instanceof MCF_MapCodedFont_Format2.MCF_RepeatingGroup rg && rg.getTriplets() != null) {
             Short lid = null;
             String name = null;
-            float size = 10.0f;
+            float size = -1.0f;
             for (Triplet t : rg.getTriplets()) {
               if (t instanceof Triplet.ResourceLocalIdentifier rli
                   && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
@@ -432,6 +432,12 @@ public class PdfHandler implements StructuredFieldHandler {
                 }
               }
             }
+            if (size <= 0 && name != null) {
+              size = PdfFontRegistry.extractSizeFromName(name);
+            }
+            if (size <= 0) {
+              size = 10.0f;
+            }
             if (lid != null && name != null) {
               fontMapStack.peek().put(lid, new FontResource(name, size));
             }
@@ -444,7 +450,7 @@ public class PdfHandler implements StructuredFieldHandler {
           if (irg instanceof MDR_MapDataResource.MDR_RepeatingGroup rg && rg.getTriplets() != null) {
             Short lid = null;
             String name = null;
-            float size = 10.0f;
+            float size = -1.0f;
             for (Triplet t : rg.getTriplets()) {
               if (t instanceof Triplet.ResourceLocalIdentifier rli
                   && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
@@ -458,6 +464,12 @@ public class PdfHandler implements StructuredFieldHandler {
                   size = dofd.specifiedVerticalFontSize / 20.0f;
                 }
               }
+            }
+            if (size <= 0 && name != null) {
+              size = PdfFontRegistry.extractSizeFromName(name);
+            }
+            if (size <= 0) {
+              size = 10.0f;
             }
             if (lid != null && name != null) {
               fontMapStack.peek().put(lid, new FontResource(name, size));
