@@ -1,0 +1,51 @@
+
+Data encoded using the LZW compression method shall consist of a sequence of codes that are 9 to 12 bits long. Each code shall represent a single character of input data (0–255), a clear-table marker (256), an EOD marker (257), or a table entry representing a multiple-character sequence that has been encountered previously in the input (258 or greater).
+
+Initially, the code length shall be 9 bits and the LZW table shall contain only entries for the 258 fixed codes. As encoding proceeds, entries shall be appended to the table, associating new codes with longer
+
+
+and longer sequences of input characters. The encoder and the decoder shall maintain identical copies of this table.
+
+Whenever both the encoder and the decoder independently (but synchronously) realise that the current code length is no longer sufficient to represent the number of entries in the table, they shall increase the number of bits per code by 1. The first output code that is 10 bits long shall be the one following the creation of table entry 511, and similarly for 11 (1023) and 12 (2047) bits. Codes shall never be longer than 12 bits; therefore, entry 4095 is the last entry of the LZW table.
+
+The encoder shall execute the following sequence of steps to generate each output code:
+
+a) Accumulate a seq uence of one or more input characters matching a sequence already present in the
+table.
+b) For maximum compression, the encoder looks for the longest such sequence.
+c) Emit the code corresponding to that sequence.
+d) Create a new table entry for the first unused c ode. Its value is the sequence found in step (a) followed by
+the next input character.
+
+> **EXAMPLE 1** Suppose the input consists of the following sequence of ASCII character codes:
+
+45 45 45 45 45 65 45 45 45 66
+
+Starting with an empty table, the encoder proceeds as shown in "Table 7 — Typical LZW encoding sequence".
+
+Table 7 — Typical LZW encoding sequence
+
+Input sequence Output code Code added to Sequence represented by table               new code
+
+| – | 256 (clear-table) | – | – |
+| --- | --- | --- | --- |
+| 45 | 258 | 45 45 |  |
+| 45 45 | 258 | 259 | 45 45 45 |
+| 45 45 | 258 | 260 | 45 45 65 |
+| 65 | 261 | 65 45 |  |
+| 45 45 45 | 259 | 262 | 45 45 45 66 |
+| 66 | – | – |  |
+| – | 257 (EOD) | – | – |
+
+Codes shall be packed into a continuous bit stream, high-order bit first. This stream shall then be divided into bytes, high-order bit first. Thus, codes may straddle byte boundaries arbitrarily. After the EOD marker (code value 257), any leftover bits in the final byte shall be set to 0.
+
+In the example above, all the output codes are 9 bits long; they would pack into bytes as follows
+
+
+(represented in hexadecimal):
+
+> **EXAMPLE** 2
+
+80 0B 60 50 22 0C 0C 85 01
+
+To adapt to changing input sequences, the encoder may at any point issue a clear-table code, which causes both the encoder and the decoder to restart with initial tables and a 9-bit code length. The encoder shall begin by issuing a clear-table code. It shall issue a clear-table code when the table becomes full; it may do so sooner.

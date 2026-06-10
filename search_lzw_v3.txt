@@ -1,0 +1,18 @@
+
+Initially, the code length shall be 9 bits and the LZW table shall contain only entries for the 258 fixed codes. As encoding proceeds, entries shall be appended to the table, associating new codes with longer
+
+
+and longer sequences of input characters. The encoder and the decoder shall maintain identical copies of this table.
+
+Whenever both the encoder and the decoder independently (but synchronously) realise that the current code length is no longer sufficient to represent the number of entries in the table, they shall increase the number of bits per code by 1. The first output code that is 10 bits long shall be the one following the creation of table entry 511, and similarly for 11 (1023) and 12 (2047) bits. Codes shall never be longer than 12 bits; therefore, entry 4095 is the last entry of the LZW table.
+
+The encoder shall execute the following sequence of steps to generate each output code:
+
+a) Accumulate a sequence of one or more input characters matching a sequence already present in the
+table.
+b) For maximum compression, the encoder looks for the longest such sequence.
+c) Emit the code corresponding to that sequence.
+d) Create a new table entry for the first unused code. Its value is the sequence found in step (a) followed by
+the next input character.
+
+> **EXAMPLE 1** Suppose the input consists of the following sequence of ASCII character codes:
