@@ -131,11 +131,17 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMB_AbsoluteMoveBaseline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMI_AbsoluteMoveInline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.BLN_BeginLine;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.BSU_BeginSuppression;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.DBR_DrawBaxisRule;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.DIR_DrawIaxisRule;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.ESU_EndSuppression;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.GraphicCharacters;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.NOP_NoOperation;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.OVS_Overstrike;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMB_RelativeMoveBaseline;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RMI_RelativeMoveInline;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.RPS_RepeatString;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.USC_Underscore;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SBI_SetBaselineIncrement;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SCFL_SetCodedFontLocal;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.SEC_SetExtendedTextColor;
@@ -183,6 +189,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private final Set<String> mpsResources = new HashSet<>();
   private final Deque<Map<Short, FontResource>> fontMapStack = new ArrayDeque<>();
   private final Deque<Boolean> canvasTransformedStack = new ArrayDeque<>();
+  private final Set<Short> enabledSuppressionIDs = new HashSet<>();
   private final PdfFontRegistry fontRegistry = new PdfFontRegistry();
   private final PdfDocument pdfDoc;
   private final Document document;
@@ -1384,18 +1391,62 @@ public class PdfHandler implements StructuredFieldHandler {
       renderRule(dir.getLength(), dir.getWidth() != null ? dir.getWidth() : 20, true);
     } else if (cs instanceof DBR_DrawBaxisRule dbr) {
       renderRule(dbr.getLength(), dbr.getWidth() != null ? dbr.getWidth() : 20, false);
+    } else if (cs instanceof BSU_BeginSuppression bsu) {
+      textState.beginSuppression(bsu.getSuppressionID());
+    } else if (cs instanceof ESU_EndSuppression esu) {
+      textState.endSuppression(esu.getSuppressionID());
+    } else if (cs instanceof RPS_RepeatString rps) {
+      handleRepeatString(rps);
+    } else if (cs instanceof OVS_Overstrike ovs) {
+      renderText(ovs.getText());
+    } else if (cs instanceof USC_Underscore) {
+      // Modest implementation: just acknowledge the sequence
     } else if (cs instanceof TRN_TransparentData trn) {
       renderText(trn.getTransparentData());
     } else if (cs instanceof GraphicCharacters gc) {
       renderText(gc.getText());
     } else if (cs instanceof UCT_UnicodeComplexText uct) {
       renderText(uct.getText());
+    } else if (cs instanceof NOP_NoOperation) {
+      // No-op
+    }
+  }
+
+  private void handleRepeatString(RPS_RepeatString rps) {
+    if (rps.getRepeatData() != null) {
+      int totalLen = rps.getRepeatLength() & 0xFFFF;
+      if (totalLen > 0 && rps.getRepeatData().length > 0) {
+        byte[] fullData = new byte[totalLen];
+        for (int i = 0; i < totalLen; i++) {
+          fullData[i] = rps.getRepeatData()[i % rps.getRepeatData().length];
+        }
+        // In RPS, the text already decoded into rps.getText() matches fullData
+        // if rps.decodeAFP was called.
+        if (rps.getText() != null) {
+          renderText(rps.getText());
+        }
+      }
+    } else if (rps.getText() != null) {
+      renderText(rps.getText());
     }
   }
 
   private void renderText(String text) {
     if (text == null || text.isEmpty() || currentCanvas == null) {
       return;
+    }
+
+    if (textState.isSuppressed()) {
+      boolean actuallySuppressed = false;
+      for (Short id : textState.getActiveSuppressionIDs()) {
+        if (enabledSuppressionIDs.contains(id)) {
+          actuallySuppressed = true;
+          break;
+        }
+      }
+      if (actuallySuppressed) {
+        return;
+      }
     }
 
     try {
@@ -1730,5 +1781,18 @@ public class PdfHandler implements StructuredFieldHandler {
   public void setOutputIntent(String outputConditionIdentifier, String outputCondition, String registryName, String info, java.io.InputStream colorProfile) throws java.io.IOException {
     PdfOutputIntent intent = new PdfOutputIntent(outputConditionIdentifier, outputCondition, registryName, info, colorProfile);
     pdfDoc.addOutputIntent(intent);
+  }
+
+  /**
+   * Enables one or more suppression IDs. Text marked with these IDs via BSU/ESU will be suppressed.
+   *
+   * @param ids the suppression IDs to enable
+   */
+  public void enableSuppressionIDs(short... ids) {
+    if (ids != null) {
+      for (short id : ids) {
+        enabledSuppressionIDs.add(id);
+      }
+    }
   }
 }

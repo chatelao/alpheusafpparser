@@ -19,7 +19,7 @@ Establish the technical foundation and select the primary PDF engine.
 - ✅ **Structural Mapping Strategy**: Defined MO:DCA to DPart hierarchy mapping.
 
 ## Phase 1: PDF/VT Structural Implementation ✅
-Initialize the core PDF/VT structure and map the MO:DCA document hierarchy using iText 9.
+Initialize the core PDF/VT structure and map the MO:DCA document hierarchy using iText 9. ✅
 
 - ✅ **Initialize DPart Hierarchy**: Create `/DPartRoot` in the PDF Catalog.
 - ✅ **MO:DCA Boundary Mapping**:
@@ -90,6 +90,9 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ✅ **Advanced Text Control**:
         - ✅ **Character Adjustment**: Map `SIA` (Set Intercharacter Adjustment) and `SVI` (Set Variable-space Character Increment).
         - ✅ **Margin Control**: Map `SIM` (Set Inline Margin).
+        - 🚧 **Repeat String**: Map `RPS` (Repeat String).
+        - 🚧 **Suppression**: Map `BSU` (Begin Suppression) and `ESU` (End Suppression).
+        - 🚧 **Overstrike & Underscore**: Map `OVS` (Overstrike) and `USC` (Underscore).
     - ✅ **Data Rendering**:
         - ✅ **Transparent Data**: Map `TRN` to UTF-8 encoded PDF strings using the resolved font.
         - ✅ **Graphic Characters**: Map `GraphicCharacters` to UTF-8 encoded PDF strings.
