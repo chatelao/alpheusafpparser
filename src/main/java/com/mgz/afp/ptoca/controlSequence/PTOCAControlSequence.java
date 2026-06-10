@@ -318,6 +318,14 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     byte[] undefinedData;
     String text;
 
+    public byte[] getUndefinedData() {
+      return undefinedData;
+    }
+
+    public void setUndefinedData(byte[] undefinedData) {
+      this.undefinedData = undefinedData;
+    }
+
     @Override
     public void reset() {
       super.reset();
