@@ -22,6 +22,7 @@ package com.mgz.pdf;
 import com.mgz.afp.enums.AFPColorSpace;
 import com.mgz.afp.enums.AFPColorValue;
 import com.mgz.afp.enums.AFPOrientation;
+import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.PTOCA_BypassFlag;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,6 +47,9 @@ public class PdfTextState {
   private short variableSpaceIncrement = 0;
   private short inlineMargin = 0;
   private short baselineIncrement = 0;
+  private PTOCA_BypassFlag underscoreMode = null;
+  private PTOCA_BypassFlag overstrikeMode = null;
+  private String overstrikeCharacter = null;
   private final Set<Short> activeSuppressionIDs = new HashSet<>();
 
   /**
@@ -67,6 +71,9 @@ public class PdfTextState {
     this.variableSpaceIncrement = 0;
     this.inlineMargin = 0;
     this.baselineIncrement = 0;
+    this.underscoreMode = null;
+    this.overstrikeMode = null;
+    this.overstrikeCharacter = null;
     this.activeSuppressionIDs.clear();
   }
 
@@ -207,5 +214,29 @@ public class PdfTextState {
 
   public Set<Short> getActiveSuppressionIDs() {
     return java.util.Collections.unmodifiableSet(activeSuppressionIDs);
+  }
+
+  public PTOCA_BypassFlag getUnderscoreMode() {
+    return underscoreMode;
+  }
+
+  public void setUnderscoreMode(PTOCA_BypassFlag underscoreMode) {
+    this.underscoreMode = underscoreMode;
+  }
+
+  public PTOCA_BypassFlag getOverstrikeMode() {
+    return overstrikeMode;
+  }
+
+  public void setOverstrikeMode(PTOCA_BypassFlag overstrikeMode) {
+    this.overstrikeMode = overstrikeMode;
+  }
+
+  public String getOverstrikeCharacter() {
+    return overstrikeCharacter;
+  }
+
+  public void setOverstrikeCharacter(String overstrikeCharacter) {
+    this.overstrikeCharacter = overstrikeCharacter;
   }
 }

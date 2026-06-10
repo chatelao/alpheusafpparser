@@ -1398,9 +1398,10 @@ public class PdfHandler implements StructuredFieldHandler {
     } else if (cs instanceof RPS_RepeatString rps) {
       handleRepeatString(rps);
     } else if (cs instanceof OVS_Overstrike ovs) {
-      renderText(ovs.getText());
-    } else if (cs instanceof USC_Underscore) {
-      // Modest implementation: just acknowledge the sequence
+      textState.setOverstrikeMode(ovs.getBypassFlag());
+      textState.setOverstrikeCharacter(ovs.getText());
+    } else if (cs instanceof USC_Underscore usc) {
+      textState.setUnderscoreMode(usc.getBypassFlag());
     } else if (cs instanceof TRN_TransparentData trn) {
       renderText(trn.getTransparentData());
     } else if (cs instanceof GraphicCharacters gc) {
@@ -1504,6 +1505,27 @@ public class PdfHandler implements StructuredFieldHandler {
 
       if (textState.getVariableSpaceIncrement() != 0) {
         totalWidthAfp += spaceCount * (textState.getVariableSpaceIncrement() - font.getWidth(" ", fontSizeAfp) - textState.getIntercharacterAdjustment());
+      }
+
+      if (textState.getUnderscoreMode() != null) {
+        int ruleThickness = Math.max(1, Math.round(fontSizeAfp / 20.0f));
+        renderRule((int) totalWidthAfp, ruleThickness, true);
+      }
+
+      if (textState.getOverstrikeMode() != null && textState.getOverstrikeCharacter() != null) {
+        String ovsChar = textState.getOverstrikeCharacter();
+        float ovsWidth = font.getWidth(ovsChar, fontSizeAfp);
+        if (ovsWidth > 0) {
+          int count = (int) (totalWidthAfp / ovsWidth);
+          if (count > 0) {
+            String ovsText = ovsChar.repeat(count);
+            currentCanvas.beginText()
+                .setFontAndSize(font, fontSizeAfp)
+                .setTextMatrix(cos, sin, sin, -cos, afpX, afpY)
+                .showText(ovsText)
+                .endText();
+          }
+        }
       }
 
       if (defaultPageWidth > 0) {
