@@ -22,6 +22,8 @@ package com.mgz.pdf;
 import com.mgz.afp.enums.AFPColorSpace;
 import com.mgz.afp.enums.AFPColorValue;
 import com.mgz.afp.enums.AFPOrientation;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Tracks the active PTOCA text state for PDF conversion.
@@ -44,6 +46,7 @@ public class PdfTextState {
   private short variableSpaceIncrement = 0;
   private short inlineMargin = 0;
   private short baselineIncrement = 0;
+  private final Set<Short> activeSuppressionIDs = new HashSet<>();
 
   /**
    * Resets the text state to default values.
@@ -64,6 +67,7 @@ public class PdfTextState {
     this.variableSpaceIncrement = 0;
     this.inlineMargin = 0;
     this.baselineIncrement = 0;
+    this.activeSuppressionIDs.clear();
   }
 
   public short getFontLid() {
@@ -187,5 +191,21 @@ public class PdfTextState {
 
   public void setBaselineIncrement(short baselineIncrement) {
     this.baselineIncrement = baselineIncrement;
+  }
+
+  public void beginSuppression(short suppressionID) {
+    activeSuppressionIDs.add(suppressionID);
+  }
+
+  public void endSuppression(short suppressionID) {
+    activeSuppressionIDs.remove(suppressionID);
+  }
+
+  public boolean isSuppressed() {
+    return !activeSuppressionIDs.isEmpty();
+  }
+
+  public Set<Short> getActiveSuppressionIDs() {
+    return java.util.Collections.unmodifiableSet(activeSuppressionIDs);
   }
 }
