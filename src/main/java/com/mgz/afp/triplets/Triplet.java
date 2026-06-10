@@ -410,12 +410,12 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-      baos.write(tripletID.toByte());
-      baos.write(type.toByte());
-      baos.write(format.toByte());
+      baos.write(tripletID != null ? tripletID.toByte() : TripletID.FullyQualifiedName.toByte());
+      baos.write(type != null ? type.toByte() : GlobalID_Use.OtherObjectDataReference.toByte());
+      baos.write(format != null ? format.toByte() : GlobalID_Format.CharacterString.toByte());
       if (nameAsBytes != null) {
         baos.write(nameAsBytes);
-      } else {
+      } else if (nameAsString != null) {
         baos.write(nameAsString.getBytes(config.getAfpCharSet()));
       }
 
