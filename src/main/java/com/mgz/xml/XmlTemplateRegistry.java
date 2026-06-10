@@ -44,12 +44,18 @@ public class XmlTemplateRegistry {
     register("BLN", new String[] {"<BLN_BeginLine/>"});
     register("STO", new String[] {"<STO_SetTextOrientation xOrientation=\"", "\" yOrientation=\"", "\"/>"});
     register("SIA", new String[] {"<SIA_SetIntercharacterAdjustment adjustment=\"", "\" direction=\"", "\"/>"});
+    register("STC", new String[] {"<STC_SetTextColor foregroundColor=\"", "\" precision=\"", "\"/>"});
+    register("USC", new String[] {"<USC_Underscore bypassFlag=\"", "\"/>"});
 
     // Triplets
     register("AQ", new String[] {"<AttributeQualifier sequenceNumber=\"", "\" levelNumber=\"", "\"/>"});
     register("RLI", new String[] {"<ResourceLocalIdentifier resourceType=\"", "\" resourceLocalID=\"", "\"/>"});
     register("CR", new String[] {"<CharacterRotation characterRotation=\"", "\"/>"});
     register("MU", new String[] {"<MeasurementUnits xUnitBase=\"", "\" yUnitBase=\"", "\" xUnitsPerUnitbase=\"", "\" yUnitsPerUnitbase=\"", "\"/>"});
+    register("MO", new String[] {"<MappingOption dataObjecMapingOption=\"", "\"/>"});
+    register("OAS", new String[] {"<ObjectAreaSize sizeType_0x02=\"", "\" xSize=\"", "\" ySize=\"", "\"/>"});
+    register("CGCS", new String[] {"<CodedGraphicCharacterSetGlobalID graphicCharacterSetGlobalID=\"", "\" codePageGlobalID_codedCharacterSetID=\"", "\"/>"});
+    register("ROT", new String[] {"<ResourceObjectType objectType=\"", "\"/>"});
   }
 
   private static void register(String mnemonic, String[] parts) {

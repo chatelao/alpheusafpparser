@@ -727,14 +727,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.CodedGraphicCharacterSetGlobalID cgcs) {
-      writer.writeStartElement("CodedGraphicCharacterSetGlobalID");
-      writeElement(writer, childLevel, "graphicCharacterSetGlobalID", cgcs.getGraphicCharacterSetGlobalID());
-      writeElement(writer, childLevel, "codePageGlobalID_codedCharacterSetID", cgcs.getCodePageGlobalID_codedCharacterSetID());
-      writeIndent(writer, level);
-      writer.writeEndElement();
+      XmlTemplateRegistry.getTemplate("CGCS").writeObjects(baseXsw, cgcs.getGraphicCharacterSetGlobalID(), cgcs.getCodePageGlobalID_codedCharacterSetID());
     } else if (triplet instanceof Triplet.MappingOption mo) {
-      writer.writeEmptyElement("MappingOption");
-      writer.writeAttribute("dataObjecMapingOption", mo.getDataObjecMapingOption().name());
+      XmlTemplateRegistry.getTemplate("MO").writeObjects(baseXsw, mo.getDataObjecMapingOption());
     } else if (triplet instanceof Triplet.AttributeQualifier aq) {
       XmlTemplateRegistry.getTemplate("AQ").write(baseXsw, aq.sequenceNumber, aq.levelNumber);
     } else if (triplet instanceof Triplet.Comment c) {
@@ -792,10 +787,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (triplet instanceof Triplet.MeasurementUnits mu) {
       XmlTemplateRegistry.getTemplate("MU").writeObjects(baseXsw, mu.xUnitBase, mu.yUnitBase, (int) mu.xUnitsPerUnitbase, (int) mu.yUnitsPerUnitbase);
     } else if (triplet instanceof Triplet.ObjectAreaSize oas) {
-      writer.writeEmptyElement("ObjectAreaSize");
-      writer.writeIntAttribute(null, null, "sizeType_0x02", (int) oas.sizeType_0x02);
-      writer.writeIntAttribute(null, null, "xSize", oas.xSize);
-      writer.writeIntAttribute(null, null, "ySize", oas.ySize);
+      XmlTemplateRegistry.getTemplate("OAS").writeObjects(baseXsw, (int) oas.sizeType_0x02, oas.xSize, oas.ySize);
     } else if (triplet instanceof Triplet.AreaDefinition ad) {
       writer.writeStartElement("AreaDefinition");
       writeElement(writer, childLevel, "reserved2", ad.reserved2);
@@ -917,12 +909,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ResourceObjectType rot) {
-      writer.writeStartElement("ResourceObjectType");
-      if (rot.objectType != null) {
-        writeElement(writer, childLevel, "objectType", rot.objectType.name());
-      }
-      writeIndent(writer, level);
-      writer.writeEndElement();
+      XmlTemplateRegistry.getTemplate("ROT").writeObjects(baseXsw, rot.objectType);
     } else if (triplet instanceof Triplet.MODCAFunctionSet mfs) {
       writer.writeStartElement("MODCAFunctionSet");
       if (mfs.reserved2_3 != null) {
@@ -1654,20 +1641,11 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.STC_SetTextColor stc) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("STC");
-      baseXsw.writeEmptyElement("STC_SetTextColor");
-      if (stc.getForegroundColor() != null) {
-        baseXsw.writeAttribute("foregroundColor", stc.getForegroundColor().name());
-      }
-      if (stc.getPrecision() != null) {
-        baseXsw.writeAttribute("precision", stc.getPrecision().name());
-      }
+      XmlTemplateRegistry.getTemplate("STC").writeObjects(baseXsw, stc.getForegroundColor(), stc.getPrecision());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.USC_Underscore usc) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("USC");
-      baseXsw.writeEmptyElement("USC_Underscore");
-      if (usc.getBypassFlag() != null) {
-        baseXsw.writeAttribute("bypassFlag", usc.getBypassFlag().name());
-      }
+      XmlTemplateRegistry.getTemplate("USC").writeObjects(baseXsw, usc.getBypassFlag());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.SIA_SetIntercharacterAdjustment sia) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SIA");
