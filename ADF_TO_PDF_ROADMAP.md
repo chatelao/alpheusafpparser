@@ -118,7 +118,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
                 - ✅ **Custom Patterns**: Map `GBCP`/`GECP` to PDF tiling patterns.
     - ✅ **Resource Mapping**:
         - ✅ **Segment Mapping**: Implement XObject-based rendering for GOCA segments (`GBSEG`).
-- ⏳ **BCOCA Renderer**: Implement barcode drawing using vector primitives for resolution independence.
+- ✅ **BCOCA Renderer**: Implement barcode drawing using vector primitives for resolution independence.
     - ✅ **BCOCA State Tracking**: Implement tracking of barcode descriptors (`BDD`) and data (`BDA`) including type, modifier, and font for HRI.
     - ✅ **Linear Barcode Support**: Implement rendering for common linear barcodes.
         - ✅ **Codabar**: Implement rendering for Codabar barcodes.
