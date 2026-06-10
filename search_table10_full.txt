@@ -1,0 +1,30 @@
+
+For LZWDecode and FlateDecode, a Predictor value greater than or equal to 10 shall indicate that a PNG predictor is in use; the specific predictor function used shall be explicitly encoded in the incoming data. The value of Predictor supplied by the decoding filter need not match the value used when the data were encoded if they are both greater than or equal to 10.
+
+Table 10 — Predictor values
+
+Value Meaning
+
+No prediction (the default value)
+
+TIFF Predictor 2
+
+PNG prediction (on encoding, PNG None on all rows)
+
+PNG prediction (on encoding, PNG Sub on all rows)
+
+PNG prediction (on encoding, PNG Up on all rows)
+
+PNG prediction (on encoding, PNG Average on all rows)
+
+PNG prediction (on encoding, PNG Paeth on all rows)
+
+PNG prediction (on encoding, PNG optimum)
+
+The two groups of predictor functions have some commonalities. Both make the following assumptions:
+
+• Data shall be presented in order, from the top row to the bottom row and, within a row, from left to right.
+• A row shall occupy a whole number of bytes, rounded up if necessary.
+• Samples and their components shall be packed into bytes from high-order to low-order bits.
+• All colour components of samples outside the image (which are necessary for predictions near the boundaries) shall be 0.
+The predictor function groups also differ in significant ways:

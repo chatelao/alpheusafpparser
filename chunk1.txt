@@ -1,0 +1,56 @@
+
+
+> **EXAMPLE** 2:
+
+/Filter [/ASCII85Decode /LZWDecode]
+
+Some filters may take parameters to control how they operate. These optional parameters shall be specified by the DecodeParms entry in the stream’s dictionary (or the FDecodeParms entry if the stream is external).
+
+PDF files support a standard set of filters that fall into two main categories:
+
+• ASCII filters enable decoding of arbitrary binary data that has been encoded as ASCII text (see 7.2, "Lexical conventions" for an explanation of why this type of encoding might be useful).
+• Decompression filters enable decoding of data that has been compressed. The compressed data shall be in binary format, even if the original data is in ASCII text.
+
+> **NOTE 1** ASCII filters serve no useful purpose in a PDF file that is encrypted; see 7.6, "Encryption".
+
+> **NOTE 2** Compression is particularly valuable for large sampled images, since it reduces storage requirements and transmission time. Some types of compression are lossy, meaning that some data are lost during the encoding, resulting in a loss of quality when the data are decompressed.
+Compression in which no loss of data occurs is called lossless. Though somehow obvious it is worth pointing out that lossy compression can only be applied to sampl ed image data (and only certain types of lossy compression for certain types of images). Lossless compression on the other hand can be used for any kind of stream.
+The standard filters are summarised in "Table 6 — Standard filters", which also indicates whether they accept any optional parameters. The following subclauses describe these filters and their parameters (if any) in greater detail, including specifications o f encoding algorithms for some filters.
+
+Table 6 — Standard filters
+
+| FILTER name | Parameters | Description |  |
+| --- | --- | --- | --- |
+| ASCIIHexDecode | no | Decodes data encoded in an ASCII hexadecimal representation, reproducing the original binary data. |  |
+| ASCII85Decode | no | Decodes data encoded in an ASCII base-85 representation, reproducing the original binary data. |  |
+| LZWDecode | yes | Decompresses data encoded using the LZW (Lempel | -Ziv-Welch) adaptive compression method, reproducing the original text or binary data. |
+| FlateDecode | yes | (PDF 1.2) Decompresses data encoded using the zlib/deflate compression method, reproducing the original text or binary data. |  |
+| RunLengthDecode | no | Decompresses data encoded using a byte-oriented run-length encoding algorithm, reproducing the original text or binary data (typically monochrome image data, or any data that contains frequent long runs of a single byte value). |  |
+| CCITTFaxDecode | yes | Decompresses data encoded using the CCITT facsimile standard, reproducing the original data (typically monochrome image data at 1 bit per pixel). |  |
+
+
+| FILTER name | Parameters | Description |  |
+| --- | --- | --- | --- |
+| JBIG2Decode | yes | (PDF 1.4) Decompresses data encoded using the JBIG2 standard, reproducing the original monochrome (1 bit per pixel) image data (or an approximation of that data). |  |
+| DCTDecode | yes | Decompresses data encoded using a DCT (discrete cosine transform) technique based on the JPEG standard (ISO/IEC 10918), reproducing image sample data that approximates the original data. |  |
+| JPXDecode | no | (PDF 1.5) Decompresses data encoded using the wavelet | -based JPEG 2000 standard, reproducing the original image data. |
+| Crypt | yes | (PDF 1.5) Decrypts data encrypted by a security handler, reproducing the data as it was before encryption. |  |
+
+> **EXAMPLE 3** The following example shows a stream, containing the marking instructions for a page, that was compressed using the Flate compression method and then encoded in ASCII base-85 representation. The optional entry, DecodeParms is not used in this example, resulting in each filter using its default parameter values.
+
+1 0 obj <</Length 447 /Filter [/ASCII85Decode /FlateDecode] >> stream GhQ\j_/=ii'LfceJ%/-bPR=PCD-LeMX!Z7pmG\.BSJGfG1MH^`^(F$rh*;h>h/i!XMIl:?" o%Tk8W%<tN0"eRE==1.4N>=Cc@SiF+*s\3`snB>Y$n=^$I[!5nkk"\Wp1;WBoI"]#[bZ=Ou#c QqtW?@3^VI[CftgH<HWngT*U:T12>8lm%+Q=gI^i0+\=:@fc@rHeGG!&rPQYfZ>YdpV`eM._@ Z]46KR;P?sT-tkqXn4&]=EE2[h<FPBAePZJ9inNNF4R*)W-?\NH1C-GG&?=IC_>b%&++C2jo *B+a7eU&`hee<0<F%-Y]De8<t.o"7p,rtNedLjK.J`kSL@c;BDEq+;F1Y?O)>keNVh+-(1*S= CQ?fQ_I]jWNc*Qe2XR^R#;3:<$\m;6d>@C3egX,+W+VfZ]X4*3r5*tiejhQe:!'jq$^jfSIj% 13FL endstream endobj
+
+> **EXAMPLE 4** The following shows the same stream without any filters applied to it. (The stream’s contents are explained in 7.8.2, "Content streams" and the operators used there are further described in clause 9, "Text".)
+
+1 0 obj <</Length 562>> stream 2 J BT /F1 12 Tf 0 Tc 0 Tw 72.5 712 TD [(Unfiltered streams can be read easily) 65 (,)] TJ 0 -14 TD [(b) 20 (ut generally tak) 10 (e more space than \311)] TJ T* (compressed streams.) Tj 0 -28 TD [(Se) 25 (v) 15 (eral encoding methods are a) 20 (v) 25 (ailable in PDF) 80 (.)] TJ 0 -14 TD (Some are used for compression and others simply) Tj T* [(to represent binary data in an) 55 (ASCII format.)] TJ T* (Some of the compression filters are \ suitable) Tj T*
+
+
+(for both data and images, while others are \ suitable only) Tj T* (for continuous-tone images.) Tj ET endstream endobj
+
+### 7.4.2 ASCIIHexDecode filter
+
+The ASCIIHexDecode filter decodes data that has been encoded in ASCII hexadecimal form. ASCII hexadecimal encoding and ASCII base-85 encoding (7.4.3, "ASCII85Decode filter") convert binary data, such as image data or previously compressed data, to 7-bit ASCII characters.
+
+> **NOTE** ASCII base-85 encoding is preferred to ASCII hexadecimal encoding. Base-85 encoding is preferred because it is more compact: it expands the data by a factor of 4:5, compared with 1:2 for ASCII hexadecimal encoding.
+The ASCIIHexDecode filter shall produce one byte of binary data for each pair of ASCII hexadecimal digits (0–9 and A–F or a–f). All white-space characters (see 7.2, "Lexical conventions") shall be ignored.
+A GREATER-THAN SIGN (3Eh) indicates EOD (End Of Data). Any other characters shall cause an error.

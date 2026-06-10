@@ -1,0 +1,12 @@
+
+Table 10 — Predictor values
+
+Value Meaning
+
+No prediction (the default value)
+
+TIFF Predictor 2
+
+PNG prediction (on encoding, PNG None on all rows)
+
+PNG prediction (on encoding, PNG Sub on all rows)

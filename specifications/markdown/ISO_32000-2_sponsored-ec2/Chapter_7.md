@@ -177,27 +177,27 @@ Table 3 — Escape sequences in literal strings
 
 A PDF writer may split a literal string across multiple lines. The REVERSE SOLIDUS (5Ch) (backslash character) at the end of a line shall be used to indicate that the string continues on the following line. A PDF processor shall disregard the REVERSE SOLIDUS and the end-of-line marker following it when reading the string; the resulting string value shall be identical to that which would be read if the string were not split.
 
-> **EXAMPLE** 2
+> **EXAMPLE 2**
 
 (These \ two strings \ are the same.) (These two strings are the same.)
 
 An end-of-line marker appearing within a literal string without a preceding REVERSE SOLIDUS shall be treated as a byte value of (0Ah), irrespective of whether the end-of-line marker was a CARRIAGE RETURN (0Dh), a LINE FEED (0Ah), or both.
 
-> **EXAMPLE** 3
+> **EXAMPLE 3**
 
 (This string has an end-of-line at the end of it.
 ) (So does this one.\n)
 
 The \ddd escape sequence provides a way to represent characters outside the printable ASCII character set.
 
-> **EXAMPLE** 4
+> **EXAMPLE 4**
 
 (This string contains \245two octal characters\307.)
 
 The number ddd may consist of one, two, or three octal digits; high-order overflow shall be ignored.
 Three octal digits shall be used, with leading zeros as needed, if the next character of the string is also a digit.
 
-> **EXAMPLE** 5
+> **EXAMPLE 5**
 
 the literal
 
@@ -214,7 +214,7 @@ Strings may also be written in hexadecimal form, which is useful for including a
 f) encoded as ASCII characters and enclosed within angle brackets (using LESS-THAN SIGN (3Ch) and
 GREATER-THAN SIGN (3Eh)).
 
-> **EXAMPLE** 1
+> **EXAMPLE 1**
 
 <4E6F762073686D6F7A206B6120706F702E>
 
@@ -222,7 +222,7 @@ Each pair of hexadecimal digits defines one byte of the string. White-space char
 
 If the final digit of a hexadecimal string is missing — that is, if there is an odd number of digits — the final digit shall be assumed to be 0.
 
-> **EXAMPLE** 2
+> **EXAMPLE 2**
 
 <901FA3>
 
@@ -429,7 +429,7 @@ A PDF writer may encode data in a stream (for example, data for sampled images) 
 The filter or filters for a stream shall be specified by the Filter entry in the stream’s dictionary (or the FFilter entry if the stream is external). Filters may be cascaded to form a pipeline that passes the stream through two or more decoding transformations in sequence. For example, data encoded using LZW and ASCII base-85 encoding (in that order) shall be decoded using the following entry in the stream dictionary:
 
 
-> **EXAMPLE** 2:
+> **EXAMPLE 2**
 
 /Filter [/ASCII85Decode /LZWDecode]
 
@@ -443,27 +443,24 @@ PDF files support a standard set of filters that fall into two main categories:
 > **NOTE 1** ASCII filters serve no useful purpose in a PDF file that is encrypted; see 7.6, "Encryption".
 
 > **NOTE 2** Compression is particularly valuable for large sampled images, since it reduces storage requirements and transmission time. Some types of compression are lossy, meaning that some data are lost during the encoding, resulting in a loss of quality when the data are decompressed.
-Compression in which no loss of data occurs is called lossless. Though somehow obvious it is worth pointing out that lossy compression can only be applied to sampl ed image data (and only certain types of lossy compression for certain types of images). Lossless compression on the other hand can be used for any kind of stream.
-The standard filters are summarised in "Table 6 — Standard filters", which also indicates whether they accept any optional parameters. The following subclauses describe these filters and their parameters (if any) in greater detail, including specifications o f encoding algorithms for some filters.
+Compression in which no loss of data occurs is called lossless. Though somehow obvious it is worth pointing out that lossy compression can only be applied to sampled image data (and only certain types of lossy compression for certain types of images). Lossless compression on the other hand can be used for any kind of stream.
+The standard filters are summarised in "Table 6 — Standard filters", which also indicates whether they accept any optional parameters. The following subclauses describe these filters and their parameters (if any) in greater detail, including specifications of encoding algorithms for some filters.
 
 Table 6 — Standard filters
+Table 6 — Standard filters
 
-| FILTER name | Parameters | Description |  |
-| --- | --- | --- | --- |
-| ASCIIHexDecode | no | Decodes data encoded in an ASCII hexadecimal representation, reproducing the original binary data. |  |
-| ASCII85Decode | no | Decodes data encoded in an ASCII base-85 representation, reproducing the original binary data. |  |
-| LZWDecode | yes | Decompresses data encoded using the LZW (Lempel | -Ziv-Welch) adaptive compression method, reproducing the original text or binary data. |
-| FlateDecode | yes | (PDF 1.2) Decompresses data encoded using the zlib/deflate compression method, reproducing the original text or binary data. |  |
-| RunLengthDecode | no | Decompresses data encoded using a byte-oriented run-length encoding algorithm, reproducing the original text or binary data (typically monochrome image data, or any data that contains frequent long runs of a single byte value). |  |
-| CCITTFaxDecode | yes | Decompresses data encoded using the CCITT facsimile standard, reproducing the original data (typically monochrome image data at 1 bit per pixel). |  |
-
-
-| FILTER name | Parameters | Description |  |
-| --- | --- | --- | --- |
-| JBIG2Decode | yes | (PDF 1.4) Decompresses data encoded using the JBIG2 standard, reproducing the original monochrome (1 bit per pixel) image data (or an approximation of that data). |  |
-| DCTDecode | yes | Decompresses data encoded using a DCT (discrete cosine transform) technique based on the JPEG standard (ISO/IEC 10918), reproducing image sample data that approximates the original data. |  |
-| JPXDecode | no | (PDF 1.5) Decompresses data encoded using the wavelet | -based JPEG 2000 standard, reproducing the original image data. |
-| Crypt | yes | (PDF 1.5) Decrypts data encrypted by a security handler, reproducing the data as it was before encryption. |  |
+| FILTER name | Parameters | Description |
+| --- | --- | --- |
+| ASCIIHexDecode | no | Decodes data encoded in an ASCII hexadecimal representation, reproducing the original binary data. |
+| ASCII85Decode | no | Decodes data encoded in an ASCII base-85 representation, reproducing the original binary data. |
+| LZWDecode | yes | Decompresses data encoded using the Lempel-Ziv-Welch (LZW) adaptive compression method, reproducing the original text or binary data. |
+| FlateDecode | yes | (PDF 1.2) Decompresses data encoded using the zlib/deflate compression method, reproducing the original text or binary data. |
+| RunLengthDecode | no | Decompresses data encoded using a byte-oriented run-length encoding algorithm, reproducing the original text or binary data (typically monochrome image data, or any data that contains frequent long runs of a single byte value). |
+| CCITTFaxDecode | yes | Decompresses data encoded using the CCITT facsimile standard, reproducing the original data (typically monochrome image data at 1 bit per pixel). |
+| JBIG2Decode | yes | (PDF 1.4) Decompresses data encoded using the JBIG2 standard, reproducing the original monochrome (1 bit per pixel) image data (or an approximation of that data). |
+| DCTDecode | yes | Decompresses data encoded using a DCT (discrete cosine transform) technique based on the JPEG standard (ISO/IEC 10918), reproducing image sample data that approximates the original data. |
+| JPXDecode | no | (PDF 1.5) Decompresses data encoded using the wavelet-based JPEG 2000 standard, reproducing the original image data. |
+| Crypt | yes | (PDF 1.5) Decrypts data encrypted by a security handler, reproducing the data as it was before encryption. |
 
 > **EXAMPLE 3** The following example shows a stream, containing the marking instructions for a page, that was compressed using the Flate compression method and then encoded in ASCII base-85 representation. The optional entry, DecodeParms is not used in this example, resulting in each filter using its default parameter values.
 
@@ -491,21 +488,13 @@ The ASCII85Decode filter decodes data that has been encoded in ASCII base-85 enc
 
 The ASCII base-85 encoding shall use the ASCII characters ! through u ((21h) - (75h)) and the character z (7Ah), with the 2-character sequence ~> (7Eh)(3Eh) as its EOD marker. The ASCII85Decode filter shall ignore all white-space characters (see 7.2, "Lexical conventions"). Any other characters, and any character sequences that represent impossible combinations in the ASCII base-85 encoding, shall cause an error.
 
-Specifically, ASCII base-85 encoding shall produce 5 ASCII characters for every 4 bytes of binary data.
-Each group of 4 binary input bytes, (b1 b2 b3 b4), shall be converted to a group of 5 output bytes, (𝑐1 𝑐2 𝑐3 𝑐4 𝑐5), using the relation
-| (𝑏1  ×  2563)+ | (𝑏2  × 2562)+ | (𝑏3  ×  2561)+ | 𝑏4 |  |
-| --- | --- | --- | --- | --- |
-| =  (𝑐1  × 854)+ | (𝑐2 ×  853)+ | (𝑐3  ×  852)+ | (𝑐4  × 851)+ | 𝑐5 |
+Specifically, ASCII base-85 encoding shall produce 5 ASCII characters for every 4 bytes of binary data. Each group of 4 binary input bytes, ($b_1$ $b_2$ $b_3$ $b_4$), shall be converted to a group of 5 output bytes, ($c_1$ $c_2$ $c_3$ $c_4$ $c_5$), using the relation:
+
+$$(b_1  \times  256^3) + (b_2  \times  256^2) + (b_3  \times  256^1) + b_4 = (c_1  \times  85^4) + (c_2  \times  85^3) + (c_3  \times  85^2) + (c_4  \times  85^1) + c_5$$
 
 In other words, 4 bytes of binary data shall be interpreted as a base-256 number and then shall be converted to a base-85 number. The five bytes of the base-85 number shall then be converted to ASCII characters by adding 33 (the ASCII code for the character !) to each. The resulting encoded data shall contain only printable ASCII characters with codes in the range 33 (!) to 117 (u). As a special case, if all five bytes are 0, they shall be represented by the character with code 122 (z) instead of by five exclamation points (! ! ! ! !).
 
-If the length of the data to be encoded is not a multiple of 4 bytes, the last, partial group of 4 shall be used to produce a last, partial group of 5 output characters. Given n (1, 2, or 3) bytes of binary data, the
-
-
-encoder shall first append 4 - n zero bytes to make a complete group of 4. It shall encode this group in the usual way, but shall not apply the special z case. Finally, it shall write only the first n + 1 characters of the resulting group of 5. These characters shall be immediately followed by the ~> EOD marker.
-
-The following conditions shall never occur in a correctly encoded byte sequence:
-
+If the length of the data to be encoded is not a multiple of 4 bytes, the last, partial group of 4 shall be used to produce a last, partial group of 5 output characters. Given n (1, 2, or 3) bytes of binary data, the encoder shall first append 4 - n zero bytes to make a complete group of 4. It shall encode this group in the usual way, but shall not apply the special z case. Finally, it shall write only the first n + 1 characters of the resulting group of 5. These characters shall be immediately followed by the ~> EOD marker.
 • The value represented by a group of 5 characters is greater than 232 - 1.
 • A z character occurs in the middle of a group.
 • A final partial group contains only one character.
@@ -537,25 +526,16 @@ and longer sequences of input characters. The encoder and the decoder shall main
 
 Whenever both the encoder and the decoder independently (but synchronously) realise that the current code length is no longer sufficient to represent the number of entries in the table, they shall increase the number of bits per code by 1. The first output code that is 10 bits long shall be the one following the creation of table entry 511, and similarly for 11 (1023) and 12 (2047) bits. Codes shall never be longer than 12 bits; therefore, entry 4095 is the last entry of the LZW table.
 
+Initially, the code length shall be 9 bits and the LZW table shall contain only entries for the 258 fixed codes. As encoding proceeds, entries shall be appended to the table, associating new codes with longer and longer sequences of input characters. The encoder and the decoder shall maintain identical copies of this table.
+
+Whenever both the encoder and the decoder independently (but synchronously) realise that the current code length is no longer sufficient to represent the number of entries in the table, they shall increase the number of bits per code by 1. The first output code that is 10 bits long shall be the one following the creation of table entry 511, and similarly for 11 (1023) and 12 (2047) bits. Codes shall never be longer than 12 bits; therefore, entry 4095 is the last entry of the LZW table.
+
 The encoder shall execute the following sequence of steps to generate each output code:
 
-a) Accumulate a seq uence of one or more input characters matching a sequence already present in the
-table.
+a) Accumulate a sequence of one or more input characters matching a sequence already present in the table.
 b) For maximum compression, the encoder looks for the longest such sequence.
 c) Emit the code corresponding to that sequence.
-d) Create a new table entry for the first unused c ode. Its value is the sequence found in step (a) followed by
-the next input character.
-
-> **EXAMPLE 1** Suppose the input consists of the following sequence of ASCII character codes:
-
-45 45 45 45 45 65 45 45 45 66
-
-Starting with an empty table, the encoder proceeds as shown in "Table 7 — Typical LZW encoding sequence".
-
-Table 7 — Typical LZW encoding sequence
-
-Input sequence Output code Code added to Sequence represented by table               new code
-
+d) Create a new table entry for the first unused code. Its value is the sequence found in step (a) followed by the next input character.
 | – | 256 (clear-table) | – | – |
 | --- | --- | --- | --- |
 | 45 | 258 | 45 45 |  |
@@ -573,7 +553,7 @@ In the example above, all the output codes are 9 bits long; they would pack into
 
 (represented in hexadecimal):
 
-> **EXAMPLE** 2
+> **EXAMPLE 2**
 
 80 0B 60 50 22 0C 0C 85 01
 
@@ -583,7 +563,7 @@ To adapt to changing input sequences, the encoder may at any point issue a clear
 
 The LZWDecode and FlateDecode filters shall accept optional parameters to control the decoding process.
 
-> **NOTE** Most of these parameters are related to techniques that reduce the size of compressed sa mpled images (rectangular arrays of colour values, described in 8.9, "Images"). For example, image data typically changes very little from sample to sample. Therefore, subtracting the values of adjacent samples (a process called differencing), and encoding the differences rather than the raw sample values, can reduce the size of the output data. Furthermore, when the image data contains several colour components (red-green-blue or cyan-magenta-yellow-black) per sample, taking the difference between the values of corresponding components in adjacent samples, rather than between different colour components in the same sample, often reduces the output data size.
+> **NOTE** Most of these parameters are related to techniques that reduce the size of compressed sampled images (rectangular arrays of colour values, described in 8.9, "Images"). For example, image data typically changes very little from sample to sample. Therefore, subtracting the values of adjacent samples (a process called differencing), and encoding the differences rather than the raw sample values, can reduce the size of the output data. Furthermore, when the image data contains several colour components (red-green-blue or cyan-magenta-yellow-black) per sample, taking the difference between the values of corresponding components in adjacent samples, rather than between different colour components in the same sample, often reduces the output data size.
 "Table 8 — Optional parameters for LZWDecode and FlateDecode filters" shows the parameters that may optionally be specified for LZWDecode and FlateDecode filters. Except where otherwise noted, all values supplied to the decoding filter for any optional parameters shall match those used when the data were encoded.
 
 Table 8 — Optional parameters for LZWDecode and FlateDecode filters
@@ -594,13 +574,7 @@ Table 8 — Optional parameters for LZWDecode and FlateDecode filters
 | Colors | integer | (May be used only if Predictor is greater than 1) The number of interleaved colour components per sample. Valid values are 1 to 4 (PDF 1.0) and 1 or greater (PDF 1.3). Default value: 1. |
 | BitsPerComponent | integer | (May be used only if Predictor is greater than 1) The number of bits used to represent each colour component in a sample. Valid values are 1, 2, 4, 8, and (PDF 1.5) 16. Default value: 8. |
 | Columns | integer | (May be used only if Predictor is greater than 1) The number of samples in each row. Default value: 1. |
-
-
-| Key | Type | Value |
-| --- | --- | --- |
 | EarlyChange | integer | (LZWDecode only) An indication of when to increase the code length. If the value of this entry is 0, code length increases shall be postponed as long as possible. If the value is 1, code length increases shall occur one code early. This parameter is included because LZW sample code distributed by some vendors increases the code length one code earlier than necessary. Default value: 1. |
-
-#### 7.4.4.4 LZW and Flate predictor functions
 
 LZW and Flate encoding compress more compactly if their input data are highly predictable. One way of increasing the predictability of many continuous-tone sampled images is to replace each sample with the difference between that sample and a predictor function applied to earlier neighbouring samples. If the predictor function works well, the postprediction data clusters toward 0.
 
@@ -632,22 +606,16 @@ For LZWDecode and FlateDecode, a Predictor value greater than or equal to 10 sha
 
 Table 10 — Predictor values
 
-Value Meaning
-
-No prediction (the default value)
-
-TIFF Predictor 2
-
-PNG prediction (on encoding, PNG None on all rows)
-
-PNG prediction (on encoding, PNG Sub on all rows)
-
-PNG prediction (on encoding, PNG Up on all rows)
-
-PNG prediction (on encoding, PNG Average on all rows)
-
-PNG prediction (on encoding, PNG Paeth on all rows)
-
+| Value | Meaning |
+| --- | --- |
+| 1 | No prediction (the default value) |
+| 2 | TIFF Predictor 2 |
+| 10 | PNG prediction (on encoding, PNG None on all rows) |
+| 11 | PNG prediction (on encoding, PNG Sub on all rows) |
+| 12 | PNG prediction (on encoding, PNG Up on all rows) |
+| 13 | PNG prediction (on encoding, PNG Average on all rows) |
+| 14 | PNG prediction (on encoding, PNG Paeth on all rows) |
+| 15 | PNG prediction (on encoding, PNG optimum) |
 PNG prediction (on encoding, PNG optimum)
 
 The two groups of predictor functions have some commonalities. Both make the following assumptions:
@@ -993,7 +961,7 @@ Each cross-reference section shall begin with a line containing the keyword xref
 > **NOTE 3** The subsection structure is useful for incremental updates, since it allows a new cross-reference section to be added to the PDF file, containing entries only for objects that have been added, modified or deleted. This also means that cross reference subsections of incremental updates can never have an object number of zero.
 Each cross-reference subsection shall contain entries for a contiguous range of object numbers. Each cross-reference subsection shall contain entries for a contiguous range of object numbers. The subsection shall begin with a line containing only two integers separated by a SPACE (20h) and terminated by an end-of-line marker (see 7.2.3, "Character set"). The two integers denote (respectively) the object number of the first object in this subsection and the number of entries in the subsection.
 
-> **NOTE 4** The number of entries in a subsection for a file that has never been inc rementally updated can never be zero.
+> **NOTE 4** The number of entries in a subsection for a file that has never been incrementally updated can never be zero.
 
 > **EXAMPLE 1** The following line introduces a subsection containing five objects numbered consecutively from 28 to 32.
 
@@ -1169,7 +1137,7 @@ The stream data in an object stream shall contain the following items:
 > **NOTE 8** A compressed dictionary or array can contain indirect references.
 An object in an object stream shall not consist solely of an object reference.
 
-> **EXAMPLE** 2
+> **EXAMPLE 2**
 
 3 0 R
 
@@ -2978,7 +2946,7 @@ The stream data shall be long enough to contain the entire sample array, as indi
 
 The first byte contains the sample for the point (-1.0, -1.0) in the high-order 4 bits and the sample for the point (-0.9, -1.0) in the low-order 4 bits.
 
-> **EXAMPLE** 2
+> **EXAMPLE 2**
 
 14 0 obj <</FunctionType 0 /Domain [-1.0 1.0 -1.0 1.0] /Size [21 31] /Encode [0 20 0 30] /BitsPerSample 4 /Range [-1.0 1.0] /Decode [-1.0 1.0] /Length … /Filter… >> stream …651 sample values… endstream endobj NOTE 3        The Decode entry can be used creatively to increase the accuracy of encoded samples corresponding to certain values in the range.
 
@@ -3429,7 +3397,7 @@ The value of the ExtensionLevel entry shall be an integer, which shall be interp
 
 The value of the optional URL entry shall be a string containing a URL to the documentation that is provided by the developer of this extension and as registered in the PDF Registry (see Annex E, "Extending PDF").
 
-> **EXAMPLE** 1
+> **EXAMPLE 1**
 
 %PDF–2.0 << /Type /Catalog /Extensions << /Type /Extensions /ADBE << /BaseVersion /1.7 /ExtensionLevel 3 /URL (http://www.adobe.com/documentation/ext3.pdf) >> >> >>
 

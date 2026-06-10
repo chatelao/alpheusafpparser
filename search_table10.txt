@@ -1,0 +1,26 @@
+| None | No prediction |
+| Sub | Predicts the same as the sample to the left |
+| Up | Predicts the same as the sample above |
+| Average | Predicts the average of the sample to the left and the sample above |
+| Paeth | A nonlinear function of the sample above, the sample to the left, and the sample to the upper left |
+
+The predictor algorithm to be used, if any, shall be indicated by the Predictor filter parameter (see "Table 8 — Optional parameters for LZWDecode and FlateDecode filters"), whose value shall be one of
+
+
+those listed in "Table 10 — Predictor values".
+
+For LZWDecode and FlateDecode, a Predictor value greater than or equal to 10 shall indicate that a PNG predictor is in use; the specific predictor function used shall be explicitly encoded in the incoming data. The value of Predictor supplied by the decoding filter need not match the value used when the data were encoded if they are both greater than or equal to 10.
+
+Table 10 — Predictor values
+
+Value Meaning
+
+No prediction (the default value)
+
+TIFF Predictor 2
+
+PNG prediction (on encoding, PNG None on all rows)
+
+PNG prediction (on encoding, PNG Sub on all rows)
+
+PNG prediction (on encoding, PNG Up on all rows)
