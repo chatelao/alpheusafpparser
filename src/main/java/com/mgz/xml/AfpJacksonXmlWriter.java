@@ -61,6 +61,8 @@ import com.mgz.afp.ioca.IPD_Segment;
 import com.mgz.afp.lineData.CCP_ConditionalProcessingControl;
 import com.mgz.afp.lineData.LNC_LineDescriptorCount;
 import com.mgz.afp.lineData.LND_LineDescriptor;
+import com.mgz.afp.lineData.RCD_RecordDescriptor;
+import com.mgz.afp.lineData.XMD_XMLDescriptor;
 import com.mgz.afp.modca.BAG_BeginActiveEnvironmentGroup;
 import com.mgz.afp.modca.BDG_BeginDocumentEnvironmentGroup;
 import com.mgz.afp.modca.BFG_BeginFormEnvironmentGroup;
@@ -401,6 +403,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeLncDirectly(lnc, level);
     } else if (sf instanceof CCP_ConditionalProcessingControl ccp) {
       writeCcpDirectly(ccp, level);
+    } else if (sf instanceof RCD_RecordDescriptor rcd) {
+      writeRcdDirectly(rcd, level);
+    } else if (sf instanceof XMD_XMLDescriptor xmd) {
+      writeXmdDirectly(xmd, level);
     } else if (sf instanceof BPT_BeginPresentationTextObject bpt) {
       writeNameAndTripletsDirectly(bpt, "BPT_BeginPresentationTextObject", level);
     } else if (sf instanceof EPT_EndPresentationTextObject ept) {
@@ -560,6 +566,116 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     if (tle.getText() != null) {
       writeElement(baseXsw, level + 1, "text", tle.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeRcdDirectly(RCD_RecordDescriptor rcd, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("RCD");
+    baseXsw.writeStartElement("RCD_RecordDescriptor");
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "recordDescriptorID", rcd.getRecordDescriptorID());
+    if (rcd.getRecordType() != null) {
+      writeElement(baseXsw, childLevel, "recordType", rcd.getRecordType().name());
+    }
+    if (rcd.getFlags() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("flags");
+      for (RCD_RecordDescriptor.RCD_Flag flag : rcd.getFlags()) {
+        writeElement(baseXsw, childLevel + 1, "flags", flag.name());
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    writeElement(baseXsw, childLevel, "reserved14", (int) rcd.getReserved14());
+    writeElement(baseXsw, childLevel, "inlinePosition", rcd.getInlinePosition());
+    writeElement(baseXsw, childLevel, "baselinePosition", rcd.getBaselinePosition());
+    if (rcd.getInlineOrientation() != null) {
+      writeElement(baseXsw, childLevel, "inlineOrientation", rcd.getInlineOrientation().name());
+    }
+    if (rcd.getBaselineOrientation() != null) {
+      writeElement(baseXsw, childLevel, "baselineOrientation", rcd.getBaselineOrientation().name());
+    }
+    writeElement(baseXsw, childLevel, "primaryFontLocalId", rcd.getPrimaryFontLocalId());
+    writeElement(baseXsw, childLevel, "fieldRCDPointer", rcd.getFieldRCDPointer());
+    writeElement(baseXsw, childLevel, "suppressionTokenName", rcd.getSuppressionTokenName());
+    writeElement(baseXsw, childLevel, "shiftOutFontLocalID", rcd.getShiftOutFontLocalID());
+    writeElement(baseXsw, childLevel, "dataStartPosition", rcd.getDataStartPosition());
+    writeElement(baseXsw, childLevel, "dataLength", rcd.getDataLength());
+    writeElement(baseXsw, childLevel, "conditionalProcessingRCDPointer", rcd.getConditionalProcessingRCDPointer());
+    writeElement(baseXsw, childLevel, "subpageID", (int) rcd.getSubpageID());
+    writeElement(baseXsw, childLevel, "ccpIdentifier", rcd.getCcpIdentifier());
+    writeElement(baseXsw, childLevel, "startingPageNumber", rcd.getStartingPageNumber());
+    writeElement(baseXsw, childLevel, "endSpace", rcd.getEndSpace());
+    writeElement(baseXsw, childLevel, "fieldAllignment", (int) rcd.getFieldAllignment());
+    writeElement(baseXsw, childLevel, "fieldDelimiter", rcd.getFieldDelimiter());
+    writeElement(baseXsw, childLevel, "fieldNumber", rcd.getFieldNumber());
+    writeElement(baseXsw, childLevel, "additionalBaselineIncrement", rcd.getAdditionalBaselineIncrement());
+    if (rcd.getReserved57_69() != null) {
+      writeBinaryElement(baseXsw, childLevel, "reserved57_69", rcd.getReserved57_69());
+    }
+    if (rcd.getTriplets() != null) {
+      for (Triplet triplet : rcd.getTriplets()) {
+        writeTriplet(baseXsw, triplet, childLevel);
+      }
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeXmdDirectly(XMD_XMLDescriptor xmd, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("XMD");
+    baseXsw.writeStartElement("XMD_XMLDescriptor");
+    int childLevel = level + 1;
+    if (xmd.getElementType() != null) {
+      writeElement(baseXsw, childLevel, "elementType", xmd.getElementType().name());
+    }
+    if (xmd.getFlags() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("flags");
+      for (XMD_XMLDescriptor.XMD_Flag flag : xmd.getFlags()) {
+        writeElement(baseXsw, childLevel + 1, "flags", flag.name());
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    writeElement(baseXsw, childLevel, "reserved4", (int) xmd.getReserved4());
+    writeElement(baseXsw, childLevel, "inlinePosition", xmd.getInlinePosition());
+    writeElement(baseXsw, childLevel, "baselinePosition", xmd.getBaselinePosition());
+    if (xmd.getInlineOrientation() != null) {
+      writeElement(baseXsw, childLevel, "inlineOrientation", xmd.getInlineOrientation().name());
+    }
+    if (xmd.getBaselineOrientation() != null) {
+      writeElement(baseXsw, childLevel, "baselineOrientation", xmd.getBaselineOrientation().name());
+    }
+    writeElement(baseXsw, childLevel, "primaryFontLocalId", xmd.getPrimaryFontLocalId());
+    writeElement(baseXsw, childLevel, "fieldXMDPointer", xmd.getFieldXMDPointer());
+    if (xmd.getReserved16_17() != null) {
+      writeBinaryElement(baseXsw, childLevel, "reserved16_17", xmd.getReserved16_17());
+    }
+    writeElement(baseXsw, childLevel, "suppressionTokenName", xmd.getSuppressionTokenName());
+    writeElement(baseXsw, childLevel, "reserved26", (int) xmd.getReserved26());
+    writeElement(baseXsw, childLevel, "dataStartPosition", xmd.getDataStartPosition());
+    writeElement(baseXsw, childLevel, "dataLength", xmd.getDataLength());
+    writeElement(baseXsw, childLevel, "conditionalProcessingRCDPointer", xmd.getConditionalProcessingRCDPointer());
+    writeElement(baseXsw, childLevel, "subpageID", (int) xmd.getSubpageID());
+    writeElement(baseXsw, childLevel, "ccpIdentifier", xmd.getCcpIdentifier());
+    writeElement(baseXsw, childLevel, "startingPageNumber", xmd.getStartingPageNumber());
+    writeElement(baseXsw, childLevel, "endSpace", xmd.getEndSpace());
+    writeElement(baseXsw, childLevel, "fieldAllignment", (int) xmd.getFieldAllignment());
+    writeElement(baseXsw, childLevel, "fieldDelimiter", xmd.getFieldDelimiter());
+    writeElement(baseXsw, childLevel, "fieldNumber", xmd.getFieldNumber());
+    writeElement(baseXsw, childLevel, "additionalBaselineIncrement", xmd.getAdditionalBaselineIncrement());
+    if (xmd.getReserved48_61() != null) {
+      writeBinaryElement(baseXsw, childLevel, "reserved48_61", xmd.getReserved48_61());
+    }
+    if (xmd.getTriplets() != null) {
+      for (Triplet triplet : xmd.getTriplets()) {
+        writeTriplet(baseXsw, triplet, childLevel);
+      }
     }
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();

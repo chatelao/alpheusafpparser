@@ -55,8 +55,8 @@ Implement manual StAX fast-paths for remaining MO:DCA structured fields to elimi
 - [ ] **Line Data Fields**:
     - [x] **LNC** (Line Descriptor Count) ✅
     - [x] **CCP** (Conditional Processing Control) ✅
-    - [ ] **RCD** (Record Descriptor)
-    - [ ] **XMD** (XML Descriptor)
+    - [x] **RCD** (Record Descriptor) ✅
+    - [x] **XMD** (XML Descriptor) ✅
 - [ ] **IM Image Fields**:
     - [ ] **IID** (IM Image Input Descriptor)
     - [ ] **ICP** (IM Image Cell Position)

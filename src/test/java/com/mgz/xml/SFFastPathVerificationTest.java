@@ -20,6 +20,9 @@ import com.mgz.afp.ioca.IPD_Segment;
 import com.mgz.afp.ioca.IPD_ImagePictureData;
 import com.mgz.afp.lineData.CCP_ConditionalProcessingControl;
 import com.mgz.afp.lineData.LNC_LineDescriptorCount;
+import com.mgz.afp.lineData.RCD_RecordDescriptor;
+import com.mgz.afp.lineData.RCD_XMD_RecordTypeElementType;
+import com.mgz.afp.lineData.XMD_XMLDescriptor;
 import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.enums.AFPColorSpace;
 import com.mgz.afp.enums.AFPUnitBase;
@@ -42,6 +45,8 @@ public class SFFastPathVerificationTest {
         verifySF(createMCF1(), "MCF_MapCodedFont_Format1");
         verifySF(createLNC(), "LNC_LineDescriptorCount");
         verifySF(createCCP(), "CCP_ConditionalProcessingControl");
+        verifySF(createRCD(), "RCD_RecordDescriptor");
+        verifySF(createXMD(), "XMD_XMLDescriptor");
     }
 
     @Test
@@ -468,5 +473,63 @@ public class SFFastPathVerificationTest {
         ccp.setRepeatingGroups(rgs);
 
         return ccp;
+    }
+
+    private RCD_RecordDescriptor createRCD() {
+        RCD_RecordDescriptor rcd = new RCD_RecordDescriptor();
+        rcd.setRecordDescriptorID("RCD0000001");
+        rcd.setRecordType(RCD_XMD_RecordTypeElementType.Body);
+        rcd.setFlags(EnumSet.of(RCD_RecordDescriptor.RCD_Flag.GenerateInlinePosition_NewPosition));
+        rcd.setReserved14((byte) 0);
+        rcd.setInlinePosition(100);
+        rcd.setBaselinePosition(200);
+        rcd.setInlineOrientation(AFPOrientation.ori0);
+        rcd.setBaselineOrientation(AFPOrientation.ori90);
+        rcd.setPrimaryFontLocalId((short) 1);
+        rcd.setFieldRCDPointer(0);
+        rcd.setSuppressionTokenName("SUPP0001");
+        rcd.setShiftOutFontLocalID((short) 0);
+        rcd.setDataStartPosition(1);
+        rcd.setDataLength(100);
+        rcd.setConditionalProcessingRCDPointer(0);
+        rcd.setSubpageID((byte) 1);
+        rcd.setCcpIdentifier(1);
+        rcd.setStartingPageNumber(1);
+        rcd.setEndSpace(0);
+        rcd.setFieldAllignment((byte) 0);
+        rcd.setFieldDelimiter(0);
+        rcd.setFieldNumber(1);
+        rcd.setAdditionalBaselineIncrement(0);
+        rcd.setReserved57_69(new byte[13]);
+        return rcd;
+    }
+
+    private XMD_XMLDescriptor createXMD() {
+        XMD_XMLDescriptor xmd = new XMD_XMLDescriptor();
+        xmd.setElementType(RCD_XMD_RecordTypeElementType.Body);
+        xmd.setFlags(EnumSet.of(XMD_XMLDescriptor.XMD_Flag.GenerateInlinePosition_NewPosition));
+        xmd.setReserved4((byte) 0);
+        xmd.setInlinePosition(100);
+        xmd.setBaselinePosition(200);
+        xmd.setInlineOrientation(AFPOrientation.ori0);
+        xmd.setBaselineOrientation(AFPOrientation.ori90);
+        xmd.setPrimaryFontLocalId((short) 1);
+        xmd.setFieldXMDPointer(0);
+        xmd.setReserved16_17(new byte[2]);
+        xmd.setSuppressionTokenName("SUPP0001");
+        xmd.setReserved26((byte) 0);
+        xmd.setDataStartPosition(1);
+        xmd.setDataLength(100);
+        xmd.setConditionalProcessingRCDPointer(0);
+        xmd.setSubpageID((byte) 1);
+        xmd.setCcpIdentifier(1);
+        xmd.setStartingPageNumber(1);
+        xmd.setEndSpace(0);
+        xmd.setFieldAllignment((byte) 0);
+        xmd.setFieldDelimiter(0);
+        xmd.setFieldNumber(1);
+        xmd.setAdditionalBaselineIncrement(0);
+        xmd.setReserved48_61(new byte[14]);
+        return xmd;
     }
 }
