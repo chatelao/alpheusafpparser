@@ -668,14 +668,14 @@
 | CMOCA-5-173 | TagID: X'2011' | ✅ |
 | CMOCA-5-174 | Field Type: X'08' (CODE) | ✅ |
 | CMOCA-5-175 | Count: Number of color components | ✅ |
-| CMOCA-5-176 | X'01'   256 1-byte entries | ❓ |
-| CMOCA-5-177 | X'02'   65,536 2-byte entries | ❓ |
-| CMOCA-5-178 | TagID: X'2015' | ❓ |
-| CMOCA-5-179 | Field Type: X'05' (byte) | ❓ |
-| CMOCA-5-180 | Count: Total length of the data | ❓ |
-| CMOCA-5-181 | TagID: X'2020' | ❓ |
-| CMOCA-5-182 | Field Type: X'05' (Byte) | ❓ |
-| CMOCA-5-183 | Count: Total length of the data | ❓ |
+| CMOCA-5-176 | X'01'   256 1-byte entries | ✅ |
+| CMOCA-5-177 | X'02'   65,536 2-byte entries | ✅ |
+| CMOCA-5-178 | TagID: X'2015' | ✅ |
+| CMOCA-5-179 | Field Type: X'05' (byte) | ✅ |
+| CMOCA-5-180 | Count: Total length of the data | ✅ |
+| CMOCA-5-181 | TagID: X'2020' | ✅ |
+| CMOCA-5-182 | Field Type: X'05' (Byte) | ✅ |
+| CMOCA-5-183 | Count: Total length of the data | ✅ |
 | CMOCA-5-184 | TagID: X'3011' | ✅ |
 | CMOCA-5-185 | Field Type: X'08' (CODE) | ✅ |
 | CMOCA-5-186 | Count: 1 | ✅ |
@@ -689,9 +689,9 @@
 | CMOCA-5-194 | X'08'   N-component LUT-based output profiles | ✅ |
 | CMOCA-5-195 | X'09'   ColorSpace conversion profile | ✅ |
 | CMOCA-5-196 | X'0A'   Retired item 3 (Abstract profile) | ✅ |
-| CMOCA-5-197 | TagID: X'3015' | ❓ |
-| CMOCA-5-198 | Field Type: X'05' (BYTE) | ❓ |
-| CMOCA-5-199 | Count: The number of bytes in the profile | ❓ |
+| CMOCA-5-197 | TagID: X'3015' | ✅ |
+| CMOCA-5-198 | Field Type: X'05' (BYTE) | ✅ |
+| CMOCA-5-199 | Count: The number of bytes in the profile | ✅ |
 | CMOCA-5-200 | 0–3   Profile size | ❓ |
 | CMOCA-5-201 | 4–7   CMM Type signature | ❓ |
 | CMOCA-5-202 | 8–11   Profile version number | ❓ |
@@ -761,52 +761,52 @@
 | CMOCA-5-266 | Field Type: X'08' (CODE) | ✅ |
 | CMOCA-5-267 | Count: 1 | ✅ |
 | CMOCA-5-268 | X'01'   Multi-output color spaces | ✅ |
-| CMOCA-5-269 | TagID: X'5015' | ❓ |
-| CMOCA-5-270 | Field Type: X'01' (1-byte UBIN) | ❓ |
-| CMOCA-5-271 | Count: 1 | ❓ |
-| CMOCA-5-272 | TagID: X'5020' | ❓ |
-| CMOCA-5-273 | Field Type: X'05' (BYTE) | ❓ |
-| CMOCA-5-274 | Count: 9 × the number of color entries | ❓ |
-| CMOCA-5-275 | 0–1   2-byte UBIN   IndexedColorValue   X'0100' – X'FFFF'   2-byte indexed color value | ❓ |
-| CMOCA-5-276 | 2–7   2-byte UBIN   CIELABValue   X'0000' – X'FFFF'   L, a, b components | ❓ |
-| CMOCA-5-277 | 8   1-byte UBIN   Component_1   X'00'–X'FF'   Intensity of gray (X'00'=black, X'FF'=white) | ❓ |
-| CMOCA-5-278 | TagID: X'5025' | ❓ |
-| CMOCA-5-279 | Field Type: X'05' (BYTE) | ❓ |
-| CMOCA-5-280 | Count: 12 × the number of color entries | ❓ |
-| CMOCA-5-281 | 0–1   2-byte UBIN   IndexedColorValue   X'0100' – X'FFFF'   2-byte indexed color value | ❓ |
-| CMOCA-5-282 | 2–7   2-byte UBIN   CIELABValue   X'0000' – X'FFFF'   L, a, b components | ❓ |
-| CMOCA-5-283 | 8   1-byte UBIN   Component_1   X'00'–X'FF'   Cyan | ❓ |
-| CMOCA-5-284 | 9   1-byte UBIN   Component_2   X'00'–X'FF'   Magenta | ❓ |
-| CMOCA-5-285 | 10   1-byte UBIN   Component_3   X'00'–X'FF'   Yellow | ❓ |
-| CMOCA-5-286 | 11   1-byte UBIN   Component_4   X'00'–X'FF'   Black | ❓ |
-| CMOCA-5-287 | TagID: X'5030' | ❓ |
-| CMOCA-5-288 | Field Type: X'05' (BYTE) | ❓ |
-| CMOCA-5-289 | Count: 11 × the number of color entries | ❓ |
-| CMOCA-5-290 | 0–1   2-byte UBIN   IndexedColorValue   X'0100' – X'FFFF'   2-byte indexed color value | ❓ |
-| CMOCA-5-291 | 2–7   2-byte UBIN   CIELABValue   X'0000' – X'FFFF'   L, a, b components | ❓ |
-| CMOCA-5-292 | 8   1-byte UBIN   Component_1   X'00'–X'FF'   Red | ❓ |
-| CMOCA-5-293 | 9   1-byte UBIN   Component_2   X'00'–X'FF'   Green | ❓ |
-| CMOCA-5-294 | 10   1-byte UBIN   Component_3   X'00'–X'FF'   Blue | ❓ |
-| CMOCA-5-295 | TagID: X'5035' | ❓ |
-| CMOCA-5-296 | Field Type: X'05' (BYTE) | ❓ |
-| CMOCA-5-297 | Count: 8 × the number of color entries | ❓ |
-| CMOCA-5-298 | 0–1   2-byte UBIN   IndexedColorValue   X'0100' – X'FFFF'   2-byte indexed color value | ❓ |
-| CMOCA-5-299 | 2–7   2-byte UBIN   CIELABValue   X'0000' – X'FFFF'   L, a, b components | ❓ |
-| CMOCA-5-300 | TagID: X'5040' | ❓ |
-| CMOCA-5-301 | Field Type: X'05' (BYTE) | ❓ |
-| CMOCA-5-302 | Count: (Number of Named Colorants + 8) × the number of color entries | ❓ |
-| CMOCA-5-303 | 0–1   2-byte UBIN   IndexedColorValue   X'0100' – X'FFFF'   2-byte indexed color value | ❓ |
-| CMOCA-5-304 | 2–7   2-byte UBIN   CIELABValue   X'0000' – X'FFFF'   L, a, b components | ❓ |
-| CMOCA-5-305 | 8 to 7+n   1-byte UBIN   Component_i   X'00'–X'FF'   Intensity of i-th colorant | ❓ |
-| CMOCA-5-306 | TagID: X'5045' | ❓ |
-| CMOCA-5-307 | Field Type: X'05' (BYTE) | ❓ |
-| CMOCA-5-308 | Count: Sum of the length over the Number of Named Colorants | ❓ |
-| CMOCA-5-309 | 0   1-byte UBIN   Length   X'03'–X'FB'   Length of this repeating group | ❓ |
-| CMOCA-5-310 | 1–end   UTF-16   Colorant Name     Colorant name in free format UTF-16BE | ❓ |
+| CMOCA-5-269 | TagID: X'5015' | ✅ |
+| CMOCA-5-270 | Field Type: X'01' (1-byte UBIN) | ✅ |
+| CMOCA-5-271 | Count: 1 | ✅ |
+| CMOCA-5-272 | TagID: X'5020' | ✅ |
+| CMOCA-5-273 | Field Type: X'05' (BYTE) | ✅ |
+| CMOCA-5-274 | Count: 9 × the number of color entries | ✅ |
+| CMOCA-5-275 | 0–1   2-byte UBIN   IndexedColorValue   X'0100' – X'FFFF'   2-byte indexed color value | ✅ |
+| CMOCA-5-276 | 2–7   2-byte UBIN   CIELABValue   X'0000' – X'FFFF'   L, a, b components | ✅ |
+| CMOCA-5-277 | 8   1-byte UBIN   Component_1   X'00'–X'FF'   Intensity of gray (X'00'=black, X'FF'=white) | ✅ |
+| CMOCA-5-278 | TagID: X'5025' | ✅ |
+| CMOCA-5-279 | Field Type: X'05' (BYTE) | ✅ |
+| CMOCA-5-280 | Count: 12 × the number of color entries | ✅ |
+| CMOCA-5-281 | 0–1   2-byte UBIN   IndexedColorValue   X'0100' – X'FFFF'   2-byte indexed color value | ✅ |
+| CMOCA-5-282 | 2–7   2-byte UBIN   CIELABValue   X'0000' – X'FFFF'   L, a, b components | ✅ |
+| CMOCA-5-283 | 8   1-byte UBIN   Component_1   X'00'–X'FF'   Cyan | ✅ |
+| CMOCA-5-284 | 9   1-byte UBIN   Component_2   X'00'–X'FF'   Magenta | ✅ |
+| CMOCA-5-285 | 10   1-byte UBIN   Component_3   X'00'–X'FF'   Yellow | ✅ |
+| CMOCA-5-286 | 11   1-byte UBIN   Component_4   X'00'–X'FF'   Black | ✅ |
+| CMOCA-5-287 | TagID: X'5030' | ✅ |
+| CMOCA-5-288 | Field Type: X'05' (BYTE) | ✅ |
+| CMOCA-5-289 | Count: 11 × the number of color entries | ✅ |
+| CMOCA-5-290 | 0–1   2-byte UBIN   IndexedColorValue   X'0100' – X'FFFF'   2-byte indexed color value | ✅ |
+| CMOCA-5-291 | 2–7   2-byte UBIN   CIELABValue   X'0000' – X'FFFF'   L, a, b components | ✅ |
+| CMOCA-5-292 | 8   1-byte UBIN   Component_1   X'00'–X'FF'   Red | ✅ |
+| CMOCA-5-293 | 9   1-byte UBIN   Component_2   X'00'–X'FF'   Green | ✅ |
+| CMOCA-5-294 | 10   1-byte UBIN   Component_3   X'00'–X'FF'   Blue | ✅ |
+| CMOCA-5-295 | TagID: X'5035' | ✅ |
+| CMOCA-5-296 | Field Type: X'05' (BYTE) | ✅ |
+| CMOCA-5-297 | Count: 8 × the number of color entries | ✅ |
+| CMOCA-5-298 | 0–1   2-byte UBIN   IndexedColorValue   X'0100' – X'FFFF'   2-byte indexed color value | ✅ |
+| CMOCA-5-299 | 2–7   2-byte UBIN   CIELABValue   X'0000' – X'FFFF'   L, a, b components | ✅ |
+| CMOCA-5-300 | TagID: X'5040' | ✅ |
+| CMOCA-5-301 | Field Type: X'05' (BYTE) | ✅ |
+| CMOCA-5-302 | Count: (Number of Named Colorants + 8) × the number of color entries | ✅ |
+| CMOCA-5-303 | 0–1   2-byte UBIN   IndexedColorValue   X'0100' – X'FFFF'   2-byte indexed color value | ✅ |
+| CMOCA-5-304 | 2–7   2-byte UBIN   CIELABValue   X'0000' – X'FFFF'   L, a, b components | ✅ |
+| CMOCA-5-305 | 8 to 7+n   1-byte UBIN   Component_i   X'00'–X'FF'   Intensity of i-th colorant | ✅ |
+| CMOCA-5-306 | TagID: X'5045' | ✅ |
+| CMOCA-5-307 | Field Type: X'05' (BYTE) | ✅ |
+| CMOCA-5-308 | Count: Sum of the length over the Number of Named Colorants | ✅ |
+| CMOCA-5-309 | 0   1-byte UBIN   Length   X'03'–X'FB'   Length of this repeating group | ✅ |
+| CMOCA-5-310 | 1–end   UTF-16   Colorant Name     Colorant name in free format UTF-16BE | ✅ |
 | CMOCA-5-311 | TagID: X'FFFF' | ✅ |
-| CMOCA-5-312 | Field Type: X'05' (BYTE) | ❓ |
-| CMOCA-5-313 | Count: 0 | ❓ |
-| CMOCA-5-314 | Signifies the end of the tag list. | ❓ |
+| CMOCA-5-312 | Field Type: X'05' (BYTE) | ✅ |
+| CMOCA-5-313 | Count: 0 | ✅ |
+| CMOCA-5-314 | Signifies the end of the tag list. | ✅ |
 | CMOCA-6-001 | Takes presentation data specified in an input color space | ❓ |
 | CMOCA-6-002 | Converts it to the output color space of the presentation device | ❓ |
 | CMOCA-6-003 | Modifies the colors to create the desired output for a particular device | ❓ |
