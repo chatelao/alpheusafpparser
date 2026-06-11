@@ -58,6 +58,8 @@ import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
 import com.mgz.afp.ioca.IDD_SelfDefiningField;
 import com.mgz.afp.ioca.IPD_ImagePictureData;
 import com.mgz.afp.ioca.IPD_Segment;
+import com.mgz.afp.lineData.CCP_ConditionalProcessingControl;
+import com.mgz.afp.lineData.LNC_LineDescriptorCount;
 import com.mgz.afp.lineData.LND_LineDescriptor;
 import com.mgz.afp.modca.BAG_BeginActiveEnvironmentGroup;
 import com.mgz.afp.modca.BDG_BeginDocumentEnvironmentGroup;
@@ -395,6 +397,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeFncDirectly(fnc, level);
     } else if (sf instanceof LND_LineDescriptor lnd) {
       writeLndDirectly(lnd, level);
+    } else if (sf instanceof LNC_LineDescriptorCount lnc) {
+      writeLncDirectly(lnc, level);
+    } else if (sf instanceof CCP_ConditionalProcessingControl ccp) {
+      writeCcpDirectly(ccp, level);
     } else if (sf instanceof BPT_BeginPresentationTextObject bpt) {
       writeNameAndTripletsDirectly(bpt, "BPT_BeginPresentationTextObject", level);
     } else if (sf instanceof EPT_EndPresentationTextObject ept) {
@@ -4404,6 +4410,64 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeElement(baseXsw, childLevel, "encodingScheme", cpd.getEncodingScheme().name());
     }
     writeElement(baseXsw, childLevel, "text", cpd.getText());
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeLncDirectly(LNC_LineDescriptorCount lnc, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("LNC");
+    baseXsw.writeStartElement("LNC_LineDescriptorCount");
+    writeElement(baseXsw, level + 1, "numberOfSFInBDX", lnc.getNumberOfSFInBDX());
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeCcpDirectly(CCP_ConditionalProcessingControl ccp, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("CCP");
+    baseXsw.writeStartElement("CCP_ConditionalProcessingControl");
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "ccpIdentifier", ccp.getCcpIdentifier());
+    writeElement(baseXsw, childLevel, "nextCcpIdentifier", ccp.getNextCcpIdentifier());
+    if (ccp.getFlag() != null) {
+      writeElement(baseXsw, childLevel, "flag", ccp.getFlag().name());
+    }
+    writeElement(baseXsw, childLevel, "reserved5", (int) ccp.getReserved5());
+    writeElement(baseXsw, childLevel, "numberOfRepeatingGroups", ccp.getNumberOfRepeatingGroups());
+    writeElement(baseXsw, childLevel, "lengthOfRepeatingGroup", ccp.getLengthOfRepeatingGroup());
+    writeElement(baseXsw, childLevel, "lengthOfComparisonString", ccp.getLengthOfComparisonString());
+
+    if (ccp.getRepeatingGroups() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("repeatingGroups");
+      for (CCP_ConditionalProcessingControl.CCP_RepeatingGroup rg : ccp.getRepeatingGroups()) {
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeStartElement("repeatingGroups");
+        int rgLevel = childLevel + 2;
+        if (rg.getTimingOfAction() != null) {
+          writeElement(baseXsw, rgLevel, "timingOfAction", rg.getTimingOfAction().name());
+        }
+        if (rg.getMediumMapAction() != null) {
+          writeElement(baseXsw, rgLevel, "mediumMapAction", rg.getMediumMapAction().name());
+        }
+        writeElement(baseXsw, rgLevel, "mediumMapName", rg.getMediumMapName());
+        if (rg.getDataMapAction() != null) {
+          writeElement(baseXsw, rgLevel, "dataMapAction", rg.getDataMapAction().name());
+        }
+        writeElement(baseXsw, rgLevel, "dataMapName", rg.getDataMapName());
+        if (rg.getComparison() != null) {
+          writeElement(baseXsw, rgLevel, "comparison", rg.getComparison().name());
+        }
+        writeElement(baseXsw, rgLevel, "comparisonString", rg.getComparisonString());
+        writeElement(baseXsw, rgLevel, "text", rg.getText());
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeEndElement();
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
