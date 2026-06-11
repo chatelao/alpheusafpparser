@@ -101,6 +101,14 @@ import com.mgz.afp.modca.EDI_EndDocumentIndex;
 import com.mgz.afp.modca.EMO_EndOverlay;
 import com.mgz.afp.modca.EPS_EndPageSegment;
 import com.mgz.afp.modca.ERG_EndResourceGroup;
+import com.mgz.afp.modca.MBC_MapBarCodeObject;
+import com.mgz.afp.modca.MCD_MapContainerData;
+import com.mgz.afp.modca.MMD_MapMediaDestination;
+import com.mgz.afp.modca.MMO_MapMediumOverlay;
+import com.mgz.afp.modca.MMT_MapMediaType;
+import com.mgz.afp.modca.MPG_MapPage;
+import com.mgz.afp.modca.MPS_MapPageSegment;
+import com.mgz.afp.modca.MPT_MapPresentationText;
 import com.mgz.afp.modca.MPO_MapPageOverlay;
 import com.mgz.afp.modca.MSU_MapSuppression;
 import com.mgz.afp.modca.NOP_NoOperation;
@@ -447,6 +455,20 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeMgoDirectly(mgo, level);
     } else if (sf instanceof MPO_MapPageOverlay mpo) {
       writeMpoDirectly(mpo, level);
+    } else if (sf instanceof MBC_MapBarCodeObject mbc) {
+      writeMbcDirectly(mbc, level);
+    } else if (sf instanceof MMD_MapMediaDestination mmd) {
+      writeMmdDirectly(mmd, level);
+    } else if (sf instanceof MMO_MapMediumOverlay mmo) {
+      writeMmoDirectly(mmo, level);
+    } else if (sf instanceof MMT_MapMediaType mmt) {
+      writeMmtDirectly(mmt, level);
+    } else if (sf instanceof MPG_MapPage mpg) {
+      writeMpgDirectly(mpg, level);
+    } else if (sf instanceof MPS_MapPageSegment mps) {
+      writeMpsDirectly(mps, level);
+    } else if (sf instanceof MPT_MapPresentationText mpt) {
+      writeMptDirectly(mpt, level);
     } else if (sf instanceof com.mgz.afp.modca.BDT_BeginDocument bdt) {
       writeBdtDirectly(bdt, level);
     } else if (sf instanceof OCD_ObjectContainerData ocd) {
@@ -842,6 +864,18 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.endWrite();
   }
 
+  private void writeMbcDirectly(MBC_MapBarCodeObject mbc, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("MBC");
+    baseXsw.writeStartElement("MBC_MapBarCodeObject");
+    writeElement(baseXsw, level + 1, "lengthOfRepeatingGroup", mbc.getLengthOfRepeatingGroup());
+    if (mbc.getTriplet() != null) {
+      writeTriplet(baseXsw, mbc.getTriplet(), level + 1);
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
   private void writeMcdDirectly(MCD_MapContainerData mcd, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("MCD");
     baseXsw.writeStartElement("MCD_MapContainerData");
@@ -852,6 +886,128 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeMmdDirectly(MMD_MapMediaDestination mmd, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("MMD");
+    baseXsw.writeStartElement("MMD_MapMediaDestination");
+    writeRepeatingGroupsXml(mmd, level + 1);
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeMmoDirectly(MMO_MapMediumOverlay mmo, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("MMO");
+    baseXsw.writeStartElement("MMO_MapMediumOverlay");
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "lengthOfEachRepeatingGroup", (int) mmo.getLengthOfEachRepeatingGroup());
+    writeBinaryElement(baseXsw, childLevel, "reserved1_3", mmo.getReserved1_3());
+    if (mmo.getRepeatingGroups() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("repeatingGroupsXml");
+      for (IRepeatingGroup rg : mmo.getRepeatingGroups()) {
+        if (rg instanceof MMO_MapMediumOverlay.MMO_RepeatingGroup mmorg) {
+          writeIndent(baseXsw, childLevel + 1);
+          baseXsw.writeStartElement("repeatingGroupsXml");
+          int rgLevel = childLevel + 2;
+          writeElement(baseXsw, rgLevel, "mediumOverlayLocalId", (int) mmorg.getMediumOverlayLocalId());
+          if (mmorg.getFlag() != null) {
+            writeElement(baseXsw, rgLevel, "flag", mmorg.getFlag().name());
+          }
+          writeBinaryElement(baseXsw, rgLevel, "reserved2_3", mmorg.getReserved2_3());
+          writeElement(baseXsw, rgLevel, "nameOfMediumOverlay", mmorg.getNameOfMediumOverlay());
+          writeIndent(baseXsw, childLevel + 1);
+          baseXsw.writeEndElement();
+        }
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeMmtDirectly(MMT_MapMediaType mmt, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("MMT");
+    baseXsw.writeStartElement("MMT_MapMediaType");
+    writeRepeatingGroupsXml(mmt, level + 1);
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeMpgDirectly(MPG_MapPage mpg, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("MPG");
+    baseXsw.writeStartElement("MPG_MapPage");
+    writeRepeatingGroupsXml(mpg, level + 1);
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeMpsDirectly(MPS_MapPageSegment mps, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("MPS");
+    baseXsw.writeStartElement("MPS_MapPageSegment");
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "lengthOfRepeatingGroup", (int) mps.getLengthOfRepeatingGroup());
+    writeBinaryElement(baseXsw, childLevel, "reserved1_3", mps.getReserved1_3());
+    if (mps.getRepeatingGroups() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("repeatingGroupsXml");
+      for (IRepeatingGroup rg : mps.getRepeatingGroups()) {
+        if (rg instanceof MPS_MapPageSegment.MPS_RepeatingGroup mpsrg) {
+          writeIndent(baseXsw, childLevel + 1);
+          baseXsw.writeStartElement("repeatingGroupsXml");
+          int rgLevel = childLevel + 2;
+          writeBinaryElement(baseXsw, rgLevel, "reserved0_3", mpsrg.reserved0_3);
+          writeElement(baseXsw, rgLevel, "nameOfPageSegment", mpsrg.getNameOfPageSegment());
+          writeIndent(baseXsw, childLevel + 1);
+          baseXsw.writeEndElement();
+        }
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeMptDirectly(MPT_MapPresentationText mpt, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("MPT");
+    baseXsw.writeStartElement("MPT_MapPresentationText");
+    writeRepeatingGroupsXml(mpt, level + 1);
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeRepeatingGroupsXml(com.mgz.afp.base.IHasRepeatingGroups sf, int level) throws Exception {
+    if (sf.getRepeatingGroups() != null) {
+      writeIndent(baseXsw, level);
+      baseXsw.writeStartElement("repeatingGroupsXml");
+      for (IRepeatingGroup rg : sf.getRepeatingGroups()) {
+        writeIndent(baseXsw, level + 1);
+        if (rg instanceof RepeatingGroupWithTriplets rgt) {
+          String rgName = MnemonicPerformanceMonitor.getSimpleName(rg.getClass());
+          baseXsw.writeStartElement(rgName);
+          if (rgt.getTriplets() != null) {
+            for (Triplet t : rgt.getTriplets()) {
+              writeTriplet(baseXsw, t, level + 2);
+            }
+          }
+          writeIndent(baseXsw, level + 1);
+          baseXsw.writeEndElement();
+        } else {
+          // Fallback for non-triplet RGs if needed, though most Map Fields use RepeatingGroupWithTriplets
+          JacksonXmlMapperProvider.getCachedWriter(rg.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, rg);
+        }
+      }
+      writeIndent(baseXsw, level);
+      baseXsw.writeEndElement();
+    }
   }
 
   private void writePgpFormat1Directly(PGP_PagePosition_Format1 pgp, int level) throws Exception {

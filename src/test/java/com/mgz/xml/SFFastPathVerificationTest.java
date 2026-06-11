@@ -1,5 +1,12 @@
 package com.mgz.xml;
 
+import com.mgz.afp.modca.MBC_MapBarCodeObject;
+import com.mgz.afp.modca.MMD_MapMediaDestination;
+import com.mgz.afp.modca.MMO_MapMediumOverlay;
+import com.mgz.afp.modca.MMT_MapMediaType;
+import com.mgz.afp.modca.MPG_MapPage;
+import com.mgz.afp.modca.MPS_MapPageSegment;
+import com.mgz.afp.modca.MPT_MapPresentationText;
 import com.mgz.afp.modca.MCC_MediumCopyCount;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format1;
 import com.mgz.afp.modca.IID_IMImageInputDescriptor;
@@ -226,6 +233,17 @@ public class SFFastPathVerificationTest {
 
         ipd.setListOfSegments(segments);
         verifySF(ipd, "IPD_ImagePictureData");
+    }
+
+    @Test
+    public void testMapFieldsFastPaths() throws Exception {
+        verifySF(createMBC(), "MBC_MapBarCodeObject");
+        verifySF(createMMD(), "MMD_MapMediaDestination");
+        verifySF(createMMO(), "MMO_MapMediumOverlay");
+        verifySF(createMMT(), "MMT_MapMediaType");
+        verifySF(createMPG(), "MPG_MapPage");
+        verifySF(createMPS(), "MPS_MapPageSegment");
+        verifySF(createMPT(), "MPT_MapPresentationText");
     }
 
     @Test
@@ -463,6 +481,92 @@ public class SFFastPathVerificationTest {
         rg.setUnderscorePosition((short) -100);
         fnp.addFNPRepeatingGroup(rg);
         return fnp;
+    }
+
+    private MBC_MapBarCodeObject createMBC() {
+        MBC_MapBarCodeObject mbc = new MBC_MapBarCodeObject();
+        mbc.setLengthOfRepeatingGroup((short) 8);
+        Triplet.ResourceLocalIdentifier rli = new Triplet.ResourceLocalIdentifier();
+        rli.setResourceType(Triplet.ResourceLocalIdentifier.RLI_ResourceType.PageOverlay);
+        rli.setResourceLocalID((short) 1);
+        rli.setTripletID(Triplet.TripletID.ResourceLocalIdentifier);
+        mbc.setTriplet(rli);
+        return mbc;
+    }
+
+    private MMD_MapMediaDestination createMMD() {
+        MMD_MapMediaDestination mmd = new MMD_MapMediaDestination();
+        MMD_MapMediaDestination.MMD_RepeatingGroup rg = new MMD_MapMediaDestination.MMD_RepeatingGroup();
+        rg.setRepeatingGroupLength(10);
+        Triplet.ExtendedResourceLocalIdentifier erli = new Triplet.ExtendedResourceLocalIdentifier();
+        erli.resourceType = Triplet.ExtendedResourceLocalIdentifier.ERLI_ResourceType.MediaDestinationResource;
+        erli.extendedResourceLocalID = 1;
+        erli.setTripletID(Triplet.TripletID.ExtendedResourceLocalIdentifier);
+        rg.addTriplet(erli);
+        mmd.addRepeatingGroup(rg);
+        return mmd;
+    }
+
+    private MMO_MapMediumOverlay createMMO() {
+        MMO_MapMediumOverlay mmo = new MMO_MapMediumOverlay();
+        mmo.setLengthOfEachRepeatingGroup((short) 12);
+        mmo.setReserved1_3(new byte[]{0, 0, 0});
+        MMO_MapMediumOverlay.MMO_RepeatingGroup rg = new MMO_MapMediumOverlay.MMO_RepeatingGroup();
+        rg.setMediumOverlayLocalId((short) 1);
+        rg.setFlag(MMO_MapMediumOverlay.MMO_RepeatingGroup.MMO_Flag.RasterIndicator_RasterOverlay);
+        rg.setReserved2_3(new byte[]{0, 0});
+        rg.setNameOfMediumOverlay("OVL00001");
+        mmo.addRepeatingGroup(rg);
+        return mmo;
+    }
+
+    private MMT_MapMediaType createMMT() {
+        MMT_MapMediaType mmt = new MMT_MapMediaType();
+        MMT_MapMediaType.MMT_RepeatingGroup rg = new MMT_MapMediaType.MMT_RepeatingGroup();
+        rg.setRepeatingGroupLength(10);
+        Triplet.ExtendedResourceLocalIdentifier erli = new Triplet.ExtendedResourceLocalIdentifier();
+        erli.resourceType = Triplet.ExtendedResourceLocalIdentifier.ERLI_ResourceType.MediaTypeResource;
+        erli.extendedResourceLocalID = 1;
+        erli.setTripletID(Triplet.TripletID.ExtendedResourceLocalIdentifier);
+        rg.addTriplet(erli);
+        mmt.addRepeatingGroup(rg);
+        return mmt;
+    }
+
+    private MPG_MapPage createMPG() {
+        MPG_MapPage mpg = new MPG_MapPage();
+        MPG_MapPage.MPG_RepeatingGroup rg = new MPG_MapPage.MPG_RepeatingGroup();
+        rg.setRepeatingGroupLength(10);
+        Triplet.ResourceLocalIdentifier rli = new Triplet.ResourceLocalIdentifier();
+        rli.setResourceType(Triplet.ResourceLocalIdentifier.RLI_ResourceType.PageOverlay);
+        rli.setResourceLocalID((short) 1);
+        rli.setTripletID(Triplet.TripletID.ResourceLocalIdentifier);
+        rg.addTriplet(rli);
+        mpg.addRepeatingGroup(rg);
+        return mpg;
+    }
+
+    private MPS_MapPageSegment createMPS() {
+        MPS_MapPageSegment mps = new MPS_MapPageSegment();
+        mps.setLengthOfRepeatingGroup((short) 12);
+        mps.setReserved1_3(new byte[]{0, 0, 0});
+        MPS_MapPageSegment.MPS_RepeatingGroup rg = new MPS_MapPageSegment.MPS_RepeatingGroup();
+        rg.setNameOfPageSegment("PSG00001");
+        mps.addRepeatingGroup(rg);
+        return mps;
+    }
+
+    private MPT_MapPresentationText createMPT() {
+        MPT_MapPresentationText mpt = new MPT_MapPresentationText();
+        MPT_MapPresentationText.MPT_RepeatingGroup rg = new MPT_MapPresentationText.MPT_RepeatingGroup();
+        rg.setRepeatingGroupLength(10);
+        Triplet.ResourceLocalIdentifier rli = new Triplet.ResourceLocalIdentifier();
+        rli.setResourceType(Triplet.ResourceLocalIdentifier.RLI_ResourceType.PageOverlay);
+        rli.setResourceLocalID((short) 1);
+        rli.setTripletID(Triplet.TripletID.ResourceLocalIdentifier);
+        rg.addTriplet(rli);
+        mpt.addRepeatingGroup(rg);
+        return mpt;
     }
 
     private LNC_LineDescriptorCount createLNC() {
