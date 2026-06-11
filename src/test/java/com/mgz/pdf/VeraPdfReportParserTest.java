@@ -19,47 +19,49 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.pdf;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
+/**
+ * Unit test for {@link VeraPdfReportParser}.
+ */
 public class VeraPdfReportParserTest {
 
-    @Test
-    public void testParseCompliantReport() throws Exception {
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<veraPdfReport xmlns=\"http://www.verapdf.org/ns/report/\">\n" +
-                "  <validation profileName=\"PDF/VT-1\" isCompliant=\"true\" statement=\"PDF file is compliant with PDF/VT-1\" />\n" +
-                "</veraPdfReport>";
+  @Test
+  public void testParseCompliant() throws Exception {
+    String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        + "<report xmlns=\"http://www.verapdf.org/ns/report\">\n"
+        + "  <validation profileName=\"PDF/A-1b\" isCompliant=\"true\" statement=\"Document is compliant\" />\n"
+        + "</report>";
+    VeraPdfReportParser parser = new VeraPdfReportParser();
+    VeraPdfReportParser.ValidationResult result = parser.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
 
-        VeraPdfReportParser parser = new VeraPdfReportParser();
-        VeraPdfReportParser.ValidationResult result = parser.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+    assertTrue(result.isCompliant());
+    assertEquals("PDF/A-1b", result.profileName());
+    assertTrue(result.failedRules().isEmpty());
+  }
 
-        assertTrue(result.isCompliant());
-        assertEquals("PDF/VT-1", result.profileName());
-        assertTrue(result.failedRules().isEmpty());
-    }
+  @Test
+  public void testParseNonCompliant() throws Exception {
+    String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        + "<report xmlns=\"http://www.verapdf.org/ns/report\">\n"
+        + "  <validation profileName=\"PDF/A-2u\" isCompliant=\"false\">\n"
+        + "    <rule specification=\"ISO 19005-2:2011\" status=\"failed\">\n"
+        + "      <description>Font not embedded</description>\n"
+        + "    </rule>\n"
+        + "  </validation>\n"
+        + "</report>";
+    VeraPdfReportParser parser = new VeraPdfReportParser();
+    VeraPdfReportParser.ValidationResult result = parser.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
 
-    @Test
-    public void testParseNonCompliantReport() throws Exception {
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<veraPdfReport xmlns=\"http://www.verapdf.org/ns/report/\">\n" +
-                "  <validation profileName=\"PDF/VT-1\" isCompliant=\"false\">\n" +
-                "    <details>\n" +
-                "      <rule status=\"failed\" specification=\"ISO 19005-1:2005\" clause=\"6.1.3\" testNumber=\"1\">\n" +
-                "        <description>The file header must begin with %PDF-1.n</description>\n" +
-                "      </rule>\n" +
-                "    </details>\n" +
-                "  </validation>\n" +
-                "</veraPdfReport>";
-
-        VeraPdfReportParser parser = new VeraPdfReportParser();
-        VeraPdfReportParser.ValidationResult result = parser.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
-
-        assertFalse(result.isCompliant());
-        assertEquals("PDF/VT-1", result.profileName());
-        assertEquals(1, result.failedRules().size());
-        assertEquals("ISO 19005-1:2005", result.failedRules().get(0));
-    }
+    assertFalse(result.isCompliant());
+    assertEquals("PDF/A-2u", result.profileName());
+    assertEquals(1, result.failedRules().size());
+    assertEquals("ISO 19005-2:2011", result.failedRules().get(0));
+  }
 }
