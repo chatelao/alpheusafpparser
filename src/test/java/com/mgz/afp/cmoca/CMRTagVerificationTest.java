@@ -43,6 +43,7 @@ public class CMRTagVerificationTest {
         cmrData[0] = 0x10;
         cmrData[1] = 0x21;
         cmrData[3] = 0x05; // Invalid Field Type (BYTE)
+        cmrData[7] = 0x01; // Count 1 (Default numComponents is 1)
         cmrData[12] = (byte) 0xFF;
         cmrData[13] = (byte) 0xFF;
 
@@ -64,6 +65,7 @@ public class CMRTagVerificationTest {
         cmrData[0] = 0x10;
         cmrData[1] = 0x25;
         cmrData[3] = 0x04; // Invalid Field Type (4-byte UBIN)
+        cmrData[7] = 0x01; // Count 1 (Default numComponents is 1)
         cmrData[12] = (byte) 0xFF;
         cmrData[13] = (byte) 0xFF;
 
@@ -85,6 +87,7 @@ public class CMRTagVerificationTest {
         cmrData[0] = 0x10;
         cmrData[1] = 0x65;
         cmrData[3] = 0x01; // Invalid Field Type (UBIN)
+        cmrData[7] = 0x01; // Count 1 (Default numComponents is 1)
         cmrData[12] = (byte) 0xFF;
         cmrData[13] = (byte) 0xFF;
 
@@ -361,6 +364,122 @@ public class CMRTagVerificationTest {
 
         Exception e8 = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData8));
         assertTrue(e8.getMessage().contains("EC-501110"));
+
+        // Location of Current Pixel [CMOCA-5-135]
+        byte[] cmrDataLP = new byte[24];
+        cmrDataLP[0] = 0x10;
+        cmrDataLP[1] = 0x60; // Tag X'1060'
+        cmrDataLP[3] = 0x05; // Invalid Field Type (expected 0x01)
+        cmrDataLP[13] = (byte) 0xFF;
+        cmrDataLP[12] = (byte) 0xFF;
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrDataLP));
+
+        // Threshold Value [CMOCA-5-152]
+        byte[] cmrDataTV = new byte[24];
+        cmrDataTV[0] = 0x10;
+        cmrDataTV[1] = 0x75; // Tag X'1075'
+        cmrDataTV[3] = 0x08; // Invalid Field Type (expected 0x01, 0x02, or 0x04)
+        cmrDataTV[13] = (byte) 0xFF;
+        cmrDataTV[12] = (byte) 0xFF;
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrDataTV));
+    }
+
+    @Test
+    public void testTag1060WithNumComponents() throws Exception {
+        // [CMOCA-5-135..137] X'1060' Count must be 2 * numComponents
+        byte[] cmrData = new byte[36];
+        // Tag 1: Number of Components = 3
+        cmrData[0] = 0x00;
+        cmrData[1] = 0x11;
+        cmrData[3] = 0x01;
+        cmrData[7] = 0x01;
+        cmrData[8] = 0x03; // Value 3, left-aligned in ValueOffset
+
+        // Tag 2: Location of Current Pixel
+        cmrData[12] = 0x10;
+        cmrData[13] = 0x60;
+        cmrData[15] = 0x01;
+        cmrData[19] = 0x06; // Count = 2 * 3 = 6 (Correct)
+
+        cmrData[24] = (byte) 0xFF;
+        cmrData[25] = (byte) 0xFF;
+
+        CMRTag.parseTags(cmrData);
+
+        // Invalid Count
+        cmrData[19] = 0x05; // Count = 5 (Incorrect)
+        Exception e = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+        assertTrue(e.getMessage().contains("EC-106005"));
+    }
+
+    @Test
+    public void testTag1075WithNumComponents() throws Exception {
+        // [CMOCA-5-152..154] X'1075' Count must be numComponents
+        byte[] cmrData = new byte[36];
+        // Tag 1: Number of Components = 4
+        cmrData[0] = 0x00;
+        cmrData[1] = 0x11;
+        cmrData[3] = 0x01;
+        cmrData[7] = 0x01;
+        cmrData[8] = 0x04; // Value 4, left-aligned in ValueOffset
+
+        // Tag 2: Threshold Value
+        cmrData[12] = 0x10;
+        cmrData[13] = 0x75;
+        cmrData[15] = 0x01;
+        cmrData[19] = 0x04; // Count = 4 (Correct)
+
+        cmrData[24] = (byte) 0xFF;
+        cmrData[25] = (byte) 0xFF;
+
+        CMRTag.parseTags(cmrData);
+
+        // Invalid Count
+        cmrData[19] = 0x03; // Count = 3 (Incorrect)
+        Exception e = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+        assertTrue(e.getMessage().contains("EC-107505"));
+    }
+
+    @Test
+    public void testLinkOIDValidation() throws Exception {
+        // [CMOCA-5-227, 230] X'4015', X'4020'
+        byte[] cmrData = new byte[24];
+        cmrData[0] = 0x40;
+        cmrData[1] = 0x15; // Tag X'4015'
+        cmrData[3] = 0x01; // Invalid Field Type (expected 0x05)
+        cmrData[12] = (byte) 0xFF;
+        cmrData[13] = (byte) 0xFF;
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+
+        cmrData[1] = 0x20; // Tag X'4020'
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+    }
+
+    @Test
+    public void testLinkLUTValidation() throws Exception {
+        // [CMOCA-5-246, 256, 258, 260] X'4040', X'4045', X'4050', X'4055'
+        byte[] cmrData = new byte[24];
+        cmrData[0] = 0x40;
+        cmrData[1] = 0x40; // Tag X'4040'
+        cmrData[3] = 0x01; // Invalid Field Type (expected 0x05)
+        cmrData[12] = (byte) 0xFF;
+        cmrData[13] = (byte) 0xFF;
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+
+        cmrData[3] = 0x05;
+        cmrData[7] = 0x02; // Count 2
+        cmrData[8] = 0x00; // Invalid input components (0)
+        cmrData[9] = 0x03;
+        Exception e1 = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+        assertTrue(e1.getMessage().contains("EC-404010"));
+
+        cmrData[8] = 0x03;
+        cmrData[9] = 16; // Invalid output components (16)
+        Exception e2 = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+        assertTrue(e2.getMessage().contains("EC-404010"));
+
+        cmrData[9] = 0x04; // Valid
+        CMRTag.parseTags(cmrData);
     }
 
     @Test
