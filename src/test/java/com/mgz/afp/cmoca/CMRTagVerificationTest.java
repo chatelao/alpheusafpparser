@@ -36,6 +36,41 @@ public class CMRTagVerificationTest {
     }
 
     @Test
+    public void testTag1055Validation() throws Exception {
+        // [CMOCA-5-130] Error Diffusion Filter
+        byte[] cmrData = new byte[48];
+        // NumComponents = 1 (default)
+        // Array Width = 2
+        cmrData[0] = 0x10;
+        cmrData[1] = 0x21;
+        cmrData[3] = 0x01;
+        cmrData[7] = 0x01;
+        cmrData[8] = 0x02;
+
+        // Array Height = 3
+        cmrData[12] = 0x10;
+        cmrData[13] = 0x25;
+        cmrData[15] = 0x01;
+        cmrData[19] = 0x01;
+        cmrData[20] = 0x03;
+
+        // Error Diffusion Filter. Count should be 2 * 3 = 6
+        cmrData[24] = 0x10;
+        cmrData[25] = 0x55;
+        cmrData[27] = 0x01;
+        cmrData[31] = 0x06;
+
+        cmrData[36] = (byte) 0xFF;
+        cmrData[37] = (byte) 0xFF;
+
+        CMRTag.parseTags(cmrData);
+
+        // Invalid Field Type
+        cmrData[27] = 0x02; // expected 0x01
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+    }
+
+    @Test
     public void testTag1021Validation() throws Exception {
         // [CMOCA-5-101] TagID: X'1021' Array Width
         // [CMOCA-5-102] Field Type: X'01' or X'02'
@@ -438,6 +473,156 @@ public class CMRTagVerificationTest {
         cmrData[19] = 0x03; // Count = 3 (Incorrect)
         Exception e = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
         assertTrue(e.getMessage().contains("EC-107505"));
+    }
+
+    @Test
+    public void testTag1045Validation() throws Exception {
+        // [CMOCA-5-122] Bilevel Point-Operation Screen Data
+        byte[] cmrData = new byte[48];
+        // NumComponents = 1 (default)
+        // Array Width = 2
+        cmrData[0] = 0x10;
+        cmrData[1] = 0x21;
+        cmrData[3] = 0x01;
+        cmrData[7] = 0x01;
+        cmrData[8] = 0x02;
+
+        // Array Height = 3
+        cmrData[12] = 0x10;
+        cmrData[13] = 0x25;
+        cmrData[15] = 0x01;
+        cmrData[19] = 0x01;
+        cmrData[20] = 0x03;
+
+        // Bilevel Screen Data. Count should be 2 * 3 = 6
+        cmrData[24] = 0x10;
+        cmrData[25] = 0x45;
+        cmrData[27] = 0x01;
+        cmrData[31] = 0x06;
+
+        cmrData[36] = (byte) 0xFF;
+        cmrData[37] = (byte) 0xFF;
+
+        CMRTag.parseTags(cmrData);
+
+        // Invalid Field Type
+        cmrData[27] = 0x08;
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+
+        // Invalid Count
+        cmrData[27] = 0x01;
+        cmrData[31] = 0x05;
+        Exception e = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+        assertTrue(e.getMessage().contains("EC-104505"));
+    }
+
+    @Test
+    public void testTag1050Validation() throws Exception {
+        // [CMOCA-5-126] Multilevel Point-Operation Screen Data
+        byte[] cmrData = new byte[60];
+        // NumComponents = 1 (default)
+        // Array Width = 2
+        cmrData[0] = 0x10;
+        cmrData[1] = 0x21;
+        cmrData[3] = 0x01;
+        cmrData[7] = 0x01;
+        cmrData[8] = 0x02;
+
+        // Array Height = 2
+        cmrData[12] = 0x10;
+        cmrData[13] = 0x25;
+        cmrData[15] = 0x01;
+        cmrData[19] = 0x01;
+        cmrData[20] = 0x02;
+
+        // Max Image Value = 255
+        cmrData[24] = 0x10;
+        cmrData[25] = 0x30;
+        cmrData[27] = 0x01;
+        cmrData[31] = 0x01;
+        cmrData[32] = (byte) 0xFF;
+
+        // Multilevel Screen Data. Count should be 2 * 2 * (255 + 1) = 1024
+        cmrData[36] = 0x10;
+        cmrData[37] = 0x50;
+        cmrData[39] = 0x01;
+        cmrData[43] = 0x00; // Count 1024 (0x0400)
+        cmrData[42] = 0x04;
+        cmrData[47] = 0x44; // ValueOffset (offset to data 68)
+
+        cmrData[48] = (byte) 0xFF;
+        cmrData[49] = (byte) 0xFF;
+
+        // We need more space for data
+        byte[] longCmrData = new byte[1024 + 68];
+        System.arraycopy(cmrData, 0, longCmrData, 0, 50);
+        // longCmrData[47] = 68; // Data at offset 68
+
+        CMRTag.parseTags(longCmrData);
+
+        // Invalid Count
+        longCmrData[43] = 0x01; // Change count
+        assertThrows(Exception.class, () -> CMRTag.parseTags(longCmrData));
+    }
+
+    @Test
+    public void testTag1080Validation() throws Exception {
+        // [CMOCA-5-156] Quantization Boundary Table
+        byte[] cmrData = new byte[36];
+        // NumComponents = 2
+        cmrData[0] = 0x00;
+        cmrData[1] = 0x11;
+        cmrData[3] = 0x01;
+        cmrData[7] = 0x01;
+        cmrData[8] = 0x02;
+
+        // Num Device Levels = {4, 8}
+        cmrData[12] = 0x10;
+        cmrData[13] = 0x35;
+        cmrData[15] = 0x01;
+        cmrData[19] = 0x02;
+        cmrData[20] = 0x04;
+        cmrData[21] = 0x08;
+
+        // Quantization Boundary Table. Count should be (4-1) + (8-1) = 10
+        cmrData[24] = 0x10;
+        cmrData[25] = (byte) 0x80;
+        cmrData[27] = 0x01;
+        cmrData[31] = 0x0A;
+        cmrData[35] = 40; // data offset
+
+        // Need more space
+        byte[] longCmrData = new byte[64];
+        System.arraycopy(cmrData, 0, longCmrData, 0, 36);
+        longCmrData[36] = (byte) 0xFF;
+        longCmrData[37] = (byte) 0xFF;
+
+        CMRTag.parseTags(longCmrData);
+
+        // Invalid Count
+        longCmrData[31] = 0x0B;
+        assertThrows(Exception.class, () -> CMRTag.parseTags(longCmrData));
+    }
+
+    @Test
+    public void testLinkNameValidation() throws Exception {
+        // [CMOCA-5-233, 236, 262]
+        byte[] cmrData = new byte[24];
+        cmrData[0] = 0x40;
+        cmrData[1] = 0x25; // Tag X'4025'
+        cmrData[3] = 0x06; // Invalid Field Type (ASCII, expected UTF-16)
+        cmrData[12] = (byte) 0xFF;
+        cmrData[13] = (byte) 0xFF;
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+
+        cmrData[1] = 0x30; // Tag X'4030'
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+
+        cmrData[1] = (byte) 0x90; // Tag X'4090'
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+
+        cmrData[3] = 0x07; // Valid
+        CMRTag.parseTags(cmrData);
     }
 
     @Test
