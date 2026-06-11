@@ -26,7 +26,21 @@ echo ""
 # 1b. Cold-Start Performance
 if [ -f "$TOOLS_DIR/benchmark_cold_start.sh" ]; then
     echo "--- 1b. Cold-Start Performance Benchmark ---"
-    bash "$TOOLS_DIR/benchmark_cold_start.sh"
+    CURRENT_COLD=$(bash "$TOOLS_DIR/benchmark_cold_start.sh" --value-only)
+    echo "Current Cold-Start: ${CURRENT_COLD}ms"
+
+    # Optional: Hardcoded baseline for cold-start (v3.4 approx 1400ms)
+    BASELINE_COLD=1450
+    THRESHOLD_COLD=15
+    if [ -n "$CURRENT_COLD" ]; then
+        DIFF_COLD=$((CURRENT_COLD - BASELINE_COLD))
+        PERC_COLD=$((DIFF_COLD * 100 / BASELINE_COLD))
+        if [ "$PERC_COLD" -gt "$THRESHOLD_COLD" ]; then
+            echo "WARNING: Cold-start regression detected! (${PERC_COLD}% over baseline ${BASELINE_COLD}ms)"
+        else
+            echo "Cold-start performance is stable (${PERC_COLD}% vs baseline ${BASELINE_COLD}ms)."
+        fi
+    fi
     echo ""
 fi
 
@@ -80,6 +94,19 @@ perform_hotspot_analysis "$LARGE_VERSIONS" "Large File CPU" "jdk.ExecutionSample
 
 # 3. Allocation Hotspot Analysis (Deep Dive)
 perform_hotspot_analysis "$LARGE_VERSIONS" "Large File Allocation" "jdk.ObjectAllocationSample" "weight" "_alloc"
+
+# 3b. Class-Loading Analysis
+echo "--- 3b. Class-Loading Hotspot Analysis ---"
+# Look for a JFR that likely has class loading data (e.g. from cold-start or a fresh run)
+# Fallback to test_classload.jfr if it exists from a recent manual run
+LATEST_JFR=$(ls -t "$PROFILE_DIR"/profile_*_run1.jfr test_classload.jfr 2>/dev/null | head -n 1)
+if [ -n "$LATEST_JFR" ] && [ -f "$TOOLS_DIR/analyze_class_loading.py" ]; then
+    echo "Analyzing $LATEST_JFR"
+    python3 "$TOOLS_DIR/analyze_class_loading.py" "$LATEST_JFR" --top 10
+else
+    echo "No JFR profiles found for class-loading analysis."
+fi
+echo ""
 
 # Function to find the first version with samples
 find_baseline_with_samples() {
