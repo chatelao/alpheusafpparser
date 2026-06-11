@@ -76,6 +76,16 @@ public class XmlTemplateRegistry {
     register("KGT", new String[] {"<KeepGroupTogether grpFnct=\"", "\"/>"});
     register("FCGCS", new String[] {"<FontCodedGraphicCharacterSetGlobalID codedGraphicCharacterSetGlobalID=\"", "\" codePageGlobalID=\"", "\"/>"});
     register("MFS", new String[] {"<MODCAFunctionSet fctSetID=\"", "\"/>"});
+    register("AD", new String[] {"<AreaDefinition reserved2=\"", "\" xOrigin=\"", "\" yOrigin=\"", "\" xSize=\"", "\" ySize=\"", "\"/>"});
+    register("OCNT", new String[] {"<ObjectCount subordinateObjectType=\"", "\" reserved3=\"", "\" numberOfObjectsLow=\"", "\" numberOfObjectsHigh=\"", "\"/>"});
+    register("LODTS", new String[] {"<LocalObjectDateAndTimeStamp dateAndTimeStampType=\"", "\" hundreds=\"", "\" tens=\"", "\" dayOfYear=\"", "\" hourOfDay=\"", "\" minuteOfHour=\"", "\" secondOfMinute=\"", "\" hundredthOfSecond=\"", "\"/>"});
+    register("UDTS", new String[] {"<UniversalDateAndTimeStamp reserved2=\"", "\" year=\"", "\" monthOfYear=\"", "\" dayOfMonth=\"", "\" hourOfDay=\"", "\" minuteOfHour=\"", "\" secondOfMinute=\"", "\" timeZone=\"", "\" diffHours=\"", "\" diffMinutes=\"", "\"/>"});
+
+    // Structured Fields
+    register("PGP1", new String[] {"<PGP_PagePosition_Format1 xOrigin=\"", "\" yOrigin=\"", "\"/>"});
+
+    // PTOCA Control Sequences
+    register("SEC", new String[] {"<SEC_SetExtendedTextColor colorSpace=\"", "\" nrOfBitsComponent1=\"", "\" nrOfBitsComponent2=\"", "\" nrOfBitsComponent3=\"", "\" nrOfBitsComponent4=\"", "\" colorValue=\"", "\"/>"});
   }
 
   private static void register(String mnemonic, String[] parts) {
