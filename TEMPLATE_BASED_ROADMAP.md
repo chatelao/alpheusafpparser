@@ -22,7 +22,8 @@ Generate byte templates for fixed-structure fields.
 
 - ✅ **Template Generator**: Implemented `TemplateGenerator` utility to generate fragments from XML snippets.
 - ✅ **Mnemonic-Based Registry**: Implemented `XmlTemplateRegistry` to map AFP mnemonics to their respective XML byte templates.
-- 🚧 **Triplet Templating**: Extended templating to common triplets (AQ, RLI, CR, MU).
+- ✅ **Triplet Templating**: Extended templating to common triplets (AQ, RLI, CR, MU, MO, OAS, CGCS, ROT).
+- ✅ **PTOCA Templating**: Extended templating to PTOCA control sequences (AMI, RMI, AMB, RMB, SCFL, SBI, SIM, BSU, ESU, SVI, BLN, STO, SIA, STC, USC).
 
 ## Phase 3: Dynamic Hole-Punching Engine ✅
 Inject variable data directly into the pre-computed byte buffers.
