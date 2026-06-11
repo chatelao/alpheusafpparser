@@ -10,7 +10,7 @@ fi
 if [ -n "$RELEASES_TO_BENCHMARK" ]; then
     IFS=' ' read -r -a RELEASES <<< "$RELEASES_TO_BENCHMARK"
 else
-    RELEASES=("v0.1" "v1.0" "v3.0" "v3.4" "v5.3" "v7.0" "v9.11" "v12.0" "v12.1" "v12.2" "v13.1" "v14.4" "v15.1" "v15.2" "v15.3" "v15.4" "v15.6")
+    RELEASES=("v0.1" "v1.0" "v3.0" "v3.4" "v5.3" "v7.0" "v9.11" "v12.0" "v12.1" "v12.2" "v13.1" "v14.4" "v15.1" "v15.2" "v15.3" "v15.4" "v15.5" "v15.6" "v16.0" "v16.1" "v16.2" "v16.3" "v16.4" "v16.5" "v16.6" "v16.7")
 fi
 TEST_DIR="${TEST_DIR:-perf_test}"
 ITERATIONS="${ITERATIONS:-10}"
