@@ -111,16 +111,15 @@ public class CMRTag {
     // Now resolve data for each tag
     int currentTagOffset = 0;
     for (CMRTag tag : tags) {
-      if (tag.getTagId() == 0xFFFF) {
-        currentTagOffset += 12;
-        continue;
-      }
-
       int dataLength = (int) (tag.getCount() * getFieldTypeSize(tag.getFieldType()));
       if (dataLength > 0) {
         byte[] tagData = new byte[dataLength];
         if (dataLength <= 4) {
           // Data is inline in ValueOffset field, left-aligned
+          // [CMOCA-5-028] Invalid Value: an offset that causes the tag data to start or end outside of the CMRData field
+          if (currentTagOffset + 8 + dataLength > cmrData.length) {
+            throw new AFPParserException(String.format("EC-%04X10: Tag 0x%04X inline data is outside CMRData", tag.getTagId(), tag.getTagId()));
+          }
           System.arraycopy(cmrData, currentTagOffset + 8, tagData, 0, dataLength);
         } else {
           // Data is at valueOffset
@@ -147,6 +146,15 @@ public class CMRTag {
       }
     }
     return 1; // Default [CMOCA-5-087]
+  }
+
+  private int getNamedColorantCount(List<CMRTag> allTags) {
+    for (CMRTag tag : allTags) {
+      if (tag.getTagId() == 0x5015 && tag.getData() != null && tag.getData().length > 0) {
+        return tag.getData()[0] & 0xFF;
+      }
+    }
+    return 0;
   }
 
   private int[] getIntArrayFromTag(List<CMRTag> allTags, int targetTagId, int numComponents) {
@@ -488,10 +496,57 @@ public class CMRTag {
           throw new AFPParserException(String.format("EC-201105: Invalid Count %d for TTC Length tag (expected %d)", count, numComponents));
         }
         // [CMOCA-5-176, 177] X'01' or X'02'
-        if (data != null && data.length > 0) {
-          int ttcLen = data[0] & 0xFF;
-          if (ttcLen != 0x01 && ttcLen != 0x02) {
-            throw new AFPParserException(String.format("EC-201110: Invalid TTC Length value 0x%02X", ttcLen));
+        if (data != null) {
+          for (int i = 0; i < data.length; i++) {
+            int ttcLen = data[i] & 0xFF;
+            if (ttcLen != 0x01 && ttcLen != 0x02) {
+              throw new AFPParserException(String.format("EC-201110: Invalid TTC Length value 0x%02X at component %d", ttcLen, i));
+            }
+          }
+        }
+        break;
+
+      case 0x2015: // Tone Transfer Curve Data [CMOCA-5-178]
+      case 0x2020: // Inverse Tone Transfer Curve Data [CMOCA-5-181]
+        // [CMOCA-5-179, 182] Field Type: X'05' (BYTE)
+        if (fieldType != 0x05) {
+          throw new AFPParserException(String.format("EC-%04X06: Invalid Field Type 0x%02X for tag 0x%04X", tagId, fieldType, tagId));
+        }
+        // [CMOCA-5-180, 183] Count: Total length of the data
+        numComponents = getNumberOfComponents(allTags);
+        byte[] ttcLengths = null;
+        for (CMRTag t : allTags) {
+          if (t.getTagId() == 0x2011) {
+            ttcLengths = t.getData();
+            break;
+          }
+        }
+        if (ttcLengths != null) {
+          long expectedTotal = 0;
+          for (int i = 0; i < numComponents && i < ttcLengths.length; i++) {
+            if (ttcLengths[i] == 0x01) {
+              expectedTotal += 256;
+            } else if (ttcLengths[i] == 0x02) {
+              expectedTotal += 65536 * 2;
+            }
+          }
+          if (count != expectedTotal) {
+            throw new AFPParserException(String.format("EC-%04X05: Invalid Count %d for tag 0x%04X (expected %d based on TTC Lengths)", tagId, count, tagId, expectedTotal));
+          }
+        }
+        break;
+
+      case 0x3015: // ICC Profile Data [CMOCA-5-197]
+        // [CMOCA-5-198] Field Type: X'05' (BYTE)
+        if (fieldType != 0x05) {
+          throw new AFPParserException(String.format("EC-301506: Invalid Field Type 0x%02X for ICC Profile Data tag", fieldType));
+        }
+        // [CMOCA-5-199] Count: The number of bytes in the profile
+        // [CMOCA-5-200] 0–3 Profile size
+        if (data != null && data.length >= 4) {
+          long profileSize = UtilBinaryDecoding.parseLong(data, 0, 4);
+          if (count != profileSize) {
+            throw new AFPParserException(String.format("EC-301511: ICC Profile size %d in header does not match tag count %d", profileSize, count));
           }
         }
         break;
@@ -563,6 +618,73 @@ public class CMRTag {
         // [CMOCA-5-271] Count: 1
         if (count != 1) {
           throw new AFPParserException(String.format("EC-501505: Invalid Count %d for Number of Named Colorants tag", count));
+        }
+        break;
+
+      case 0x5020: // Color Palette Gray [CMOCA-5-272]
+      case 0x5025: // Color Palette CMYK [CMOCA-5-278]
+      case 0x5030: // Color Palette RGB [CMOCA-5-287]
+      case 0x5035: // Color Palette CIELAB [CMOCA-5-295]
+        // [CMOCA-5-273, 279, 288, 296] Field Type: X'05' (BYTE)
+        if (fieldType != 0x05) {
+          throw new AFPParserException(String.format("EC-%04X06: Invalid Field Type 0x%02X for tag 0x%04X", tagId, fieldType, tagId));
+        }
+        // [CMOCA-5-274, 280, 289, 297] Count: entrySize * number of color entries
+        int entrySize = (tagId == 0x5020) ? 9 : (tagId == 0x5025) ? 12 : (tagId == 0x5030) ? 11 : 8;
+        if (count % entrySize != 0) {
+          throw new AFPParserException(String.format("EC-%04X05: Invalid Count %d for tag 0x%04X (expected multiple of %d)", tagId, count, tagId, entrySize));
+        }
+        break;
+
+      case 0x5040: // Color Palette Named Colorants [CMOCA-5-300]
+        // [CMOCA-5-301] Field Type: X'05' (BYTE)
+        if (fieldType != 0x05) {
+          throw new AFPParserException(String.format("EC-504006: Invalid Field Type 0x%02X for Color Palette Named Colorants tag", fieldType));
+        }
+        // [CMOCA-5-302] Count: (Number of Named Colorants + 8) * number of color entries
+        int numNamedColorants = getNamedColorantCount(allTags);
+        int ncEntrySize = 8 + numNamedColorants;
+        if (count % ncEntrySize != 0) {
+          throw new AFPParserException(String.format("EC-504005: Invalid Count %d for Color Palette Named Colorants tag (expected multiple of %d)", count, ncEntrySize));
+        }
+        break;
+
+      case 0x5045: // Colorant Identification List [CMOCA-5-306]
+        // [CMOCA-5-307] Field Type: X'05' (BYTE)
+        if (fieldType != 0x05) {
+          throw new AFPParserException(String.format("EC-504506: Invalid Field Type 0x%02X for Colorant Identification List tag", fieldType));
+        }
+        // [CMOCA-5-308] Count: Sum of the length over the Number of Named Colorants
+        if (data != null) {
+          int expectedNC = getNamedColorantCount(allTags);
+          int actualNC = 0;
+          int ncOffset = 0;
+          while (ncOffset < data.length) {
+            // [CMOCA-5-309] 0 1-byte UBIN Length X'03'–X'FB'
+            int entryLen = data[ncOffset] & 0xFF;
+            if (entryLen < 0x03 || entryLen > 0xFB) {
+              throw new AFPParserException(String.format("EC-504510: Invalid repeating group length %d in Colorant Identification List", entryLen));
+            }
+            actualNC++;
+            ncOffset += entryLen;
+          }
+          if (ncOffset != data.length) {
+            throw new AFPParserException("EC-504511: Inconsistent repeating group lengths in Colorant Identification List");
+          }
+          if (actualNC != expectedNC) {
+            throw new AFPParserException(String.format("EC-504511: Found %d colorant names, but tag 0x5015 specified %d", actualNC, expectedNC));
+          }
+        }
+        break;
+
+      case 0xFFFF: // End Data [CMOCA-5-311]
+        // [CMOCA-5-312] Field Type: X'05' (BYTE)
+        if (fieldType != 0x05) {
+          throw new AFPParserException(String.format("EC-FFFF06: Invalid Field Type 0x%02X for End Data tag", fieldType));
+        }
+        // [CMOCA-5-313] Count: 0
+        if (count != 0) {
+          throw new AFPParserException(String.format("EC-FFFF05: Invalid Count %d for End Data tag (expected 0)", count));
         }
         break;
 

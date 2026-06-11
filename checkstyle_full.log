@@ -11,5 +11,5 @@ Source Compatibility: 21
 > Task :testClasses UP-TO-DATE
 > Task :checkstyleTest UP-TO-DATE
 
-BUILD SUCCESSFUL in 956ms
+BUILD SUCCESSFUL in 1s
 6 actionable tasks: 6 up-to-date
