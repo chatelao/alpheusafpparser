@@ -61,6 +61,106 @@ public class XmlTemplateVerificationTest {
         Triplet.ResourceObjectType rot = new Triplet.ResourceObjectType();
         rot.decodeAFP(new byte[] {0x04, 0x21, 0x06, 0x00}, 0, 4, null);
         verifySF(rot, "ResourceObjectType");
+
+        // DP - DescriptorPosition
+        Triplet.DescriptorPosition dp = new Triplet.DescriptorPosition();
+        dp.decodeAFP(new byte[] {0x03, 0x43, 0x01}, 0, 3, null);
+        verifySF(dp, "DescriptorPosition");
+
+        // MEC - MediaEjectControl
+        Triplet.MediaEjectControl mec = new Triplet.MediaEjectControl();
+        mec.decodeAFP(new byte[] {0x04, 0x45, 0x00, 0x01}, 0, 4, null);
+        verifySF(mec, "MediaEjectControl");
+
+        // RUA - ResourceUsageAttribute
+        Triplet.ResourceUsageAttribute rua = new Triplet.ResourceUsageAttribute();
+        rua.decodeAFP(new byte[] {0x03, 0x47, 0x00}, 0, 3, null);
+        verifySF(rua, "ResourceUsageAttribute");
+
+        // PSRM - PresentationSpaceResetMixing
+        Triplet.PresentationSpaceResetMixing psrm = new Triplet.PresentationSpaceResetMixing();
+        psrm.decodeAFP(new byte[] {0x03, 0x70, (byte) 0x80}, 0, 3, null);
+        verifySF(psrm, "PresentationSpaceResetMixing");
+
+        // ERLI - ExtendedResourceLocalIdentifier
+        Triplet.ExtendedResourceLocalIdentifier erli = new Triplet.ExtendedResourceLocalIdentifier();
+        erli.decodeAFP(new byte[] {0x07, 0x22, 0x30, 0x00, 0x00, 0x00, 0x05}, 0, 7, null);
+        verifySF(erli, "ExtendedResourceLocalIdentifier");
+
+        // RSN - ResourceSectionNumber
+        Triplet.ResourceSectionNumber rsn = new Triplet.ResourceSectionNumber();
+        rsn.decodeAFP(new byte[] {0x03, 0x25, 0x01}, 0, 3, null);
+        verifySF(rsn, "ResourceSectionNumber");
+
+        // MMPN - MediumMapPageNumber
+        Triplet.MediumMapPageNumber mmpn = new Triplet.MediumMapPageNumber();
+        mmpn.decodeAFP(new byte[] {0x06, 0x56, 0x00, 0x00, 0x00, 0x01}, 0, 6, null);
+        verifySF(mmpn, "MediumMapPageNumber");
+
+        // OBE - ObjectByteExtent
+        Triplet.ObjectByteExtent obe = new Triplet.ObjectByteExtent();
+        obe.decodeAFP(new byte[] {0x0A, 0x57, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02}, 0, 10, null);
+        verifySF(obe, "ObjectByteExtent");
+
+        // FHSF - FontHorizontalScaleFactor
+        Triplet.FontHorizontalScaleFactor fhsf = new Triplet.FontHorizontalScaleFactor();
+        fhsf.decodeAFP(new byte[] {0x04, 0x5D, 0x03, (byte) 0xE8}, 0, 4, null);
+        verifySF(fhsf, "FontHorizontalScaleFactor");
+
+        // MOR - MediumOrientation
+        Triplet.MediumOrientation mor = new Triplet.MediumOrientation();
+        mor.decodeAFP(new byte[] {0x03, 0x68, 0x01}, 0, 3, null);
+        verifySF(mor, "MediumOrientation");
+
+        // TS - TonerSaver
+        Triplet.TonerSaver ts = new Triplet.TonerSaver();
+        ts.decodeAFP(new byte[] {0x06, 0x74, 0x00, 0x01, 0x00, 0x00}, 0, 6, null);
+        verifySF(ts, "TonerSaver");
+
+        // FRAMT - FontResolutionAndMetricTechnology
+        Triplet.FontResolutionAndMetricTechnology framt = new Triplet.FontResolutionAndMetricTechnology();
+        framt.decodeAFP(new byte[] {0x06, (byte) 0x84, 0x01, 0x00, 0x00, (byte) 0xF0}, 0, 6, null);
+        verifySF(framt, "FontResolutionAndMetricTechnology");
+
+        // CMRD - ColorManagementResourceDescriptor
+        Triplet.ColorManagementResourceDescriptor cmrd = new Triplet.ColorManagementResourceDescriptor();
+        cmrd.decodeAFP(new byte[] {0x05, (byte) 0x91, 0x00, 0x01, 0x02}, 0, 5, null);
+        verifySF(cmrd, "ColorManagementResourceDescriptor");
+
+        // OCPSS - ObjectContainerPresentationSpaceSize
+        Triplet.ObjectContainerPresentationSpaceSize ocpss = new Triplet.ObjectContainerPresentationSpaceSize();
+        ocpss.decodeAFP(new byte[] {0x05, (byte) 0x9C, 0x00, 0x00, 0x01}, 0, 5, null);
+        verifySF(ocpss, "ObjectContainerPresentationSpaceSize");
+
+        // PPI - PagePositionInformation
+        Triplet.PagePositionInformation ppi = new Triplet.PagePositionInformation();
+        ppi.decodeAFP(new byte[] {0x03, (byte) 0x81, 0x05}, 0, 3, null);
+        verifySF(ppi, "PagePositionInformation");
+
+        // TO - TextOrientation
+        Triplet.TextOrientation to = new Triplet.TextOrientation();
+        to.decodeAFP(new byte[] {0x06, 0x1D, 0x00, 0x00, 0x2D, 0x00}, 0, 6, null);
+        verifySF(to, "TextOrientation");
+
+        // LDOPM - LineDataObjectPositionMigration
+        Triplet.LineDataObjectPositionMigration ldopm = new Triplet.LineDataObjectPositionMigration();
+        ldopm.decodeAFP(new byte[] {0x03, 0x27, 0x01}, 0, 3, null);
+        verifySF(ldopm, "LineDataObjectPositionMigration");
+
+        // KGT - KeepGroupTogether
+        Triplet.KeepGroupTogether kgt = new Triplet.KeepGroupTogether();
+        kgt.decodeAFP(new byte[] {0x05, (byte) 0x9D, 0x00, 0x00, 0x01}, 0, 5, null);
+        verifySF(kgt, "KeepGroupTogether");
+
+        // FCGCS - FontCodedGraphicCharacterSetGlobalID
+        Triplet.FontCodedGraphicCharacterSetGlobalID fcgcs = new Triplet.FontCodedGraphicCharacterSetGlobalID();
+        fcgcs.decodeAFP(new byte[] {0x06, 0x20, 0x04, (byte) 0xB0, 0x01, (byte) 0xF4}, 0, 6, null);
+        verifySF(fcgcs, "FontCodedGraphicCharacterSetGlobalID");
+
+        // MFS - MODCAFunctionSet
+        Triplet.MODCAFunctionSet mfs = new Triplet.MODCAFunctionSet();
+        mfs.decodeAFP(new byte[] {0x06, (byte) 0x8F, 0x00, 0x00, 0x00, 0x10}, 0, 6, null);
+        verifySF(mfs, "MODCAFunctionSet");
     }
 
     @Test
@@ -123,6 +223,66 @@ public class XmlTemplateVerificationTest {
                 } else if (t instanceof Triplet.ResourceObjectType rot) {
                     template = XmlTemplateRegistry.getTemplate("ROT");
                     values = new Object[]{rot.objectType};
+                } else if (t instanceof Triplet.DescriptorPosition dp) {
+                    template = XmlTemplateRegistry.getTemplate("DP");
+                    values = new Object[]{(int)dp.objectAreaDescriptorID};
+                } else if (t instanceof Triplet.MediaEjectControl mec) {
+                    template = XmlTemplateRegistry.getTemplate("MEC");
+                    values = new Object[]{(int)mec.reserved2, mec.mediaEjectControl};
+                } else if (t instanceof Triplet.ResourceUsageAttribute rua) {
+                    template = XmlTemplateRegistry.getTemplate("RUA");
+                    values = new Object[]{rua.frequencyOfUse};
+                } else if (t instanceof Triplet.PresentationSpaceResetMixing psrm) {
+                    template = XmlTemplateRegistry.getTemplate("PSRM");
+                    values = new Object[]{psrm.backgroundMixingFlag};
+                } else if (t instanceof Triplet.ExtendedResourceLocalIdentifier erli) {
+                    template = XmlTemplateRegistry.getTemplate("ERLI");
+                    values = new Object[]{erli.resourceType, erli.extendedResourceLocalID};
+                } else if (t instanceof Triplet.ResourceSectionNumber rsn) {
+                    template = XmlTemplateRegistry.getTemplate("RSN");
+                    values = new Object[]{(int)rsn.resourceSectionNumber};
+                } else if (t instanceof Triplet.MediumMapPageNumber mmpn) {
+                    template = XmlTemplateRegistry.getTemplate("MMPN");
+                    values = new Object[]{mmpn.pageNumber};
+                } else if (t instanceof Triplet.ObjectByteExtent obe) {
+                    template = XmlTemplateRegistry.getTemplate("OBE");
+                    values = new Object[]{obe.byteExtentLow, obe.byteExtentHigh};
+                } else if (t instanceof Triplet.FontHorizontalScaleFactor fhsf) {
+                    template = XmlTemplateRegistry.getTemplate("FHSF");
+                    values = new Object[]{(int)fhsf.horizontalScaleFactor};
+                } else if (t instanceof Triplet.MediumOrientation mor) {
+                    template = XmlTemplateRegistry.getTemplate("MOR");
+                    values = new Object[]{mor.mediumOrientation};
+                } else if (t instanceof Triplet.TonerSaver ts) {
+                    template = XmlTemplateRegistry.getTemplate("TS");
+                    values = new Object[]{(int)ts.reserved2, ts.tonerSaverFunction};
+                } else if (t instanceof Triplet.FontResolutionAndMetricTechnology framt) {
+                    template = XmlTemplateRegistry.getTemplate("FRAMT");
+                    values = new Object[]{framt.metricTechnology, framt.unitBase, (int)framt.unitsPerUnitBase};
+                } else if (t instanceof Triplet.ColorManagementResourceDescriptor cmrd) {
+                    template = XmlTemplateRegistry.getTemplate("CMRD");
+                    values = new Object[]{(int)cmrd.reserved2, cmrd.cmrProcessingMode, cmrd.cmrScope};
+                } else if (t instanceof Triplet.ObjectContainerPresentationSpaceSize ocpss) {
+                    template = XmlTemplateRegistry.getTemplate("OCPSS");
+                    values = new Object[]{ocpss.pdfPresentationSpace};
+                } else if (t instanceof Triplet.PagePositionInformation ppi) {
+                    template = XmlTemplateRegistry.getTemplate("PPI");
+                    values = new Object[]{(int)ppi.repeatingGroupNumber};
+                } else if (t instanceof Triplet.TextOrientation to) {
+                    template = XmlTemplateRegistry.getTemplate("TO");
+                    values = new Object[]{to.xOrientation, to.yOrientation};
+                } else if (t instanceof Triplet.LineDataObjectPositionMigration ldopm) {
+                    template = XmlTemplateRegistry.getTemplate("LDOPM");
+                    values = new Object[]{ldopm.locationAndOrientation};
+                } else if (t instanceof Triplet.KeepGroupTogether kgt) {
+                    template = XmlTemplateRegistry.getTemplate("KGT");
+                    values = new Object[]{(int)kgt.grpFnct};
+                } else if (t instanceof Triplet.FontCodedGraphicCharacterSetGlobalID fcgcs) {
+                    template = XmlTemplateRegistry.getTemplate("FCGCS");
+                    values = new Object[]{fcgcs.codedGraphicCharacterSetGlobalID, fcgcs.codePageGlobalID};
+                } else if (t instanceof Triplet.MODCAFunctionSet mfs) {
+                    template = XmlTemplateRegistry.getTemplate("MFS");
+                    values = new Object[]{mfs.fctSetID};
                 }
 
                 if (template != null) {
@@ -182,6 +342,56 @@ public class XmlTemplateVerificationTest {
             assertTrue(normalizedFastPath.contains("codePageGlobalID_codedCharacterSetID=\"500\""));
         } else if (rootName.equals("ResourceObjectType")) {
             assertTrue(normalizedFastPath.contains("objectType=\"ImageObject_IOCA\""));
+        } else if (rootName.equals("DescriptorPosition")) {
+            assertTrue(normalizedFastPath.contains("objectAreaDescriptorID=\"1\""));
+        } else if (rootName.equals("MediaEjectControl")) {
+            assertTrue(normalizedFastPath.contains("reserved2=\"0\""));
+            assertTrue(normalizedFastPath.contains("mediaEjectControl=\"EjectToNewSheet\""));
+        } else if (rootName.equals("ResourceUsageAttribute")) {
+            assertTrue(normalizedFastPath.contains("frequencyOfUse=\"Low\""));
+        } else if (rootName.equals("PresentationSpaceResetMixing")) {
+            assertTrue(normalizedFastPath.contains("backgroundMixingFlag=\"ResetColor\""));
+        } else if (rootName.equals("ExtendedResourceLocalIdentifier")) {
+            assertTrue(normalizedFastPath.contains("resourceType=\"IOBReference_Reserved\""));
+            assertTrue(normalizedFastPath.contains("extendedResourceLocalID=\"5\""));
+        } else if (rootName.equals("ResourceSectionNumber")) {
+            assertTrue(normalizedFastPath.contains("resourceSectionNumber=\"1\""));
+        } else if (rootName.equals("MediumMapPageNumber")) {
+            assertTrue(normalizedFastPath.contains("pageNumber=\"1\""));
+        } else if (rootName.equals("ObjectByteExtent")) {
+            assertTrue(normalizedFastPath.contains("byteExtentLow=\"1\""));
+            assertTrue(normalizedFastPath.contains("byteExtentHigh=\"2\""));
+        } else if (rootName.equals("FontHorizontalScaleFactor")) {
+            assertTrue(normalizedFastPath.contains("horizontalScaleFactor=\"1000\""));
+        } else if (rootName.equals("MediumOrientation")) {
+            assertTrue(normalizedFastPath.contains("mediumOrientation=\"Landscape\""));
+        } else if (rootName.equals("TonerSaver")) {
+            assertTrue(normalizedFastPath.contains("reserved2=\"0\""));
+            assertTrue(normalizedFastPath.contains("tonerSaverFunction=\"ActivateTonerSaver\""));
+        } else if (rootName.equals("FontResolutionAndMetricTechnology")) {
+            assertTrue(normalizedFastPath.contains("metricTechnology=\"Fixed\""));
+            assertTrue(normalizedFastPath.contains("unitBase=\"Inches10\""));
+            assertTrue(normalizedFastPath.contains("unitsPerUnitBase=\"240\""));
+        } else if (rootName.equals("ColorManagementResourceDescriptor")) {
+            assertTrue(normalizedFastPath.contains("reserved2=\"0\""));
+            assertTrue(normalizedFastPath.contains("cmrProcessingMode=\"AuditCMR\""));
+            assertTrue(normalizedFastPath.contains("cmrScope=\"PageOrOverlay\""));
+        } else if (rootName.equals("ObjectContainerPresentationSpaceSize")) {
+            assertTrue(normalizedFastPath.contains("pdfPresentationSpace=\"MediaBox\""));
+        } else if (rootName.equals("PagePositionInformation")) {
+            assertTrue(normalizedFastPath.contains("repeatingGroupNumber=\"5\""));
+        } else if (rootName.equals("TextOrientation")) {
+            assertTrue(normalizedFastPath.contains("xOrientation=\"ori0\""));
+            assertTrue(normalizedFastPath.contains("yOrientation=\"ori90\""));
+        } else if (rootName.equals("LineDataObjectPositionMigration")) {
+            assertTrue(normalizedFastPath.contains("locationAndOrientation=\"LowerLeft_270\""));
+        } else if (rootName.equals("KeepGroupTogether")) {
+            assertTrue(normalizedFastPath.contains("grpFnct=\"1\""));
+        } else if (rootName.equals("FontCodedGraphicCharacterSetGlobalID")) {
+            assertTrue(normalizedFastPath.contains("codedGraphicCharacterSetGlobalID=\"1200\""));
+            assertTrue(normalizedFastPath.contains("codePageGlobalID=\"500\""));
+        } else if (rootName.equals("MODCAFunctionSet")) {
+            assertTrue(normalizedFastPath.contains("fctSetID=\"16\""));
         } else if (rootName.equals("STO_SetTextOrientation")) {
             assertTrue(normalizedFastPath.contains("xOrientation=\"ori0\""));
             assertTrue(normalizedFastPath.contains("yOrientation=\"ori90\""));

@@ -56,6 +56,26 @@ public class XmlTemplateRegistry {
     register("OAS", new String[] {"<ObjectAreaSize sizeType_0x02=\"", "\" xSize=\"", "\" ySize=\"", "\"/>"});
     register("CGCS", new String[] {"<CodedGraphicCharacterSetGlobalID graphicCharacterSetGlobalID=\"", "\" codePageGlobalID_codedCharacterSetID=\"", "\"/>"});
     register("ROT", new String[] {"<ResourceObjectType objectType=\"", "\"/>"});
+    register("DP", new String[] {"<DescriptorPosition objectAreaDescriptorID=\"", "\"/>"});
+    register("MEC", new String[] {"<MediaEjectControl reserved2=\"", "\" mediaEjectControl=\"", "\"/>"});
+    register("RUA", new String[] {"<ResourceUsageAttribute frequencyOfUse=\"", "\"/>"});
+    register("PSRM", new String[] {"<PresentationSpaceResetMixing backgroundMixingFlag=\"", "\"/>"});
+    register("ERLI", new String[] {"<ExtendedResourceLocalIdentifier resourceType=\"", "\" extendedResourceLocalID=\"", "\"/>"});
+    register("RSN", new String[] {"<ResourceSectionNumber resourceSectionNumber=\"", "\"/>"});
+    register("MMPN", new String[] {"<MediumMapPageNumber pageNumber=\"", "\"/>"});
+    register("OBE", new String[] {"<ObjectByteExtent byteExtentLow=\"", "\" byteExtentHigh=\"", "\"/>"});
+    register("FHSF", new String[] {"<FontHorizontalScaleFactor horizontalScaleFactor=\"", "\"/>"});
+    register("MOR", new String[] {"<MediumOrientation mediumOrientation=\"", "\"/>"});
+    register("TS", new String[] {"<TonerSaver reserved2=\"", "\" tonerSaverFunction=\"", "\"/>"});
+    register("FRAMT", new String[] {"<FontResolutionAndMetricTechnology metricTechnology=\"", "\" unitBase=\"", "\" unitsPerUnitBase=\"", "\"/>"});
+    register("CMRD", new String[] {"<ColorManagementResourceDescriptor reserved2=\"", "\" cmrProcessingMode=\"", "\" cmrScope=\"", "\"/>"});
+    register("OCPSS", new String[] {"<ObjectContainerPresentationSpaceSize pdfPresentationSpace=\"", "\"/>"});
+    register("PPI", new String[] {"<PagePositionInformation repeatingGroupNumber=\"", "\"/>"});
+    register("TO", new String[] {"<TextOrientation xOrientation=\"", "\" yOrientation=\"", "\"/>"});
+    register("LDOPM", new String[] {"<LineDataObjectPositionMigration locationAndOrientation=\"", "\"/>"});
+    register("KGT", new String[] {"<KeepGroupTogether grpFnct=\"", "\"/>"});
+    register("FCGCS", new String[] {"<FontCodedGraphicCharacterSetGlobalID codedGraphicCharacterSetGlobalID=\"", "\" codePageGlobalID=\"", "\"/>"});
+    register("MFS", new String[] {"<MODCAFunctionSet fctSetID=\"", "\"/>"});
   }
 
   private static void register(String mnemonic, String[] parts) {
