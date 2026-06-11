@@ -595,23 +595,23 @@
 | CMOCA-5-100 | EC-101110 Invalid Value: specified subset value is none of X'01', X'02', X'03', or X'04'. | ✅ |
 | CMOCA-5-101 | TagID: X'1021' | ✅ |
 | CMOCA-5-102 | Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN) | ✅ |
-| CMOCA-5-103 | Count: Number of color components | ❓ |
+| CMOCA-5-103 | Count: Number of color components | ✅ |
 | CMOCA-5-104 | This tag defines the width of the array along the x-direction in pixels for each color component. | ❓ |
 | CMOCA-5-105 | TagID: X'1025' | ✅ |
 | CMOCA-5-106 | Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN) | ✅ |
-| CMOCA-5-107 | Count: Number of color components | ❓ |
+| CMOCA-5-107 | Count: Number of color components | ✅ |
 | CMOCA-5-108 | This tag defines the height of the array along the y-direction in pixels for each color component. | ❓ |
-| CMOCA-5-109 | TagID: X'1030' | ❓ |
-| CMOCA-5-110 | Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN), X'04' (4-byte UBIN) | ❓ |
-| CMOCA-5-111 | Count: Number of color components | ❓ |
+| CMOCA-5-109 | TagID: X'1030' | ✅ |
+| CMOCA-5-110 | Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN), X'04' (4-byte UBIN) | ✅ |
+| CMOCA-5-111 | Count: Number of color components | ✅ |
 | CMOCA-5-112 | This tag defines the maximum input image value per component. | ❓ |
-| CMOCA-5-113 | TagID: X'1035' | ❓ |
-| CMOCA-5-114 | Field Type: X'01' (1-byte UBIN) | ❓ |
-| CMOCA-5-115 | Count: Number of color components | ❓ |
+| CMOCA-5-113 | TagID: X'1035' | ✅ |
+| CMOCA-5-114 | Field Type: X'01' (1-byte UBIN) | ✅ |
+| CMOCA-5-115 | Count: Number of color components | ✅ |
 | CMOCA-5-116 | This tag defines the number of device levels per component for multilevel devices. Each specified... | ❓ |
-| CMOCA-5-117 | TagID: X'1040' | ❓ |
-| CMOCA-5-118 | Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN) | ❓ |
-| CMOCA-5-119 | Count: Number of color components | ❓ |
+| CMOCA-5-117 | TagID: X'1040' | ✅ |
+| CMOCA-5-118 | Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN) | ✅ |
+| CMOCA-5-119 | Count: Number of color components | ✅ |
 | CMOCA-5-120 | This tag defines the amount of shift in pixels between the halftone tiles in two adjacent rows fo... | ❓ |
 | CMOCA-5-121 | Figure 8. Illustration of Offset Tiling with Offset Tiling=2 | ❓ |
 | CMOCA-5-122 | TagID: X'1045' | ❓ |
@@ -627,26 +627,26 @@
 | CMOCA-5-132 | Count: Sum of (Array Width × Array Height) over all color components | ❓ |
 | CMOCA-5-133 | This tag specifies a set of values in the error diffusion filter. Arranged in a 2-dimensional arr... | ❓ |
 | CMOCA-5-134 | Figure 9. Illustration of Error Distribution with Floyd-Steinberg Filter | ❓ |
-| CMOCA-5-135 | TagID: X'1060' | ❓ |
-| CMOCA-5-136 | Field Type: X'01' (1-byte UBIN) | ❓ |
-| CMOCA-5-137 | Count: 2 × number of color components | ❓ |
+| CMOCA-5-135 | TagID: X'1060' | ✅ |
+| CMOCA-5-136 | Field Type: X'01' (1-byte UBIN) | ✅ |
+| CMOCA-5-137 | Count: 2 × number of color components | ✅ |
 | CMOCA-5-138 | Specifies a pair of values (row, column) describing the location of the current pixel in an error... | ❓ |
 | CMOCA-5-139 | TagID: X'1065' | ✅ |
 | CMOCA-5-140 | Field Type: X'08' (CODE) | ✅ |
-| CMOCA-5-141 | Count: Number of color components | ❓ |
+| CMOCA-5-141 | Count: Number of color components | ✅ |
 | CMOCA-5-142 | X'01'   Normal raster | ✅ |
 | CMOCA-5-143 | X'02'   Serpentine raster | ✅ |
 | CMOCA-5-144 | Figure 10. Illustration of Normal Raster and Serpentine Raster | ❓ |
-| CMOCA-5-145 | TagID: X'1070' | ❓ |
-| CMOCA-5-146 | Field Type: X'08' (CODE) | ❓ |
-| CMOCA-5-147 | Count: Number of color components | ❓ |
+| CMOCA-5-145 | TagID: X'1070' | ✅ |
+| CMOCA-5-146 | Field Type: X'08' (CODE) | ✅ |
+| CMOCA-5-147 | Count: Number of color components | ✅ |
 | CMOCA-5-148 | X'01'   None | ❓ |
 | CMOCA-5-149 | X'02'   Zero boundary | ❓ |
 | CMOCA-5-150 | X'03'   Reflect | ❓ |
 | CMOCA-5-151 | X'04'   Periodic | ❓ |
-| CMOCA-5-152 | TagID: X'1075' | ❓ |
-| CMOCA-5-153 | Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN), X'04' (4-byte UBIN) | ❓ |
-| CMOCA-5-154 | Count: Number of color components | ❓ |
+| CMOCA-5-152 | TagID: X'1075' | ✅ |
+| CMOCA-5-153 | Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN), X'04' (4-byte UBIN) | ✅ |
+| CMOCA-5-154 | Count: Number of color components | ✅ |
 | CMOCA-5-155 | Specifies a single threshold value for bilevel error diffusion halftones. | ❓ |
 | CMOCA-5-156 | TagID: X'1080' | ❓ |
 | CMOCA-5-157 | Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN), X'04' (4-byte UBIN) | ❓ |
@@ -665,9 +665,9 @@
 | CMOCA-5-170 | Count: 1 | ✅ |
 | CMOCA-5-171 | X'01'   ToneTransferCurve Array | ✅ |
 | CMOCA-5-172 | X'02'   ToneTransferCurve Identity | ✅ |
-| CMOCA-5-173 | TagID: X'2011' | ❓ |
-| CMOCA-5-174 | Field Type: X'08' (CODE) | ❓ |
-| CMOCA-5-175 | Count: Number of color components | ❓ |
+| CMOCA-5-173 | TagID: X'2011' | ✅ |
+| CMOCA-5-174 | Field Type: X'08' (CODE) | ✅ |
+| CMOCA-5-175 | Count: Number of color components | ✅ |
 | CMOCA-5-176 | X'01'   256 1-byte entries | ❓ |
 | CMOCA-5-177 | X'02'   65,536 2-byte entries | ❓ |
 | CMOCA-5-178 | TagID: X'2015' | ❓ |
@@ -719,11 +719,11 @@
 | CMOCA-5-224 | X'01'   LinkColorConversion LUT | ✅ |
 | CMOCA-5-225 | X'02'   LinkColorConversion Identity | ✅ |
 | CMOCA-5-226 | X'03'   ICC DeviceLink | ✅ |
-| CMOCA-5-227 | TagID: X'4015' | ❓ |
-| CMOCA-5-228 | Field Type: X'05' (BYTE) | ❓ |
+| CMOCA-5-227 | TagID: X'4015' | ✅ |
+| CMOCA-5-228 | Field Type: X'05' (BYTE) | ✅ |
 | CMOCA-5-229 | Count: Number of bytes in the OID | ❓ |
-| CMOCA-5-230 | TagID: X'4020' | ❓ |
-| CMOCA-5-231 | Field Type: X'05' (BYTE) | ❓ |
+| CMOCA-5-230 | TagID: X'4020' | ✅ |
+| CMOCA-5-231 | Field Type: X'05' (BYTE) | ✅ |
 | CMOCA-5-232 | Count: Number of bytes in the OID | ❓ |
 | CMOCA-5-233 | TagID: X'4025' | ❓ |
 | CMOCA-5-234 | Field Type: X'07' (UTF16) | ❓ |
@@ -738,22 +738,22 @@
 | CMOCA-5-243 | Media-Relative Colorimetric   X'01' | ❓ |
 | CMOCA-5-244 | Saturation   X'02' | ❓ |
 | CMOCA-5-245 | ICC-Absolute Colorimetric   X'03' | ❓ |
-| CMOCA-5-246 | TagID: X'4040' | ❓ |
-| CMOCA-5-247 | Field Type: X'05' (BYTE) | ❓ |
+| CMOCA-5-246 | TagID: X'4040' | ✅ |
+| CMOCA-5-247 | Field Type: X'05' (BYTE) | ✅ |
 | CMOCA-5-248 | Count: The number of bytes in the LUT + 20 bytes of the header | ❓ |
-| CMOCA-5-249 | 0   1   1-byte UBIN   1–15   Number of components of the input color space | ❓ |
-| CMOCA-5-250 | 1   1   1-byte UBIN   1–15   Number of components of the output color space | ❓ |
+| CMOCA-5-249 | 0   1   1-byte UBIN   1–15   Number of components of the input color space | ✅ |
+| CMOCA-5-250 | 1   1   1-byte UBIN   1–15   Number of components of the output color space | ✅ |
 | CMOCA-5-251 | 2–16   15   1-byte UBIN   0–255   Number of grid points in each component of input | ❓ |
 | CMOCA-5-252 | 17   1   1-byte UBIN   1, 2   Precision: 1=1-byte UBIN, 2=2-byte UBIN | ❓ |
 | CMOCA-5-253 | 18   1   BITS     Additional use flags: bit 0: Media-rel, bit 1: Saturation, bit 2: ICC-Abs | ❓ |
 | CMOCA-5-254 | 19   1     0   Reserved | ❓ |
 | CMOCA-5-255 | 20 to end         LUT data | ❓ |
-| CMOCA-5-256 | TagID: X'4045' | ❓ |
-| CMOCA-5-257 | Field Type: X'05' (BYTE) | ❓ |
-| CMOCA-5-258 | TagID: X'4050' | ❓ |
-| CMOCA-5-259 | Field Type: X'05' (BYTE) | ❓ |
-| CMOCA-5-260 | TagID: X'4055' | ❓ |
-| CMOCA-5-261 | Field Type: X'05' (BYTE) | ❓ |
+| CMOCA-5-256 | TagID: X'4045' | ✅ |
+| CMOCA-5-257 | Field Type: X'05' (BYTE) | ✅ |
+| CMOCA-5-258 | TagID: X'4050' | ✅ |
+| CMOCA-5-259 | Field Type: X'05' (BYTE) | ✅ |
+| CMOCA-5-260 | TagID: X'4055' | ✅ |
+| CMOCA-5-261 | Field Type: X'05' (BYTE) | ✅ |
 | CMOCA-5-262 | TagID: X'4090' | ❓ |
 | CMOCA-5-263 | Field Type: X'07' (UTF16) | ❓ |
 | CMOCA-5-264 | Count: Number of characters | ❓ |
