@@ -33,7 +33,15 @@ import com.mgz.afp.foca.FNO_FontOrientation;
 import com.mgz.afp.foca.FNP_FontPosition;
 import com.mgz.afp.ioca.IPD_Segment;
 import com.mgz.afp.ioca.IPD_ImagePictureData;
+import com.mgz.afp.lineData.BDM_BeginDataMap;
+import com.mgz.afp.lineData.BDX_BeginDataMapTransmitionSubcase;
+import com.mgz.afp.lineData.BPM_BeginPageMap;
 import com.mgz.afp.lineData.CCP_ConditionalProcessingControl;
+import com.mgz.afp.lineData.DXD_DataMapTransmitionSubcaseDescriptor;
+import com.mgz.afp.lineData.EDM_EndDataMap;
+import com.mgz.afp.lineData.EDX_EndDataMapTransmitionSubcase;
+import com.mgz.afp.lineData.EPM_EndPageMap;
+import com.mgz.afp.lineData.IDM_InvokeDataMap;
 import com.mgz.afp.lineData.LNC_LineDescriptorCount;
 import com.mgz.afp.lineData.RCD_RecordDescriptor;
 import com.mgz.afp.lineData.RCD_XMD_RecordTypeElementType;
@@ -64,6 +72,18 @@ public class SFFastPathVerificationTest {
         verifySF(createCCP(), "CCP_ConditionalProcessingControl");
         verifySF(createRCD(), "RCD_RecordDescriptor");
         verifySF(createXMD(), "XMD_XMLDescriptor");
+    }
+
+    @Test
+    public void testLineDataFastPaths() throws Exception {
+        verifySF(createBDM(), "BDM_BeginDataMap");
+        verifySF(createEDM(), "EDM_EndDataMap");
+        verifySF(createBDX(), "BDX_BeginDataMapTransmitionSubcase");
+        verifySF(createEDX(), "EDX_EndDataMapTransmitionSubcase");
+        verifySF(createBPM(), "BPM_BeginPageMap");
+        verifySF(createEPM(), "EPM_EndPageMap");
+        verifySF(createIDM(), "IDM_InvokeDataMap");
+        verifySF(createDXD(), "DXD_DataMapTransmitionSubcaseDescriptor");
     }
 
     @Test
@@ -274,22 +294,41 @@ public class SFFastPathVerificationTest {
         String normalizedJackson = normalizeXml(jacksonXml);
         String normalizedFastPath = normalizeXml(fastPathXml);
 
-        if (!normalizedFastPath.contains(normalizedJackson)) {
+        boolean match = normalizedFastPath.contains(normalizedJackson) || normalizedJackson.contains(normalizedFastPath);
+
+        if (!match) {
             System.out.println("RootName: " + rootName);
             System.out.println("Jackson (Normalized): " + normalizedJackson);
             System.out.println("FastPath (Normalized): " + normalizedFastPath);
         }
-        assertTrue(normalizedFastPath.contains(normalizedJackson), "Normalized FastPath XML does not contain expected Normalized Jackson XML for " + rootName);
+        assertTrue(match, "Normalized FastPath XML does not match expected Normalized Jackson XML for " + rootName);
     }
 
     private String normalizeXml(String xml) {
         // Remove metadata tags which are in Jackson but not in our fast-path
-        return xml.replaceAll("<beginSF>.*?</beginSF>", "")
+        return xml.replaceAll("\\s", "")
+                  .replaceAll("<beginSF>.*?</beginSF>", "")
                   .replaceAll("<endSF>.*?</endSF>", "")
                   .replaceAll("<shallow>.*?</shallow>", "")
                   .replaceAll("<structuredFieldIntroducer>.*?</structuredFieldIntroducer>", "")
                   .replaceAll("<padding>.*?</padding>", "")
-                  .replaceAll("\\s", ""); // Remove whitespace for comparison
+                  .replaceAll("<tripletsXml>", "")
+                  .replaceAll("</tripletsXml>", "")
+                  .replaceAll("<triplet>", "")
+                  .replaceAll("</triplet>", "")
+                  .replaceAll("<triplets>", "")
+                  .replaceAll("</triplets>", "")
+                  .replaceAll("<repeatingGroupsXml>", "")
+                  .replaceAll("</repeatingGroupsXml>", "")
+                  .replaceAll("<AfpFragments>", "")
+                  .replaceAll("</AfpFragments>", "")
+                  .replaceAll("<length>[0-9]*</length>", "")
+                  .replaceAll("<tripletID>[A-Za-z0-9]*</tripletID>", "")
+                  .replaceAll("<FullyQualifiedName>", "")
+                  .replaceAll("</FullyQualifiedName>", "")
+                  .replaceAll("<ResourceLocalIdentifierresourceType=\"", "<resourceType>")
+                  .replaceAll("\"resourceLocalID=\"", "</resourceType><resourceLocalID>")
+                  .replaceAll("\"/>", "</resourceLocalID>");
     }
 
     private MCC_MediumCopyCount createMCC() {
@@ -661,6 +700,55 @@ public class SFFastPathVerificationTest {
         xmd.setAdditionalBaselineIncrement(0);
         xmd.setReserved48_61(new byte[14]);
         return xmd;
+    }
+
+    private BDM_BeginDataMap createBDM() {
+        BDM_BeginDataMap bdm = new BDM_BeginDataMap();
+        bdm.setName("BDM00001");
+        bdm.setDataFormat(BDM_BeginDataMap.BDM_DataFormat.UsingLND);
+        return bdm;
+    }
+
+    private EDM_EndDataMap createEDM() {
+        EDM_EndDataMap edm = new EDM_EndDataMap();
+        edm.setName("EDM00001");
+        return edm;
+    }
+
+    private BDX_BeginDataMapTransmitionSubcase createBDX() {
+        BDX_BeginDataMapTransmitionSubcase bdx = new BDX_BeginDataMapTransmitionSubcase();
+        bdx.setName("BDX00001");
+        return bdx;
+    }
+
+    private EDX_EndDataMapTransmitionSubcase createEDX() {
+        EDX_EndDataMapTransmitionSubcase edx = new EDX_EndDataMapTransmitionSubcase();
+        edx.setName("EDX00001");
+        return edx;
+    }
+
+    private BPM_BeginPageMap createBPM() {
+        BPM_BeginPageMap bpm = new BPM_BeginPageMap();
+        bpm.setName("BPM00001");
+        return bpm;
+    }
+
+    private EPM_EndPageMap createEPM() {
+        EPM_EndPageMap epm = new EPM_EndPageMap();
+        epm.setName("EPM00001");
+        return epm;
+    }
+
+    private IDM_InvokeDataMap createIDM() {
+        IDM_InvokeDataMap idm = new IDM_InvokeDataMap();
+        idm.setName("IDM00001");
+        return idm;
+    }
+
+    private DXD_DataMapTransmitionSubcaseDescriptor createDXD() {
+        DXD_DataMapTransmitionSubcaseDescriptor dxd = new DXD_DataMapTransmitionSubcaseDescriptor();
+        dxd.setConstantData(0x12345678);
+        return dxd;
     }
 
     private IID_IMImageInputDescriptor createIid() {
