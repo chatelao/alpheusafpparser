@@ -276,6 +276,41 @@ public class CMRTag {
         }
         break;
 
+      case 0x1030: // Max Image Value [CMOCA-5-109]
+        // [CMOCA-5-110] Field Type: X'01', X'02', or X'04'
+        if (fieldType != 0x01 && fieldType != 0x02 && fieldType != 0x04) {
+          throw new AFPParserException(String.format("EC-103006: Invalid Field Type 0x%02X for Max Image Value tag", fieldType));
+        }
+        break;
+
+      case 0x1035: // Number of Device Levels [CMOCA-5-113]
+        // [CMOCA-5-114] Field Type: X'01'
+        if (fieldType != 0x01) {
+          throw new AFPParserException(String.format("EC-103506: Invalid Field Type 0x%02X for Number of Device Levels tag", fieldType));
+        }
+        break;
+
+      case 0x1040: // Offset Tiling [CMOCA-5-117]
+        // [CMOCA-5-118] Field Type: X'01' or X'02'
+        if (fieldType != 0x01 && fieldType != 0x02) {
+          throw new AFPParserException(String.format("EC-104006: Invalid Field Type 0x%02X for Offset Tiling tag", fieldType));
+        }
+        break;
+
+      case 0x1070: // Boundary Condition [CMOCA-5-145]
+        // [CMOCA-5-146] Field Type: X'08' (CODE)
+        if (fieldType != 0x08) {
+          throw new AFPParserException(String.format("EC-107006: Invalid Field Type 0x%02X for Boundary Condition tag", fieldType));
+        }
+        // [CMOCA-5-148..151] X'01' to X'04'
+        if (data != null && data.length > 0) {
+          int bc = data[0] & 0xFF;
+          if (bc < 0x01 || bc > 0x04) {
+            throw new AFPParserException(String.format("EC-107010: Invalid Boundary Condition value 0x%02X", bc));
+          }
+        }
+        break;
+
       case 0x1021: // Array Width [CMOCA-5-101]
       case 0x1025: // Array Height [CMOCA-5-105]
         // [CMOCA-5-102, 106] Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN)
@@ -295,6 +330,52 @@ public class CMRTag {
           if (dir != 0x01 && dir != 0x02) {
             throw new AFPParserException(String.format("EC-106510: Invalid Raster Direction value 0x%02X", dir));
           }
+        }
+        break;
+
+      case 0x2011: // TTC Length [CMOCA-5-173]
+        // [CMOCA-5-174] Field Type: X'08' (CODE)
+        if (fieldType != 0x08) {
+          throw new AFPParserException(String.format("EC-201106: Invalid Field Type 0x%02X for TTC Length tag", fieldType));
+        }
+        // [CMOCA-5-176, 177] X'01' or X'02'
+        if (data != null && data.length > 0) {
+          int ttcLen = data[0] & 0xFF;
+          if (ttcLen != 0x01 && ttcLen != 0x02) {
+            throw new AFPParserException(String.format("EC-201110: Invalid TTC Length value 0x%02X", ttcLen));
+          }
+        }
+        break;
+
+      case 0x3025: // ICC Profile Filename [CMOCA-5-218]
+        // [CMOCA-5-219] Field Type: X'06' (ASCII) or X'07' (UTF16)
+        if (fieldType != 0x06 && fieldType != 0x07) {
+          throw new AFPParserException(String.format("EC-302506: Invalid Field Type 0x%02X for ICC Profile Filename tag", fieldType));
+        }
+        break;
+
+      case 0x4035: // Default Rendering Intent [CMOCA-5-239]
+        // [CMOCA-5-240] Field Type: X'08' (CODE)
+        if (fieldType != 0x08) {
+          throw new AFPParserException(String.format("EC-403506: Invalid Field Type 0x%02X for Default Rendering Intent tag", fieldType));
+        }
+        // [CMOCA-5-241..245] X'00' to X'03'
+        if (data != null && data.length > 0) {
+          int intent = data[0] & 0xFF;
+          if (intent > 0x03) {
+            throw new AFPParserException(String.format("EC-403510: Invalid Default Rendering Intent value 0x%02X", intent));
+          }
+        }
+        break;
+
+      case 0x5015: // Number of Named Colorants [CMOCA-5-269]
+        // [CMOCA-5-270] Field Type: X'01' (1-byte UBIN)
+        if (fieldType != 0x01) {
+          throw new AFPParserException(String.format("EC-501506: Invalid Field Type 0x%02X for Number of Named Colorants tag", fieldType));
+        }
+        // [CMOCA-5-271] Count: 1
+        if (count != 1) {
+          throw new AFPParserException(String.format("EC-501505: Invalid Count %d for Number of Named Colorants tag", count));
         }
         break;
 
