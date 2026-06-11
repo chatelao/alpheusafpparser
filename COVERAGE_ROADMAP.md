@@ -35,7 +35,7 @@ This document outlines a phased, actionable plan to increase the code coverage o
 - 🚧 **4.1. Special Specifications**
     - 🚧 CMOCA, BCOCA, and MOCA verification (Currently 40-84% coverage).
     - 🚧 IPDS and DB2Z verification (Target: 85% coverage).
-    - 🚧 Implementation of remaining 1,000+ normative requirements per spec (Progress: EC-0505, EC-0F18-25, CMOCA tags 0x1021/25/65/30/35/40/70 validated).
+    - 🚧 Implementation of remaining 1,000+ normative requirements per spec (Progress: EC-0505, EC-0F18-25, CMOCA tags 0x1021/25/65/30/35/40/70/45/50/55/80/4025/30/90 validated).
 - 🚧 **4.2. Performance fast-paths**
     - ✅ Verification of `AfpJacksonXmlWriter` optimized paths (MetadataObject fast-path implemented).
 - 🏗️ **4.3. PDF Renderer Verification**

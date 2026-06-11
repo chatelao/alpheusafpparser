@@ -614,17 +614,17 @@
 | CMOCA-5-119 | Count: Number of color components | ✅ |
 | CMOCA-5-120 | This tag defines the amount of shift in pixels between the halftone tiles in two adjacent rows fo... | ❓ |
 | CMOCA-5-121 | Figure 8. Illustration of Offset Tiling with Offset Tiling=2 | ❓ |
-| CMOCA-5-122 | TagID: X'1045' | ❓ |
-| CMOCA-5-123 | Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN), X'04' (4-byte UBIN) | ❓ |
-| CMOCA-5-124 | Count: Sum of (Array Width × Array Height) over all color components | ❓ |
+| CMOCA-5-122 | TagID: X'1045' | ✅ |
+| CMOCA-5-123 | Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN), X'04' (4-byte UBIN) | ✅ |
+| CMOCA-5-124 | Count: Sum of (Array Width × Array Height) over all color components | ✅ |
 | CMOCA-5-125 | This tag specifies the threshold array values for each screen. Arranged in row-major format. Comp... | ❓ |
-| CMOCA-5-126 | TagID: X'1050' | ❓ |
-| CMOCA-5-127 | Field Type: X'01' (1-byte UBIN) | ❓ |
-| CMOCA-5-128 | Count: Sum of (Array Width × Array Height × (Max Image Value + 1)) over all color components | ❓ |
+| CMOCA-5-126 | TagID: X'1050' | ✅ |
+| CMOCA-5-127 | Field Type: X'01' (1-byte UBIN) | ✅ |
+| CMOCA-5-128 | Count: Sum of (Array Width × Array Height × (Max Image Value + 1)) over all color components | ✅ |
 | CMOCA-5-129 | This tag gives the device gray level for each pixel. Each screen is a 3-d table lookup. Dimension... | ❓ |
-| CMOCA-5-130 | TagID: X'1055' | ❓ |
-| CMOCA-5-131 | Field Type: X'01' (1-byte UBIN) | ❓ |
-| CMOCA-5-132 | Count: Sum of (Array Width × Array Height) over all color components | ❓ |
+| CMOCA-5-130 | TagID: X'1055' | ✅ |
+| CMOCA-5-131 | Field Type: X'01' (1-byte UBIN) | ✅ |
+| CMOCA-5-132 | Count: Sum of (Array Width × Array Height) over all color components | ✅ |
 | CMOCA-5-133 | This tag specifies a set of values in the error diffusion filter. Arranged in a 2-dimensional arr... | ❓ |
 | CMOCA-5-134 | Figure 9. Illustration of Error Distribution with Floyd-Steinberg Filter | ❓ |
 | CMOCA-5-135 | TagID: X'1060' | ✅ |
@@ -648,9 +648,9 @@
 | CMOCA-5-153 | Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN), X'04' (4-byte UBIN) | ✅ |
 | CMOCA-5-154 | Count: Number of color components | ✅ |
 | CMOCA-5-155 | Specifies a single threshold value for bilevel error diffusion halftones. | ❓ |
-| CMOCA-5-156 | TagID: X'1080' | ❓ |
-| CMOCA-5-157 | Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN), X'04' (4-byte UBIN) | ❓ |
-| CMOCA-5-158 | Count: Sum of (Number of Device Levels – 1) over all color components | ❓ |
+| CMOCA-5-156 | TagID: X'1080' | ✅ |
+| CMOCA-5-157 | Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN), X'04' (4-byte UBIN) | ✅ |
+| CMOCA-5-158 | Count: Sum of (Number of Device Levels – 1) over all color components | ✅ |
 | CMOCA-5-159 | Specifies n one-dimensional arrays for multilevel error diffusion halftone. | ❓ |
 | CMOCA-5-160 | 1   60 | ❓ |
 | CMOCA-5-161 | 2   120 | ❓ |
@@ -725,10 +725,10 @@
 | CMOCA-5-230 | TagID: X'4020' | ✅ |
 | CMOCA-5-231 | Field Type: X'05' (BYTE) | ✅ |
 | CMOCA-5-232 | Count: Number of bytes in the OID | ❓ |
-| CMOCA-5-233 | TagID: X'4025' | ❓ |
+| CMOCA-5-233 | TagID: X'4025' | ✅ |
 | CMOCA-5-234 | Field Type: X'07' (UTF16) | ❓ |
 | CMOCA-5-235 | Count: Number of characters | ❓ |
-| CMOCA-5-236 | TagID: X'4030' | ❓ |
+| CMOCA-5-236 | TagID: X'4030' | ✅ |
 | CMOCA-5-237 | Field Type: X'07' (UTF16) | ❓ |
 | CMOCA-5-238 | Count: Number of characters | ❓ |
 | CMOCA-5-239 | TagID: X'4035' | ❓ |
@@ -754,7 +754,7 @@
 | CMOCA-5-259 | Field Type: X'05' (BYTE) | ✅ |
 | CMOCA-5-260 | TagID: X'4055' | ✅ |
 | CMOCA-5-261 | Field Type: X'05' (BYTE) | ✅ |
-| CMOCA-5-262 | TagID: X'4090' | ❓ |
+| CMOCA-5-262 | TagID: X'4090' | ✅ |
 | CMOCA-5-263 | Field Type: X'07' (UTF16) | ❓ |
 | CMOCA-5-264 | Count: Number of characters | ❓ |
 | CMOCA-5-265 | TagID: X'5011' | ✅ |
@@ -1004,14 +1004,14 @@
 | CMOCA-A-008 | X'1030'   Max Image Value   Halftone | ❓ |
 | CMOCA-A-009 | X'1035'   Number of Device Levels   Halftone | ❓ |
 | CMOCA-A-010 | X'1040'   Offset Tiling   Halftone | ❓ |
-| CMOCA-A-011 | X'1045'   Bilevel Point-Operation Screen Data   Halftone | ❓ |
-| CMOCA-A-012 | X'1050'   Multilevel Point-Operation Screen Data   Halftone | ❓ |
-| CMOCA-A-013 | X'1055'   Error Diffusion Filter   Halftone | ❓ |
+| CMOCA-A-011 | X'1045'   Bilevel Point-Operation Screen Data   Halftone | ✅ |
+| CMOCA-A-012 | X'1050'   Multilevel Point-Operation Screen Data   Halftone | ✅ |
+| CMOCA-A-013 | X'1055'   Error Diffusion Filter   Halftone | ✅ |
 | CMOCA-A-014 | X'1060'   Location of Current Pixel   Halftone | ❓ |
 | CMOCA-A-015 | X'1065'   Raster Direction   Halftone | ❓ |
 | CMOCA-A-016 | X'1070'   Boundary Condition   Halftone | ❓ |
 | CMOCA-A-017 | X'1075'   Threshold Value   Halftone | ❓ |
-| CMOCA-A-018 | X'1080'   Quantization Boundary Table   Halftone | ❓ |
+| CMOCA-A-018 | X'1080'   Quantization Boundary Table   Halftone | ✅ |
 | CMOCA-A-019 | X'2004'   Tone Transfer Curve Subset   Tone Transfer Curve | ❓ |
 | CMOCA-A-020 | X'2011'   Tone Transfer Curve Length   Tone Transfer Curve | ❓ |
 | CMOCA-A-021 | X'2015'   Tone Transfer Curve Data   Tone Transfer Curve | ❓ |
@@ -1020,16 +1020,16 @@
 | CMOCA-A-024 | X'3015'   ICC Profile Data   Color Conversion | ❓ |
 | CMOCA-A-025 | X'3025'   ICC Profile Filename   Color Conversion | ❓ |
 | CMOCA-A-026 | X'4011'   Link Color Conversion Subset   Link Color Conversion | ❓ |
-| CMOCA-A-027 | X'4015'   Link Audit CMR OID   Link Color Conversion | ❓ |
-| CMOCA-A-028 | X'4020'   Link Instruction CMR OID   Link Color Conversion | ❓ |
-| CMOCA-A-029 | X'4025'   Link Audit CMR Name   Link Color Conversion | ❓ |
-| CMOCA-A-030 | X'4030'   Link Instruction CMR Name   Link Color Conversion | ❓ |
+| CMOCA-A-027 | X'4015'   Link Audit CMR OID   Link Color Conversion | ✅ |
+| CMOCA-A-028 | X'4020'   Link Instruction CMR OID   Link Color Conversion | ✅ |
+| CMOCA-A-029 | X'4025'   Link Audit CMR Name   Link Color Conversion | ✅ |
+| CMOCA-A-030 | X'4030'   Link Instruction CMR Name   Link Color Conversion | ✅ |
 | CMOCA-A-031 | X'4035'   Default Rendering Intent   Link Color Conversion | ❓ |
 | CMOCA-A-032 | X'4040'   Link LUT Perceptual   Link Color Conversion | ❓ |
 | CMOCA-A-033 | X'4045'   Link LUT Media-Relative Colorimetric   Link Color Conversion | ❓ |
 | CMOCA-A-034 | X'4050'   Link LUT Saturation   Link Color Conversion | ❓ |
 | CMOCA-A-035 | X'4055'   Link LUT ICC-Absolute Colorimetric   Link Color Conversion | ❓ |
-| CMOCA-A-036 | X'4090'   Link CMRE Identifier   Link Color Conversion | ❓ |
+| CMOCA-A-036 | X'4090'   Link CMRE Identifier   Link Color Conversion | ✅ |
 | CMOCA-A-037 | X'5011'   Indexed Subset   Indexed | ❓ |
 | CMOCA-A-038 | X'5015'   Number of Named Colorants   Indexed | ❓ |
 | CMOCA-A-039 | X'5020'   Color Palette Gray   Indexed | ❓ |

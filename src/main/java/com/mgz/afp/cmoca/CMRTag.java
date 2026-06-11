@@ -149,6 +149,24 @@ public class CMRTag {
     return 1; // Default [CMOCA-5-087]
   }
 
+  private int[] getIntArrayFromTag(List<CMRTag> allTags, int targetTagId, int numComponents) {
+    for (CMRTag tag : allTags) {
+      if (tag.getTagId() == targetTagId && tag.getData() != null) {
+        int[] values = new int[numComponents];
+        int fieldSize = getFieldTypeSize(tag.getFieldType());
+        for (int i = 0; i < numComponents && (i + 1) * fieldSize <= tag.getData().length; i++) {
+          try {
+            values[i] = (int) UtilBinaryDecoding.parseLong(tag.getData(), i * fieldSize, fieldSize);
+          } catch (AFPParserException e) {
+            // ignore
+          }
+        }
+        return values;
+      }
+    }
+    return null;
+  }
+
   private static int getFieldTypeSize(int fieldType) {
     switch (fieldType) {
       case 0x01: // 1-byte UBIN
@@ -379,6 +397,67 @@ public class CMRTag {
         }
         break;
 
+      case 0x1045: // Bilevel Point-Operation Screen Data [CMOCA-5-122]
+      case 0x1055: // Error Diffusion Filter [CMOCA-5-130]
+        if (tagId == 0x1045) {
+          if (fieldType != 0x01 && fieldType != 0x02 && fieldType != 0x04) {
+            throw new AFPParserException(String.format("EC-104506: Invalid Field Type 0x%02X for Bilevel Screen Data tag", fieldType));
+          }
+        } else { // 0x1055
+          if (fieldType != 0x01) {
+            throw new AFPParserException(String.format("EC-105506: Invalid Field Type 0x%02X for Error Diffusion Filter tag", fieldType));
+          }
+        }
+        numComponents = getNumberOfComponents(allTags);
+        int[] widths = getIntArrayFromTag(allTags, 0x1021, numComponents);
+        int[] heights = getIntArrayFromTag(allTags, 0x1025, numComponents);
+        if (widths != null && heights != null) {
+          long expectedSum = 0;
+          for (int i = 0; i < numComponents; i++) {
+            expectedSum += (long) widths[i] * heights[i];
+          }
+          if (count != expectedSum) {
+            throw new AFPParserException(String.format("EC-%04X05: Invalid Count %d for tag 0x%04X (expected %d)", tagId, count, tagId, expectedSum));
+          }
+        }
+        break;
+
+      case 0x1050: // Multilevel Point-Operation Screen Data [CMOCA-5-126]
+        if (fieldType != 0x01) {
+          throw new AFPParserException(String.format("EC-105006: Invalid Field Type 0x%02X for Multilevel Screen Data tag", fieldType));
+        }
+        numComponents = getNumberOfComponents(allTags);
+        int[] w = getIntArrayFromTag(allTags, 0x1021, numComponents);
+        int[] h = getIntArrayFromTag(allTags, 0x1025, numComponents);
+        int[] m = getIntArrayFromTag(allTags, 0x1030, numComponents);
+        if (w != null && h != null && m != null) {
+          long expected = 0;
+          for (int i = 0; i < numComponents; i++) {
+            expected += (long) w[i] * h[i] * (m[i] + 1);
+          }
+          if (count != expected) {
+            throw new AFPParserException(String.format("EC-105005: Invalid Count %d for Multilevel Screen Data tag (expected %d)", count, expected));
+          }
+        }
+        break;
+
+      case 0x1080: // Quantization Boundary Table [CMOCA-5-156]
+        if (fieldType != 0x01 && fieldType != 0x02 && fieldType != 0x04) {
+          throw new AFPParserException(String.format("EC-108006: Invalid Field Type 0x%02X for Quantization Boundary Table tag", fieldType));
+        }
+        numComponents = getNumberOfComponents(allTags);
+        int[] levels = getIntArrayFromTag(allTags, 0x1035, numComponents);
+        if (levels != null) {
+          long expected = 0;
+          for (int i = 0; i < numComponents; i++) {
+            expected += (levels[i] - 1);
+          }
+          if (count != expected) {
+            throw new AFPParserException(String.format("EC-108005: Invalid Count %d for Quantization Boundary Table tag (expected %d)", count, expected));
+          }
+        }
+        break;
+
       case 0x1065: // Raster Direction [CMOCA-5-139]
         // [CMOCA-5-140] Field Type: X'08' (CODE)
         if (fieldType != 0x08) {
@@ -429,6 +508,14 @@ public class CMRTag {
         // [CMOCA-5-228, 231] Field Type: X'05' (BYTE)
         if (fieldType != 0x05) {
           throw new AFPParserException(String.format("EC-%04X06: Invalid Field Type 0x%02X for tag 0x%04X", tagId, fieldType, tagId));
+        }
+        break;
+
+      case 0x4025: // Link Audit CMR Name [CMOCA-5-233]
+      case 0x4030: // Link Instruction CMR Name [CMOCA-5-236]
+      case 0x4090: // Link CMRE Identifier [CMOCA-5-262]
+        if (fieldType != 0x07) { // UTF-16
+          throw new AFPParserException(String.format("EC-%04X06: Invalid Field Type 0x%02X for tag 0x%04X (expected 0x07)", tagId, fieldType, tagId));
         }
         break;
 
