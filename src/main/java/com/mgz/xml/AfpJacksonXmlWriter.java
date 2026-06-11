@@ -111,6 +111,14 @@ import com.mgz.afp.modca.PGP_PagePosition_Format2;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
 import com.mgz.afp.moca.MetadataObject;
 import com.mgz.afp.modca.OCD_ObjectContainerData;
+import com.mgz.afp.modca.IID_IMImageInputDescriptor;
+import com.mgz.afp.modca.ICP_IMImageCellPosition;
+import com.mgz.afp.modca.IRD_IMImageRasterData;
+import com.mgz.afp.modca.IOC_IMImageOutputControl;
+import com.mgz.afp.modca_L.BCA_BeginColorAttributeTable;
+import com.mgz.afp.modca_L.ECA_EndColorAttributeTable;
+import com.mgz.afp.modca_L.CAT_ColorAttributeTable;
+import com.mgz.afp.modca_L.MCA_MapColorAttributeTable;
 import com.mgz.afp.ptoca.BPT_BeginPresentationTextObject;
 import com.mgz.afp.ptoca.EPT_EndPresentationTextObject;
 import com.mgz.afp.ptoca.PTD_PresentationTextDataDescriptor_Format1;
@@ -517,6 +525,22 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeBddDirectly(bdd, level);
     } else if (sf instanceof BDA_BarCodeData bda) {
       writeBdaDirectly(bda, level);
+    } else if (sf instanceof IID_IMImageInputDescriptor iid) {
+      writeIidDirectly(iid, level);
+    } else if (sf instanceof ICP_IMImageCellPosition icp) {
+      writeIcpDirectly(icp, level);
+    } else if (sf instanceof IRD_IMImageRasterData ird) {
+      writeIrdDirectly(ird, level);
+    } else if (sf instanceof IOC_IMImageOutputControl ioc) {
+      writeIocDirectly(ioc, level);
+    } else if (sf instanceof BCA_BeginColorAttributeTable bca) {
+      writeBcaDirectly(bca, level);
+    } else if (sf instanceof ECA_EndColorAttributeTable eca) {
+      writeEcaDirectly(eca, level);
+    } else if (sf instanceof CAT_ColorAttributeTable cat) {
+      writeCatDirectly(cat, level);
+    } else if (sf instanceof MCA_MapColorAttributeTable mca) {
+      writeMcaDirectly(mca, level);
     } else {
       if (MnemonicPerformanceMonitor.isEnabled()) {
         String rootName = MnemonicPerformanceMonitor.getSimpleName(sf.getClass());
@@ -566,6 +590,142 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     if (tle.getText() != null) {
       writeElement(baseXsw, level + 1, "text", tle.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeIidDirectly(IID_IMImageInputDescriptor iid, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("IID");
+    baseXsw.writeStartElement("IID_IMImageInputDescriptor");
+    int childLevel = level + 1;
+    writeBinaryElement(baseXsw, childLevel, "constantData0_11", iid.getConstantData0_11());
+    if (iid.getxUnitBase() != null) {
+      writeElement(baseXsw, childLevel, "xUnitBase", iid.getxUnitBase().name());
+    }
+    if (iid.getyUnitBase() != null) {
+      writeElement(baseXsw, childLevel, "yUnitBase", iid.getyUnitBase().name());
+    }
+    writeElement(baseXsw, childLevel, "xUnitsPerUnitBase", (int) iid.getxUnitsPerUnitBase());
+    writeElement(baseXsw, childLevel, "yUnitsPerUnitBase", (int) iid.getyUnitsPerUnitBase());
+    writeElement(baseXsw, childLevel, "xSize", (int) iid.getxSize());
+    writeElement(baseXsw, childLevel, "ySize", (int) iid.getySize());
+    writeBinaryElement(baseXsw, childLevel, "constantData22_27", iid.getConstantData22_27());
+    writeElement(baseXsw, childLevel, "xDefaultCellSize", (int) iid.getxDefaultCellSize());
+    writeElement(baseXsw, childLevel, "yDefaultCellSize", (int) iid.getyDefaultCellSize());
+    writeBinaryElement(baseXsw, childLevel, "constantData32_33", iid.getConstantData32_33());
+    if (iid.getColor() != null) {
+      writeElement(baseXsw, childLevel, "color", iid.getColor().name());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeIcpDirectly(ICP_IMImageCellPosition icp, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("ICP");
+    baseXsw.writeStartElement("ICP_IMImageCellPosition");
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "xOffset", (int) icp.getxOffset());
+    writeElement(baseXsw, childLevel, "yOffset", (int) icp.getyOffset());
+    writeElement(baseXsw, childLevel, "xSize", icp.getxSize());
+    writeElement(baseXsw, childLevel, "ySize", icp.getySize());
+    writeElement(baseXsw, childLevel, "xSizeOfFillRectangle", icp.getxSizeOfFillRectangle());
+    writeElement(baseXsw, childLevel, "ySizeOfFillRectangle", icp.getySizeOfFillRectangle());
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeIrdDirectly(IRD_IMImageRasterData ird, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("IRD");
+    baseXsw.writeStartElement("IRD_IMImageRasterData");
+    int childLevel = level + 1;
+    if (ird.getData() != null) {
+      writeBinaryElement(baseXsw, childLevel, "data", ird.getData());
+    }
+    if (ird.getText() != null) {
+      writeElement(baseXsw, childLevel, "text", ird.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeIocDirectly(IOC_IMImageOutputControl ioc, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("IOC");
+    baseXsw.writeStartElement("IOC_IMImageOutputControl");
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "xOrigin", ioc.getxOrigin());
+    writeElement(baseXsw, childLevel, "yOrigin", ioc.getyOrigin());
+    if (ioc.getxRotation() != null) {
+      writeElement(baseXsw, childLevel, "xRotation", ioc.getxRotation().name());
+    }
+    if (ioc.getyRotation() != null) {
+      writeElement(baseXsw, childLevel, "yRotation", ioc.getyRotation().name());
+    }
+    writeBinaryElement(baseXsw, childLevel, "constantData10_17", ioc.getConstantData10_17());
+    if (ioc.getxImageMapping() != null) {
+      writeElement(baseXsw, childLevel, "xImageMapping", ioc.getxImageMapping().name());
+    }
+    if (ioc.getyImageMapping() != null) {
+      writeElement(baseXsw, childLevel, "yImageMapping", ioc.getyImageMapping().name());
+    }
+    writeBinaryElement(baseXsw, childLevel, "constantData22_23", ioc.getConstantData22_23());
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeBcaDirectly(BCA_BeginColorAttributeTable bca, int level) throws Exception {
+    writeNameAndTripletsDirectly(bca, "BCA_BeginColorAttributeTable", level);
+  }
+
+  private void writeEcaDirectly(ECA_EndColorAttributeTable eca, int level) throws Exception {
+    writeNameAndTripletsDirectly(eca, "ECA_EndColorAttributeTable", level);
+  }
+
+  private void writeCatDirectly(CAT_ColorAttributeTable cat, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("CAT");
+    baseXsw.writeStartElement("CAT_ColorAttributeTable");
+    int childLevel = level + 1;
+    if (cat.getBasePart() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("basePart");
+      int bpLevel = childLevel + 1;
+      if (cat.getBasePart().getResetLCTFlag() != null) {
+        writeElement(baseXsw, bpLevel, "resetLCTFlag", cat.getBasePart().getResetLCTFlag().name());
+      }
+      writeElement(baseXsw, bpLevel, "reserved1", (int) cat.getBasePart().getReserved1());
+      writeElement(baseXsw, bpLevel, "colorTableLocalID", (int) cat.getBasePart().getColorTableLocalID());
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    writeBinaryElement(baseXsw, childLevel, "otherData", cat.getOtherData());
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeMcaDirectly(MCA_MapColorAttributeTable mca, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("MCA");
+    baseXsw.writeStartElement("MCA_MapColorAttributeTable");
+    int childLevel = level + 1;
+    if (mca.getRepeatingGroups() != null) {
+      for (IRepeatingGroup rg : mca.getRepeatingGroups()) {
+        writeIndent(baseXsw, childLevel);
+        baseXsw.writeStartElement("repeatingGroups");
+        if (rg instanceof RepeatingGroupWithTriplets rgt) {
+          if (rgt.getTriplets() != null) {
+            for (Triplet triplet : rgt.getTriplets()) {
+              writeTriplet(baseXsw, triplet, childLevel + 1);
+            }
+          }
+        }
+        writeIndent(baseXsw, childLevel);
+        baseXsw.writeEndElement();
+      }
     }
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
