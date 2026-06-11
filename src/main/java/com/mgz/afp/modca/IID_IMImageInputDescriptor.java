@@ -97,4 +97,52 @@ public class IID_IMImageInputDescriptor extends StructuredField {
 
     writeFullStructuredField(os, baos.toByteArray());
   }
+
+  public byte[] getConstantData0_11() {
+    return constantData0_11;
+  }
+
+  public AFPUnitBase getxUnitBase() {
+    return xUnitBase;
+  }
+
+  public AFPUnitBase getyUnitBase() {
+    return yUnitBase;
+  }
+
+  public short getxUnitsPerUnitBase() {
+    return xUnitsPerUnitBase;
+  }
+
+  public short getyUnitsPerUnitBase() {
+    return yUnitsPerUnitBase;
+  }
+
+  public short getxSize() {
+    return xSize;
+  }
+
+  public short getySize() {
+    return ySize;
+  }
+
+  public byte[] getConstantData22_27() {
+    return constantData22_27;
+  }
+
+  public short getxDefaultCellSize() {
+    return xDefaultCellSize;
+  }
+
+  public short getyDefaultCellSize() {
+    return yDefaultCellSize;
+  }
+
+  public byte[] getConstantData32_33() {
+    return constantData32_33;
+  }
+
+  public AFPColorValue getColor() {
+    return color;
+  }
 }
