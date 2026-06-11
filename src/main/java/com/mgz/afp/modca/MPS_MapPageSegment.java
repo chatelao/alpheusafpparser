@@ -98,7 +98,7 @@ public class MPS_MapPageSegment extends StructuredFieldBaseRepeatingGroups {
   }
 
   public static class MPS_RepeatingGroup implements IRepeatingGroup {
-    byte[] reserved0_3 = new byte[4];
+    public byte[] reserved0_3 = new byte[4];
     String nameOfPageSegment;
 
     @Override
