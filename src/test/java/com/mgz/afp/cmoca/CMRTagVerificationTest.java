@@ -186,6 +186,86 @@ public class CMRTagVerificationTest {
 
         assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
 
+        // [CMOCA-5-110] Max Image Value tag invalid Field Type
+        byte[] cmrDataMV = new byte[24];
+        cmrDataMV[0] = 0x10;
+        cmrDataMV[1] = 0x30; // Tag X'1030'
+        cmrDataMV[3] = 0x08; // Invalid field type 8 (expected 1, 2, or 4)
+        cmrDataMV[13] = (byte) 0xFF;
+        cmrDataMV[12] = (byte) 0xFF;
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrDataMV));
+
+        // [CMOCA-5-114] Num Device Levels tag invalid Field Type
+        byte[] cmrDataDL = new byte[24];
+        cmrDataDL[0] = 0x10;
+        cmrDataDL[1] = 0x35; // Tag X'1035'
+        cmrDataDL[3] = 0x02; // Invalid field type 2 (expected 1)
+        cmrDataDL[13] = (byte) 0xFF;
+        cmrDataDL[12] = (byte) 0xFF;
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrDataDL));
+
+        // [CMOCA-5-118] Offset Tiling tag invalid Field Type
+        byte[] cmrDataOT = new byte[24];
+        cmrDataOT[0] = 0x10;
+        cmrDataOT[1] = 0x40; // Tag X'1040'
+        cmrDataOT[3] = 0x04; // Invalid field type 4 (expected 1 or 2)
+        cmrDataOT[13] = (byte) 0xFF;
+        cmrDataOT[12] = (byte) 0xFF;
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrDataOT));
+
+        // [CMOCA-5-146, 150] Boundary Condition tag
+        byte[] cmrDataBC = new byte[24];
+        cmrDataBC[0] = 0x10;
+        cmrDataBC[1] = 0x70; // Tag X'1070'
+        cmrDataBC[3] = 0x01; // Invalid field type (expected 8)
+        cmrDataBC[13] = (byte) 0xFF;
+        cmrDataBC[12] = (byte) 0xFF;
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrDataBC));
+
+        cmrDataBC[3] = 0x08; // Valid type
+        cmrDataBC[7] = 0x01; // Count 1
+        cmrDataBC[11] = 0x05; // Invalid value 5 (expected 1-4)
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrDataBC));
+
+        // [CMOCA-5-174, 176] TTC Length tag
+        byte[] cmrDataTL = new byte[24];
+        cmrDataTL[0] = 0x20;
+        cmrDataTL[1] = 0x11; // Tag X'2011'
+        cmrDataTL[3] = 0x08;
+        cmrDataTL[7] = 0x01;
+        cmrDataTL[11] = 0x03; // Invalid value 3 (expected 1-2)
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrDataTL));
+
+        // [CMOCA-5-219] ICC Profile Filename tag
+        byte[] cmrDataFN = new byte[24];
+        cmrDataFN[0] = 0x30;
+        cmrDataFN[1] = 0x25; // Tag X'3025'
+        cmrDataFN[3] = 0x08; // Invalid field type 8 (expected 6 or 7)
+        cmrDataFN[13] = (byte) 0xFF;
+        cmrDataFN[12] = (byte) 0xFF;
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrDataFN));
+
+        // [CMOCA-5-240, 241] Default Rendering Intent tag
+        byte[] cmrDataRI = new byte[24];
+        cmrDataRI[0] = 0x40;
+        cmrDataRI[1] = 0x35; // Tag X'4035'
+        cmrDataRI[3] = 0x08;
+        cmrDataRI[7] = 0x01;
+        cmrDataRI[8] = 0x04; // Invalid value 4 (expected 0-3), left-aligned inline
+        cmrDataRI[13] = (byte) 0xFF;
+        cmrDataRI[12] = (byte) 0xFF;
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrDataRI));
+
+        // [CMOCA-5-270, 271] Num Named Colorants tag
+        byte[] cmrDataNC = new byte[24];
+        cmrDataNC[0] = 0x50;
+        cmrDataNC[1] = 0x15; // Tag X'5015'
+        cmrDataNC[3] = 0x01;
+        cmrDataNC[7] = 0x02; // Invalid count 2 (expected 1)
+        cmrDataNC[13] = (byte) 0xFF;
+        cmrDataNC[12] = (byte) 0xFF;
+        assertThrows(Exception.class, () -> CMRTag.parseTags(cmrDataNC));
+
         // [CMOCA-5-065] Date/Time tag invalid Count
         byte[] cmrData2 = new byte[24];
         cmrData2[1] = 0x08; // Tag X'0008'
