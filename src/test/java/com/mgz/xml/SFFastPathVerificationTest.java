@@ -1,5 +1,7 @@
 package com.mgz.xml;
 
+import com.mgz.afp.modca.CDD_ContainerDataDescriptor;
+import com.mgz.afp.modca.LLE_LinkLogicalElement;
 import com.mgz.afp.modca.MBC_MapBarCodeObject;
 import com.mgz.afp.modca.MMD_MapMediaDestination;
 import com.mgz.afp.modca.MMO_MapMediumOverlay;
@@ -237,6 +239,8 @@ public class SFFastPathVerificationTest {
 
     @Test
     public void testMapFieldsFastPaths() throws Exception {
+        verifySF(createCDD(), "CDD_ContainerDataDescriptor");
+        verifySF(createLLE(), "LLE_LinkLogicalElement");
         verifySF(createMBC(), "MBC_MapBarCodeObject");
         verifySF(createMMD(), "MMD_MapMediaDestination");
         verifySF(createMMO(), "MMO_MapMediumOverlay");
@@ -567,6 +571,33 @@ public class SFFastPathVerificationTest {
         rg.addTriplet(rli);
         mpt.addRepeatingGroup(rg);
         return mpt;
+    }
+
+    private CDD_ContainerDataDescriptor createCDD() {
+        CDD_ContainerDataDescriptor cdd = new CDD_ContainerDataDescriptor();
+        cdd.setRetiredParameters(new byte[12]);
+        Triplet.ResourceLocalIdentifier rli = new Triplet.ResourceLocalIdentifier();
+        rli.setResourceType(Triplet.ResourceLocalIdentifier.RLI_ResourceType.PageOverlay);
+        rli.setResourceLocalID((short) 1);
+        rli.setTripletID(Triplet.TripletID.ResourceLocalIdentifier);
+        cdd.addTriplet(rli);
+        return cdd;
+    }
+
+    private LLE_LinkLogicalElement createLLE() {
+        LLE_LinkLogicalElement lle = new LLE_LinkLogicalElement();
+        lle.setLinkType(LLE_LinkLogicalElement.LLE_LinkType.NavigationLink);
+        lle.setReserved1((byte) 0);
+        LLE_LinkLogicalElement.LLE_RepeatingGroup rg = new LLE_LinkLogicalElement.LLE_RepeatingGroup();
+        rg.setRepeatingGroupFunction(LLE_LinkLogicalElement.LLE_RepeatingGroup.LLE_RepeatingGroupFunction.LinkSourceSpecification);
+        Triplet.ResourceLocalIdentifier rli = new Triplet.ResourceLocalIdentifier();
+        rli.setResourceType(Triplet.ResourceLocalIdentifier.RLI_ResourceType.PageOverlay);
+        rli.setResourceLocalID((short) 1);
+        rli.setTripletID(Triplet.TripletID.ResourceLocalIdentifier);
+        rg.addTriplet(rli);
+        rg.setLengthOfRepeatingGroup(10); // lengthOfRepeatingGroup is recalculated in writeAFP but we set it here for completeness
+        lle.addRepeatingGroup(rg);
+        return lle;
     }
 
     private LNC_LineDescriptorCount createLNC() {
