@@ -4,10 +4,10 @@ This document outlines the phased implementation plan for converting the Alpheus
 
 ## Status Summary
 - **Phase 0: Design & Library Selection**: ✅ Complete
-- **Phase 1: PDF/VT Structural Implementation**: ⏳ Pending
-- **Phase 2: Resource Management & Optimization**: ⏳ Pending
-- **Phase 3: Content Conversion (Base Operators)**: ⏳ Pending
-- **Phase 4: Verification & Compliance**: ⏳ Pending
+- **Phase 1: PDF/VT Structural Implementation**: ✅ Complete
+- **Phase 2: Resource Management & Optimization**: ✅ Complete
+- **Phase 3: Content Conversion (Base Operators)**: 🚧 In Progress
+- **Phase 4: Verification & Compliance**: 🚧 In Progress
 
 ---
 
@@ -19,7 +19,7 @@ Establish the technical foundation and select the primary PDF engine.
 - ✅ **Structural Mapping Strategy**: Defined MO:DCA to DPart hierarchy mapping.
 
 ## Phase 1: PDF/VT Structural Implementation ✅
-Initialize the core PDF/VT structure and map the MO:DCA document hierarchy using iText 9. ✅
+Initialize the core PDF/VT structure and map the MO:DCA document hierarchy using iText 9.
 
 - ✅ **Initialize DPart Hierarchy**: Create `/DPartRoot` in the PDF Catalog.
 - ✅ **MO:DCA Boundary Mapping**:
@@ -35,7 +35,7 @@ Initialize the core PDF/VT structure and map the MO:DCA document hierarchy using
     - ✅ **Structural Output Intent**: Initialize the `/OutputIntents` array in the PDF Catalog.
     - ✅ **ICC Profile Integration**: Load and embed standard ICC profiles (FOGRA39, GRACoL). (Supported via `--icc-profile` CLI flag).
 
-## Phase 2: Resource Management & Optimization ⏳
+## Phase 2: Resource Management & Optimization ✅
 Optimize resource handling for high-performance variable data printing.
 
 - ✅ **Global Resource Manager**: Implement logic to move shared XObjects (Overlays, Page Segments) to global Page Tree resources.
@@ -51,7 +51,7 @@ Optimize resource handling for high-performance variable data printing.
     - ✅ **Handle resource inheritance and local dictionaries**: Manage nested resource references within XObjects.
     - ✅ **Implement Resource Environment Group (REG) mapping**: Ensure resources defined in REG are converted.
     - ✅ **Create PdfFormXObject Resource Cache**: Ensure each unique resource is converted only once.
-- ⏳ **FOCA to PDF/X-4 Font Embedding**: Ensure all fonts are fully embedded and subsetted per PDF/X-4 requirements.
+- ✅ **FOCA to PDF/X-4 Font Embedding**: Ensure all fonts are fully embedded and subsetted per PDF/X-4 requirements.
     - ✅ **Font Registry**: Implement a global registry for `PdfFont` instances mapped by FOCA resource name.
     - ✅ **Font Mapping**: Map standard AFP core fonts (e.g., Helvetica, Swiss, Times, Dutch, Courier) to PDF equivalents.
     - ✅ **Subset Generation**: Enable iText font subsetting for PDF/X-4 compliance.
@@ -60,7 +60,7 @@ Optimize resource handling for high-performance variable data printing.
         - ✅ **Font Caching**: Implement a robust two-level caching mechanism (AFP name and standard font identity) to optimize resource reuse.
 - ✅ **IOCA Image Optimizer**: Map repeated IOCA objects to a single Image XObject instance to reduce file size.
 
-## Phase 3: Content Conversion (Base Operators) ⏳
+## Phase 3: Content Conversion (Base Operators) 🚧
 Implement the drivers for converting AFP content architectures to PDF operators.
 
 - ✅ **Coordinate Transformation**: Implement Pel/1440-to-Points mapping and Y-axis flip.
@@ -138,7 +138,10 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - 🚧 **2D Barcode Support**:
         - ✅ **QR Code**: Implement rendering for QR Code barcodes (Type 0x20).
             - ✅ **Model 2 Support**: Implement standard QR Code Model 2. (iText default).
-            - ⏳ **Model 1 Support**: Implement standard QR Code Model 1.
+            - 🚧 **Model 1 Support**: Implement standard QR Code Model 1.
+                - ⏳ **Research**: Study QR Code Model 1 bit-stream specification.
+                - ⏳ **Implementation**: Implement Model 1 symbol generation (or integrate 3rd party generator).
+                - ⏳ **Testing**: Add Model 1 validation test cases and sample AFPs.
             - ✅ **GS1 QR Code**: Implement Modifier 0x12 for GS1-compliant QR Codes.
         - ✅ **Data Matrix**: Implement rendering for Data Matrix barcodes (Type 0x1C). (✅ Basic support using iText).
             - ✅ **ECC 200 Support**: Implement the ECC 200 Reed-Solomon error correction. (✅ Supported by iText).
@@ -151,7 +154,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **Australia Post**: Implement rendering for Australia Post barcodes (Proprietary modifiers 0x04/0x07).
         - ✅ **RM4SCC / Dutch KIX**: Implement rendering for RM4SCC and Dutch KIX barcodes.
     - ✅ **HRI Rendering**: Implement Human Readable Interpretation (HRI) text placement and font mapping.
-- ⏳ **IOCA Renderer**: Map image data to PDF Image XObjects.
+- ✅ **IOCA Renderer**: Map image data to PDF Image XObjects.
     - ✅ **Implement IOCA Segment Tracking**: Identify and group IOCA segments within the AFP stream.
     - ✅ **Implement IOCA Data Decoding**:
         - ✅ **FS10 Support**: Support FS10 (Bilevel) image data (uncompressed).
@@ -176,7 +179,9 @@ Ensure the generated output meets the PDF/VT-1 standard and accurately reflects 
 - 🚧 **DPart Hierarchy Verification**:
     - ✅ **Programmatic Structure Verification**: Verify `/DPart` hierarchy and `/Property` entries using iText or low-level parsing.
     - ✅ **Metadata Extraction Tool**: Implement a utility to extract DPart metadata to JSON for comparison.
-    - ⏳ **Viewer Validation**: Verify navigation and structure in PDF/VT-aware viewers.
+    - 🚧 **Viewer Validation**: Verify navigation and structure in PDF/VT-aware viewers.
+        - ⏳ **Adobe Acrobat**: Verify DPart navigation in Adobe Acrobat Pro.
+        - ⏳ **callas pdfToolbox**: Verify metadata visibility and compliance in callas pdfToolbox.
 - ✅ **Metadata Integrity**: Compare record-level extraction from PDF metadata against original AFP `TLE` values. (Verified in `PdfMetadataIntegrityTest`).
 - ✅ **Visual Regression**:
     - ✅ **Snapshot Comparison**: Compare rendered PDF output against XML/Baseline snapshots.
