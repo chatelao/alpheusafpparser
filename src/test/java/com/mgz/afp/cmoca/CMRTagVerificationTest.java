@@ -36,6 +36,77 @@ public class CMRTagVerificationTest {
     }
 
     @Test
+    public void testTag1021Validation() throws Exception {
+        // [CMOCA-5-101] TagID: X'1021' Array Width
+        // [CMOCA-5-102] Field Type: X'01' or X'02'
+        byte[] cmrData = new byte[24];
+        cmrData[0] = 0x10;
+        cmrData[1] = 0x21;
+        cmrData[3] = 0x05; // Invalid Field Type (BYTE)
+        cmrData[12] = (byte) 0xFF;
+        cmrData[13] = (byte) 0xFF;
+
+        Exception e = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+        assertTrue(e.getMessage().contains("EC-102106"));
+
+        cmrData[3] = 0x01; // Valid
+        CMRTag.parseTags(cmrData);
+
+        cmrData[3] = 0x02; // Valid
+        CMRTag.parseTags(cmrData);
+    }
+
+    @Test
+    public void testTag1025Validation() throws Exception {
+        // [CMOCA-5-105] TagID: X'1025' Array Height
+        // [CMOCA-5-106] Field Type: X'01' or X'02'
+        byte[] cmrData = new byte[24];
+        cmrData[0] = 0x10;
+        cmrData[1] = 0x25;
+        cmrData[3] = 0x04; // Invalid Field Type (4-byte UBIN)
+        cmrData[12] = (byte) 0xFF;
+        cmrData[13] = (byte) 0xFF;
+
+        Exception e = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+        assertTrue(e.getMessage().contains("EC-102506"));
+
+        cmrData[3] = 0x01; // Valid
+        CMRTag.parseTags(cmrData);
+
+        cmrData[3] = 0x02; // Valid
+        CMRTag.parseTags(cmrData);
+    }
+
+    @Test
+    public void testTag1065Validation() throws Exception {
+        // [CMOCA-5-139] TagID: X'1065' Raster Direction
+        // [CMOCA-5-140] Field Type: X'08' (CODE)
+        byte[] cmrData = new byte[24];
+        cmrData[0] = 0x10;
+        cmrData[1] = 0x65;
+        cmrData[3] = 0x01; // Invalid Field Type (UBIN)
+        cmrData[12] = (byte) 0xFF;
+        cmrData[13] = (byte) 0xFF;
+
+        Exception e = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+        assertTrue(e.getMessage().contains("EC-106506"));
+
+        cmrData[3] = 0x08;
+        cmrData[7] = 0x01;
+        cmrData[8] = 0x03; // Invalid Value (expected 1 or 2), left-aligned inline
+        Exception e2 = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+        assertTrue(e2.getMessage().contains("EC-106510"));
+
+        cmrData[8] = 0x01; // Normal raster - Valid
+        List<CMRTag> tags1 = CMRTag.parseTags(cmrData);
+        assertEquals(1, tags1.get(0).getData()[0]);
+
+        cmrData[8] = 0x02; // Serpentine raster - Valid
+        List<CMRTag> tags2 = CMRTag.parseTags(cmrData);
+        assertEquals(2, tags2.get(0).getData()[0]);
+    }
+
+    @Test
     public void testTagReservedByte() throws Exception {
         // [CMOCA-5-004] Reserved X'00' Should be set to zero
         byte[] cmrData = new byte[24];
