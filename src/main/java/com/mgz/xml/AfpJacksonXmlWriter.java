@@ -3537,9 +3537,13 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
   }
 
-  private void writePtdFormat1Directly(PTD_PresentationTextDataDescriptor_Format1 ptd, int level) throws Exception {
+  private void writePtdFormat1Directly(PTD_PresentationTextDataDescriptor_Format1 ptd, int level)
+      throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("PTD");
-    XmlTemplateRegistry.getTemplate("PTD1").writeObjects(baseXsw, ptd.getxUnitBase(), ptd.getyUnitBase(), (int) ptd.getxUnitsPerUnitBase(), (int) ptd.getyUnitsPerUnitBase(), (int) ptd.getxSize(), (int) ptd.getySize(), com.mgz.util.UtilCharacterEncoding.bytesToHexString(ptd.getReserved10_11()));
+    XmlTemplateRegistry.getTemplate("PTD1").writeObjects(baseXsw, ptd.getxUnitBase(),
+        ptd.getyUnitBase(), (int) ptd.getxUnitsPerUnitBase(), (int) ptd.getyUnitsPerUnitBase(),
+        (int) ptd.getxSize(), (int) ptd.getySize(),
+        com.mgz.util.UtilCharacterEncoding.bytesToHexString(ptd.getReserved10_11()));
     MnemonicPerformanceMonitor.endWrite();
   }
 
