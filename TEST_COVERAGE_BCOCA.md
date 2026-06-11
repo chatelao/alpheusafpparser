@@ -174,6 +174,14 @@
 | BCOCA-4-319 | Bytes n+1 to end: Bar code data. | ✅ |
 | BCOCA-4-320 | Bar Code Symbol Data (BSA) description and exceptions. | ✅ |
 | BCOCA-5-001 | EC-0611: A desired symbol width was specified, but a bar code symbol cannot be generated that fits within the specified width. | ❓ |
+| BCOCA-5-xxx | EC-0F05: Invalid symbol-mode (MaxiCode). | ✅ |
+| BCOCA-5-xxx | EC-0F06: Invalid data symbol characters per row (PDF417). | ✅ |
+| BCOCA-5-xxx | EC-0F07: Invalid number of rows (PDF417). | ✅ |
+| BCOCA-5-xxx | EC-0F09: Invalid security level (PDF417). | ✅ |
+| BCOCA-5-xxx | EC-0F0C: Invalid macro length (PDF417). | ✅ |
+| BCOCA-5-xxx | EC-0F15: Invalid banner length (Intelligent Mail Package Barcode). | ✅ |
+| BCOCA-5-xxx | EC-0F14: Empty banner string when required (Intelligent Mail Package Barcode). | ✅ |
+| BCOCA-5-xxx | EC-0F13: Invalid UTF-16BE banner string (Intelligent Mail Package Barcode). | ✅ |
 | BCOCA-5-002 | Specification-Check Exceptions overview. | ✅ |
 | BCOCA-5-003 | EC-0F0A: Incompatible Data Matrix parameters: structured append with reader programming or macro. | ✅ |
 | BCOCA-5-004 | EC-0F0A: Incompatible Data Matrix parameters: GS1 FNC1 with industry FNC1, reader programming or macro. | ✅ |

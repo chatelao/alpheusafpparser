@@ -118,10 +118,16 @@ public class MetadataObject {
         // [MOCA-4-025] [MOCA-4-036]
         throw new AFPParserException("EC-0250 Invalid Field Value: MONameLength " + moNameLength + " exceeds header boundaries.");
       }
-      moName = new String(data, currentOffset, moNameLength, StandardCharsets.UTF_16BE);
-      // [MOCA-4-026] [MOCA-4-032] - Validating UTF-16BE is implicit by new String,
-      // but we should check for surrogates if needed. String doesn't throw on invalid bytes usually,
-      // it uses replacement chars.
+      // [MOCA-4-026] [MOCA-4-032] EC-0210: Validating UTF-16BE
+      try {
+        java.nio.charset.CharsetDecoder decoder = StandardCharsets.UTF_16BE.newDecoder()
+            .onMalformedInput(java.nio.charset.CodingErrorAction.REPORT)
+            .onUnmappableCharacter(java.nio.charset.CodingErrorAction.REPORT);
+        java.nio.ByteBuffer buffer = java.nio.ByteBuffer.wrap(data, currentOffset, moNameLength);
+        moName = decoder.decode(buffer).toString();
+      } catch (java.nio.charset.CharacterCodingException e) {
+        throw new AFPParserException("EC-0210 Invalid Field Value: MOName is not valid UTF-16BE data.");
+      }
     }
 
     int dataStartOffset = 4 + headerLength;

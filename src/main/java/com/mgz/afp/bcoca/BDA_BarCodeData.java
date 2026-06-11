@@ -120,9 +120,31 @@ public class BDA_BarCodeData extends StructuredField {
       // Byte 7 is Reserved
       bannerLength = sfData[offset + 3];
 
+      // [BCOCA-4-530] EC-0F15: Banner length must be even
+      if (((bannerLength & 0xFF) % 2) != 0) {
+        throw new AFPParserException("EC-0F15: For an Intelligent Mail Package Barcode, the USPS-Service-Banner length must be even.");
+      }
+
+      // [BCOCA-4-531] EC-0F14: Banner string cannot be empty if it's not suppressed
+      if (!intelligentMailPackageBarcodeFlags.contains(IntelligentMailPackageBarcodeFlag.SuppressUSPS_ServiceBanner) && bannerLength == 0) {
+        throw new AFPParserException("EC-0F14: For an Intelligent Mail Package Barcode, the USPS-Service-Banner length is X'00', but it is not suppressed.");
+      }
+
       if (bannerLength > 0) {
+        // [BCOCA-5-002] Check if we have enough data for the banner string
+        BDA_BarCodeData.checkDataLength(sfData, offset + 4, length - 4, bannerLength & 0xFF);
         bannerString = new byte[bannerLength & 0xFF];
         System.arraycopy(sfData, offset + 4, bannerString, 0, bannerString.length);
+
+        // [BCOCA-4-531] EC-0F13: Valid UTF-16BE
+        try {
+          java.nio.charset.CharsetDecoder decoder = java.nio.charset.StandardCharsets.UTF_16BE.newDecoder()
+              .onMalformedInput(java.nio.charset.CodingErrorAction.REPORT)
+              .onUnmappableCharacter(java.nio.charset.CodingErrorAction.REPORT);
+          decoder.decode(java.nio.ByteBuffer.wrap(bannerString));
+        } catch (java.nio.charset.CharacterCodingException e) {
+          throw new AFPParserException("EC-0F13: For an Intelligent Mail Package Barcode, the USPS-Service-Banner string is invalid.");
+        }
       } else {
         bannerString = new byte[0];
       }
@@ -857,6 +879,10 @@ public class BDA_BarCodeData extends StructuredField {
       BDA_BarCodeData.checkDataLength(sfData, offset, length, 5);
       controlFlags = ControlFlag.valueOf(UtilBinaryDecoding.parseInt(sfData, offset, 1));
       symbolMode = SymbolMode.valueOf(sfData[offset + 1]);
+      // [BCOCA-4-545] EC-0F05: invalid symbol-mode
+      if (symbolMode == null) {
+        throw new AFPParserException("EC-0F05: For a MaxiCode symbol, an invalid symbol-mode value was specified. Valid values are 2-6.");
+      }
       sequenceIndicator = sfData[offset + 2];
       totalNumberOfSymbols = sfData[offset + 3];
       specialFunctionFlag = SpecialFunctionFlag.valueOf(sfData[offset + 4]);
@@ -941,14 +967,36 @@ public class BDA_BarCodeData extends StructuredField {
       checkDataLength(sfData, offset, length, 6);
       controlFlags = ControlFlag.valueOf(UtilBinaryDecoding.parseInt(sfData, offset, 1));
       numberOfDataSymbolCharactersPerRow = sfData[offset + 1];
-      desiredNumberOfRows = sfData[offset + 2];
-      securityLevel = sfData[offset + 3];
-      lengthOfMacroPDF417ControlBlock = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
-      macroPDF417ControlBlock = new byte[lengthOfMacroPDF417ControlBlock];
-      if (lengthOfMacroPDF417ControlBlock > 0) {
-        System.arraycopy(sfData, offset + 6, macroPDF417ControlBlock, 0, lengthOfMacroPDF417ControlBlock);
+
+      // [BCOCA-4-561] EC-0F06: data symbol characters per row (1 to 30)
+      if (numberOfDataSymbolCharactersPerRow < 1 || numberOfDataSymbolCharactersPerRow > 30) {
+        throw new AFPParserException("EC-0F06: For a PDF417 symbol, an invalid number-of-data-symbol-characters-per-row value was specified. Valid values are 1-30.");
       }
-      return 6 + lengthOfMacroPDF417ControlBlock;
+
+      desiredNumberOfRows = sfData[offset + 2];
+      // [BCOCA-4-561] EC-0F07: desired number of rows (3 to 90 or 255)
+      if (((desiredNumberOfRows & 0xFF) < 3 || (desiredNumberOfRows & 0xFF) > 90) && (desiredNumberOfRows & 0xFF) != 255) {
+        throw new AFPParserException("EC-0F07: For a PDF417 symbol, an invalid number-of-rows value was specified. Valid values are 3-90 or 255.");
+      }
+
+      securityLevel = sfData[offset + 3];
+      // [BCOCA-4-562] EC-0F09: security level (0 to 8)
+      if (securityLevel > 8) {
+        throw new AFPParserException("EC-0F09: For a PDF417 symbol, an invalid security-level value was specified. Valid values are 0-8.");
+      }
+
+      lengthOfMacroPDF417ControlBlock = UtilBinaryDecoding.parseShort(sfData, offset + 4, 2);
+      // [BCOCA-4-567] EC-0F0C: macro length (0 to 32749 / 0x7FED)
+      if ((lengthOfMacroPDF417ControlBlock & 0xFFFF) > 0x7FED) {
+        throw new AFPParserException("EC-0F0C: For a PDF417 symbol, an invalid macro-length value was specified.");
+      }
+
+      macroPDF417ControlBlock = new byte[lengthOfMacroPDF417ControlBlock & 0xFFFF];
+      if (lengthOfMacroPDF417ControlBlock > 0) {
+        checkDataLength(sfData, offset + 6, length - 6, lengthOfMacroPDF417ControlBlock & 0xFFFF);
+        System.arraycopy(sfData, offset + 6, macroPDF417ControlBlock, 0, lengthOfMacroPDF417ControlBlock & 0xFFFF);
+      }
+      return 6 + (lengthOfMacroPDF417ControlBlock & 0xFFFF);
     }
 
     @Override

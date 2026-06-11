@@ -184,6 +184,21 @@ public class MetadataObjectTest {
     }
 
     @Test
+    public void testMetadataObjectInvalidMONameUtf16() throws Exception {
+        // [MOCA-4-026] [MOCA-4-032] EC-0210
+        byte[] moData = createValidAfptData();
+        byte[] data = createValidMocaBytes("DES", "AFPT", "NONE", "X", moData);
+        // MONameLength is at offset 48-49. createValidMocaBytes sets it.
+        // MOName starts at offset 50.
+        data[50] = (byte) 0xD8;
+        data[51] = 0x00; // Invalid UTF-16BE (lone surrogate)
+
+        MetadataObject mo = new MetadataObject();
+        AFPParserException ex = assertThrows(AFPParserException.class, () -> mo.decode(data));
+        assertTrue(ex.getMessage().contains("EC-0210"));
+    }
+
+    @Test
     public void testMetadataObjectValidXmpData() throws Exception {
         // [MOCA-4-027] [MOCA-4-037]
         String xmp = "<x:xmpmeta xmlns:x='adobe:ns:meta/'><rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'/></x:xmpmeta>";
