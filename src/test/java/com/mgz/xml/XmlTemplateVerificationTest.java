@@ -3,6 +3,7 @@ package com.mgz.xml;
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.modca.PGP_PagePosition_Format1;
+import com.mgz.afp.ptoca.PTD_PresentationTextDataDescriptor_Format1;
 import com.mgz.afp.enums.AFPColorSpace;
 import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.enums.AFPUnitBase;
@@ -195,6 +196,38 @@ public class XmlTemplateVerificationTest {
         pgp1.setxOrigin(100);
         pgp1.setyOrigin(200);
         verifySF(pgp1, "PGP1");
+
+        // ObjectByteOffset
+        Triplet.ObjectByteOffset obo = new Triplet.ObjectByteOffset();
+        obo.byteOffset = 123456789L;
+        verifySF(obo, "ObjectByteOffset");
+
+        // ObjectStructuredFieldOffset
+        Triplet.ObjectStructuredFieldOffset osfo = new Triplet.ObjectStructuredFieldOffset();
+        osfo.offsetLow = 1000;
+        verifySF(osfo, "ObjectStructuredFieldOffset");
+
+        // ObjectStructuredFieldExtent
+        Triplet.ObjectStructuredFieldExtent osfe = new Triplet.ObjectStructuredFieldExtent();
+        osfe.numberOfSFLow = 500;
+        verifySF(osfe, "ObjectStructuredFieldExtent");
+
+        // ObjectOffset
+        Triplet.ObjectOffset oo = new Triplet.ObjectOffset();
+        oo.objectType = Triplet.ObjectOffset.ObjectType.Page_PaginatedObject;
+        oo.nrOfPrecedingObjectsLow = 10;
+        verifySF(oo, "ObjectOffset");
+
+        // PTD1
+        PTD_PresentationTextDataDescriptor_Format1 ptd1 = new PTD_PresentationTextDataDescriptor_Format1();
+        ptd1.setxUnitBase(AFPUnitBase.Inches10);
+        ptd1.setyUnitBase(AFPUnitBase.Inches10);
+        ptd1.setxUnitsPerUnitBase((short) 1440);
+        ptd1.setyUnitsPerUnitBase((short) 1440);
+        ptd1.setxSize((short) 12240);
+        ptd1.setySize((short) 15840);
+        ptd1.setReserved10_11(new byte[] {0x00, 0x00});
+        verifySF(ptd1, "PTD1");
     }
 
     @Test
@@ -228,7 +261,20 @@ public class XmlTemplateVerificationTest {
         sec.setNrOfBitsComponent1((byte) 8);
         sec.setNrOfBitsComponent2((byte) 8);
         sec.setNrOfBitsComponent3((byte) 8);
+        sec.setColorValue(new byte[] {0x01, 0x02, 0x03});
         verifySF(sec, "SEC_SetExtendedTextColor");
+
+        // DIR
+        PTOCAControlSequence.DIR_DrawIaxisRule dir = new PTOCAControlSequence.DIR_DrawIaxisRule();
+        dir.setLength((short) 500);
+        dir.setWidth((short) 10);
+        verifySF(dir, "DIR_DrawIaxisRule");
+
+        // DBR
+        PTOCAControlSequence.DBR_DrawBaxisRule dbr = new PTOCAControlSequence.DBR_DrawBaxisRule();
+        dbr.setLength((short) 1000);
+        dbr.setWidth((short) 20);
+        verifySF(dbr, "DBR_DrawBaxisRule");
     }
 
     private void verifySF(Object obj, String rootName) throws Exception {
@@ -330,13 +376,31 @@ public class XmlTemplateVerificationTest {
                     values = new Object[]{(int) ad.reserved2, ad.xOrigin, ad.yOrigin, ad.xSize, ad.ySize};
                 } else if (t instanceof Triplet.ObjectCount oc) {
                     template = XmlTemplateRegistry.getTemplate("OCNT");
-                    values = new Object[]{(int) oc.subordinateObjectType, (int) oc.reserved3, oc.numberOfObjectsLow, oc.numberOfObjectsHigh};
+                    String extra = oc.numberOfObjectsHigh != null ? "\" numberOfObjectsHigh=\"" + oc.numberOfObjectsHigh : "";
+                    values = new Object[]{(int) oc.subordinateObjectType, (int) oc.reserved3, oc.numberOfObjectsLow, extra};
                 } else if (t instanceof Triplet.LocalObjectDateAndTimeStamp lodts) {
                     template = XmlTemplateRegistry.getTemplate("LODTS");
                     values = new Object[]{lodts.dateAndTimeStampType, (int) lodts.hundreds, (int) lodts.tens, (int) lodts.dayOfYear, (int) lodts.hourOfDay, (int) lodts.minuteOfHour, (int) lodts.secondOfMinute, (int) lodts.hundredthOfSecond};
                 } else if (t instanceof Triplet.UniversalDateAndTimeStamp udts) {
                     template = XmlTemplateRegistry.getTemplate("UDTS");
                     values = new Object[]{(int) udts.reserved2, (int) udts.year, (int) udts.monthOfYear, (int) udts.dayOfMonth, (int) udts.hourOfDay, (int) udts.minuteOfHour, (int) udts.secondOfMinute, udts.timeZone, (int) udts.diffHours, (int) udts.diffMinutes};
+                } else if (t instanceof Triplet.ObjectByteOffset obo) {
+                    template = XmlTemplateRegistry.getTemplate("OBO");
+                    String extra = obo.byteOffsetHighOrder != null ? "\" byteOffsetHighOrder=\"" + obo.byteOffsetHighOrder : "";
+                    values = new Object[]{obo.byteOffset, extra};
+                } else if (t instanceof Triplet.ObjectStructuredFieldOffset osfo) {
+                    template = XmlTemplateRegistry.getTemplate("OSFO");
+                    String extra = osfo.offsetHigh != null ? "\" offsetHigh=\"" + osfo.offsetHigh : "";
+                    values = new Object[]{osfo.offsetLow, extra};
+                } else if (t instanceof Triplet.ObjectStructuredFieldExtent osfe) {
+                    template = XmlTemplateRegistry.getTemplate("OSFE");
+                    String extra = osfe.numberOfSFHigh != null ? "\" numberOfSFHigh=\"" + osfe.numberOfSFHigh : "";
+                    values = new Object[]{osfe.numberOfSFLow, extra};
+                } else if (t instanceof Triplet.ObjectOffset oo) {
+                    template = XmlTemplateRegistry.getTemplate("OO");
+                    String typeAttr = oo.objectType != null ? " objectType=\"" + oo.objectType.name() + "\"" : "";
+                    String extra = oo.nrOfPrecedingObjectsHigh != null ? "\" nrOfPrecedingObjectsHigh=\"" + oo.nrOfPrecedingObjectsHigh : "";
+                    values = new Object[]{typeAttr, (int) oo.reserved3, oo.nrOfPrecedingObjectsLow, extra};
                 }
 
                 if (template != null) {
@@ -362,6 +426,26 @@ public class XmlTemplateVerificationTest {
                  } else if (cs instanceof PTOCAControlSequence.SEC_SetExtendedTextColor sec) {
                      template = XmlTemplateRegistry.getTemplate("SEC");
                      values = new Object[]{sec.getColorSpace(), (int) sec.getNrOfBitsComponent1(), (int) sec.getNrOfBitsComponent2(), (int) sec.getNrOfBitsComponent3(), (int) sec.getNrOfBitsComponent4(), com.mgz.util.UtilCharacterEncoding.bytesToHexString(sec.getColorValue())};
+                 } else if (cs instanceof PTOCAControlSequence.DIR_DrawIaxisRule dir) {
+                     template = XmlTemplateRegistry.getTemplate("DIR");
+                     String extra = "";
+                     if (dir.getWidth() != null) {
+                         extra += "\" width=\"" + dir.getWidth();
+                         if (dir.getWidthFraction() != null) {
+                             extra += "\" widthFraction=\"" + dir.getWidthFraction();
+                         }
+                     }
+                     values = new Object[]{dir.getLength(), extra};
+                 } else if (cs instanceof PTOCAControlSequence.DBR_DrawBaxisRule dbr) {
+                     template = XmlTemplateRegistry.getTemplate("DBR");
+                     String extra = "";
+                     if (dbr.getWidth() != null) {
+                         extra += "\" width=\"" + dbr.getWidth();
+                         if (dbr.getWidthFraction() != null) {
+                             extra += "\" widthFraction=\"" + dbr.getWidthFraction();
+                         }
+                     }
+                     values = new Object[]{dbr.getLength(), extra};
                  }
 
                  if (template != null) {
@@ -454,7 +538,6 @@ public class XmlTemplateVerificationTest {
             assertTrue(normalizedFastPath.contains("yOrigin=\"200\""));
         } else if (rootName.equals("ObjectCount")) {
             assertTrue(normalizedFastPath.contains("numberOfObjectsLow=\"500\""));
-            assertTrue(normalizedFastPath.contains("numberOfObjectsHigh=\"null\""));
         } else if (rootName.equals("LocalObjectDateAndTimeStamp")) {
             assertTrue(normalizedFastPath.contains("dateAndTimeStampType=\"Creation\""));
             assertTrue(normalizedFastPath.contains("hundreds=\"2026\""));
@@ -478,7 +561,27 @@ public class XmlTemplateVerificationTest {
         } else if (rootName.equals("SEC_SetExtendedTextColor")) {
             assertTrue(normalizedFastPath.contains("colorSpace=\"RGB\""));
             assertTrue(normalizedFastPath.contains("nrOfBitsComponent1=\"8\""));
-            assertTrue(normalizedFastPath.contains("colorValue=\"null\""));
+            assertTrue(normalizedFastPath.contains("colorValue=\"010203\""));
+        } else if (rootName.equals("ObjectByteOffset")) {
+            assertTrue(normalizedFastPath.contains("byteOffset=\"123456789\""));
+        } else if (rootName.equals("ObjectStructuredFieldOffset")) {
+            assertTrue(normalizedFastPath.contains("offsetLow=\"1000\""));
+        } else if (rootName.equals("ObjectStructuredFieldExtent")) {
+            assertTrue(normalizedFastPath.contains("numberOfSFLow=\"500\""));
+        } else if (rootName.equals("ObjectOffset")) {
+            assertTrue(normalizedFastPath.contains("objectType=\"Page_PaginatedObject\""));
+            assertTrue(normalizedFastPath.contains("nrOfPrecedingObjectsLow=\"10\""));
+        } else if (rootName.equals("PTD1")) {
+            assertTrue(normalizedFastPath.contains("xUnitBase=\"Inches10\""));
+            assertTrue(normalizedFastPath.contains("xUnitsPerUnitBase=\"1440\""));
+            assertTrue(normalizedFastPath.contains("xSize=\"12240\""));
+            assertTrue(normalizedFastPath.contains("reserved10_11=\"0000\""));
+        } else if (rootName.equals("DIR_DrawIaxisRule")) {
+            assertTrue(normalizedFastPath.contains("length=\"500\""));
+            assertTrue(normalizedFastPath.contains("width=\"10\""));
+        } else if (rootName.equals("DBR_DrawBaxisRule")) {
+            assertTrue(normalizedFastPath.contains("length=\"1000\""));
+            assertTrue(normalizedFastPath.contains("width=\"20\""));
         }
     }
 

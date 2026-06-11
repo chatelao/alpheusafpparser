@@ -20,11 +20,11 @@ Establish the foundation for byte-level templating.
 ## Phase 2: Static Structured Field Templates 🚧
 Generate byte templates for fixed-structure fields.
 
-- ✅ **Structured Field Templates**: Initial support for SF templating (PGP1).
+- ✅ **Structured Field Templates**: Initial support for SF templating (PGP1, PTD1).
 - ✅ **Template Generator**: Implemented `TemplateGenerator` utility to generate fragments from XML snippets.
 - ✅ **Mnemonic-Based Registry**: Implemented `XmlTemplateRegistry` to map AFP mnemonics to their respective XML byte templates.
-- ✅ **Triplet Templating**: Extended templating to 32+ common triplets (AQ, RLI, CR, MU, MO, OAS, CGCS, ROT, DP, MEC, RUA, PSRM, ERLI, RSN, MMPN, OBE, FHSF, MOR, TS, FRAMT, CMRD, OCPSS, PPI, TO, LDOPM, KGT, FCGCS, MFS, AD, OCNT, LODTS, UDTS).
-- ✅ **PTOCA Templating**: Extended templating to PTOCA control sequences (AMI, RMI, AMB, RMB, SCFL, SBI, SIM, BSU, ESU, SVI, BLN, STO, SIA, STC, USC, SEC).
+- ✅ **Triplet Templating**: Extended templating to 36+ common triplets (AQ, RLI, CR, MU, MO, OAS, CGCS, ROT, DP, MEC, RUA, PSRM, ERLI, RSN, MMPN, OBE, FHSF, MOR, TS, FRAMT, CMRD, OCPSS, PPI, TO, LDOPM, KGT, FCGCS, MFS, AD, OCNT, LODTS, UDTS, OBO, OSFO, OSFE, OO).
+- ✅ **PTOCA Templating**: Extended templating to PTOCA control sequences (AMI, RMI, AMB, RMB, SCFL, SBI, SIM, BSU, ESU, SVI, BLN, STO, SIA, STC, USC, SEC, DIR, DBR).
 
 ## Phase 3: Dynamic Hole-Punching Engine ✅
 Inject variable data directly into the pre-computed byte buffers.
