@@ -54,10 +54,10 @@ Optimize resource handling for high-performance variable data printing.
 - ⏳ **FOCA to PDF/X-4 Font Embedding**: Ensure all fonts are fully embedded and subsetted per PDF/X-4 requirements.
     - ✅ **Font Registry**: Implement a global registry for `PdfFont` instances mapped by FOCA resource name.
     - ✅ **Font Mapping**: Map standard AFP core fonts (e.g., Helvetica, Swiss, Times, Dutch, Courier) to PDF equivalents.
-    - ⏳ **Subset Generation**: Enable iText font subsetting for PDF/X-4 compliance.
+    - ✅ **Subset Generation**: Enable iText font subsetting for PDF/X-4 compliance.
         - ✅ **iText Subsetting API Integration**: Configure `FontSet` and `FontProvider` to support subsetting.
-        - ⏳ **LID-to-Subset Mapping**: Track glyph usage per Local ID to ensure minimal subset size.
-        - ⏳ **Font Caching**: Implement a robust caching mechanism for subsetted font instances.
+        - ✅ **LID-to-Subset Mapping**: Share `PdfFont` instances across LIDs to enable unified subsetting by iText.
+        - ✅ **Font Caching**: Implement a robust two-level caching mechanism (AFP name and standard font identity) to optimize resource reuse.
 - ✅ **IOCA Image Optimizer**: Map repeated IOCA objects to a single Image XObject instance to reduce file size.
 
 ## Phase 3: Content Conversion (Base Operators) ⏳
@@ -171,7 +171,7 @@ Ensure the generated output meets the PDF/VT-1 standard and accurately reflects 
 - ⏳ **PDF/VT-1 Validation**: Validate generated files against PDF/VT-1 profiles using preflight tools.
     - ⏳ **Integrate VeraPDF**: Implement automated compliance checks for PDF/VT-1 and PDF/X-4. (Blocked: VeraPDF not available in environment).
     - ⏳ **VeraPDF CLI Wrapper**: Create a helper to run VeraPDF from within Alpheus tests.
-    - ⏳ **Preflight Report Parser**: Implement a parser to extract and assert on VeraPDF validation results.
+    - ✅ **Preflight Report Parser**: Implement a parser to extract and assert on VeraPDF validation results. (✅ Implemented `VeraPdfReportParser.java`).
     - ⏳ **Preflight Automation**: Establish CI/CD integration for automated validation.
 - 🚧 **DPart Hierarchy Verification**:
     - ✅ **Programmatic Structure Verification**: Verify `/DPart` hierarchy and `/Property` entries using iText or low-level parsing.
