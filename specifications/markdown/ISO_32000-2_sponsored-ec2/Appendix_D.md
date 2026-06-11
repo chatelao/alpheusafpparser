@@ -50,7 +50,7 @@ Table D.2 — Latin character set and encodings
 | Ë | Edieresis | — | 350 | 313 | 313 | Ú | Uacute | — | 362 | 332 | 332 |
 | È | Egrave | — | 351 | 310 | 310 | Û | Ucircumflex | — | 363 | 333 | 333 |
 | Ð | Eth | — | — | 320 | 320 | Ü | Udieresis | — | 206 | 334 | 334 |
-| € | Euro1 | — | — | 200 | 240 | Ù | Ugrave | — | 364 | 331 | 331 |
+| € | Euro<sup>1</sup> | — | — | 200 | 240 | Ù | Ugrave | — | 364 | 331 | 331 |
 | F | F | 106 | 106 | 106 | 106 | V | V | 126 | 126 | 126 | 126 |
 | G | G | 107 | 107 | 107 | 107 | W | W | 127 | 127 | 127 | 127 |
 | H | H | 110 | 110 | 110 | 110 | X | X | 130 | 130 | 130 | 130 |
@@ -58,7 +58,7 @@ Table D.2 — Latin character set and encodings
 | Í | Iacute | — | 352 | 315 | 315 | Ý | Yacute | — | — | 335 | 335 |
 | Î | Icircumflex | — | 353 | 316 | 316 | Ÿ | Ydieresis | — | 331 | 237 | 230 |
 | Ï | Idieresis | — | 354 | 317 | 317 | Z | Z | 132 | 132 | 132 | 132 |
-| Ì | Igrave | — | 355 | 314 | 314 | Ž | Zcaron2 | — | — | 216 | 231 |
+| Ì | Igrave | — | 355 | 314 | 314 | Ž | Zcaron<sup>2</sup> | — | — | 216 | 231 |
 | J | J | 112 | 112 | 112 | 112 | a | a | 141 | 141 | 141 | 141 |
 | K | K | 113 | 113 | 113 | 113 | á | aacute | — | 207 | 341 | 341 |
 | L | L | 114 | 114 | 114 | 114 | â | acircumflex | — | 211 | 342 | 342 |
@@ -75,19 +75,19 @@ Table D.2 — Latin character set and encodings
 | ã | atilde | — | 213 | 343 | 343 | 5 | five | 065 | 065 | 065 | 065 |
 | b | b | 142 | 142 | 142 | 142 | fl | fl | 257 | 337 | — | 224 |
 | \ | backslash | 134 | 134 | 134 | 134 | ƒ | florin | 246 | 304 | 203 | 206 |
-| | | bar | 174 | 174 | 174 | 174 | 4 | four | 064 | 064 | 064 | 064 |
+| \| | bar | 174 | 174 | 174 | 174 | 4 | four | 064 | 064 | 064 | 064 |
 | { | braceleft | 173 | 173 | 173 | 173 | ⁄ | fraction | 244 | 332 | — | 207 |
 | } | braceright | 175 | 175 | 175 | 175 | g | g | 147 | 147 | 147 | 147 |
 | [ | bracketleft | 133 | 133 | 133 | 133 | ß | germandbls | 373 | 247 | 337 | 337 |
 | ] | bracketright | 135 | 135 | 135 | 135 | ` | grave | 301 | 140 | 140 | 140 |
 | ˘ | breve | 306 | 371 | — | 030 | > | greater | 076 | 076 | 076 | 076 |
-| ¦ | brokenbar | — | — | 246 | 246 | « | guillemotleft4 | 253 | 307 | 253 | 253 |
-| • | bullet3 | 267 | 245 | 225 | 200 | » | guillemotright4 | 273 | 310 | 273 | 273 |
+| ¦ | brokenbar | — | — | 246 | 246 | « | guillemotleft<sup>4</sup> | 253 | 307 | 253 | 253 |
+| • | bullet<sup>3</sup> | 267 | 245 | 225 | 200 | » | guillemotright<sup>4</sup> | 273 | 310 | 273 | 273 |
 | c | c | 143 | 143 | 143 | 143 | ‹ | guilsinglleft | 254 | 334 | 213 | 210 |
 | ˇ | caron | 317 | 377 | — | 031 | › | guilsinglright | 255 | 335 | 233 | 211 |
 | ç | ccedilla | — | 215 | 347 | 347 | h | h | 150 | 150 | 150 | 150 |
 | ¸ | cedilla | 313 | 374 | 270 | 270 | ˝ | hungarumlaut | 315 | 375 | — | 034 |
-| ¢ | cent | 242 | 242 | 242 | 242 | - | hyphen5 | 055 | 055 | 055 | 055 |
+| ¢ | cent | 242 | 242 | 242 | 242 | - | hyphen<sup>5</sup> | 055 | 055 | 055 | 055 |
 | ˆ | circumflex | 303 | 366 | 210 | 032 | i | i | 151 | 151 | 151 | 151 |
 | : | colon | 072 | 072 | 072 | 072 | í | iacute | — | 222 | 355 | 355 |
 | , | comma | 054 | 054 | 054 | 054 | î | icircumflex | — | 224 | 356 | 356 |
@@ -119,7 +119,7 @@ Table D.2 — Latin character set and encodings
 | ½ | onehalf | — | — | 275 | 275 | 7 | seven | 067 | 067 | 067 | 067 |
 | ¼ | onequarter | — | — | 274 | 274 | 6 | six | 066 | 066 | 066 | 066 |
 | ¹ | onesuperior | — | — | 271 | 271 | / | slash | 057 | 057 | 057 | 057 |
-| ª | ordfeminine | 343 | 273 | 252 | 252 | space6 | 040 | 040 | 040 | 040 |  |
+| ª | ordfeminine | 343 | 273 | 252 | 252 | space<sup>6</sup> | 040 | 040 | 040 | 040 |  |
 | º | ordmasculine | 353 | 274 | 272 | 272 | £ | sterling | 243 | 243 | 243 | 243 |
 | ø | oslash | 371 | 277 | 370 | 370 | t | t | 164 | 164 | 164 | 164 |
 | õ | otilde | — | 233 | 365 | 365 | þ | thorn | — | — | 376 | 376 |
@@ -148,12 +148,17 @@ Table D.2 — Latin character set and encodings
 | ® | registered | — | 250 | 256 | 256 | 0 | zero | 060 | 060 | 060 | 060 |
 | ˚ | ring | 312 | 373 | — | 036 |  |  |  |  |  |  |
 
-| 1. | In PDF 1.3, the euro character was added to the Adobe standard Latin character set. It is encoded as 200 in WinAnsiEncoding and 240 in PDFDocEncoding, assigning codes that were previously unused. Apple changed the Mac OS Latin-text encoding for code 333 from the currency character to the euro character. However, this incompatible change has not been reflected in PDF’s MacRomanEncoding, which continues to map code 333 to currency. If the euro character is desired, an encoding dictionary can be used to specify this single difference from MacRomanEncoding. |
-| 2. | In PDF 1.3, the existing Zcaron and zcaron characters were added to WinAnsiEncoding as the previously unused codes 216 and 236. |
-| 3. | In WinAnsiEncoding, all unused codes greater than 40 map to the bullet character. However, only code 225 is specifically assigned to the bullet character; other codes are subject to future reassignment. |
-| 4. | The character names guillemotleft and guillemotright are misspelled. The correct spelling for this punctuation character is guillemet. However, the misspelled names are the ones actually used in the fonts and encodings containing these characters. |
-| 5. | The hyphen (U+002D) character is also encoded as 255 (octal) in WinAnsiEncoding. Windows Code Page 1252 associates this character code with the soft hyphen (U+00AD) character. If the PDF producer intends to map this character code to the "softhyphen" character from the Adobe Glyph List, this may be specified using a Differences array in the encoding dictionary as shown in the example below. |
-| 6. | The space (U+0020) character is also encoded as 312 (octal) in MacRomanEncoding and as 240 (octal) in WinAnsiEncoding. Windows Code Page 1252 associates this character code with the non-breaking space (U+00A0) character. If the PDF producer intends to map this character code to the "nonbreakingspace" character from the Adobe Glyph List, this may be specified using a Differences array in the encoding dictionary as shown in the example below. |
+> **NOTE 1** In PDF 1.3, the euro character was added to the Adobe standard Latin character set. It is encoded as 200 in WinAnsiEncoding and 240 in PDFDocEncoding, assigning codes that were previously unused. Apple changed the Mac OS Latin-text encoding for code 333 from the currency character to the euro character. However, this incompatible change has not been reflected in PDF’s MacRomanEncoding, which continues to map code 333 to currency. If the euro character is desired, an encoding dictionary can be used to specify this single difference from MacRomanEncoding.
+
+> **NOTE 2** In PDF 1.3, the existing Zcaron and zcaron characters were added to WinAnsiEncoding as the previously unused codes 216 and 236.
+
+> **NOTE 3** In WinAnsiEncoding, all unused codes greater than 40 map to the bullet character. However, only code 225 is specifically assigned to the bullet character; other codes are subject to future reassignment.
+
+> **NOTE 4** The character names guillemotleft and guillemotright are misspelled. The correct spelling for this punctuation character is guillemet. However, the misspelled names are the ones actually used in the fonts and encodings containing these characters.
+
+> **NOTE 5** The hyphen (U+002D) character is also encoded as 255 (octal) in WinAnsiEncoding. Windows Code Page 1252 associates this character code with the soft hyphen (U+00AD) character. If the PDF producer intends to map this character code to the "softhyphen" character from the Adobe Glyph List, this may be specified using a Differences array in the encoding dictionary as shown in the example below.
+
+> **NOTE 6** The space (U+0020) character is also encoded as 312 (octal) in MacRomanEncoding and as 240 (octal) in WinAnsiEncoding. Windows Code Page 1252 associates this character code with the non-breaking space (U+00A0) character. If the PDF producer intends to map this character code to the "nonbreakingspace" character from the Adobe Glyph List, this may be specified using a Differences array in the encoding dictionary as shown in the example below.
 
 > **EXAMPLE** Encoding dictionaries use decimal numbers for character codes, instead of octal values.
 
@@ -485,48 +490,29 @@ Table D.4 — Expert set and MacExpert encoding
 
 | CHAR | NAME | CODE | CHAR | NAME | CODE |
 | --- | --- | --- | --- | --- | --- |
-| ᴁ | AEsmall | 276 | ᴊ | Jsmall |  |
-
-Á Aacutesmall 207 ᴋ Ksmall
-
-| Â | Acircumflexsmall | 211 | ᴌ | Lslashsmall |
-| --- | --- | --- | --- | --- |
-| ´ | Acutesmall | 047 | ʟ | Lsmall |
-
-Ä Adieresissmall 212 ¯ Macronsmall
-
-À Agravesmall 210 ᴍ Msmall
-
-| Å | Aringsmall | 214 | ɴ | Nsmall |
-| --- | --- | --- | --- | --- |
-| ᴀ | Asmall | 141 | Ñ | Ntildesmall |
-
-| Ã | Atildesmall | 213 | ɶ | OEsmall |
-| --- | --- | --- | --- | --- |
-| ˘ | Brevesmall | 363 | Ó | Oacutesmall |
-
-
-| CHAR | NAME | CODE | CHAR | NAME | CODE |
-| --- | --- | --- | --- | --- | --- |
+| ᴁ | AEsmall | 276 | ᴊ | Jsmall | — |
+| Á | Aacutesmall | 207 | ᴋ | Ksmall | — |
+| Â | Acircumflexsmall | 211 | ᴌ | Lslashsmall | — |
+| ´ | Acutesmall | 047 | ʟ | Lsmall | — |
+| Ä | Adieresissmall | 212 | ¯ | Macronsmall | — |
+| À | Agravesmall | 210 | ᴍ | Msmall | — |
+| Å | Aringsmall | 214 | ɴ | Nsmall | — |
+| ᴀ | Asmall | 141 | Ñ | Ntildesmall | — |
+| Ã | Atildesmall | 213 | ɶ | OEsmall | — |
+| ˘ | Brevesmall | 363 | Ó | Oacutesmall | — |
 | ʙ | Bsmall | 142 | Ô | Ocircumflexsmall | 231 |
-| ˇ | Caronsmall | 256 | Ö | Odieresissmall |  |
-
-| Ç | Ccedillasmall | 215 | ˛ | Ogoneksmall |
-| --- | --- | --- | --- | --- |
+| ˇ | Caronsmall | 256 | Ö | Odieresissmall | — |
+| Ç | Ccedillasmall | 215 | ˛ | Ogoneksmall | — |
 | ¸ | Cedillasmall | 311 | ò | Ogravesmall |
 | ˆ | Circumflexsmall | 136 | ø | Oslashsmall |
 | ᴄ | Csmall | 143 | ᴏ | Osmall |
 | ¨ | Dieresissmall | 254 | Õ | Otildesmall |
 | ˙ | Dotaccentsmall | 372 | ᴘ | Psmall |
-| ᴅ | Dsmall | 144 | Q | Qsmall |
-
-É Eacutesmall 216 ˚ Ringsmall
-
-Ê Ecircumflexsmall 220 R Rsmall
-
-Ë Edieresissmall 221 Š Scaronsmall
-
-| È | Egravesmall | 217 | S | Ssmall |
+| ᴅ | Dsmall | 144 | Q | Qsmall | — |
+| É | Eacutesmall | 216 | ˚ | Ringsmall | — |
+| Ê | Ecircumflexsmall | 220 | R | Rsmall | — |
+| Ë | Edieresissmall | 221 | Š | Scaronsmall | — |
+| È | Egravesmall | 217 | S | Ssmall | — |
 | --- | --- | --- | --- | --- |
 | ᴇ | Esmall | 145 | þ | Thornsmall |
 | ᴆ | Ethsmall | 104 | ˜ | Tildesmall |  |
@@ -545,29 +531,18 @@ Table D.4 — Expert set and MacExpert encoding
 | Ž | Zcaronsmall | 275 | ⁄ | fraction |  |
 
 
-| CHAR | NAME | CODE | CHAR | NAME | CODE |
-| --- | --- | --- | --- | --- | --- |
-| z | Zsmall | 172 | - | hyphen |  |
-
-& ampersandsmall 046 - hypheninferior
-
-a asuperior 201 - hyphensuperior
-
-b bsuperior 365 i isuperior
-
-| ¢ | centinferior | 251 | l | lsuperior |
-| --- | --- | --- | --- | --- |
-| ¢ | centoldstyle | 043 | m | msuperior |
-
-| ¢ | centsuperior | 202 | ₉ | nineinferior |
-| --- | --- | --- | --- | --- |
-| : | colon | 072 | 9 | nineoldstyle |
-| ₡ | colonmonetary | 173 | ⁹ | ninesuperior |
-| , | comma | 054 | ⁿ | nsuperior |
-
-, commainferior 262 ․ onedotenleader
-
-, commasuperior 370 ⅛ oneeighth
+| z | Zsmall | 172 | - | hyphen | — |
+| & | ampersandsmall | 046 | - | hypheninferior | — |
+| a | asuperior | 201 | - | hyphensuperior | — |
+| b | bsuperior | 365 | i | isuperior | — |
+| ¢ | centinferior | 251 | l | lsuperior | — |
+| ¢ | centoldstyle | 043 | m | msuperior | — |
+| ¢ | centsuperior | 202 | ₉ | nineinferior | — |
+| : | colon | 072 | 9 | nineoldstyle | — |
+| ₡ | colonmonetary | 173 | ⁹ | ninesuperior | — |
+| , | comma | 054 | ⁿ | nsuperior | — |
+| , | commainferior | 262 | ․ | onedotenleader | — |
+| , | commasuperior | 370 | ⅛ | oneeighth | — |
 
 | $ | dollarinferior | 266 | 1 | onefitted |
 | --- | --- | --- | --- | --- |
@@ -590,9 +565,8 @@ b bsuperior 365 i isuperior
 | ⅝ | fiveeighths | 114 | ¿ | questiondownsmall | 300 |
 
 
-| CHAR | NAME | CODE | CHAR | NAME | CODE |
-| --- | --- | --- | --- | --- | --- |
-| ₅ | fiveinferior | 260 | ? | questionsmall |  |
+| ¢ | centinferior | 251 | l | lsuperior | — |
+| ₅ | fiveinferior | 260 | ? | questionsmall | — |
 | 5 | fiveoldstyle | 065 | r | rsuperior |  |
 | ⁵ | fivesuperior | 336 | Rp | rupiah |  |
 | ﬂ | fl | 130 | ; | semicolon |  |
@@ -607,10 +581,10 @@ b bsuperior 365 i isuperior
 
 | S | ssuperior | 352 | ⅔ | twothirds |
 | --- | --- | --- | --- | --- |
-| ⅜ | threeeighths | 113 | ₀ | zeroinferior |
-| ₃ | threeinferior | 243 | 0 | zerooldstyle |
-| 3 | threeoldstyle | 063 | ⁰ | zerosuperior |
-| ¾ | threequarters | 111 |  |  |
+| ⅜ | threeeighths | 113 | ₀ | zeroinferior | — |
+| ₃ | threeinferior | 243 | 0 | zerooldstyle | — |
+| 3 | threeoldstyle | 063 | ⁰ | zerosuperior | — |
+| ¾ | threequarters | 111 | — | — | — |
 
 ## D.5 Symbol set and encoding
 
@@ -618,24 +592,20 @@ Table D.5 — Symbol set and encoding
 
 | CHAR | NAME | CODE | CHAR | NAME | CODE |
 | --- | --- | --- | --- | --- | --- |
-| Α | Alpha | 101 | ↔ | arrowboth |  |
+| Α | Alpha | 101 | ↔ | arrowboth | — |
 | Β | Beta | 102 | ⇔ | arrowdblboth | 333 |
 | Χ | Chi | 103 | ⇓ | arrowdbldown | 337 |
 | ∆ | Delta | 104 | ⇐ | arrowdblleft | 334 |
 | Ε | Epsilon | 105 | ⇒ | arrowdblright | 336 |
-| Η | Eta | 110 | ⇑ | arrowdblup |  |
-| € | Euro | 240 | ↓ | arrowdown |  |
+| Η | Eta | 110 | ⇑ | arrowdblup | — |
+| € | Euro | 240 | ↓ | arrowdown | — |
 | Γ | Gamma | 107 | ⎯ | arrowhorizex | 276 |
-
-
-| CHAR | NAME | CODE | CHAR | NAME | CODE |
-| --- | --- | --- | --- | --- | --- |
-| ℑ | Ifraktur | 301 | ← | arrowleft |  |
-| Ι | Iota | 111 | → | arrowright |  |
-| Κ | Kappa | 113 | ↑ | arrowup |  |
-| Λ | Lambda | 114 | ⏐ | arrowvertex |  |
-| Μ | Mu | 115 | ∗ | asteriskmath |  |
-| Ν | Nu | 116 | | | bar |  |
+| ℑ | Ifraktur | 301 | ← | arrowleft | — |
+| Ι | Iota | 111 | → | arrowright | — |
+| Κ | Kappa | 113 | ↑ | arrowup | — |
+| Λ | Lambda | 114 | ⏐ | arrowvertex | — |
+| Μ | Mu | 115 | ∗ | asteriskmath | — |
+| Ν | Nu | 116 | \| | bar | — |
 | Ω | Omega | 127 | β | beta |  |
 | Ο | Omicron | 117 | { | braceleft |  |
 | Φ | Phi | 106 | } | braceright |  |
@@ -667,12 +637,8 @@ Table D.5 — Symbol set and encoding
 | © | copyrightserif | 323 | ∧ | logicaland |  |
 | ° | degree | 260 | ¬ | logicalnot |  |
 | δ | delta | 144 | ∨ | logicalor |  |
-| ♦ | diamond | 250 | ◊ | lozenge |  |
-
-
-| CHAR | NAME | CODE | CHAR | NAME | CODE |
-| --- | --- | --- | --- | --- | --- |
-| ÷ | divide | 270 | − | minus |  |
+| ♦ | diamond | 250 | ◊ | lozenge | — |
+| ÷ | divide | 270 | − | minus | — |
 | ⋅ | dotmath | 327 | ′ | minute |  |
 | 8 | eight | 070 | µ | mu |  |
 | ∈ | element | 316 | × | multiply |  |
@@ -711,11 +677,7 @@ Table D.5 — Symbol set and encoding
 | ? | question | 077 | 3 | three |  |
 | √ | radical | 326 | ™ | trademarksans |  |
 | ⎯ | radicalex | 140 | ™ | trademarkserif |  |
-| ⊆ | reflexsubset | 315 | 2 | two |  |
-
-
-| CHAR | NAME | CODE | CHAR | NAME | CODE |
-| --- | --- | --- | --- | --- | --- |
+| ⊆ | reflexsubset | 315 | 2 | two | — |
 | ⊇ | reflexsuperset | 312 | _ | underscore | 137 |
 | ® | registersans | 342 | ∪ | union |  |
 | ® | registerserif | 322 | ∀ | universal | 042 |
@@ -730,9 +692,7 @@ Table D.5 — Symbol set and encoding
 
 Table D.6 — ZapfDingbats set and encoding
 
-| CHAR | NAME | CODE | CHAR | NAME | CODE | CHAR | NAME | CODE | CHAR | NAME | CODE |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| space | 040 | ✣ | a30 | 103 | ❆ | a65 | 146 | ♠ | a109 | 253 |  |
+| space | 040 | ✣ | a30 | 103 | ❆ | a65 | 146 | ♠ | a109 | 253 | — |
 | ✁ | a1 | 041 | ✤ | a31 | 104 | ❇ | a66 | 147 | ① | a120 | 254 |
 | ✂ | a2 | 042 | ✥ | a32 | 105 | ❈ | a67 | 150 | ② | a121 | 255 |
 | ✃ | a202 | 043 | ✦ | a33 | 106 | ❉ | a68 | 151 | ③ | a122 | 256 |
@@ -752,10 +712,6 @@ Table D.6 — ZapfDingbats set and encoding
 | ✑ | a17 | 061 | ✴ | a47 | 124 | ◗ | a81 | 167 | ❼ | a136 | 274 |
 | ✒ | a18 | 062 | ✵ | a48 | 125 | ❘ | a82 | 170 | ❽ | a137 | 275 |
 | ✓ | a19 | 063 | ✶ | a49 | 126 | ❙ | a83 | 171 | ❾ | a138 | 276 |
-
-
-| CHAR | NAME | CODE | CHAR | NAME | CODE | CHAR | NAME | CODE | CHAR | NAME | CODE |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | ✔ | a20 | 064 | ✷ | a50 | 127 | ❚ | a84 | 172 | ❿ | a139 | 277 |
 | ✕ | a21 | 065 | ✸ | a51 | 130 | ❛ | a97 | 173 | ➀ | a140 | 300 |
 | ✖ | a22 | 066 | ✹ | a52 | 131 | ❜ | a98 | 174 | ➁ | a141 | 301 |
