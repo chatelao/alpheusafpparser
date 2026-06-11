@@ -75,10 +75,10 @@ Diese Roadmap beschreibt die schrittweise Umsetzung der externen Instrumentierun
 - [x] 9.4 Durchführung von Differential-Analysen zwischen XML- und PDF-Export zur Identifikation von iText-Overhead. ✅
 - [x] 9.5 Dokumentation der PDF-Performance-Charakteristik in `PROFILE_PERF_AUDIT.md`. ✅
 
-## Phase 10: Analyse von Kaltstart- und Infrastruktur-Overhead
-- [ ] 10.1 Automatisierung der Kaltstart-Benchmarks (`tools/benchmark_cold_start.sh`).
-- [ ] 10.2 Integration der Kaltstart-Metriken in den `perf_audit.sh` Bericht.
-- [ ] 10.3 Analyse der Class-Loading Profile zur Identifikation von Initialisierungs-Hotspots.
+## Phase 10: Analyse von Kaltstart- und Infrastruktur-Overhead ✅
+- [x] 10.1 Automatisierung der Kaltstart-Benchmarks (`tools/benchmark_cold_start.sh`). ✅
+- [x] 10.2 Integration der Kaltstart-Metriken in den `perf_audit.sh` Bericht. ✅
+- [x] 10.3 Analyse der Class-Loading Profile zur Identifikation von Initialisierungs-Hotspots. ✅
 
 ## Phase 11: Verfeinerte Differential-Analyse & Grossdatei-Guarding
 - [ ] 11.1 Erweiterung von `tools/perf_audit.sh` um Differential CPU-Analyse für Grossdateien.
