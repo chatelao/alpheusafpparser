@@ -60,4 +60,28 @@ public class ICP_IMImageCellPosition extends StructuredField {
 
     writeFullStructuredField(os, baos.toByteArray());
   }
+
+  public short getxOffset() {
+    return xOffset;
+  }
+
+  public short getyOffset() {
+    return yOffset;
+  }
+
+  public int getxSize() {
+    return xSize;
+  }
+
+  public int getySize() {
+    return ySize;
+  }
+
+  public int getxSizeOfFillRectangle() {
+    return xSizeOfFillRectangle;
+  }
+
+  public int getySizeOfFillRectangle() {
+    return ySizeOfFillRectangle;
+  }
 }

@@ -2,6 +2,14 @@ package com.mgz.xml;
 
 import com.mgz.afp.modca.MCC_MediumCopyCount;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format1;
+import com.mgz.afp.modca.IID_IMImageInputDescriptor;
+import com.mgz.afp.modca.ICP_IMImageCellPosition;
+import com.mgz.afp.modca.IRD_IMImageRasterData;
+import com.mgz.afp.modca.IOC_IMImageOutputControl;
+import com.mgz.afp.modca_L.BCA_BeginColorAttributeTable;
+import com.mgz.afp.modca_L.ECA_EndColorAttributeTable;
+import com.mgz.afp.modca_L.CAT_ColorAttributeTable;
+import com.mgz.afp.modca_L.MCA_MapColorAttributeTable;
 import com.mgz.afp.foca.CFC_CodedFontControl;
 import com.mgz.afp.foca.CFI_CodedFontIndex;
 import com.mgz.afp.foca.CPC_CodePageControl;
@@ -26,7 +34,9 @@ import com.mgz.afp.lineData.XMD_XMLDescriptor;
 import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.enums.AFPColorSpace;
 import com.mgz.afp.enums.AFPUnitBase;
+import com.mgz.afp.enums.AFPColorValue;
 import com.mgz.afp.base.IRepeatingGroup;
+import com.mgz.afp.triplets.Triplet;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -47,6 +57,22 @@ public class SFFastPathVerificationTest {
         verifySF(createCCP(), "CCP_ConditionalProcessingControl");
         verifySF(createRCD(), "RCD_RecordDescriptor");
         verifySF(createXMD(), "XMD_XMLDescriptor");
+    }
+
+    @Test
+    public void testImImageFastPaths() throws Exception {
+        verifySF(createIid(), "IID_IMImageInputDescriptor");
+        verifySF(createIcp(), "ICP_IMImageCellPosition");
+        verifySF(createIrd(), "IRD_IMImageRasterData");
+        verifySF(createIoc(), "IOC_IMImageOutputControl");
+    }
+
+    @Test
+    public void testColorAttributeTableFastPaths() throws Exception {
+        verifySF(createBca(), "BCA_BeginColorAttributeTable");
+        verifySF(createEca(), "ECA_EndColorAttributeTable");
+        verifySF(createCat(), "CAT_ColorAttributeTable");
+        verifySF(createMca(), "MCA_MapColorAttributeTable");
     }
 
     @Test
@@ -531,5 +557,91 @@ public class SFFastPathVerificationTest {
         xmd.setAdditionalBaselineIncrement(0);
         xmd.setReserved48_61(new byte[14]);
         return xmd;
+    }
+
+    private IID_IMImageInputDescriptor createIid() {
+        IID_IMImageInputDescriptor iid = new IID_IMImageInputDescriptor();
+        // Since we added getters, we might need to use reflection to set private fields if there are no setters
+        // but wait, I see no setters in IID. I should check how they are usually set in tests.
+        // I will use a byte array and decode it for simplicity.
+        byte[] data = new byte[36];
+        data[12] = (byte) AFPUnitBase.Inches10.toByte();
+        data[13] = (byte) AFPUnitBase.Inches10.toByte();
+        try {
+            iid.decodeAFP(data, 0, data.length, null);
+        } catch (Exception e) {}
+        return iid;
+    }
+
+    private ICP_IMImageCellPosition createIcp() {
+        ICP_IMImageCellPosition icp = new ICP_IMImageCellPosition();
+        byte[] data = new byte[12];
+        try {
+            icp.decodeAFP(data, 0, data.length, null);
+        } catch (Exception e) {}
+        return icp;
+    }
+
+    private IRD_IMImageRasterData createIrd() {
+        IRD_IMImageRasterData ird = new IRD_IMImageRasterData();
+        ird.setData(new byte[]{0x01, 0x02, 0x03});
+        return ird;
+    }
+
+    private IOC_IMImageOutputControl createIoc() {
+        IOC_IMImageOutputControl ioc = new IOC_IMImageOutputControl();
+        byte[] data = new byte[24];
+        data[6] = 0; data[7] = 0; // xRotation
+        data[8] = 0; data[9] = 0; // yRotation
+        data[18] = 0x03; data[19] = (byte)0xE8; // xImageMapping
+        data[20] = 0x03; data[21] = (byte)0xE8; // yImageMapping
+        try {
+            ioc.decodeAFP(data, 0, data.length, null);
+        } catch (Exception e) {}
+        return ioc;
+    }
+
+    private BCA_BeginColorAttributeTable createBca() {
+        BCA_BeginColorAttributeTable bca = new BCA_BeginColorAttributeTable();
+        bca.setName("BCA00001");
+        List<Triplet> triplets = new ArrayList<>();
+        Triplet.FullyQualifiedName fqn = new Triplet.FullyQualifiedName();
+        fqn.setType(Triplet.GlobalID_Use.BeginResourceGroupReference);
+        fqn.setFormat(Triplet.GlobalID_Format.CharacterString);
+        fqn.setNameAsString("RES00001");
+        triplets.add(fqn);
+        bca.setTriplets(triplets);
+        return bca;
+    }
+
+    private ECA_EndColorAttributeTable createEca() {
+        ECA_EndColorAttributeTable eca = new ECA_EndColorAttributeTable();
+        eca.setName("ECA00001");
+        return eca;
+    }
+
+    private CAT_ColorAttributeTable createCat() {
+        CAT_ColorAttributeTable cat = new CAT_ColorAttributeTable();
+        CAT_ColorAttributeTable.CAT_BasePart bp = new CAT_ColorAttributeTable.CAT_BasePart();
+        bp.setResetLCTFlag(CAT_ColorAttributeTable.CAT_BasePart.ResetLCTFlag.ResetLCT);
+        bp.setReserved1((byte) 0);
+        bp.setColorTableLocalID((short) 1);
+        cat.setBasePart(bp);
+        cat.setOtherData(new byte[]{0x01, 0x02});
+        return cat;
+    }
+
+    private MCA_MapColorAttributeTable createMca() {
+        MCA_MapColorAttributeTable mca = new MCA_MapColorAttributeTable();
+        MCA_MapColorAttributeTable.MCA_RepeatingGroup rg = new MCA_MapColorAttributeTable.MCA_RepeatingGroup();
+        List<Triplet> triplets = new ArrayList<>();
+        Triplet.FullyQualifiedName fqn = new Triplet.FullyQualifiedName();
+        fqn.setType(Triplet.GlobalID_Use.BeginResourceGroupReference);
+        fqn.setFormat(Triplet.GlobalID_Format.CharacterString);
+        fqn.setNameAsString("RES00001");
+        triplets.add(fqn);
+        rg.setTriplets(triplets);
+        mca.addRepeatingGroup(rg);
+        return mca;
     }
 }

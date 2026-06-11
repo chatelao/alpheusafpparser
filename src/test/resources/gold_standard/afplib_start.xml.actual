@@ -121,11 +121,9 @@
   </BAG_BeginActiveEnvironmentGroup>
   <MDR_MapDataResource>
     <mdrRepeatingGroup>
-      <CodedGraphicCharacterSetGlobalID>
-        <graphicCharacterSetGlobalID>0</graphicCharacterSetGlobalID>
-        <codePageGlobalID_codedCharacterSetID>1200</codePageGlobalID_codedCharacterSetID>
-      </CodedGraphicCharacterSetGlobalID>
+      <CodedGraphicCharacterSetGlobalID graphicCharacterSetGlobalID="0" codePageGlobalID_codedCharacterSetID="1200"/>
       <FullyQualifiedName>
+        <length>30</length>
         <type>DataObjectExternalResourceReference</type>
         <format>CharacterString</format>
         <nameAsString>   Ê Ñ / % &#x80; ê Á Å Í % / Ê</nameAsString>
@@ -143,6 +141,7 @@
         <registeredObjectID>06072B12000401013300000000000000</registeredObjectID>
       </ObjectClassification>
       <FullyQualifiedName>
+        <length>5</length>
         <type>DataObjectInternalResourceReference</type>
         <format>CharacterString</format>
         <nameAsString> </nameAsString>
@@ -175,11 +174,9 @@
       </DataObjectFontDescriptor>
     </mdrRepeatingGroup>
     <mdrRepeatingGroup>
-      <CodedGraphicCharacterSetGlobalID>
-        <graphicCharacterSetGlobalID>0</graphicCharacterSetGlobalID>
-        <codePageGlobalID_codedCharacterSetID>1200</codePageGlobalID_codedCharacterSetID>
-      </CodedGraphicCharacterSetGlobalID>
+      <CodedGraphicCharacterSetGlobalID graphicCharacterSetGlobalID="0" codePageGlobalID_codedCharacterSetID="1200"/>
       <FullyQualifiedName>
+        <length>30</length>
         <type>DataObjectExternalResourceReference</type>
         <format>CharacterString</format>
         <nameAsString>   Ê Ñ / % &#x80; ê Á Å Í % / Ê</nameAsString>
@@ -197,6 +194,7 @@
         <registeredObjectID>06072B12000401013300000000000000</registeredObjectID>
       </ObjectClassification>
       <FullyQualifiedName>
+        <length>5</length>
         <type>DataObjectInternalResourceReference</type>
         <format>CharacterString</format>
         <nameAsString> </nameAsString>
@@ -253,7 +251,7 @@
   </BPT_BeginPresentationTextObject>
   <PTX_PresentationTextData>
     <STO_SetTextOrientation xOrientation="ori0" yOrientation="ori90"/>
-    <STC_SetTextColor foregroundColor="DeviceDefault_0x00"/>
+    <STC_SetTextColor foregroundColor="DeviceDefault_0x00" precision=""/>
     <AMB_AbsoluteMoveBaseline displacement="874"/>
     <AMI_AbsoluteMoveInline displacement="581"/>
     <SCFL_SetCodedFontLocal codedFontLocalID="1"/>
@@ -349,17 +347,19 @@
   </BRS_BeginResource>
   <BOC_BeginObjectContainer>
     <name>TTF00001</name>
-    <ObjectClassification>
-      <reserved2>0</reserved2>
-      <objectClass>DataObjectFont</objectClass>
-      <reserved4_5>0000</reserved4_5>
-      <structureFlags>
-        <structureFlag>OC_DataCarriedInObjectContainer</structureFlag>
-        <structureFlag>OEG_NotIncluded</structureFlag>
-        <structureFlag>OCD_DataCarriedInOCD</structureFlag>
-      </structureFlags>
-      <registeredObjectID>06072B12000401013300000000000000</registeredObjectID>
-    </ObjectClassification>
+    <tripletsXml>
+      <ObjectClassification>
+        <reserved2>0</reserved2>
+        <objectClass>DataObjectFont</objectClass>
+        <reserved4_5>0000</reserved4_5>
+        <structureFlags>
+          <structureFlag>OC_DataCarriedInObjectContainer</structureFlag>
+          <structureFlag>OEG_NotIncluded</structureFlag>
+          <structureFlag>OCD_DataCarriedInOCD</structureFlag>
+        </structureFlags>
+        <registeredObjectID>06072B12000401013300000000000000</registeredObjectID>
+      </ObjectClassification>
+    </tripletsXml>
     <text>TTF00001</text>
   </BOC_BeginObjectContainer>
   <OCD_ObjectContainerData>
@@ -6861,6 +6861,7 @@ VPxQ0/5ijTgFZvB4OOOBH2uOKywykbjY/wcKhIlMlj9t2J2FYTsmmT67c5ehCrKeqS44ow5fs1Pp
     <mpoRepeatingGroup>
       <ResourceLocalIdentifier resourceType="PageOverlay" resourceLocalID="1"/>
       <FullyQualifiedName>
+        <length>12</length>
         <type>ResourceObjectReference</type>
         <format>CharacterString</format>
         <nameAsString>O1VORNAL</nameAsString>

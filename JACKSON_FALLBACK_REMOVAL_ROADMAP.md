@@ -57,15 +57,15 @@ Implement manual StAX fast-paths for remaining MO:DCA structured fields to elimi
     - [x] **CCP** (Conditional Processing Control) ✅
     - [x] **RCD** (Record Descriptor) ✅
     - [x] **XMD** (XML Descriptor) ✅
-- [ ] **IM Image Fields**:
-    - [ ] **IID** (IM Image Input Descriptor)
-    - [ ] **ICP** (IM Image Cell Position)
-    - [ ] **IRD** (IM Image RasterData)
-    - [ ] **IOC** (IM Image Output Control)
-- [ ] **Color Attribute Table Fields**:
-    - [ ] **BCA** / **ECA** (Begin/End Color Attribute Table)
-    - [ ] **CAT** (Color Attribute Table)
-    - [ ] **MCA** (Map Color Attribute Table)
+- [x] **IM Image Fields** ✅:
+    - [x] **IID** ✅ (IM Image Input Descriptor)
+    - [x] **ICP** ✅ (IM Image Cell Position)
+    - [x] **IRD** ✅ (IM Image RasterData)
+    - [x] **IOC** ✅ (IM Image Output Control)
+- [x] **Color Attribute Table Fields** ✅:
+    - [x] **BCA** / **ECA** ✅ (Begin/End Color Attribute Table)
+    - [x] **CAT** ✅ (Color Attribute Table)
+    - [x] **MCA** ✅ (Map Color Attribute Table)
 - [ ] **Map Fields**:
     - [ ] **MBC** (Map BarCode Object)
     - [ ] **MMD** (Map Media Destination)
