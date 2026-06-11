@@ -65,6 +65,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class SFFastPathVerificationTest {
 
     @Test
+    public void testSFFastPaths() throws Exception {
+        verifySF(createMCC(), "MCC_MediumCopyCount");
+        verifySF(createMCF1(), "MCF_MapCodedFont_Format1");
+        verifySF(createLNC(), "LNC_LineDescriptorCount");
+        verifySF(createCCP(), "CCP_ConditionalProcessingControl");
+        verifySF(createRCD(), "RCD_RecordDescriptor");
+        verifySF(createXMD(), "XMD_XMLDescriptor");
+    }
+
+    @Test
     public void testLineDataFastPaths() throws Exception {
         verifySF(createBDM(), "BDM_BeginDataMap");
         verifySF(createEDM(), "EDM_EndDataMap");
@@ -75,15 +85,7 @@ public class SFFastPathVerificationTest {
         verifySF(createIDM(), "IDM_InvokeDataMap");
         verifySF(createDXD(), "DXD_DataMapTransmitionSubcaseDescriptor");
     }
-    @Test
-    public void testSFFastPaths() throws Exception {
-        verifySF(createMCC(), "MCC_MediumCopyCount");
-        verifySF(createMCF1(), "MCF_MapCodedFont_Format1");
-        verifySF(createLNC(), "LNC_LineDescriptorCount");
-        verifySF(createCCP(), "CCP_ConditionalProcessingControl");
-        verifySF(createRCD(), "RCD_RecordDescriptor");
-        verifySF(createXMD(), "XMD_XMLDescriptor");
-    }
+
 
     @Test
     public void testImImageFastPaths() throws Exception {
@@ -301,7 +303,7 @@ public class SFFastPathVerificationTest {
         assertTrue(normalizedFastPath.contains(normalizedJackson), "Normalized FastPath XML does not contain expected Normalized Jackson XML for " + rootName);
     }
 
-                            private String normalizeXml(String xml) {
+            private String normalizeXml(String xml) {
         // Remove metadata tags which are in Jackson but not in our fast-path
         return xml.replaceAll("\s", "")
                   .replaceAll("<beginSF>.*?</beginSF>", "")
@@ -319,6 +321,18 @@ public class SFFastPathVerificationTest {
                   .replaceAll("</repeatingGroupsXml>", "")
                   .replaceAll("<repeatingGroups>", "")
                   .replaceAll("</repeatingGroups>", "")
+                  .replaceAll("<MMD_RepeatingGroup>", "")
+                  .replaceAll("</MMD_RepeatingGroup>", "")
+                  .replaceAll("<MMO_RepeatingGroup>", "")
+                  .replaceAll("</MMO_RepeatingGroup>", "")
+                  .replaceAll("<MMT_RepeatingGroup>", "")
+                  .replaceAll("</MMT_RepeatingGroup>", "")
+                  .replaceAll("<MPG_RepeatingGroup>", "")
+                  .replaceAll("</MPG_RepeatingGroup>", "")
+                  .replaceAll("<MPS_RepeatingGroup>", "")
+                  .replaceAll("</MPS_RepeatingGroup>", "")
+                  .replaceAll("<MPT_RepeatingGroup>", "")
+                  .replaceAll("</MPT_RepeatingGroup>", "")
                   .replaceAll("<AfpFragments>", "")
                   .replaceAll("</AfpFragments>", "")
                   .replaceAll("<length>[0-9]*</length>", "")

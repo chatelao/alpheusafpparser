@@ -61,12 +61,12 @@ import com.mgz.afp.ioca.IPD_Segment;
 import com.mgz.afp.lineData.BDM_BeginDataMap;
 import com.mgz.afp.lineData.BDX_BeginDataMapTransmitionSubcase;
 import com.mgz.afp.lineData.BPM_BeginPageMap;
-import com.mgz.afp.lineData.CCP_ConditionalProcessingControl;
 import com.mgz.afp.lineData.DXD_DataMapTransmitionSubcaseDescriptor;
 import com.mgz.afp.lineData.EDM_EndDataMap;
 import com.mgz.afp.lineData.EDX_EndDataMapTransmitionSubcase;
 import com.mgz.afp.lineData.EPM_EndPageMap;
 import com.mgz.afp.lineData.IDM_InvokeDataMap;
+import com.mgz.afp.lineData.CCP_ConditionalProcessingControl;
 import com.mgz.afp.lineData.LNC_LineDescriptorCount;
 import com.mgz.afp.lineData.LND_LineDescriptor;
 import com.mgz.afp.lineData.RCD_RecordDescriptor;
@@ -429,8 +429,6 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeCcpDirectly(ccp, level);
     } else if (sf instanceof RCD_RecordDescriptor rcd) {
       writeRcdDirectly(rcd, level);
-    } else if (sf instanceof XMD_XMLDescriptor xmd) {
-      writeXmdDirectly(xmd, level);
     } else if (sf instanceof BDM_BeginDataMap bdm) {
       writeBdmDirectly(bdm, level);
     } else if (sf instanceof EDM_EndDataMap edm) {
@@ -447,6 +445,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeNameDirectly(idm, "IDM_InvokeDataMap", level);
     } else if (sf instanceof DXD_DataMapTransmitionSubcaseDescriptor dxd) {
       writeDxdDirectly(dxd, level);
+    } else if (sf instanceof XMD_XMLDescriptor xmd) {
+      writeXmdDirectly(xmd, level);
     } else if (sf instanceof BPT_BeginPresentationTextObject bpt) {
       writeNameAndTripletsDirectly(bpt, "BPT_BeginPresentationTextObject", level);
     } else if (sf instanceof EPT_EndPresentationTextObject ept) {
@@ -4843,7 +4843,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeDxdDirectly(DXD_DataMapTransmitionSubcaseDescriptor dxd, int level) throws Exception {
+  private void writeDxdDirectly(DXD_DataMapTransmitionSubcaseDescriptor dxd, int level)
+      throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("DXD");
     baseXsw.writeStartElement("DXD_DataMapTransmitionSubcaseDescriptor");
     writeElement(baseXsw, level + 1, "constantData", dxd.getConstantData());
