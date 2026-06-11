@@ -58,6 +58,14 @@ import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
 import com.mgz.afp.ioca.IDD_SelfDefiningField;
 import com.mgz.afp.ioca.IPD_ImagePictureData;
 import com.mgz.afp.ioca.IPD_Segment;
+import com.mgz.afp.lineData.BDM_BeginDataMap;
+import com.mgz.afp.lineData.BDX_BeginDataMapTransmitionSubcase;
+import com.mgz.afp.lineData.BPM_BeginPageMap;
+import com.mgz.afp.lineData.DXD_DataMapTransmitionSubcaseDescriptor;
+import com.mgz.afp.lineData.EDM_EndDataMap;
+import com.mgz.afp.lineData.EDX_EndDataMapTransmitionSubcase;
+import com.mgz.afp.lineData.EPM_EndPageMap;
+import com.mgz.afp.lineData.IDM_InvokeDataMap;
 import com.mgz.afp.lineData.CCP_ConditionalProcessingControl;
 import com.mgz.afp.lineData.LNC_LineDescriptorCount;
 import com.mgz.afp.lineData.LND_LineDescriptor;
@@ -421,6 +429,22 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeCcpDirectly(ccp, level);
     } else if (sf instanceof RCD_RecordDescriptor rcd) {
       writeRcdDirectly(rcd, level);
+    } else if (sf instanceof BDM_BeginDataMap bdm) {
+      writeBdmDirectly(bdm, level);
+    } else if (sf instanceof EDM_EndDataMap edm) {
+      writeNameDirectly(edm, "EDM_EndDataMap", level);
+    } else if (sf instanceof BDX_BeginDataMapTransmitionSubcase bdx) {
+      writeNameDirectly(bdx, "BDX_BeginDataMapTransmitionSubcase", level);
+    } else if (sf instanceof EDX_EndDataMapTransmitionSubcase edx) {
+      writeNameDirectly(edx, "EDX_EndDataMapTransmitionSubcase", level);
+    } else if (sf instanceof BPM_BeginPageMap bpm) {
+      writeNameDirectly(bpm, "BPM_BeginPageMap", level);
+    } else if (sf instanceof EPM_EndPageMap epm) {
+      writeNameDirectly(epm, "EPM_EndPageMap", level);
+    } else if (sf instanceof IDM_InvokeDataMap idm) {
+      writeNameDirectly(idm, "IDM_InvokeDataMap", level);
+    } else if (sf instanceof DXD_DataMapTransmitionSubcaseDescriptor dxd) {
+      writeDxdDirectly(dxd, level);
     } else if (sf instanceof XMD_XMLDescriptor xmd) {
       writeXmdDirectly(xmd, level);
     } else if (sf instanceof BPT_BeginPresentationTextObject bpt) {
@@ -4740,6 +4764,37 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       baseXsw.writeEndElement();
     }
 
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeBdmDirectly(BDM_BeginDataMap bdm, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BDM");
+    baseXsw.writeStartElement("BDM_BeginDataMap");
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "name", bdm.getName());
+    if (bdm.getDataFormat() != null) {
+      writeElement(baseXsw, childLevel, "dataFormat", bdm.getDataFormat().name());
+    }
+    if (bdm.getTriplets() != null && !bdm.getTriplets().isEmpty()) {
+      for (Triplet triplet : bdm.getTriplets()) {
+        writeTriplet(baseXsw, triplet, childLevel);
+      }
+    }
+    if (bdm.getText() != null) {
+      writeElement(baseXsw, childLevel, "text", bdm.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeDxdDirectly(DXD_DataMapTransmitionSubcaseDescriptor dxd, int level)
+      throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("DXD");
+    baseXsw.writeStartElement("DXD_DataMapTransmitionSubcaseDescriptor");
+    writeElement(baseXsw, level + 1, "constantData", dxd.getConstantData());
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();

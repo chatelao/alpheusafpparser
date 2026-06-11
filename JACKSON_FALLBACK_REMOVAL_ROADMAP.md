@@ -52,11 +52,17 @@ Complete the fast-path implementation for IOCA (Image), PTOCA (Text), and GDD (G
 ## Phase 5: Remaining MO:DCA Structured Fields ⏳
 Implement manual StAX fast-paths for remaining MO:DCA structured fields to eliminate reflection-based serialization.
 
-- [ ] **Line Data Fields**:
+- [x] **Line Data Fields**:
     - [x] **LNC** (Line Descriptor Count) ✅
     - [x] **CCP** (Conditional Processing Control) ✅
     - [x] **RCD** (Record Descriptor) ✅
     - [x] **XMD** (XML Descriptor) ✅
+    - [x] **BDM** (Begin Data Map) ✅
+    - [x] **EDM** (End Data Map) ✅
+    - [x] **BDX** / **EDX** (Begin/End Data Map Transmission Subcase) ✅
+    - [x] **BPM** / **EPM** (Begin/End Page Map) ✅
+    - [x] **IDM** (Invoke Data Map) ✅
+    - [x] **DXD** (Data Map Transmission Subcase Descriptor) ✅
 - [x] **IM Image Fields**:
     - [x] **IID** (IM Image Input Descriptor) ✅
     - [x] **ICP** (IM Image Cell Position) ✅
