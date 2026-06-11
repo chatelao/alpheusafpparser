@@ -18,6 +18,8 @@ import com.mgz.afp.foca.FNO_FontOrientation;
 import com.mgz.afp.foca.FNP_FontPosition;
 import com.mgz.afp.ioca.IPD_Segment;
 import com.mgz.afp.ioca.IPD_ImagePictureData;
+import com.mgz.afp.lineData.CCP_ConditionalProcessingControl;
+import com.mgz.afp.lineData.LNC_LineDescriptorCount;
 import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.enums.AFPColorSpace;
 import com.mgz.afp.enums.AFPUnitBase;
@@ -38,6 +40,8 @@ public class SFFastPathVerificationTest {
     public void testSFFastPaths() throws Exception {
         verifySF(createMCC(), "MCC_MediumCopyCount");
         verifySF(createMCF1(), "MCF_MapCodedFont_Format1");
+        verifySF(createLNC(), "LNC_LineDescriptorCount");
+        verifySF(createCCP(), "CCP_ConditionalProcessingControl");
     }
 
     @Test
@@ -428,5 +432,41 @@ public class SFFastPathVerificationTest {
         rg.setUnderscorePosition((short) -100);
         fnp.addFNPRepeatingGroup(rg);
         return fnp;
+    }
+
+    private LNC_LineDescriptorCount createLNC() {
+        LNC_LineDescriptorCount lnc = new LNC_LineDescriptorCount();
+        lnc.setNumberOfSFInBDX(42);
+        return lnc;
+    }
+
+    private CCP_ConditionalProcessingControl createCCP() {
+        CCP_ConditionalProcessingControl ccp = new CCP_ConditionalProcessingControl();
+        ccp.setCcpIdentifier(1);
+        ccp.setNextCcpIdentifier(2);
+        ccp.setFlag(CCP_ConditionalProcessingControl.CCP_Flag.BeforeSubpageActions);
+        ccp.setReserved5((byte) 0);
+        ccp.setNumberOfRepeatingGroups(1);
+        ccp.setLengthOfRepeatingGroup(22);
+        ccp.setLengthOfComparisonString(2);
+
+        List<CCP_ConditionalProcessingControl.CCP_RepeatingGroup> rgs = new ArrayList<>();
+        CCP_ConditionalProcessingControl.CCP_RepeatingGroup rg =
+            new CCP_ConditionalProcessingControl.CCP_RepeatingGroup();
+        rg.setTimingOfAction(
+            CCP_ConditionalProcessingControl.CCP_RepeatingGroup.CCP_TimingOfAction.Immediately);
+        rg.setMediumMapAction(CCP_ConditionalProcessingControl.CCP_RepeatingGroup
+            .CCP_MediumMapAction.InvokeNamedMediumMap);
+        rg.setMediumMapName("MMTEST");
+        rg.setDataMapAction(CCP_ConditionalProcessingControl.CCP_RepeatingGroup
+            .CCP_DataMapAction.InvokeNamedDataMap);
+        rg.setDataMapName("DMTEST");
+        rg.setComparison(
+            CCP_ConditionalProcessingControl.CCP_RepeatingGroup.CCP_Comparison.EqualTo);
+        rg.setComparisonString("AB");
+        rgs.add(rg);
+        ccp.setRepeatingGroups(rgs);
+
+        return ccp;
     }
 }
