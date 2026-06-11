@@ -1012,11 +1012,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   private void writePgpFormat1Directly(PGP_PagePosition_Format1 pgp, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("PGP");
-    baseXsw.writeStartElement("PGP_PagePosition_Format1");
-    writeElement(baseXsw, level + 1, "xOrigin", pgp.getxOrigin());
-    writeElement(baseXsw, level + 1, "yOrigin", pgp.getyOrigin());
-    writeIndent(baseXsw, level);
-    baseXsw.writeEndElement();
+    XmlTemplateRegistry.getTemplate("PGP1").write(baseXsw, pgp.getxOrigin(), pgp.getyOrigin());
     MnemonicPerformanceMonitor.endWrite();
   }
 
@@ -1227,14 +1223,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (triplet instanceof Triplet.ObjectAreaSize oas) {
       XmlTemplateRegistry.getTemplate("OAS").writeObjects(baseXsw, (int) oas.sizeType_0x02, oas.xSize, oas.ySize);
     } else if (triplet instanceof Triplet.AreaDefinition ad) {
-      writer.writeStartElement("AreaDefinition");
-      writeElement(writer, childLevel, "reserved2", ad.reserved2);
-      writeElement(writer, childLevel, "xOrigin", ad.xOrigin);
-      writeElement(writer, childLevel, "yOrigin", ad.yOrigin);
-      writeElement(writer, childLevel, "xSize", ad.xSize);
-      writeElement(writer, childLevel, "ySize", ad.ySize);
-      writeIndent(writer, level);
-      writer.writeEndElement();
+      XmlTemplateRegistry.getTemplate("AD").writeObjects(baseXsw, (int) ad.reserved2, ad.xOrigin, ad.yOrigin, ad.xSize, ad.ySize);
     } else if (triplet instanceof Triplet.ColorSpecification cs) {
       writer.writeStartElement("ColorSpecification");
       writeElement(writer, childLevel, "reserved2", cs.reserved2);
@@ -1276,43 +1265,11 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ObjectCount oc) {
-      writer.writeEmptyElement("ObjectCount");
-      writer.writeIntAttribute(null, null, "subordinateObjectType", (int) oc.subordinateObjectType);
-      writer.writeIntAttribute(null, null, "reserved3", (int) oc.reserved3);
-      writer.writeLongAttribute(null, null, "numberOfObjectsLow", oc.numberOfObjectsLow);
-      if (oc.numberOfObjectsHigh != null) {
-        writer.writeLongAttribute(null, null, "numberOfObjectsHigh", oc.numberOfObjectsHigh);
-      }
+      XmlTemplateRegistry.getTemplate("OCNT").writeObjects(baseXsw, (int) oc.subordinateObjectType, (int) oc.reserved3, oc.numberOfObjectsLow, oc.numberOfObjectsHigh);
     } else if (triplet instanceof Triplet.LocalObjectDateAndTimeStamp lodts) {
-      writer.writeStartElement("LocalObjectDateAndTimeStamp");
-      if (lodts.dateAndTimeStampType != null) {
-        writeElement(writer, childLevel, "dateAndTimeStampType", lodts.dateAndTimeStampType.name());
-      }
-      writeElement(writer, childLevel, "hundreds", lodts.hundreds);
-      writeElement(writer, childLevel, "tens", lodts.tens);
-      writeElement(writer, childLevel, "dayOfYear", lodts.dayOfYear);
-      writeElement(writer, childLevel, "hourOfDay", lodts.hourOfDay);
-      writeElement(writer, childLevel, "minuteOfHour", lodts.minuteOfHour);
-      writeElement(writer, childLevel, "secondOfMinute", lodts.secondOfMinute);
-      writeElement(writer, childLevel, "hundredthOfSecond", lodts.hundredthOfSecond);
-      writeIndent(writer, level);
-      writer.writeEndElement();
+      XmlTemplateRegistry.getTemplate("LODTS").writeObjects(baseXsw, lodts.dateAndTimeStampType, (int) lodts.hundreds, (int) lodts.tens, (int) lodts.dayOfYear, (int) lodts.hourOfDay, (int) lodts.minuteOfHour, (int) lodts.secondOfMinute, (int) lodts.hundredthOfSecond);
     } else if (triplet instanceof Triplet.UniversalDateAndTimeStamp udts) {
-      writer.writeStartElement("UniversalDateAndTimeStamp");
-      writeElement(writer, childLevel, "reserved2", udts.reserved2);
-      writeElement(writer, childLevel, "year", udts.year);
-      writeElement(writer, childLevel, "monthOfYear", udts.monthOfYear);
-      writeElement(writer, childLevel, "dayOfMonth", udts.dayOfMonth);
-      writeElement(writer, childLevel, "hourOfDay", udts.hourOfDay);
-      writeElement(writer, childLevel, "minuteOfHour", udts.minuteOfHour);
-      writeElement(writer, childLevel, "secondOfMinute", udts.secondOfMinute);
-      if (udts.timeZone != null) {
-        writeElement(writer, childLevel, "timeZone", udts.timeZone.name());
-      }
-      writeElement(writer, childLevel, "diffHours", udts.diffHours);
-      writeElement(writer, childLevel, "diffMinutes", udts.diffMinutes);
-      writeIndent(writer, level);
-      writer.writeEndElement();
+      XmlTemplateRegistry.getTemplate("UDTS").writeObjects(baseXsw, (int) udts.reserved2, (int) udts.year, (int) udts.monthOfYear, (int) udts.dayOfMonth, (int) udts.hourOfDay, (int) udts.minuteOfHour, (int) udts.secondOfMinute, udts.timeZone, (int) udts.diffHours, (int) udts.diffMinutes);
     } else if (triplet instanceof Triplet.FontDescriptorSpecification fds) {
       writer.writeStartElement("FontDescriptorSpecification");
       if (fds.fontWeigthClass != null) {
@@ -1985,17 +1942,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.SEC_SetExtendedTextColor sec) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SEC");
-      baseXsw.writeStartElement("SEC_SetExtendedTextColor");
-      writeElement(baseXsw, childLevel, "colorSpace", sec.getColorSpace().name());
-      writeElement(baseXsw, childLevel, "nrOfBitsComponent1", sec.getNrOfBitsComponent1());
-      writeElement(baseXsw, childLevel, "nrOfBitsComponent2", sec.getNrOfBitsComponent2());
-      writeElement(baseXsw, childLevel, "nrOfBitsComponent3", sec.getNrOfBitsComponent3());
-      writeElement(baseXsw, childLevel, "nrOfBitsComponent4", sec.getNrOfBitsComponent4());
-      if (sec.getColorValue() != null) {
-        writeBinaryElement(baseXsw, childLevel, "colorValue", sec.getColorValue());
-      }
-      writeIndent(baseXsw, level);
-      baseXsw.writeEndElement();
+      XmlTemplateRegistry.getTemplate("SEC").writeObjects(baseXsw, sec.getColorSpace(), (int) sec.getNrOfBitsComponent1(), (int) sec.getNrOfBitsComponent2(), (int) sec.getNrOfBitsComponent3(), (int) sec.getNrOfBitsComponent4(), com.mgz.util.UtilCharacterEncoding.bytesToHexString(sec.getColorValue()));
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.DIR_DrawIaxisRule dir) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("DIR");

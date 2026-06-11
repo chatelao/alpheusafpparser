@@ -2,6 +2,8 @@ package com.mgz.xml;
 
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
+import com.mgz.afp.modca.PGP_PagePosition_Format1;
+import com.mgz.afp.enums.AFPColorSpace;
 import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.enums.AFPColorValue;
@@ -161,6 +163,38 @@ public class XmlTemplateVerificationTest {
         Triplet.MODCAFunctionSet mfs = new Triplet.MODCAFunctionSet();
         mfs.decodeAFP(new byte[] {0x06, (byte) 0x8F, 0x00, 0x00, 0x00, 0x10}, 0, 6, null);
         verifySF(mfs, "MODCAFunctionSet");
+
+        // AD - AreaDefinition
+        Triplet.AreaDefinition ad = new Triplet.AreaDefinition();
+        ad.xOrigin = 100;
+        ad.yOrigin = 200;
+        ad.xSize = 1000;
+        ad.ySize = 2000;
+        verifySF(ad, "AreaDefinition");
+
+        // OCNT - ObjectCount
+        Triplet.ObjectCount ocnt = new Triplet.ObjectCount();
+        ocnt.subordinateObjectType = 1;
+        ocnt.numberOfObjectsLow = 500;
+        verifySF(ocnt, "ObjectCount");
+
+        // LODTS - LocalObjectDateAndTimeStamp
+        Triplet.LocalObjectDateAndTimeStamp lodts = new Triplet.LocalObjectDateAndTimeStamp();
+        lodts.dateAndTimeStampType = Triplet.LocalObjectDateAndTimeStamp.DateAndTimeStampType.Creation;
+        lodts.hundreds = 2026;
+        verifySF(lodts, "LocalObjectDateAndTimeStamp");
+
+        // UDTS - UniversalDateAndTimeStamp
+        Triplet.UniversalDateAndTimeStamp udts = new Triplet.UniversalDateAndTimeStamp();
+        udts.year = 2026;
+        udts.timeZone = Triplet.UniversalDateAndTimeStamp.TimeZone.CoordinatedUTC;
+        verifySF(udts, "UniversalDateAndTimeStamp");
+
+        // PGP1 - PGP_PagePosition_Format1
+        PGP_PagePosition_Format1 pgp1 = new PGP_PagePosition_Format1();
+        pgp1.setxOrigin(100);
+        pgp1.setyOrigin(200);
+        verifySF(pgp1, "PGP1");
     }
 
     @Test
@@ -187,6 +221,14 @@ public class XmlTemplateVerificationTest {
         PTOCAControlSequence.USC_Underscore usc = new PTOCAControlSequence.USC_Underscore();
         usc.setBypassFlag(PTOCAControlSequence.PTOCA_BypassFlag.BypassRelativeMoveInline);
         verifySF(usc, "USC_Underscore");
+
+        // SEC
+        PTOCAControlSequence.SEC_SetExtendedTextColor sec = new PTOCAControlSequence.SEC_SetExtendedTextColor();
+        sec.setColorSpace(AFPColorSpace.RGB);
+        sec.setNrOfBitsComponent1((byte) 8);
+        sec.setNrOfBitsComponent2((byte) 8);
+        sec.setNrOfBitsComponent3((byte) 8);
+        verifySF(sec, "SEC_SetExtendedTextColor");
     }
 
     private void verifySF(Object obj, String rootName) throws Exception {
@@ -283,6 +325,18 @@ public class XmlTemplateVerificationTest {
                 } else if (t instanceof Triplet.MODCAFunctionSet mfs) {
                     template = XmlTemplateRegistry.getTemplate("MFS");
                     values = new Object[]{mfs.fctSetID};
+                } else if (t instanceof Triplet.AreaDefinition ad) {
+                    template = XmlTemplateRegistry.getTemplate("AD");
+                    values = new Object[]{(int) ad.reserved2, ad.xOrigin, ad.yOrigin, ad.xSize, ad.ySize};
+                } else if (t instanceof Triplet.ObjectCount oc) {
+                    template = XmlTemplateRegistry.getTemplate("OCNT");
+                    values = new Object[]{(int) oc.subordinateObjectType, (int) oc.reserved3, oc.numberOfObjectsLow, oc.numberOfObjectsHigh};
+                } else if (t instanceof Triplet.LocalObjectDateAndTimeStamp lodts) {
+                    template = XmlTemplateRegistry.getTemplate("LODTS");
+                    values = new Object[]{lodts.dateAndTimeStampType, (int) lodts.hundreds, (int) lodts.tens, (int) lodts.dayOfYear, (int) lodts.hourOfDay, (int) lodts.minuteOfHour, (int) lodts.secondOfMinute, (int) lodts.hundredthOfSecond};
+                } else if (t instanceof Triplet.UniversalDateAndTimeStamp udts) {
+                    template = XmlTemplateRegistry.getTemplate("UDTS");
+                    values = new Object[]{(int) udts.reserved2, (int) udts.year, (int) udts.monthOfYear, (int) udts.dayOfMonth, (int) udts.hourOfDay, (int) udts.minuteOfHour, (int) udts.secondOfMinute, udts.timeZone, (int) udts.diffHours, (int) udts.diffMinutes};
                 }
 
                 if (template != null) {
@@ -305,6 +359,9 @@ public class XmlTemplateVerificationTest {
                  } else if (cs instanceof PTOCAControlSequence.USC_Underscore usc) {
                      template = XmlTemplateRegistry.getTemplate("USC");
                      values = new Object[]{usc.getBypassFlag()};
+                 } else if (cs instanceof PTOCAControlSequence.SEC_SetExtendedTextColor sec) {
+                     template = XmlTemplateRegistry.getTemplate("SEC");
+                     values = new Object[]{sec.getColorSpace(), (int) sec.getNrOfBitsComponent1(), (int) sec.getNrOfBitsComponent2(), (int) sec.getNrOfBitsComponent3(), (int) sec.getNrOfBitsComponent4(), com.mgz.util.UtilCharacterEncoding.bytesToHexString(sec.getColorValue())};
                  }
 
                  if (template != null) {
@@ -392,6 +449,21 @@ public class XmlTemplateVerificationTest {
             assertTrue(normalizedFastPath.contains("codePageGlobalID=\"500\""));
         } else if (rootName.equals("MODCAFunctionSet")) {
             assertTrue(normalizedFastPath.contains("fctSetID=\"16\""));
+        } else if (rootName.equals("AreaDefinition")) {
+            assertTrue(normalizedFastPath.contains("xOrigin=\"100\""));
+            assertTrue(normalizedFastPath.contains("yOrigin=\"200\""));
+        } else if (rootName.equals("ObjectCount")) {
+            assertTrue(normalizedFastPath.contains("numberOfObjectsLow=\"500\""));
+            assertTrue(normalizedFastPath.contains("numberOfObjectsHigh=\"null\""));
+        } else if (rootName.equals("LocalObjectDateAndTimeStamp")) {
+            assertTrue(normalizedFastPath.contains("dateAndTimeStampType=\"Creation\""));
+            assertTrue(normalizedFastPath.contains("hundreds=\"2026\""));
+        } else if (rootName.equals("UniversalDateAndTimeStamp")) {
+            assertTrue(normalizedFastPath.contains("year=\"2026\""));
+            assertTrue(normalizedFastPath.contains("timeZone=\"CoordinatedUTC\""));
+        } else if (rootName.equals("PGP1")) {
+            assertTrue(normalizedFastPath.contains("xOrigin=\"100\""));
+            assertTrue(normalizedFastPath.contains("yOrigin=\"200\""));
         } else if (rootName.equals("STO_SetTextOrientation")) {
             assertTrue(normalizedFastPath.contains("xOrientation=\"ori0\""));
             assertTrue(normalizedFastPath.contains("yOrientation=\"ori90\""));
@@ -403,6 +475,10 @@ public class XmlTemplateVerificationTest {
             assertTrue(normalizedFastPath.contains("precision=\"IfSpecifiedColorNotSupported_SubstitutColorOrDefaul0xFF07\""));
         } else if (rootName.equals("USC_Underscore")) {
             assertTrue(normalizedFastPath.contains("bypassFlag=\"BypassRelativeMoveInline\""));
+        } else if (rootName.equals("SEC_SetExtendedTextColor")) {
+            assertTrue(normalizedFastPath.contains("colorSpace=\"RGB\""));
+            assertTrue(normalizedFastPath.contains("nrOfBitsComponent1=\"8\""));
+            assertTrue(normalizedFastPath.contains("colorValue=\"null\""));
         }
     }
 
