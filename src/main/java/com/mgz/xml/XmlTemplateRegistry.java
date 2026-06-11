@@ -52,6 +52,7 @@ public class XmlTemplateRegistry {
     register("RLI", new String[] {"<ResourceLocalIdentifier resourceType=\"", "\" resourceLocalID=\"", "\"/>"});
     register("CR", new String[] {"<CharacterRotation characterRotation=\"", "\"/>"});
     register("MU", new String[] {"<MeasurementUnits xUnitBase=\"", "\" yUnitBase=\"", "\" xUnitsPerUnitbase=\"", "\" yUnitsPerUnitbase=\"", "\"/>"});
+    register("OBO", new String[] {"<ObjectByteOffset byteOffset=\"", "\" byteOffsetHighOrder=\"", "\"/>"});
     register("MO", new String[] {"<MappingOption dataObjecMapingOption=\"", "\"/>"});
     register("OAS", new String[] {"<ObjectAreaSize sizeType_0x02=\"", "\" xSize=\"", "\" ySize=\"", "\"/>"});
     register("CGCS", new String[] {"<CodedGraphicCharacterSetGlobalID graphicCharacterSetGlobalID=\"", "\" codePageGlobalID_codedCharacterSetID=\"", "\"/>"});
@@ -64,6 +65,9 @@ public class XmlTemplateRegistry {
     register("RSN", new String[] {"<ResourceSectionNumber resourceSectionNumber=\"", "\"/>"});
     register("MMPN", new String[] {"<MediumMapPageNumber pageNumber=\"", "\"/>"});
     register("OBE", new String[] {"<ObjectByteExtent byteExtentLow=\"", "\" byteExtentHigh=\"", "\"/>"});
+    register("OSFO", new String[] {"<ObjectStructuredFieldOffset offsetLow=\"", "\" offsetHigh=\"", "\"/>"});
+    register("OSFE", new String[] {"<ObjectStructuredFieldExtent numberOfSFLow=\"", "\" numberOfSFHigh=\"", "\"/>"});
+    register("OO", new String[] {"<ObjectOffset objectType=\"", "\" reserved3=\"", "\" nrOfPrecedingObjectsLow=\"", "\" nrOfPrecedingObjectsHigh=\"", "\"/>"});
     register("FHSF", new String[] {"<FontHorizontalScaleFactor horizontalScaleFactor=\"", "\"/>"});
     register("MOR", new String[] {"<MediumOrientation mediumOrientation=\"", "\"/>"});
     register("TS", new String[] {"<TonerSaver reserved2=\"", "\" tonerSaverFunction=\"", "\"/>"});
@@ -83,6 +87,7 @@ public class XmlTemplateRegistry {
 
     // Structured Fields
     register("PGP1", new String[] {"<PGP_PagePosition_Format1 xOrigin=\"", "\" yOrigin=\"", "\"/>"});
+    register("PTD1", new String[] {"<PTD_PresentationTextDataDescriptor_Format1 xUnitBase=\"", "\" yUnitBase=\"", "\" xUnitsPerUnitBase=\"", "\" yUnitsPerUnitBase=\"", "\" xSize=\"", "\" ySize=\"", "\" reserved10_11=\"", "\"/>"});
 
     // PTOCA Control Sequences
     register("SEC", new String[] {"<SEC_SetExtendedTextColor colorSpace=\"", "\" nrOfBitsComponent1=\"", "\" nrOfBitsComponent2=\"", "\" nrOfBitsComponent3=\"", "\" nrOfBitsComponent4=\"", "\" colorValue=\"", "\"/>"});

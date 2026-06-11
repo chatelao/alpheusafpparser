@@ -1213,11 +1213,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (triplet instanceof Triplet.CharacterRotation cr) {
       XmlTemplateRegistry.getTemplate("CR").writeObjects(baseXsw, cr.characterRotation);
     } else if (triplet instanceof Triplet.ObjectByteOffset obo) {
-      writer.writeEmptyElement("ObjectByteOffset");
-      writer.writeLongAttribute(null, null, "byteOffset", obo.byteOffset);
-      if (obo.byteOffsetHighOrder != null) {
-        writer.writeLongAttribute(null, null, "byteOffsetHighOrder", obo.byteOffsetHighOrder);
-      }
+      XmlTemplateRegistry.getTemplate("OBO").writeObjects(baseXsw, obo.byteOffset, obo.byteOffsetHighOrder);
     } else if (triplet instanceof Triplet.MeasurementUnits mu) {
       XmlTemplateRegistry.getTemplate("MU").writeObjects(baseXsw, mu.xUnitBase, mu.yUnitBase, (int) mu.xUnitsPerUnitbase, (int) mu.yUnitsPerUnitbase);
     } else if (triplet instanceof Triplet.ObjectAreaSize oas) {
@@ -1318,33 +1314,11 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (triplet instanceof Triplet.ObjectByteExtent obe) {
       XmlTemplateRegistry.getTemplate("OBE").writeObjects(baseXsw, obe.byteExtentLow, obe.byteExtentHigh);
     } else if (triplet instanceof Triplet.ObjectStructuredFieldOffset osfo) {
-      writer.writeStartElement("ObjectStructuredFieldOffset");
-      writeElement(writer, childLevel, "offsetLow", osfo.offsetLow);
-      if (osfo.offsetHigh != null) {
-        writeElement(writer, childLevel, "offsetHigh", osfo.offsetHigh);
-      }
-      writeIndent(writer, level);
-      writer.writeEndElement();
+      XmlTemplateRegistry.getTemplate("OSFO").writeObjects(baseXsw, osfo.offsetLow, osfo.offsetHigh);
     } else if (triplet instanceof Triplet.ObjectStructuredFieldExtent osfe) {
-      writer.writeStartElement("ObjectStructuredFieldExtent");
-      writeElement(writer, childLevel, "numberOfSFLow", osfe.numberOfSFLow);
-      if (osfe.numberOfSFHigh != null) {
-        writeElement(writer, childLevel, "numberOfSFHigh", osfe.numberOfSFHigh);
-      }
-      writeIndent(writer, level);
-      writer.writeEndElement();
+      XmlTemplateRegistry.getTemplate("OSFE").writeObjects(baseXsw, osfe.numberOfSFLow, osfe.numberOfSFHigh);
     } else if (triplet instanceof Triplet.ObjectOffset oo) {
-      writer.writeStartElement("ObjectOffset");
-      if (oo.objectType != null) {
-        writeElement(writer, childLevel, "objectType", oo.objectType.name());
-      }
-      writeElement(writer, childLevel, "reserved3", oo.reserved3);
-      writeElement(writer, childLevel, "nrOfPrecedingObjectsLow", oo.nrOfPrecedingObjectsLow);
-      if (oo.nrOfPrecedingObjectsHigh != null) {
-        writeElement(writer, childLevel, "nrOfPrecedingObjectsHigh", oo.nrOfPrecedingObjectsHigh);
-      }
-      writeIndent(writer, level);
-      writer.writeEndElement();
+      XmlTemplateRegistry.getTemplate("OO").writeObjects(baseXsw, oo.objectType, (int) oo.reserved3, oo.nrOfPrecedingObjectsLow, oo.nrOfPrecedingObjectsHigh);
     } else if (triplet instanceof Triplet.FontHorizontalScaleFactor fhsf) {
       XmlTemplateRegistry.getTemplate("FHSF").write(baseXsw, (int) fhsf.horizontalScaleFactor);
     } else if (triplet instanceof Triplet.MediumOrientation mo) {
@@ -3565,23 +3539,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   private void writePtdFormat1Directly(PTD_PresentationTextDataDescriptor_Format1 ptd, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("PTD");
-    baseXsw.writeStartElement("PTD_PresentationTextDataDescriptor_Format1");
-    int childLevel = level + 1;
-    if (ptd.getxUnitBase() != null) {
-      writeElement(baseXsw, childLevel, "xUnitBase", ptd.getxUnitBase().name());
-    }
-    if (ptd.getyUnitBase() != null) {
-      writeElement(baseXsw, childLevel, "yUnitBase", ptd.getyUnitBase().name());
-    }
-    writeElement(baseXsw, childLevel, "xUnitsPerUnitBase", ptd.getxUnitsPerUnitBase());
-    writeElement(baseXsw, childLevel, "yUnitsPerUnitBase", ptd.getyUnitsPerUnitBase());
-    writeElement(baseXsw, childLevel, "xSize", ptd.getxSize());
-    writeElement(baseXsw, childLevel, "ySize", ptd.getySize());
-    if (ptd.getReserved10_11() != null) {
-      writeBinaryElement(baseXsw, childLevel, "reserved10_11", ptd.getReserved10_11());
-    }
-    writeIndent(baseXsw, level);
-    baseXsw.writeEndElement();
+    XmlTemplateRegistry.getTemplate("PTD1").writeObjects(baseXsw, ptd.getxUnitBase(), ptd.getyUnitBase(), (int) ptd.getxUnitsPerUnitBase(), (int) ptd.getyUnitsPerUnitBase(), (int) ptd.getxSize(), (int) ptd.getySize(), com.mgz.util.UtilCharacterEncoding.bytesToHexString(ptd.getReserved10_11()));
     MnemonicPerformanceMonitor.endWrite();
   }
 

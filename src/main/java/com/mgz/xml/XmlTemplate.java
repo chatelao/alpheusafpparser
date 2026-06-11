@@ -31,6 +31,7 @@ import javax.xml.stream.XMLStreamException;
 public class XmlTemplate {
   private static final int INITIAL_BUFFER_SIZE = 16384;
   private static final ThreadLocal<byte[]> BUFFER = ThreadLocal.withInitial(() -> new byte[INITIAL_BUFFER_SIZE]);
+  private static final byte[] NULL_BYTES = "null".getBytes(StandardCharsets.UTF_8);
 
   private final byte[][] fragments;
 
@@ -166,7 +167,12 @@ public class XmlTemplate {
             pos += enumBytes.length;
           }
         } else if (val == null) {
-          // Skip nulls or handle them if needed (e.g., write empty string)
+          if (pos + NULL_BYTES.length > buffer.length) {
+            os.write(buffer, 0, pos);
+            pos = 0;
+          }
+          System.arraycopy(NULL_BYTES, 0, buffer, pos, NULL_BYTES.length);
+          pos += NULL_BYTES.length;
         } else {
           byte[] genericBytes = val.toString().getBytes(StandardCharsets.UTF_8);
           if (pos + genericBytes.length > buffer.length) {

@@ -228,6 +228,7 @@ public class XmlTemplateVerificationTest {
         sec.setNrOfBitsComponent1((byte) 8);
         sec.setNrOfBitsComponent2((byte) 8);
         sec.setNrOfBitsComponent3((byte) 8);
+        sec.setColorValue(new byte[] {0x01, 0x02, 0x03});
         verifySF(sec, "SEC_SetExtendedTextColor");
     }
 
@@ -478,7 +479,7 @@ public class XmlTemplateVerificationTest {
         } else if (rootName.equals("SEC_SetExtendedTextColor")) {
             assertTrue(normalizedFastPath.contains("colorSpace=\"RGB\""));
             assertTrue(normalizedFastPath.contains("nrOfBitsComponent1=\"8\""));
-            assertTrue(normalizedFastPath.contains("colorValue=\"null\""));
+            assertTrue(normalizedFastPath.contains("colorValue=\"010203\""));
         }
     }
 
