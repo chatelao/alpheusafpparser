@@ -38,7 +38,7 @@
 | MOCA-4-034 | EC-0230 Invalid or Unsupported Field Value: The specified MOFormat is invalid or unsupported. | ✅ |
 | MOCA-4-035 | EC-0240 Invalid or Unsupported Field Value: The specified MOCompression is invalid or unsupported. | ✅ |
 | MOCA-4-036 | EC-0250 Invalid Field Value: The specified MONameLength is invalid. | ✅ |
-| MOCA-4-037 | EC-0300 Invalid MOData: The specified MOData does not meet the specification associated with the indicated MOFormat. | ❓ |
+| MOCA-4-037 | EC-0300 Invalid MOData: The specified MOData does not meet the specification associated with the indicated MOFormat. | ✅ |
 | MOCA-4-038 | In the IPDS environment, MOCA exception conditions are mapped to IPDS exceptions by adding X'06' on the front. | ❓ |
 | MOCA-GLO-001 | MOCA Glossary: Definitions and terms. | ❓ |
 | MOCA-GLO-002 | MOCA Glossary: External references. | ❓ |

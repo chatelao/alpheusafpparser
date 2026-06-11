@@ -16,7 +16,7 @@ public class MetadataObjectTest {
         int nameLen = nameBytes.length;
         int headerTotalSize = headerBaseSize + nameLen;
 
-        byte[] moData = "HELLO MOCA".getBytes(StandardCharsets.UTF_16BE);
+        byte[] moData = createValidAfptData();
         int totalPayloadLen = 4 + headerTotalSize + moData.length;
 
         byte[] data = new byte[totalPayloadLen];
@@ -34,12 +34,10 @@ public class MetadataObjectTest {
         // MOType (6B): "DES"
         System.arraycopy("DES".getBytes(StandardCharsets.UTF_16BE), 0, data, 6, 6);
 
-        // MOFormat (8B): "AFPT" + "@@" (which is X'0041 0046 0050 0054' followed by X'0040 0040'?)
-        // Spec says AFPT is X'0041 0046 0050 0054'. That's 8 bytes.
+        // MOFormat (8B): "AFPT" + "@@"
         System.arraycopy("AFPT".getBytes(StandardCharsets.UTF_16BE), 0, data, 12, 8);
 
         // MOCompression (20B): "NONE" + "@@@@@@@@"
-        // NONE is 4 characters (8 bytes), we need 6 more characters (12 bytes) of padding
         System.arraycopy("NONE@@@@@@@@".getBytes(StandardCharsets.UTF_16BE), 0, data, 20, 20);
 
         // Reserved (8B) - 40 to 47 already 0
@@ -65,7 +63,6 @@ public class MetadataObjectTest {
         assertEquals(nameLen, mo.getMoNameLength());
         assertEquals(name, mo.getMoName());
         assertArrayEquals(moData, mo.getMoData());
-        assertEquals("HELLO MOCA", mo.getMoDataText());
     }
 
     @Test
@@ -79,7 +76,7 @@ public class MetadataObjectTest {
     @Test
     public void testMetadataObjectInvalidMOLength() throws Exception {
         // [MOCA-4-020] [MOCA-4-030] EC-0100
-        byte[] data = createValidMocaBytes("DES", "AFPT", "NONE", "NAME", "DATA");
+        byte[] data = createValidMocaBytes("DES", "AFPT", "NONE", "NAME", createValidAfptData());
         data[3] = 0x31; // MOLength = 49
         MetadataObject mo = new MetadataObject();
         AFPParserException ex = assertThrows(AFPParserException.class, () -> mo.decode(data));
@@ -89,7 +86,7 @@ public class MetadataObjectTest {
     @Test
     public void testMetadataObjectInvalidHeaderLength() throws Exception {
         // [MOCA-4-021] [MOCA-4-031] EC-0200
-        byte[] data = createValidMocaBytes("DES", "AFPT", "NONE", "NAME", "DATA");
+        byte[] data = createValidMocaBytes("DES", "AFPT", "NONE", "NAME", createValidAfptData());
         data[5] = 0x2D; // HeaderLength = 45
         MetadataObject mo = new MetadataObject();
         AFPParserException ex = assertThrows(AFPParserException.class, () -> mo.decode(data));
@@ -99,7 +96,7 @@ public class MetadataObjectTest {
     @Test
     public void testMetadataObjectInvalidMOType() throws Exception {
         // [MOCA-4-022] [MOCA-4-033] EC-0220
-        byte[] data = createValidMocaBytes("BAD", "AFPT", "NONE", "NAME", "DATA");
+        byte[] data = createValidMocaBytes("BAD", "AFPT", "NONE", "NAME", createValidAfptData());
         MetadataObject mo = new MetadataObject();
         AFPParserException ex = assertThrows(AFPParserException.class, () -> mo.decode(data));
         assertTrue(ex.getMessage().contains("EC-0220"));
@@ -108,7 +105,8 @@ public class MetadataObjectTest {
     @Test
     public void testMetadataObjectXMPFormat() throws Exception {
         // [MOCA-4-009] [MOCA-4-023]
-        byte[] data = createValidMocaBytes("DES", "XMP", "NONE", "NAME", "DATA");
+        String xmp = "<x:xmpmeta xmlns:x='adobe:ns:meta/'><rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'/></x:xmpmeta>";
+        byte[] data = createValidMocaBytes("DES", "XMP", "NONE", "NAME", xmp.getBytes(StandardCharsets.UTF_8));
         MetadataObject mo = new MetadataObject();
         mo.decode(data);
         assertEquals("XMP", mo.getMoFormat());
@@ -117,7 +115,7 @@ public class MetadataObjectTest {
     @Test
     public void testMetadataObjectInvalidMOFormat() throws Exception {
         // [MOCA-4-023] [MOCA-4-034] EC-0230
-        byte[] data = createValidMocaBytes("DES", "BADD", "NONE", "NAME", "DATA");
+        byte[] data = createValidMocaBytes("DES", "BADD", "NONE", "NAME", createValidAfptData());
         MetadataObject mo = new MetadataObject();
         AFPParserException ex = assertThrows(AFPParserException.class, () -> mo.decode(data));
         assertTrue(ex.getMessage().contains("EC-0230"));
@@ -126,7 +124,7 @@ public class MetadataObjectTest {
     @Test
     public void testMetadataObjectGZIPCompression() throws Exception {
         // [MOCA-4-011] [MOCA-4-024]
-        byte[] data = createValidMocaBytes("DES", "AFPT", "GZIP", "NAME", "DATA");
+        byte[] data = createValidMocaBytes("DES", "AFPT", "GZIP", "NAME", createValidAfptData());
         MetadataObject mo = new MetadataObject();
         mo.decode(data);
         assertEquals("GZIP", mo.getMoCompression());
@@ -135,7 +133,7 @@ public class MetadataObjectTest {
     @Test
     public void testMetadataObjectEXICompression() throws Exception {
         // [MOCA-4-012] [MOCA-4-024]
-        byte[] data = createValidMocaBytes("DES", "AFPT", "EXI", "NAME", "DATA");
+        byte[] data = createValidMocaBytes("DES", "AFPT", "EXI", "NAME", createValidAfptData());
         MetadataObject mo = new MetadataObject();
         mo.decode(data);
         assertEquals("EXI", mo.getMoCompression());
@@ -144,7 +142,7 @@ public class MetadataObjectTest {
     @Test
     public void testMetadataObjectInvalidMOCompression() throws Exception {
         // [MOCA-4-024] [MOCA-4-035] EC-0240
-        byte[] data = createValidMocaBytes("DES", "AFPT", "BADD", "NAME", "DATA");
+        byte[] data = createValidMocaBytes("DES", "AFPT", "BADD", "NAME", createValidAfptData());
         MetadataObject mo = new MetadataObject();
         AFPParserException ex = assertThrows(AFPParserException.class, () -> mo.decode(data));
         assertTrue(ex.getMessage().contains("EC-0240"));
@@ -153,7 +151,7 @@ public class MetadataObjectTest {
     @Test
     public void testMetadataObjectInvalidMONameLength() throws Exception {
         // [MOCA-4-025] [MOCA-4-036] EC-0250
-        byte[] data = createValidMocaBytes("DES", "AFPT", "NONE", "NAME", "DATA");
+        byte[] data = createValidMocaBytes("DES", "AFPT", "NONE", "NAME", createValidAfptData());
         data[49] = 0x09; // MONameLength = 9 (odd)
         MetadataObject mo = new MetadataObject();
         AFPParserException ex = assertThrows(AFPParserException.class, () -> mo.decode(data));
@@ -167,7 +165,7 @@ public class MetadataObjectTest {
     @Test
     public void testMetadataObjectMONameExceedsHeader() throws Exception {
         // [MOCA-4-025] [MOCA-4-036] EC-0250
-        byte[] data = createValidMocaBytes("DES", "AFPT", "NONE", "NAME", "DATA");
+        byte[] data = createValidMocaBytes("DES", "AFPT", "NONE", "NAME", createValidAfptData());
         data[49] = 10; // Name length 10
         // Total header is 46 + 8 = 54. 50 + 10 = 60 > 54.
         MetadataObject mo = new MetadataObject();
@@ -175,11 +173,61 @@ public class MetadataObjectTest {
         assertTrue(ex.getMessage().contains("EC-0250"));
     }
 
-    private byte[] createValidMocaBytes(String type, String format, String compression, String name, String dataStr) throws Exception {
+    @Test
+    public void testMetadataObjectInvalidXmpData() throws Exception {
+        // [MOCA-4-027] [MOCA-4-037] EC-0300
+        byte[] data = createValidMocaBytes("DES", "XMP", "NONE", "NAME", "INVALID XML".getBytes(StandardCharsets.UTF_8));
+        MetadataObject mo = new MetadataObject();
+        AFPParserException ex = assertThrows(AFPParserException.class, () -> mo.decode(data));
+        assertTrue(ex.getMessage().contains("EC-0300"));
+        assertTrue(ex.getMessage().contains("XMP"));
+    }
+
+    @Test
+    public void testMetadataObjectValidXmpData() throws Exception {
+        // [MOCA-4-027] [MOCA-4-037]
+        String xmp = "<x:xmpmeta xmlns:x='adobe:ns:meta/'><rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'/></x:xmpmeta>";
+        byte[] data = createValidMocaBytes("DES", "XMP", "NONE", "NAME", xmp.getBytes(StandardCharsets.UTF_8));
+        MetadataObject mo = new MetadataObject();
+        mo.decode(data);
+        assertEquals("XMP", mo.getMoFormat());
+    }
+
+    @Test
+    public void testMetadataObjectInvalidAfptData() throws Exception {
+        // [MOCA-4-027] [MOCA-4-037] EC-0300
+        byte[] data = createValidMocaBytes("DES", "AFPT", "NONE", "NAME", "NOT TRIPLETS".getBytes(StandardCharsets.UTF_8));
+        MetadataObject mo = new MetadataObject();
+        AFPParserException ex = assertThrows(AFPParserException.class, () -> mo.decode(data));
+        assertTrue(ex.getMessage().contains("EC-0300"));
+        assertTrue(ex.getMessage().contains("AFPT"));
+    }
+
+    @Test
+    public void testMetadataObjectValidAfptData() throws Exception {
+        // [MOCA-4-027] [MOCA-4-037]
+        byte[] afptData = createValidAfptData();
+        byte[] data = createValidMocaBytes("DES", "AFPT", "NONE", "NAME", afptData);
+        MetadataObject mo = new MetadataObject();
+        mo.decode(data);
+        assertEquals("AFPT", mo.getMoFormat());
+    }
+
+    private byte[] createValidAfptData() {
+        // Simple AttributeValue triplet (0x36)
+        // Length(1), ID(1), Reserved(2), Value(...)
+        byte[] value = "VAL".getBytes(StandardCharsets.US_ASCII);
+        byte[] triplet = new byte[1 + 1 + 2 + value.length];
+        triplet[0] = (byte) triplet.length;
+        triplet[1] = 0x36;
+        System.arraycopy(value, 0, triplet, 4, value.length);
+        return triplet;
+    }
+
+    private byte[] createValidMocaBytes(String type, String format, String compression, String name, byte[] moData) throws Exception {
         byte[] nameBytes = name.getBytes(StandardCharsets.UTF_16BE);
         int nameLen = nameBytes.length;
         int headerTotalSize = 46 + nameLen;
-        byte[] moData = dataStr.getBytes(StandardCharsets.UTF_16BE);
         int totalPayloadLen = 4 + headerTotalSize + moData.length;
 
         byte[] data = new byte[totalPayloadLen];
