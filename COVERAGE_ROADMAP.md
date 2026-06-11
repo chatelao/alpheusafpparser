@@ -39,7 +39,7 @@ This document outlines a phased, actionable plan to increase the code coverage o
 - 🚧 **4.2. Performance fast-paths**
     - ✅ Verification of `AfpJacksonXmlWriter` optimized paths (MetadataObject fast-path implemented).
 - 🏗️ **4.3. PDF Renderer Verification**
-    - ✅ Implement tests for `com.mgz.pdf` (CoordinateTransformer unit tests implemented).
+    - ✅ Implement tests for `com.mgz.pdf` (Unit tests for CoordinateTransformer, PdfImageState, PdfBarcodeState, PdfHandlerFactory, PdfMetadataExtractor, and VeraPdfReportParser implemented).
 
 ---
 
