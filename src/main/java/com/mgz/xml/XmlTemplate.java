@@ -30,10 +30,17 @@ import javax.xml.stream.XMLStreamException;
  */
 public class XmlTemplate {
   private static final int INITIAL_BUFFER_SIZE = 16384;
-  private static final ThreadLocal<byte[]> BUFFER = ThreadLocal.withInitial(() -> new byte[INITIAL_BUFFER_SIZE]);
+  private static final ThreadLocal<byte[]> BUFFER =
+      ThreadLocal.withInitial(() -> new byte[INITIAL_BUFFER_SIZE]);
+  private static final byte[] NULL_BYTES = "null".getBytes(StandardCharsets.UTF_8);
 
   private final byte[][] fragments;
 
+  /**
+   * Constructs an XML template with the given fragments.
+   *
+   * @param fragments the XML fragments
+   */
   public XmlTemplate(byte[][] fragments) {
     this.fragments = fragments;
   }
@@ -47,7 +54,8 @@ public class XmlTemplate {
    */
   public void write(AfpXmlStreamWriter xsw, int... values) throws XMLStreamException {
     if (values.length != fragments.length - 1) {
-      throw new IllegalArgumentException("Expected " + (fragments.length - 1) + " values, but got " + values.length);
+      throw new IllegalArgumentException("Expected " + (fragments.length - 1)
+          + " values, but got " + values.length);
     }
 
     try {
@@ -62,10 +70,10 @@ public class XmlTemplate {
           os.write(buffer, 0, pos);
           pos = 0;
           if (fragment.length > buffer.length) {
-             os.write(fragment);
+            os.write(fragment);
           } else {
-             System.arraycopy(fragment, 0, buffer, pos, fragment.length);
-             pos += fragment.length;
+            System.arraycopy(fragment, 0, buffer, pos, fragment.length);
+            pos += fragment.length;
           }
         } else {
           System.arraycopy(fragment, 0, buffer, pos, fragment.length);
@@ -73,8 +81,8 @@ public class XmlTemplate {
         }
 
         if (pos + 11 > buffer.length) {
-           os.write(buffer, 0, pos);
-           pos = 0;
+          os.write(buffer, 0, pos);
+          pos = 0;
         }
         pos += FastIntConverter.intToUtf8(values[i], buffer, pos);
       }
@@ -102,7 +110,8 @@ public class XmlTemplate {
    */
   public void writeObjects(AfpXmlStreamWriter xsw, Object... values) throws XMLStreamException {
     if (values.length != fragments.length - 1) {
-      throw new IllegalArgumentException("Expected " + (fragments.length - 1) + " values, but got " + values.length);
+      throw new IllegalArgumentException("Expected " + (fragments.length - 1)
+          + " values, but got " + values.length);
     }
 
     try {
@@ -130,10 +139,16 @@ public class XmlTemplate {
 
         Object val = values[i];
         if (val instanceof Integer intVal) {
-          if (pos + 11 > buffer.length) { os.write(buffer, 0, pos); pos = 0; }
+          if (pos + 11 > buffer.length) {
+            os.write(buffer, 0, pos);
+            pos = 0;
+          }
           pos += FastIntConverter.intToUtf8(intVal, buffer, pos);
         } else if (val instanceof Long longVal) {
-          if (pos + 20 > buffer.length) { os.write(buffer, 0, pos); pos = 0; }
+          if (pos + 20 > buffer.length) {
+            os.write(buffer, 0, pos);
+            pos = 0;
+          }
           pos += FastIntConverter.longToUtf8(longVal, buffer, pos);
         } else if (val instanceof String strVal) {
           byte[] strBytes = strVal.getBytes(StandardCharsets.UTF_8);
@@ -166,7 +181,12 @@ public class XmlTemplate {
             pos += enumBytes.length;
           }
         } else if (val == null) {
-          // Skip nulls or handle them if needed (e.g., write empty string)
+          if (pos + NULL_BYTES.length > buffer.length) {
+            os.write(buffer, 0, pos);
+            pos = 0;
+          }
+          System.arraycopy(NULL_BYTES, 0, buffer, pos, NULL_BYTES.length);
+          pos += NULL_BYTES.length;
         } else {
           byte[] genericBytes = val.toString().getBytes(StandardCharsets.UTF_8);
           if (pos + genericBytes.length > buffer.length) {
@@ -198,6 +218,11 @@ public class XmlTemplate {
     }
   }
 
+  /**
+   * Returns the number of holes in the template.
+   *
+   * @return the hole count
+   */
   public int getHoleCount() {
     return fragments.length - 1;
   }
