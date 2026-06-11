@@ -4434,9 +4434,12 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeElement(baseXsw, childLevel, "flag", ccp.getFlag().name());
     }
     writeElement(baseXsw, childLevel, "reserved5", (int) ccp.getReserved5());
-    writeElement(baseXsw, childLevel, "numberOfRepeatingGroups", ccp.getNumberOfRepeatingGroups());
-    writeElement(baseXsw, childLevel, "lengthOfRepeatingGroup", ccp.getLengthOfRepeatingGroup());
-    writeElement(baseXsw, childLevel, "lengthOfComparisonString", ccp.getLengthOfComparisonString());
+    writeElement(baseXsw, childLevel, "numberOfRepeatingGroups",
+        ccp.getNumberOfRepeatingGroups());
+    writeElement(baseXsw, childLevel, "lengthOfRepeatingGroup",
+        ccp.getLengthOfRepeatingGroup());
+    writeElement(baseXsw, childLevel, "lengthOfComparisonString",
+        ccp.getLengthOfComparisonString());
 
     if (ccp.getRepeatingGroups() != null) {
       writeIndent(baseXsw, childLevel);

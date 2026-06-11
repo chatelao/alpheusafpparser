@@ -451,13 +451,18 @@ public class SFFastPathVerificationTest {
         ccp.setLengthOfComparisonString(2);
 
         List<CCP_ConditionalProcessingControl.CCP_RepeatingGroup> rgs = new ArrayList<>();
-        CCP_ConditionalProcessingControl.CCP_RepeatingGroup rg = new CCP_ConditionalProcessingControl.CCP_RepeatingGroup();
-        rg.setTimingOfAction(CCP_ConditionalProcessingControl.CCP_RepeatingGroup.CCP_TimingOfAction.Immediately);
-        rg.setMediumMapAction(CCP_ConditionalProcessingControl.CCP_RepeatingGroup.CCP_MediumMapAction.InvokeNamedMediumMap);
+        CCP_ConditionalProcessingControl.CCP_RepeatingGroup rg =
+            new CCP_ConditionalProcessingControl.CCP_RepeatingGroup();
+        rg.setTimingOfAction(
+            CCP_ConditionalProcessingControl.CCP_RepeatingGroup.CCP_TimingOfAction.Immediately);
+        rg.setMediumMapAction(CCP_ConditionalProcessingControl.CCP_RepeatingGroup
+            .CCP_MediumMapAction.InvokeNamedMediumMap);
         rg.setMediumMapName("MMTEST");
-        rg.setDataMapAction(CCP_ConditionalProcessingControl.CCP_RepeatingGroup.CCP_DataMapAction.InvokeNamedDataMap);
+        rg.setDataMapAction(CCP_ConditionalProcessingControl.CCP_RepeatingGroup
+            .CCP_DataMapAction.InvokeNamedDataMap);
         rg.setDataMapName("DMTEST");
-        rg.setComparison(CCP_ConditionalProcessingControl.CCP_RepeatingGroup.CCP_Comparison.EqualTo);
+        rg.setComparison(
+            CCP_ConditionalProcessingControl.CCP_RepeatingGroup.CCP_Comparison.EqualTo);
         rg.setComparisonString("AB");
         rgs.add(rg);
         ccp.setRepeatingGroups(rgs);
