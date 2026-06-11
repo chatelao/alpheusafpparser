@@ -135,18 +135,23 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **EAN-8 / EAN-13**: Implement rendering for EAN-8 and EAN-13 barcodes.
         - ✅ **Code 128 (Subsets A, B, C)**: Implement rendering for Code 128 (Subsets A, B, C) barcodes.
         - ✅ **UPC-E**: Implement rendering for UPC-E barcodes.
+        - ⏳ **Supplemental Linear Barcodes**: Implement support for UPC and EAN supplemental barcodes (2-digit and 5-digit).
     - 🚧 **2D Barcode Support**:
         - ✅ **QR Code**: Implement rendering for QR Code barcodes (Type 0x20).
             - ✅ **Model 2 Support**: Implement standard QR Code Model 2. (iText default).
             - 🚧 **Model 1 Support**: Implement standard QR Code Model 1.
-                - ⏳ **Research**: Study QR Code Model 1 bit-stream specification.
-                - ⏳ **Implementation**: Implement Model 1 symbol generation (or integrate 3rd party generator).
+                - ⏳ **Research**: Study QR Code Model 1 bit-stream specification (symbol versions 1-14).
+                - ⏳ **Implementation**: Implement Model 1 bit-stream encoding and Reed-Solomon error correction.
+                - ⏳ **Implementation**: Implement Model 1 matrix placement and masking patterns.
                 - ⏳ **Testing**: Add Model 1 validation test cases and sample AFPs.
             - ✅ **GS1 QR Code**: Implement Modifier 0x12 for GS1-compliant QR Codes.
         - ✅ **Data Matrix**: Implement rendering for Data Matrix barcodes (Type 0x1C). (✅ Basic support using iText).
             - ✅ **ECC 200 Support**: Implement the ECC 200 Reed-Solomon error correction. (✅ Supported by iText).
             - ✅ **GS1 Data Matrix**: Implement Modifier 0x02 for GS1-compliant Data Matrix.
         - ✅ **PDF417**: Implement rendering for PDF417 barcodes (Type 0x1E). (✅ Basic support using iText).
+        - ⏳ **MaxiCode**: Implement rendering for MaxiCode barcodes (Type 0x1D).
+        - ⏳ **Aztec Code**: Implement rendering for Aztec Code barcodes (Type 0x26).
+        - ⏳ **Han Xin Code**: Implement rendering for Han Xin Code barcodes (Type 0x27).
     - ✅ **Postal Barcode Support**:
         - ✅ **POSTNET/PLANET**: Implement rendering for POSTNET and PLANET barcodes.
         - ✅ **Intelligent Mail Barcode (IMB)**: Implement rendering for USPS IMB. (Direct mode 0x01).
