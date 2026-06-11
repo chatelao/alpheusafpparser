@@ -218,6 +218,11 @@ public class XmlTemplate {
     }
   }
 
+  /**
+   * Returns the number of holes in the template.
+   *
+   * @return the hole count
+   */
   public int getHoleCount() {
     return fragments.length - 1;
   }

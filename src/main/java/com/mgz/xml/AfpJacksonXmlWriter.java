@@ -1213,7 +1213,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (triplet instanceof Triplet.CharacterRotation cr) {
       XmlTemplateRegistry.getTemplate("CR").writeObjects(baseXsw, cr.characterRotation);
     } else if (triplet instanceof Triplet.ObjectByteOffset obo) {
-      XmlTemplateRegistry.getTemplate("OBO").writeObjects(baseXsw, obo.byteOffset, obo.byteOffsetHighOrder);
+      XmlTemplateRegistry.getTemplate("OBO").writeObjects(baseXsw, obo.byteOffset,
+          obo.byteOffsetHighOrder);
     } else if (triplet instanceof Triplet.MeasurementUnits mu) {
       XmlTemplateRegistry.getTemplate("MU").writeObjects(baseXsw, mu.xUnitBase, mu.yUnitBase, (int) mu.xUnitsPerUnitbase, (int) mu.yUnitsPerUnitbase);
     } else if (triplet instanceof Triplet.ObjectAreaSize oas) {
@@ -1314,11 +1315,14 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (triplet instanceof Triplet.ObjectByteExtent obe) {
       XmlTemplateRegistry.getTemplate("OBE").writeObjects(baseXsw, obe.byteExtentLow, obe.byteExtentHigh);
     } else if (triplet instanceof Triplet.ObjectStructuredFieldOffset osfo) {
-      XmlTemplateRegistry.getTemplate("OSFO").writeObjects(baseXsw, osfo.offsetLow, osfo.offsetHigh);
+      XmlTemplateRegistry.getTemplate("OSFO").writeObjects(baseXsw, osfo.offsetLow,
+          osfo.offsetHigh);
     } else if (triplet instanceof Triplet.ObjectStructuredFieldExtent osfe) {
-      XmlTemplateRegistry.getTemplate("OSFE").writeObjects(baseXsw, osfe.numberOfSFLow, osfe.numberOfSFHigh);
+      XmlTemplateRegistry.getTemplate("OSFE").writeObjects(baseXsw, osfe.numberOfSFLow,
+          osfe.numberOfSFHigh);
     } else if (triplet instanceof Triplet.ObjectOffset oo) {
-      XmlTemplateRegistry.getTemplate("OO").writeObjects(baseXsw, oo.objectType, (int) oo.reserved3, oo.nrOfPrecedingObjectsLow, oo.nrOfPrecedingObjectsHigh);
+      XmlTemplateRegistry.getTemplate("OO").writeObjects(baseXsw, oo.objectType, (int) oo.reserved3,
+          oo.nrOfPrecedingObjectsLow, oo.nrOfPrecedingObjectsHigh);
     } else if (triplet instanceof Triplet.FontHorizontalScaleFactor fhsf) {
       XmlTemplateRegistry.getTemplate("FHSF").write(baseXsw, (int) fhsf.horizontalScaleFactor);
     } else if (triplet instanceof Triplet.MediumOrientation mo) {
