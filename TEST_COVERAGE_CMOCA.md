@@ -162,7 +162,7 @@
 | CMOCA-3-061 | 12   54–65   UTF16   DeviceType   See description   Type of the device | ✅ |
 | CMOCA-3-062 | 6   66–71   UTF16   DeviceModel   See description   Model of the device | ✅ |
 | CMOCA-3-063 | 6   72–77   UTF16   MediaBrightness   0–100   For print media, percentage of light reflected | ✅ |
-| CMOCA-3-064 | Zxy   For screen, a CIE illuminant | ❓ |
+| CMOCA-3-064 | Zxy   For screen, a CIE illuminant | ✅ |
 | CMOCA-3-065 | 6   78–83   UTF16   MediaColor     Color of the media: | ✅ |
 | CMOCA-3-066 | blu   blue | ✅ |
 | CMOCA-3-067 | buf   buff | ✅ |
@@ -593,12 +593,12 @@
 | CMOCA-5-098 | X'03'   Bilevel Error Diffusion Halftone | ❓ |
 | CMOCA-5-099 | X'04'   Multilevel Error Diffusion Halftone | ❓ |
 | CMOCA-5-100 | EC-101110 Invalid Value: specified subset value is none of X'01', X'02', X'03', or X'04'. | ✅ |
-| CMOCA-5-101 | TagID: X'1021' | ❓ |
-| CMOCA-5-102 | Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN) | ❓ |
+| CMOCA-5-101 | TagID: X'1021' | ✅ |
+| CMOCA-5-102 | Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN) | ✅ |
 | CMOCA-5-103 | Count: Number of color components | ❓ |
 | CMOCA-5-104 | This tag defines the width of the array along the x-direction in pixels for each color component. | ❓ |
-| CMOCA-5-105 | TagID: X'1025' | ❓ |
-| CMOCA-5-106 | Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN) | ❓ |
+| CMOCA-5-105 | TagID: X'1025' | ✅ |
+| CMOCA-5-106 | Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN) | ✅ |
 | CMOCA-5-107 | Count: Number of color components | ❓ |
 | CMOCA-5-108 | This tag defines the height of the array along the y-direction in pixels for each color component. | ❓ |
 | CMOCA-5-109 | TagID: X'1030' | ❓ |
@@ -631,11 +631,11 @@
 | CMOCA-5-136 | Field Type: X'01' (1-byte UBIN) | ❓ |
 | CMOCA-5-137 | Count: 2 × number of color components | ❓ |
 | CMOCA-5-138 | Specifies a pair of values (row, column) describing the location of the current pixel in an error... | ❓ |
-| CMOCA-5-139 | TagID: X'1065' | ❓ |
-| CMOCA-5-140 | Field Type: X'08' (CODE) | ❓ |
+| CMOCA-5-139 | TagID: X'1065' | ✅ |
+| CMOCA-5-140 | Field Type: X'08' (CODE) | ✅ |
 | CMOCA-5-141 | Count: Number of color components | ❓ |
-| CMOCA-5-142 | X'01'   Normal raster | ❓ |
-| CMOCA-5-143 | X'02'   Serpentine raster | ❓ |
+| CMOCA-5-142 | X'01'   Normal raster | ✅ |
+| CMOCA-5-143 | X'02'   Serpentine raster | ✅ |
 | CMOCA-5-144 | Figure 10. Illustration of Normal Raster and Serpentine Raster | ❓ |
 | CMOCA-5-145 | TagID: X'1070' | ❓ |
 | CMOCA-5-146 | Field Type: X'08' (CODE) | ❓ |

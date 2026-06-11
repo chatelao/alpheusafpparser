@@ -276,6 +276,28 @@ public class CMRTag {
         }
         break;
 
+      case 0x1021: // Array Width [CMOCA-5-101]
+      case 0x1025: // Array Height [CMOCA-5-105]
+        // [CMOCA-5-102, 106] Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN)
+        if (fieldType != 0x01 && fieldType != 0x02) {
+          throw new AFPParserException(String.format("EC-%04X06: Invalid Field Type 0x%02X for tag 0x%04X", tagId, fieldType, tagId));
+        }
+        break;
+
+      case 0x1065: // Raster Direction [CMOCA-5-139]
+        // [CMOCA-5-140] Field Type: X'08' (CODE)
+        if (fieldType != 0x08) {
+          throw new AFPParserException(String.format("EC-106506: Invalid Field Type 0x%02X for Raster Direction tag", fieldType));
+        }
+        // [CMOCA-5-142, 143] X'01' Normal raster, X'02' Serpentine raster
+        if (data != null && data.length > 0) {
+          int dir = data[0] & 0xFF;
+          if (dir != 0x01 && dir != 0x02) {
+            throw new AFPParserException(String.format("EC-106510: Invalid Raster Direction value 0x%02X", dir));
+          }
+        }
+        break;
+
       default:
         // No specific structural validation for other tags yet
         break;

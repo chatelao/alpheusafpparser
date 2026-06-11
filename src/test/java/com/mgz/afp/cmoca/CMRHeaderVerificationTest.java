@@ -308,4 +308,27 @@ public class CMRHeaderVerificationTest {
         assertTrue(name.contains("IBM"));
         assertEquals(146/2, name.length()); // 146 bytes / 2
     }
+
+    @Test
+    public void testCieIlluminant() throws Exception {
+        // [CMOCA-3-064] Zxy For screen, a CIE illuminant
+        byte[] data = createCmrHeaderShell();
+        String illuminant = "Z12"; // 3 characters starting with Z
+        byte[] bytes = illuminant.getBytes(Constants.utf16be);
+        System.arraycopy(bytes, 0, data, 81, 6);
+
+        CMR_ColorManagementResource cmr = new CMR_ColorManagementResource();
+        cmr.decodeAFP(data, 9, 164, new AFPParserConfiguration());
+        assertEquals(illuminant, cmr.getMediaBrightness());
+
+        // Invalid: starts with Z but wrong length (after trimming)
+        byte[] data2 = createCmrHeaderShell();
+        // UTF-16BE for "Z @ " -> 005A 0040 0020
+        data2[81] = 0x00; data2[82] = 0x5A; // Z
+        data2[83] = 0x00; data2[84] = 0x40; // @
+        data2[85] = 0x00; data2[86] = 0x20; // space
+        assertThrows(Exception.class, () -> {
+            new CMR_ColorManagementResource().decodeAFP(data2, 9, 164, new AFPParserConfiguration());
+        });
+    }
 }
