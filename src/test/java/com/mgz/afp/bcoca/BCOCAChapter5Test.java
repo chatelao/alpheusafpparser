@@ -22,6 +22,7 @@ package com.mgz.afp.bcoca;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
@@ -541,5 +542,149 @@ public class BCOCAChapter5Test {
         bda.decodeAFP(data, 0, 14, config);
         assertNotNull(bda.parametersData);
         assertEquals(BDA_BarCodeData.ParametersDataQRCode_2D.ErrorCorrectionLevel.LevelH, ((BDA_BarCodeData.ParametersDataQRCode_2D) bda.parametersData).errorCorrectionLevel);
+    }
+
+    @Test
+    public void testBDAParametersMaxiCodeInvalidSymbolMode() {
+        // [BCOCA-4-545] EC-0F05: Invalid symbol-mode
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[10];
+        data[6] = 0x07; // Invalid (2-6)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.MaxiCode_2D);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        AFPParserException ex = assertThrows(AFPParserException.class, () -> bda.decodeAFP(data, 0, 10, config));
+        assertTrue(ex.getMessage().contains("EC-0F05"));
+    }
+
+    @Test
+    public void testBDAParametersPDF417InvalidDataSymbols() {
+        // [BCOCA-4-561] EC-0F06: Invalid data symbol characters per row
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[11];
+        data[6] = 31; // Invalid (max 30)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.PDF417_2D);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        AFPParserException ex = assertThrows(AFPParserException.class, () -> bda.decodeAFP(data, 0, 11, config));
+        assertTrue(ex.getMessage().contains("EC-0F06"));
+    }
+
+    @Test
+    public void testBDAParametersPDF417InvalidRows() {
+        // [BCOCA-4-561] EC-0F07: Invalid number of rows
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[11];
+        data[6] = 10; // valid chars per row
+        data[7] = 2; // Invalid (min 3)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.PDF417_2D);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        AFPParserException ex = assertThrows(AFPParserException.class, () -> bda.decodeAFP(data, 0, 11, config));
+        assertTrue(ex.getMessage().contains("EC-0F07"));
+    }
+
+    @Test
+    public void testBDAParametersPDF417InvalidSecurityLevel() {
+        // [BCOCA-4-562] EC-0F09: Invalid security level
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[11];
+        data[6] = 10; // valid chars per row
+        data[7] = 10; // valid rows
+        data[8] = 9; // Invalid (max 8)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.PDF417_2D);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        AFPParserException ex = assertThrows(AFPParserException.class, () -> bda.decodeAFP(data, 0, 11, config));
+        assertTrue(ex.getMessage().contains("EC-0F09"));
+    }
+
+    @Test
+    public void testBDAParametersPDF417InvalidMacroLength() {
+        // [BCOCA-4-567] EC-0F0C: Invalid macro length
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[11];
+        data[6] = 10; // valid chars per row
+        data[7] = 10; // valid rows
+        data[8] = 0; // valid security
+        data[9] = (byte) 0xFF;
+        data[10] = (byte) 0xFF; // length > 0x7FED
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.PDF417_2D);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        AFPParserException ex = assertThrows(AFPParserException.class, () -> bda.decodeAFP(data, 0, 11, config));
+        assertTrue(ex.getMessage().contains("EC-0F0C"));
+    }
+
+    @Test
+    public void testBDAParametersIMPackageInvalidBannerLength() {
+        // [BCOCA-4-530] EC-0F15: Banner length must be even
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[15];
+        data[8] = 0x01; // Invalid (odd)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode);
+        bdd.setBarcodeModifier((byte) 0x06);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        AFPParserException ex = assertThrows(AFPParserException.class, () -> bda.decodeAFP(data, 0, 15, config));
+        assertTrue(ex.getMessage().contains("EC-0F15"));
+    }
+
+    @Test
+    public void testBDAParametersIMPackageEmptyBanner() {
+        // [BCOCA-4-531] EC-0F14: Banner length 0 but not suppressed
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[15];
+        data[6] = 0x00; // Not suppressed
+        data[8] = 0x00; // Empty
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode);
+        bdd.setBarcodeModifier((byte) 0x06);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        AFPParserException ex = assertThrows(AFPParserException.class, () -> bda.decodeAFP(data, 0, 15, config));
+        assertTrue(ex.getMessage().contains("EC-0F14"));
+    }
+
+    @Test
+    public void testBDAParametersIMPackageInvalidUTF16() {
+        // [BCOCA-4-531] EC-0F13: Invalid UTF-16BE
+        BDA_BarCodeData bda = new BDA_BarCodeData();
+        byte[] data = new byte[15];
+        data[6] = (byte) 0x80; // SuppressUSPS_ServiceBanner bit IS SET, so it WON'T check for empty.
+        // BUT wait, I want to test invalid UTF-16BE, so I shouldn't suppress it.
+        data[6] = 0x00; // Not suppressed
+        data[8] = 0x02; // length 2
+        data[9] = (byte) 0xD8;
+        data[10] = 0x00; // Invalid UTF-16 (lone high surrogate)
+
+        AFPParserConfiguration config = new AFPParserConfiguration();
+        BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+        bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode);
+        bdd.setBarcodeModifier((byte) 0x06);
+        config.setCurrentBarCodeDataDescriptor(bdd);
+
+        AFPParserException ex = assertThrows(AFPParserException.class, () -> bda.decodeAFP(data, 0, 15, config));
+        assertTrue(ex.getMessage().contains("EC-0F13"));
     }
 }
