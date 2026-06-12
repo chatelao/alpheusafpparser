@@ -534,7 +534,7 @@
 | CMOCA-5-039 | EC-000406 Invalid Field Type: The specified Field Type is invalid for the tag. | ✅ |
 | CMOCA-5-040 | EC-00040F Invalid Sequence: The tag has been encountered out of sequence or more than once. | ✅ |
 | CMOCA-5-041 | EC-000410 Invalid Value: The offset caused some portion of the tag data to be outside of the CMRd... | ✅ |
-| CMOCA-5-042 | TagID: X'0008' | ❓ |
+| CMOCA-5-042 | TagID: X'0008' | ✅ |
 | CMOCA-5-043 | Field Type: X'05' (BYTE) | ❓ |
 | CMOCA-5-044 | Count: 10 | ❓ |
 | CMOCA-5-045 | This tag contains the date and time of the creation of the CMR. It is defined consistently with t... | ❓ |
@@ -561,7 +561,7 @@
 | CMOCA-5-066 | EC-000806 Invalid Field Type: The specified Field Type is invalid for the tag. | ✅ |
 | CMOCA-5-067 | EC-00080F Invalid Sequence: The tag has been encountered out of sequence or more than once. | ✅ |
 | CMOCA-5-068 | EC-000810 Invalid Value: The offset caused some portion of the tag data to be outside of the CMRd... | ✅ |
-| CMOCA-5-069 | TagID: X'0011' | ❓ |
+| CMOCA-5-069 | TagID: X'0011' | ✅ |
 | CMOCA-5-070 | Field Type: X'01' (1-byte UBIN) | ❓ |
 | CMOCA-5-071 | Count: 1 | ❓ |
 | CMOCA-5-072 | This tag defines the number of color components referenced by this resource. To comply with ICC, ... | ❓ |
@@ -584,7 +584,7 @@
 | CMOCA-5-089 | EC-001106 Invalid Field Type | ✅ |
 | CMOCA-5-090 | EC-00110F Invalid Sequence | ✅ |
 | CMOCA-5-091 | EC-001110 Invalid Value: number of components is zero or greater than 15. | ✅ |
-| CMOCA-5-092 | TagID: X'1011' | ❓ |
+| CMOCA-5-092 | TagID: X'1011' | ✅ |
 | CMOCA-5-093 | Field Type: X'08' (CODE) | ❓ |
 | CMOCA-5-094 | Count: 1 | ❓ |
 | CMOCA-5-095 | This tag denotes a subset of the Halftone CMR type. | ❓ |
@@ -710,7 +710,7 @@
 | CMOCA-5-215 | 80–83   Profile Creator signature | ❓ |
 | CMOCA-5-216 | 84–99   Profile ID | ❓ |
 | CMOCA-5-217 | 100–127   28 bytes reserved (set to zeros) | ❓ |
-| CMOCA-5-218 | TagID: X'3025' | ❓ |
+| CMOCA-5-218 | TagID: X'3025' | ✅ |
 | CMOCA-5-219 | Field Type: X'06' (ASCII), X'07' (UTF16) | ❓ |
 | CMOCA-5-220 | Count: Number of characters | ❓ |
 | CMOCA-5-221 | TagID: X'4011' | ✅ |
@@ -731,7 +731,7 @@
 | CMOCA-5-236 | TagID: X'4030' | ✅ |
 | CMOCA-5-237 | Field Type: X'07' (UTF16) | ❓ |
 | CMOCA-5-238 | Count: Number of characters | ❓ |
-| CMOCA-5-239 | TagID: X'4035' | ❓ |
+| CMOCA-5-239 | TagID: X'4035' | ✅ |
 | CMOCA-5-240 | Field Type: X'08' (CODE) | ❓ |
 | CMOCA-5-241 | Count: 1 | ❓ |
 | CMOCA-5-242 | Perceptual   X'00' | ❓ |
@@ -965,7 +965,7 @@
 | CMOCA-6-156 | No CMR is selected from the hierarchy and a default CMR must be used. | ❓ |
 | CMOCA-6-157 | (Refer to the specification for detailed rules on matching media characteristics.) | ❓ |
 | CMOCA-6-158 | The AFP architecture supports OCA named colors such as Blue, Red, and Brown that are inherently d... | ❓ |
-| CMOCA-6-159 | It is recommended that OCA Black (X'0008'), presented on a CMYK output device, be rendered as C=M... | ❓ |
+| CMOCA-6-159 | It is recommended that OCA Black (X'0008'), presented on a CMYK output device, be rendered as C=M... | ✅ |
 | CMOCA-6-160 | The highlight color number specifies the spot color to use. The range is X'0000'–X'00FF'. | ❓ |
 | CMOCA-6-161 | The highlight color number is interpreted as an index into a palette. The range is X'0100'–X'FFFF... | ❓ |
 | CMOCA-6-162 | Some presentation data objects contain internal color management information. ICC profiles can be... | ❓ |
@@ -989,56 +989,56 @@
 | CMOCA-6-180 | L has a value between 0.0 and 100.0 | ❓ |
 | CMOCA-6-181 | a has a value between –128.0 and 127.0 | ❓ |
 | CMOCA-6-182 | b has a value between –128.0 and 127.0 | ❓ |
-| CMOCA-6-183 | The encoding for L consistently maps the range [0.0, 100.0] to [X'0000', X'FFFF'] or to [X'00', X... | ❓ |
+| CMOCA-6-183 | The encoding for L consistently maps the range [0.0, 100.0] to [X'0000', X'FFFF'] or to [X'00', X... | ✅ |
 | CMOCA-6-184 | Different architectures convert the range for a and b into 1-byte or 2-byte values differently. C... | ❓ |
 | CMOCA-6-185 | It is preferable for the host to suppress the downloading of CMRs that are not applicable to the ... | ❓ |
 | CMOCA-6-186 | Certain instruction CMRs can be generic. Generic CMRs are defined for only two CMR types: Halfton... | ❓ |
 | CMOCA-6-187 | In some cases, a device provides only partial support for certain types of CMRs. The device needs... | ❓ |
 | CMOCA-A-001 | This table defines the CMR tags in the base level of the Color Management Object Content Architec... | ❓ |
 | CMOCA-A-002 | X'0004'   Comment   Halftone, Tone Transfer Curve, Color Conversion, Link Color Conversion, Indexed | ❓ |
-| CMOCA-A-003 | X'0008'   Date and Time Stamp   Halftone, Tone Transfer Curve, Color Conversion, Link Color Conve... | ❓ |
-| CMOCA-A-004 | X'0011'   Number of Components   Halftone, Tone Transfer Curve | ❓ |
-| CMOCA-A-005 | X'1011'   Halftone Subset   Halftone | ❓ |
-| CMOCA-A-006 | X'1021'   Array Width   Halftone | ❓ |
-| CMOCA-A-007 | X'1025'   Array Height   Halftone | ❓ |
-| CMOCA-A-008 | X'1030'   Max Image Value   Halftone | ❓ |
-| CMOCA-A-009 | X'1035'   Number of Device Levels   Halftone | ❓ |
-| CMOCA-A-010 | X'1040'   Offset Tiling   Halftone | ❓ |
+| CMOCA-A-003 | X'0008'   Date and Time Stamp   Halftone, Tone Transfer Curve, Color Conversion, Link Color Conve... | ✅ |
+| CMOCA-A-004 | X'0011'   Number of Components   Halftone, Tone Transfer Curve | ✅ |
+| CMOCA-A-005 | X'1011'   Halftone Subset   Halftone | ✅ |
+| CMOCA-A-006 | X'1021'   Array Width   Halftone | ✅ |
+| CMOCA-A-007 | X'1025'   Array Height   Halftone | ✅ |
+| CMOCA-A-008 | X'1030'   Max Image Value   Halftone | ✅ |
+| CMOCA-A-009 | X'1035'   Number of Device Levels   Halftone | ✅ |
+| CMOCA-A-010 | X'1040'   Offset Tiling   Halftone | ✅ |
 | CMOCA-A-011 | X'1045'   Bilevel Point-Operation Screen Data   Halftone | ✅ |
 | CMOCA-A-012 | X'1050'   Multilevel Point-Operation Screen Data   Halftone | ✅ |
 | CMOCA-A-013 | X'1055'   Error Diffusion Filter   Halftone | ✅ |
-| CMOCA-A-014 | X'1060'   Location of Current Pixel   Halftone | ❓ |
-| CMOCA-A-015 | X'1065'   Raster Direction   Halftone | ❓ |
-| CMOCA-A-016 | X'1070'   Boundary Condition   Halftone | ❓ |
-| CMOCA-A-017 | X'1075'   Threshold Value   Halftone | ❓ |
+| CMOCA-A-014 | X'1060'   Location of Current Pixel   Halftone | ✅ |
+| CMOCA-A-015 | X'1065'   Raster Direction   Halftone | ✅ |
+| CMOCA-A-016 | X'1070'   Boundary Condition   Halftone | ✅ |
+| CMOCA-A-017 | X'1075'   Threshold Value   Halftone | ✅ |
 | CMOCA-A-018 | X'1080'   Quantization Boundary Table   Halftone | ✅ |
-| CMOCA-A-019 | X'2004'   Tone Transfer Curve Subset   Tone Transfer Curve | ❓ |
-| CMOCA-A-020 | X'2011'   Tone Transfer Curve Length   Tone Transfer Curve | ❓ |
-| CMOCA-A-021 | X'2015'   Tone Transfer Curve Data   Tone Transfer Curve | ❓ |
-| CMOCA-A-022 | X'2020'   Inverse Tone Transfer Curve Data   Tone Transfer Curve | ❓ |
-| CMOCA-A-023 | X'3011'   ICC Profile Subset   Color Conversion | ❓ |
-| CMOCA-A-024 | X'3015'   ICC Profile Data   Color Conversion | ❓ |
-| CMOCA-A-025 | X'3025'   ICC Profile Filename   Color Conversion | ❓ |
-| CMOCA-A-026 | X'4011'   Link Color Conversion Subset   Link Color Conversion | ❓ |
+| CMOCA-A-019 | X'2004'   Tone Transfer Curve Subset   Tone Transfer Curve | ✅ |
+| CMOCA-A-020 | X'2011'   Tone Transfer Curve Length   Tone Transfer Curve | ✅ |
+| CMOCA-A-021 | X'2015'   Tone Transfer Curve Data   Tone Transfer Curve | ✅ |
+| CMOCA-A-022 | X'2020'   Inverse Tone Transfer Curve Data   Tone Transfer Curve | ✅ |
+| CMOCA-A-023 | X'3011'   ICC Profile Subset   Color Conversion | ✅ |
+| CMOCA-A-024 | X'3015'   ICC Profile Data   Color Conversion | ✅ |
+| CMOCA-A-025 | X'3025'   ICC Profile Filename   Color Conversion | ✅ |
+| CMOCA-A-026 | X'4011'   Link Color Conversion Subset   Link Color Conversion | ✅ |
 | CMOCA-A-027 | X'4015'   Link Audit CMR OID   Link Color Conversion | ✅ |
 | CMOCA-A-028 | X'4020'   Link Instruction CMR OID   Link Color Conversion | ✅ |
 | CMOCA-A-029 | X'4025'   Link Audit CMR Name   Link Color Conversion | ✅ |
 | CMOCA-A-030 | X'4030'   Link Instruction CMR Name   Link Color Conversion | ✅ |
-| CMOCA-A-031 | X'4035'   Default Rendering Intent   Link Color Conversion | ❓ |
-| CMOCA-A-032 | X'4040'   Link LUT Perceptual   Link Color Conversion | ❓ |
-| CMOCA-A-033 | X'4045'   Link LUT Media-Relative Colorimetric   Link Color Conversion | ❓ |
-| CMOCA-A-034 | X'4050'   Link LUT Saturation   Link Color Conversion | ❓ |
-| CMOCA-A-035 | X'4055'   Link LUT ICC-Absolute Colorimetric   Link Color Conversion | ❓ |
+| CMOCA-A-031 | X'4035'   Default Rendering Intent   Link Color Conversion | ✅ |
+| CMOCA-A-032 | X'4040'   Link LUT Perceptual   Link Color Conversion | ✅ |
+| CMOCA-A-033 | X'4045'   Link LUT Media-Relative Colorimetric   Link Color Conversion | ✅ |
+| CMOCA-A-034 | X'4050'   Link LUT Saturation   Link Color Conversion | ✅ |
+| CMOCA-A-035 | X'4055'   Link LUT ICC-Absolute Colorimetric   Link Color Conversion | ✅ |
 | CMOCA-A-036 | X'4090'   Link CMRE Identifier   Link Color Conversion | ✅ |
-| CMOCA-A-037 | X'5011'   Indexed Subset   Indexed | ❓ |
-| CMOCA-A-038 | X'5015'   Number of Named Colorants   Indexed | ❓ |
-| CMOCA-A-039 | X'5020'   Color Palette Gray   Indexed | ❓ |
-| CMOCA-A-040 | X'5025'   Color Palette CMYK   Indexed | ❓ |
-| CMOCA-A-041 | X'5030'   Color Palette RGB   Indexed | ❓ |
-| CMOCA-A-042 | X'5035'   Color Palette CIELAB   Indexed | ❓ |
-| CMOCA-A-043 | X'5040'   Color Palette Named Colorants   Indexed | ❓ |
-| CMOCA-A-044 | X'5045'   Colorant Identification List   Indexed | ❓ |
-| CMOCA-A-045 | X'FFFF'   End Data   Halftone, Tone Transfer Curve, Color Conversion, Link Color Conversion, Indexed | ❓ |
+| CMOCA-A-037 | X'5011'   Indexed Subset   Indexed | ✅ |
+| CMOCA-A-038 | X'5015'   Number of Named Colorants   Indexed | ✅ |
+| CMOCA-A-039 | X'5020'   Color Palette Gray   Indexed | ✅ |
+| CMOCA-A-040 | X'5025'   Color Palette CMYK   Indexed | ✅ |
+| CMOCA-A-041 | X'5030'   Color Palette RGB   Indexed | ✅ |
+| CMOCA-A-042 | X'5035'   Color Palette CIELAB   Indexed | ✅ |
+| CMOCA-A-043 | X'5040'   Color Palette Named Colorants   Indexed | ✅ |
+| CMOCA-A-044 | X'5045'   Colorant Identification List   Indexed | ✅ |
+| CMOCA-A-045 | X'FFFF'   End Data   Halftone, Tone Transfer Curve, Color Conversion, Link Color Conversion, Indexed | ✅ |
 | CMOCA-A-046 | 1. For an Indexed CMR, at least one of the Color Palette tags must be present. | ❓ |
 | CMOCA-A-047 | 2. Tags X'F000'–X'FFFE' are private tags. | ❓ |
 | CMOCA-B-001 | Generic CMRs are allowed for instruction Halftone CMRs and instruction Tone Transfer Curve CMRs. ... | ❓ |

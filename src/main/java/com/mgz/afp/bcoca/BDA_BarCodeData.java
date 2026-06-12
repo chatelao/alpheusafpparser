@@ -120,6 +120,15 @@ public class BDA_BarCodeData extends StructuredField {
       return;
     }
 
+    // [BCOCA-5-014] EC-1200: FNC1 is not the first data character (for UCC/EAN 128 symbols only)
+    if (type == BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode) {
+      if (bdd.barcodeModifier == 0x02 || bdd.barcodeModifier == 0x03 || bdd.barcodeModifier == 0x04) {
+        if (barCodeData == null || barCodeData.length == 0 || barCodeData[0] != (byte) 0x8F) {
+          throw new AFPParserException("EC-1200: FNC1 is not the first data character (for UCC/EAN 128 symbols only).");
+        }
+      }
+    }
+
     // [BCOCA-5-021] EC-2100: Data-Check Exception
     // We use the decoded text if available. For numeric-only codes,
     // if it's not human-readable (text == null), it's likely an invalid character.
