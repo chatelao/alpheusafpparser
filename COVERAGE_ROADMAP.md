@@ -34,8 +34,8 @@ This document outlines a phased, actionable plan to increase the code coverage o
 ## Phase 4: Full Compliance & Optimization (Target: 85%+) 🚧
 - 🚧 **4.1. Special Specifications**
     - 🚧 CMOCA, BCOCA, and MOCA verification (Currently 40-84% coverage; CMOCA improved with tag validation; BCOCA improved with architectural validations).
-    - 🚧 IPDS verification (Target: 85% coverage).
-        - 🚧 Device-Control command set
+    - 🚧 IPDS verification (Currently ~1% coverage; initial infrastructure and basic commands implemented).
+        - 🚧 Device-Control command set (SHS, NOP implemented)
         - 🚧 Text command set
         - 🚧 IM-Image command set
         - 🚧 IO-Image command set
