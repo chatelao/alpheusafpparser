@@ -1,7 +1,10 @@
 package com.mgz.xml;
 
 import com.mgz.afp.modca.CDD_ContainerDataDescriptor;
+import com.mgz.afp.modca.CTC_ComposedTextControl;
+import com.mgz.afp.modca.FGD_FormEnvironmentGroupDescriptor;
 import com.mgz.afp.modca.LLE_LinkLogicalElement;
+import com.mgz.afp.modca.PPO_PreprocessPresentationObject;
 import com.mgz.afp.modca.MBC_MapBarCodeObject;
 import com.mgz.afp.modca.MMD_MapMediaDestination;
 import com.mgz.afp.modca.MMO_MapMediumOverlay;
@@ -240,7 +243,10 @@ public class SFFastPathVerificationTest {
     @Test
     public void testMapFieldsFastPaths() throws Exception {
         verifySF(createCDD(), "CDD_ContainerDataDescriptor");
+        verifySF(createCtc(), "CTC_ComposedTextControl");
+        verifySF(createFgd(), "FGD_FormEnvironmentGroupDescriptor");
         verifySF(createLLE(), "LLE_LinkLogicalElement");
+        verifySF(createPpo(), "PPO_PreprocessPresentationObject");
         verifySF(createMBC(), "MBC_MapBarCodeObject");
         verifySF(createMMD(), "MMD_MapMediaDestination");
         verifySF(createMMO(), "MMO_MapMediumOverlay");
@@ -598,6 +604,32 @@ public class SFFastPathVerificationTest {
         rg.setLengthOfRepeatingGroup(10); // lengthOfRepeatingGroup is recalculated in writeAFP but we set it here for completeness
         lle.addRepeatingGroup(rg);
         return lle;
+    }
+
+    private CTC_ComposedTextControl createCtc() {
+        return new CTC_ComposedTextControl();
+    }
+
+    private FGD_FormEnvironmentGroupDescriptor createFgd() {
+        return new FGD_FormEnvironmentGroupDescriptor();
+    }
+
+    private PPO_PreprocessPresentationObject createPpo() {
+        PPO_PreprocessPresentationObject ppo = new PPO_PreprocessPresentationObject();
+        PPO_PreprocessPresentationObject.PPO_RepeatingGroup rg = new PPO_PreprocessPresentationObject.PPO_RepeatingGroup();
+        rg.setObjectType(com.mgz.afp.enums.AFPObjectType.Image);
+        rg.setxOrigin(100);
+        rg.setyOrigin(200);
+        rg.setFlags(EnumSet.of(PPO_PreprocessPresentationObject.PPO_RepeatingGroup.PPO_Flag.ObjectOrientation_0Deg_Preprocess));
+
+        Triplet.ResourceLocalIdentifier rli = new Triplet.ResourceLocalIdentifier();
+        rli.setResourceType(Triplet.ResourceLocalIdentifier.RLI_ResourceType.PageOverlay);
+        rli.setResourceLocalID((short) 1);
+        rli.setTripletID(Triplet.TripletID.ResourceLocalIdentifier);
+        rg.addTriplet(rli);
+
+        ppo.addRepeatingGroup(rg);
+        return ppo;
     }
 
     private LNC_LineDescriptorCount createLNC() {
