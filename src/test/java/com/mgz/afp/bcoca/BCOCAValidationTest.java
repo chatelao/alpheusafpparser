@@ -51,6 +51,22 @@ public class BCOCAValidationTest {
   }
 
   @Test
+  public void testEC1200_Code128_Modifier02_MissingFNC1() {
+    BDA_BarCodeData bda = new BDA_BarCodeData();
+    byte[] data = new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, (byte)'0', (byte)'1', (byte)'2'};
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+    bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode);
+    bdd.setBarcodeModifier((byte) 0x02);
+    config.setCurrentBarCodeDataDescriptor(bdd);
+
+    AFPParserException ex = assertThrows(AFPParserException.class,
+        () -> bda.decodeAFP(data, 0, data.length, config));
+    assertTrue(ex.getMessage().contains("EC-1200"), "Expected EC-1200, got: " + ex.getMessage());
+  }
+
+  @Test
   public void testEC0F01_DataMatrixSeqInd() {
     BDA_BarCodeData bda = new BDA_BarCodeData();
     byte[] data = new byte[20];
@@ -260,5 +276,38 @@ public class BCOCAValidationTest {
     AFPParserException ex = assertThrows(AFPParserException.class,
         () -> bda.decodeAFP(data, 0, data.length, config));
     assertTrue(ex.getMessage().contains("EC-2100"), "Expected EC-2100, got: " + ex.getMessage());
+  }
+
+  @Test
+  public void testEC1200_Code128_MissingFNC1() {
+    BDA_BarCodeData bda = new BDA_BarCodeData();
+    // Header (5 bytes) + Data (not starting with 0x8F)
+    byte[] data = new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, (byte)'0', (byte)'1', (byte)'2'};
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+    bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode);
+    bdd.setBarcodeModifier((byte) 0x03);
+    config.setCurrentBarCodeDataDescriptor(bdd);
+
+    AFPParserException ex = assertThrows(AFPParserException.class,
+        () -> bda.decodeAFP(data, 0, data.length, config));
+    assertTrue(ex.getMessage().contains("EC-1200"), "Expected EC-1200, got: " + ex.getMessage());
+  }
+
+  @Test
+  public void testEC1200_Code128_ValidFNC1() throws Exception {
+    BDA_BarCodeData bda = new BDA_BarCodeData();
+    // Header (5 bytes) + Data starting with 0x8F (FNC1)
+    byte[] data = new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, (byte) 0x8F, (byte)'0', (byte)'1'};
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+    bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode);
+    bdd.setBarcodeModifier((byte) 0x04);
+    config.setCurrentBarCodeDataDescriptor(bdd);
+
+    bda.decodeAFP(data, 0, data.length, config);
+    // Should not throw exception
   }
 }

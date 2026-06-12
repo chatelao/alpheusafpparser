@@ -194,7 +194,7 @@
 | BCOCA-5-011 | EC-1100: Bar code extends outside the bar code presentation space. | ❓ |
 | BCOCA-5-012 | EC-1100: Bar code extends outside the intersection of the mapped bar code presentation space and the controlling environment object area. | ❓ |
 | BCOCA-5-013 | EC-1100: Bar code extends outside the maximum presentation area. | ❓ |
-| BCOCA-5-014 | EC-1200: FNC1 is not the first data character (for UCC/EAN 128 symbols only). | ❓ |
+| BCOCA-5-014 | EC-1200: FNC1 is not the first data character (for UCC/EAN 128 symbols only). | ✅ |
 | BCOCA-5-015 | EC-1200: Invalid application identifier (ai) value encountered. | ❓ |
 | BCOCA-5-016 | EC-1200: Data for an ai doesn't match the ai definition. | ❓ |
 | BCOCA-5-017 | EC-1200: Insufficient (or no) data following an ai. | ❓ |
