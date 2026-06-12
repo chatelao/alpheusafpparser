@@ -202,8 +202,8 @@ public class PdfHandler implements StructuredFieldHandler {
   private PdfCanvas currentCanvas;
   private float defaultPageWidth = -1;
   private float defaultPageHeight = -1;
-  private float defaultScaleX = 1.0f;
-  private float defaultScaleY = 1.0f;
+  private float defaultScaleX = 0.05f; // Standard 1/1440 inch units
+  private float defaultScaleY = 0.05f; // Standard 1/1440 inch units
   private boolean isCanvasTransformed = false;
 
   public PdfHandler(OutputStream os) {
@@ -263,12 +263,12 @@ public class PdfHandler implements StructuredFieldHandler {
       structureStack.push(sf);
 
       if (sf instanceof BDT_BeginDocument
+          || sf instanceof BNG_BeginNamedPageGroup
           || sf instanceof BPG_BeginPage
           || sf instanceof BMO_BeginOverlay
           || sf instanceof BPS_BeginPageSegment
-          || sf instanceof BAG_BeginActiveEnvironmentGroup
-          || sf instanceof BSG_BeginResourceEnvironmentGroup
-          || sf instanceof BOG_BeginObjectEnvironmentGroup
+          || sf instanceof BIM_BeginImageObject
+          || sf instanceof BBC_BeginBarCodeObject
           || sf instanceof BRG_BeginResourceGroup) {
         fontMapStack.push(new HashMap<>(fontMapStack.peek()));
       }
@@ -337,12 +337,12 @@ public class PdfHandler implements StructuredFieldHandler {
         StructuredField begin = structureStack.pop();
 
         if (begin instanceof BDT_BeginDocument
+            || begin instanceof BNG_BeginNamedPageGroup
             || begin instanceof BPG_BeginPage
             || begin instanceof BMO_BeginOverlay
             || begin instanceof BPS_BeginPageSegment
-            || begin instanceof BAG_BeginActiveEnvironmentGroup
-            || begin instanceof BSG_BeginResourceEnvironmentGroup
-            || begin instanceof BOG_BeginObjectEnvironmentGroup
+            || begin instanceof BIM_BeginImageObject
+            || begin instanceof BBC_BeginBarCodeObject
             || begin instanceof BRG_BeginResourceGroup) {
           if (fontMapStack.size() > 1) { // Never pop the base map
             fontMapStack.pop();
@@ -439,7 +439,7 @@ public class PdfHandler implements StructuredFieldHandler {
                 }
               } else if (t instanceof Triplet.FontDescriptorSpecification fds) {
                 if (fds.fontHeight > 0) {
-                  size = fds.fontHeight / 20.0f;
+                  size = fds.fontHeight * defaultScaleY;
                 }
               }
             }
@@ -475,7 +475,7 @@ public class PdfHandler implements StructuredFieldHandler {
                 }
               } else if (t instanceof Triplet.DataObjectFontDescriptor dofd) {
                 if (dofd.specifiedVerticalFontSize > 0) {
-                  size = dofd.specifiedVerticalFontSize / 20.0f;
+                  size = dofd.specifiedVerticalFontSize * defaultScaleY;
                 }
               }
             }
@@ -1509,7 +1509,7 @@ public class PdfHandler implements StructuredFieldHandler {
       }
 
       if (textState.getUnderscoreMode() != null) {
-        int ruleThickness = Math.max(1, Math.round(fontSizeAfp / 20.0f));
+        int ruleThickness = Math.max(1, Math.round(fontSizeAfp * defaultScaleY));
         renderRule((int) totalWidthAfp, ruleThickness, true);
       }
 
