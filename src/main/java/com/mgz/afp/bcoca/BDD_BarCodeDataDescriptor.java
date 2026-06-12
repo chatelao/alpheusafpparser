@@ -95,6 +95,13 @@ public class BDD_BarCodeDataDescriptor extends StructuredField implements IHasTr
     }
     presentationSpaceWidth = UtilBinaryDecoding.parseInt(sfData, offset + 6, 2);
     presentationSpaceLength = UtilBinaryDecoding.parseInt(sfData, offset + 8, 2);
+
+    // [BCOCA-4-012, 013] EC-0705: presentation space extents (1 to 32767 or 65535)
+    if (presentationSpaceWidth == 0 || presentationSpaceLength == 0) {
+      throw new AFPParserException("EC-0705: The presentation space extents specified in the BSD data structure are invalid or unsupported: width="
+          + presentationSpaceWidth + ", length=" + presentationSpaceLength);
+    }
+
     desiredSymbolWidth = UtilBinaryDecoding.parseShort(sfData, offset + 10, 2);
     barcodeType = BarCodeType.valueOf(sfData[offset + 12]);
     if (barcodeType == null) {

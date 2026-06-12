@@ -108,8 +108,8 @@
 | BCOCA-4-009 | Byte 1: Reserved. | ✅ |
 | BCOCA-4-010 | Bytes 2–3 Xupub: Specifies the number of units per unit base in the Xbc direction. | ✅ |
 | BCOCA-4-011 | Bytes 4–5 Yupub: Specifies the number of units per unit base in the Ybc direction and must be equal to Xupub. (EC-0605 validated) | ✅ |
-| BCOCA-4-012 | Bytes 6–7 X extent: Width of bar code presentation space in L-units. | ✅ |
-| BCOCA-4-013 | Bytes 8–9 Y extent: Length of bar code presentation space in L-units. | ✅ |
+| BCOCA-4-012 | Bytes 6–7 X extent: Width of bar code presentation space in L-units. (EC-0705 validated) | ✅ |
+| BCOCA-4-013 | Bytes 8–9 Y extent: Length of bar code presentation space in L-units. (EC-0705 validated) | ✅ |
 | BCOCA-4-014 | Bytes 10–11 Symbol width: Desired symbol width. | ✅ |
 | BCOCA-4-015 | Byte 12 Type: Bar code type. | ✅ |
 | BCOCA-4-016 | Byte 13 Modifier: Bar code modifier. (EC-0B00 validated) | ✅ |
@@ -168,8 +168,8 @@
 | BCOCA-4-313 | Bit 5: Suppress bar code symbol. | ✅ |
 | BCOCA-4-314 | Bit 6: Suppress trailing blanks. | ✅ |
 | BCOCA-4-315 | Bit 7: Reserved/Retired. | ✅ |
-| BCOCA-4-316 | Bytes 1–2: X offset of the symbol origin. | ✅ |
-| BCOCA-4-317 | Bytes 3–4: Y offset of the symbol origin. | ✅ |
+| BCOCA-4-316 | Bytes 1–2: X offset of the symbol origin. (EC-0A00 validated) | ✅ |
+| BCOCA-4-317 | Bytes 3–4: Y offset of the symbol origin. (EC-0A00 validated) | ✅ |
 | BCOCA-4-318 | Bytes 5–n: Special-function information. | ✅ |
 | BCOCA-4-319 | Bytes n+1 to end: Bar code data. | ✅ |
 | BCOCA-4-320 | Bar Code Symbol Data (BSA) description and exceptions. | ✅ |
@@ -182,7 +182,7 @@
 | BCOCA-5-xxx | EC-0F15: Invalid banner length (Intelligent Mail Package Barcode). | ✅ |
 | BCOCA-5-xxx | EC-0F14: Empty banner string when required (Intelligent Mail Package Barcode). | ✅ |
 | BCOCA-5-xxx | EC-0F13: Invalid UTF-16BE banner string (Intelligent Mail Package Barcode). | ✅ |
-| BCOCA-5-002 | Specification-Check Exceptions overview. | ✅ |
+| BCOCA-5-002 | Specification-Check Exceptions overview (EC-0F01 to EC-0F04 validated). | ✅ |
 | BCOCA-5-003 | EC-0F0A: Incompatible Data Matrix parameters: structured append with reader programming or macro. | ✅ |
 | BCOCA-5-004 | EC-0F0A: Incompatible Data Matrix parameters: GS1 FNC1 with industry FNC1, reader programming or macro. | ✅ |
 | BCOCA-5-005 | EC-0F0A: Incompatible Data Matrix parameters: industry FNC1 with GS1 FNC1, reader programming or macro. | ✅ |
