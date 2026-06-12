@@ -556,21 +556,21 @@ public class BDA_BarCodeData extends StructuredField {
       totalNumberOfSymbols = sfData[offset + 7];
 
       // [BCOCA-4-392] EC-0F01 to EC-0F04: Structured append validations for Aztec Code
-      int s = sequenceIndicator & 0xFF;
-      int t = totalNumberOfSymbols & 0xFF;
-      if (s != 0 || t != 0) {
-        if (s == 0 || t == 0) {
+      int seqInd = sequenceIndicator & 0xFF;
+      int totalSym = totalNumberOfSymbols & 0xFF;
+      if (seqInd != 0 || totalSym != 0) {
+        if (seqInd == 0 || totalSym == 0) {
           throw new AFPParserException("EC-0F03: Mismatched Aztec Code structured append information.");
         }
-        if (s > 26) {
-          throw new AFPParserException("EC-0F01: Invalid Aztec Code structured append sequence indicator: " + s);
+        if (seqInd > 26) {
+          throw new AFPParserException("EC-0F01: Invalid Aztec Code structured append sequence indicator: " + seqInd);
         }
-        if (t < 2 || t > 26) {
-          throw new AFPParserException("EC-0F04: Invalid number of Aztec Code structured append symbols: " + t);
+        if (totalSym < 2 || totalSym > 26) {
+          throw new AFPParserException("EC-0F04: Invalid number of Aztec Code structured append symbols: " + totalSym);
         }
-        if (s > t) {
-          throw new AFPParserException("EC-0F02: Aztec Code structured append sequence indicator (" + s
-              + ") is larger than total symbols (" + t + ")");
+        if (seqInd > totalSym) {
+          throw new AFPParserException("EC-0F02: Aztec Code structured append sequence indicator (" + seqInd
+              + ") is larger than total symbols (" + totalSym + ")");
         }
       }
 
@@ -676,21 +676,21 @@ public class BDA_BarCodeData extends StructuredField {
       totalNumberOfSymbols = sfData[offset + 6];
 
       // [BCOCA-5-002] EC-0F01 to EC-0F04: Structured append validations for Data Matrix
-      int s = sequenceIndicator & 0xFF;
-      int t = totalNumberOfSymbols & 0xFF;
-      if (s != 0 || t != 0) {
-        if (s == 0 || t == 0) {
+      int seqInd = sequenceIndicator & 0xFF;
+      int totalSym = totalNumberOfSymbols & 0xFF;
+      if (seqInd != 0 || totalSym != 0) {
+        if (seqInd == 0 || totalSym == 0) {
           throw new AFPParserException("EC-0F03: Mismatched Data Matrix structured append information.");
         }
-        if (s > 16) {
-          throw new AFPParserException("EC-0F01: Invalid Data Matrix structured append sequence indicator: " + s);
+        if (seqInd > 16) {
+          throw new AFPParserException("EC-0F01: Invalid Data Matrix structured append sequence indicator: " + seqInd);
         }
-        if (t < 2 || t > 16) {
-          throw new AFPParserException("EC-0F04: Invalid number of Data Matrix structured append symbols: " + t);
+        if (totalSym < 2 || totalSym > 16) {
+          throw new AFPParserException("EC-0F04: Invalid number of Data Matrix structured append symbols: " + totalSym);
         }
-        if (s > t) {
-          throw new AFPParserException("EC-0F02: Data Matrix structured append sequence indicator (" + s
-              + ") is larger than total symbols (" + t + ")");
+        if (seqInd > totalSym) {
+          throw new AFPParserException("EC-0F02: Data Matrix structured append sequence indicator (" + seqInd
+              + ") is larger than total symbols (" + totalSym + ")");
         }
       }
 
@@ -941,21 +941,21 @@ public class BDA_BarCodeData extends StructuredField {
       totalNumberOfSymbols = sfData[offset + 3];
 
       // [BCOCA-4-546] EC-0F01 to EC-0F04: Structured append validations for MaxiCode
-      int s = sequenceIndicator & 0xFF;
-      int t = totalNumberOfSymbols & 0xFF;
-      if (s != 0 || t != 0) {
-        if (s == 0 || t == 0) {
+      int seqInd = sequenceIndicator & 0xFF;
+      int totalSym = totalNumberOfSymbols & 0xFF;
+      if (seqInd != 0 || totalSym != 0) {
+        if (seqInd == 0 || totalSym == 0) {
           throw new AFPParserException("EC-0F03: Mismatched MaxiCode structured append information.");
         }
-        if (s > 8) {
-          throw new AFPParserException("EC-0F01: Invalid MaxiCode structured append sequence indicator: " + s);
+        if (seqInd > 8) {
+          throw new AFPParserException("EC-0F01: Invalid MaxiCode structured append sequence indicator: " + seqInd);
         }
-        if (t < 2 || t > 8) {
-          throw new AFPParserException("EC-0F04: Invalid number of MaxiCode structured append symbols: " + t);
+        if (totalSym < 2 || totalSym > 8) {
+          throw new AFPParserException("EC-0F04: Invalid number of MaxiCode structured append symbols: " + totalSym);
         }
-        if (s > t) {
-          throw new AFPParserException("EC-0F02: MaxiCode structured append sequence indicator (" + s
-              + ") is larger than total symbols (" + t + ")");
+        if (seqInd > totalSym) {
+          throw new AFPParserException("EC-0F02: MaxiCode structured append sequence indicator (" + seqInd
+              + ") is larger than total symbols (" + totalSym + ")");
         }
       }
 
@@ -1115,21 +1115,21 @@ public class BDA_BarCodeData extends StructuredField {
       totalNumberOfSymbols = sfData[offset + 5];
 
       // [BCOCA-4-623] EC-0F01 to EC-0F04: Structured append validations for QR Code
-      int s = sequenceIndicator & 0xFF;
-      int t = totalNumberOfSymbols & 0xFF;
-      if (s != 0 || t != 0) {
-        if (s == 0 || t == 0) {
+      int seqInd = sequenceIndicator & 0xFF;
+      int totalSym = totalNumberOfSymbols & 0xFF;
+      if (seqInd != 0 || totalSym != 0) {
+        if (seqInd == 0 || totalSym == 0) {
           throw new AFPParserException("EC-0F03: Mismatched QR Code structured append information.");
         }
-        if (s > 16) {
-          throw new AFPParserException("EC-0F01: Invalid QR Code structured append sequence indicator: " + s);
+        if (seqInd > 16) {
+          throw new AFPParserException("EC-0F01: Invalid QR Code structured append sequence indicator: " + seqInd);
         }
-        if (t < 2 || t > 16) {
-          throw new AFPParserException("EC-0F04: Invalid number of QR Code structured append symbols: " + t);
+        if (totalSym < 2 || totalSym > 16) {
+          throw new AFPParserException("EC-0F04: Invalid number of QR Code structured append symbols: " + totalSym);
         }
-        if (s > t) {
-          throw new AFPParserException("EC-0F02: QR Code structured append sequence indicator (" + s
-              + ") is larger than total symbols (" + t + ")");
+        if (seqInd > totalSym) {
+          throw new AFPParserException("EC-0F02: QR Code structured append sequence indicator (" + seqInd
+              + ") is larger than total symbols (" + totalSym + ")");
         }
       }
 
