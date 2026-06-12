@@ -201,4 +201,64 @@ public class BCOCAValidationTest {
         () -> bda.decodeAFP(data, 0, 25, config));
     assertTrue(ex.getMessage().contains("EC-0F01"), "Expected EC-0F01, got: " + ex.getMessage());
   }
+
+  @Test
+  public void testEC2100_UPCA_InvalidData() {
+    BDA_BarCodeData bda = new BDA_BarCodeData();
+    byte[] data = new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, (byte)'A', (byte)'1', (byte)'2'}; // Header + "A12"
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+    bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.UPC_CGPC_VersionA);
+    config.setCurrentBarCodeDataDescriptor(bdd);
+
+    AFPParserException ex = assertThrows(AFPParserException.class,
+        () -> bda.decodeAFP(data, 0, data.length, config));
+    assertTrue(ex.getMessage().contains("EC-2100"), "Expected EC-2100, got: " + ex.getMessage());
+  }
+
+  @Test
+  public void testEC2100_Interleaved2of5_InvalidData() {
+    BDA_BarCodeData bda = new BDA_BarCodeData();
+    byte[] data = new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, (byte)'1', (byte)'X', (byte)'2'}; // "1X2"
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+    bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.Interleaved_2of5__ITF14__AIM_USS_I_2of5);
+    config.setCurrentBarCodeDataDescriptor(bdd);
+
+    AFPParserException ex = assertThrows(AFPParserException.class,
+        () -> bda.decodeAFP(data, 0, data.length, config));
+    assertTrue(ex.getMessage().contains("EC-2100"), "Expected EC-2100, got: " + ex.getMessage());
+  }
+
+  @Test
+  public void testEC2100_Code39_InvalidData() {
+    BDA_BarCodeData bda = new BDA_BarCodeData();
+    byte[] data = new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, (byte)'A', (byte)'B', (byte)'c'}; // "ABc" (lowercase 'c' invalid)
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+    bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.Code39_3of9Code_AIM_USS_39);
+    config.setCurrentBarCodeDataDescriptor(bdd);
+
+    AFPParserException ex = assertThrows(AFPParserException.class,
+        () -> bda.decodeAFP(data, 0, data.length, config));
+    assertTrue(ex.getMessage().contains("EC-2100"), "Expected EC-2100, got: " + ex.getMessage());
+  }
+
+  @Test
+  public void testEC2100_EAN13_NonNumeric() {
+    BDA_BarCodeData bda = new BDA_BarCodeData();
+    byte[] data = new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, (byte)'1', (byte)'2', (byte)'#'}; // "12#"
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    BDD_BarCodeDataDescriptor bdd = new BDD_BarCodeDataDescriptor();
+    bdd.setBarcodeType(BDD_BarCodeDataDescriptor.BarCodeType.EAN_13_includingJANStandard);
+    config.setCurrentBarCodeDataDescriptor(bdd);
+
+    AFPParserException ex = assertThrows(AFPParserException.class,
+        () -> bda.decodeAFP(data, 0, data.length, config));
+    assertTrue(ex.getMessage().contains("EC-2100"), "Expected EC-2100, got: " + ex.getMessage());
+  }
 }
