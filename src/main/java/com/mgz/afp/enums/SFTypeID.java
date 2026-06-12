@@ -169,7 +169,12 @@ public enum SFTypeID {
   PTX_PresentationTextData(0xD3, 0xEE, 0x9B),
   RCD_RecordDescriptor(0xD3, 0xA6, 0x8D),
   TLE_TagLogicalElement(0xD3, 0xA0, 0x90),
-  XMD_XMLDescriptor(0xD3, 0xA6, 0x8E),;
+  XMD_XMLDescriptor(0xD3, 0xA6, 0x8E),
+
+  // IPDS Commands (treated as SFs with Class D6)
+  SHS_SetHomeState(0xD6, 0x97, 0x00),
+  NOP_NoOperation_IPDS(0xD6, 0x03, 0x00),
+  ;
 
   /**
    * SFTypeID[2].

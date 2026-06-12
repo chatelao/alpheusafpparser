@@ -24,7 +24,8 @@ package com.mgz.afp.enums;
  */
 public enum SFClass {
   Undefined(0),
-  D3(0xD3);
+  D3(0xD3),
+  D6(0xD6);
 
   int val;
 

@@ -435,11 +435,11 @@
 | IPDS-4-014 | LPD | X'D6CF' | Logical Page Descriptor | Yes | ❓ |
 | IPDS-4-015 | LPP | X'D66D' | Logical Page Position | Yes | ❓ |
 | IPDS-4-016 | MID | X'D601' | Manage IPDS Dialog | No | ❓ |
-| IPDS-4-017 | NOP | X'D603' | No Operation | Yes | ❓ |
+| IPDS-4-017 | NOP | X'D603' | No Operation | Yes | ✅ |
 | IPDS-4-018 | PFC | X'D634' | Presentation Fidelity Control | No | ❓ |
 | IPDS-4-019 | RPO | X'D67B' | Rasterize Presentation Object | No | ❓ |
 | IPDS-4-020 | STM | X'D6E4' | Sense Type and Model | Yes | ❓ |
-| IPDS-4-021 | SHS | X'D697' | Set Home State | Yes | ❓ |
+| IPDS-4-021 | SHS | X'D697' | Set Home State | Yes | ✅ |
 | IPDS-4-022 | SPE | X'D608' | Set Presentation Environment | No | ❓ |
 | IPDS-4-023 | XOA | X'D633' | Execute Order Anystate | See command description | ❓ |
 | IPDS-4-024 | XOH | X'D68F' | Execute Order Home State | See command description | ❓ |
