@@ -213,6 +213,41 @@ public class CMRTag {
         if (fieldType != 0x05) {
           throw new AFPParserException(String.format("EC-000806: Invalid Field Type 0x%02X for Date/Time tag", fieldType));
         }
+        // [CMOCA-5-068] EC-000810 Invalid Value
+        if (data != null && data.length >= 10) {
+          int month = data[2] & 0xFF;
+          if (month < 1 || month > 12) {
+            throw new AFPParserException(String.format("EC-000810: Invalid Month %d in Date/Time tag", month));
+          }
+          int day = data[3] & 0xFF;
+          if (day < 1 || day > 31) {
+            throw new AFPParserException(String.format("EC-000810: Invalid Day %d in Date/Time tag", day));
+          }
+          int hour = data[4] & 0xFF;
+          if (hour > 23) {
+            throw new AFPParserException(String.format("EC-000810: Invalid Hour %d in Date/Time tag", hour));
+          }
+          int minute = data[5] & 0xFF;
+          if (minute > 59) {
+            throw new AFPParserException(String.format("EC-000810: Invalid Minute %d in Date/Time tag", minute));
+          }
+          int second = data[6] & 0xFF;
+          if (second > 59) {
+            throw new AFPParserException(String.format("EC-000810: Invalid Second %d in Date/Time tag", second));
+          }
+          int tz = data[7] & 0xFF;
+          if (tz > 2) {
+            throw new AFPParserException(String.format("EC-000810: Invalid TimeZone %d in Date/Time tag", tz));
+          }
+          int diffH = data[8] & 0xFF;
+          if (diffH > 23) {
+            throw new AFPParserException(String.format("EC-000810: Invalid UTCDiffH %d in Date/Time tag", diffH));
+          }
+          int diffM = data[9] & 0xFF;
+          if (diffM > 59) {
+            throw new AFPParserException(String.format("EC-000810: Invalid UTCDiffM %d in Date/Time tag", diffM));
+          }
+        }
         break;
 
       case 0x0011: // Number of Components [CMOCA-5-069]

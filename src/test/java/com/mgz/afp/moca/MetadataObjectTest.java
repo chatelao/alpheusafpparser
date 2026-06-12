@@ -228,6 +228,53 @@ public class MetadataObjectTest {
         assertEquals("AFPT", mo.getMoFormat());
     }
 
+    @Test
+    public void testGettersSettersAndTrimming() {
+        MetadataObject mo = new MetadataObject();
+        mo.setMoLength(100);
+        assertEquals(100, mo.getMoLength());
+
+        mo.setHeaderLength(50);
+        assertEquals(50, mo.getHeaderLength());
+
+        mo.setMoType("DES  @");
+        assertEquals("DES", mo.getMoType());
+
+        mo.setMoFormat("AFPT@@");
+        assertEquals("AFPT", mo.getMoFormat());
+
+        mo.setMoCompression("NONE    ");
+        assertEquals("NONE", mo.getMoCompression());
+
+        mo.setMoNameLength(10);
+        assertEquals(10, mo.getMoNameLength());
+
+        mo.setMoName("TEST");
+        assertEquals("TEST", mo.getMoName());
+
+        byte[] data = new byte[]{0, 65, 0, 66};
+        mo.setMoData(data);
+        assertArrayEquals(data, mo.getMoData());
+        // MODataText uses UTF-16BE
+        assertEquals("AB", mo.getMoDataText());
+
+        mo.setMoData(null);
+        assertNull(mo.getMoDataText());
+
+        // Test trimMoca edge cases
+        mo.setMoType(null);
+        assertNull(mo.getMoType());
+
+        mo.setMoType("");
+        assertEquals("", mo.getMoType());
+
+        mo.setMoType("   ");
+        assertEquals("", mo.getMoType());
+
+        mo.setMoType("@@@");
+        assertEquals("", mo.getMoType());
+    }
+
     private byte[] createValidAfptData() {
         // Simple AttributeValue triplet (0x36)
         // Length(1), ID(1), Reserved(2), Value(...)

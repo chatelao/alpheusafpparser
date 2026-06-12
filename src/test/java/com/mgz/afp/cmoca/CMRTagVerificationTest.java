@@ -885,6 +885,80 @@ public class CMRTagVerificationTest {
     }
 
     @Test
+    public void testTag0008ValueValidation() throws Exception {
+        // [CMOCA-5-046..054] valid date/time values
+        byte[] cmrData = new byte[36];
+        cmrData[1] = 0x08; // Tag 0x0008
+        cmrData[3] = 0x05; // Field Type 5
+        cmrData[7] = 10; // Count 10
+        cmrData[11] = 24; // offset
+
+        cmrData[12] = (byte) 0xFF;
+        cmrData[13] = (byte) 0xFF;
+        cmrData[15] = 0x05;
+
+        // Valid data
+        cmrData[24] = 0x07; cmrData[25] = (byte) 0xD0; // 2000
+        cmrData[26] = 0x01; // Jan
+        cmrData[27] = 0x01; // 1st
+        cmrData[28] = 0x00; // 0h
+        cmrData[29] = 0x00; // 0m
+        cmrData[30] = 0x00; // 0s
+        cmrData[31] = 0x00; // UTC
+        cmrData[32] = 0x00;
+        cmrData[33] = 0x00;
+
+        CMRTag.parseTags(cmrData);
+
+        // Invalid Month
+        cmrData[26] = 13;
+        Exception e = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+        assertTrue(e.getMessage().contains("EC-000810"));
+        cmrData[26] = 1;
+
+        // Invalid Day
+        cmrData[27] = 32;
+        e = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+        assertTrue(e.getMessage().contains("EC-000810"));
+        cmrData[27] = 1;
+
+        // Invalid Hour
+        cmrData[28] = 24;
+        e = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+        assertTrue(e.getMessage().contains("EC-000810"));
+        cmrData[28] = 0;
+
+        // Invalid Minute
+        cmrData[29] = 60;
+        e = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+        assertTrue(e.getMessage().contains("EC-000810"));
+        cmrData[29] = 0;
+
+        // Invalid Second
+        cmrData[30] = 60;
+        e = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+        assertTrue(e.getMessage().contains("EC-000810"));
+        cmrData[30] = 0;
+
+        // Invalid TimeZone
+        cmrData[31] = 3;
+        e = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+        assertTrue(e.getMessage().contains("EC-000810"));
+        cmrData[31] = 0;
+
+        // Invalid UTCDiffH
+        cmrData[32] = 24;
+        e = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+        assertTrue(e.getMessage().contains("EC-000810"));
+        cmrData[32] = 0;
+
+        // Invalid UTCDiffM
+        cmrData[33] = 60;
+        e = assertThrows(Exception.class, () -> CMRTag.parseTags(cmrData));
+        assertTrue(e.getMessage().contains("EC-000810"));
+    }
+
+    @Test
     public void testTagFFFFValidation() throws Exception {
         // [CMOCA-5-311] End Data
         byte[] cmrData = new byte[24];
