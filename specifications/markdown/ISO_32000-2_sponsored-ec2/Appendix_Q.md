@@ -11,7 +11,11 @@ PDF 2.0 is highly generalized to accommodate various processing needs so this me
 
 For each graphical element to be rendered on the page, the graphic state shall be checked for any of the following conditions being present. If they are, then the element is considered involved in transparency and therefore the page contains transparency.
 
-• SMask key is present and its value is of type dictionary; •    ca key is present and its value is less than one (1); •    CA key is present and its value is less than one (1); •    BM key is present and its value is not Normal.
+- **SMask** key is present and its value is of type dictionary;
+- **ca** key is present and its value is less than one (1);
+- **CA** key is present and its value is less than one (1);
+- **BM** key is present and its value is not **Normal**.
+
 If an element’s graphic state sets a colourspace that is a Type 1 Pattern, then the Pattern resource shall be treated as a form XObject and processed according to Q.3, "Form XObjects".
 
 In addition to the graphic state, certain types of graphical elements need additional processing. Any graphical element that represents a form XObject shall be processed according to Q.3, "Form XObjects".
@@ -36,6 +40,3 @@ If the XObject’s dictionary contains an SMaskInData key whose value is greater
 ## Q.5 Text objects
 
 For any graphical element that represents text drawing, its text state shall be checked to determine the type of font being used for rendering. If the Subtype of the font dictionary is Type3, then each object in its CharProc array shall be processed as a form XObject according to Q.3, "Form XObjects".
-
-
-ISO 32000-2:2020
