@@ -1893,14 +1893,7 @@ a) Decrypt the 16 byte Perms string using AES -256 in ECB mode with an initializ
 
 | Security handlers may use public | -key encryption technology to encrypt a document (or strings and |
 | --- | --- |
-| streams within a document). When d | oing so, specifying one or more lists of recipients, where each list |
-
-has its own unique access permissions may be done. Only specified recipients shall open the encrypted
-| document or content, unlike the standard security handler, where a password determine | s access. The |  |
-| --- | --- | --- |
-| permissions defined for public | -key security handlers are shown in | "Table 24 — Public-key security |
-
-handler user access permissions" in 7.6.5.2, "Public-key encryption dictionary".
+ document). When doing so, specifying one or more lists of recipients, where each list has its own unique access permissions may be done. Only specified recipients shall open the encrypted document or content, unlike the standard security handler, where a password determines access. The permissions defined for public-key security handlers are shown in "Table 24 — Public-key security handler user access permissions" in 7.6.5.2, "Public-key encryption dictionary".
 
 Public-key security handlers use the industry standard Public Key Cryptographic Standard Number 7 (CMS) binary encoding syntax to encode recipient list, decryption key, and access permission information. The CMS specification is in Internet RFC 5652.
 
@@ -1926,7 +1919,7 @@ Table 23 — Additional encryption dictionary entries for public-key security ha
 
 | Key | Type | Value |
 | --- | --- | --- |
-| Recipients | array | (Required when SubFilter is adbe.pkcs7.s3 or adbe.pkcs7.s4; PDF 1.3) An array of byte-strings, where each string is a CMS object listing recipients who have been granted equal access rights to the document. The data contained in the CMS object shall include both a cryptographic key that shall be used to decrypt the encrypted data and the access permissions (see "Table 24 — Public-key security handler user access permissions") that apply to the recipient list. There shall be only one CMS object per unique set of access permissions; if a recipient appears in more than one list, the permissions used shall be those in the first matching list. When SubFilter is adbe.pkcs7.s5, recipient lists shall be specified in the crypt filter dictionary; see "Table 27 — Additional crypt filter dictionary entries for public-key security handlers". |
+| **Recipients** | array | (Required when **SubFilter** is *adbe.pkcs7.s3* or *adbe.pkcs7.s4*; PDF 1.3) An array of byte-strings, where each string is a CMS object listing recipients who have been granted equal access rights to the document. The data contained in the CMS object shall include both a cryptographic key that shall be used to decrypt the encrypted data and the access permissions (see "Table 24 — Public-key security handler user access permissions") that apply to the recipient list. There shall be only one CMS object per unique set of access permissions; if a recipient appears in more than one list, the permissions used shall be those in the first matching list. When **SubFilter** is *adbe.pkcs7.s5*, recipient lists shall be specified in the crypt filter dictionary; see "Table 27 — Additional crypt filter dictionary entries for public-key security handlers". |
 
 > **NOTE** (2020) "Table 23 — Additional encryption dictionary entries for public -key security handlers" previously specified a P key which was removed in this document due to errors that prohibited interoperable implementations.
 The access permissions shall be interpreted as an unsigned 32-bit quantity containing a set o f flags specifying which access permissions shall be granted when the document is opened with user access.
@@ -1938,33 +1931,18 @@ PDF processors shall ignore all flags other than those at bit positions 2, 3, 4,
 
 Table 24 — Public-key security handler user access permissions
 
-Bit position Meaning
-
-When set permits change of encryption and enables all other permissions.
-
-Print the document (possibly not at the highest quality level, depending on whether bit 12 is also set).
-
-Modify the contents of the document by operations other than those controlled by bits 6, 9, and 11.
-
-Copy or otherwise extract text and graphics from the document. However, for the limited purpose of providing this content to assistive technology, a PDF reader shall behave as if this bit was set to 1.
-
-> **NOTE** ISO 32000-1 had this option restricted by bit 10, for accessibility, but that exception has been deprecated in PDF 2.0.
-
-Add or modify text annotations, fill in interactive form fields, and, if bit 4 is also set, create or modify interactive form fields (including signature fields).
-
-Fill in existing interactive form fields (including signature fields), even if bit 6 is clear.
-
-# 10 Not used. This bit was previously used to determine whether content could be
-
-extracted for the purposes of accessibility, however, that restriction has been deprecated in PDF 2.0. PDF readers shall ignore this bit and PDF writers shall always set this bit to 1 to ensure compatibility with PDF readers supporting older specifications.
-
-# 11 Assemble the document (insert, rotate, or delete pages and create document
-
-outline items or thumbnail images), even if bit 4 is clear.
-
-# 12 Print the document to a representation from which a faithful digital copy of the
-
-PDF content could be generated, based on an implementation-dependent algorithm. When this bit is clear (and bit 3 is set), printing shall be limited to a low-level representation of the appearance, possibly of degraded quality.
+| Bit position | Meaning |
+| --- | --- |
+| 2 | When set permits change of encryption and enables all other permissions. |
+| 3 | Print the document (possibly not at the highest quality level, depending on whether bit 12 is also set). |
+| 4 | Modify the contents of the document by operations other than those controlled by bits 6, 9, and 11. |
+| 5 | Copy or otherwise extract text and graphics from the document. However, for the limited purpose of providing this content to assistive technology, a PDF reader shall behave as if this bit was set to 1. |
+| 6 | Add or modify text annotations, fill in interactive form fields, and, if bit 4 is also set, create or modify interactive form fields (including signature fields). |
+| 9 | Fill in existing interactive form fields (including signature fields), even if bit 6 is clear. |
+| 10 | Not used. This bit was previously used to determine whether content could be extracted for the purposes of accessibility, however, that restriction has been deprecated in PDF 2.0. PDF readers shall ignore this bit and PDF writers shall always set this bit to 1 to ensure compatibility with PDF readers supporting older specifications. |
+| 11 | Assemble the document (insert, rotate, or delete pages and create document outline items or thumbnail images), even if bit 4 is clear. |
+| 12 | Print the document to a representation from which a faithful digital copy of the PDF content could be generated, based on an implementation-dependent algorithm. When this bit is clear (and bit 3 is set), printing shall be limited to a low-level representation of the appearance, possibly of degraded quality. |
+| 13 - 32 | Reserved. Must be 1. |
 
 > **NOTE** "Table 24 — Public-key security handler user access permissions" is different to "Table 22 — Standard security handler user access permissions".
 
@@ -1993,15 +1971,15 @@ The algorithms that shall be used to encrypt the enveloped data in the CMS objec
 • 256-bit AES in CBC mode.
 The CMS specification is in Internet RFC 5652, Cryptographic Message Syntax.
 
-The file encryption key used by 7.6.3.2, "Algorithm 1: Encryption of data using the RC4 or AES algorithms" shall be calculated by means of an SHA-1 message digest operation, for a key length of 128 bits. For the file encryption key used by  7.6.3.3 "Algorithm 1.A: Encryption of data using the AES algorithms", a SHA-256 digest operation shall be used for a key length of 256 bits. These operations digest the following data, in order:
+The file encryption key used by 7.6.3.2, "Algorithm 1: Encryption of data using the RC4 or AES algorithms" shall be calculated by means of an SHA-1 message digest operation, for a key length of 128 bits. For the file encryption key used by 7.6.3.3 "Algorithm 1.A: Encryption of data using the AES algorithms", a SHA-256 digest operation shall be used for a key length of 256 bits. These operations digest the following data, in order:
 
-a) The 20 bytes of seed .
-b) The bytes of each item in the Recipients array of CMS objects in the order in which they appear in the
-array.
-c) 4 bytes with the value 0xFF if the key being generated is intended for use in document -level encryption
-and the document metadata is being left as plaintext .
-d) The first n/8 bytes of the res ulting digest shall be used as the file encryption key, where n is the bit length
-of the file encryption key.
+a) The 20 bytes of seed.
+
+b) The bytes of each item in the Recipients array of CMS objects in the order in which they appear in the array.
+
+c) 4 bytes with the value 0xFF if the key being generated is intended for use in document-level encryption and the document metadata is being left as plaintext.
+
+d) The first *n*/8 bytes of the resulting digest shall be used as the file encryption key, where *n* is the bit length of the file encryption key.
 
 ### 7.6.6 Crypt filters
 
@@ -2025,15 +2003,9 @@ Table 25 — Entries common to all crypt filter dictionaries
 
 | Key | Type | Value |
 | --- | --- | --- |
-| Type | name | (Optional) If present, shall be CryptFilter for a crypt filter dictionary. |
-| CFM | name | (Optional) The method used, if any, by the PDF reader to decrypt data. The following values shall be supported: |
-| None | The application shall not decrypt data but shall direct the input stream to the security handler for decryption. |  |
-| V2 | (Deprecated in PDF 2.0) The application shall ask the security handler for the file encryption key and shall implicitly decrypt data with 7.6.3.2, "Algorithm 1: Encryption of data using the RC4 or AES algorithms", using the RC4 algorithm. |  |
-| AESV2 | (PDF 1.6; deprecated in PDF 2.0) The application shall ask the security handler for the file encryption key and shall implicitly decrypt data with 7.6.3.2, "Algorithm 1: Encryption of data using the RC4 or AES algorithms", using the AES algorithm in Cipher Block Chaining (CBC) mode with a 16-byte block size and an initialization vector that shall be randomly generated and placed as the first 16 bytes in the stream or string. The key size (Length) shall be 128 bits. |  |
-| AESV3 | (PDF 2.0) The application shall ask the security handler for the file encryption key and shall implicitly decrypt data with 7.6.3.3, "Algorithm 1.A: Encryption of data using the AES algorithms", using the AES-256 algorithm in Cipher Block Chaining (CBC) with padding mode with a 16-byte block size and an initialization vector that is randomly generated and placed as the first 16 bytes in the stream or string. The key size (Length) shall be 256 bits. When the value is V2, AESV2 or AESV3, the application may ask once for this file encryption key and cache the key for subsequent use for streams that use the same crypt filter. Therefore, there shall be a one-to- one relationship between a crypt filter name and the corresponding file encryption key. Only the values listed here shall be supported. Applications that encounter other values shall report that the file is encrypted with an unsupported algorithm. Default value: None. |  |
-| AuthEvent | name | (Optional) The event that shall be used to trigger the authorization that is required to access file encryption keys used by this filter. If authorization fails, the event shall fail. Valid values shall be: |
-| DocOpen | Authorization shall be required when a document is opened. |  |
-| EFOpen | Authorization shall be required when accessing embedded files. Default value: DocOpen. If this filter is used as the value of StrF or StmF in the encryption dictionary (see "Table 20 — Entries common to all encryption dictionaries"), the PDF reader shall ignore this key and behave as if the value is DocOpen. |  |
+| **Type** | name | (Optional) If present, shall be **CryptFilter** for a crypt filter dictionary. |
+| **CFM** | name | (Optional) The method used, if any, by the PDF reader to decrypt data. The following values shall be supported:<br>**None**: The application shall not decrypt data but shall direct the input stream to the security handler for decryption.<br>**V2**: (Deprecated in PDF 2.0) The application shall ask the security handler for the file encryption key and shall implicitly decrypt data with 7.6.3.2, "Algorithm 1: Encryption of data using the RC4 or AES algorithms", using the RC4 algorithm.<br>**AESV2**: (PDF 1.6; deprecated in PDF 2.0) The application shall ask the security handler for the file encryption key and shall implicitly decrypt data with 7.6.3.2, "Algorithm 1: Encryption of data using the RC4 or AES algorithms", using the AES algorithm in Cipher Block Chaining (CBC) mode with a 16-byte block size and an initialization vector that shall be randomly generated and placed as the first 16 bytes in the stream or string. The key size (**Length**) shall be 128 bits.<br>**AESV3**: (PDF 2.0) The application shall ask the security handler for the file encryption key and shall implicitly decrypt data with 7.6.3.3, "Algorithm 1.A: Encryption of data using the AES algorithms", using the AES-256 algorithm in Cipher Block Chaining (CBC) with padding mode with a 16-byte block size and an initialization vector that is randomly generated and placed as the first 16 bytes in the stream or string. The key size (**Length**) shall be 256 bits. When the value is **V2**, **AESV2** or **AESV3**, the application may ask once for this file encryption key and cache the key for subsequent use for streams that use the same crypt filter. Therefore, there shall be a one-to-one relationship between a crypt filter name and the corresponding file encryption key. Only the values listed here shall be supported. Applications that encounter other values shall report that the file is encrypted with an unsupported algorithm.<br>Default value: **None**. |
+| **AuthEvent** | name | (Optional) The event that shall be used to trigger the authorization that is required to access file encryption keys used by this filter. If authorization fails, the event shall fail. Valid values shall be:<br>**DocOpen**: Authorization shall be required when a document is opened.<br>**EFOpen**: Authorization shall be required when accessing embedded files.<br>Default value: **DocOpen**. If this filter is used as the value of **StrF** or **StmF** in the encryption dictionary (see "Table 20 — Entries common to all encryption dictionaries"), the PDF reader shall ignore this key and behave as if the value is **DocOpen**. |
 
 
 | Key | Type | Value |
@@ -2058,16 +2030,8 @@ Table 27 — Additional crypt filter dictionary entries for public-key security 
 
 | Key | Type | Value |
 | --- | --- | --- |
-| Recipients | string or | (Required) If the crypt filter is referenced from StmF or StrF in the |
-| array | encryption dictionary, this entry shall be an array of byte strings, where each string shall be a binary-encoded CMS object that shall list recipients that have been granted equal access rights to the document. The enveloped data contained in the CMS object shall include both a 20-byte seed value that shall be used to compute the file encryption key (see 7.6.5.3, "Public- key encryption algorithms") followed by 4 bytes of permissions settings (see "Table 24 — Public-key security handler user access permissions") that shall apply to the recipient list. There shall be only one object per unique set of access permissions. If a recipient appears in more than one list, the permissions used shall be those in the first matching list. |  |
-
-> **NOTE** (2020) The cross-reference to Table 24 in the above paragraph was corrected.
-If the crypt filter is referenced from a Crypt filter decode parameter dictionary (see "Table 14 — Optional parameters for Crypt filters"), this entry shall be a string that shall be a binary-encoded CMS object that shall contain a list of all recipients who are permitted to access the corresponding encrypted stream. The enveloped data contained in the CMS
-
-
-| Key | Type | Value object shall be a 20-byte seed value that shall be used to create the file encryption key that shall be used by the algorithm in "Algorithm 1: Encryption of data using the RC4 or AES algorithms". |
-| --- | --- | --- |
-| EncryptMetadata | boolean | (Optional; used only by crypt filters that are referenced from StmF in an encryption dictionary) Indicates whether the document-level metadata stream (see 14.3.2, "Metadata streams") shall be encrypted. PDF processors shall respect this value when determining whether metadata shall be encrypted. The value of the EncryptMetadata entry is set by the security handler rather than the PDF processor. Default value: true. |
+| **Recipients** | byte string or array | (Required) If the crypt filter is referenced from **StmF** or **StrF** in the encryption dictionary, this entry shall be an array of byte strings, where each string shall be a binary-encoded CMS object that shall list recipients that have been granted equal access rights to the document. The enveloped data contained in the CMS object shall include both a 20-byte seed value that shall be used to compute the file encryption key (see 7.6.5.3, "Public-key encryption algorithms") followed by 4 bytes of permissions settings (see "Table 24 — Public-key security handler user access permissions") that shall apply to the recipient list. There shall be only one object per unique set of access permissions. If a recipient appears in more than one list, the permissions used shall be those in the first matching list.<br><br>If the crypt filter is referenced from a Crypt filter decode parameter dictionary (see "Table 14 — Optional parameters for Crypt filters"), this entry shall be a string that shall be a binary-encoded CMS object that shall contain a list of all recipients who are permitted to access the corresponding encrypted stream. The enveloped data contained in the CMS object shall be a 20-byte seed value that shall be used to create the file encryption key that shall be used by the algorithm in "Algorithm 1: Encryption of data using the RC4 or AES algorithms". |
+| **EncryptMetadata** | boolean | (Optional; used only by crypt filters that are referenced from **StmF** in an encryption dictionary) Indicates whether the document-level metadata stream (see 14.3.2, "Metadata streams") shall be encrypted. PDF processors shall respect this value when determining whether metadata shall be encrypted. The value of the **EncryptMetadata** entry is set by the security handler rather than the PDF processor. Default value: *true*. |
 
 > **EXAMPLE** The following shows the use of crypt filters in an encrypted document containing a plaintext document-level
 | metadata stream. The metadata stream is left as is by applying the | Identity crypt filter. The remaining streams and strings are decrypted using the default filters. |
@@ -2118,9 +2082,9 @@ Table 28 — Entries in an encrypted payload dictionary
 
 | Key | Type | Value |
 | --- | --- | --- |
-| Type | name | (Optional) The type of PDF object that this dictionary describes; if present, shall be EncryptedPayload for an encrypted payload file specification. |
-| Subtype | name | (Required) The name of the cryptographic filter used to encrypt the encrypted payload document. This allows a PDF processor to easily determine whether it has the appropriate cryptographic filter. |
-| Version | name | (Optional) The version number of the cryptographic filter used to encrypt the encrypted payload referenced by this dictionary. |
+| **Type** | name | (Optional) The type of PDF object that this dictionary describes; if present, shall be **EncryptedPayload** for an encrypted payload file specification. |
+| **Subtype** | name | (Required) The name of the cryptographic filter used to encrypt the encrypted payload document. This allows a PDF processor to easily determine whether it has the appropriate cryptographic filter. |
+| **Version** | name | (Optional) The version number of the cryptographic filter used to encrypt the encrypted payload referenced by this dictionary. |
 
 > **NOTE** The value of Version is not to be interpreted as a real number but as integers with a PERIOD (2Eh) between them.
 
@@ -2172,68 +2136,38 @@ Table 29 — Entries in the catalog dictionary
 
 | Key | Type | Value |
 | --- | --- | --- |
-| Type | name | (Required) The type of PDF object that this dictionary describes; shall be Catalog for the catalog dictionary. |
-
-
-| Key | Type | Value |
-| --- | --- | --- |
-| Version | name | (Optional; PDF 1.4) The version of the PDF specification to which the document conforms (for example, 1.4) if later than the version specified in the file’s header (see 7.5.2, "File header"). If the header specifies a later version, or if this entry is absent, the document shall conform to the version specified in the header. This entry enables a PDF processor to update the version using an incremental update; see 7.5.6, "Incremental updates". The value of this entry shall be a name object, not a number, and therefore shall be preceded by a SOLIDUS (2Fh) character (/) when written in the PDF file (for example, /1.4). |
-| Extensions | dictionary | (Optional; ISO 32000-1) An extensions dictionary containing developer prefix identification and version numbers for developer extensions that occur in this document. 7.12, "Extensions dictionary", describes this dictionary and how it shall be used. |
-| Pages | dictionary | (Required; shall be an indirect reference) The page tree node that shall be the root of the document’s page tree (see 7.7.3, "Page tree"). |
-| PageLabels | number tree | (Optional; PDF 1.3) A number tree (see 7.9.7, "Number trees") defining the page labelling for the document. The keys in this tree shall be page indices; the corresponding values shall be page label dictionaries (see 12.4.2, "Page labels"). Each page index shall denote the first page in a labelling range to which the specified page label dictionary applies. The tree shall include a value for page index 0. |
-| Names | dictionary | (Optional; PDF 1.2) The document’s name dictionary (see 7.7.4, "Name dictionary"). (PDF 2.0) For unencrypted wrapper documents for an encrypted payload document (see 7.6.7, "Unencrypted wrapper document") the Names dictionary is required and shall contain the EmbeddedFiles name tree. |
-| Dests | dictionary | (Optional; PDF 1.1; shall be an indirect reference) A dictionary of names and corresponding destinations (see 12.3.2.4, "Named destinations"). |
-| ViewerPreferences | dictionary | (Optional; PDF 1.2) A viewer preferences dictionary (see 12.2, "Viewer preferences") specifying the way the document shall be displayed on the screen. If this entry is absent, PDF readers shall use their own current user preference settings. |
-
-
-| Key | Type | Value |
-| --- | --- | --- |
-| PageLayout | name | (Optional) A name object specifying the page layout shall be used when the document is opened: |
-| SinglePage | Display one page at a time |  |
-| OneColumn | Display the pages in one column |  |
-| TwoColumnLeft | Display the pages in two columns, with odd- numbered pages on the left |  |
-| TwoColumnRight | Display the pages in two columns, with odd- numbered pages on the right |  |
-| TwoPageLeft | (PDF 1.5) Display the pages two at a time, with odd-numbered pages on the left |  |
-| TwoPageRight | (PDF 1.5) Display the pages two at a time, with odd-numbered pages on the right Default value: SinglePage. |  |
-| PageMode | name | (Optional) A name object specifying how the document shall be displayed when opened: |
-| UseNone | Neither document outline nor thumbnail images visible |  |
-| UseOutlines | Document outline visible |  |
-| UseThumbs | Thumbnail images visible |  |
-| FullScreen | Full-screen mode, with no menu bar, window controls, or any other window visible |  |
-| UseOC | (PDF 1.5) Optional content group panel visible |  |
-| UseAttachments | (PDF 1.6) Attachments panel visible Default value: UseNone. |  |
-| Outlines | dictionary | (Optional; shall be an indirect reference) The outline dictionary that shall be the root of the document’s outline hierarchy (see 12.3.3, "Document outline"). |
-| Threads | array | (Optional; PDF 1.1; shall be an indirect reference) An array of thread dictionaries that shall represent the document’s article threads (see 12.4.3, "Articles"). |
-| OpenAction | dictionary | (Optional; PDF 1.1) A value specifying a destination that shall be |
-| or array | displayed or an action that shall be performed when the document is opened. The value shall be either an array defining a destination (see 12.3.2, "Destinations") or an action dictionary representing an action (12.6.2, "Action dictionaries"). If this entry is absent, the document shall be opened to the top of the first page at the default magnification factor. |  |
-| AA | dictionary | (Optional; PDF 1.2) An additional-actions dictionary defining the actions that shall be taken in response to various trigger events affecting the document as a whole (see 12.6.3, "Trigger events"). |
-| URI | dictionary | (Optional; PDF 1.1) A URI dictionary containing document-level information for URI (uniform resource identifier) actions (see 12.6.4.8, "URI actions"). |
-| AcroForm | dictionary | (Optional; PDF 1.2) The document’s interactive form (AcroForm) dictionary (see 12.7.3, "Interactive form dictionary"). |
-
-
-| Key | Type | Value |
-| --- | --- | --- |
-| Metadata | stream | (Optional; PDF 1.4; shall be an indirect reference) A metadata stream that shall contain metadata for the document (see 14.3.2, "Metadata streams"). |
-| StructTreeRoot | dictionary | (Optional; PDF 1.3) The document’s structure tree root dictionary (see 14.7.2, "Structure hierarchy"). |
-| MarkInfo | dictionary | (Optional; PDF 1.4) A mark information dictionary that shall contain information about the document’s usage of tagged PDF conventions (see 14.7, "Logical structure"). |
-| Lang | text string | (Optional; PDF 1.4) A language identifier that shall specify the natural language for all text in the document except where overridden by language specifications for structure elements or marked-content (see 14.9.2, "Natural language specification"). If this entry is absent, the language shall be considered unknown. |
-| SpiderInfo | dictionary | (Optional; PDF 1.3) A Web Capture information dictionary that shall contain state information used by any Web Capture extension (see 14.10.2, "Web capture information dictionary"). |
-| OutputIntents | array | (Optional; PDF 1.4) An array of output intent dictionaries that shall specify the colour characteristics of output devices on which the document might be rendered (see 14.11.5, "Output intents"). |
-| PieceInfo | dictionary | (Optional; PDF 1.4) A page-piece dictionary associated with the document (see 14.5, "Page-piece dictionaries"). |
-| OCProperties | dictionary | (Optional; PDF 1.5; required if a document contains optional content) The document’s optional content properties dictionary (see 8.11.4, "Configuring optional content"). |
-| Perms | dictionary | (Optional; PDF 1.5) A permissions dictionary that shall specify user access permissions for the document. 12.8.6, "Permissions", describes this dictionary and how it shall be used. |
-| Legal | dictionary | (Optional; PDF 1.5) A dictionary that shall contain attestations regarding the content of a PDF document, as it relates to the legality of digital signatures (see 12.8.7, "Legal content attestations"). |
-| Requirements | array | (Optional; PDF 1.7) An array of requirement dictionaries that shall represent requirements for the document. Subclause 12.11, "Document requirements", describes this dictionary and how it shall be used. |
-| Collection | dictionary | (Optional; PDF 1.7) A collection dictionary that an interactive PDF processor shall use to enhance the presentation of file attachments stored in the PDF document. (see 12.3.5, "Collections"). (PDF 2.0) For unencrypted wrapper documents for an encrypted payload document (see 7.6.7, "Unencrypted wrapper document ") the Collection is required and shall identify the encrypted payload as the default document (as indicated by the D entry) of the collection and shall further specify that the collection View should be initially H (hidden). |
-
-
-| Key | Type | Value |
-| --- | --- | --- |
-| NeedsRendering | boolean | (Optional; deprecated in PDF 2.0) A flag used to expedite the display of PDF documents containing XFA forms. It specifies whether the document shall be regenerated when the document is first opened. See Annex K, “XFA forms”. Default value: false. |
-| DSS | dictionary | (Optional; PDF 2.0) A DSS dictionary containing document-wide security information. See 12.8.4.3, "Document Security Store (DSS)". |
-| AF | array of | (Optional; PDF 2.0) An array of one or more file specification |
-| dictionaries | dictionaries (7.11.3, "File specification dictionaries") which denote the associated files for this PDF document. See 14.13, "Associated files" and 14.13.3, "Associated files linked to the PDF document’s catalog" for more details. For unencrypted wrapper documents for an encrypted payload document (see 7.6.7, "Unencrypted wrapper document") the AF key is required and shall include a reference to the file specification dictionary for the encrypted payload document. |  |
-| DPartRoot | dictionary | (Optional; PDF 2.0) A DPartRoot dictionary used to describe the document parts hierarchy for this PDF document. See 14.12, "Document parts". |
+| **Type** | name | (Required) The type of PDF object that this dictionary describes; shall be **Catalog** for the catalog dictionary. |
+| **Version** | name | (Optional; PDF 1.4) The version of the PDF specification to which the document conforms (for example, 1.4) if later than the version specified in the file’s header (see 7.5.2, "File header"). If the header specifies a later version, or if this entry is absent, the document shall conform to the version specified in the header. This entry enables a PDF processor to update the version using an incremental update; see 7.5.6, "Incremental updates". The value of this entry shall be a name object, not a number, and therefore shall be preceded by a SOLIDUS (2Fh) character (/) when written in the PDF file (for example, /1.4). |
+| **Extensions** | dictionary | (Optional; ISO 32000-1) An extensions dictionary containing developer prefix identification and version numbers for developer extensions that occur in this document. 7.12, "Extensions dictionary", describes this dictionary and how it shall be used. |
+| **Pages** | dictionary | (Required; shall be an indirect reference) The page tree node that shall be the root of the document’s page tree (see 7.7.3, "Page tree"). |
+| **PageLabels** | number tree | (Optional; PDF 1.3) A number tree (see 7.9.7, "Number trees") defining the page labelling for the document. The keys in this tree shall be page indices; the corresponding values shall be page label dictionaries (see 12.4.2, "Page labels"). Each page index shall denote the first page in a labelling range to which the specified page label dictionary applies. The tree shall include a value for page index 0. |
+| **Names** | dictionary | (Optional; PDF 1.2) The document’s name dictionary (see 7.7.4, "Name dictionary"). (PDF 2.0) For unencrypted wrapper documents for an encrypted payload document (see 7.6.7, "Unencrypted wrapper document") the **Names** dictionary is required and shall contain the **EmbeddedFiles** name tree. |
+| **Dests** | dictionary | (Optional; PDF 1.1; shall be an indirect reference) A dictionary of names and corresponding destinations (see 12.3.2.4, "Named destinations"). |
+| **ViewerPreferences** | dictionary | (Optional; PDF 1.2) A viewer preferences dictionary (see 12.2, "Viewer preferences") specifying the way the document shall be displayed on the screen. If this entry is absent, PDF readers shall use their own current user preference settings. |
+| **PageLayout** | name | (Optional) A name object specifying the page layout shall be used when the document is opened:<br>**SinglePage**: Display one page at a time<br>**OneColumn**: Display the pages in one column<br>**TwoColumnLeft**: Display the pages in two columns, with odd-numbered pages on the left<br>**TwoColumnRight**: Display the pages in two columns, with odd-numbered pages on the right<br>**TwoPageLeft**: (PDF 1.5) Display the pages two at a time, with odd-numbered pages on the left<br>**TwoPageRight**: (PDF 1.5) Display the pages two at a time, with odd-numbered pages on the right<br>Default value: **SinglePage**. |
+| **PageMode** | name | (Optional) A name object specifying how the document shall be displayed when opened:<br>**UseNone**: Neither document outline nor thumbnail images visible<br>**UseOutlines**: Document outline visible<br>**UseThumbs**: Thumbnail images visible<br>**FullScreen**: Full-screen mode, with no menu bar, window controls, or any other window visible<br>**UseOC**: (PDF 1.5) Optional content group panel visible<br>**UseAttachments**: (PDF 1.6) Attachments panel visible<br>Default value: **UseNone**. |
+| **Outlines** | dictionary | (Optional; shall be an indirect reference) The outline dictionary that shall be the root of the document’s outline hierarchy (see 12.3.3, "Document outline"). |
+| **Threads** | array | (Optional; PDF 1.1; shall be an indirect reference) An array of thread dictionaries that shall represent the document’s article threads (see 12.4.3, "Articles"). |
+| **OpenAction** | dictionary or array | (Optional; PDF 1.1) A value specifying a destination that shall be displayed or an action that shall be performed when the document is opened. The value shall be either an array defining a destination (see 12.3.2, "Destinations") or an action dictionary representing an action (12.6.2, "Action dictionaries"). If this entry is absent, the document shall be opened to the top of the first page at the default magnification factor. |
+| **AA** | dictionary | (Optional; PDF 1.2) An additional-actions dictionary defining the actions that shall be taken in response to various trigger events affecting the document as a whole (see 12.6.3, "Trigger events"). |
+| **URI** | dictionary | (Optional; PDF 1.1) A URI dictionary containing document-level information for URI (uniform resource identifier) actions (see 12.6.4.8, "URI actions"). |
+| **AcroForm** | dictionary | (Optional; PDF 1.2) The document’s interactive form (AcroForm) dictionary (see 12.7.3, "Interactive form dictionary"). |
+| **Metadata** | stream | (Optional; PDF 1.4; shall be an indirect reference) A metadata stream that shall contain metadata for the document (see 14.3.2, "Metadata streams"). |
+| **StructTreeRoot** | dictionary | (Optional; PDF 1.3) The document’s structure tree root dictionary (see 14.7.2, "Structure hierarchy"). |
+| **MarkInfo** | dictionary | (Optional; PDF 1.4) A mark information dictionary that shall contain information about the document’s usage of tagged PDF conventions (see 14.7, "Logical structure"). |
+| **Lang** | text string | (Optional; PDF 1.4) A language identifier that shall specify the natural language for all text in the document except where overridden by language specifications for structure elements or marked-content (see 14.9.2, "Natural language specification"). If this entry is absent, the language shall be considered unknown. |
+| **SpiderInfo** | dictionary | (Optional; PDF 1.3) A Web Capture information dictionary that shall contain state information used by any Web Capture extension (see 14.10.2, "Web capture information dictionary"). |
+| **OutputIntents** | array | (Optional; PDF 1.4) An array of output intent dictionaries that shall specify the colour characteristics of output devices on which the document might be rendered (see 14.11.5, "Output intents"). |
+| **PieceInfo** | dictionary | (Optional; PDF 1.4) A page-piece dictionary associated with the document (see 14.5, "Page-piece dictionaries"). |
+| **OCProperties** | dictionary | (Optional; PDF 1.5; required if a document contains optional content) The document’s optional content properties dictionary (see 8.11.4, "Configuring optional content"). |
+| **Perms** | dictionary | (Optional; PDF 1.5) A permissions dictionary that shall specify user access permissions for the document. 12.8.6, "Permissions", describes this dictionary and how it shall be used. |
+| **Legal** | dictionary | (Optional; PDF 1.5) A dictionary that shall contain attestations regarding the content of a PDF document, as it relates to the legality of digital signatures (see 12.8.7, "Legal content attestations"). |
+| **Requirements** | array | (Optional; PDF 1.7) An array of requirement dictionaries that shall represent requirements for the document. Subclause 12.11, "Document requirements", describes this dictionary and how it shall be used. |
+| **Collection** | dictionary | (Optional; PDF 1.7) A collection dictionary that an interactive PDF processor shall use to enhance the presentation of file attachments stored in the PDF document. (see 12.3.5, "Collections"). (PDF 2.0) For unencrypted wrapper documents for an encrypted payload document (see 7.6.7, "Unencrypted wrapper document") the **Collection** is required and shall identify the encrypted payload as the default document (as indicated by the **D** entry) of the collection and shall further specify that the collection View should be initially **H** (hidden). |
+| **NeedsRendering** | boolean | (Optional; deprecated in PDF 2.0) A flag used to expedite the display of PDF documents containing XFA forms. It specifies whether the document shall be regenerated when the document is first opened. See Annex K, “XFA forms”. Default value: *false*. |
+| **DSS** | dictionary | (Optional; PDF 2.0) A DSS dictionary containing document-wide security information. See 12.8.4.3, "Document Security Store (DSS)". |
+| **AF** | array | (Optional; PDF 2.0) An array of one or more file specification dictionaries (7.11.3, "File specification dictionaries") which denote the associated files for this PDF document. See 14.13, "Associated files" and 14.13.3, "Associated files linked to the PDF document’s catalog" for more details. For unencrypted wrapper documents for an encrypted payload document (see 7.6.7, "Unencrypted wrapper document") the **AF** key is required and shall include a reference to the file specification dictionary for the encrypted payload document. |
+| **DPartRoot** | dictionary | (Optional; PDF 2.0) A DPartRoot dictionary used to describe the document parts hierarchy for this PDF document. See 14.12, "Document parts". |
 
 > **EXAMPLE** The following shows a sample catalog dictionary object.
 
@@ -3292,9 +3226,8 @@ Table 48 — Entries in an extensions dictionary
 
 | Key | Type | Value |
 | --- | --- | --- |
-| Type | name | (Optional; , shall be a direct objectif present) The type of PDF object that this dictionary describes; if present, shall be Extensions. |
-| Prefix name | array or | (Required; PDF 1.7; shall be a direct object) A developer extensions dictionary, |
-| dictionary | or an array of developer extension dictionaries (PDF 2.0), denoting extensions used (See "Table 49 — Entries in a developer extensions dictionary"). The key shall be a registered prefix name as described in Annex E, “Extending PDF". This entry is repeated for each different developer’s extensions used. Multiple distinct registered prefix names for different developers may be used for each different developer’s extensions used. See Example 3 below. |  |
+| **Type** | name | (Optional; shall be a direct object if present) The type of PDF object that this dictionary describes; if present, shall be **Extensions**. |
+| ***Prefix name*** | array or dictionary | (Required; PDF 1.7; shall be a direct object) A developer extensions dictionary, or an array of developer extension dictionaries (PDF 2.0), denoting extensions used (See "Table 49 — Entries in a developer extensions dictionary"). The key shall be a registered prefix name as described in Annex E, “Extending PDF". This entry is repeated for each different developer’s extensions used. Multiple distinct registered prefix names for different developers may be used for each different developer’s extensions used. See Example 3 below. |
 
 > **NOTE** Arrays of developer extension dictionaries were introduced in this document (2020).
 
@@ -3306,11 +3239,11 @@ Table 49 — Entries in a developer extensions dictionary
 
 | Key | Type | Value |
 | --- | --- | --- |
-| Type | name | (Optional; shall be a direct object if present) The type of PDF object that this dictionary describes; if present, shall be DeveloperExtensions. |
-| BaseVersion | name | (Required; shall be a direct object) The name of the PDF version to which this extension applies. The name shall be consistent with the syntax used for the Version entry of the catalog dictionary (see 7.7.2, "Document catalog dictionary"). |
-| ExtensionLevel | integer | (Required; shall be a direct object) An integer defined by the developer to denote the extension being used. If the developer introduces more than one extension to a given BaseVersion the extension level numbers assigned by that developer should increase over time. |
-| URL | string | (Optional; PDF 2.0; shall be a direct object if present) A URL that refers to the documentation for this extension (see Annex E, "Extending PDF"). |
-| ExtensionRevision | text string | (Optional; PDF 2.0; shall be a direct object if present) An optional text string that provides additional revision information on the extension level being used. |
+| **Type** | name | (Optional; shall be a direct object if present) The type of PDF object that this dictionary describes; if present, shall be **DeveloperExtensions**. |
+| **BaseVersion** | name | (Required; shall be a direct object) The name of the PDF version to which this extension applies. The name shall be consistent with the syntax used for the Version entry of the catalog dictionary (see 7.7.2, "Document catalog dictionary"). |
+| **ExtensionLevel** | integer | (Required; shall be a direct object) An integer defined by the developer to denote the extension being used. If the developer introduces more than one extension to a given BaseVersion the extension level numbers assigned by that developer should increase over time. |
+| **URL** | string | (Optional; PDF 2.0; shall be a direct object if present) A URL that refers to the documentation for this extension (see Annex E, "Extending PDF"). |
+| **ExtensionRevision** | text string | (Optional; PDF 2.0; shall be a direct object if present) An optional text string that provides additional revision information on the extension level being used. |
 
 > **NOTE** The ExtensionRevision key was introduced in this document (2020).
 
