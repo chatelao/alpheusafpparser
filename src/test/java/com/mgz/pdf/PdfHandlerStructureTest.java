@@ -1621,8 +1621,9 @@ public class PdfHandlerStructureTest {
     esg.setStructuredFieldIntroducer(createSfi(SFTypeID.ESG_EndResourceEnvironmentGroup));
     handler.handle(esg);
 
-    // After REG end, font 2 should be gone from merged view
-    assertTrue(!handler.getFontMap().containsKey((short) 2));
+    // After REG end, font 2 should STILL be there because scoping was fixed
+    assertTrue(handler.getFontMap().containsKey((short) 2));
+    assertEquals("REGFONT ", handler.getFontMap().get((short) 2).name());
     assertEquals("DOCFONT ", handler.getFontMap().get((short) 1).name());
 
     // 4. Active Environment Group (AEG) inside Page
@@ -1644,7 +1645,8 @@ public class PdfHandlerStructureTest {
     eag.setStructuredFieldIntroducer(createSfi(SFTypeID.EAG_EndActiveEnvironmentGroup));
     handler.handle(eag);
 
-    assertTrue(!handler.getFontMap().containsKey((short) 3));
+    // Font 3 should STILL be available after EAG
+    assertTrue(handler.getFontMap().containsKey((short) 3));
     handler.handle(epg1);
   }
 

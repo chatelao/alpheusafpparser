@@ -21,11 +21,11 @@ public class FontSizeRegressionTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PdfHandler handler = new PdfHandler(baos);
 
-        // 1. Begin Page (initially uses default 1.0 scale)
+        // 1. Begin Page (initially uses default 0.05 scale)
         BPG_BeginPage bpg = new BPG_BeginPage();
         bpg.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
         handler.handle(bpg);
-        assertEquals(1.0f, handler.getDefaultScaleY(), 0.001f);
+        assertEquals(0.05f, handler.getDefaultScaleY(), 0.001f);
 
         // 2. Page Descriptor (1440 DPI -> 720/14400 = 0.05 scale)
         PGD_PageDescriptor pgd = new PGD_PageDescriptor();
