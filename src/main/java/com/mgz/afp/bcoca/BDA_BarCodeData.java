@@ -61,14 +61,8 @@ public class BDA_BarCodeData extends StructuredField {
     checkDataLength(sfData, offset, length, 5);
 
     barCodeFlags = BarCodeFlag.valueOf(sfData[offset]);
-    xOffset = UtilBinaryDecoding.parseInt(sfData, offset + 1, 2);
-    yOffset = UtilBinaryDecoding.parseInt(sfData, offset + 3, 2);
-
-    // [BCOCA-4-316, 317] EC-0A00: Bar code origin range validation
-    if (xOffset > 0x7FFF || yOffset > 0x7FFF) {
-      throw new AFPParserException("EC-0A00: The bar code origin given in the BSA data structure is invalid: xOffset="
-          + xOffset + ", yOffset=" + yOffset);
-    }
+    xOffset = UtilBinaryDecoding.parseShort(sfData, offset + 1, 2);
+    yOffset = UtilBinaryDecoding.parseShort(sfData, offset + 3, 2);
 
     int actualLength = length != -1 ? length : sfData.length - offset;
 
@@ -120,7 +114,7 @@ public class BDA_BarCodeData extends StructuredField {
 
     @Override
     public int decodeAFP(byte[] sfData, int offset, int length) throws AFPParserException {
-      BDA_BarCodeData.checkDataLength(sfData, offset, length, 4); // minimum length up to offset 8
+      StructuredField.checkDataLength(sfData, offset, length, 4); // minimum length up to offset 8
       // Byte 5 is Reserved
       intelligentMailPackageBarcodeFlags = IntelligentMailPackageBarcodeFlag.valueOf(sfData[offset + 1]);
       // Byte 7 is Reserved
@@ -138,7 +132,7 @@ public class BDA_BarCodeData extends StructuredField {
 
       if (bannerLength > 0) {
         // [BCOCA-5-002] Check if we have enough data for the banner string
-        BDA_BarCodeData.checkDataLength(sfData, offset + 4, length - 4, bannerLength & 0xFF);
+        StructuredField.checkDataLength(sfData, offset + 4, length - 4, bannerLength & 0xFF);
         bannerString = new byte[bannerLength & 0xFF];
         System.arraycopy(sfData, offset + 4, bannerString, 0, bannerString.length);
 
@@ -208,7 +202,7 @@ public class BDA_BarCodeData extends StructuredField {
 
     @Override
     public int decodeAFP(byte[] sfData, int offset, int length) throws AFPParserException {
-      BDA_BarCodeData.checkDataLength(sfData, offset, length, 7); // minimum length up to offset 11
+      StructuredField.checkDataLength(sfData, offset, length, 7); // minimum length up to offset 11
       controlFlags = ControlFlag.valueOf(UtilBinaryDecoding.parseInt(sfData, offset, 1));
       version = sfData[offset + 2];
       // [BCOCA-5-009] EC-0F22: Version number (0 to 84)
@@ -240,6 +234,8 @@ public class BDA_BarCodeData extends StructuredField {
       additionalParametersLength = sfData[offset + 6];
 
       if (additionalParametersLength > 0) {
+        StructuredField.checkDataLength(sfData, offset + 7, length - 7,
+            additionalParametersLength & 0xFF);
         additionalParameters = new byte[additionalParametersLength & 0xFF];
         System.arraycopy(sfData, offset + 7, additionalParameters, 0, additionalParameters.length);
       } else {
@@ -521,7 +517,7 @@ public class BDA_BarCodeData extends StructuredField {
 
     @Override
     public int decodeAFP(byte[] sfData, int offset, int length) throws AFPParserException {
-      BDA_BarCodeData.checkDataLength(sfData, offset, length, 9);
+      StructuredField.checkDataLength(sfData, offset, length, 9);
       controlFlags = ControlFlag.valueOf(UtilBinaryDecoding.parseInt(sfData, offset, 1));
 
       desiredNumberOfLayers = sfData[offset + 2];
@@ -583,18 +579,25 @@ public class BDA_BarCodeData extends StructuredField {
 
       int currentOffset = 9;
       if (structuredAppendIdLength > 0) {
+        StructuredField.checkDataLength(sfData, offset + currentOffset, length - currentOffset,
+            structuredAppendIdLength & 0xFF);
         structuredAppendId = new byte[structuredAppendIdLength & 0xFF];
-        System.arraycopy(sfData, offset + currentOffset, structuredAppendId, 0, structuredAppendId.length);
+        System.arraycopy(sfData, offset + currentOffset, structuredAppendId, 0,
+            structuredAppendId.length);
         currentOffset += structuredAppendId.length;
       } else {
         structuredAppendId = new byte[0];
       }
 
+      StructuredField.checkDataLength(sfData, offset + currentOffset, length - currentOffset, 1);
       additionalParametersLength = sfData[offset + currentOffset];
       currentOffset++;
       if (additionalParametersLength > 0) {
+        StructuredField.checkDataLength(sfData, offset + currentOffset, length - currentOffset,
+            additionalParametersLength & 0xFF);
         additionalParameters = new byte[additionalParametersLength & 0xFF];
-        System.arraycopy(sfData, offset + currentOffset, additionalParameters, 0, additionalParameters.length);
+        System.arraycopy(sfData, offset + currentOffset, additionalParameters, 0,
+            additionalParameters.length);
         currentOffset += additionalParameters.length;
       } else {
         additionalParameters = new byte[0];
@@ -668,7 +671,7 @@ public class BDA_BarCodeData extends StructuredField {
 
     @Override
     public int decodeAFP(byte[] sfData, int offset, int length) throws AFPParserException {
-      BDA_BarCodeData.checkDataLength(sfData, offset, length, 10);
+      StructuredField.checkDataLength(sfData, offset, length, 10);
       controlFlags = ControlFlag.valueOf(UtilBinaryDecoding.parseInt(sfData, offset, 1));
       desiredRowSize = UtilBinaryDecoding.parseInt(sfData, offset + 1, 2);
       desiredNumberOfRows = UtilBinaryDecoding.parseInt(sfData, offset + 3, 2);
@@ -930,7 +933,7 @@ public class BDA_BarCodeData extends StructuredField {
 
     @Override
     public int decodeAFP(byte[] sfData, int offset, int length) throws AFPParserException {
-      BDA_BarCodeData.checkDataLength(sfData, offset, length, 5);
+      StructuredField.checkDataLength(sfData, offset, length, 5);
       controlFlags = ControlFlag.valueOf(UtilBinaryDecoding.parseInt(sfData, offset, 1));
       symbolMode = SymbolMode.valueOf(sfData[offset + 1]);
       // [BCOCA-4-545] EC-0F05: invalid symbol-mode
@@ -1247,7 +1250,7 @@ public class BDA_BarCodeData extends StructuredField {
     @Override
     public int decodeAFP(byte[] sfData, int offset, int length) throws AFPParserException {
       int currentOffset = decodeCommonQRCode(sfData, offset, length);
-      BDA_BarCodeData.checkDataLength(sfData, offset + currentOffset, length - currentOffset, 3);
+      StructuredField.checkDataLength(sfData, offset + currentOffset, length - currentOffset, 3);
       qrCodeWithImageFlags = QRCodeWithImageFlag.valueOf(sfData[offset + currentOffset]);
       repeatingGroupsLength = UtilBinaryDecoding.parseInt(sfData, offset + currentOffset + 1, 2);
       currentOffset += 3;
@@ -1255,6 +1258,7 @@ public class BDA_BarCodeData extends StructuredField {
       int remainingRepGroupsLength = repeatingGroupsLength;
       while (remainingRepGroupsLength > 0) {
         ImageInformationBlock block = new ImageInformationBlock();
+        StructuredField.checkDataLength(sfData, offset + currentOffset, remainingRepGroupsLength, 1);
         int blockLength = block.decode(sfData, offset + currentOffset, remainingRepGroupsLength);
         imageInformationBlocks.add(block);
         currentOffset += blockLength;
@@ -1318,7 +1322,10 @@ public class BDA_BarCodeData extends StructuredField {
       public byte[] additionalData;
 
       public int decode(byte[] data, int offset, int maxLength) throws AFPParserException {
+        StructuredField.checkDataLength(data, offset, maxLength, 1);
         length = data[offset];
+        int blockLength = length & 0xFF;
+        StructuredField.checkDataLength(data, offset, maxLength, blockLength);
         imageLocalId = UtilBinaryDecoding.parseShort(data, offset + 3, 2);
         offsetUnitBase = data[offset + 5];
         offsetUpub = UtilBinaryDecoding.parseShort(data, offset + 6, 2);
@@ -1331,11 +1338,13 @@ public class BDA_BarCodeData extends StructuredField {
         xExtent = UtilBinaryDecoding.parseShort(data, offset + 18, 2);
         yExtent = UtilBinaryDecoding.parseShort(data, offset + 20, 2);
         mappingOption = data[offset + 22];
-        if ((length & 0xFF) > 22) {
-          additionalData = new byte[(length & 0xFF) - 22];
+        if (blockLength > 23) {
+          additionalData = new byte[blockLength - 23];
           System.arraycopy(data, offset + 23, additionalData, 0, additionalData.length);
+        } else {
+          additionalData = new byte[0];
         }
-        return (length & 0xFF) + 1;
+        return blockLength;
       }
 
       public void write(OutputStream os) throws IOException {

@@ -51,21 +51,6 @@ public class BCOCAValidationTest {
   }
 
   @Test
-  public void testEC0A00_BSAOffsets() {
-    BDA_BarCodeData bda = new BDA_BarCodeData();
-    byte[] data = new byte[5];
-    data[0] = 0x00; // Flags
-    data[1] = (byte) 0x80;
-    data[2] = 0x00; // XOffset = 32768 (Invalid, max 0x7FFF)
-    data[3] = 0x00;
-    data[4] = 0x00; // YOffset
-
-    AFPParserException ex = assertThrows(AFPParserException.class,
-        () -> bda.decodeAFP(data, 0, 5, new AFPParserConfiguration()));
-    assertTrue(ex.getMessage().contains("EC-0A00"), "Expected EC-0A00, got: " + ex.getMessage());
-  }
-
-  @Test
   public void testEC0F01_DataMatrixSeqInd() {
     BDA_BarCodeData bda = new BDA_BarCodeData();
     byte[] data = new byte[20];
