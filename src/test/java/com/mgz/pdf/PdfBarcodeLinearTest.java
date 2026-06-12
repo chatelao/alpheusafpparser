@@ -244,4 +244,83 @@ public class PdfBarcodeLinearTest {
     assertEquals(26, canvas.rectangles.size(),
         "Expected 26 bars but got " + canvas.rectangles.size());
   }
+
+  @Test
+  public void testUpcSupplemental2() {
+    PdfBarcodeState state = new PdfBarcodeState();
+    state.setBarcodeType(BarCodeType.UPC_TwoDigit_Supplemental_Periodicals);
+
+    BDA_BarCodeData bda = new BDA_BarCodeData() {
+      @Override
+      public String getText() {
+        return "12";
+      }
+    };
+    state.addBarcodeData(bda);
+
+    PdfCanvasStub canvas = new PdfCanvasStub();
+    PdfBarcodeRenderer.render(state, canvas);
+
+    // Start: 1011 (3 bars)
+    // Digit 1: 7 modules (some number of bars)
+    // Separator: 01 (1 bar)
+    // Digit 2: 7 modules (some number of bars)
+    // Let's see: digits "1" and "2".
+    // 2-digit parity for "12": val=12, val%4 = 0 -> "LL"
+    // Digit "1" (L): "0001101" -> 2 bars
+    // Digit "2" (L): "0011001" -> 2 bars
+    // Total bars: 3 (start) + 3 (digit 1: '1' L-parity) + 1 (separator) + 3 (digit 2: '2' L-parity) = 10 bars.
+    // Parity for 12: val%4 = 0 -> "LL"
+    // '1' (L): "0001101" -> 3 ones (0001101 -> wait, 11 and 1. 2 segments!)
+    // Let's re-count "0001101": 000 (space), 11 (bar), 0 (space), 1 (bar). Correct, 2 bars.
+    // What is `renderBitPattern` doing?
+    // It iterates through the string and for each '1' it calls canvas.rectangle().
+    // "1011" -> '1', '0', '1', '1' -> 3 bars.
+    // Digit "1" (L): "0001101" -> '1' at index 3, 4, 6. 3 bars.
+    // Digit "2" (L): "0011001" -> '1' at index 2, 3, 6. 3 bars.
+    // Total bars: 3 (start) + 3 (d1) + 1 (sep "01") + 3 (d2) = 10 bars.
+    assertEquals(10, canvas.rectangles.size(), "Actual bars: " + canvas.rectangles.size());
+  }
+
+  @Test
+  public void testUpcSupplemental5() {
+    PdfBarcodeState state = new PdfBarcodeState();
+    state.setBarcodeType(BarCodeType.UPC_FiveDigit_Supplemental_Paperbacks);
+
+    BDA_BarCodeData bda = new BDA_BarCodeData() {
+      @Override
+      public String getText() {
+        return "12345";
+      }
+    };
+    state.addBarcodeData(bda);
+
+    PdfCanvasStub canvas = new PdfCanvasStub();
+    PdfBarcodeRenderer.render(state, canvas);
+
+    // Start: 1011 (3 bars)
+    // 5 digits, each 7 modules + 4 separators of 2 modules (01)
+    // Total bars = 3 + bars(d1) + 1 + bars(d2) + 1 + bars(d3) + 1 + bars(d4) + 1 + bars(d5)
+    // Parity for "12345":
+    // sum = (1*3 + 2*9 + 3*3 + 4*9 + 5*3) = 3 + 18 + 9 + 36 + 15 = 81
+    // sum % 10 = 1 -> "GLGLL"
+    // Digit 1 (G) '1': "0110011" -> 2 bars
+    // Digit 2 (L) '2': "0011001" -> 2 bars
+    // Digit 3 (G) '3': "0100001" -> 2 bars
+    // Digit 4 (L) '4': "0100011" -> 2 bars
+    // Digit 5 (L) '5': "0110001" -> 2 bars
+    // Total bars:
+    // Start "1011": 3 bars
+    // Digit 1 (G) '1': "0110011" -> 4 bars
+    // Sep "01": 1 bar
+    // Digit 2 (L) '2': "0011001" -> 3 bars
+    // Sep "01": 1 bar
+    // Digit 3 (G) '3': "0100001" -> 2 bars
+    // Sep "01": 1 bar
+    // Digit 4 (L) '4': "0100011" -> 3 bars
+    // Sep "01": 1 bar
+    // Digit 5 (L) '5': "0110001" -> 3 bars
+    // Total: 3 + 4 + 1 + 3 + 1 + 2 + 1 + 3 + 1 + 3 = 22 bars.
+    assertEquals(22, canvas.rectangles.size(), "Actual bars: " + canvas.rectangles.size());
+  }
 }

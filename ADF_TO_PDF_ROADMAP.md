@@ -135,7 +135,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **EAN-8 / EAN-13**: Implement rendering for EAN-8 and EAN-13 barcodes.
         - ✅ **Code 128 (Subsets A, B, C)**: Implement rendering for Code 128 (Subsets A, B, C) barcodes.
         - ✅ **UPC-E**: Implement rendering for UPC-E barcodes.
-        - ⏳ **Supplemental Linear Barcodes**: Implement support for UPC and EAN supplemental barcodes (2-digit and 5-digit).
+        - ✅ **Supplemental Linear Barcodes**: Implement support for UPC and EAN supplemental barcodes (2-digit and 5-digit).
     - 🚧 **2D Barcode Support**:
         - ✅ **QR Code**: Implement rendering for QR Code barcodes (Type 0x20).
             - ✅ **Model 2 Support**: Implement standard QR Code Model 2. (iText default).

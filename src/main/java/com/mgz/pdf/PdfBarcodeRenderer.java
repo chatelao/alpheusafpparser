@@ -81,6 +81,13 @@ public class PdfBarcodeRenderer {
       "OEEOOE", "OEEEOO", "OEOEOO", "OEOOOE", "OEEOOO"
   };
 
+  private static final String[] UPC_SUPP_2_PARITY = {"LL", "LG", "GL", "GG"};
+
+  private static final String[] UPC_SUPP_5_PARITY = {
+      "GGLLL", "GLGLL", "GLLGL", "GLLLG", "LGGLL",
+      "LLGGL", "LLLGG", "LGLGL", "LGLLG", "LLGLG"
+  };
+
   private static final String[] CODE128_PATTERNS = {
       "212222", "222122", "222221", "121223", "121322", "131222", "122213", "122312", "132212", "221213",
       "221312", "231212", "112232", "122132", "122231", "113222", "123122", "123221", "223211", "221132",
@@ -270,6 +277,14 @@ public class PdfBarcodeRenderer {
           break;
         case EAN_13_includingJANStandard:
           totalWidth = renderEan13(content, startX, startY, state, canvas);
+          break;
+        case UPC_TwoDigit_Supplemental_Periodicals:
+        case EAN_TwoDigit_Supplemental:
+          totalWidth = renderUpcEanSupplemental(content, startX, startY, 2, state, canvas);
+          break;
+        case UPC_FiveDigit_Supplemental_Paperbacks:
+        case EAN_FiveDigit_Supplemental:
+          totalWidth = renderUpcEanSupplemental(content, startX, startY, 5, state, canvas);
           break;
         case Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode:
           totalWidth = renderCode128(content, startX, startY, state, canvas);
@@ -765,6 +780,64 @@ public class PdfBarcodeRenderer {
     // Stop pattern: 101
     renderBitPattern("101", curX, curY, height, narrowWidth, canvas);
     curX += 3 * narrowWidth;
+
+    canvas.restoreState();
+    return curX - x;
+  }
+
+  private static float renderUpcEanSupplemental(String content, int x, int y, int expectedLen,
+      PdfBarcodeState state, PdfCanvas canvas) {
+    String digits = content.replaceAll("[^0-9]", "");
+    if (digits.length() < expectedLen) {
+      return 0;
+    }
+    if (digits.length() > expectedLen) {
+      digits = digits.substring(0, expectedLen);
+    }
+
+    float narrowWidth = state.getModuleWidthInMils() * 1.44f;
+    if (narrowWidth <= 0) {
+      narrowWidth = 20.0f;
+    }
+
+    float height = state.getElementHeight();
+    if (height <= 0) {
+      height = 500.0f;
+    }
+
+    canvas.saveState();
+    float curX = x;
+    float curY = y;
+
+    // Start pattern: 1011
+    renderBitPattern("1011", curX, curY, height, narrowWidth, canvas);
+    curX += 4 * narrowWidth;
+
+    String parity;
+    if (expectedLen == 2) {
+      int val = Integer.parseInt(digits);
+      parity = UPC_SUPP_2_PARITY[val % 4];
+    } else {
+      int sum = 0;
+      for (int i = 0; i < 5; i++) {
+        int d = digits.charAt(i) - '0';
+        sum += (i % 2 == 0) ? d * 3 : d * 9;
+      }
+      parity = UPC_SUPP_5_PARITY[sum % 10];
+    }
+
+    for (int i = 0; i < expectedLen; i++) {
+      char p = parity.charAt(i);
+      String pattern = (p == 'L') ? UPCA_L_PATTERNS[digits.charAt(i) - '0'] : UPCA_G_PATTERNS[digits.charAt(i) - '0'];
+      renderBitPattern(pattern, curX, curY, height, narrowWidth, canvas);
+      curX += 7 * narrowWidth;
+
+      if (i < expectedLen - 1) {
+        // Separator: 01
+        renderBitPattern("01", curX, curY, height, narrowWidth, canvas);
+        curX += 2 * narrowWidth;
+      }
+    }
 
     canvas.restoreState();
     return curX - x;
