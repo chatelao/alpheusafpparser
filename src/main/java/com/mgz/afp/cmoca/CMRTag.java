@@ -85,7 +85,8 @@ public class CMRTag {
       int tagId = UtilBinaryDecoding.parseInt(cmrData, offset, 2);
       // [CMOCA-5-018] The tags in a CMR must be specified in increasing order by their TagIDs.
       if (tagId <= lastTagId && tagId != 0xFFFF) {
-        throw new AFPParserException(String.format("EC-%04X0F: CMR tags must be in increasing order. Found 0x%04X after 0x%04X", tagId, tagId, lastTagId));
+        throw new AFPParserException(String.format("EC-%04X0F: CMR tags must be in increasing "
+            + "order. Found 0x%04X after 0x%04X", tagId, tagId, lastTagId));
       }
 
       int reserved = cmrData[offset + 2] & 0xFF;
@@ -116,16 +117,19 @@ public class CMRTag {
         byte[] tagData = new byte[dataLength];
         if (dataLength <= 4) {
           // Data is inline in ValueOffset field, left-aligned
-          // [CMOCA-5-028] Invalid Value: an offset that causes the tag data to start or end outside of the CMRData field
+          // [CMOCA-5-028] Invalid Value: an offset that causes the tag data to start or end
+          // outside of the CMRData field
           if (currentTagOffset + 8 + dataLength > cmrData.length) {
-            throw new AFPParserException(String.format("EC-%04X10: Tag 0x%04X inline data is outside CMRData", tag.getTagId(), tag.getTagId()));
+            throw new AFPParserException(String.format("EC-%04X10: Tag 0x%04X inline data is "
+                + "outside CMRData", tag.getTagId(), tag.getTagId()));
           }
           System.arraycopy(cmrData, currentTagOffset + 8, tagData, 0, dataLength);
         } else {
           // Data is at valueOffset
-          // [CMOCA-5-028] EC-xxxx10 Invalid Value: offset causes data to be outside CMR (CMRData field)
+          // [CMOCA-5-028] EC-xxxx10 Invalid Value: offset causes data to be outside CMR
           if (tag.getValueOffset() + dataLength > cmrData.length) {
-            throw new AFPParserException(String.format("EC-%04X10: Tag 0x%04X data offset %d with length %d is outside CMRData (total length %d)",
+            throw new AFPParserException(String.format("EC-%04X10: Tag 0x%04X data offset %d "
+                + "with length %d is outside CMRData (total length %d)",
                 tag.getTagId(), tag.getTagId(), tag.getValueOffset(), dataLength, cmrData.length));
           }
           System.arraycopy(cmrData, (int) tag.getValueOffset(), tagData, 0, dataLength);
@@ -200,115 +204,179 @@ public class CMRTag {
       case 0x0004: // Comment [CMOCA-5-035]
         // [CMOCA-5-039] EC-000406 Invalid Field Type
         if (fieldType != 0x06 && fieldType != 0x07) {
-          throw new AFPParserException(String.format("EC-000406: Invalid Field Type 0x%02X for Comment tag", fieldType));
+          throw new AFPParserException(String.format("EC-000406: Invalid Field Type 0x%02X for "
+              + "Comment tag", fieldType));
         }
         break;
 
       case 0x0008: // Date and Time Stamp [CMOCA-5-042]
         // [CMOCA-5-065] EC-000805 Invalid Count Value
         if (count != 10) {
-          throw new AFPParserException(String.format("EC-000805: Invalid Count %d for Date/Time tag", count));
+          throw new AFPParserException(String.format("EC-000805: Invalid Count %d for Date/Time "
+              + "tag", count));
         }
         // [CMOCA-5-066] EC-000806 Invalid Field Type
         if (fieldType != 0x05) {
-          throw new AFPParserException(String.format("EC-000806: Invalid Field Type 0x%02X for Date/Time tag", fieldType));
+          throw new AFPParserException(String.format("EC-000806: Invalid Field Type 0x%02X for "
+              + "Date/Time tag", fieldType));
+        }
+        // [CMOCA-5-068] EC-000810 Invalid Value
+        if (data != null && data.length >= 10) {
+          int month = data[2] & 0xFF;
+          if (month < 1 || month > 12) {
+            throw new AFPParserException(String.format("EC-000810: Invalid Month %d in Date/Time "
+                + "tag", month));
+          }
+          int day = data[3] & 0xFF;
+          if (day < 1 || day > 31) {
+            throw new AFPParserException(String.format("EC-000810: Invalid Day %d in Date/Time "
+                + "tag", day));
+          }
+          int hour = data[4] & 0xFF;
+          if (hour > 23) {
+            throw new AFPParserException(String.format("EC-000810: Invalid Hour %d in Date/Time "
+                + "tag", hour));
+          }
+          int minute = data[5] & 0xFF;
+          if (minute > 59) {
+            throw new AFPParserException(String.format("EC-000810: Invalid Minute %d in Date/Time "
+                + "tag", minute));
+          }
+          int second = data[6] & 0xFF;
+          if (second > 59) {
+            throw new AFPParserException(String.format("EC-000810: Invalid Second %d in Date/Time "
+                + "tag", second));
+          }
+          int tz = data[7] & 0xFF;
+          if (tz > 2) {
+            throw new AFPParserException(String.format("EC-000810: Invalid TimeZone %d in "
+                + "Date/Time tag", tz));
+          }
+          int diffH = data[8] & 0xFF;
+          if (diffH > 23) {
+            throw new AFPParserException(String.format("EC-000810: Invalid UTCDiffH %d in "
+                + "Date/Time tag", diffH));
+          }
+          int diffM = data[9] & 0xFF;
+          if (diffM > 59) {
+            throw new AFPParserException(String.format("EC-000810: Invalid UTCDiffM %d in "
+                + "Date/Time tag", diffM));
+          }
         }
         break;
 
       case 0x0011: // Number of Components [CMOCA-5-069]
         // [CMOCA-5-088] EC-001105 Invalid Count Value
         if (count != 1) {
-          throw new AFPParserException(String.format("EC-001105: Invalid Count %d for Number of Components tag", count));
+          throw new AFPParserException(String.format("EC-001105: Invalid Count %d for Number of "
+              + "Components tag", count));
         }
         // [CMOCA-5-089] EC-001106 Invalid Field Type
         if (fieldType != 0x01) {
-          throw new AFPParserException(String.format("EC-001106: Invalid Field Type 0x%02X for Number of Components tag", fieldType));
+          throw new AFPParserException(String.format("EC-001106: Invalid Field Type 0x%02X for "
+              + "Number of Components tag", fieldType));
         }
         // [CMOCA-5-091] EC-001110 Invalid Value: number of components is zero or greater than 15.
         if (data != null && data.length > 0) {
           int components = data[0] & 0xFF;
           if (components == 0 || components > 15) {
-            throw new AFPParserException(String.format("EC-001110: Invalid Number of Components value %d (expected 1-15)", components));
+            throw new AFPParserException(String.format("EC-001110: Invalid Number of Components "
+                + "value %d (expected 1-15)", components));
           }
         }
         break;
 
       case 0x5011: // Indexed Subset [CMOCA-5-265]
         if (count != 1) {
-          throw new AFPParserException(String.format("EC-501105: Invalid Count %d for Indexed Subset tag", count));
+          throw new AFPParserException(String.format("EC-501105: Invalid Count %d for Indexed "
+              + "Subset tag", count));
         }
         if (fieldType != 0x08) {
-          throw new AFPParserException(String.format("EC-501106: Invalid Field Type 0x%02X for Indexed Subset tag", fieldType));
+          throw new AFPParserException(String.format("EC-501106: Invalid Field Type 0x%02X for "
+              + "Indexed Subset tag", fieldType));
         }
         // [CMOCA-5-268] EC-501110 Invalid Value
         if (data != null && data.length > 0) {
           int subset = data[0] & 0xFF;
           if (subset != 0x01) {
-            throw new AFPParserException(String.format("EC-501110: Invalid Indexed Subset value 0x%02X (expected 0x01)", subset));
+            throw new AFPParserException(String.format("EC-501110: Invalid Indexed Subset "
+                + "value 0x%02X (expected 0x01)", subset));
           }
         }
         break;
 
       case 0x4011: // Link Color Conversion Subset [CMOCA-5-221]
         if (count != 1) {
-          throw new AFPParserException(String.format("EC-401105: Invalid Count %d for Link Color Conversion Subset tag", count));
+          throw new AFPParserException(String.format("EC-401105: Invalid Count %d for Link "
+              + "Color Conversion Subset tag", count));
         }
         if (fieldType != 0x08) {
-          throw new AFPParserException(String.format("EC-401106: Invalid Field Type 0x%02X for Link Color Conversion Subset tag", fieldType));
+          throw new AFPParserException(String.format("EC-401106: Invalid Field Type 0x%02X for "
+              + "Link Color Conversion Subset tag", fieldType));
         }
         // [CMOCA-5-224..226] EC-401110 Invalid Value
         if (data != null && data.length > 0) {
           int subset = data[0] & 0xFF;
           if (subset < 0x01 || subset > 0x03) {
-            throw new AFPParserException(String.format("EC-401110: Invalid Link Color Conversion Subset value 0x%02X (expected 0x01 to 0x03)", subset));
+            throw new AFPParserException(String.format("EC-401110: Invalid Link Color Conversion "
+                + "Subset value 0x%02X (expected 0x01 to 0x03)", subset));
           }
         }
         break;
 
       case 0x2004: // Tone Transfer Curve Subset [CMOCA-5-168]
         if (count != 1) {
-          throw new AFPParserException(String.format("EC-200405: Invalid Count %d for Tone Transfer Curve Subset tag", count));
+          throw new AFPParserException(String.format("EC-200405: Invalid Count %d for Tone "
+              + "Transfer Curve Subset tag", count));
         }
         if (fieldType != 0x08) {
-          throw new AFPParserException(String.format("EC-200406: Invalid Field Type 0x%02X for Tone Transfer Curve Subset tag", fieldType));
+          throw new AFPParserException(String.format("EC-200406: Invalid Field Type 0x%02X for "
+              + "Tone Transfer Curve Subset tag", fieldType));
         }
         // [CMOCA-5-171/172] EC-200410 Invalid Value
         if (data != null && data.length > 0) {
           int subset = data[0] & 0xFF;
           if (subset != 0x01 && subset != 0x02) {
-            throw new AFPParserException(String.format("EC-200410: Invalid Tone Transfer Curve Subset value 0x%02X (expected 0x01 or 0x02)", subset));
+            throw new AFPParserException(String.format("EC-200410: Invalid Tone Transfer Curve "
+                + "Subset value 0x%02X (expected 0x01 or 0x02)", subset));
           }
         }
         break;
 
       case 0x3011: // ICC Profile Subset [CMOCA-5-184]
         if (count != 1) {
-          throw new AFPParserException(String.format("EC-301105: Invalid Count %d for ICC Profile Subset tag", count));
+          throw new AFPParserException(String.format("EC-301105: Invalid Count %d for ICC "
+              + "Profile Subset tag", count));
         }
         if (fieldType != 0x08) {
-          throw new AFPParserException(String.format("EC-301106: Invalid Field Type 0x%02X for ICC Profile Subset tag", fieldType));
+          throw new AFPParserException(String.format("EC-301106: Invalid Field Type 0x%02X for "
+              + "ICC Profile Subset tag", fieldType));
         }
         // [CMOCA-5-187..196] EC-301110 Invalid Value
         if (data != null && data.length > 0) {
           int subset = data[0] & 0xFF;
           if (subset < 0x01 || subset > 0x0A) { // 0x01 to 0x0A (Retired item 3 is 0x0A)
-            throw new AFPParserException(String.format("EC-301110: Invalid ICC Profile Subset value 0x%02X (expected 0x01 to 0x0A)", subset));
+            throw new AFPParserException(String.format("EC-301110: Invalid ICC Profile Subset "
+                + "value 0x%02X (expected 0x01 to 0x0A)", subset));
           }
         }
         break;
 
       case 0x1011: // Halftone Subset [CMOCA-5-092]
         if (count != 1) {
-          throw new AFPParserException(String.format("EC-101105: Invalid Count %d for Halftone Subset tag", count));
+          throw new AFPParserException(String.format("EC-101105: Invalid Count %d for Halftone "
+              + "Subset tag", count));
         }
         if (fieldType != 0x08) {
-          throw new AFPParserException(String.format("EC-101106: Invalid Field Type 0x%02X for Halftone Subset tag", fieldType));
+          throw new AFPParserException(String.format("EC-101106: Invalid Field Type 0x%02X for "
+              + "Halftone Subset tag", fieldType));
         }
         // [CMOCA-5-100] EC-101110 Invalid Value
         if (data != null && data.length > 0) {
           int subset = data[0] & 0xFF;
           if (subset < 0x01 || subset > 0x04) {
-            throw new AFPParserException(String.format("EC-101110: Invalid Halftone Subset value 0x%02X", subset));
+            throw new AFPParserException(String.format("EC-101110: Invalid Halftone Subset "
+                + "value 0x%02X", subset));
           }
         }
         break;
@@ -316,78 +384,91 @@ public class CMRTag {
       case 0x1030: // Max Image Value [CMOCA-5-109]
         // [CMOCA-5-110] Field Type: X'01', X'02', or X'04'
         if (fieldType != 0x01 && fieldType != 0x02 && fieldType != 0x04) {
-          throw new AFPParserException(String.format("EC-103006: Invalid Field Type 0x%02X for Max Image Value tag", fieldType));
+          throw new AFPParserException(String.format("EC-103006: Invalid Field Type 0x%02X for Max "
+              + "Image Value tag", fieldType));
         }
         // [CMOCA-5-111] Count: Number of color components
         numComponents = getNumberOfComponents(allTags);
         if (count != numComponents) {
-          throw new AFPParserException(String.format("EC-103005: Invalid Count %d for Max Image Value tag (expected %d)", count, numComponents));
+          throw new AFPParserException(String.format("EC-103005: Invalid Count %d for Max Image "
+              + "Value tag (expected %d)", count, numComponents));
         }
         break;
 
       case 0x1035: // Number of Device Levels [CMOCA-5-113]
         // [CMOCA-5-114] Field Type: X'01'
         if (fieldType != 0x01) {
-          throw new AFPParserException(String.format("EC-103506: Invalid Field Type 0x%02X for Number of Device Levels tag", fieldType));
+          throw new AFPParserException(String.format("EC-103506: Invalid Field Type 0x%02X for "
+              + "Number of Device Levels tag", fieldType));
         }
         // [CMOCA-5-115] Count: Number of color components
         numComponents = getNumberOfComponents(allTags);
         if (count != numComponents) {
-          throw new AFPParserException(String.format("EC-103505: Invalid Count %d for Number of Device Levels tag (expected %d)", count, numComponents));
+          throw new AFPParserException(String.format("EC-103505: Invalid Count %d for Number of "
+              + "Device Levels tag (expected %d)", count, numComponents));
         }
         break;
 
       case 0x1060: // Location of Current Pixel [CMOCA-5-135]
         // [CMOCA-5-136] Field Type: X'01' (1-byte UBIN)
         if (fieldType != 0x01) {
-          throw new AFPParserException(String.format("EC-106006: Invalid Field Type 0x%02X for Location of Current Pixel tag", fieldType));
+          throw new AFPParserException(String.format("EC-106006: Invalid Field Type 0x%02X for "
+              + "Location of Current Pixel tag", fieldType));
         }
         // [CMOCA-5-137] Count: 2 * number of color components
         numComponents = getNumberOfComponents(allTags);
         if (count != 2L * numComponents) {
-          throw new AFPParserException(String.format("EC-106005: Invalid Count %d for Location of Current Pixel tag (expected %d)", count, 2 * numComponents));
+          throw new AFPParserException(String.format("EC-106005: Invalid Count %d for Location of "
+              + "Current Pixel tag (expected %d)", count, 2 * numComponents));
         }
         break;
 
       case 0x1075: // Threshold Value [CMOCA-5-152]
         // [CMOCA-5-153] Field Type: X'01', X'02', or X'04'
         if (fieldType != 0x01 && fieldType != 0x02 && fieldType != 0x04) {
-          throw new AFPParserException(String.format("EC-107506: Invalid Field Type 0x%02X for Threshold Value tag", fieldType));
+          throw new AFPParserException(String.format("EC-107506: Invalid Field Type 0x%02X for "
+              + "Threshold Value tag", fieldType));
         }
         // [CMOCA-5-154] Count: Number of color components
         numComponents = getNumberOfComponents(allTags);
         if (count != numComponents) {
-          throw new AFPParserException(String.format("EC-107505: Invalid Count %d for Threshold Value tag (expected %d)", count, numComponents));
+          throw new AFPParserException(String.format("EC-107505: Invalid Count %d for Threshold "
+              + "Value tag (expected %d)", count, numComponents));
         }
         break;
 
       case 0x1040: // Offset Tiling [CMOCA-5-117]
         // [CMOCA-5-118] Field Type: X'01' or X'02'
         if (fieldType != 0x01 && fieldType != 0x02) {
-          throw new AFPParserException(String.format("EC-104006: Invalid Field Type 0x%02X for Offset Tiling tag", fieldType));
+          throw new AFPParserException(String.format("EC-104006: Invalid Field Type 0x%02X for "
+              + "Offset Tiling tag", fieldType));
         }
         // [CMOCA-5-119] Count: Number of color components
         numComponents = getNumberOfComponents(allTags);
         if (count != numComponents) {
-          throw new AFPParserException(String.format("EC-104005: Invalid Count %d for Offset Tiling tag (expected %d)", count, numComponents));
+          throw new AFPParserException(String.format("EC-104005: Invalid Count %d for Offset "
+              + "Tiling tag (expected %d)", count, numComponents));
         }
         break;
 
       case 0x1070: // Boundary Condition [CMOCA-5-145]
         // [CMOCA-5-146] Field Type: X'08' (CODE)
         if (fieldType != 0x08) {
-          throw new AFPParserException(String.format("EC-107006: Invalid Field Type 0x%02X for Boundary Condition tag", fieldType));
+          throw new AFPParserException(String.format("EC-107006: Invalid Field Type 0x%02X for "
+              + "Boundary Condition tag", fieldType));
         }
         // [CMOCA-5-147] Count: Number of color components
         numComponents = getNumberOfComponents(allTags);
         if (count != numComponents) {
-          throw new AFPParserException(String.format("EC-107005: Invalid Count %d for Boundary Condition tag (expected %d)", count, numComponents));
+          throw new AFPParserException(String.format("EC-107005: Invalid Count %d for Boundary "
+              + "Condition tag (expected %d)", count, numComponents));
         }
         // [CMOCA-5-148..151] X'01' to X'04'
         if (data != null && data.length > 0) {
           int bc = data[0] & 0xFF;
           if (bc < 0x01 || bc > 0x04) {
-            throw new AFPParserException(String.format("EC-107010: Invalid Boundary Condition value 0x%02X", bc));
+            throw new AFPParserException(String.format("EC-107010: Invalid Boundary Condition "
+                + "value 0x%02X", bc));
           }
         }
         break;
@@ -396,12 +477,14 @@ public class CMRTag {
       case 0x1025: // Array Height [CMOCA-5-105]
         // [CMOCA-5-102, 106] Field Type: X'01' (1-byte UBIN), X'02' (2-byte UBIN)
         if (fieldType != 0x01 && fieldType != 0x02) {
-          throw new AFPParserException(String.format("EC-%04X06: Invalid Field Type 0x%02X for tag 0x%04X", tagId, fieldType, tagId));
+          throw new AFPParserException(String.format("EC-%04X06: Invalid Field Type 0x%02X for "
+              + "tag 0x%04X", tagId, fieldType, tagId));
         }
         // [CMOCA-5-103, 107] Count: Number of color components
         numComponents = getNumberOfComponents(allTags);
         if (count != numComponents) {
-          throw new AFPParserException(String.format("EC-%04X05: Invalid Count %d for tag 0x%04X (expected %d)", tagId, count, tagId, numComponents));
+          throw new AFPParserException(String.format("EC-%04X05: Invalid Count %d for tag 0x%04X "
+              + "(expected %d)", tagId, count, tagId, numComponents));
         }
         break;
 
@@ -409,11 +492,13 @@ public class CMRTag {
       case 0x1055: // Error Diffusion Filter [CMOCA-5-130]
         if (tagId == 0x1045) {
           if (fieldType != 0x01 && fieldType != 0x02 && fieldType != 0x04) {
-            throw new AFPParserException(String.format("EC-104506: Invalid Field Type 0x%02X for Bilevel Screen Data tag", fieldType));
+            throw new AFPParserException(String.format("EC-104506: Invalid Field Type 0x%02X for "
+                + "Bilevel Screen Data tag", fieldType));
           }
         } else { // 0x1055
           if (fieldType != 0x01) {
-            throw new AFPParserException(String.format("EC-105506: Invalid Field Type 0x%02X for Error Diffusion Filter tag", fieldType));
+            throw new AFPParserException(String.format("EC-105506: Invalid Field Type 0x%02X for "
+                + "Error Diffusion Filter tag", fieldType));
           }
         }
         numComponents = getNumberOfComponents(allTags);
@@ -425,14 +510,16 @@ public class CMRTag {
             expectedSum += (long) widths[i] * heights[i];
           }
           if (count != expectedSum) {
-            throw new AFPParserException(String.format("EC-%04X05: Invalid Count %d for tag 0x%04X (expected %d)", tagId, count, tagId, expectedSum));
+            throw new AFPParserException(String.format("EC-%04X05: Invalid Count %d for tag 0x%04X "
+                + "(expected %d)", tagId, count, tagId, expectedSum));
           }
         }
         break;
 
       case 0x1050: // Multilevel Point-Operation Screen Data [CMOCA-5-126]
         if (fieldType != 0x01) {
-          throw new AFPParserException(String.format("EC-105006: Invalid Field Type 0x%02X for Multilevel Screen Data tag", fieldType));
+          throw new AFPParserException(String.format("EC-105006: Invalid Field Type 0x%02X for "
+              + "Multilevel Screen Data tag", fieldType));
         }
         numComponents = getNumberOfComponents(allTags);
         int[] w = getIntArrayFromTag(allTags, 0x1021, numComponents);
@@ -444,14 +531,16 @@ public class CMRTag {
             expected += (long) w[i] * h[i] * (m[i] + 1);
           }
           if (count != expected) {
-            throw new AFPParserException(String.format("EC-105005: Invalid Count %d for Multilevel Screen Data tag (expected %d)", count, expected));
+            throw new AFPParserException(String.format("EC-105005: Invalid Count %d for Multilevel "
+                + "Screen Data tag (expected %d)", count, expected));
           }
         }
         break;
 
       case 0x1080: // Quantization Boundary Table [CMOCA-5-156]
         if (fieldType != 0x01 && fieldType != 0x02 && fieldType != 0x04) {
-          throw new AFPParserException(String.format("EC-108006: Invalid Field Type 0x%02X for Quantization Boundary Table tag", fieldType));
+          throw new AFPParserException(String.format("EC-108006: Invalid Field Type 0x%02X for "
+              + "Quantization Boundary Table tag", fieldType));
         }
         numComponents = getNumberOfComponents(allTags);
         int[] levels = getIntArrayFromTag(allTags, 0x1035, numComponents);
@@ -461,7 +550,8 @@ public class CMRTag {
             expected += (levels[i] - 1);
           }
           if (count != expected) {
-            throw new AFPParserException(String.format("EC-108005: Invalid Count %d for Quantization Boundary Table tag (expected %d)", count, expected));
+            throw new AFPParserException(String.format("EC-108005: Invalid Count %d for "
+                + "Quantization Boundary Table tag (expected %d)", count, expected));
           }
         }
         break;
@@ -469,18 +559,21 @@ public class CMRTag {
       case 0x1065: // Raster Direction [CMOCA-5-139]
         // [CMOCA-5-140] Field Type: X'08' (CODE)
         if (fieldType != 0x08) {
-          throw new AFPParserException(String.format("EC-106506: Invalid Field Type 0x%02X for Raster Direction tag", fieldType));
+          throw new AFPParserException(String.format("EC-106506: Invalid Field Type 0x%02X for "
+              + "Raster Direction tag", fieldType));
         }
         // [CMOCA-5-141] Count: Number of color components
         numComponents = getNumberOfComponents(allTags);
         if (count != numComponents) {
-          throw new AFPParserException(String.format("EC-106505: Invalid Count %d for Raster Direction tag (expected %d)", count, numComponents));
+          throw new AFPParserException(String.format("EC-106505: Invalid Count %d for Raster "
+              + "Direction tag (expected %d)", count, numComponents));
         }
         // [CMOCA-5-142, 143] X'01' Normal raster, X'02' Serpentine raster
         if (data != null && data.length > 0) {
           int dir = data[0] & 0xFF;
           if (dir != 0x01 && dir != 0x02) {
-            throw new AFPParserException(String.format("EC-106510: Invalid Raster Direction value 0x%02X", dir));
+            throw new AFPParserException(String.format("EC-106510: Invalid Raster Direction "
+                + "value 0x%02X", dir));
           }
         }
         break;
@@ -488,19 +581,22 @@ public class CMRTag {
       case 0x2011: // TTC Length [CMOCA-5-173]
         // [CMOCA-5-174] Field Type: X'08' (CODE)
         if (fieldType != 0x08) {
-          throw new AFPParserException(String.format("EC-201106: Invalid Field Type 0x%02X for TTC Length tag", fieldType));
+          throw new AFPParserException(String.format("EC-201106: Invalid Field Type 0x%02X for "
+              + "TTC Length tag", fieldType));
         }
         // [CMOCA-5-175] Count: Number of color components
         numComponents = getNumberOfComponents(allTags);
         if (count != numComponents) {
-          throw new AFPParserException(String.format("EC-201105: Invalid Count %d for TTC Length tag (expected %d)", count, numComponents));
+          throw new AFPParserException(String.format("EC-201105: Invalid Count %d for TTC Length "
+              + "tag (expected %d)", count, numComponents));
         }
         // [CMOCA-5-176, 177] X'01' or X'02'
         if (data != null) {
           for (int i = 0; i < data.length; i++) {
             int ttcLen = data[i] & 0xFF;
             if (ttcLen != 0x01 && ttcLen != 0x02) {
-              throw new AFPParserException(String.format("EC-201110: Invalid TTC Length value 0x%02X at component %d", ttcLen, i));
+              throw new AFPParserException(String.format("EC-201110: Invalid TTC Length value "
+                  + "0x%02X at component %d", ttcLen, i));
             }
           }
         }
@@ -510,7 +606,8 @@ public class CMRTag {
       case 0x2020: // Inverse Tone Transfer Curve Data [CMOCA-5-181]
         // [CMOCA-5-179, 182] Field Type: X'05' (BYTE)
         if (fieldType != 0x05) {
-          throw new AFPParserException(String.format("EC-%04X06: Invalid Field Type 0x%02X for tag 0x%04X", tagId, fieldType, tagId));
+          throw new AFPParserException(String.format("EC-%04X06: Invalid Field Type 0x%02X for "
+              + "tag 0x%04X", tagId, fieldType, tagId));
         }
         // [CMOCA-5-180, 183] Count: Total length of the data
         numComponents = getNumberOfComponents(allTags);
@@ -531,7 +628,8 @@ public class CMRTag {
             }
           }
           if (count != expectedTotal) {
-            throw new AFPParserException(String.format("EC-%04X05: Invalid Count %d for tag 0x%04X (expected %d based on TTC Lengths)", tagId, count, tagId, expectedTotal));
+            throw new AFPParserException(String.format("EC-%04X05: Invalid Count %d for tag 0x%04X "
+                + "(expected %d based on TTC Lengths)", tagId, count, tagId, expectedTotal));
           }
         }
         break;
@@ -539,14 +637,16 @@ public class CMRTag {
       case 0x3015: // ICC Profile Data [CMOCA-5-197]
         // [CMOCA-5-198] Field Type: X'05' (BYTE)
         if (fieldType != 0x05) {
-          throw new AFPParserException(String.format("EC-301506: Invalid Field Type 0x%02X for ICC Profile Data tag", fieldType));
+          throw new AFPParserException(String.format("EC-301506: Invalid Field Type 0x%02X for ICC "
+              + "Profile Data tag", fieldType));
         }
         // [CMOCA-5-199] Count: The number of bytes in the profile
         // [CMOCA-5-200] 0–3 Profile size
         if (data != null && data.length >= 4) {
           long profileSize = UtilBinaryDecoding.parseLong(data, 0, 4);
           if (count != profileSize) {
-            throw new AFPParserException(String.format("EC-301511: ICC Profile size %d in header does not match tag count %d", profileSize, count));
+            throw new AFPParserException(String.format("EC-301511: ICC Profile size %d in header "
+                + "does not match tag count %d", profileSize, count));
           }
         }
         break;
@@ -554,7 +654,8 @@ public class CMRTag {
       case 0x3025: // ICC Profile Filename [CMOCA-5-218]
         // [CMOCA-5-219] Field Type: X'06' (ASCII) or X'07' (UTF16)
         if (fieldType != 0x06 && fieldType != 0x07) {
-          throw new AFPParserException(String.format("EC-302506: Invalid Field Type 0x%02X for ICC Profile Filename tag", fieldType));
+          throw new AFPParserException(String.format("EC-302506: Invalid Field Type 0x%02X for ICC "
+              + "Profile Filename tag", fieldType));
         }
         break;
 
@@ -562,7 +663,8 @@ public class CMRTag {
       case 0x4020: // Link Instruction CMR OID [CMOCA-5-230]
         // [CMOCA-5-228, 231] Field Type: X'05' (BYTE)
         if (fieldType != 0x05) {
-          throw new AFPParserException(String.format("EC-%04X06: Invalid Field Type 0x%02X for tag 0x%04X", tagId, fieldType, tagId));
+          throw new AFPParserException(String.format("EC-%04X06: Invalid Field Type 0x%02X for "
+              + "tag 0x%04X", tagId, fieldType, tagId));
         }
         break;
 
@@ -570,20 +672,23 @@ public class CMRTag {
       case 0x4030: // Link Instruction CMR Name [CMOCA-5-236]
       case 0x4090: // Link CMRE Identifier [CMOCA-5-262]
         if (fieldType != 0x07) { // UTF-16
-          throw new AFPParserException(String.format("EC-%04X06: Invalid Field Type 0x%02X for tag 0x%04X (expected 0x07)", tagId, fieldType, tagId));
+          throw new AFPParserException(String.format("EC-%04X06: Invalid Field Type 0x%02X for "
+              + "tag 0x%04X (expected 0x07)", tagId, fieldType, tagId));
         }
         break;
 
       case 0x4035: // Default Rendering Intent [CMOCA-5-239]
         // [CMOCA-5-240] Field Type: X'08' (CODE)
         if (fieldType != 0x08) {
-          throw new AFPParserException(String.format("EC-403506: Invalid Field Type 0x%02X for Default Rendering Intent tag", fieldType));
+          throw new AFPParserException(String.format("EC-403506: Invalid Field Type 0x%02X for "
+              + "Default Rendering Intent tag", fieldType));
         }
         // [CMOCA-5-241..245] X'00' to X'03'
         if (data != null && data.length > 0) {
           int intent = data[0] & 0xFF;
           if (intent > 0x03) {
-            throw new AFPParserException(String.format("EC-403510: Invalid Default Rendering Intent value 0x%02X", intent));
+            throw new AFPParserException(String.format("EC-403510: Invalid Default Rendering "
+                + "Intent value 0x%02X", intent));
           }
         }
         break;
@@ -594,18 +699,21 @@ public class CMRTag {
       case 0x4055: // Link LUT ICC-Absolute Colorimetric [CMOCA-5-260]
         // [CMOCA-5-247, 257, 259, 261] Field Type: X'05' (BYTE)
         if (fieldType != 0x05) {
-          throw new AFPParserException(String.format("EC-%04X06: Invalid Field Type 0x%02X for tag 0x%04X", tagId, fieldType, tagId));
+          throw new AFPParserException(String.format("EC-%04X06: Invalid Field Type 0x%02X for "
+              + "tag 0x%04X", tagId, fieldType, tagId));
         }
         if (data != null && data.length >= 2) {
           // [CMOCA-5-249] Number of components of the input color space (1–15)
           int inputComponents = data[0] & 0xFF;
           if (inputComponents == 0 || inputComponents > 15) {
-            throw new AFPParserException(String.format("EC-%04X10: Invalid number of input components %d (expected 1-15)", tagId, inputComponents));
+            throw new AFPParserException(String.format("EC-%04X10: Invalid number of input "
+                + "components %d (expected 1-15)", tagId, inputComponents));
           }
           // [CMOCA-5-250] Number of components of the output color space (1–15)
           int outputComponents = data[1] & 0xFF;
           if (outputComponents == 0 || outputComponents > 15) {
-            throw new AFPParserException(String.format("EC-%04X10: Invalid number of output components %d (expected 1-15)", tagId, outputComponents));
+            throw new AFPParserException(String.format("EC-%04X10: Invalid number of output "
+                + "components %d (expected 1-15)", tagId, outputComponents));
           }
         }
         break;
@@ -613,11 +721,13 @@ public class CMRTag {
       case 0x5015: // Number of Named Colorants [CMOCA-5-269]
         // [CMOCA-5-270] Field Type: X'01' (1-byte UBIN)
         if (fieldType != 0x01) {
-          throw new AFPParserException(String.format("EC-501506: Invalid Field Type 0x%02X for Number of Named Colorants tag", fieldType));
+          throw new AFPParserException(String.format("EC-501506: Invalid Field Type 0x%02X for "
+              + "Number of Named Colorants tag", fieldType));
         }
         // [CMOCA-5-271] Count: 1
         if (count != 1) {
-          throw new AFPParserException(String.format("EC-501505: Invalid Count %d for Number of Named Colorants tag", count));
+          throw new AFPParserException(String.format("EC-501505: Invalid Count %d for Number of "
+              + "Named Colorants tag", count));
         }
         break;
 
@@ -627,32 +737,37 @@ public class CMRTag {
       case 0x5035: // Color Palette CIELAB [CMOCA-5-295]
         // [CMOCA-5-273, 279, 288, 296] Field Type: X'05' (BYTE)
         if (fieldType != 0x05) {
-          throw new AFPParserException(String.format("EC-%04X06: Invalid Field Type 0x%02X for tag 0x%04X", tagId, fieldType, tagId));
+          throw new AFPParserException(String.format("EC-%04X06: Invalid Field Type 0x%02X for "
+              + "tag 0x%04X", tagId, fieldType, tagId));
         }
         // [CMOCA-5-274, 280, 289, 297] Count: entrySize * number of color entries
         int entrySize = (tagId == 0x5020) ? 9 : (tagId == 0x5025) ? 12 : (tagId == 0x5030) ? 11 : 8;
         if (count % entrySize != 0) {
-          throw new AFPParserException(String.format("EC-%04X05: Invalid Count %d for tag 0x%04X (expected multiple of %d)", tagId, count, tagId, entrySize));
+          throw new AFPParserException(String.format("EC-%04X05: Invalid Count %d for tag 0x%04X "
+              + "(expected multiple of %d)", tagId, count, tagId, entrySize));
         }
         break;
 
       case 0x5040: // Color Palette Named Colorants [CMOCA-5-300]
         // [CMOCA-5-301] Field Type: X'05' (BYTE)
         if (fieldType != 0x05) {
-          throw new AFPParserException(String.format("EC-504006: Invalid Field Type 0x%02X for Color Palette Named Colorants tag", fieldType));
+          throw new AFPParserException(String.format("EC-504006: Invalid Field Type 0x%02X for "
+              + "Color Palette Named Colorants tag", fieldType));
         }
         // [CMOCA-5-302] Count: (Number of Named Colorants + 8) * number of color entries
         int numNamedColorants = getNamedColorantCount(allTags);
         int ncEntrySize = 8 + numNamedColorants;
         if (count % ncEntrySize != 0) {
-          throw new AFPParserException(String.format("EC-504005: Invalid Count %d for Color Palette Named Colorants tag (expected multiple of %d)", count, ncEntrySize));
+          throw new AFPParserException(String.format("EC-504005: Invalid Count %d for Color "
+              + "Palette Named Colorants tag (expected multiple of %d)", count, ncEntrySize));
         }
         break;
 
       case 0x5045: // Colorant Identification List [CMOCA-5-306]
         // [CMOCA-5-307] Field Type: X'05' (BYTE)
         if (fieldType != 0x05) {
-          throw new AFPParserException(String.format("EC-504506: Invalid Field Type 0x%02X for Colorant Identification List tag", fieldType));
+          throw new AFPParserException(String.format("EC-504506: Invalid Field Type 0x%02X for "
+              + "Colorant Identification List tag", fieldType));
         }
         // [CMOCA-5-308] Count: Sum of the length over the Number of Named Colorants
         if (data != null) {
@@ -663,16 +778,19 @@ public class CMRTag {
             // [CMOCA-5-309] 0 1-byte UBIN Length X'03'–X'FB'
             int entryLen = data[ncOffset] & 0xFF;
             if (entryLen < 0x03 || entryLen > 0xFB) {
-              throw new AFPParserException(String.format("EC-504510: Invalid repeating group length %d in Colorant Identification List", entryLen));
+              throw new AFPParserException(String.format("EC-504510: Invalid repeating group "
+                  + "length %d in Colorant Identification List", entryLen));
             }
             actualNC++;
             ncOffset += entryLen;
           }
           if (ncOffset != data.length) {
-            throw new AFPParserException("EC-504511: Inconsistent repeating group lengths in Colorant Identification List");
+            throw new AFPParserException("EC-504511: Inconsistent repeating group lengths in "
+                + "Colorant Identification List");
           }
           if (actualNC != expectedNC) {
-            throw new AFPParserException(String.format("EC-504511: Found %d colorant names, but tag 0x5015 specified %d", actualNC, expectedNC));
+            throw new AFPParserException(String.format("EC-504511: Found %d colorant names, but "
+                + "tag 0x5015 specified %d", actualNC, expectedNC));
           }
         }
         break;
@@ -680,11 +798,13 @@ public class CMRTag {
       case 0xFFFF: // End Data [CMOCA-5-311]
         // [CMOCA-5-312] Field Type: X'05' (BYTE)
         if (fieldType != 0x05) {
-          throw new AFPParserException(String.format("EC-FFFF06: Invalid Field Type 0x%02X for End Data tag", fieldType));
+          throw new AFPParserException(String.format("EC-FFFF06: Invalid Field Type 0x%02X for "
+              + "End Data tag", fieldType));
         }
         // [CMOCA-5-313] Count: 0
         if (count != 0) {
-          throw new AFPParserException(String.format("EC-FFFF05: Invalid Count %d for End Data tag (expected 0)", count));
+          throw new AFPParserException(String.format("EC-FFFF05: Invalid Count %d for End Data tag "
+              + "(expected 0)", count));
         }
         break;
 
@@ -696,6 +816,7 @@ public class CMRTag {
 
   @Override
   public String toString() {
-    return String.format("Tag[ID=0x%04X, Type=0x%02X, Count=%d, Offset=%d]", tagId, fieldType, count, valueOffset);
+    return String.format("Tag[ID=0x%04X, Type=0x%02X, Count=%d, Offset=%d]", tagId, fieldType,
+        count, valueOffset);
   }
 }
