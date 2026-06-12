@@ -66,14 +66,20 @@ Implement manual StAX fast-paths for remaining MO:DCA structured fields to elimi
     - [x] **BCA** / **ECA** (Begin/End Color Attribute Table) ✅
     - [x] **CAT** (Color Attribute Table) ✅
     - [x] **MCA** (Map Color AttributeTable) ✅
-- [ ] **Map Fields**:
-    - [ ] **MBC** (Map BarCode Object)
-    - [ ] **MMD** (Map Media Destination)
-    - [ ] **MMO** (Map Medium Overlay)
-    - [ ] **MMT** (Map MediaType)
-    - [ ] **MPG** (Map Page)
-    - [ ] **MPS** (Map Page Segment)
-    - [ ] **MPT** (Map PresentationText)
+- [x] **Map Fields**: ✅
+    - [x] **MBC** (Map BarCode Object) ✅
+    - [x] **MMD** (Map Media Destination) ✅
+    - [x] **MMO** (Map Medium Overlay) ✅
+    - [x] **MMT** (Map MediaType) ✅
+    - [x] **MPG** (Map Page) ✅
+    - [x] **MPS** (Map Page Segment) ✅
+    - [x] **MPT** (Map PresentationText) ✅
+- [ ] **Additional Structured Fields**:
+    - [ ] **CDD** (Container Data Descriptor)
+    - [ ] **CTC** (Composed Text Control)
+    - [ ] **FGD** (Form Environment Group Descriptor)
+    - [ ] **LLE** (Link Logical Element)
+    - [ ] **PPO** (Preprocess Presentation Object)
 
 ## Phase 6: Verification & Full Coverage ⏳
 Ensure zero fallback usage and verify performance gains.

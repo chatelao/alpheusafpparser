@@ -59,6 +59,14 @@ public class CDD_ContainerDataDescriptor extends StructuredField implements IHas
     writeFullStructuredField(os, baos.toByteArray());
   }
 
+  public byte[] getRetiredParameters() {
+    return retiredParameters;
+  }
+
+  public void setRetiredParameters(byte[] retiredParameters) {
+    this.retiredParameters = retiredParameters;
+  }
+
   public List<Triplet> getTriplets() {
     return triplets;
   }

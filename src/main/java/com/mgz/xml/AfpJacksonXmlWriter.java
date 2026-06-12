@@ -95,12 +95,14 @@ import com.mgz.afp.modca.MDR_MapDataResource;
 import com.mgz.afp.modca.MIO_MapImageObject;
 import com.mgz.afp.modca.BDI_BeginDocumentIndex;
 import com.mgz.afp.modca.BMO_BeginOverlay;
+import com.mgz.afp.modca.CDD_ContainerDataDescriptor;
 import com.mgz.afp.modca.BPS_BeginPageSegment;
 import com.mgz.afp.modca.BRG_BeginResourceGroup;
 import com.mgz.afp.modca.EDI_EndDocumentIndex;
 import com.mgz.afp.modca.EMO_EndOverlay;
 import com.mgz.afp.modca.EPS_EndPageSegment;
 import com.mgz.afp.modca.ERG_EndResourceGroup;
+import com.mgz.afp.modca.LLE_LinkLogicalElement;
 import com.mgz.afp.modca.MBC_MapBarCodeObject;
 import com.mgz.afp.modca.MCD_MapContainerData;
 import com.mgz.afp.modca.MMD_MapMediaDestination;
@@ -491,6 +493,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeNameAndTripletsDirectly(egr, "EGR_EndGraphicsObject", level);
     } else if (sf instanceof GDD_GraphicsDataDescriptor gdd) {
       writeGddDirectly(gdd, level);
+    } else if (sf instanceof CDD_ContainerDataDescriptor cdd) {
+      writeCddDirectly(cdd, level);
     } else if (sf instanceof EDI_EndDocumentIndex edi) {
       writeNameDirectly(edi, "EDI_EndDocumentIndex", level);
     } else if (sf instanceof EMO_EndOverlay emo) {
@@ -507,6 +511,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeNameAndTripletsDirectly(epg, "EPG_EndPage", level);
     } else if (sf instanceof com.mgz.afp.modca.IEL_IndexElement iel) {
       writeTripletsAndTextDirectly(iel, "IEL_IndexElement", level);
+    } else if (sf instanceof LLE_LinkLogicalElement lle) {
+      writeLleDirectly(lle, level);
     } else if (sf instanceof com.mgz.afp.modca.IPG_IncludePage ipg) {
       writeTripletsAndTextDirectly(ipg, "IPG_IncludePage", level);
     } else if (sf instanceof com.mgz.afp.modca.PGD_PageDescriptor pgd) {
@@ -612,6 +618,52 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     if (tle.getText() != null) {
       writeElement(baseXsw, level + 1, "text", tle.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeLleDirectly(LLE_LinkLogicalElement lle, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("LLE");
+    baseXsw.writeStartElement("LLE_LinkLogicalElement");
+    int childLevel = level + 1;
+    if (lle.getLinkType() != null) {
+      writeElement(baseXsw, childLevel, "linkType", lle.getLinkType().name());
+    }
+    writeElement(baseXsw, childLevel, "reserved1", (int) lle.getReserved1());
+    if (lle.getRepeatingGroups() != null) {
+      for (LLE_LinkLogicalElement.LLE_RepeatingGroup rg : lle.getRepeatingGroups()) {
+        writeIndent(baseXsw, childLevel);
+        baseXsw.writeStartElement("repeatingGroups");
+        int rgLevel = childLevel + 1;
+        writeElement(baseXsw, rgLevel, "lengthOfRepeatingGroup", rg.getLengthOfRepeatingGroup());
+        if (rg.getRepeatingGroupFunction() != null) {
+          writeElement(baseXsw, rgLevel, "repeatingGroupFunction", rg.getRepeatingGroupFunction().name());
+        }
+        if (rg.getTriplets() != null) {
+          for (Triplet t : rg.getTriplets()) {
+            writeTriplet(baseXsw, t, rgLevel);
+          }
+        }
+        writeIndent(baseXsw, childLevel);
+        baseXsw.writeEndElement();
+      }
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeCddDirectly(CDD_ContainerDataDescriptor cdd, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("CDD");
+    baseXsw.writeStartElement("CDD_ContainerDataDescriptor");
+    int childLevel = level + 1;
+    writeBinaryElement(baseXsw, childLevel, "retiredParameters", cdd.getRetiredParameters());
+    if (cdd.getTriplets() != null) {
+      for (Triplet t : cdd.getTriplets()) {
+        writeTriplet(baseXsw, t, childLevel);
+      }
     }
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
