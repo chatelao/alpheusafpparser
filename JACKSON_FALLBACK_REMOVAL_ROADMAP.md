@@ -49,10 +49,11 @@ Complete the fast-path implementation for IOCA (Image), PTOCA (Text), and GDD (G
 - [x] **PTOCA Control Sequences**: Audit `writeControlSequence` and implement missing sequences. ✅
 - [x] **GDD Parameters**: Implement fast-paths for all `GDD_Parameter` types in `writeGddParameterDirectly`. ✅
 
-## Phase 5: Remaining MO:DCA Structured Fields ⏳
+## Phase 5: Remaining MO:DCA Structured Fields ✅
 Implement manual StAX fast-paths for remaining MO:DCA structured fields to eliminate reflection-based serialization.
 
-- [ ] **Line Data Fields**:
+- [x] **Line Data Fields**:
+    - [x] **LND** (Line Descriptor) ✅
     - [x] **LNC** (Line Descriptor Count) ✅
     - [x] **CCP** (Conditional Processing Control) ✅
     - [x] **RCD** (Record Descriptor) ✅
@@ -74,12 +75,12 @@ Implement manual StAX fast-paths for remaining MO:DCA structured fields to elimi
     - [x] **MPG** (Map Page) ✅
     - [x] **MPS** (Map Page Segment) ✅
     - [x] **MPT** (Map PresentationText) ✅
-- [ ] **Additional Structured Fields**:
-    - [ ] **CDD** (Container Data Descriptor)
-    - [ ] **CTC** (Composed Text Control)
-    - [ ] **FGD** (Form Environment Group Descriptor)
-    - [ ] **LLE** (Link Logical Element)
-    - [ ] **PPO** (Preprocess Presentation Object)
+- [x] **Additional Structured Fields**:
+    - [x] **CDD** (Container Data Descriptor) ✅
+    - [x] **CTC** (Composed Text Control) ✅
+    - [x] **FGD** (Form Environment Group Descriptor) ✅
+    - [x] **LLE** (Link Logical Element) ✅
+    - [x] **PPO** (Preprocess Presentation Object) ✅
 
 ## Phase 6: Verification & Full Coverage ⏳
 Ensure zero fallback usage and verify performance gains.

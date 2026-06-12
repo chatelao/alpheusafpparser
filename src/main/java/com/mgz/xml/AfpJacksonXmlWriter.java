@@ -96,9 +96,11 @@ import com.mgz.afp.modca.MIO_MapImageObject;
 import com.mgz.afp.modca.BDI_BeginDocumentIndex;
 import com.mgz.afp.modca.BMO_BeginOverlay;
 import com.mgz.afp.modca.CDD_ContainerDataDescriptor;
+import com.mgz.afp.modca.CTC_ComposedTextControl;
 import com.mgz.afp.modca.BPS_BeginPageSegment;
 import com.mgz.afp.modca.BRG_BeginResourceGroup;
 import com.mgz.afp.modca.EDI_EndDocumentIndex;
+import com.mgz.afp.modca.FGD_FormEnvironmentGroupDescriptor;
 import com.mgz.afp.modca.EMO_EndOverlay;
 import com.mgz.afp.modca.EPS_EndPageSegment;
 import com.mgz.afp.modca.ERG_EndResourceGroup;
@@ -118,6 +120,7 @@ import com.mgz.afp.modca.OBD_ObjectAreaDescriptor;
 import com.mgz.afp.modca.OBP_ObjectAreaPosition;
 import com.mgz.afp.modca.PGP_PagePosition_Format1;
 import com.mgz.afp.modca.PGP_PagePosition_Format2;
+import com.mgz.afp.modca.PPO_PreprocessPresentationObject;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
 import com.mgz.afp.moca.MetadataObject;
 import com.mgz.afp.modca.OCD_ObjectContainerData;
@@ -495,6 +498,12 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeGddDirectly(gdd, level);
     } else if (sf instanceof CDD_ContainerDataDescriptor cdd) {
       writeCddDirectly(cdd, level);
+    } else if (sf instanceof CTC_ComposedTextControl ctc) {
+      writeCtcDirectly(ctc, level);
+    } else if (sf instanceof FGD_FormEnvironmentGroupDescriptor fgd) {
+      writeFgdDirectly(fgd, level);
+    } else if (sf instanceof PPO_PreprocessPresentationObject ppo) {
+      writePpoDirectly(ppo, level);
     } else if (sf instanceof EDI_EndDocumentIndex edi) {
       writeNameDirectly(edi, "EDI_EndDocumentIndex", level);
     } else if (sf instanceof EMO_EndOverlay emo) {
@@ -618,6 +627,70 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     if (tle.getText() != null) {
       writeElement(baseXsw, level + 1, "text", tle.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeCtcDirectly(CTC_ComposedTextControl ctc, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("CTC");
+    baseXsw.writeStartElement("CTC_ComposedTextControl");
+    int childLevel = level + 1;
+    writeBinaryElement(baseXsw, childLevel, "constantData", ctc.getConstantData());
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeFgdDirectly(FGD_FormEnvironmentGroupDescriptor fgd, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("FGD");
+    baseXsw.writeStartElement("FGD_FormEnvironmentGroupDescriptor");
+    int childLevel = level + 1;
+    writeBinaryElement(baseXsw, childLevel, "constantData", fgd.getConstantData());
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writePpoDirectly(PPO_PreprocessPresentationObject ppo, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("PPO");
+    baseXsw.writeStartElement("PPO_PreprocessPresentationObject");
+    int childLevel = level + 1;
+    if (ppo.getRepeatingGroups() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("repeatingGroupsXml");
+      for (com.mgz.afp.base.IRepeatingGroup irg : ppo.getRepeatingGroups()) {
+        PPO_PreprocessPresentationObject.PPO_RepeatingGroup rg = (PPO_PreprocessPresentationObject.PPO_RepeatingGroup) irg;
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeStartElement("repeatingGroupsXml");
+        int rgLevel = childLevel + 2;
+        writeElement(baseXsw, rgLevel, "repeatingGroupLength", rg.getRepeatingGroupLength());
+        if (rg.getObjectType() != null) {
+          writeElement(baseXsw, rgLevel, "objectType", rg.getObjectType().name());
+        }
+        writeBinaryElement(baseXsw, rgLevel, "reserved3_4", rg.getReserved3_4());
+        if (rg.getFlags() != null) {
+          writeIndent(baseXsw, rgLevel);
+          baseXsw.writeStartElement("flags");
+          for (PPO_PreprocessPresentationObject.PPO_RepeatingGroup.PPO_Flag flag : rg.getFlags()) {
+            writeElement(baseXsw, rgLevel + 1, "flags", flag.name());
+          }
+          writeIndent(baseXsw, rgLevel);
+          baseXsw.writeEndElement();
+        }
+        writeElement(baseXsw, rgLevel, "xOrigin", rg.getxOrigin());
+        writeElement(baseXsw, rgLevel, "yOrigin", rg.getyOrigin());
+        if (rg.getTriplets() != null) {
+          for (Triplet t : rg.getTriplets()) {
+            writeTriplet(baseXsw, t, rgLevel);
+          }
+        }
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeEndElement();
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
     }
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
