@@ -53,12 +53,16 @@ import com.mgz.afp.goca.GAD_DrawingOrder;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBAR_BeginArea;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBSEG_BeginSegment;
+import com.mgz.afp.goca.GAD_DrawingOrder.GBIMG_BeginImageAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCBIMG_BeginImageAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCBEZ_CubicBezierCurveAtGivenPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCBOX_BoxAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCCBEZ_CubicBezierCurveAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCFARC_FullArcAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCFLT_FilletAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCLINE_LineAtCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GEIMG_EndImage;
+import com.mgz.afp.goca.GAD_DrawingOrder.GIMD_ImageData;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCCHST_CharacterStringAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCMRK_MarkerAtCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GCHST_CharacterStringAtGivenPosition;
@@ -198,6 +202,11 @@ public class PdfHandler implements StructuredFieldHandler {
   private final PdfGraphicsState graphicsState;
   private final PdfBarcodeState barcodeState;
   private final PdfImageState imageState;
+  private java.io.ByteArrayOutputStream gocaImageBuffer;
+  private int gocaImageWidth;
+  private int gocaImageHeight;
+  private int gocaImageX;
+  private int gocaImageY;
   private PdfPage currentPage;
   private PdfCanvas currentCanvas;
   private float defaultPageWidth = -1;
@@ -931,8 +940,65 @@ public class PdfHandler implements StructuredFieldHandler {
         endResourceCapture();
       }
       renderXObject(name, graphicsState.getCurrentX(), graphicsState.getCurrentY(), null);
+    } else if (order instanceof GBIMG_BeginImageAtGivenPosition gbimg) {
+      if (gbimg.getOrigin() != null) {
+        graphicsState.setCurrentX(gbimg.getOrigin().xCoordinate());
+        graphicsState.setCurrentY(gbimg.getOrigin().yCoordinate());
+      }
+      startGocaImage(gbimg.getWidthOfImageInImagePoints(), gbimg.getHeightOfImageInImagePoints());
+    } else if (order instanceof GCBIMG_BeginImageAtCurrentPosition gcbimg) {
+      startGocaImage(gcbimg.getWidthOfImageInImagePoints(), gcbimg.getHeightOfImageInImagePoints());
+    } else if (order instanceof GIMD_ImageData gimd) {
+      if (gocaImageBuffer != null && gimd.getImageData() != null) {
+        try {
+          gocaImageBuffer.write(gimd.getImageData());
+        } catch (java.io.IOException e) {
+          // Should not happen with ByteArrayOutputStream
+        }
+      }
+    } else if (order instanceof GEIMG_EndImage) {
+      renderGocaImage();
     } else if (order instanceof GESEG_EndSegment || order instanceof GNOP1_NopOperation || order instanceof GCOMT_Comment) {
       // No-op
+    }
+  }
+
+  private void startGocaImage(int width, int height) {
+    this.gocaImageWidth = width;
+    this.gocaImageHeight = height;
+    this.gocaImageX = graphicsState.getCurrentX();
+    this.gocaImageY = graphicsState.getCurrentY();
+    this.gocaImageBuffer = new java.io.ByteArrayOutputStream();
+  }
+
+  private void renderGocaImage() {
+    if (gocaImageBuffer == null || gocaImageWidth <= 0 || gocaImageHeight <= 0 || currentCanvas == null) {
+      gocaImageBuffer = null;
+      return;
+    }
+    byte[] data = gocaImageBuffer.toByteArray();
+    if (data.length == 0) {
+      gocaImageBuffer = null;
+      return;
+    }
+
+    try {
+      // GOCA images are 1-bit uncompressed (Format X'00')
+      com.itextpdf.io.image.ImageData itextImageData = com.itextpdf.io.image.ImageDataFactory.create(
+          gocaImageWidth, gocaImageHeight, 1, 1, data, null);
+      com.itextpdf.kernel.pdf.xobject.PdfImageXObject imageXObject =
+          new com.itextpdf.kernel.pdf.xobject.PdfImageXObject(itextImageData);
+
+      currentCanvas.saveState();
+      // Position at (x, y-height) because PDF is bottom-up and GOCA Image is top-down from origin
+      currentCanvas.concatMatrix(gocaImageWidth, 0, 0, gocaImageHeight, gocaImageX,
+          gocaImageY - gocaImageHeight);
+      currentCanvas.addXObject(imageXObject);
+      currentCanvas.restoreState();
+    } catch (Exception e) {
+      System.err.println("Error rendering GOCA image: " + e.getMessage());
+    } finally {
+      gocaImageBuffer = null;
     }
   }
 
