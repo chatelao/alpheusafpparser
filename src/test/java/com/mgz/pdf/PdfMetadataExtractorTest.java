@@ -40,54 +40,56 @@ public class PdfMetadataExtractorTest {
 
   @Test
   public void testExtractMetadataEmpty() throws IOException {
-    ByteArrayOutputStream os = new ByteArrayOutputStream();
-    PdfWriter writer = new PdfWriter(os);
-    PdfDocument pdfDoc = new PdfDocument(writer);
-    pdfDoc.addNewPage();
-    pdfDoc.close();
+    try (ByteArrayOutputStream os = new ByteArrayOutputStream();
+        PdfWriter writer = new PdfWriter(os);
+        PdfDocument pdfDoc = new PdfDocument(writer)) {
+      pdfDoc.addNewPage();
+      pdfDoc.close();
 
-    PdfMetadataExtractor extractor = new PdfMetadataExtractor();
-    List<Map<String, String>> metadata = extractor.extractMetadata(new ByteArrayInputStream(os.toByteArray()));
-    assertTrue(metadata.isEmpty());
+      PdfMetadataExtractor extractor = new PdfMetadataExtractor();
+      List<Map<String, String>> metadata = extractor.extractMetadata(new ByteArrayInputStream(os.toByteArray()));
+      assertTrue(metadata.isEmpty());
+    }
   }
 
   @Test
   public void testExtractMetadataWithDPart() throws IOException {
-    ByteArrayOutputStream os = new ByteArrayOutputStream();
-    PdfWriter writer = new PdfWriter(os);
-    PdfDocument pdfDoc = new PdfDocument(writer);
-    pdfDoc.addNewPage();
+    try (ByteArrayOutputStream os = new ByteArrayOutputStream();
+        PdfWriter writer = new PdfWriter(os);
+        PdfDocument pdfDoc = new PdfDocument(writer)) {
+      pdfDoc.addNewPage();
 
-    PdfDictionary dpartRoot = new PdfDictionary();
-    PdfDictionary dtree = new PdfDictionary();
-    dpartRoot.put(new PdfName("DTree"), dtree);
+      PdfDictionary dpartRoot = new PdfDictionary();
+      PdfDictionary dtree = new PdfDictionary();
+      dpartRoot.put(new PdfName("DTree"), dtree);
 
-    PdfDictionary property = new PdfDictionary();
-    property.put(new PdfName("Customer"), new PdfString("Test Customer"));
-    dtree.put(new PdfName("Property"), property);
+      PdfDictionary property = new PdfDictionary();
+      property.put(new PdfName("Customer"), new PdfString("Test Customer"));
+      dtree.put(new PdfName("Property"), property);
 
-    PdfArray dparts = new PdfArray();
-    PdfDictionary leaf = new PdfDictionary();
-    PdfDictionary leafProperty = new PdfDictionary();
-    leafProperty.put(new PdfName("DocID"), new PdfString("12345"));
-    leaf.put(new PdfName("Property"), leafProperty);
-    dparts.add(leaf);
-    dtree.put(new PdfName("DParts"), dparts);
+      PdfArray dparts = new PdfArray();
+      PdfDictionary leaf = new PdfDictionary();
+      PdfDictionary leafProperty = new PdfDictionary();
+      leafProperty.put(new PdfName("DocID"), new PdfString("12345"));
+      leaf.put(new PdfName("Property"), leafProperty);
+      dparts.add(leaf);
+      dtree.put(new PdfName("DParts"), dparts);
 
-    pdfDoc.getCatalog().put(new PdfName("DPartRoot"), dpartRoot);
-    pdfDoc.close();
+      pdfDoc.getCatalog().put(new PdfName("DPartRoot"), dpartRoot);
+      pdfDoc.close();
 
-    PdfMetadataExtractor extractor = new PdfMetadataExtractor();
-    List<Map<String, String>> metadata = extractor.extractMetadata(new ByteArrayInputStream(os.toByteArray()));
+      PdfMetadataExtractor extractor = new PdfMetadataExtractor();
+      List<Map<String, String>> metadata = extractor.extractMetadata(new ByteArrayInputStream(os.toByteArray()));
 
-    assertEquals(1, metadata.size());
-    Map<String, String> entry = metadata.get(0);
-    assertEquals("Test Customer", entry.get("Customer"));
-    assertEquals("12345", entry.get("DocID"));
+      assertEquals(1, metadata.size());
+      Map<String, String> entry = metadata.get(0);
+      assertEquals("Test Customer", entry.get("Customer"));
+      assertEquals("12345", entry.get("DocID"));
 
-    String json = extractor.toJson(metadata);
-    assertNotNull(json);
-    assertTrue(json.contains("Test Customer"));
-    assertTrue(json.contains("12345"));
+      String json = extractor.toJson(metadata);
+      assertNotNull(json);
+      assertTrue(json.contains("Test Customer"));
+      assertTrue(json.contains("12345"));
+    }
   }
 }
