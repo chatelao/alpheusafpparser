@@ -93,6 +93,9 @@ public class XmlTemplateRegistry {
 
     // PTOCA Control Sequences
     register("SEC", new String[] {"<SEC_SetExtendedTextColor colorSpace=\"", "\" nrOfBitsComponent1=\"", "\" nrOfBitsComponent2=\"", "\" nrOfBitsComponent3=\"", "\" nrOfBitsComponent4=\"", "\" colorValue=\"", "\"/>"});
+    register("TBM", new String[] {"<TBM_TemporaryBaselineMove", "/>"});
+    register("OVS", new String[] {"<OVS_Overstrike", "/>"});
+    register("RPL", new String[] {"<repeatLength>", "</repeatLength>"});
   }
 
   private static void register(String mnemonic, String[] parts) {

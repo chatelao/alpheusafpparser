@@ -879,6 +879,10 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       this.repeatData = data.getBytes(encoding);
     }
 
+    public Charset getEncoding() {
+      return encoding;
+    }
+
   }
 
   /** PTOCA, Page 75. <br> The Set Baseline Increment control sequence specifies the increment to be added to the current baseline coordinate when a Begin Line control sequence is executed. This is a modal control sequence. */

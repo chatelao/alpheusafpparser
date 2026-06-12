@@ -33,4 +33,14 @@ public class XmlTagTemplates {
   public static final byte[] TRN_END = "</TRN_TransparentData>".getBytes(StandardCharsets.UTF_8);
   public static final byte[] GC_START = "<GraphicCharacters>".getBytes(StandardCharsets.UTF_8);
   public static final byte[] GC_END = "</GraphicCharacters>".getBytes(StandardCharsets.UTF_8);
+
+  public static final byte[] TRN_DATA_START = "<transparentData>".getBytes(StandardCharsets.UTF_8);
+  public static final byte[] TRN_DATA_END = "</transparentData>".getBytes(StandardCharsets.UTF_8);
+
+  public static final byte[] RPS_START = "<RPS_RepeatString>".getBytes(StandardCharsets.UTF_8);
+  public static final byte[] RPS_END = "</RPS_RepeatString>".getBytes(StandardCharsets.UTF_8);
+  public static final byte[] REPEAT_LENGTH_START = "<repeatLength>".getBytes(StandardCharsets.UTF_8);
+  public static final byte[] REPEAT_LENGTH_END = "</repeatLength>".getBytes(StandardCharsets.UTF_8);
+  public static final byte[] REPEAT_DATA_START = "<repeatData>".getBytes(StandardCharsets.UTF_8);
+  public static final byte[] REPEAT_DATA_END = "</repeatData>".getBytes(StandardCharsets.UTF_8);
 }
