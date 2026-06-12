@@ -125,7 +125,13 @@ public enum SFType {
    * A data structured field consists of data whose meaning and interpretation is governed by the
    * object architecture for the particular data object type.
    */
-  Data(0xEE);
+  Data(0xEE),
+
+  // IPDS Command types (when class is D6)
+  SHS(0x97),
+  NOP(0x03),
+  BP(0xAF),
+  EP(0xBF);
 
   int val;
 

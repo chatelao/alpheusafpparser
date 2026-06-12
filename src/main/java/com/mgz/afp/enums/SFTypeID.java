@@ -174,6 +174,8 @@ public enum SFTypeID {
   // IPDS Commands (treated as SFs with Class D6)
   SHS_SetHomeState(0xD6, 0x97, 0x00),
   NOP_NoOperation_IPDS(0xD6, 0x03, 0x00),
+  BP_BeginPage(0xD6, 0xAF, 0x00),
+  EP_EndPage(0xD6, 0xBF, 0x00),
   ;
 
   /**
