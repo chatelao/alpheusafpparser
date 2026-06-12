@@ -90,10 +90,8 @@ public class RepeatingGroupWithTriplets extends RepeatingGroupBase implements IH
 
   @Override
   public void removeTriplet(Triplet triplet) {
-    if (triplets == null) {
-      return;
-    } else {
-      triplets.add(triplet);
+    if (triplets != null) {
+      triplets.remove(triplet);
     }
   }
 }
