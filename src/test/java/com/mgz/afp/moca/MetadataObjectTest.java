@@ -228,6 +228,55 @@ public class MetadataObjectTest {
         assertEquals("AFPT", mo.getMoFormat());
     }
 
+    @Test
+    public void testMetadataObjectEmptyData() throws Exception {
+        byte[] data = createValidMocaBytes("DES", "AFPT", "NONE", "NAME", new byte[0]);
+        MetadataObject mo = new MetadataObject();
+        mo.decode(data);
+        assertEquals(0, mo.getMoData().length);
+    }
+
+    @Test
+    public void testMetadataObjectGetMoDataText() throws Exception {
+        byte[] moData = createValidAfptData();
+        byte[] data = createValidMocaBytes("DES", "AFPT", "NONE", "NAME", moData);
+        MetadataObject mo = new MetadataObject();
+        mo.decode(data);
+        assertNotNull(mo.getMoDataText());
+
+        mo.setMoData(null);
+        assertNull(mo.getMoDataText());
+    }
+
+    @Test
+    public void testMetadataObjectSetters() {
+        MetadataObject mo = new MetadataObject();
+        mo.setMoLength(100);
+        assertEquals(100, mo.getMoLength());
+
+        mo.setHeaderLength(60);
+        assertEquals(60, mo.getHeaderLength());
+
+        mo.setMoType("DES");
+        assertEquals("DES", mo.getMoType());
+
+        mo.setMoFormat("XMP");
+        assertEquals("XMP", mo.getMoFormat());
+
+        mo.setMoCompression("NONE");
+        assertEquals("NONE", mo.getMoCompression());
+
+        mo.setMoNameLength(10);
+        assertEquals(10, mo.getMoNameLength());
+
+        mo.setMoName("TEST");
+        assertEquals("TEST", mo.getMoName());
+
+        byte[] data = new byte[]{1, 2, 3};
+        mo.setMoData(data);
+        assertArrayEquals(data, mo.getMoData());
+    }
+
     private byte[] createValidAfptData() {
         // Simple AttributeValue triplet (0x36)
         // Length(1), ID(1), Reserved(2), Value(...)
