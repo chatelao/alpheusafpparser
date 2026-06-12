@@ -1035,6 +1035,41 @@ public class UtilCharacterEncoding {
         || ((cp >= 0x10000) && (cp <= 0x10FFFF));
   }
 
+  /**
+   * Escapes special characters for XML.
+   *
+   * @param s the string to escape
+   * @return the escaped string
+   */
+  public static String escapeXml(String s) {
+    if (s == null || s.isEmpty()) {
+      return s;
+    }
+    StringBuilder sb = null;
+    for (int i = 0; i < s.length(); i++) {
+      char c = s.charAt(i);
+      String escaped = null;
+      switch (c) {
+        case '&':  escaped = "&amp;"; break;
+        case '<':  escaped = "&lt;"; break;
+        case '>':  escaped = "&gt;"; break;
+        case '\"': escaped = "&quot;"; break;
+        case '\'': escaped = "&apos;"; break;
+        default: break;
+      }
+      if (escaped != null) {
+        if (sb == null) {
+          sb = new StringBuilder(s.length() + 16);
+          sb.append(s, 0, i);
+        }
+        sb.append(escaped);
+      } else if (sb != null) {
+        sb.append(c);
+      }
+    }
+    return sb == null ? s : sb.toString();
+  }
+
   private static Charset lookupCharset(String cpNumStr) {
     if (cpNumStr == null || cpNumStr.isEmpty()) {
       return null;

@@ -1959,14 +1959,21 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     if (cs instanceof PTOCAControlSequence.TRN_TransparentData trn) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("TRN");
       baseXsw.writeRawBytes(XmlTagTemplates.TRN_START, 0, XmlTagTemplates.TRN_START.length);
-      writeElement(baseXsw, childLevel, "transparentData", trn.getTransparentData());
       if (trn.getEncoding() != null && trn.getTransparentDataEBCDIC() != null) {
+        writeIndent(baseXsw, childLevel);
+        baseXsw.writeRawBytes(XmlTagTemplates.TRN_DATA_START, 0, XmlTagTemplates.TRN_DATA_START.length);
+        baseXsw.writeEbcdic(trn.getTransparentDataEBCDIC(), 0, trn.getTransparentDataEBCDIC().length, trn.getEncoding());
+        baseXsw.writeRawBytes(XmlTagTemplates.TRN_DATA_END, 0, XmlTagTemplates.TRN_DATA_END.length);
+
         writeIndent(baseXsw, childLevel);
         baseXsw.writeRawBytes(XmlTagTemplates.TEXT_START, 0, XmlTagTemplates.TEXT_START.length);
         baseXsw.writeEbcdic(trn.getTransparentDataEBCDIC(), 0, trn.getTransparentDataEBCDIC().length, trn.getEncoding());
         baseXsw.writeRawBytes(XmlTagTemplates.TEXT_END, 0, XmlTagTemplates.TEXT_END.length);
       } else {
-        writeElement(baseXsw, childLevel, "text", trn.getText());
+        writeElement(baseXsw, childLevel, "transparentData", trn.getTransparentData());
+        if (trn.getText() != null) {
+          writeElement(baseXsw, childLevel, "text", trn.getText());
+        }
       }
       writeIndent(baseXsw, level);
       baseXsw.writeRawBytes(XmlTagTemplates.TRN_END, 0, XmlTagTemplates.TRN_END.length);
@@ -2085,40 +2092,55 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.TBM_TemporaryBaselineMove tbm) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("TBM");
-      baseXsw.writeEmptyElement("TBM_TemporaryBaselineMove");
+      StringBuilder sb = new StringBuilder();
       if (tbm.getDirection() != null) {
-        baseXsw.writeAttribute("direction", tbm.getDirection().name());
+        sb.append(" direction=\"").append(tbm.getDirection().name()).append("\"");
       }
       if (tbm.getPrecision() != null) {
-        baseXsw.writeAttribute("precision", tbm.getPrecision().name());
+        sb.append(" precision=\"").append(tbm.getPrecision().name()).append("\"");
       }
       if (tbm.getTemporaryBaselineIncrement() != null) {
-        baseXsw.writeIntAttribute(null, null, "temporaryBaselineIncrement", tbm.getTemporaryBaselineIncrement());
+        sb.append(" temporaryBaselineIncrement=\"").append(tbm.getTemporaryBaselineIncrement()).append("\"");
       }
+      XmlTemplateRegistry.getTemplate("TBM").writeObjects(baseXsw, sb.toString());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.OVS_Overstrike ovs) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("OVS");
-      baseXsw.writeEmptyElement("OVS_Overstrike");
+      StringBuilder sb = new StringBuilder();
       if (ovs.getBypassFlag() != null) {
-        baseXsw.writeAttribute("bypassFlag", ovs.getBypassFlag().name());
+        sb.append(" bypassFlag=\"").append(ovs.getBypassFlag().name()).append("\"");
       }
-      baseXsw.writeIntAttribute(null, null, "overStrikeCharacterCodePoint", ovs.getOverStrikeCharacterCodePoint());
+      sb.append(" overStrikeCharacterCodePoint=\"").append(ovs.getOverStrikeCharacterCodePoint()).append("\"");
       if (ovs.getText() != null) {
-        baseXsw.writeAttribute("text", ovs.getText());
+        sb.append(" text=\"").append(UtilCharacterEncoding.escapeXml(UtilCharacterEncoding.sanitizeForXml(ovs.getText()))).append("\"");
       }
+      XmlTemplateRegistry.getTemplate("OVS").writeObjects(baseXsw, sb.toString());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.RPS_RepeatString rps) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("RPS");
-      baseXsw.writeStartElement("RPS_RepeatString");
-      writeElement(baseXsw, childLevel, "repeatLength", rps.getRepeatLength());
-      if (rps.getText() != null) {
-        writeElement(baseXsw, childLevel, "text", rps.getText());
-      }
-      if (rps.getRepeatData() != null) {
-        writeBinaryElement(baseXsw, childLevel, "repeatData", rps.getRepeatData());
+      baseXsw.writeRawBytes(XmlTagTemplates.RPS_START, 0, XmlTagTemplates.RPS_START.length);
+      writeIndent(baseXsw, childLevel);
+      XmlTemplateRegistry.getTemplate("RPL").write(baseXsw, rps.getRepeatLength());
+      if (rps.getEncoding() != null && rps.getRepeatData() != null) {
+        writeIndent(baseXsw, childLevel);
+        baseXsw.writeRawBytes(XmlTagTemplates.TEXT_START, 0, XmlTagTemplates.TEXT_START.length);
+        baseXsw.writeEbcdic(rps.getRepeatData(), 0, rps.getRepeatData().length, rps.getEncoding());
+        baseXsw.writeRawBytes(XmlTagTemplates.TEXT_END, 0, XmlTagTemplates.TEXT_END.length);
+
+        writeIndent(baseXsw, childLevel);
+        baseXsw.writeRawBytes(XmlTagTemplates.REPEAT_DATA_START, 0, XmlTagTemplates.REPEAT_DATA_START.length);
+        baseXsw.writeBinary(rps.getRepeatData(), 0, rps.getRepeatData().length);
+        baseXsw.writeRawBytes(XmlTagTemplates.REPEAT_DATA_END, 0, XmlTagTemplates.REPEAT_DATA_END.length);
+      } else {
+        if (rps.getText() != null) {
+          writeElement(baseXsw, childLevel, "text", rps.getText());
+        }
+        if (rps.getRepeatData() != null) {
+          writeBinaryElement(baseXsw, childLevel, "repeatData", rps.getRepeatData());
+        }
       }
       writeIndent(baseXsw, level);
-      baseXsw.writeEndElement();
+      baseXsw.writeRawBytes(XmlTagTemplates.RPS_END, 0, XmlTagTemplates.RPS_END.length);
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.UCT_UnicodeComplexText uct) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("UCT");
