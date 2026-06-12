@@ -47,7 +47,7 @@ This document outlines a phased, actionable plan to increase the code coverage o
         - 🚧 Overlay command set
         - 🚧 Loaded-Font command set
     - 🚧 DB2Z verification (Target: 85% coverage).
-    - 🚧 Implementation of remaining 1,000+ normative requirements per spec (Progress: EC-0210, EC-0505, EC-0F05, EC-0F06, EC-0F07, EC-0F09, EC-0F0C, EC-0F13, EC-0F14, EC-0F15, EC-0F18-25, CMOCA tags 0x0008/1021/25/65/30/35/40/70/45/50/55/80/2015/20/3015/5015/20/25/30/35/40/45/4025/30/90 validated).
+    - 🚧 Implementation of remaining 1,000+ normative requirements per spec (Progress: EC-0210, EC-0505, EC-0705, EC-0A00, EC-0F01-04, EC-0F05, EC-0F06, EC-0F07, EC-0F09, EC-0F0B, EC-0F0C, EC-0F13, EC-0F14, EC-0F15, EC-0F18-25, CMOCA tags 0x0008/1021/25/65/30/35/40/70/45/50/55/80/2015/20/3015/5015/20/25/30/35/40/45/4025/30/90 validated).
 - 🚧 **4.2. Performance fast-paths**
     - ✅ Verification of `AfpJacksonXmlWriter` optimized paths (MetadataObject fast-path implemented).
 - 🏗️ **4.3. PDF Renderer Verification**

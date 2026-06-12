@@ -64,6 +64,12 @@ public class BDA_BarCodeData extends StructuredField {
     xOffset = UtilBinaryDecoding.parseInt(sfData, offset + 1, 2);
     yOffset = UtilBinaryDecoding.parseInt(sfData, offset + 3, 2);
 
+    // [BCOCA-4-316, 317] EC-0A00: Bar code origin range validation
+    if (xOffset > 0x7FFF || yOffset > 0x7FFF) {
+      throw new AFPParserException("EC-0A00: The bar code origin given in the BSA data structure is invalid: xOffset="
+          + xOffset + ", yOffset=" + yOffset);
+    }
+
     int actualLength = length != -1 ? length : sfData.length - offset;
 
     int parameterDataLength = 0;
@@ -548,6 +554,26 @@ public class BDA_BarCodeData extends StructuredField {
       }
       sequenceIndicator = sfData[offset + 6];
       totalNumberOfSymbols = sfData[offset + 7];
+
+      // [BCOCA-4-392] EC-0F01 to EC-0F04: Structured append validations for Aztec Code
+      int s = sequenceIndicator & 0xFF;
+      int t = totalNumberOfSymbols & 0xFF;
+      if (s != 0 || t != 0) {
+        if (s == 0 || t == 0) {
+          throw new AFPParserException("EC-0F03: Mismatched Aztec Code structured append information.");
+        }
+        if (s > 26) {
+          throw new AFPParserException("EC-0F01: Invalid Aztec Code structured append sequence indicator: " + s);
+        }
+        if (t < 2 || t > 26) {
+          throw new AFPParserException("EC-0F04: Invalid number of Aztec Code structured append symbols: " + t);
+        }
+        if (s > t) {
+          throw new AFPParserException("EC-0F02: Aztec Code structured append sequence indicator (" + s
+              + ") is larger than total symbols (" + t + ")");
+        }
+      }
+
       structuredAppendIdLength = sfData[offset + 8];
 
       // [BCOCA-5-009] EC-0F1C: Append ID length must be 0 if not part of structured append
@@ -648,8 +674,36 @@ public class BDA_BarCodeData extends StructuredField {
       desiredNumberOfRows = UtilBinaryDecoding.parseInt(sfData, offset + 3, 2);
       sequenceIndicator = sfData[offset + 5];
       totalNumberOfSymbols = sfData[offset + 6];
+
+      // [BCOCA-5-002] EC-0F01 to EC-0F04: Structured append validations for Data Matrix
+      int s = sequenceIndicator & 0xFF;
+      int t = totalNumberOfSymbols & 0xFF;
+      if (s != 0 || t != 0) {
+        if (s == 0 || t == 0) {
+          throw new AFPParserException("EC-0F03: Mismatched Data Matrix structured append information.");
+        }
+        if (s > 16) {
+          throw new AFPParserException("EC-0F01: Invalid Data Matrix structured append sequence indicator: " + s);
+        }
+        if (t < 2 || t > 16) {
+          throw new AFPParserException("EC-0F04: Invalid number of Data Matrix structured append symbols: " + t);
+        }
+        if (s > t) {
+          throw new AFPParserException("EC-0F02: Data Matrix structured append sequence indicator (" + s
+              + ") is larger than total symbols (" + t + ")");
+        }
+      }
+
       fileIDFirstByte = UtilBinaryDecoding.parseShort(sfData, offset + 7, 1);
       fileIDSecondByte = UtilBinaryDecoding.parseShort(sfData, offset + 8, 1);
+
+      // [BCOCA-4-471] EC-0F0B: File ID bytes must be in range X'01'-X'FE'
+      if (sequenceIndicator != 0) {
+        if (fileIDFirstByte < 1 || fileIDFirstByte > 0xFE || fileIDSecondByte < 1 || fileIDSecondByte > 0xFE) {
+          throw new AFPParserException("EC-0F0B: Invalid Data Matrix structured append file identification value.");
+        }
+      }
+
       specialFunctionFlags = SpecialFunctionFlag.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 9, 1));
 
       // [BCOCA-5-003] to [BCOCA-5-007] EC-0F0A validation
@@ -885,6 +939,26 @@ public class BDA_BarCodeData extends StructuredField {
       }
       sequenceIndicator = sfData[offset + 2];
       totalNumberOfSymbols = sfData[offset + 3];
+
+      // [BCOCA-4-546] EC-0F01 to EC-0F04: Structured append validations for MaxiCode
+      int s = sequenceIndicator & 0xFF;
+      int t = totalNumberOfSymbols & 0xFF;
+      if (s != 0 || t != 0) {
+        if (s == 0 || t == 0) {
+          throw new AFPParserException("EC-0F03: Mismatched MaxiCode structured append information.");
+        }
+        if (s > 8) {
+          throw new AFPParserException("EC-0F01: Invalid MaxiCode structured append sequence indicator: " + s);
+        }
+        if (t < 2 || t > 8) {
+          throw new AFPParserException("EC-0F04: Invalid number of MaxiCode structured append symbols: " + t);
+        }
+        if (s > t) {
+          throw new AFPParserException("EC-0F02: MaxiCode structured append sequence indicator (" + s
+              + ") is larger than total symbols (" + t + ")");
+        }
+      }
+
       specialFunctionFlag = SpecialFunctionFlag.valueOf(sfData[offset + 4]);
       return 5;
     }
@@ -1039,6 +1113,26 @@ public class BDA_BarCodeData extends StructuredField {
       }
       sequenceIndicator = sfData[offset + 4];
       totalNumberOfSymbols = sfData[offset + 5];
+
+      // [BCOCA-4-623] EC-0F01 to EC-0F04: Structured append validations for QR Code
+      int s = sequenceIndicator & 0xFF;
+      int t = totalNumberOfSymbols & 0xFF;
+      if (s != 0 || t != 0) {
+        if (s == 0 || t == 0) {
+          throw new AFPParserException("EC-0F03: Mismatched QR Code structured append information.");
+        }
+        if (s > 16) {
+          throw new AFPParserException("EC-0F01: Invalid QR Code structured append sequence indicator: " + s);
+        }
+        if (t < 2 || t > 16) {
+          throw new AFPParserException("EC-0F04: Invalid number of QR Code structured append symbols: " + t);
+        }
+        if (s > t) {
+          throw new AFPParserException("EC-0F02: QR Code structured append sequence indicator (" + s
+              + ") is larger than total symbols (" + t + ")");
+        }
+      }
+
       parityData = sfData[offset + 6];
       qrCodeSpecialFunctionFlags = QRCodeSpecialFunctionFlag.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 7, 1));
       applicationIndicator = sfData[offset + 8];
