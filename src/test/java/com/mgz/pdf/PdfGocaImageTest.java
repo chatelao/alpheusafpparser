@@ -19,8 +19,6 @@ along with Alpheus AFP Parser.  See <http://www.gnu.org/licenses/>
 
 package com.mgz.pdf;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;

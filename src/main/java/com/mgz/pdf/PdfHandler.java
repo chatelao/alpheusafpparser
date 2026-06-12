@@ -986,11 +986,13 @@ public class PdfHandler implements StructuredFieldHandler {
       // GOCA images are 1-bit uncompressed (Format X'00')
       com.itextpdf.io.image.ImageData itextImageData = com.itextpdf.io.image.ImageDataFactory.create(
           gocaImageWidth, gocaImageHeight, 1, 1, data, null);
-      com.itextpdf.kernel.pdf.xobject.PdfImageXObject imageXObject = new com.itextpdf.kernel.pdf.xobject.PdfImageXObject(itextImageData);
+      com.itextpdf.kernel.pdf.xobject.PdfImageXObject imageXObject =
+          new com.itextpdf.kernel.pdf.xobject.PdfImageXObject(itextImageData);
 
       currentCanvas.saveState();
       // Position at (x, y-height) because PDF is bottom-up and GOCA Image is top-down from origin
-      currentCanvas.concatMatrix(gocaImageWidth, 0, 0, gocaImageHeight, gocaImageX, gocaImageY - gocaImageHeight);
+      currentCanvas.concatMatrix(gocaImageWidth, 0, 0, gocaImageHeight, gocaImageX,
+          gocaImageY - gocaImageHeight);
       currentCanvas.addXObject(imageXObject);
       currentCanvas.restoreState();
     } catch (Exception e) {

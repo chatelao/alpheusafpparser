@@ -122,7 +122,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
     - ✅ **Resource Mapping**:
         - ✅ **Segment Mapping**: Implement XObject-based rendering for GOCA segments (`GBSEG`).
     - 🚧 **GOCA Image and Gradient Support**:
-        - ⏳ **GOCA Images**: Implement `GBIMG`/`GCBIMG`, `GIMD`, and `GEIMG` drawing orders.
+        - ✅ **GOCA Images**: Implement `GBIMG`/`GCBIMG`, `GIMD`, and `GEIMG` drawing orders.
         - ⏳ **GOCA Gradients**: Implement `GLGD` (Linear Gradient) and `GRGD` (Radial Gradient).
 - ✅ **BCOCA Renderer**: Implement barcode drawing using vector primitives for resolution independence.
     - ✅ **BCOCA State Tracking**: Implement tracking of barcode descriptors (`BDD`) and data (`BDA`) including type, modifier, and font for HRI.
