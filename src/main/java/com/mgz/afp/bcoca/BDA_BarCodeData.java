@@ -105,6 +105,77 @@ public class BDA_BarCodeData extends StructuredField {
       barCodeData = new byte[0];
       text = null;
     }
+
+    validateData(config);
+  }
+
+  private void validateData(AFPParserConfiguration config) throws AFPParserException {
+    BDD_BarCodeDataDescriptor bdd = config.getCurrentBarCodeDataDescriptor();
+    if (bdd == null || barCodeData == null || barCodeData.length == 0) {
+      return;
+    }
+
+    BarCodeType type = bdd.barcodeType;
+    if (type == null) {
+      return;
+    }
+
+    // [BCOCA-5-021] EC-2100: Data-Check Exception
+    // We use the decoded text if available. For numeric-only codes,
+    // if it's not human-readable (text == null), it's likely an invalid character.
+    if (text == null) {
+      switch (type) {
+        case UPC_CGPC_VersionA:
+        case UPC_CGPC_VersionE:
+        case EAN_8_includingJANShort:
+        case EAN_13_includingJANStandard:
+        case EAN_TwoDigit_Supplemental:
+        case EAN_FiveDigit_Supplemental:
+        case UPC_TwoDigit_Supplemental_Periodicals:
+        case UPC_FiveDigit_Supplemental_Paperbacks:
+        case Interleaved_2of5__ITF14__AIM_USS_I_2of5:
+        case Industrial_2of5:
+        case Matrix_2ofFive:
+        case Code39_3of9Code_AIM_USS_39:
+        case Code93:
+        case Codabar_2of7_AIM_USS_Codabar:
+          throw new AFPParserException("EC-2100: Invalid or undefined character detected in bar code data.");
+        default:
+          return;
+      }
+    }
+
+    switch (type) {
+      case UPC_CGPC_VersionA:
+      case UPC_CGPC_VersionE:
+      case EAN_8_includingJANShort:
+      case EAN_13_includingJANStandard:
+      case EAN_TwoDigit_Supplemental:
+      case EAN_FiveDigit_Supplemental:
+      case UPC_TwoDigit_Supplemental_Periodicals:
+      case UPC_FiveDigit_Supplemental_Paperbacks:
+      case Interleaved_2of5__ITF14__AIM_USS_I_2of5:
+      case Industrial_2of5:
+      case Matrix_2ofFive:
+        for (int i = 0; i < text.length(); i++) {
+          char c = text.charAt(i);
+          if (c < '0' || c > '9') {
+            throw new AFPParserException("EC-2100: Invalid character '" + c + "' for numeric symbology " + type.name());
+          }
+        }
+        break;
+      case Code39_3of9Code_AIM_USS_39:
+        String validC39 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
+        for (int i = 0; i < text.length(); i++) {
+          char c = text.charAt(i);
+          if (validC39.indexOf(c) == -1) {
+            throw new AFPParserException("EC-2100: Invalid character '" + c + "' for Code 39");
+          }
+        }
+        break;
+      default:
+        break;
+    }
   }
 
   public static class ParametersDataIntelligentMailPackageBarcode extends ParametersData {

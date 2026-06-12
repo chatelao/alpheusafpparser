@@ -201,4 +201,4 @@
 | BCOCA-5-018 | EC-1200: Too much data for an ai. | ❓ |
 | BCOCA-5-019 | EC-1200: Invalid use of FNC1 character. | ❓ |
 | BCOCA-5-020 | Specification-Check Exceptions final. | ❓ |
-| BCOCA-5-021 | Data-Check Exceptions (EC-2100): An invalid or undefined character has been detected in the bar code data. | ❓ |
+| BCOCA-5-021 | Data-Check Exceptions (EC-2100): An invalid or undefined character has been detected in the bar code data. | ✅ |
