@@ -6,12 +6,13 @@ The graphics operators used in PDF content streams describe the appearance of pa
 
 The graphics operators form six main groups:
 
-• Graphics state operators manipulate the data structure called the graphics state, the global framework within which the other graphics operators execute. The graphics state includes the current transformation matrix (CTM), which maps user space coordinates used within a PDF content stream into output device coordinates. It also includes the current colour, the current clipping path, and many other parameters that are implicit operands of the painting operators.
-• Path construction operators specify paths, which define shapes, line trajectories, and regions of various sorts. They include operators for beginning a new path, adding line segments and curves to it, and closing it.
-• Path-painting operators fill a path with a colour, paint a stroke along it, or use it as a clipping boundary.
-• Other painting operators paint certain self-describing graphics objects. These include sampled images, geometrically defined shadings, and entire content streams that in turn contain sequences of graphics operators.
-• Text operators select and show character glyphs from fonts (descriptions of typefaces for representing text characters). Because PDF treats glyphs as general graphical shapes, many of the text operators could be grouped with the graphics state or painting operators. However, the data structures and mechanisms for dealing with glyph and font descriptions are sufficiently specialised that clause 9, "Text" focuses on them.
-• Marked-content operators associate higher-level logical information with objects in the content stream. This information does not affect the rendered appearance of the content (although it may determine if the content should be presented at all; see 8.11, "Optional content"); it is useful to applications that use PDF for document interchange. Marked-content is described in 14.6, "Marked content".
+- **Graphics state operators** manipulate the data structure called the graphics state, the global framework within which the other graphics operators execute. The graphics state includes the current transformation matrix (CTM), which maps user space coordinates used within a PDF content stream into output device coordinates. It also includes the current colour, the current clipping path, and many other parameters that are implicit operands of the painting operators.
+- **Path construction operators** specify paths, which define shapes, line trajectories, and regions of various sorts. They include operators for beginning a new path, adding line segments and curves to it, and closing it.
+- **Path-painting operators** fill a path with a colour, paint a stroke along it, or use it as a clipping boundary.
+- **Other painting operators** paint certain self-describing graphics objects. These include sampled images, geometrically defined shadings, and entire content streams that in turn contain sequences of graphics operators.
+- **Text operators** select and show character glyphs from fonts (descriptions of typefaces for representing text characters). Because PDF treats glyphs as general graphical shapes, many of the text operators could be grouped with the graphics state or painting operators. However, the data structures and mechanisms for dealing with glyph and font descriptions are sufficiently specialised that clause 9, "Text" focuses on them.
+- **Marked-content operators** associate higher-level logical information with objects in the content stream. This information does not affect the rendered appearance of the content (although it may determine if the content should be presented at all; see 8.11, "Optional content"); it is useful to applications that use PDF for document interchange. Marked-content is described in 14.6, "Marked content".
+
 This clause presents general information about device-independent graphics in PDF: how a PDF content stream describes the abstract appearance of a page. Rendering — the device-dependent part of graphics — is covered in clause 10, "Rendering". The Bibliography lists a number of books that give details of these computer graphics concepts and their implementation.
 
 ## 8.2 Graphics objects
@@ -25,11 +26,13 @@ specific rules, described below, for writing the operands and operators that des
 
 PDF provides five types of graphics objects:
 
-• A path object is an arbitrary shape made up of straight lines, rectangles, and cubic Bézier curves. A path may intersect itself and may have disconnected sections and holes. A path object ends with one or more painting operators that specify whether the path shall be stroked, filled, used as a clipping boundary, or some combination of these operations.
-• A text object consists of one or more character strings that identify sequences of glyphs to be painted. Like a path, text can be stroked, filled, or used as a clipping boundary.
-• An external object (XObject) is an object defined outside the content stream and referenced as a named resource (see 7.8.3, "Resource dictionaries"). The interpretation of an XObject depends on its type. An image XObject defines a rectangular array of colour samples to be painted; a form XObject is an entire content stream to be treated as a single graphics object. Specialised types of form XObjects shall be used to import content from one PDF file into another (reference XObjects) and to group graphical elements together as a unit for various purposes (group XObjects). In particular, the latter are used to define transparency groups for use in the transparent imaging model (transparency group XObjects, discussed in detail in clause 11, "Transparency").
-• An inline image object uses a special syntax to express the data for a small image directly within the content stream.
-• A shading object describes a geometric shape whose colour is an arbitrary function of position within the shape. (A shading can also be treated as a colour when painting other graphics objects; it is not considered to be a separate graphics object in that case.) PDF 1.3 and earlier versions use an opaque imaging model in which each graphics object is painted in sequence, completely obscuring any previous marks it may overlay on the page. PDF 1.4 introduced a transparent imaging model in which objects can be less than fully opaque, allowing previously painted marks to show through. Each object is painted on the page with a specified opacity, which may be constant at every point within the object’s shape or may vary from point to point. The previously existing contents of the page form a backdrop with which the new object is composited, producing results that combine the colours of the object and backdrop according to their respective opacity characteristics. The objects at any given point on the page form a transparency stack, where the stacking order is defined to be the order in which the objects shall be specified, bottommost object first. All objects in the stack can potentially contribute to the result, depending on their colours, shapes, and opacities.
+- **A path object** is an arbitrary shape made up of straight lines, rectangles, and cubic Bézier curves. A path may intersect itself and may have disconnected sections and holes. A path object ends with one or more painting operators that specify whether the path shall be stroked, filled, used as a clipping boundary, or some combination of these operations.
+- **A text object** consists of one or more character strings that identify sequences of glyphs to be painted. Like a path, text can be stroked, filled, or used as a clipping boundary.
+- **An external object (XObject)** is an object defined outside the content stream and referenced as a named resource (see 7.8.3, "Resource dictionaries"). The interpretation of an XObject depends on its type. An image XObject defines a rectangular array of colour samples to be painted; a form XObject is an entire content stream to be treated as a single graphics object. Specialised types of form XObjects shall be used to import content from one PDF file into another (reference XObjects) and to group graphical elements together as a unit for various purposes (group XObjects). In particular, the latter are used to define transparency groups for use in the transparent imaging model (transparency group XObjects, discussed in detail in clause 11, "Transparency").
+- **An inline image object** uses a special syntax to express the data for a small image directly within the content stream.
+- **A shading object** describes a geometric shape whose colour is an arbitrary function of position within the shape. (A shading can also be treated as a colour when painting other graphics objects; it is not considered to be a separate graphics object in that case.)
+
+PDF 1.3 and earlier versions use an opaque imaging model in which each graphics object is painted in sequence, completely obscuring any previous marks it may overlay on the page. PDF 1.4 introduced a transparent imaging model in which objects can be less than fully opaque, allowing previously painted marks to show through. Each object is painted on the page with a specified opacity, which may be constant at every point within the object’s shape or may vary from point to point. The previously existing contents of the page form a backdrop with which the new object is composited, producing results that combine the colours of the object and backdrop according to their respective opacity characteristics. The objects at any given point on the page form a transparency stack, where the stacking order is defined to be the order in which the objects shall be specified, bottommost object first. All objects in the stack can potentially contribute to the result, depending on their colours, shapes, and opacities.
 
 PDF’s graphics parameters are so arranged that objects shall be painted by default with full opacity, reducing the behaviour of the transparent imaging model to that of the opaque model. Accordingly, the material in this clause applies to both the opaque and transparent models except where explicitly stated otherwise; the transparent model is described in its full generality in clause 11, "Transparency".
 
@@ -54,13 +57,12 @@ Table 50 — Operator categories
 | Text positioning | Td, TD, Tm, T* | "Table 106 — Text-positioning operators" |
 | Text showing | Tj, TJ, ', " | "Table 107 — Text-showing operators" |
 | Type 3 fonts | d0, d1 | "Table 111 — Type 3 font operators" |
-| Colour | CS, cs, SC, SCN, sc, scn, G, g, | "Table 73 — Colour operators" RG, rg, K, k |
+| Colour | CS, cs, SC, SCN, sc, scn, G, g, RG, rg, K, k | "Table 73 — Colour operators" |
 | Shading patterns | Sh | "Table 76 — Shading operator" |
 | Inline images | BI, ID, EI | "Table 90 — Inline image operators" |
 | XObjects | Do | "Table 86 — XObject operator" |
 | Marked-content | MP, DP, BMC, BDC, EMC | "Table 351 — Entries in a data dictionary" |
 | Compatibility | BX, EX | "Table 33 — Compatibility operators" |
-
 
 Figure 9 — Graphics objects
 
@@ -92,7 +94,11 @@ Coordinate systems define the canvas on which all painting occurs. They determin
 
 Paths and positions shall be defined in terms of pairs of coordinates on the Cartesian plane. A coordinate pair is a pair of real numbers x and y that locate a point horizontally and vertically within a two-dimensional coordinate space. A coordinate space is determined by the following properties with respect to the current page:
 
-• The location of the origin •    The orientation of the x and y axes •    The lengths of the units along each axis PDF defines several coordinate spaces in which the coordinates specifying graphics objects shall be interpreted. The following subclauses describe these spaces and the relationships among them.
+- The location of the origin
+- The orientation of the x and y axes
+- The lengths of the units along each axis
+
+PDF defines several coordinate spaces in which the coordinates specifying graphics objects shall be interpreted. The following subclauses describe these spaces and the relationships among them.
 
 Transformations among coordinate spaces shall be defined by transformation matrices, which can specify any linear mapping of two-dimensional coordinates, including translation, scaling, rotation, reflection, and skewing. Transformation matrices are discussed in 8.3.3, "Common transformations"
 
@@ -107,28 +113,24 @@ The contents of a page ultimately appear on a raster output device such as a dis
 
 > **EXAMPLE** Images specified in the typical device spaces of a 72-pixel-per-inch display and a 600-dot-per-inch printer would differ in size by more than a factor of 8; an 8-inch line segment on the display would appear less than 1 inch long on the printer. "Figure 10 — Device space" shows how the same graphics object, specified in device space, can appear drastically different when rendered on different output devices.
 
-Figure 10 — Device space 8.3.2.3             User space
+Figure 10 — Device space
 
-To avoid the device-dependent effects of specifying objects in device space, PDF defines a deviceindependent coordinate system that always bears the same relationship to the current page, regardless of the output device on which printing or displaying occurs. This device-independent coordinate system is called user space.
+#### 8.3.2.3 User space
 
-The user space coordinate system shall be initialised to a default state for each page of a document. The CropBox entry in the page dictionary shall specify the rectangle of user space corresponding to the visible area of the intended output medium (display window or printed page). The positive x axis extends horizontally to the right and the positive y axis vertically upward, as in standard mathematical practice (subject to alteration by the Rotate entry in the page dictionary). The length of a unit along both the x and y axes is set by the UserUnit entry (PDF 1.6) in the page dictionary (see "Table 31 — Entries in a page object"). If that entry is not present or supported, the default value of 1 ⁄ 72 inch is used. This coordinate system is called default user space.
+To avoid the device-dependent effects of specifying objects in device space, PDF defines a device-independent coordinate system that always bears the same relationship to the current page, regardless of the output device on which printing or displaying occurs. This device-independent coordinate system is called user space.
 
+The user space coordinate system shall be initialised to a default state for each page of a document. The CropBox entry in the page dictionary shall specify the rectangle of user space corresponding to the visible area of the intended output medium (display window or printed page). The positive x axis extends horizontally to the right and the positive y axis vertically upward, as in standard mathematical practice (subject to alteration by the Rotate entry in the page dictionary). The length of a unit along both the x and y axes is set by the UserUnit entry (PDF 1.6) in the page dictionary (see "Table 31 — Entries in a page object"). If that entry is not present or supported, the default value of 1/72 inch is used. This coordinate system is called default user space.
 
 > **NOTE 1** In the PostScript language, the origin of default user space always corresponds to the lower-left corner of the output medium. While this convention is common in PDF documents as well, it is not required; the page dictionary’s CropBox entry can specify any rectangle of default user space to be made visible on the medium.
 
-> **NOTE 2** The default for the size of the unit in default user space (1 ⁄ 72 inch) is approximately the same as a point, a unit widely used in the printing industry. It is not exactly the same, however; there is no universal definition of a point.
+> **NOTE 2** The default for the size of the unit in default user space (1/72 inch) is approximately the same as a point, a unit widely used in the printing industry. It is not exactly the same, however; there is no universal definition of a point.
 Conceptually, user space is an infinite plane. Only a small portion of this plane corresponds to the imageable area of the output device: a rectangular region defined by the CropBox entry in the page dictionary. The region of default user space that is viewed or printed can be different for each page and is described in 14.11.2, "Page boundaries".
 
 Coordinates in user space (as in any other coordinate space) may be specified as either integers or real numbers, and the unit size in default user space does not constrain positions to any arbitrary grid. The resolution of coordinates in user space is not related to the resolution of pixels in device space.
 
 The transformation from user space to device space is defined by the current transformation matrix (CTM), an element of the PDF graphics state (see 8.4, "Graphics state"). A PDF reader may adjust the CTM for the native resolution of a particular output device, maintaining the device-independence of the PDF page description. "Figure 11 — User space" shows how this allows an object specified in user space to appear the same regardless of the device on which it is rendered.
 
-The default user space provides a consistent, dependable starting place for PDF page descriptions
-| regardless of the output device used. If necessary, a PDF content stream | may modify user space to be |  |
-| --- | --- | --- |
-| more suitable to its needs by applying the | coordinate transformation operator | , cm (see 8.4.4, "Graphics |
-
-state operators"). Thus, what might appear to be absolute coordinates in a content stream are not absolute with respect to the current page because they are expressed in a coordinate system that can slide around and shrink or expand. Coordinate system transformation not only enhances deviceindependence but is a useful tool in its own right.
+The default user space provides a consistent, dependable starting place for PDF page descriptions regardless of the output device used. If necessary, a PDF content stream may modify user space to be more suitable to its needs by applying the coordinate transformation operator, **cm** (see 8.4.4, "Graphics state operators"). Thus, what might appear to be absolute coordinates in a content stream are not absolute with respect to the current page because they are expressed in a coordinate system that can slide around and shrink or expand. Coordinate system transformation not only enhances device-independence but is a useful tool in its own right.
 
 > **EXAMPLE** A content stream originally composed to occupy an entire page can be incorporated without change as an element of another page by shrinking the coordinate system in which it is drawn.
 
@@ -162,17 +164,22 @@ A transformation matrix specifies the relationship between two coordinate spaces
 
 A transformation matrix in PDF shall be specified by six numbers, usually in the for m of an array containing six elements. In its most general form, this array is denoted [a b c d e f]; it can represent any linear transformation from one coordinate system to another. This subclause lists the arrays that specify the most common transformations; 8.3.4, "Transformation matrices", discusses more mathematical details of transformations, including information on specifying transformations that are combinations of those listed here:
 
-• Translations shall be specified as [ 1 0 0 1 𝑡𝑥 𝑡𝑦], where tx and ty shall be the distances to translate the origin of the coordinate system in the horizontal and vertical dimensions, respectively.
-• Scaling shall be obtained by [ 𝑠𝑥 0 0 𝑠𝑦 0 0]. This scales the coordinates so that 1 unit in the horizontal and vertical dimensions of the new coordinate system is the same size as sx and sy units, respectively, in the previous coordinate system.
-• Rotations shall be produced by [rc rs -rs rc 0 0], where rc = cos(q) and rs = sin(q) which has the effect of rotating the coordinate system axes by an angle q counter clockwise.
-• Skew shall be specified by [1 wx wy 1 0 0], where wx = tan(a) and wy = tan(b) which skews the x axis by an angle a and the y axis by an angle b.
+- Translations shall be specified as `[1 0 0 1 tx ty]`, where *tx* and *ty* shall be the distances to translate the origin of the coordinate system in the horizontal and vertical dimensions, respectively.
+- Scaling shall be obtained by `[sx 0 0 sy 0 0]`. This scales the coordinates so that 1 unit in the horizontal and vertical dimensions of the new coordinate system is the same size as *sx* and *sy* units, respectively, in the previous coordinate system.
+- Rotations shall be produced by `[rc rs -rs rc 0 0]`, where *rc* = cos(θ) and *rs* = sin(θ) which has the effect of rotating the coordinate system axes by an angle θ counter-clockwise.
+- Skew shall be specified by `[1 wx wy 1 0 0]`, where *wx* = tan(α) and *wy* = tan(β) which skews the x axis by an angle α and the y axis by an angle β.
 "Figure 13 — Effects of coordinate transformations" shows examples of each transformation. The directions of translation, rotation, and skew shown in the figure correspond to positive values of the array elements.
 
 
-Figure 13 — Effects of coordinate transformations NOTE 1        If several transformations are combined, the order in which they are applied is significant. For example, first scaling and then translating the x axis is not the same as first translating and then scaling it. In general, to obtain the expected results, transformations need to be done in the following order: Translate, Rotate, Scale or skew.
+Figure 13 — Effects of coordinate transformations
+
+> **NOTE 1** If several transformations are combined, the order in which they are applied is significant. For example, first scaling and then translating the x axis is not the same as first translating and then scaling it. In general, to obtain the expected results, transformations need to be done in the following order: Translate, Rotate, Scale or skew.
+
 "Figure 14 — Effect of transformation order" shows the effect of the order in which transformations are applied. The figure shows two sequences of transformations applied to a coordinate system. After each successive transformation, an outline of the letter n is drawn.
 
-Figure 14 — Effect of transformation order NOTE 2        The following transformations are shown in the figure: a translation of 10 units in the x direction and 20 units in the y direction; a rotation of 30 degrees; a scaling by a factor of 3 in the x direction In the figure, the axes are shown with a dash pattern having a 2-unit dash and a 2-unit gap. In addition, the original (untransformed) axes are shown in a lighter colour for reference. Notice that the scale-rotate-translate ordering results in a distortion of the coordinate system, leaving
+Figure 14 — Effect of transformation order
+
+> **NOTE 2** The following transformations are shown in the figure: a translation of 10 units in the x direction and 20 units in the y direction; a rotation of 30 degrees; a scaling by a factor of 3 in the x direction In the figure, the axes are shown with a dash pattern having a 2-unit dash and a 2-unit gap. In addition, the original (untransformed) axes are shown in a lighter colour for reference. Notice that the scale-rotate-translate ordering results in a distortion of the coordinate system, leaving
 
 
 the x and y axes no longer perpendicular; the recommended translate-rotate-scale ordering results in no distortion.
@@ -191,34 +198,69 @@ PDF represents coordinates in a two-dimensional space. The point (x, y) in such 
 
 The transformation between two coordinate systems can be represented by a 3-by-3 transformation matrix written as follows:
 
-| a | b | 0 |
-| --- | --- | --- |
-| [c | d | 0] |
-| e | f | 1 |
+$$
+\begin{bmatrix}
+a & b & 0 \\
+c & d & 0 \\
+e & f & 1
+\end{bmatrix}
+$$
 
-Because a transformation matrix has only six elements that can be changed, in most cases in PDF it shall be specified as the six-element array [a b c d e f].
+Because a transformation matrix has only six elements that can be changed, in most cases in PDF it shall be specified as the six-element array `[a b c d e f]`.
 
 Coordinate transformations shall be expressed as matrix multiplications:
 
-| ′ | ′ | a | b | 0 |  |  |
-| --- | --- | --- | --- | --- | --- | --- |
-| [𝑥 | 𝑦 | 1] =  [𝑥 | 𝑦 | 1] ×  [c | d | 0] |
-| e | f | 1 |  |  |  |  |
+$$
+\begin{bmatrix}
+x' & y' & 1
+\end{bmatrix}
+=
+\begin{bmatrix}
+x & y & 1
+\end{bmatrix}
+\times
+\begin{bmatrix}
+a & b & 0 \\
+c & d & 0 \\
+e & f & 1
+\end{bmatrix}
+$$
 
-Because PDF transformation matrices specify the conversion from the transformed coordinate system to the original (untransformed) coordinate system, x′ and y′ in this equation shall be the coordinates in the untransformed coordinate system, and x and y shall be the coordinates in the transformed system.
+Because PDF transformation matrices specify the conversion from the transformed coordinate system to the original (untransformed) coordinate system, $x'$ and $y'$ in this equation shall be the coordinates in the untransformed coordinate system, and $x$ and $y$ shall be the coordinates in the transformed system.
+
 The multiplication is carried out as follows:
-| 𝑥′  =  a× | 𝑥 +  c× | 𝑦+ | e |
-| --- | --- | --- | --- |
-| 𝑦′  =  b× | 𝑥 +  d  × 𝑦+ | f |  |
+
+$$
+\begin{aligned}
+x' &= a \times x + c \times y + e \\
+y' &= b \times x + d \times y + f
+\end{aligned}
+$$
 
 If a series of transformations is carried out, the matrices representing each of the individual transformations can be multiplied together to produce a single equivalent matrix representing the
 
 
 composite transformation.
 
-> **NOTE 2** Matrix multiplication is not commutative — the order in which matrices are multiplied is significant. Consider a sequence of two transformations: a scaling transformation applied to the user space coordinate system, followed by a conversion from the resulting scaled user space to device space. Let MS be the matrix specifying the scaling and MC the current transformation matrix, which transforms user space to device space. Recalling that coordinates are always specified in the transformed space, the correct order of transformations first converts the scaled coordinates to default user space and then converts the default user space coordinates to device space. This can be expressed as: XD  =  XU  × MC = (XS  ×  MS)× MC =  XS ×  (MS  × MC) where: XD denotes the coordinates in device space XU denotes the coordinates in default user space XS denotes the coordinates in scaled user space This shows that when a new transformation is concatenated with an existing one, the matrix representing it shall be multiplied before (premultiplied with) the existing transformation matrix.
+> **NOTE 2** Matrix multiplication is not commutative — the order in which matrices are multiplied is significant. Consider a sequence of two transformations: a scaling transformation applied to the user space coordinate system, followed by a conversion from the resulting scaled user space to device space. Let $M_S$ be the matrix specifying the scaling and $M_C$ the current transformation matrix, which transforms user space to device space. Recalling that coordinates are always specified in the transformed space, the correct order of transformations first converts the scaled coordinates to default user space and then converts the default user space coordinates to device space. This can be expressed as:
+>
+> $$
+> X_D = X_U \times M_C = (X_S \times M_S) \times M_C = X_S \times (M_S \times M_C)
+> $$
+>
+> where:
+>
+> - $X_D$ denotes the coordinates in device space
+> - $X_U$ denotes the coordinates in default user space
+> - $X_S$ denotes the coordinates in scaled user space
+>
+> This shows that when a new transformation is concatenated with an existing one, the matrix representing it shall be multiplied before (premultiplied with) the existing transformation matrix.
 
-This result is true in general for PDF: when a sequence of transformations is carried out, the matrix representing the combined transformation (M′) is calculated by premultiplying the matrix representing the additional transformation (MT) with the one representing all previously existing transformations (M): 𝑀′ =  𝑀𝑇 ×  𝑀
+This result is true in general for PDF: when a sequence of transformations is carried out, the matrix representing the combined transformation ($M'$) is calculated by premultiplying the matrix representing the additional transformation ($M_T$) with the one representing all previously existing transformations ($M$):
+
+$$
+M' = M_T \times M
+$$
 
 > **NOTE 3** When rendering graphics objects, it is sometimes necessary for a PDF reader to perform the inverse of a transformation — that is, to find the user space coordinates that correspond to a given pair of device space coordinates. Not all transformations are invertible, however. For example, if a matrix contains a, b, c, and d elements that are all zero, all user coordinates map to the same device coordinates and there is no unique inverse transformation. Such noninvertible transformations are not very useful and generally arise from unintended operations, such as scaling by 0. Use of a noninvertible matrix when painting graphics objects can result in unpredictable behaviour.
 
@@ -241,34 +283,23 @@ Table 51 — Device-independent graphics state parameters
 | --- | --- | --- |
 | CTM | array | The current transformation matrix, which maps positions from user coordinates to device coordinates (see 8.3, "Coordinate systems"). This matrix is modified by each application of the coordinate transformation operator, cm. Initial value: a matrix that transforms default user coordinates to device coordinates. |
 | clipping path | (internal) | The current clipping path, which defines the boundary against which all output shall be cropped (see 8.5.4, "Clipping path operators"). Initial value: the size of the MediaBox. |
-| color space | name or | The current colour space in which colour values shall be interpreted (see 8.6, |
-| array | "Colour spaces"). There are two separate colour space parameters: one for stroking and one for all other painting operations. Initial value: DeviceGray. |  |
+| color space | name or array | The current colour space in which colour values shall be interpreted (see 8.6, "Colour spaces"). There are two separate colour space parameters: one for stroking and one for all other painting operations. Initial value: **DeviceGray**. |
 | color | (various) | The current colour that shall be used during painting operations (see 8.6, "Colour spaces"). The type and interpretation of this parameter depend on the current colour space; for most colour spaces, a colour value consists of one to four numbers. There are two separate colour parameters: one for stroking and one for all other painting operations. Initial value: black. |
 | text state | (various) | A set of nine graphics state parameters that pertain only to the painting of text. These include parameters that select the font, scale the glyphs to an appropriate size, and accomplish other effects. The text state parameters are described in 9.3, "Text state parameters and operators". |
 | line width | number | The thickness, in user space units, of paths to be stroked (see 8.4.3.2, "Line width"). Initial value: 1.0. |
 | line cap | integer | A code specifying the shape of the start and endcaps for an open stroked path or the caps at both ends of dashes in a stroked path (see 8.4.3.3, "Line cap style"). Initial value: 0, for butt caps. |
 | line join | integer | A code specifying the shape of joints between connected segments of a stroked path ("see 8.4.3.4, "Line join style"). Initial value: 0, for mitered joins. |
 | miter limit | number | The miter limit imposes a maximum on the ratio of the miter length to the line width. When the limit is exceeded, the join is converted from a miter to a bevel (see 8.4.3.5, "Miter limit"). This parameter limits the length of "spikes" produced when line segments join at sharp angles. Initial value: 10.0, for a miter cutoff below approximately 11.5 degrees. |
-| dash pattern | array and | A description of the dash pattern that shall be used when paths are stroked |
-| number | (see 8.4.3.6, "Line dash pattern"). Initial value: [] 0, a solid line. |  |
+| dash pattern | array and number | A description of the dash pattern that shall be used when paths are stroked (see 8.4.3.6, "Line dash pattern"). Initial value: `[] 0`, a solid line. |
 | rendering intent | name | The rendering intent that shall be used when converting CIE-based colours to device colours (see 8.6.5.8, "Rendering intents"). Initial value: RelativeColorimetric. |
 
 
 | Parameter | Type | Value |
 | --- | --- | --- |
-| stroke adjustment | boolean | (PDF 1.2) A flag specifying whether to compensate for possible rasterization effects when stroking a path with a line width that is small relative to the pixel resolution of the output device (see 10.7.5, "Automatic stroke adjustment"). |
+| stroke adjustment | boolean | (PDF 1.2) A flag specifying whether to compensate for possible rasterization effects when stroking a path with a line width that is small relative to the pixel resolution of the output device (see 10.7.5, "Automatic stroke adjustment"). <br><br> **NOTE** This is considered a device-independent parameter, even though the details of its effects are device-dependent. <br><br> Initial value: false. |
 
-> **NOTE** This is considered a device-independent parameter, even though the details of its effects are device-dependent.
-Initial value: false.
-
-| blend mode | name or | (PDF 1.4, array is deprecated in PDF 2.0) The current blend mode that shall |
-| --- | --- | --- |
-| array | be used in the transparent imaging model (see 11.3.5, "Blend mode"). A PDF |  |
-| (array is | reader shall implicitly reset this parameter to its initial value at the |  |
-| deprecated | beginning of execution of a transparency group XObject (see 11.6.6, |  |
-| in PDF 2.0) | "Transparency group XObjects"). The value shall be either a name object, designating one of the standard blend modes listed in "Table 134 — Standard separable blend modes" and "Table 135 — Standard non-separable blend modes" in 11.3.5, "Blend mode", or an array of such names. In the latter case, the PDF reader shall use the first blend mode in the array that it recognises (or Normal if it recognises none of them). Initial value: Normal. |  |
-| soft mask | dictionary | (PDF 1.4) A soft-mask dictionary (see 11.6.5.1, "Soft-mask dictionaries") |
-| or name | specifying the mask shape or mask opacity values that shall be used in the transparent imaging model (see 11.3.7.2, "Source shape and opacity" and 11.6.4.3, "Mask shape and opacity"), or the name None if no such mask is specified. A PDF reader shall implicitly reset this parameter to its initial value at the beginning of execution of a transparency group XObject (see 11.6.6, "Transparency group XObjects"). Initial value: None. |  |
+| blend mode | name or array (array is deprecated in PDF 2.0) | (PDF 1.4, array is deprecated in PDF 2.0) The current blend mode that shall be used in the transparent imaging model (see 11.3.5, "Blend mode"). A PDF reader shall implicitly reset this parameter to its initial value at the beginning of execution of a transparency group XObject (see 11.6.6, "Transparency group XObjects"). The value shall be either a name object, designating one of the standard blend modes listed in "Table 134 — Standard separable blend modes" and "Table 135 — Standard non-separable blend modes" in 11.3.5, "Blend mode", or an array of such names. In the latter case, the PDF reader shall use the first blend mode in the array that it recognises (or Normal if it recognises none of them). Initial value: **Normal**. |
+| soft mask | dictionary or name | (PDF 1.4) A soft-mask dictionary (see 11.6.5.1, "Soft-mask dictionaries") specifying the mask shape or mask opacity values that shall be used in the transparent imaging model (see 11.3.7.2, "Source shape and opacity" and 11.6.4.3, "Mask shape and opacity"), or the name **None** if no such mask is specified. A PDF reader shall implicitly reset this parameter to its initial value at the beginning of execution of a transparency group XObject (see 11.6.6, "Transparency group XObjects"). Initial value: **None**. |
 | alpha constant | number | (PDF 1.4) The constant shape or constant opacity value that shall be used in the transparent imaging model (see 11.3.7.2, "Source shape and opacity" and 11.6.4.4, "Constant shape and opacity"). There are two separate alpha constant parameters: one for stroking and one for all other painting operations. A PDF reader shall implicitly reset this parameter to its initial value at the beginning of execution of a transparency group XObject (see 11.6.6, "Transparency group XObjects"). Initial value: 1.0. |
 | alpha source | boolean | (PDF 1.4) A flag specifying whether the current soft mask and alpha constant parameters shall be interpreted as shape values (true) or opacity values (false). This flag also governs the interpretation of the SMask entry, if any, in an image dictionary (see 8.9.5, "Image dictionaries"). Initial value: false. |
 | black point | name | (PDF 2.0) The black point compensation algorithm that shall be used when |
@@ -281,25 +312,16 @@ Table 52 — Device-dependent graphics state parameters
 | --- | --- | --- |
 | overprint | boolean | (PDF 1.2) A flag specifying (on output devices that support the overprint control feature) whether painting in one set of colourants should cause the corresponding areas of other colourants to be erased (false) or left unchanged (true); see 8.6.7, "Overprint control". PDF 1.3, introduced two separate overprint parameters: one for stroking and one for all other painting operations. Initial value: false. |
 | overprint mode | number | (PDF 1.3) A code specifying whether a colour component value of 0 in a DeviceCMYK colour space should erase that component (0) or leave it unchanged (1) when overprinting (see 8.6.7, "Overprint control"). Initial value: 0. |
-| black generation | function or | (PDF 1.2) A function that calculates the level of the black colour component to |
-| name | use when converting RGB colours to CMYK (see 10.4.2.4, "Conversion from DeviceRGB to DeviceCMYK"). Initial value: a PDF reader shall initialise this to a suitable device dependent value. |  |
-| undercolor removal | function or | (PDF 1.2) A function that calculates the reduction in the levels of the cyan, |
-| name | magenta, and yellow colour components to compensate for the amount of black added by black generation (see 10.4.2.4, "Conversion from DeviceRGB to DeviceCMYK"). Initial value: a PDF reader shall initialise this to a suitable device dependent value. |  |
-| transfer | function, | (PDF 1.2, deprecated in PDF 2.0) A function that adjusts device gray or colour |
-| name, or | component levels to compensate for nonlinear response in a particular |  |
-| array | output device (see 10.5, "Transfer functions"). Initial value: a PDF reader shall initialise this to a suitable device dependent value. |  |
-| halftone | dictionary, | (PDF 1.2) A halftone screen for gray and colour rendering, specified as a |
-| stream, or | halftone dictionary or stream (see 10.6, "Halftones"). Initial value: a PDF |  |
-| name | reader shall initialise this to a suitable device dependent value. |  |
+| black generation | function or name | (PDF 1.2) A function that calculates the level of the black colour component to use when converting RGB colours to CMYK (see 10.4.2.4, "Conversion from DeviceRGB to DeviceCMYK"). Initial value: a PDF reader shall initialise this to a suitable device dependent value. |
+| undercolor removal | function or name | (PDF 1.2) A function that calculates the reduction in the levels of the cyan, magenta, and yellow colour components to compensate for the amount of black added by black generation (see 10.4.2.4, "Conversion from DeviceRGB to DeviceCMYK"). Initial value: a PDF reader shall initialise this to a suitable device dependent value. |
+| transfer | function, name, or array | (PDF 1.2, deprecated in PDF 2.0) A function that adjusts device gray or colour component levels to compensate for nonlinear response in a particular output device (see 10.5, "Transfer functions"). Initial value: a PDF reader shall initialise this to a suitable device dependent value. |
+| halftone | dictionary, stream, or name | (PDF 1.2) A halftone screen for gray and colour rendering, specified as a halftone dictionary or stream (see 10.6, "Halftones"). Initial value: a PDF reader shall initialise this to a suitable device dependent value. |
 | flatness | number | The precision with which curves shall be rendered on the output device (see 10.7.2, "Flatness tolerance"). The value of this parameter (positive number) gives the maximum error tolerance, measured in output device pixels; smaller numbers give smoother curves at the expense of more computation and memory use. Initial value: 1.0. |
 | smoothness | number | (PDF 1.3) The precision with which colour gradients are to be rendered on the output device (see 10.7.3, "Smoothness tolerance"). The value of this parameter (0 to 1.0) gives the maximum error tolerance, expressed as a fraction of the range of each colour component; smaller numbers give smoother colour transitions at the expense of more computation and memory use. Initial value: a PDF reader shall initialise this to a suitable device dependent value. |
 
 > **NOTE 1** Some graphics state parameters are set with specific PDF operators, some are set by including a particular entry in a graphics state parameter dictionary, and some can be specified either way.
 
-> **EXAMPLE 2** The current line width can be set either with the w operator or (in PDF 1.3) with the LW entry in a graphics state parameter dictionary, whereas the current colour is set only with specific operators, and the current
-
-
-halftone is set only with a graphics state parameter dictionary.
+> **EXAMPLE 2** The current line width can be set either with the **w** operator or (in PDF 1.3) with the **LW** entry in a graphics state parameter dictionary, whereas the current colour is set only with specific operators, and the current halftone is set only with a graphics state parameter dictionary.
 
 In general, a PDF processor, when interpreting the operators that set graphics state parameters, shall simply store them unchanged for later use when interpreting the painting operators. However, some parameters have special properties or call for behaviour that a PDF processor shall handle:
 
@@ -340,13 +362,11 @@ The line cap style shall specify the shape that shall be used at both ends of op
 
 Table 53 — Line cap styles
 
-Style Appearance Description
-
-Butt cap. The stroke shall be squared off at the endpoint of the path. There shall be no projection beyond the end of the path.
-
-Round cap. A semicircular arc with a diameter equal to the line width shall be drawn around the endpoint and shall be filled in.
-
-Projecting square cap. The stroke shall continue beyond the endpoint of the path for a distance equal to half the line width and shall be squared off.
+| Style | Appearance | Description |
+| --- | --- | --- |
+| 0 | | **Butt cap.** The stroke shall be squared off at the endpoint of the path. There shall be no projection beyond the end of the path. |
+| 1 | | **Round cap.** A semicircular arc with a diameter equal to the line width shall be drawn around the endpoint and shall be filled in. |
+| 2 | | **Projecting square cap.** The stroke shall continue beyond the endpoint of the path for a distance equal to half the line width and shall be squared off. |
 
 #### 8.4.3.4 Line join style
 
@@ -354,16 +374,11 @@ The line join style shall specify the shape to be used at the corners of paths t
 
 Table 54 — Line join styles
 
-Style Appearance Description
-
-Miter join. The outer edges of the strokes for the two segments shall be extended until they meet at an angle, as in a picture frame. If the segments meet at too sharp an angle (as defined by the miter limit parameter — see 8.4.3.5, "Miter limit"), a bevel join shall be used instead.
-
-
-Style Appearance Description
-
-Round join. An arc of a circle with a diameter equal to the line width shall be drawn around the point where the two segments meet, connecting the outer edges of the strokes for the two segments. This pie-slice-shaped figure shall be filled in, producing a rounded corner.
-
-Bevel join. The two segments shall be finished with butt caps (see 8.4.3.3, "Line cap style") and the resulting notch beyond the ends of the segments shall be filled with a triangle.
+| Style | Appearance | Description |
+| --- | --- | --- |
+| 0 | | **Miter join.** The outer edges of the strokes for the two segments shall be extended until they meet at an angle, as in a picture frame. If the segments meet at too sharp an angle (as defined by the miter limit parameter — see 8.4.3.5, "Miter limit"), a bevel join shall be used instead. |
+| 1 | | **Round join.** An arc of a circle with a diameter equal to the line width shall be drawn around the point where the two segments meet, connecting the outer edges of the strokes for the two segments. This pie-slice-shaped figure shall be filled in, producing a rounded corner. |
+| 2 | | **Bevel join.** The two segments shall be finished with butt caps (see 8.4.3.3, "Line cap style") and the resulting notch beyond the ends of the segments shall be filled with a triangle. |
 
 A zero length dash occurring at a zero length subpath segment does not have a determinable direction and thus, if the line caps are non-round is rendered in an implementation-dependent manner.
 
@@ -375,11 +390,11 @@ In a closed subpath that is dashed, if the first segment starts with an on-dash 
 
 When two line segments meet at a sharp angle and mitered joins have been specified as the line join style, it is possible for the miter to extend far beyond the thickness of the line stroking the path. The miter limit shall impose a maximum on the ratio of the miter length to the line width (see "Figure 15 — Miter length"). When the limit is exceeded, the join is converted from a miter to a bevel.
 
-The ratio of miter length to line width is directly related to the angle j between the segments in user space by the following formula:
+The ratio of miter length to line width is directly related to the angle *j* between the segments in user space by the following formula:
 
-| 𝑚𝑖𝑡𝑒𝑟𝐿𝑒𝑛𝑔𝑡ℎ | = | 1 |
-| --- | --- | --- |
-| 𝑙𝑖𝑛𝑒𝑊𝑖𝑑𝑡ℎ | sin𝑗 |  |
+$$
+\frac{miterLength}{lineWidth} = \frac{1}{\sin\left(\frac{j}{2}\right)}
+$$
 
 When the line width is zero, the miter length is zero.
 
@@ -390,7 +405,9 @@ When the line width is zero, the miter length is zero.
 
 less than 60 degrees, and a limit of 10.0 converts them for j less than approximately 11.5 degrees.
 
-Figure 15 — Miter length 8.4.3.6             Line dash pattern
+Figure 15 — Miter length
+
+#### 8.4.3.6 Line dash pattern
 
 The line dash pattern shall control the pattern of dashes and gaps used to stroke paths. It shall be specified by a dash array and a dash phase. The dash array’s elements shall be numbers that specify the lengths of alternating dashes and gaps; the numbers shall be nonnegative and not all zero. The dash phase shall be a number that specifies the distance into the dash pattern at which to start the dash. If the dash phase is negative, it shall be incremented by twice the sum of all lengths in the dash array until it is positive. The elements of both the dash array and the dash phase shall be expressed in user space units.
 
@@ -398,18 +415,16 @@ Before beginning to stroke a path, the dash array shall be cycled through, addin
 
 Table 55 — Examples of line dash patterns
 
-Dash Array Appearance Description and Phase
-
-| [] 0 | No dash; solid, unbroken lines |
-| --- | --- |
-| [3] 0 | 3 units on, 3 units off, … |
-| [2] 1 | 1 on, 2 off, 2 on, 2 off, … |
-| [2 1] 0 | 2 on, 1 off, 2 on, 1 off, … |
-| [3 5] 6 | 2 off, 3 on, 5 off, 3 on, 5 off, … |
-| [2 3] 11 | 1 on, 3 off, 2 on, 3 off, 2 on, … |
-| [2 1 3] 0 | 2 on, 1 off, 3 on, 2 off, 1 on, 3 off, 2 on, … |
-
-[2 1 3] -2 2 off, 2 on, 1 off, 3 on, 2 off, 1 on, 3 off, …
+| Dash Array and Phase | Appearance | Description |
+| --- | --- | --- |
+| `[] 0` | | No dash; solid, unbroken lines |
+| `[3] 0` | | 3 units on, 3 units off, … |
+| `[2] 1` | | 1 on, 2 off, 2 on, 2 off, … |
+| `[2 1] 0` | | 2 on, 1 off, 2 on, 1 off, … |
+| `[3 5] 6` | | 2 off, 3 on, 5 off, 3 on, 5 off, … |
+| `[2 3] 11` | | 1 on, 3 off, 2 on, 3 off, 2 on, … |
+| `[2 1 3] 0` | | 2 on, 1 off, 3 on, 2 off, 1 on, 3 off, 2 on, … |
+| `[2 1 3] -2` | | 2 off, 2 on, 1 off, 3 on, 2 off, 1 on, 3 off, … |
 
 
 Dashed lines shall wrap around curves and corners just as solid stroked lines do. The ends of each dash shall be treated with the current line cap style, and corners within dashes shall be treated with the current line join style. The treatment of overlapping line caps shall follow the rules given in 11.6.2, "Specifying source and backdrop colours". A stroking operation shall take no measures to coordinate the dash pattern with features of the path; it simply shall dispense dashes and gaps along the path in the pattern defined by the dash array. If the end of a dashed segment coincides exactly with a join point, then the end cap is painted before the corner.
@@ -453,10 +468,7 @@ The graphics state parameter dictionary is also used by Type 2 patterns, which d
 
 Each entry in the parameter dictionary shall specify the value of an individual graphics state parameter, as shown in "Table 57 — Entries in a graphics state parameter dictionary". All entries need not be present for every invocation of the gs operator; the supplied parameter dictionary may include any combination of parameter entries. The results of gs shall be cumulative; parameter values established in previous invocations persist until explicitly overridden.
 
-> **NOTE** Note that some parameters appear in both "Table 56 — Graphics state operators" and "Table 57
-| — Entries in a graphics state parameter d | ictionary"; these parameters can be set eit | her with |
-| --- | --- | --- |
-| individual graphics state operators or with | gs. It is expected that any future extensions to the graphics state will be implemented by adding new entries to the graphics state parameter dictionary rather than by introducing new graphics state operators. |  |
+> **NOTE** Note that some parameters appear in both "Table 56 — Graphics state operators" and "Table 57 — Entries in a graphics state parameter dictionary"; these parameters can be set either with individual graphics state operators or with **gs**. It is expected that any future extensions to the graphics state will be implemented by adding new entries to the graphics state parameter dictionary rather than by introducing new graphics state operators.
 
 Table 57 — Entries in a graphics state parameter dictionary
 
@@ -514,13 +526,9 @@ Table 57 — Entries in a graphics state parameter dictionary
 | --- | --- | --- |
 | HTO | array | (Optional; PDF 2.0) Halftone origin, specified as an array of two numbers specifying the X and Y location of the halftone origin in the current coordinate system. Although the numbers are specified in the current coordinate system, changes to the current coordinate system (for example as a result of invocation of a form XObject) do not move the halftone origin relative to the underlying device coordinate system. |
 
-NOTE: The HTO key is very similar to the HTP key defined in PDF versions up to PDF 1.3 (1st Edition), but differs in the coordinate system used.
+> **NOTE** The HTO key is very similar to the HTP key defined in PDF versions up to PDF 1.3 (1st Edition), but differs in the coordinate system used.
 
-> **EXAMPLE** The following shows two graphics state parameter dictionaries. In the first, automatic stroke adjustment is turned on, and the dictionary includes a transfer function (deprecated in PDF 2.0) that inverts its value,
-| 𝑓 (𝑥) = | 1 − | 𝑥. In the second, overprint is turned off, and the dictionary includes a parabolic transfer |
-| --- | --- | --- |
-| function (deprecated in PDF 2.0), 𝑓 (𝑥) | =  (2𝑥  − | 1)2, with a sample of 21 values. The domain of the transfer |
-| function, [0.0 1.0], is mapped to [0 20], and the range of the sample values, | [0 255], is mapped to the range of the transfer function, [0.0 1.0]. |  |
+> **EXAMPLE** The following shows two graphics state parameter dictionaries. In the first, automatic stroke adjustment is turned on, and the dictionary includes a transfer function (deprecated in PDF 2.0) that inverts its value, $f(x) = 1 - x$. In the second, overprint is turned off, and the dictionary includes a parabolic transfer function (deprecated in PDF 2.0), $f(x) = (2x - 1)^2$, with a sample of 21 values. The domain of the transfer function, $[0.0 \quad 1.0]$, is mapped to $[0 \quad 20]$, and the range of the sample values, $[0 \quad 255]$, is mapped to the range of the transfer function, $[0.0 \quad 1.0]$.
 | 10 0 obj | %Page object <</Type /Page /Parent 5 0 R /Resources 20 0 R /Contents 40 0 R >> endobj |  |
 | 20 0 obj | %Resource dictionary for page <</Font <</F1 25 0 R>> /ExtGState <</GS1 30 0 R /GS2 35 0 R >> >> endobj |  |
 | 30 0 obj | %First graphics state parameter dictionary <</Type /ExtGState /SA true /TR 31 0 R >> endobj |  |
@@ -569,7 +577,7 @@ Table 58 — Path construction operators
 | --- | --- | --- |
 | x y | m | Begin a new subpath by moving the current point to coordinates (x, y), omitting any connecting line segment. If the previous path construction operator in the current path was also m, the new m overrides it; no vestige of the previous m operation remains in the path. |
 | x y | l (lowercase L) | Append a straight line segment from the current point to the point (x, y). The new current point shall be (x, y). |
-| x1 y1 x2 y2 x3 y3  c | Append a cubic Bézier curve to the current path. The curve shall extend from the current point to the point (x3, y3), using (x1, y1 ) and (x2, y2 ) as the Bézier control points (see 8.5.2.2, "Cubic Bézier curves"). The new current point shall be (x3, y3 ). |  |
+| x1 y1 x2 y2 x3 y3 | c | Append a cubic Bézier curve to the current path. The curve shall extend from the current point to the point (x3, y3), using (x1, y1 ) and (x2, y2 ) as the Bézier control points (see 8.5.2.2, "Cubic Bézier curves"). The new current point shall be (x3, y3 ). |
 | x2 y2 x3 y3 | v | Append a cubic Bézier curve to the current path. The curve shall extend from the current point to the point (x3, y3 ), using the current point and (x2, y2 ) as the Bézier control points (see 8.5.2.2, "Cubic Bézier curves"). The new current point shall be (x3, y3 ). |
 
 
@@ -577,34 +585,37 @@ Table 58 — Path construction operators
 | --- | --- | --- |
 | x1 y1 x3 y3 | y | Append a cubic Bézier curve to the current path. The curve shall extend from the current point to the point (x3, y3 ), using (x1, y1 ) and (x3, y3 ) as the Bézier control points (see 8.5.2.2, "Cubic Bézier curves"). The new current point shall be (x3, y3 ). |
 | — | h | Close the current subpath by appending a straight line segment from the current point to the starting point of the subpath. If the current subpath is already closed, h shall do nothing. This operator terminates the current subpath. Appending another segment to the current path shall begin a new subpath, even if the new segment begins at the endpoint reached by the h operation. |
-| x y width | re | Append a rectangle to the current path as a complete subpath, with |
-| height | lower-left corner (x, y) and dimensions width and height in user space. The operation: x y width height re |  |
-| is equivalent to: 𝑥 𝑦 m ( 𝑥 +  𝑤𝑖𝑑𝑡ℎ ) y 𝐥 |  |  |
-| ( 𝑥 +  𝑤𝑖𝑑𝑡ℎ )( 𝑦 | +  ℎ𝑒𝑖𝑔ℎ𝑡 ) 𝐥 |  |
-| 𝑥 ( 𝑦+ | ℎ𝑒𝑖𝑔ℎ𝑡 ) 𝐥 h |  |
+| x y width height | re | Append a rectangle to the current path as a complete subpath, with lower-left corner (x, y) and dimensions width and height in user space. The operation: `x y width height re` is equivalent to: <br> $x \quad y \quad m$ <br> $(x + width) \quad y \quad l$ <br> $(x + width) \quad (y + height) \quad l$ <br> $x \quad (y + height) \quad l$ <br> $h$ |
 
 #### 8.5.2.2 Cubic Bézier curves
 
-Curved path segments shall be specified as cubic Bézier curves. Such curves shall be defined by four points: the two endpoints (the current point P0 and the final point P3) and two control points P1 and P2.Given the coordinates of the four points, the curv e shall be generated by varying the parameter t from 0.0 to 1.0 in the following equation: 𝑅(𝑡)= (1 − 𝑡)3𝑃0  +  3𝑡(1 −  𝑡)2𝑃1 +  3𝑡2(1 −  𝑡)𝑃2 +  𝑡3𝑃3
+Curved path segments shall be specified as cubic Bézier curves. Such curves shall be defined by four points: the two endpoints (the current point $P_0$ and the final point $P_3$) and two control points $P_1$ and $P_2$. Given the coordinates of the four points, the curve shall be generated by varying the parameter *t* from 0.0 to 1.0 in the following equation:
 
-When t = 0.0, the value of the function R(t) coincides with the current point P0 ; when t = 1.0, R(t) coincides with the final point P3. Intermediate values of t generate intermediate points along the curve.
+$$
+R(t) = (1 - t)^3 P_0 + 3t(1 - t)^2 P_1 + 3t^2(1 - t)P_2 + t^3 P_3
+$$
+
+When *t* = 0.0, the value of the function $R(t)$ coincides with the current point $P_0$; when *t* = 1.0, $R(t)$ coincides with the final point $P_3$. Intermediate values of *t* generate intermediate points along the curve.
 The curve does not, in general, pass thro ugh the two control points P1 and P2.
 
 > **NOTE 1** Cubic Bézier curves have two useful properties:
-| o | The curve can be very quickly split into smaller pieces for rapid rendering. |
-| --- | --- |
-| o | The curve is contained within the convex hull of the four points defining the curve, most easily visualized as the polygon obtained by stretching a rubber band around the outside of the four points. This property allows rapid testing of whether the curve lies completely outside the visible region, and hence does not have to be rendered. |
+>
+> - The curve can be very quickly split into smaller pieces for rapid rendering.
+> - The curve is contained within the convex hull of the four points defining the curve, most easily visualized as the polygon obtained by stretching a rubber band around the outside of the four points. This property allows rapid testing of whether the curve lies completely outside the visible region, and hence does not have to be rendered.
 
 > **NOTE 2** The Bibliography lists several books that describe cubic Bézier curves in more depth.
-The most general PDF operator for constructing curved path segments is the c operator, which specifies the coordinates of points P1, P2, and P3 explicitly, as shown in "Figure 16 — Cubic Bézier curve generated by the c operator". (The starting point, P0, is defined implicitly by the current point.)
+The most general PDF operator for constructing curved path segments is the **c** operator, which specifies the coordinates of points $P_1$, $P_2$, and $P_3$ explicitly, as shown in "Figure 16 — Cubic Bézier curve generated by the c operator". (The starting point, $P_0$, is defined implicitly by the current point.)
 
+Figure 16 — Cubic Bézier curve generated by the c operator
 
-Figure 16 — Cubic Bézier curve generated by the c operator Two more operators, v and y, each specify one of the two control points implicitly (see "Figure 17 — Cubic Bézier curves generated by the v and y operators"). In both of these cases, one control point and the final point of the curve shall be supplied as operands; the other control point shall be implied:
+Two more operators, **v** and **y**, each specify one of the two control points implicitly (see "Figure 17 — Cubic Bézier curves generated by the v and y operators"). In both of these cases, one control point and the final point of the curve shall be supplied as operands; the other control point shall be implied:
 
-• For the v operator, the first control point shall coincide with initial point of the curve.
-• For the y operator, the second control point shall coincide with final point of the curve.
+- For the **v** operator, the first control point shall coincide with initial point of the curve.
+- For the **y** operator, the second control point shall coincide with final point of the curve.
 
-Figure 17 — Cubic Bézier curves generated by the v and y operators 8.5.3    Path-painting operators
+Figure 17 — Cubic Bézier curves generated by the v and y operators
+
+### 8.5.3 Path-painting operators
 
 #### 8.5.3.1 General
 

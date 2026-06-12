@@ -53,10 +53,10 @@ The following criteria must be verified for each file:
     - ⏳ 2.1.11. Clause 7.11 (File specifications).
     - ⏳ 2.1.12. Clause 7.12 (Extensions dictionary).
 - ⏳ **2.2. Chapter 8**: Graphics.
-    - ⏳ 2.2.1. Clause 8.1 (General).
-    - ⏳ 2.2.2. Clause 8.2 (Graphics objects).
-    - ⏳ 2.2.3. Clause 8.3 (Coordinate systems).
-    - ⏳ 2.2.4. Clause 8.4 (Graphics state).
+    - ✅ 2.2.1. Clause 8.1 (General).
+    - ✅ 2.2.2. Clause 8.2 (Graphics objects).
+    - ✅ 2.2.3. Clause 8.3 (Coordinate systems).
+    - ✅ 2.2.4. Clause 8.4 (Graphics state).
     - ⏳ 2.2.5. Clause 8.5 (Path construction and painting).
     - ⏳ 2.2.6. Clause 8.6 (Colour spaces).
     - ⏳ 2.2.7. Clause 8.7 (Patterns).
@@ -146,7 +146,7 @@ The following criteria must be verified for each file:
 | `Chapter_5.md` | ✅ Completed | 1 | Verified as clean. |
 | `Chapter_6.md` | ✅ Completed | 1 | Fixed paragraph breakage in 6.3.2.1. |
 | `Chapter_7.md` | ✅ Completed | 2.1 | Standardized NOTE/EXAMPLE; merged Tables 3, 4; Clauses 7.1-7.12 clean. |
-| `Chapter_8.md` | ⏳ Pending | 2.2 | |
+| `Chapter_8.md` | ⏳ In Progress | 2.2 | Clauses 8.1 to 8.4 cleaned (lists, tables, formulas). |
 | `Chapter_9.md` | ⏳ Pending | 3.1 | Verified: Fragmented formulas and notes. |
 | `Chapter_10.md` | ⏳ Pending | 3.2 | |
 | `Chapter_11.md` | ⏳ Pending | 3.3 | |
