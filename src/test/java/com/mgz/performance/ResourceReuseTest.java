@@ -1,6 +1,5 @@
 package com.mgz.performance;
 
-import com.mgz.afp.base.handler.HandlerFactory;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.pdf.PdfHandler;
 import com.mgz.pdf.PdfHandlerFactory;
@@ -14,29 +13,33 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Verification test for resource reuse across multiple parsing sessions.
+ */
 public class ResourceReuseTest {
 
     @Test
     public void testJacksonWriterReuse() throws Exception {
         XmlHandlerFactory factory = new XmlHandlerFactory();
 
-        // Initial state of caches might be empty or partially filled from other tests
         int initialCacheSize = getJacksonWriterCacheSize();
 
         try (StructuredFieldHandler handler = factory.createHandler(new ByteArrayOutputStream(), false)) {
-            // Use a real SF to ensure the cache is exercised
+            // Exercise the cache with a real structured field
             com.mgz.afp.modca.BPG_BeginPage bpg = new com.mgz.afp.modca.BPG_BeginPage();
             handler.handle(bpg);
         }
 
         int afterFirstHandler = getJacksonWriterCacheSize();
+        assertTrue(afterFirstHandler >= initialCacheSize);
 
         try (StructuredFieldHandler handler = factory.createHandler(new ByteArrayOutputStream(), false)) {
+            com.mgz.afp.modca.BPG_BeginPage bpg = new com.mgz.afp.modca.BPG_BeginPage();
+            handler.handle(bpg);
         }
 
         int afterSecondHandler = getJacksonWriterCacheSize();
-
-        assertEquals(afterFirstHandler, afterSecondHandler, "Jackson writer cache size should not increase after second handler creation if types are same");
+        assertEquals(afterFirstHandler, afterSecondHandler, "Jackson writer cache size should not increase after second handler uses same types");
     }
 
     @Test

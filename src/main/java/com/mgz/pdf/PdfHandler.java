@@ -210,6 +210,12 @@ public class PdfHandler implements StructuredFieldHandler {
     this(os, new PdfFontRegistry());
   }
 
+  /**
+   * Constructs a PdfHandler with an injected font registry.
+   *
+   * @param os the output stream
+   * @param fontRegistry the font registry to use
+   */
   public PdfHandler(OutputStream os, PdfFontRegistry fontRegistry) {
     this.fontRegistry = fontRegistry;
     this.pdfDoc = new PdfDocument(new PdfWriter(os));
