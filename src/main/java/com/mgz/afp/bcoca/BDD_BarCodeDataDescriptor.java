@@ -103,6 +103,10 @@ public class BDD_BarCodeDataDescriptor extends StructuredField implements IHasTr
     }
 
     desiredSymbolWidth = UtilBinaryDecoding.parseShort(sfData, offset + 10, 2);
+    // [BCOCA-4-014] EC-0610: Range X'0000', X'0001'–X'7FFF'
+    if (desiredSymbolWidth != 0 && (desiredSymbolWidth & 0xFFFF) > 0x7FFF) {
+      throw new AFPParserException("EC-0610: For a Bar Code Data Descriptor, the desired symbol width specified is invalid: " + String.format("X'%04X'", desiredSymbolWidth));
+    }
     barcodeType = BarCodeType.valueOf(sfData[offset + 12]);
     if (barcodeType == null) {
       // [BCOCA-4-032] EC-0300
@@ -122,10 +126,30 @@ public class BDD_BarCodeDataDescriptor extends StructuredField implements IHasTr
     }
     fontLocalIDForHRI = UtilBinaryDecoding.parseShort(sfData, offset + 14, 1);
     color = UtilBinaryDecoding.parseInt(sfData, offset + 15, 2);
+
     moduleWidthInMils = UtilBinaryDecoding.parseShort(sfData, offset + 17, 1);
+    // [BCOCA-4-019] EC-0600: Range X'01'–X'FE', X'FF'
+    if (moduleWidthInMils == 0) {
+      throw new AFPParserException("EC-0600: For a Bar Code Data Descriptor, the module width specified is invalid (0).");
+    }
+
     elementHeight = UtilBinaryDecoding.parseInt(sfData, offset + 18, 2);
+    // [BCOCA-4-020] EC-0700: Range X'0001'–X'7FFF', X'FFFF'
+    if (elementHeight == 0 || (elementHeight > 0x7FFF && elementHeight != 0xFFFF)) {
+      throw new AFPParserException("EC-0700: For a Bar Code Data Descriptor, the element height specified is invalid: " + String.format("X'%04X'", elementHeight));
+    }
+
     heightMultiplier = UtilBinaryDecoding.parseShort(sfData, offset + 20, 1);
+    // [BCOCA-4-021] EC-0800: Range X'01'–X'FF'
+    if (heightMultiplier == 0) {
+      throw new AFPParserException("EC-0800: For a Bar Code Data Descriptor, the height multiplier specified is invalid (0).");
+    }
+
     wideToNarrowRatio = UtilBinaryDecoding.parseInt(sfData, offset + 21, 2);
+    // [BCOCA-4-022] EC-0900: Range X'0000', X'0001'–X'7FFF', X'FFFF'
+    if (wideToNarrowRatio != 0 && wideToNarrowRatio > 0x7FFF && wideToNarrowRatio != 0xFFFF) {
+      throw new AFPParserException("EC-0900: For a Bar Code Data Descriptor, the wide-to-narrow ratio specified is invalid: " + String.format("X'%04X'", wideToNarrowRatio));
+    }
 
     int actualLength = getActualLength(sfData, offset, length);
     if (actualLength > 23) {
