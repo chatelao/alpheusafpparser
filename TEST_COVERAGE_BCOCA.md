@@ -110,15 +110,15 @@
 | BCOCA-4-011 | Bytes 4–5 Yupub: Specifies the number of units per unit base in the Ybc direction and must be equal to Xupub. (EC-0605 validated) | ✅ |
 | BCOCA-4-012 | Bytes 6–7 X extent: Width of bar code presentation space in L-units. (EC-0705 validated) | ✅ |
 | BCOCA-4-013 | Bytes 8–9 Y extent: Length of bar code presentation space in L-units. (EC-0705 validated) | ✅ |
-| BCOCA-4-014 | Bytes 10–11 Symbol width: Desired symbol width. | ✅ |
+| BCOCA-4-014 | Bytes 10–11 Symbol width: Desired symbol width. (EC-0610 validated) | ✅ |
 | BCOCA-4-015 | Byte 12 Type: Bar code type. | ✅ |
 | BCOCA-4-016 | Byte 13 Modifier: Bar code modifier. (EC-0B00 validated) | ✅ |
 | BCOCA-4-017 | Byte 14 Local ID: Font Local ID for HRI. | ✅ |
 | BCOCA-4-018 | Bytes 15–16 Color: Bar code color. | ✅ |
-| BCOCA-4-019 | Byte 17 Module width: Module width in mils. | ✅ |
-| BCOCA-4-020 | Bytes 18–19 Element height: Element height in L-units. | ✅ |
-| BCOCA-4-021 | Byte 20 Multiplier: Height multiplier. | ✅ |
-| BCOCA-4-022 | Bytes 21–22 WE:NE: Wide-to-narrow ratio. | ✅ |
+| BCOCA-4-019 | Byte 17 Module width: Module width in mils. (EC-0600 validated) | ✅ |
+| BCOCA-4-020 | Bytes 18–19 Element height: Element height in L-units. (EC-0700 validated) | ✅ |
+| BCOCA-4-021 | Byte 20 Multiplier: Height multiplier. (EC-0800 validated) | ✅ |
+| BCOCA-4-022 | Bytes 21–22 WE:NE: Wide-to-narrow ratio. (EC-0900 validated) | ✅ |
 | BCOCA-4-023 | It is good practice to specify the size of the bar code presentation space large enough to include plenty of white space around the expected symbols and HRI. | ❓ |
 | BCOCA-4-024 | For desired symbol width, the specified module width value (byte 17) is ignored. | ❓ |
 | BCOCA-4-025 | BCOCA receiver calculates an optimal module width value to produce the widest symbol that fits into the desired width. | ❓ |
