@@ -39,8 +39,12 @@ public class XmlTagTemplates {
 
   public static final byte[] RPS_START = "<RPS_RepeatString>".getBytes(StandardCharsets.UTF_8);
   public static final byte[] RPS_END = "</RPS_RepeatString>".getBytes(StandardCharsets.UTF_8);
-  public static final byte[] REPEAT_LENGTH_START = "<repeatLength>".getBytes(StandardCharsets.UTF_8);
-  public static final byte[] REPEAT_LENGTH_END = "</repeatLength>".getBytes(StandardCharsets.UTF_8);
-  public static final byte[] REPEAT_DATA_START = "<repeatData>".getBytes(StandardCharsets.UTF_8);
-  public static final byte[] REPEAT_DATA_END = "</repeatData>".getBytes(StandardCharsets.UTF_8);
+  public static final byte[] REPEAT_LENGTH_START =
+      "<repeatLength>".getBytes(StandardCharsets.UTF_8);
+  public static final byte[] REPEAT_LENGTH_END =
+      "</repeatLength>".getBytes(StandardCharsets.UTF_8);
+  public static final byte[] REPEAT_DATA_START =
+      "<repeatData>".getBytes(StandardCharsets.UTF_8);
+  public static final byte[] REPEAT_DATA_END =
+      "</repeatData>".getBytes(StandardCharsets.UTF_8);
 }
