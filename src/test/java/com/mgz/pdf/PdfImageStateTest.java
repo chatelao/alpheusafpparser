@@ -1,5 +1,5 @@
 /*
-Copyright 2026 Rudolf Fiala
+Copyright 2024 Rudolf Fiala
 
 This file is part of Alpheus AFP Parser.
 
@@ -28,6 +28,9 @@ import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
 import com.mgz.afp.ioca.IPD_ImagePictureData;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Unit tests for PdfImageState.
+ */
 public class PdfImageStateTest {
 
   @Test

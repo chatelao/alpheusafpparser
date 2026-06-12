@@ -1,5 +1,5 @@
 /*
-Copyright 2026 Rudolf Fiala
+Copyright 2024 Rudolf Fiala
 
 This file is part of Alpheus AFP Parser.
 
@@ -36,6 +36,9 @@ import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Unit tests for PdfMetadataExtractor.
+ */
 public class PdfMetadataExtractorTest {
 
   @Test

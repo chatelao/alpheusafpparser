@@ -1,5 +1,5 @@
 /*
-Copyright 2026 Rudolf Fiala
+Copyright 2024 Rudolf Fiala
 
 This file is part of Alpheus AFP Parser.
 
@@ -29,6 +29,9 @@ import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor.BarCodeType;
 import com.mgz.afp.enums.AFPUnitBase;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Unit tests for PdfBarcodeState.
+ */
 public class PdfBarcodeStateTest {
 
   @Test
