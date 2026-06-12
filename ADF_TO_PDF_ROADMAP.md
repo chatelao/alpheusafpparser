@@ -121,9 +121,9 @@ Implement the drivers for converting AFP content architectures to PDF operators.
                 - ✅ **Custom Patterns**: Map `GBCP`/`GECP` to PDF tiling patterns.
     - ✅ **Resource Mapping**:
         - ✅ **Segment Mapping**: Implement XObject-based rendering for GOCA segments (`GBSEG`).
-    - 🚧 **GOCA Image and Gradient Support**:
+    - ✅ **GOCA Image and Gradient Support**:
         - ✅ **GOCA Images**: Implement `GBIMG`/`GCBIMG`, `GIMD`, and `GEIMG` drawing orders.
-        - ⏳ **GOCA Gradients**: Implement `GLGD` (Linear Gradient) and `GRGD` (Radial Gradient).
+        - ✅ **GOCA Gradients**: Implement `GLGD` (Linear Gradient) and `GRGD` (Radial Gradient).
 - ✅ **BCOCA Renderer**: Implement barcode drawing using vector primitives for resolution independence.
     - ✅ **BCOCA State Tracking**: Implement tracking of barcode descriptors (`BDD`) and data (`BDA`) including type, modifier, and font for HRI.
     - ✅ **Linear Barcode Support**: Implement rendering for common linear barcodes.
@@ -153,8 +153,20 @@ Implement the drivers for converting AFP content architectures to PDF operators.
             - ✅ **GS1 Data Matrix**: Implement Modifier 0x02 for GS1-compliant Data Matrix.
         - ✅ **PDF417**: Implement rendering for PDF417 barcodes (Type 0x1E). (✅ Basic support using iText).
         - ⏳ **MaxiCode**: Implement rendering for MaxiCode barcodes (Type 0x1D).
+            - ⏳ **Research**: Study MaxiCode specification (ISO/IEC 16023) and Modes 2-6.
+            - ⏳ **Implementation**: Implement bit-stream encoding and Reed-Solomon error correction.
+            - ⏳ **Implementation**: Implement hexagonal grid placement and orientation patterns.
+            - ⏳ **Testing**: Add MaxiCode validation test cases and sample AFPs.
         - ⏳ **Aztec Code**: Implement rendering for Aztec Code barcodes (Type 0x26).
+            - ⏳ **Research**: Study Aztec Code specification (ISO/IEC 24778).
+            - ⏳ **Implementation**: Implement bit-stream encoding and Reed-Solomon error correction.
+            - ⏳ **Implementation**: Implement square-grid placement and bullseye finder pattern.
+            - ⏳ **Testing**: Add Aztec Code validation test cases and sample AFPs.
         - ⏳ **Han Xin Code**: Implement rendering for Han Xin Code barcodes (Type 0x27).
+            - ⏳ **Research**: Study Han Xin Code specification (ISO/IEC 20830).
+            - ⏳ **Implementation**: Implement bit-stream encoding and Reed-Solomon error correction.
+            - ⏳ **Implementation**: Implement matrix placement and finder patterns.
+            - ⏳ **Testing**: Add Han Xin Code validation test cases and sample AFPs.
     - ✅ **Postal Barcode Support**:
         - ✅ **POSTNET/PLANET**: Implement rendering for POSTNET and PLANET barcodes.
         - ✅ **Intelligent Mail Barcode (IMB)**: Implement rendering for USPS IMB. (Direct mode 0x01).
