@@ -1564,12 +1564,7 @@ document (revision 4 and earlier)
 
 This algorithm is deprecated in PDF 2.0.
 
-a) The password string is generated from host system codepage characters (or system scripts) by first
-| converting the string to | PDFDocEncoding | . If the input is Unicode, first convert to a codepage encoding, |  |
-| --- | --- | --- | --- |
-| and then to | PDFDocEncoding | for backward compatibility | . Pad or truncate the resulting password string |
-
-to exactly 32 bytes. If the password string is more than 32 bytes long, use only its first 32 bytes; if it is less than 32 bytes long, pad it by appending the required number of additional bytes from the begi nning of the following padding string: <28 BF 4E 5E 4E 75 8A 41 64 00 4E 56 FF FA 01 08 2E 2E 00 B6 D0 68 3E 80 2F 0C A9 FE 64 53 69 7A>
+a) The password string is generated from host system codepage characters (or system scripts) by first converting the string to PDFDocEncoding. If the input is Unicode, first convert to a codepage encoding, and then to PDFDocEncoding for backward compatibility. Pad or truncate the resulting password string to exactly 32 bytes. If the password string is more than 32 bytes long, use only its first 32 bytes; if it is less than 32 bytes long, pad it by appending the required number of additional bytes from the beginning of the following padding string: <28 BF 4E 5E 4E 75 8A 41 64 00 4E 56 FF FA 01 08 2E 2E 00 B6 D0 68 3E 80 2F 0C A9 FE 64 53 69 7A>
 
 That is, if the password string is n bytes long, append the first 32 - n bytes of the padding string to the end of the password string. If the password string is empty (zero-length), meaning there is no user password, substitute the entire padding string in its place.
 
@@ -1587,18 +1582,11 @@ with the value 0xFFFFFFFF to the MD5 hash function.
 
 > **NOTE 1** This provision pertains only to document -level XMP metadata.
 g) Finish the hash.
-h) (Security handlers of revision 3 or greater ) Do the following 50 times: Take the output from the previous
-| MD5 hash and pass the first n bytes of the output as input into a new MD5 hash, where | n is the number |  |
-| --- | --- | --- |
-| of bytes of the | file encryption key as defined by the value of the encryption dictionary’s | Length entry. |
+h) (Security handlers of revision 3 or greater) Do the following 50 times: Take the output from the previous MD5 hash and pass the first n bytes of the output as input into a new MD5 hash, where n is the number of bytes of the file encryption key as defined by the value of the encryption dictionary’s Length entry.
 
-i) Set the file encryption key to the first n bytes of the output from the final MD5 hash, where n shall always
-be 5 for security handlers of revision 2 but, for security handlers of revision 3 or greater, shall depend on the value of the encry ption dictionary’s Length entry.
+i) Set the file encryption key to the first n bytes of the output from the final MD5 hash, where n shall always be 5 for security handlers of revision 2 but, for security handlers of revision 3 or greater, shall depend on the value of the encryption dictionary’s Length entry.
 
-> **NOTE 2** The first element of the ID array, as used in 7.6.4.3.2, "Algorithm 2: Computing a file encryption
-| key in order to encrypt a document (revision 4 and earlier) | ", step e, generally remains unchanged across revisions of a given document. However, since this is not guaranteed, use of the ID in computation of the file encryption key, as required when using 7.6.4.3.3, "Algorithm 2.A: Retrieving the file encryption key from an encrypted document in order to decrypt it (revision 6 and later)Algorithm 2: Computing a file encryption key in order to encrypt a document (revision 4 and earlier)", can complicate updates to the document. For this reason, |
-| --- | --- |
-| security handlers are encouraged to use Algorithm 2.A or higher, which do not use the | ID in file encryption key computation. This algorithm, when applied to the user password string, produces the file encryption key used to encrypt or decrypt string and stream data according to 7.6.3.2, "Algorithm 1: Encryption of data using the RC4 or AES algorithms". Parts of this algorithm are also used in the algorithms described below. |
+> **NOTE 2** The first element of the ID array, as used in 7.6.4.3.2, "Algorithm 2: Computing a file encryption key in order to encrypt a document (revision 4 and earlier)", step e, generally remains unchanged across revisions of a given document. However, since this is not guaranteed, use of the ID in computation of the file encryption key, as required when using 7.6.4.3.3, "Algorithm 2.A: Retrieving the file encryption key from an encrypted document in order to decrypt it (revision 6 and later)", can complicate updates to the document. For this reason, security handlers are encouraged to use Algorithm 2.A or higher, which do not use the ID in file encryption key computation. This algorithm, when applied to the user password string, produces the file encryption key used to encrypt or decrypt string and stream data according to 7.6.3.2, "Algorithm 1: Encryption of data using the RC4 or AES algorithms". Parts of this algorithm are also used in the algorithms described below.
 
 ##### 7.6.4.3.3 Algorithm 2.A: Retrieving the file encryption key from an encrypted
 
@@ -1606,36 +1594,17 @@ document in order to decrypt it (revision 6 and later)
 
 To understand the algorithm below, it is necessary to treat the 48-bytes of the O and U strings in the Encrypt dictionary as made up of three sections, as described in Algorithms 8 and 9. The first 32 bytes are a hash value (explained below). The next 8 bytes are called the Validation Salt. The final 8 bytes are called the Key Salt. Whenever UTF-8 password is used below, steps (a) and (b) are to be applied to the relevant password string to generate the UTF-8 password.
 
-a) The UTF -8 password string shall be genera ted from Unicode input by processing the input string with
-| the SASLprep ( | Internet | RFC 4013 | ) profile of stringprep ( | Internet | RFC 3454) using the Normalize and BiDi |
-| --- | --- | --- | --- | --- | --- |
-| options, and then converting to a UTF | -8 representation. |  |  |  |  |
+a) The UTF-8 password string shall be generated from Unicode input by processing the input string with the SASLprep (Internet RFC 4013) profile of stringprep (Internet RFC 3454) using the Normalize and BiDi options, and then converting to a UTF-8 representation.
 
-b) Truncate the UTF -8 representation to 127 bytes if it is longer than 127 bytes.
-c) Test the password against the owner key by computing a hash using algorithm 2.B with an input string
-| consisting of the UTF | -8 password concatenated with the 8 bytes of owner Validation Salt, concatenated |
-| --- | --- |
-| with the 48-byte U string. If the 32 | -byte result matches the first 32 bytes of the O string, this is the owner |
+b) Truncate the UTF-8 representation to 127 bytes if it is longer than 127 bytes.
 
-password.
-d) Compute an intermediate owner key by computing a hash using algorithm 2.B with an input string
-| consisting of the UTF | -8 owner password concatenat | ed with the 8 bytes of owner Key Salt, concatenated |  |  |
-| --- | --- | --- | --- | --- |
-| with the 48 | -byte U string. The 32 | -byte result is the key used to decrypt the 32 | -byte OE string using AES | - |
+c) Test the password against the owner key by computing a hash using algorithm 2.B with an input string consisting of the UTF-8 password concatenated with the 8 bytes of owner Validation Salt, concatenated with the 48-byte U string. If the 32-byte result matches the first 32 bytes of the O string, this is the owner password.
 
+d) Compute an intermediate owner key by computing a hash using algorithm 2.B with an input string consisting of the UTF-8 owner password concatenated with the 8 bytes of owner Key Salt, concatenated with the 48-byte U string. The 32-byte result is the key used to decrypt the 32-byte OE string using AES-256 in CBC mode with no padding and an initialization vector of zero. The 32-byte result is the file encryption key.
 
-256 in CBC mode with no padding and an initialization vector of zero. The 32-byte result is the file encryption key.
-e) Compute an intermediate user key by computing a hash using algorithm 2.B with an input string
-| consisting of the UTF | -8 user password concatenated with the 8 bytes of user Key Salt. The 32 | -byte result |
-| --- | --- | --- |
-| is the key used to decrypt the 32 | -byte UE string using AES | -256 in CBC mode with no padding and an |
-| initialization vector of zero. The 32 | -byte result is the file encryption key. |  |
+e) Compute an intermediate user key by computing a hash using algorithm 2.B with an input string consisting of the UTF-8 user password concatenated with the 8 bytes of user Key Salt. The 32-byte result is the key used to decrypt the 32-byte UE string using AES-256 in CBC mode with no padding and an initialization vector of zero. The 32-byte result is the file encryption key.
 
-f) Decrypt the 16 -byte Perms string using AES -256 in ECB mode with an initialization vector of zero and
-| the file encrypti | on key as the key. Verify that bytes 9 | -11 of the result are the characters | "a", "d", "b". Bytes |
-| --- | --- | --- | --- |
-| 0-3 of the decrypted | Perms entry, treated as a little | -endian integer, are the user permissions. They | shall |
-| match the value in the | P key. |  |  |
+f) Decrypt the 16-byte Perms string using AES-256 in ECB mode with an initialization vector of zero and the file encryption key as the key. Verify that bytes 9-11 of the result are the characters "a", "d", "b". Bytes 0-3 of the decrypted Perms entry, treated as a little-endian integer, are the user permissions. They shall match the value in the P key.
 
 ##### 7.6.4.3.4 Algorithm 2.B: Computing a hash (revision 6 and later)
 
@@ -2230,31 +2199,16 @@ Table 31 — Entries in a page object
 | Resources | dictionary | (Required; inheritable) A dictionary containing any resources required by the page contents (see 7.8.3, "Resource dictionaries"). If the page requires no resources, the value of this entry shall be an empty dictionary. Omitting the entry entirely indicates that the resources shall be inherited from an ancestor node in the page tree, but PDF writers should not use this method of sharing resources as described in 7.8.3, "Resource dictionaries". |
 | MediaBox | rectangle | (Required; inheritable) A rectangle (see 7.9.5, "Rectangles"), expressed in default user space units, that shall define the boundaries of the physical medium on which the page shall be displayed or printed (see 14.11.2, "Page boundaries"). |
 | CropBox | rectangle | (Optional; Inheritable) A rectangle, expressed in default user space units, that shall define the visible region of default user space. When the page is displayed or printed, its contents shall be clipped (cropped) to this rectangle (see 14.11.2, "Page boundaries"). Default value: the value of MediaBox. |
-
-> **NOTE 1** This clipped page output will often be placed (imposed) on the output medium in some implementation-defined manner.
-
-
-| Key | Type | Value |
-| --- | --- | --- |
 | BleedBox | rectangle | (Optional; PDF 1.3) A rectangle, expressed in default user space units, that shall define the region to which the contents of the page shall be clipped when output in a production environment (see 14.11.2, "Page boundaries"). Default value: the value of CropBox. |
 | TrimBox | rectangle | (Optional; PDF 1.3) A rectangle, expressed in default user space units, that shall define the intended dimensions of the finished page after trimming (see 14.11.2, "Page boundaries"). Default value: the value of CropBox. |
 | ArtBox | rectangle | (Optional; PDF 1.3) A rectangle, expressed in default user space units, that shall define the extent of the page’s meaningful content (including potential white-space) as intended by the page’s creator (see 14.11.2, "Page boundaries"). Default value: the value of CropBox. |
 | BoxColorInfo | dictionary | (Optional; PDF 1.4) A box colour information dictionary that shall specify the colours and other visual characteristics that should be used in displaying guidelines on the screen for the various page boundaries (see 14.11.2.2, "Display of page boundaries"). If this entry is absent, the application shall use its own current default settings. |
-| Contents | stream or | (Optional) A content stream (see 7.8.2, "Content streams") that shall |
-| array | describe the contents of this page. If this entry is absent, the page shall be empty. The value shall be either a single stream or an array of streams. If the value is an array, the effect shall be as if all of the streams in the array were concatenated with at least one white-space character added between the streams’ data, in order, to form a single stream. PDF writers can create image objects and other resources as they occur, even though they interrupt the content stream. The division between streams may occur only at the boundaries between lexical tokens (see 7.2, "Lexical conventions") but shall be unrelated to the page’s logical content or organisation. Applications that consume or produce PDF files need not preserve the existing structure of the Contents array. PDF writers shall not create a Contents array containing no elements. |  |
+| Contents | stream or array | (Optional) A content stream (see 7.8.2, "Content streams") that shall describe the contents of this page. If this entry is absent, the page shall be empty. The value shall be either a single stream or an array of streams. If the value is an array, the effect shall be as if all of the streams in the array were concatenated with at least one white-space character added between the streams’ data, in order, to form a single stream. PDF writers can create image objects and other resources as they occur, even though they interrupt the content stream. The division between streams may occur only at the boundaries between lexical tokens (see 7.2, "Lexical conventions") but shall be unrelated to the page’s logical content or organisation. Applications that consume or produce PDF files need not preserve the existing structure of the Contents array. PDF writers shall not create a Contents array containing no elements. |
 | Rotate | integer | (Optional; inheritable) The number of degrees by which the page shall be rotated clockwise when displayed or printed. The value shall be a multiple of 90. Default value: 0. |
 | Group | dictionary | (Optional; PDF 1.4) A group attributes dictionary that shall specify the attributes of the page’s page group for use in the transparent imaging model (see 11.4.7, "Page group" and 11.6.6, "Transparency group XObjects"). |
 | Thumb | stream | (Optional) A stream object that shall define the page’s thumbnail image (see 12.3.4, "Thumbnail images"). |
-
-
-| Key | Type | Value |
-| --- | --- | --- |
 | B | array | (Optional; PDF 1.1; recommended if the page contains article beads) An array that shall contain indirect references to all article beads appearing on the page (see 12.4.3, "Articles"). The beads shall be listed in the array in natural reading order. Objects of Type Template shall have no B key. |
-
-> **NOTE 2** The information in this entry can be created or recreated from the information obtained from the Threads key in the catalog dictionary.
-
 | Dur | number | (Optional; PDF 1.1) The page’s display duration (also called its advance timing): the maximum length of time, in seconds, that the page shall be displayed during presentations before the viewer application shall automatically advance to the next page (see 12.4.4, "Presentations"). By default, the viewer shall not advance automatically. |
-| --- | --- | --- |
 | Trans | dictionary | (Optional; PDF 1.1) A transition dictionary describing the transition effect that shall be used when displaying the page during presentations (see 12.4.4, "Presentations"). |
 | Annots | array | (Optional) An array of annotation dictionaries that shall contain indirect references to all annotations associated with the page (see 12.5, "Annotations"). |
 | AA | dictionary | (Optional; PDF 1.2) An additional-actions dictionary that shall define actions to be performed when the page is opened or closed (see 12.6.3, "Trigger events"). (PDF 1.3) additional-actions dictionaries are not inheritable. |
@@ -2264,21 +2218,20 @@ Table 31 — Entries in a page object
 | ID | byte string | (Optional; PDF 1.3; indirect reference preferred) The digital identifier of the page’s parent Web Capture content set (see 14.10.6, "Object attributes related to web capture"). |
 | PZ | number | (Optional; PDF 1.3) The page’s preferred zoom (magnification) factor: the factor by which it shall be scaled to achieve the natural display magnification (see 14.10.6, "Object attributes related to web capture"). |
 | SeparationInfo | dictionary | (Optional; PDF 1.3) A separation dictionary that shall contain information needed to generate colour separations for the page (see 14.11.4, "Separation dictionaries"). |
-
-
-| Key | Type | Value |
-| --- | --- | --- |
 | Tabs | name | (Optional; PDF 1.5) A name specifying the tab order that shall be used for annotations on the page (see 12.5 "Annotations"). If present, the values shall be one of R (row order), C (column order), and S (structure order). Beginning with PDF 2.0, additional values also include A (annotations array order) and W (widget order). Annotations array order refers to the order of the annotation enumerated in the Annots entry of the Page dictionary (see "Table 31 — Entries in a page object"). Widget order means using the same array ordering but making two passes, the first only picking the widget annotations and the second picking all other annotations. |
 | TemplateInstantiated | name | (Required if this page was created from a named page object; PDF 1.5) The name of the originating page object (see 12.7.7, "Named pages"). |
 | PresSteps | dictionary | (Optional; PDF 1.5) A navigation node dictionary that shall represent the first node on the page (see 12.4.4.2, "Sub-page navigation"). |
 | UserUnit | number | (Optional; PDF 1.6) A positive number that shall give the size of default user space units, in multiples of 1 ⁄ 72 inch. The range of supported values shall be implementation-dependent. Default value: 1.0 (user space unit is 1 ⁄ 72 inch). |
 | VP | array | (Optional; PDF 1.6) An array of viewport dictionaries (see "Table 265 — Entries in a viewport dictionary") that shall specify rectangular regions of the page. |
-| AF | array of | (Optional; PDF 2.0) An array of one or more file specification |
-| dictionaries | dictionaries (7.11.3, "File specification dictionaries") which denote the associated files for this page. See 14.13, "Associated files" and 14.13.8, "Associated files linked to DParts" for more details. |  |
+| AF | array of dictionaries | (Optional; PDF 2.0) An array of one or more file specification dictionaries (7.11.3, "File specification dictionaries") which denote the associated files for this page. See 14.13, "Associated files" and 14.13.8, "Associated files linked to DParts" for more details. |
 | OutputIntents | array | (Optional; PDF 2.0) An array of output intent dictionaries that shall specify the colour characteristics of output devices on which this page might be rendered (see 14.11.5, "Output intents"). |
 | DPart | dictionary | (Required, if this page is within the range of a DPart, not permitted otherwise; PDF 2.0) An indirect reference to the DPart dictionary whose range of pages includes this page object (see 14.12.3, "Connecting the DPart tree structure to pages"). |
 
-> **NOTE 3** The DPart key in a page object allows a PDF processor to directly retrieve the section of the document part hierarchy that applies to this page object. This also allows for ready access of DPM data in PDF processors.
+> **NOTE 1** This clipped page output will often be placed (imposed) on the output medium in some implementation-defined manner.
+
+> **NOTE 2** The information in the **B** entry can be created or recreated from the information obtained from the **Threads** key in the catalog dictionary.
+
+> **NOTE 3** The **DPart** key in a page object allows a PDF processor to directly retrieve the section of the document part hierarchy that applies to this page object. This also allows for ready access of DPM data in PDF processors.
 
 
 > **EXAMPLE** The following shows the definition of a page object with two annotations. The media box specifies that the page is to be printed on letter-size paper. In addition, the resource dictionary is specified as a direct object and shows that the page makes use of three fonts named F3, F5, and F7.

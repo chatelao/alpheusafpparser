@@ -45,8 +45,8 @@ The following criteria must be verified for each file:
     - ✅ 2.1.3. Clause 7.3 (Objects).
     - ✅ 2.1.4. Clause 7.4 (Filters).
     - ✅ 2.1.5. Clause 7.5 (File structure).
-    - ⏳ 2.1.6. Clause 7.6 (Encryption): Tables 20-22, 24, 28 and Algorithms 1, 1.A clean.
-    - ⏳ 2.1.7. Clause 7.7 (Document structure): Table 29 clean.
+- ✅ 2.1.6. Clause 7.6 (Encryption): Tables 20-22, 24, 28 and Algorithms 1, 1.A, 2, 2.A clean.
+- ✅ 2.1.7. Clause 7.7 (Document structure): Table 29, 31 clean.
     - ⏳ 2.1.8. Clause 7.8 (Content streams and resources).
     - ⏳ 2.1.9. Clause 7.9 (Common data structures).
     - ⏳ 2.1.10. Clause 7.10 (Functions).
@@ -57,8 +57,8 @@ The following criteria must be verified for each file:
     - ✅ 2.2.2. Clause 8.2 (Graphics objects).
     - ✅ 2.2.3. Clause 8.3 (Coordinate systems).
     - ✅ 2.2.4. Clause 8.4 (Graphics state).
-    - ⏳ 2.2.5. Clause 8.5 (Path construction and painting).
-    - ⏳ 2.2.6. Clause 8.6 (Colour spaces).
+    - ✅ 2.2.5. Clause 8.5 (Path construction and painting).
+    - ✅ 2.2.6. Clause 8.6 (Colour spaces).
     - ⏳ 2.2.7. Clause 8.7 (Patterns).
     - ⏳ 2.2.8. Clause 8.8 (External objects).
     - ⏳ 2.2.9. Clause 8.9 (Images).
@@ -145,8 +145,8 @@ The following criteria must be verified for each file:
 | `Chapter_4.md` | ✅ Completed | 1 | Fixed headings and merged paragraphs. |
 | `Chapter_5.md` | ✅ Completed | 1 | Verified as clean. |
 | `Chapter_6.md` | ✅ Completed | 1 | Fixed paragraph breakage in 6.3.2.1. |
-| `Chapter_7.md` | ✅ Completed | 2.1 | Standardized NOTE/EXAMPLE; merged Tables 3, 4; Clauses 7.1-7.12 clean. |
-| `Chapter_8.md` | ⏳ In Progress | 2.2 | Clauses 8.1 to 8.4 cleaned (lists, tables, formulas). |
+| `Chapter_7.md` | ✅ Completed | 2.1 | Standardized NOTE/EXAMPLE; merged Tables 3, 4, 31; Algorithms 2, 2.A clean; Clauses 7.1-7.12 clean. |
+| `Chapter_8.md` | ⏳ In Progress | 2.2 | Clauses 8.1 to 8.6 cleaned (lists, tables, formulas). |
 | `Chapter_9.md` | ⏳ Pending | 3.1 | Verified: Fragmented formulas and notes. |
 | `Chapter_10.md` | ⏳ Pending | 3.2 | |
 | `Chapter_11.md` | ⏳ Pending | 3.3 | |
