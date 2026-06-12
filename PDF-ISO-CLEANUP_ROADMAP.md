@@ -45,7 +45,7 @@ The following criteria must be verified for each file:
     - ✅ 2.1.3. Clause 7.3 (Objects).
     - ✅ 2.1.4. Clause 7.4 (Filters).
     - ✅ 2.1.5. Clause 7.5 (File structure).
-    - ⏳ 2.1.6. Clause 7.6 (Encryption).
+    - ⏳ 2.1.6. Clause 7.6 (Encryption): Clauses 7.6.1-7.6.4 partially cleaned.
     - ⏳ 2.1.7. Clause 7.7 (Document structure).
     - ⏳ 2.1.8. Clause 7.8 (Content streams and resources).
     - ⏳ 2.1.9. Clause 7.9 (Common data structures).
@@ -131,7 +131,7 @@ The following criteria must be verified for each file:
     - ✅ 6.3.5. Appendix O (Fragment identifiers).
 - ⏳ **6.4. Appendix P to Q & Bibliography**: Final mathematical algorithms.
     - ✅ 6.4.1. Appendix P (Algorithm for blending colour space).
-    - ⏳ 6.4.2. Appendix Q (Determining transparency).
+    - ✅ 6.4.2. Appendix Q (Determining transparency).
     - ⏳ 6.4.3. Bibliography.
 
 ## Status Summary
@@ -169,7 +169,7 @@ The following criteria must be verified for each file:
 | `Appendix_N.md` | ✅ Completed | 6.3 | Fixed fragmented text blocks in N.3. |
 | `Appendix_O.md` | ✅ Completed | 6.3 | Merged fragmented rows in tables and integrated parameters. |
 | `Appendix_P.md` | ✅ Completed | 6.4 | Standardized NOTE and list formatting. |
-| `Appendix_Q.md` | ⏳ Pending | 6.4 | |
+| `Appendix_Q.md` | ✅ Completed | 6.4 | Reformatted lists, standardized NOTES, removed footers. |
 | `Bibliography.md` | ⏳ Pending | 6.4 | |
 
 ---

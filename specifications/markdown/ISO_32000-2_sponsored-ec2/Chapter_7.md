@@ -1396,31 +1396,14 @@ Table 20 — Entries common to all encryption dictionaries
 
 | Key | Type | Value |
 | --- | --- | --- |
-| Filter | name | (Required) The name of the preferred security handler for this document. It shall be the name of the security handler that was used to encrypt the document. If SubFilter is not present, only this security handler shall be used when opening the document. If it is present, a PDF processor can use any security handler that implements the format specified by SubFilter. Standard shall be the name of the built-in password-based security handler. Names for other security handlers may be registered by using the procedure described in Annex E, "Extending PDF". |
-| SubFilter | name | (Optional; PDF 1.3) A name that completely specifies the format and interpretation of the contents of the encryption dictionary. It allows security handlers other than the one specified by Filter to decrypt the document. If this entry is absent, other security handlers shall not decrypt the document. |
-
-
-| Key | Type | Value |
-| --- | --- | --- |
-| V | integer | (Required) A code specifying the algorithm to be used in encrypting and decrypting the document: |
-
-# 0 An algorithm that is undocumented. This value shall not be used.
-
-| 1 | (Deprecated in PDF 2.0) Indicates the use of 7.6.3.2, "Algorithm 1: Encryption of data using the RC4 or AES algorithms" (deprecated in PDF 2.0) with a file encryption key length of 40 bits; see below. |  |
-| --- | --- | --- |
-| 2 | (PDF 1.4; deprecated in PDF 2.0) Indicates the use of 7.6.3.2, "Algorithm 1: Encryption of data using the RC4 or AES algorithms" (deprecated in PDF 2.0) but permitting file encryption key lengths greater than 40 bits. |  |
-| 3 | (PDF 1.4; deprecated in PDF 2.0) An unpublished algorithm that permits file encryption key lengths ranging from 40 to 128 bits. This value shall not appear in a conforming PDF file. |  |
-| 4 | (PDF 1.5; deprecated in PDF 2.0) The security handler defines the use of encryption and decryption in the document, using the rules specified by the CF, StmF, and StrF entries using 7.6.3.2, "Algorithm 1: Encryption of data using the RC4 or AES algorithms" (deprecated in PDF 2.0) with a file encryption key length of 128 bits. |  |
-| 5 | (PDF 2.0) The security handler defines the use of encryption and decryption in the document, using the rules specified by the CF, StmF, StrF and EFF entries using 7.6.3.3, "Algorithm 1.A: Encryption of data using the AES algorithms" with a file encryption key length of 256 bits. |  |
-| Length | integer | (Optional; PDF 1.4; only if V is 2 or 3; deprecated in PDF 2.0) The length of the file encryption key, in bits. The value shall be a multiple of 8, in the range 40 to 128. Default value: 40. |
-| CF | dictionary | (Optional; meaningful only when the value of V is 4 (PDF 1.5) or 5 (PDF 2.0)) A dictionary whose keys shall be crypt filter names and whose values shall be the corresponding crypt filter dictionaries (see "Table 25 — Entries common to all crypt filter dictionaries"). Every crypt filter used in the document shall have an entry in this dictionary, except for the standard crypt filter names (see "Table 26 — Standard crypt filter names"). Any keys in the CF dictionary that are listed in "Table 26 — Standard crypt filter names" shall be ignored by a PDF processor. Instead, the PDF processor shall use properties of the respective standard crypt filters. |
-| StmF | name | (Optional; meaningful only when the value of V is 4 (PDF 1.5) or 5 (PDF 2.0)) The name of the crypt filter that shall be used by default when decrypting streams. The name shall be a key in the CF dictionary or a standard crypt filter name specified in "Table 26 — Standard crypt filter names". All streams in the document, except for cross-reference streams (see 7.5.8, "Cross-reference streams") or streams that have a Crypt entry in their Filter array (see "Table 6 — Standard filters"), shall be decrypted by the security handler, using this crypt filter. Default value: Identity. |
-| StrF | name | (Optional; meaningful only when the value of V is 4 (PDF 1.5) or 5 (PDF 2.0)) The name of the crypt filter that shall be used when decrypting all strings in the document. The name shall be a key in the CF dictionary or a standard crypt filter name specified in "Table 26 — Standard crypt filter names". Default value: Identity. |
-
-
-| Key | Type | Value |
-| --- | --- | --- |
-| EFF | name | (Optional; meaningful only when the value of V is 4 (PDF 1.6) or 5 (PDF 2.0)) The name of the crypt filter that shall be used when encrypting embedded file streams that do not have their own crypt filter specifier; it shall correspond to a key in the CF dictionary or a standard crypt filter name specified in "Table 26 — Standard crypt filter names". This entry shall be provided by the security handler. PDF writers shall respect this value when encrypting embedded files, except for embedded file streams that have their own crypt filter specifier. If this entry is not present, and the embedded file stream does not contain a crypt filter specifier, the stream shall be encrypted using the default stream crypt filter specified by StmF. |
+| **Filter** | name | (Required) The name of the preferred security handler for this document. It shall be the name of the security handler that was used to encrypt the document. If **SubFilter** is not present, only this security handler shall be used when opening the document. If it is present, a PDF processor can use any security handler that implements the format specified by **SubFilter**. *Standard* shall be the name of the built-in password-based security handler. Names for other security handlers may be registered by using the procedure described in Annex E, "Extending PDF". |
+| **SubFilter** | name | (Optional; PDF 1.3) A name that completely specifies the format and interpretation of the contents of the encryption dictionary. It allows security handlers other than the one specified by **Filter** to decrypt the document. If this entry is absent, other security handlers shall not decrypt the document. |
+| **V** | integer | (Required) A code specifying the algorithm to be used in encrypting and decrypting the document:<br>0: An algorithm that is undocumented. This value shall not be used.<br>1: (Deprecated in PDF 2.0) Indicates the use of 7.6.3.2, "Algorithm 1: Encryption of data using the RC4 or AES algorithms" (deprecated in PDF 2.0) with a file encryption key length of 40 bits; see below.<br>2: (PDF 1.4; deprecated in PDF 2.0) Indicates the use of 7.6.3.2, "Algorithm 1: Encryption of data using the RC4 or AES algorithms" (deprecated in PDF 2.0) but permitting file encryption key lengths greater than 40 bits.<br>3: (PDF 1.4; deprecated in PDF 2.0) An unpublished algorithm that permits file encryption key lengths ranging from 40 to 128 bits. This value shall not appear in a conforming PDF file.<br>4: (PDF 1.5; deprecated in PDF 2.0) The security handler defines the use of encryption and decryption in the document, using the rules specified by the **CF**, **StmF**, and **StrF** entries using 7.6.3.2, "Algorithm 1: Encryption of data using the RC4 or AES algorithms" (deprecated in PDF 2.0) with a file encryption key length of 128 bits.<br>5: (PDF 2.0) The security handler defines the use of encryption and decryption in the document, using the rules specified by the **CF**, **StmF**, **StrF** and **EFF** entries using 7.6.3.3, "Algorithm 1.A: Encryption of data using the AES algorithms" with a file encryption key length of 256 bits.<br>Values less than 5 for the **V** entry are deprecated in PDF 2.0. |
+| **Length** | integer | (Optional; PDF 1.4; only if **V** is 2 or 3; deprecated in PDF 2.0) The length of the file encryption key, in bits. The value shall be a multiple of 8, in the range 40 to 128. Default value: 40. |
+| **CF** | dictionary | (Optional; meaningful only when the value of **V** is 4 (PDF 1.5) or 5 (PDF 2.0)) A dictionary whose keys shall be crypt filter names and whose values shall be the corresponding crypt filter dictionaries (see "Table 25 — Entries common to all crypt filter dictionaries"). Every crypt filter used in the document shall have an entry in this dictionary, except for the standard crypt filter names (see "Table 26 — Standard crypt filter names"). Any keys in the **CF** dictionary that are listed in "Table 26 — Standard crypt filter names" shall be ignored by a PDF processor. Instead, the PDF processor shall use properties of the respective standard crypt filters. |
+| **StmF** | name | (Optional; meaningful only when the value of **V** is 4 (PDF 1.5) or 5 (PDF 2.0)) The name of the crypt filter that shall be used by default when decrypting streams. The name shall be a key in the **CF** dictionary or a standard crypt filter name specified in "Table 26 — Standard crypt filter names". All streams in the document, except for cross-reference streams (see 7.5.8, "Cross-reference streams") or streams that have a **Crypt** entry in their **Filter** array (see "Table 6 — Standard filters"), shall be decrypted by the security handler, using this crypt filter. Default value: *Identity*. |
+| **StrF** | name | (Optional; meaningful only when the value of **V** is 4 (PDF 1.5) or 5 (PDF 2.0)) The name of the crypt filter that shall be used when decrypting all strings in the document. The name shall be a key in the **CF** dictionary or a standard crypt filter name specified in "Table 26 — Standard crypt filter names". Default value: *Identity*. |
+| **EFF** | name | (Optional; meaningful only when the value of **V** is 4 (PDF 1.6) or 5 (PDF 2.0)) The name of the crypt filter that shall be used when encrypting embedded file streams that do not have their own crypt filter specifier; it shall correspond to a key in the **CF** dictionary or a standard crypt filter name specified in "Table 26 — Standard crypt filter names". This entry shall be provided by the security handler. PDF writers shall respect this value when encrypting embedded files, except for embedded file streams that have their own crypt filter specifier. If this entry is not present, and the embedded file stream does not contain a crypt filter specifier, the stream shall be encrypted using the default stream crypt filter specified by **StmF**. |
 
 Unlike strings within the body of the document, those in the encryption dictionary shall be direct objects. The values of the keys defined in "Table 20 — Entries common to all encryption dictionaries" shall not be encrypted. However, a security handler may choose to encrypt any objects that are private to itself.
 
@@ -1454,43 +1437,22 @@ Algorithms in 7.6, "Encryption" are uniquely numbered within this subclause in a
 
 This algorithm is deprecated in PDF 2.0.
 
-a) Obtain the object number and generation number from the object identifier of the string or stream to be
-| encrypted (see | 7.3.10, "Indirect objects | "). If the string is a direct object, use the identifier of the indirect |
-| --- | --- | --- |
-| object containing it | . |  |
+a) Obtain the object number and generation number from the object identifier of the string or stream to be encrypted (see 7.3.10, "Indirect objects"). If the string is a direct object, use the identifier of the indirect object containing it.
 
-b) For all strings and streams without crypt filter specifier; tre ating the object number and generation
-| number as binary integers, extend the original | n-byte file encryption key to | n + 5 bytes by appending the |  |
-| --- | --- | --- | --- |
-| low-order 3 bytes of the object number and the low | -order 2 bytes of the generation number in that |  |  |
-| order, low-order byte first. (n is 5 unless the value of | V in the encryption dictionary is greater than 1, in |  |  |
-| which case | n is the value of | Length divided by 8.) | For example, for object number 258 and generation |
-| number 7, the hexadecimal values 0x02 0x01 0x00 0x07 0x00 would be appended to the | file encryption |  |  |
+b) For all strings and streams without crypt filter specifier; treating the object number and generation number as binary integers, extend the original *n*-byte file encryption key to *n* + 5 bytes by appending the low-order 3 bytes of the object number and the low-order 2 bytes of the generation number in that order, low-order byte first. (*n* is 5 unless the value of **V** in the encryption dictionary is greater than 1, in which case *n* is the value of **Length** divided by 8.) For example, for object number 258 and generation number 7, the hexadecimal values 0x02 0x01 0x00 0x07 0x00 would be appended to the file encryption key.
+   If using the AES algorithm, extend the file encryption key an additional 4 bytes by adding the value "sAlT", which corresponds to the hexadecimal values 0x73, 0x41, 0x6C, 0x54. (This addition is done for backward compatibility and is not intended to provide additional security.)
 
-key.
-If using the AES algorithm, extend the file encryption key an additional 4 bytes by adding the value "sAlT", which corresponds to the hexadecimal values 0x73, 0x41, 0x6C, 0x54. (This addition is done for backward compatibility and is not intended to provide additional security.)
+c) Initialise the MD5 hash function and pass the result of step (b) as input to this function.
 
-c) Initialise the MD5 hash function and pass the result of step (b) as input to t his function.
-d) Use the first ( n + 5) bytes, up to a maximum of 16, of the output from the MD5 hash as the key for the
-RC4 or AES symmetric key algorithms, along with the string or stream data to be encrypted.
-| If using the AES algorithm, the Cipher Block Cha | ining (CBC) mode, which requires an initialization |
-| --- | --- |
-| vector, is used. The block size parameter is set to 16 bytes, and the initialization vector is a 16 | -byte |
-
-random number that is stored as the first 16 bytes of the encrypted stream or string.
+d) Use the first (*n* + 5) bytes, up to a maximum of 16, of the output from the MD5 hash as the key for the RC4 or AES symmetric key algorithms, along with the string or stream data to be encrypted.
+   If using the AES algorithm, the Cipher Block Chaining (CBC) mode, which requires an initialization vector, is used. The block size parameter is set to 16 bytes, and the initialization vector is a 16-byte random number that is stored as the first 16 bytes of the encrypted stream or string.
 
 The output is the encrypted data to be stored in the PDF file.
 
 #### 7.6.3.3 Algorithm 1.A: Encryption of data using the AES algorithms
 
-a) Use the 32 -byte file encryption key for the AES -256 symmetric key algorithm, along with the string or
-stream data to be encrypted.
-| Use the AES algor | ithm in Cipher Block Chaining (CBC) mode, | which requires an initialization |
-| --- | --- | --- |
-| vector. The block size parameter is set to 16 bytes, and the initialization vector is a 16 | -byte random |  |
-
-
-number that is stored as the first 16 bytes of the encrypted stream or string.
+a) Use the 32-byte file encryption key for the AES-256 symmetric key algorithm, along with the string or stream data to be encrypted.
+   Use the AES algorithm in Cipher Block Chaining (CBC) mode, which requires an initialization vector. The block size parameter is set to 16 bytes, and the initialization vector is a 16-byte random number that is stored as the first 16 bytes of the encrypted stream or string.
 
 The output is the encrypted data to be stored in the PDF file.
 
@@ -1554,28 +1516,14 @@ Table 21 — Additional encryption dictionary entries for the standard security 
 
 | Key | Type | Value |
 | --- | --- | --- |
-| R | integer | (Required) A number specifying which revision of the standard security handler shall be used to interpret this dictionary: |
-| 2 | (Deprecated in PDF 2.0) if the document is encrypted with a V value less than 2 (see "Table 20 — Entries common to all encryption dictionaries") and does not have any of the access permissions set to 0 (by means of the P entry, below) that are designated "Security handlers of revision 3 or greater" in "Table 22 — Standard security handler user access permissions". |  |
-| 3 | (Deprecated in PDF 2.0) if the document is encrypted with a V value of 2 or 3, or has any "Security handlers of revision 3 or greater" access permissions set to 0. |  |
-| 4 | (Deprecated in PDF 2.0) if the document is encrypted with a V value of 4. |  |
-| 5 | (PDF 2.0; deprecated in PDF 2.0) Shall not be used. This value was used by a deprecated proprietary Adobe extension. |  |
-| 6 | (PDF 2.0) if the document is encrypted with a V value of 5. |  |
-| O | byte | (Required) A byte string, 32 bytes long if the value of R is 4 or less and 48 |
-| string | bytes long if the value of R is 6, based on both the owne r and user passwords, that shall be used in computing the file encryption key and in determining whether a valid owner password was entered. For more information, see 7.6.4.3, "File encryption key algorithm" and 7.6.4.4, "Password algorithms". |  |
-| U | byte | (Required) A byte string, 32 bytes long if the value of R is 4 or less and 48 |
-| string | bytes long if the value of R is 6, based on the owner and user password, that shall be used in determining whether to prompt the user for a password and, if so, whether a valid user or owner password was entered. For more information, see 7.6.4.4, "Password algorithms". |  |
-| OE | byte | (Required if R is 6 (PDF 2.0)) A 32-byte string, based on the owner and user |
-| string | password, that shall be used in computing the file encryption key. For more information, see 7.6.4.4, "Password algorithms". |  |
-| UE | byte | (Required if R is 6 (PDF 2.0)) A 32-byte string, based on the user password, |
-| string | that shall be used in computing the file encryption key. For more information, see 7.6.4.4, "Password algorithms". |  |
-| P | integer | (Required) A set of flags specifying which operations shall be permitted when the document is opened with user access (see "Table 22 — Standard security handler user access permissions"). |
-
-
-| Key | Type | Value |
-| --- | --- | --- |
-| Perms | byte | (Required if R is 6 (PDF 2.0)) A 16-byte string, encrypted with the file |
-| string | encryption key, that contains an encrypted copy of the permissions flags. For more information, see 7.6.4.4, "Password algorithms". |  |
-| EncryptMetadata | boolean | (Optional; meaningful only when the value of V is 4 (PDF 1.5) or 5 (PDF 2.0)) Indicates whether the document-level metadata stream (see 14.3.2, "Metadata streams") shall be encrypted. Default value: true. |
+| **R** | integer | (Required) A number specifying which revision of the standard security handler shall be used to interpret this dictionary:<br>2: (Deprecated in PDF 2.0) if the document is encrypted with a **V** value less than 2 (see "Table 20 — Entries common to all encryption dictionaries") and does not have any of the access permissions set to 0 (by means of the **P** entry, below) that are designated "Security handlers of revision 3 or greater" in "Table 22 — Standard security handler user access permissions".<br>3: (Deprecated in PDF 2.0) if the document is encrypted with a **V** value of 2 or 3, or has any "Security handlers of revision 3 or greater" access permissions set to 0.<br>4: (Deprecated in PDF 2.0) if the document is encrypted with a **V** value of 4.<br>5: (PDF 2.0; deprecated in PDF 2.0) Shall not be used. This value was used by a deprecated proprietary Adobe extension.<br>6: (PDF 2.0) if the document is encrypted with a **V** value of 5. |
+| **O** | byte string | (Required) A byte string, 32 bytes long if the value of **R** is 4 or less and 48 bytes long if the value of **R** is 6, based on both the owner and user passwords, that shall be used in computing the file encryption key and in determining whether a valid owner password was entered. For more information, see 7.6.4.3, "File encryption key algorithm" and 7.6.4.4, "Password algorithms". |
+| **U** | byte string | (Required) A byte string, 32 bytes long if the value of **R** is 4 or less and 48 bytes long if the value of **R** is 6, based on the owner and user password, that shall be used in determining whether to prompt the user for a password and, if so, whether a valid user or owner password was entered. For more information, see 7.6.4.4, "Password algorithms". |
+| **OE** | byte string | (Required if **R** is 6 (PDF 2.0)) A 32-byte string, based on the owner and user password, that shall be used in computing the file encryption key. For more information, see 7.6.4.4, "Password algorithms". |
+| **UE** | byte string | (Required if **R** is 6 (PDF 2.0)) A 32-byte string, based on the user password, that shall be used in computing the file encryption key. For more information, see 7.6.4.4, "Password algorithms". |
+| **P** | integer | (Required) A set of flags specifying which operations shall be permitted when the document is opened with user access (see "Table 22 — Standard security handler user access permissions"). |
+| **Perms** | byte string | (Required if **R** is 6 (PDF 2.0)) A 16-byte string, encrypted with the file encryption key, that contains an encrypted copy of the permissions flags. For more information, see 7.6.4.4, "Password algorithms". |
+| **EncryptMetadata** | boolean | (Optional; meaningful only when the value of **V** is 4 (PDF 1.5) or 5 (PDF 2.0)) Indicates whether the document-level metadata stream (see 14.3.2, "Metadata streams") shall be encrypted. Default value: *true*. |
 
 The values of the O and U entries in this dictionary shall be used to determine whether a password entered when the document is opened is the correct owner password, user password, or neither.
 
@@ -1591,36 +1539,15 @@ Table 22 — Standard security handler user access permissions
 | Bit position | Meaning |
 | --- | --- |
 | 1 - 2 | Reserved. Must be zero (0). |
-| 3 | (Security handlers of revision 2) Print the document. (Security handlers of revision 3 or greater) Print the document (possibly not at the highest quality level, depending on whether bit 12 is also set). |
-
-# 4 Modify the contents of the document by operations other than those controlled by bits 6, 9,
-
-and 11.
-
-# 5 Copy or otherwise extract text and graphics from the document. However, for the limited
-
-purpose of providing this content to assistive technology, a PDF reader should behave as if this bit was set to 1.
-
-> **NOTE** For accessibility, ISO 32000-1 had this option restricted by bit 10, but that exception has been deprecated in PDF 2.0.
-
-# 6 Add or modify text annotations, fill in interactive form fields, and, if bit 4 is also set, create or
-
-modify interactive form fields (including signature fields).
-
-7 - 8 Reserved. Must be 1.
-
-
-| Bit position | Meaning |
-| --- | --- |
+| 3 | (Security handlers of revision 2) Print the document.<br>(Security handlers of revision 3 or greater) Print the document (possibly not at the highest quality level, depending on whether bit 12 is also set). |
+| 4 | Modify the contents of the document by operations other than those controlled by bits 6, 9, and 11. |
+| 5 | Copy or otherwise extract text and graphics from the document. However, for the limited purpose of providing this content to assistive technology, a PDF reader should behave as if this bit was set to 1. |
+| 6 | Add or modify text annotations, fill in interactive form fields, and, if bit 4 is also set, create or modify interactive form fields (including signature fields). |
+| 7 - 8 | Reserved. Must be 1. |
 | 9 | (Security handlers of revision 3 or greater) Fill in existing interactive form fields (including signature fields), even if bit 6 is clear. |
-
-# 10 Not used. This bit was previously used to determine whether content could be extracted for
-
-the purposes of accessibility, however, that restriction has been deprecated in PDF 2.0. PDF readers shall ignore this bit and PDF writers shall always set this bit to 1 to ensure compatibility with PDF readers following earlier specifications.
-
+| 10 | Not used. This bit was previously used to determine whether content could be extracted for the purposes of accessibility, however, that restriction has been deprecated in PDF 2.0. PDF readers shall ignore this bit and PDF writers shall always set this bit to 1 to ensure compatibility with PDF readers following earlier specifications. |
 | 11 | (Security handlers of revision 3 or greater) Assemble the document (insert, rotate, or delete pages and create document outline items or thumbnail images), even if bit 4 is clear. |
-| --- | --- |
-| 12 | (Security handlers of revision 3 or greater) Print the document to a representation from which a faithful digital copy of the PDF content could be generated, based on an implementation- dependent algorithm. When this bit is clear (and bit 3 is set), printing shall be limited to a low- level representation of the appearance, possibly of degraded quality. |
+| 12 | (Security handlers of revision 3 or greater) Print the document to a representation from which a faithful digital copy of the PDF content could be generated, based on an implementation-dependent algorithm. When this bit is clear (and bit 3 is set), printing shall be limited to a low-level representation of the appearance, possibly of degraded quality. |
 | 13 - 32 | (Security handlers of revision 3 or greater) Reserved. Must be 1. |
 
 > **NOTE** The above table was re-titled and corrected in this document (2020).
