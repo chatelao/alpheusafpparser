@@ -194,7 +194,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private final Deque<Map<Short, FontResource>> fontMapStack = new ArrayDeque<>();
   private final Deque<Boolean> canvasTransformedStack = new ArrayDeque<>();
   private final Set<Short> enabledSuppressionIDs = new HashSet<>();
-  private final PdfFontRegistry fontRegistry = new PdfFontRegistry();
+  private final PdfFontRegistry fontRegistry;
   private final PdfDocument pdfDoc;
   private final Document document;
   private final PdfDictionary dpartRoot;
@@ -216,6 +216,17 @@ public class PdfHandler implements StructuredFieldHandler {
   private boolean isCanvasTransformed = false;
 
   public PdfHandler(OutputStream os) {
+    this(os, new PdfFontRegistry());
+  }
+
+  /**
+   * Constructs a PdfHandler with an injected font registry.
+   *
+   * @param os the output stream
+   * @param fontRegistry the font registry to use
+   */
+  public PdfHandler(OutputStream os, PdfFontRegistry fontRegistry) {
+    this.fontRegistry = fontRegistry;
     this.pdfDoc = new PdfDocument(new PdfWriter(os));
     this.textState = new PdfTextState();
     this.graphicsState = new PdfGraphicsState();
