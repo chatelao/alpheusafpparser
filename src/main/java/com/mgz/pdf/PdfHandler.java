@@ -37,6 +37,8 @@ import com.itextpdf.kernel.pdf.PdfString;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.kernel.pdf.colorspace.PdfPattern;
+import com.itextpdf.kernel.pdf.colorspace.shading.PdfAxialShading;
+import com.itextpdf.kernel.pdf.colorspace.shading.PdfRadialShading;
 import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
@@ -93,6 +95,8 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GSMS_SetMarkerSet;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSMT_SetMarkerSymbol;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSMX_SetMix;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPCOL_SetProcessColor;
+import com.mgz.afp.goca.GAD_DrawingOrder.GLGD_LinearGradient;
+import com.mgz.afp.goca.GAD_DrawingOrder.GRGD_RadialGradient;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPS_SetPatternSet;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPT_SetPatternSymbol;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSCS_SetCharacterSet;
@@ -188,6 +192,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private final Deque<PdfCanvas> canvasStack = new ArrayDeque<>();
   private final Map<String, PdfFormXObject> resourceCache = new HashMap<>();
   private final Map<String, com.itextpdf.kernel.pdf.colorspace.PdfPattern.Tiling> patternCache = new HashMap<>();
+  private final Map<String, GAD_DrawingOrder> gradientCache = new HashMap<>();
   private final Map<String, com.itextpdf.kernel.pdf.xobject.PdfImageXObject> imageCache = new HashMap<>();
   private final Set<String> mmoResources = new HashSet<>();
   private final Set<String> mpsResources = new HashSet<>();
@@ -624,7 +629,7 @@ public class PdfHandler implements StructuredFieldHandler {
     }
   }
 
-  private void handleDrawingOrder(GAD_DrawingOrder order) {
+  public void handleDrawingOrder(GAD_DrawingOrder order) {
     if (MnemonicPerformanceMonitor.isEnabled()) {
       String rootName = MnemonicPerformanceMonitor.getSimpleName(order.getClass());
       String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
@@ -959,6 +964,10 @@ public class PdfHandler implements StructuredFieldHandler {
       startGocaImage(gbimg.getWidthOfImageInImagePoints(), gbimg.getHeightOfImageInImagePoints());
     } else if (order instanceof GCBIMG_BeginImageAtCurrentPosition gcbimg) {
       startGocaImage(gcbimg.getWidthOfImageInImagePoints(), gcbimg.getHeightOfImageInImagePoints());
+    } else if (order instanceof GLGD_LinearGradient glgd) {
+      gradientCache.put(glgd.patternSet + "_" + glgd.patternSymbol, glgd);
+    } else if (order instanceof GRGD_RadialGradient grgd) {
+      gradientCache.put(grgd.patternSet + "_" + grgd.patternSymbol, grgd);
     } else if (order instanceof GIMD_ImageData gimd) {
       if (gocaImageBuffer != null && gimd.getImageData() != null) {
         try {
@@ -1312,6 +1321,10 @@ public class PdfHandler implements StructuredFieldHandler {
   }
 
   private void applyPattern(short set, short symbol) {
+    if (set == 1) {
+      applyGradient(set, symbol);
+      return;
+    }
     if (set != 0) {
       String customKey = "CUSTOM_" + set + "_" + symbol;
       PdfPattern.Tiling tiling = patternCache.get(customKey);
@@ -1359,6 +1372,27 @@ public class PdfHandler implements StructuredFieldHandler {
       patternCache.put(key, tiling);
     }
     currentCanvas.setFillColor(new PatternColor(tiling));
+  }
+
+  private void applyGradient(short set, short symbol) {
+    GAD_DrawingOrder order = gradientCache.get(set + "_" + symbol);
+    if (order instanceof GLGD_LinearGradient glgd && glgd.startColorSpec != null) {
+      Color c1 = ColorHandler.getExtendedColor(glgd.startColorSpec.colorSpace, glgd.startColorSpec.colorValue);
+      Color c2 = ColorHandler.getExtendedColor(glgd.startColorSpec.colorSpace, glgd.endColorValue);
+      if (c1 != null && c2 != null) {
+        PdfAxialShading shading = new PdfAxialShading(c1.getColorSpace(), glgd.xStart, glgd.yStart, c1.getColorValue(), glgd.xEnd, glgd.yEnd, c2.getColorValue());
+        currentCanvas.setFillColorShading(new PdfPattern.Shading(shading));
+      }
+    } else if (order instanceof GRGD_RadialGradient grgd && grgd.startColorSpec != null) {
+      Color c1 = ColorHandler.getExtendedColor(grgd.startColorSpec.colorSpace, grgd.startColorSpec.colorValue);
+      Color c2 = ColorHandler.getExtendedColor(grgd.startColorSpec.colorSpace, grgd.endColorValue);
+      if (c1 != null && c2 != null) {
+        float r1 = grgd.mhStart + (grgd.mfrStart / 256.0f);
+        float r2 = grgd.mhEnd + (grgd.mfrEnd / 256.0f);
+        PdfRadialShading shading = new PdfRadialShading(c1.getColorSpace(), grgd.xStart, grgd.yStart, r1, c1.getColorValue(), grgd.xEnd, grgd.yEnd, r2, c2.getColorValue());
+        currentCanvas.setFillColorShading(new PdfPattern.Shading(shading));
+      }
+    }
   }
 
   private void applyGraphicsState() {
