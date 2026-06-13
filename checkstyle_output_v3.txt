@@ -2,13 +2,13 @@ Initialized native services in: /home/jules/.gradle/native
 Initialized jansi services in: /home/jules/.gradle/native
 Received JVM installation metadata from '/usr/lib/jvm/java-21-openjdk-amd64': {JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64, JAVA_VERSION=21.0.10, JAVA_VENDOR=Ubuntu, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=21.0.10+7-Ubuntu-124.04, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.10+7-Ubuntu-124.04, VM_VENDOR=Ubuntu, OS_ARCH=amd64}
 The client will now receive all logging from the daemon (pid: 46034). The daemon log file: /home/jules/.gradle/daemon/8.5/daemon-46034.out.log
-Starting 13th build in daemon [uptime: 15 mins 50.794 secs, performance: 97%, GC rate: 0.00/s, heap usage: 0% of 512 MiB, non-heap usage: 46% of 384 MiB]
+Starting 17th build in daemon [uptime: 19 mins 24.087 secs, performance: 97%, GC rate: 0.00/s, heap usage: 0% of 512 MiB, non-heap usage: 46% of 384 MiB]
 Using 4 worker leases.
 Not watching /app since the file system is not supported
-Closing daemon's stdin at end of input.
-The daemon will no longer process any standard input.
 Watching the file system is configured to be enabled if available
 File system watching is active
+Closing daemon's stdin at end of input.
+The daemon will no longer process any standard input.
 Starting Build
 Settings evaluated using settings file '/app/settings.gradle.kts'.
 Projects loaded. Root project using build file '/app/build.gradle.kts'.
@@ -25,33 +25,33 @@ Task name matched 'checkstyleMain'
 Selected primary task 'checkstyleMain' from project :
 Tasks to be executed: [task ':compileJava', task ':processResources', task ':classes', task ':checkstyleMain']
 Tasks that were excluded: []
-Resolve mutations for :compileJava (Thread[#519,Execution worker,5,main]) started.
-:compileJava (Thread[#519,Execution worker,5,main]) started.
+Resolve mutations for :compileJava (Thread[#653,Execution worker,5,main]) started.
+:compileJava (Thread[#652,included builds,5,main]) started.
 
 > Task :compileJava UP-TO-DATE
 Caching disabled for task ':compileJava' because:
   Build cache is disabled
 Skipping task ':compileJava' as it is up-to-date.
-Resolve mutations for :processResources (Thread[#519,Execution worker,5,main]) started.
-:processResources (Thread[#520,Execution worker Thread 2,5,main]) started.
+Resolve mutations for :processResources (Thread[#652,included builds,5,main]) started.
+:processResources (Thread[#652,included builds,5,main]) started.
 
 > Task :processResources UP-TO-DATE
 Caching disabled for task ':processResources' because:
   Build cache is disabled
 Skipping task ':processResources' as it is up-to-date.
-Resolve mutations for :classes (Thread[#520,Execution worker Thread 2,5,main]) started.
-:classes (Thread[#520,Execution worker Thread 2,5,main]) started.
+Resolve mutations for :classes (Thread[#652,included builds,5,main]) started.
+:classes (Thread[#652,included builds,5,main]) started.
 
 > Task :classes UP-TO-DATE
 Skipping task ':classes' as it has no actions.
-Resolve mutations for :checkstyleMain (Thread[#520,Execution worker Thread 2,5,main]) started.
-:checkstyleMain (Thread[#520,Execution worker Thread 2,5,main]) started.
+Resolve mutations for :checkstyleMain (Thread[#655,Execution worker Thread 3,5,main]) started.
+:checkstyleMain (Thread[#655,Execution worker Thread 3,5,main]) started.
 
 > Task :checkstyleMain UP-TO-DATE
 Caching disabled for task ':checkstyleMain' because:
   Build cache is disabled
 Skipping task ':checkstyleMain' as it is up-to-date.
 
-BUILD SUCCESSFUL in 929ms
+BUILD SUCCESSFUL in 886ms
 3 actionable tasks: 3 up-to-date
 Some of the file system contents retained in the virtual file system are on file systems that Gradle doesn't support watching. The relevant state was discarded to ensure changes to these locations are properly detected. You can override this by explicitly enabling file system watching.
