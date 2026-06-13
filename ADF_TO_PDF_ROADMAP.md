@@ -137,6 +137,8 @@ Implement the drivers for converting AFP content architectures to PDF operators.
         - ✅ **UPC-A**: Implement rendering for UPC-A barcodes.
         - ✅ **EAN-8 / EAN-13**: Implement rendering for EAN-8 and EAN-13 barcodes.
         - ✅ **Code 128 (Subsets A, B, C)**: Implement rendering for Code 128 (Subsets A, B, C) barcodes.
+            - ✅ **GS1-128**: Implement FNC1 handling and automatic subset switching.
+            - ✅ **Intelligent Mail Container/Package Barcodes**: Implement specialized Identification Bars, USPS Banners, and HRI formatting (Modifiers 0x05, 0x06).
         - ✅ **UPC-E**: Implement rendering for UPC-E barcodes.
         - ✅ **Supplemental Linear Barcodes**: Implement support for UPC and EAN supplemental barcodes (2-digit and 5-digit).
     - 🚧 **2D Barcode Support**:
@@ -152,24 +154,33 @@ Implement the drivers for converting AFP content architectures to PDF operators.
             - ✅ **ECC 200 Support**: Implement the ECC 200 Reed-Solomon error correction. (✅ Supported by iText).
             - ✅ **GS1 Data Matrix**: Implement Modifier 0x02 for GS1-compliant Data Matrix.
         - ✅ **PDF417**: Implement rendering for PDF417 barcodes (Type 0x1E). (✅ Basic support using iText).
-        - ⏳ **MaxiCode**: Implement rendering for MaxiCode barcodes (Type 0x1D).
+        - 🚧 **MaxiCode**: Implement rendering for MaxiCode barcodes (Type 0x1D).
+            - ✅ **Skeleton**: Add architectural placeholder for MaxiCode rendering.
             - ⏳ **Research**: Study MaxiCode specification (ISO/IEC 16023) and Modes 2-6.
             - ⏳ **Implementation**: Implement bit-stream encoding and Reed-Solomon error correction.
             - ⏳ **Implementation**: Implement hexagonal grid placement and orientation patterns.
             - ⏳ **Testing**: Add MaxiCode validation test cases and sample AFPs.
-        - ⏳ **Aztec Code**: Implement rendering for Aztec Code barcodes (Type 0x26).
+        - 🚧 **Aztec Code**: Implement rendering for Aztec Code barcodes (Type 0x26).
+            - ✅ **Skeleton**: Add architectural placeholder for Aztec Code rendering.
             - ⏳ **Research**: Study Aztec Code specification (ISO/IEC 24778).
             - ⏳ **Implementation**: Implement bit-stream encoding and Reed-Solomon error correction.
             - ⏳ **Implementation**: Implement square-grid placement and bullseye finder pattern.
             - ⏳ **Testing**: Add Aztec Code validation test cases and sample AFPs.
-        - ⏳ **Han Xin Code**: Implement rendering for Han Xin Code barcodes (Type 0x27).
+        - 🚧 **Han Xin Code**: Implement rendering for Han Xin Code barcodes (Type 0x27).
+            - ✅ **Skeleton**: Add architectural placeholder for Han Xin Code rendering.
             - ⏳ **Research**: Study Han Xin Code specification (ISO/IEC 20830).
             - ⏳ **Implementation**: Implement bit-stream encoding and Reed-Solomon error correction.
             - ⏳ **Implementation**: Implement matrix placement and finder patterns.
             - ⏳ **Testing**: Add Han Xin Code validation test cases and sample AFPs.
-    - ✅ **Postal Barcode Support**:
+    - 🚧 **Postal Barcode Support**:
         - ✅ **POSTNET/PLANET**: Implement rendering for POSTNET and PLANET barcodes.
         - ✅ **Intelligent Mail Barcode (IMB)**: Implement rendering for USPS IMB. (Direct mode 0x01).
+        - 🚧 **Royal Mail RED TAG**: Implement rendering for Royal Mail RED TAG (0x23).
+            - ✅ **Skeleton**: Add architectural placeholder for RED TAG rendering.
+        - 🚧 **GS1 DataBar**: Implement rendering for GS1 DataBar (0x24).
+            - ✅ **Skeleton**: Add architectural placeholder for DataBar rendering.
+        - 🚧 **Royal Mail Mailmark**: Implement rendering for Royal Mail Mailmark (0x25).
+            - ✅ **Skeleton**: Add architectural placeholder for Mailmark rendering.
         - ✅ **Japan Postal**: Implement rendering for Japan Postal barcodes.
         - ✅ **Australia Post**: Implement rendering for Australia Post barcodes (Proprietary modifiers 0x04/0x07).
         - ✅ **RM4SCC / Dutch KIX**: Implement rendering for RM4SCC and Dutch KIX barcodes.

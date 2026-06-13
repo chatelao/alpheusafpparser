@@ -232,6 +232,18 @@ public class BDA_BarCodeData extends StructuredField {
       return 4 + (bannerLength & 0xFF);
     }
 
+    /**
+     * Returns the banner string as a decoded String (UTF-16BE).
+     *
+     * @return the banner text or null if not present
+     */
+    public String getBannerText() {
+      if (bannerString == null || bannerString.length == 0) {
+        return null;
+      }
+      return new String(bannerString, java.nio.charset.StandardCharsets.UTF_16BE);
+    }
+
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       os.write(0x00); // Reserved Byte 5
@@ -428,6 +440,10 @@ public class BDA_BarCodeData extends StructuredField {
   @JacksonXmlProperty(localName = "text")
   public String getText() {
     return text;
+  }
+
+  public void setText(String text) {
+    this.text = text;
   }
 
   public enum BarCodeFlag {
