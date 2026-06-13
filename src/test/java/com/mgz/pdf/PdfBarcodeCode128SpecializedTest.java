@@ -25,11 +25,15 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.mgz.afp.bcoca.BDA_BarCodeData;
+import com.mgz.afp.bcoca.BDA_BarCodeData.ParametersDataIntelligentMailPackageBarcode;
 import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor.BarCodeType;
-import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.util.EnumSet;
+import org.junit.jupiter.api.Test;
 
+/**
+ * Tests for specialized Code 128 barcodes (USPS).
+ */
 public class PdfBarcodeCode128SpecializedTest {
 
   static class PdfCanvasStub extends PdfCanvas {
@@ -56,7 +60,8 @@ public class PdfBarcodeCode128SpecializedTest {
   @Test
   public void testIntelligentMailContainerBarcode() {
     PdfBarcodeState state = new PdfBarcodeState();
-    state.setBarcodeType(BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode);
+    state.setBarcodeType(BarCodeType
+        .Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode);
     state.setBarcodeModifier((byte) 0x05);
     state.setHriFont(new PdfFontRegistry().getDefaultFont());
 
@@ -76,15 +81,20 @@ public class PdfBarcodeCode128SpecializedTest {
   @Test
   public void testIntelligentMailPackageBarcode() {
     PdfBarcodeState state = new PdfBarcodeState();
-    state.setBarcodeType(BarCodeType.Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode);
+    state.setBarcodeType(BarCodeType
+        .Code_128__GS1_128__UCC_EAN_128__AIM_USS_128__IntelligentMail__ContainerBarcode);
     state.setBarcodeModifier((byte) 0x06);
     state.setHriFont(new PdfFontRegistry().getDefaultFont());
 
     BDA_BarCodeData bda = new BDA_BarCodeData();
-    bda.parametersData = new BDA_BarCodeData.ParametersDataIntelligentMailPackageBarcode();
-    ((BDA_BarCodeData.ParametersDataIntelligentMailPackageBarcode)bda.parametersData).bannerString = "USPS TRACKING #".getBytes(java.nio.charset.StandardCharsets.UTF_16BE);
-    ((BDA_BarCodeData.ParametersDataIntelligentMailPackageBarcode)bda.parametersData).bannerLength = (byte) ((BDA_BarCodeData.ParametersDataIntelligentMailPackageBarcode)bda.parametersData).bannerString.length;
-    ((BDA_BarCodeData.ParametersDataIntelligentMailPackageBarcode)bda.parametersData).intelligentMailPackageBarcodeFlags = EnumSet.noneOf(BDA_BarCodeData.ParametersDataIntelligentMailPackageBarcode.IntelligentMailPackageBarcodeFlag.class);
+    ParametersDataIntelligentMailPackageBarcode params =
+        new ParametersDataIntelligentMailPackageBarcode();
+    bda.parametersData = params;
+    params.bannerString = "USPS TRACKING #".getBytes(java.nio.charset.StandardCharsets.UTF_16BE);
+    params.bannerLength = (byte) params.bannerString.length;
+    params.intelligentMailPackageBarcodeFlags =
+        EnumSet.noneOf(ParametersDataIntelligentMailPackageBarcode
+            .IntelligentMailPackageBarcodeFlag.class);
 
     BDA_BarCodeData dataBda = new BDA_BarCodeData();
     dataBda.setText("420123459200190123456789012345");
