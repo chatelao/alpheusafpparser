@@ -20,9 +20,14 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.afp.ipds;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.mgz.afp.RoundTripTestUtils;
+import com.mgz.afp.parser.AFPParser;
+import com.mgz.afp.parser.AFPParserConfiguration;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -40,10 +45,18 @@ public class IPDSCommandTest {
         0x12, 0x34   // CID
     };
 
-    SHS_SetHomeState shs = new SHS_SetHomeState();
-    RoundTripTestUtils.assertRoundTrip(shs, data);
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    SHS_SetHomeState shs = (SHS_SetHomeState) parser.parseNextSF();
+
+    assertNotNull(shs);
     assertTrue(shs.isAcknowledgementRequired());
-    assertArrayEquals(new byte[] {0x12, 0x34}, com.mgz.util.UtilBinaryDecoding.intToByteArray(shs.getCorrelationId(), 2));
+    assertEquals(0x1234, shs.getCorrelationId());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    shs.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
   }
 
   @Test
@@ -56,8 +69,64 @@ public class IPDSCommandTest {
         0x11, 0x22, 0x33
     };
 
-    NOP_NoOperation nop = new NOP_NoOperation();
-    RoundTripTestUtils.assertRoundTrip(nop, data);
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    NOP_NoOperation nop = (NOP_NoOperation) parser.parseNextSF();
+
+    assertNotNull(nop);
     assertArrayEquals(new byte[] {0x11, 0x22, 0x33}, nop.getBinaryData());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    nop.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testBPRoundTrip() throws Exception {
+    // BP: D6AF, ARQ=1, CID=0x5678, PageID=0x00000001
+    // SFI length = 8 + 3 (IPDS header) + 4 (PageID) = 15 (0x0F)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0F, (byte) 0xD6, (byte) 0xAF, 0x00, 0x00, 0x00, 0x00,
+        (byte) 0x80, // Flag: ARQ
+        0x56, 0x78,  // CID
+        0x00, 0x00, 0x00, 0x01 // PageID
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    BP_BeginPage bp = (BP_BeginPage) parser.parseNextSF();
+
+    assertNotNull(bp);
+    assertTrue(bp.isAcknowledgementRequired());
+    assertEquals(1, bp.getPageId());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    bp.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testEPRoundTrip() throws Exception {
+    // EP: D6BF, ARQ=0, ignored data: AA BB
+    // SFI length = 8 + 1 (IPDS header) + 2 (ignored data) = 11 (0x0B)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0B, (byte) 0xD6, (byte) 0xBF, 0x00, 0x00, 0x00, 0x00,
+        0x00, // Flag: no ARQ
+        (byte) 0xAA, (byte) 0xBB
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    EP_EndPage ep = (EP_EndPage) parser.parseNextSF();
+
+    assertNotNull(ep);
+    assertArrayEquals(new byte[] {(byte) 0xAA, (byte) 0xBB}, ep.getIgnoredData());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    ep.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
   }
 }

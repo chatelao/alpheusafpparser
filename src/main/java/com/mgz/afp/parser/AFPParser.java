@@ -200,6 +200,8 @@ public class AFPParser {
 
     SF_SUPPLIERS.put(SFTypeID.SHS_SetHomeState, com.mgz.afp.ipds.SHS_SetHomeState::new);
     SF_SUPPLIERS.put(SFTypeID.NOP_NoOperation_IPDS, com.mgz.afp.ipds.NOP_NoOperation::new);
+    SF_SUPPLIERS.put(SFTypeID.BP_BeginPage, com.mgz.afp.ipds.BP_BeginPage::new);
+    SF_SUPPLIERS.put(SFTypeID.EP_EndPage, com.mgz.afp.ipds.EP_EndPage::new);
   }
   AFPParserConfiguration parserConf;
   long nrOfBytesRead;
