@@ -24,205 +24,205 @@ Source Compatibility: 21
 
 > Task :test
 
-Afp2TextTest > testDirectoryModeWithTextXpath() STANDARD_OUT
+MemoryLeakTest > testMemoryUsage() STANDARD_OUT
     Starting memory usage test...
-    Processing 1 files using 4 threads...
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_5.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:06 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:01 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_5.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_9.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:06 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:01 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_9.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_6.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:06 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:01 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_6.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_B.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:06 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:01 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_B.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_4.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:06 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:01 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_4.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_D.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:06 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:01 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_D.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_7.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:06 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:01 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_7.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_1.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:06 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:01 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_1.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Front_Matter.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:06 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:01 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Front_Matter.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_C.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:06 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:01 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_C.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_A.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:06 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:01 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Appendix_A.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_8.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:06 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:01 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_8.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_3.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:06 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:01 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_3.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_2.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:06 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:01 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/afp-goca-reference-03/Chapter_2.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/large_ibm273.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:06 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:01 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/large_ibm273.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
+    Processing 1 files using 4 threads...
     Executing test for file: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_5.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:07 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:02 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_5.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_6.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:07 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:02 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_6.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/cmoca-reference-02/Appendix_B.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:07 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:02 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Appendix_B.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_4.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:07 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:02 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_4.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_1.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:07 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:02 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_1.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/cmoca-reference-02/Front_Matter.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:07 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:02 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Front_Matter.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/cmoca-reference-02/Appendix_C.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:07 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:02 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Appendix_C.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/cmoca-reference-02/Appendix_A.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:07 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:02 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Appendix_A.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_3.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:07 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:02 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_3.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_2.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:07 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:02 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/cmoca-reference-02/Chapter_2.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
     Executing test for file: /app/./src/test/resources/afp/perf_ptx.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_ERROR
-    Jun 12, 2026 3:26:07 PM com.mgz.acceptance.AFPWriterTest testWriteSF
+    Jun 13, 2026 9:25:02 AM com.mgz.acceptance.AFPWriterTest testWriteSF
     INFO: File: /app/./src/test/resources/afp/perf_ptx.afp
 
 AFPParserTest > testAFPSerializationActualClassType() STANDARD_OUT
-    Export successful: /tmp/memory-test7134537871590344697.xml
-    Export successful: /tmp/afp2text-test1487496097396752993/test.afp.txt
-
-AFPParserTest > testAFPSerializationActualClassType() SKIPPED
+    Export successful: /tmp/afp2text-test502117709110218629/test.afp.txt
+    Export successful: /tmp/memory-test2895710757797384030.xml
 
 MemoryLeakTest > testMemoryUsage() SKIPPED
 
-AFPWriterTest > testWriteSF() SKIPPED
+AFPParserTest > testAFPSerializationActualClassType() SKIPPED
 
 Afp2TextTest > testDirectoryModeWithTextXpath() SKIPPED
 
+AFPWriterTest > testWriteSF() SKIPPED
+
 > Task :jacocoTestReport
 
-BUILD SUCCESSFUL in 12s
+BUILD SUCCESSFUL in 10s
 7 actionable tasks: 7 executed
