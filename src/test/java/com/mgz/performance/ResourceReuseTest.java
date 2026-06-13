@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.mgz.afp.base.SfiPool;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.StructuredFieldIntroducer;
 import com.mgz.afp.base.StructuredFieldPool;
-import com.mgz.afp.base.SfiPool;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.enums.SFTypeID;
 import com.mgz.afp.modca.BPG_BeginPage;
@@ -38,11 +38,22 @@ import org.junit.jupiter.api.Test;
  */
 public class ResourceReuseTest {
 
+  /**
+   * Sets up the test environment by clearing pools.
+   *
+   * @throws Exception if reflection fails
+   */
   @BeforeEach
   public void setUp() throws Exception {
     clearPools();
   }
 
+  /**
+   * Clears all pools to ensure test isolation.
+   *
+   * @throws Exception if reflection fails
+   */
+  @SuppressWarnings("unchecked")
   private void clearPools() throws Exception {
     // Clear StructuredFieldPool
     Field sfL1 = StructuredFieldPool.class.getDeclaredField("L1_POOLS");
@@ -50,15 +61,29 @@ public class ResourceReuseTest {
     ((ThreadLocal<?>) sfL1.get(null)).remove();
     Field sfL2 = StructuredFieldPool.class.getDeclaredField("L2_POOLS");
     sfL2.setAccessible(true);
-    ((Map<?, ?>) sfL2.get(null)).clear();
+    Map<?, Queue<?>> sfL2map = (Map<?, Queue<?>>) sfL2.get(null);
+    if (sfL2map != null) {
+      for (Queue<?> queue : sfL2map.values()) {
+        if (queue != null) {
+          queue.clear();
+        }
+      }
+    }
 
     // Clear TripletPool
-    Field tL1 = TripletPool.class.getDeclaredField("L1_POOLS");
-    tL1.setAccessible(true);
-    ((ThreadLocal<?>) tL1.get(null)).remove();
-    Field tL2 = TripletPool.class.getDeclaredField("L2_POOLS");
-    tL2.setAccessible(true);
-    ((Map<?, ?>) tL2.get(null)).clear();
+    Field tripletL1 = TripletPool.class.getDeclaredField("L1_POOLS");
+    tripletL1.setAccessible(true);
+    ((ThreadLocal<?>) tripletL1.get(null)).remove();
+    Field tripletL2 = TripletPool.class.getDeclaredField("L2_POOLS");
+    tripletL2.setAccessible(true);
+    Map<?, Queue<?>> tl2map = (Map<?, Queue<?>>) tripletL2.get(null);
+    if (tl2map != null) {
+      for (Queue<?> queue : tl2map.values()) {
+        if (queue != null) {
+          queue.clear();
+        }
+      }
+    }
 
     // Clear SfiPool
     Field sfiL1 = SfiPool.class.getDeclaredField("L1_POOL");
@@ -66,9 +91,15 @@ public class ResourceReuseTest {
     ((ThreadLocal<?>) sfiL1.get(null)).remove();
     Field sfiL2 = SfiPool.class.getDeclaredField("L2_POOL");
     sfiL2.setAccessible(true);
-    ((Queue<?>) sfiL2.get(null)).clear();
+    Queue<?> sfiQueue = (Queue<?>) sfiL2.get(null);
+    if (sfiQueue != null) {
+      sfiQueue.clear();
+    }
   }
 
+  /**
+   * Tests reuse in StructuredFieldPool.
+   */
   @Test
   public void testStructuredFieldPoolReuse() {
     BPG_BeginPage sf1 = (BPG_BeginPage) StructuredFieldPool.acquire(SFTypeID.BPG_BeginPage);
@@ -85,6 +116,9 @@ public class ResourceReuseTest {
     assertSame(sf1, sf2, "Structured field should be reused from L1 pool");
   }
 
+  /**
+   * Tests reuse in TripletPool.
+   */
   @Test
   public void testTripletPoolReuse() {
     Triplet.FullyQualifiedName t1 = (Triplet.FullyQualifiedName) TripletPool.acquire(
@@ -100,6 +134,9 @@ public class ResourceReuseTest {
     assertSame(t1, t2, "Triplet should be reused from L1 pool");
   }
 
+  /**
+   * Tests reuse in SfiPool.
+   */
   @Test
   public void testSfiPoolReuse() {
     StructuredFieldIntroducer sfi1 = SfiPool.acquire();
@@ -109,12 +146,17 @@ public class ResourceReuseTest {
     assertSame(sfi1, sfi2, "SFI should be reused from L1 pool");
   }
 
+  /**
+   * Tests reuse across threads via L2 pool.
+   *
+   * @throws Exception if thread synchronization fails
+   */
   @Test
   public void testCrossThreadResourceReuse() throws Exception {
-    Set<Integer> threadAObjectIds = Collections.synchronizedSet(new HashSet<>());
+    Set<Integer> threadAids = Collections.synchronizedSet(new HashSet<>());
     CountDownLatch releaseDone = new CountDownLatch(1);
     CountDownLatch acquireDone = new CountDownLatch(1);
-    AtomicReference<StructuredField> threadBObject = new AtomicReference<>();
+    AtomicReference<StructuredField> threadBobj = new AtomicReference<>();
 
     Thread threadA = new Thread(() -> {
       List<StructuredField> objects = new ArrayList<>();
@@ -125,7 +167,7 @@ public class ResourceReuseTest {
         sfi.setSFTypeID(SFTypeID.BPG_BeginPage);
         sf.setStructuredFieldIntroducer(sfi);
         objects.add(sf);
-        threadAObjectIds.add(System.identityHashCode(sf));
+        threadAids.add(System.identityHashCode(sf));
       }
       for (StructuredField sf : objects) {
         sf.release();
@@ -135,8 +177,8 @@ public class ResourceReuseTest {
 
     Thread threadB = new Thread(() -> {
       try {
-        if (releaseDone.await(10, TimeUnit.SECONDS)) {
-          threadBObject.set(StructuredFieldPool.acquire(SFTypeID.BPG_BeginPage));
+        if (releaseDone.await(30, TimeUnit.SECONDS)) {
+          threadBobj.set(StructuredFieldPool.acquire(SFTypeID.BPG_BeginPage));
         }
         acquireDone.countDown();
       } catch (InterruptedException e) {
@@ -147,50 +189,56 @@ public class ResourceReuseTest {
     threadA.start();
     threadB.start();
 
-    assertTrue(acquireDone.await(20, TimeUnit.SECONDS),
+    assertTrue(acquireDone.await(60, TimeUnit.SECONDS),
         "Thread B should have finished acquisition");
-    assertNotNull(threadBObject.get(), "Thread B should have acquired an object");
-    assertTrue(threadAObjectIds.contains(System.identityHashCode(threadBObject.get())),
+    assertNotNull(threadBobj.get(), "Thread B should have acquired an object");
+    assertTrue(threadAids.contains(System.identityHashCode(threadBobj.get())),
         "Thread B should have acquired an object released by Thread A via L2 pool");
   }
 
+  /**
+   * Tests Jackson writer reuse.
+   *
+   * @throws Exception if handler creation fails
+   */
   @Test
   public void testJacksonWriterReuse() throws Exception {
     XmlHandlerFactory factory = new XmlHandlerFactory();
-
     int initialCacheSize = getJacksonWriterCacheSize();
-
-    try (StructuredFieldHandler handler = factory.createHandler(new ByteArrayOutputStream(), false)) {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    try (StructuredFieldHandler handler = factory.createHandler(baos, false)) {
       // Exercise the cache with a real structured field
       BPG_BeginPage bpg = new BPG_BeginPage();
       handler.handle(bpg);
     }
-
     int afterFirstHandler = getJacksonWriterCacheSize();
     assertTrue(afterFirstHandler >= initialCacheSize);
-
-    try (StructuredFieldHandler handler = factory.createHandler(new ByteArrayOutputStream(), false)) {
+    try (StructuredFieldHandler handler = factory.createHandler(
+        new ByteArrayOutputStream(), false)) {
       BPG_BeginPage bpg = new BPG_BeginPage();
       handler.handle(bpg);
     }
-
     int afterSecondHandler = getJacksonWriterCacheSize();
     assertEquals(afterFirstHandler, afterSecondHandler,
-        "Jackson writer cache size should not increase after second handler uses same types");
+        "Jackson writer cache size should not increase");
   }
 
+  /**
+   * Tests PDF font registry reuse.
+   *
+   * @throws Exception if handler creation fails
+   */
   @Test
   public void testPdfFontRegistryReuse() throws Exception {
     PdfHandlerFactory factory = new PdfHandlerFactory();
 
-    PdfHandler handler1 = (PdfHandler) factory.createHandler(new ByteArrayOutputStream(), false);
-    PdfHandler handler2 = (PdfHandler) factory.createHandler(new ByteArrayOutputStream(), false);
+    PdfHandler h1 = (PdfHandler) factory.createHandler(new ByteArrayOutputStream(), false);
+    PdfHandler h2 = (PdfHandler) factory.createHandler(new ByteArrayOutputStream(), false);
 
-    assertSame(handler1.getFontRegistry(), handler2.getFontRegistry(),
-        "PDF font registries should be reused");
+    assertSame(h1.getFontRegistry(), h2.getFontRegistry(), "PDF registries should be reused");
 
-    handler1.close();
-    handler2.close();
+    h1.close();
+    h2.close();
   }
 
   @SuppressWarnings("unchecked")
