@@ -21,16 +21,13 @@ package com.mgz.afp.base;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-
 import com.mgz.afp.base.annotations.AFPField;
-
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.parser.TripletParser;
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.Constants;
 import com.mgz.util.UtilCharacterEncoding;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -128,5 +125,4 @@ public abstract class StructuredFieldBaseNameAndTriplets extends StructuredField
       triplets.remove(triplet);
     }
   }
-
 }
