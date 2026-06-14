@@ -96,6 +96,10 @@ public class TripletFastPathVerificationTest {
     }
 
     private String normalizeXml(String xml) {
+        // Remove metadata and coordinates
+        xml = xml.replaceAll(" page=\"\\d+\"", "")
+                 .replaceAll(" x=\"-?\\d+\"", "")
+                 .replaceAll(" y=\"-?\\d+\"", "");
         // Remove length and tripletID tags which are in Jackson but not in our "clean" fast-path
         return xml.replaceAll("<length>.*?</length>", "")
                   .replaceAll("<tripletID>.*?</tripletID>", "")

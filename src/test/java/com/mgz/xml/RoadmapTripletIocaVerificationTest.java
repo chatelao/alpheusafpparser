@@ -84,6 +84,9 @@ public class RoadmapTripletIocaVerificationTest {
     }
 
     private String normalizeXml(String xml) {
+        xml = xml.replaceAll(" page=\"\\d+\"", "")
+                 .replaceAll(" x=\"-?\\d+\"", "")
+                 .replaceAll(" y=\"-?\\d+\"", "");
         return xml.replaceAll("<beginSF>.*?</beginSF>", "")
                   .replaceAll("<endSF>.*?</endSF>", "")
                   .replaceAll("<shallow>.*?</shallow>", "")
