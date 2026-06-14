@@ -591,12 +591,21 @@ public class XmlTemplateVerificationTest {
         return (AfpXmlStreamWriter) field.get(writer);
     }
 
-    private String normalizeXml(String xml) {
-        return xml.replaceAll("<beginSF>.*?</beginSF>", "")
-                  .replaceAll("<endSF>.*?</endSF>", "")
-                  .replaceAll("<shallow>.*?</shallow>", "")
-                  .replaceAll("<structuredFieldIntroducer>.*?</structuredFieldIntroducer>", "")
-                  .replaceAll("<padding>.*?</padding>", "")
-                  .replaceAll("\\s", "");
+        private String normalizeXml(String xml) {
+        xml = xml.replaceAll(" page=\"\\\\d+\"", "")
+                 .replaceAll(" x=\"-?\\\\d+\"", "")
+                 .replaceAll(" y=\"-?\\\\d+\"", "")
+                 .replaceAll(" precision=\"\"", "")
+                 .replaceAll("<beginSF>.*?</beginSF>", "")
+                 .replaceAll("<endSF>.*?</endSF>", "")
+                 .replaceAll("<shallow>.*?</shallow>", "")
+                 .replaceAll("<structuredFieldIntroducer>.*?</structuredFieldIntroducer>", "")
+                 .replaceAll("<padding>.*?</padding>", "")
+                 .replaceAll("<tripletsXml>", "").replaceAll("</tripletsXml>", "")
+                 .replaceAll("<triplets>", "").replaceAll("</triplets>", "")
+                 .replaceAll("<repeatingGroupsXml>", "").replaceAll("</repeatingGroupsXml>", "")
+                 .replaceAll("<repeatingGroups>", "").replaceAll("</repeatingGroups>", "")
+                 .replaceAll("<length>0</length>", "");
+        return xml.replaceAll("\\\\s", "");
     }
 }

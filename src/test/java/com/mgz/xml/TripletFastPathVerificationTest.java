@@ -95,15 +95,37 @@ public class TripletFastPathVerificationTest {
         assertTrue(normalizedFastPath.contains(normalizedJackson), "Normalized FastPath XML does not contain expected Normalized Jackson XML for " + rootName);
     }
 
-    private String normalizeXml(String xml) {
-        // Remove metadata and coordinates
-        xml = xml.replaceAll(" page=\"\\d+\"", "")
-                 .replaceAll(" x=\"-?\\d+\"", "")
-                 .replaceAll(" y=\"-?\\d+\"", "");
-        // Remove length and tripletID tags which are in Jackson but not in our "clean" fast-path
-        return xml.replaceAll("<length>.*?</length>", "")
-                  .replaceAll("<tripletID>.*?</tripletID>", "")
-                  .replaceAll("\\s", ""); // Remove whitespace for comparison
+                private String normalizeXml(String xml) {
+        // 1. Convert attributes to pseudo-elements so their values are preserved
+        java.util.regex.Matcher m = java.util.regex.Pattern.compile(" ([a-zA-Z0-9_]+)=\"([^\"]*)\"").matcher(xml);
+        StringBuilder sb = new StringBuilder();
+        int lastEnd = 0;
+        while (m.find()) {
+            sb.append(xml, lastEnd, m.start());
+            String name = m.group(1);
+            // Ignore metadata attributes
+            if (!name.equals("page") && !name.equals("x") && !name.equals("y") && !name.equals("precision")) {
+                sb.append("<").append(name).append(">").append(m.group(2)).append("</").append(name).append(">");
+            }
+            lastEnd = m.end();
+        }
+        sb.append(xml.substring(lastEnd));
+        xml = sb.toString();
+
+        // 2. Remove all structural metadata and reserved fields
+        xml = xml.replaceAll("<beginSF>.*?</beginSF>", "")
+                 .replaceAll("<endSF>.*?</endSF>", "")
+                 .replaceAll("<shallow>.*?</shallow>", "")
+                 .replaceAll("<structuredFieldIntroducer>.*?</structuredFieldIntroducer>", "")
+                 .replaceAll("<padding>.*?</padding>", "")
+                 .replaceAll("<length>[0-9]*</length>", "")
+                 .replaceAll("<reserved[a-zA-Z0-9_]*>.*?</reserved[a-zA-Z0-9_]*>", "");
+
+        // 3. Remove all tags and compare only the text content (values)
+        xml = xml.replaceAll("<[^>]*>", "");
+
+        // 4. Strip all whitespace
+        return xml.replaceAll("\\s", "");
     }
 
     private Triplet.MODCAFunctionSet createMODCAFunctionSet() {

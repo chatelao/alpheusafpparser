@@ -193,8 +193,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private int establishedBaselinePos = 0;
   private int baselineIncrement = 0;
   private int inlineMargin = 0;
-  private AFPOrientation iOri = AFPOrientation.ori0;
-  private AFPOrientation bOri = AFPOrientation.ori90;
+  private AFPOrientation inlineOrientation = AFPOrientation.ori0;
+  private AFPOrientation baselineOrientation = AFPOrientation.ori90;
 
   public ToXmlGenerator getBaseFragmentGenerator() {
     return baseFragmentGenerator;
@@ -1272,17 +1272,17 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private void writeTriplet(XMLStreamWriter2 writer, Triplet triplet, int level) throws Exception {
     int childLevel = level + 1;
     writeIndent(writer, level);
-    if (triplet instanceof Triplet.Undefined u) {
+    if (triplet instanceof Triplet.Undefined undefinedTriplet) {
       writer.writeStartElement("tripletUndefined");
-      if (u.getTripletData() != null) {
-        writeBinaryElement(writer, childLevel, "tripletData", u.getTripletData());
+      if (undefinedTriplet.getTripletData() != null) {
+        writeBinaryElement(writer, childLevel, "tripletData", undefinedTriplet.getTripletData());
       }
       writeIndent(writer, level);
       writer.writeEndElement();
-    } else if (triplet instanceof Triplet.TripletExtender te) {
+    } else if (triplet instanceof Triplet.TripletExtender tripletExtender) {
       writer.writeStartElement("TripletExtender");
-      if (te.getDatExt() != null) {
-        writeBinaryElement(writer, childLevel, "datExt", te.getDatExt());
+      if (tripletExtender.getDatExt() != null) {
+        writeBinaryElement(writer, childLevel, "datExt", tripletExtender.getDatExt());
       }
       writeIndent(writer, level);
       writer.writeEndElement();
@@ -1306,10 +1306,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       XmlTemplateRegistry.getTemplate("MO").writeObjects(baseXsw, mo.getDataObjecMapingOption());
     } else if (triplet instanceof Triplet.AttributeQualifier aq) {
       XmlTemplateRegistry.getTemplate("AQ").write(baseXsw, aq.sequenceNumber, aq.levelNumber);
-    } else if (triplet instanceof Triplet.Comment c) {
+    } else if (triplet instanceof Triplet.Comment tripletComment) {
       writer.writeStartElement("Comment");
-      writeElement(writer, childLevel, "comment", c.comment);
-      writeElement(writer, childLevel, "text", c.getText());
+      writeElement(writer, childLevel, "comment", tripletComment.comment);
+      writeElement(writer, childLevel, "text", tripletComment.getText());
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ResourceLocalIdentifier rli) {
@@ -1945,8 +1945,12 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("PTX");
     baseXsw.writeStartElement("PTX_PresentationTextData");
     baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-    baseXsw.writeIntAttribute(null, null, "x", CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri));
-    baseXsw.writeIntAttribute(null, null, "y", CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri));
+    baseXsw.writeIntAttribute(null, null, "x",
+        CoordinateTransformer.getAfpX(inlinePos, baselinePos, inlineOrientation,
+        baselineOrientation));
+    baseXsw.writeIntAttribute(null, null, "y",
+        CoordinateTransformer.getAfpY(inlinePos, baselinePos, inlineOrientation,
+        baselineOrientation));
     List<PTOCAControlSequence> sequences = ptx.getControlSequences();
     if (sequences != null) {
       boolean ptxDebug = com.mgz.util.PTXPerformanceMonitor.isEnabled();
@@ -1974,16 +1978,18 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   private void writeControlSequence(PTOCAControlSequence cs, int level) throws Exception {
     int childLevel = level + 1;
-    int curX = CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri);
-    int curY = CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri);
+    int currentX = CoordinateTransformer.getAfpX(inlinePos, baselinePos, inlineOrientation,
+        baselineOrientation);
+    int currentY = CoordinateTransformer.getAfpY(inlinePos, baselinePos, inlineOrientation,
+        baselineOrientation);
     updatePtxState(cs);
 
     if (cs instanceof PTOCAControlSequence.TRN_TransparentData trn) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("TRN");
       baseXsw.writeStartElement("TRN_TransparentData");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", curX);
-      baseXsw.writeIntAttribute(null, null, "y", curY);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       if (trn.getEncoding() != null && trn.getTransparentDataEBCDIC() != null) {
         writeIndent(baseXsw, childLevel);
         baseXsw.writeRawBytes(XmlTagTemplates.TRN_DATA_START, 0, XmlTagTemplates.TRN_DATA_START.length);
@@ -2007,8 +2013,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GraphicCharacters");
       baseXsw.writeStartElement("GraphicCharacters");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", curX);
-      baseXsw.writeIntAttribute(null, null, "y", curY);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       if (gc.getEncoding() != null && gc.getData() != null) {
         writeIndent(baseXsw, childLevel);
         baseXsw.writeRawBytes(XmlTagTemplates.TEXT_START, 0, XmlTagTemplates.TEXT_START.length);
@@ -2088,8 +2094,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("DIR");
       baseXsw.writeStartElement("DIR_DrawIaxisRule");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", curX);
-      baseXsw.writeIntAttribute(null, null, "y", curY);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       baseXsw.writeIntAttribute(null, null, "length", dir.getLength());
       if (dir.getWidth() != null) {
         baseXsw.writeIntAttribute(null, null, "width", dir.getWidth());
@@ -2103,8 +2109,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("DBR");
       baseXsw.writeStartElement("DBR_DrawBaxisRule");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", curX);
-      baseXsw.writeIntAttribute(null, null, "y", curY);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       baseXsw.writeIntAttribute(null, null, "length", dbr.getLength());
       if (dbr.getWidth() != null) {
         baseXsw.writeIntAttribute(null, null, "width", dbr.getWidth());
@@ -2118,8 +2124,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("NOP");
       baseXsw.writeStartElement("NOP_NoOperation");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", curX);
-      baseXsw.writeIntAttribute(null, null, "y", curY);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       if (nop.getText() != null) {
         writeElement(baseXsw, childLevel, "text", nop.getText());
       }
@@ -2133,8 +2139,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("TBM");
       baseXsw.writeStartElement("TBM_TemporaryBaselineMove");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", curX);
-      baseXsw.writeIntAttribute(null, null, "y", curY);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       if (tbm.getDirection() != null) {
         baseXsw.writeAttribute("direction", tbm.getDirection().name());
       }
@@ -2150,8 +2156,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("OVS");
       baseXsw.writeStartElement("OVS_Overstrike");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", curX);
-      baseXsw.writeIntAttribute(null, null, "y", curY);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       if (ovs.getBypassFlag() != null) {
         baseXsw.writeAttribute("bypassFlag", ovs.getBypassFlag().name());
       }
@@ -2165,8 +2171,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("RPS");
       baseXsw.writeStartElement("RPS_RepeatString");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", curX);
-      baseXsw.writeIntAttribute(null, null, "y", curY);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       writeIndent(baseXsw, childLevel);
       XmlTemplateRegistry.getTemplate("RPL").write(baseXsw, rps.getRepeatLength());
       if (rps.getEncoding() != null && rps.getRepeatData() != null) {
@@ -2194,8 +2200,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("UCT");
       baseXsw.writeStartElement("UCT_UnicodeComplexText");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", curX);
-      baseXsw.writeIntAttribute(null, null, "y", curY);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       writeElement(baseXsw, childLevel, "uctVers", uct.getUctVers());
       writeElement(baseXsw, childLevel, "ctLength", uct.getCtLength());
       writeElement(baseXsw, childLevel, "ctFlags", uct.getCtFlags());
@@ -2215,8 +2221,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GLC");
       baseXsw.writeStartElement("GLC_GlyphLayoutControl");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", curX);
-      baseXsw.writeIntAttribute(null, null, "y", curY);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       writeElement(baseXsw, childLevel, "iAdvance", glc.getIAdvance());
       writeElement(baseXsw, childLevel, "oidLgth", glc.getOidLgth());
       writeElement(baseXsw, childLevel, "ffnLgth", glc.getFfnLgth());
@@ -2236,8 +2242,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("ENC");
       baseXsw.writeStartElement("ENC_EncryptedData");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", curX);
-      baseXsw.writeIntAttribute(null, null, "y", curY);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       writeElement(baseXsw, childLevel, "reserved4_7", enc.getReserved4_7());
       if (enc.getEncryptedData() != null) {
         writeBinaryElement(baseXsw, childLevel, "encryptedData", enc.getEncryptedData());
@@ -2249,8 +2255,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SKI");
       baseXsw.writeStartElement("SKI_SetKeyInformation");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", curX);
-      baseXsw.writeIntAttribute(null, null, "y", curY);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       writeElement(baseXsw, childLevel, "reserved4_7", ski.getReserved4_7());
       if (ski.getKeyInfo() != null) {
         writeBinaryElement(baseXsw, childLevel, "keyInfo", ski.getKeyInfo());
@@ -2262,8 +2268,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SEA");
       baseXsw.writeStartElement("SEA_SetEncryptedAlternate");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", curX);
-      baseXsw.writeIntAttribute(null, null, "y", curY);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       writeElement(baseXsw, childLevel, "reserved4_7", sea.getReserved4_7());
       if (sea.getAlternateText() != null) {
         writeBinaryElement(baseXsw, childLevel, "alternateText", sea.getAlternateText());
@@ -2278,8 +2284,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GIR");
       baseXsw.writeStartElement("GIR_GlyphIdRun");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", curX);
-      baseXsw.writeIntAttribute(null, null, "y", curY);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       if (gir.getGlyphIds() != null) {
         writeIndent(baseXsw, childLevel);
         baseXsw.writeStartElement("glyphIds");
@@ -2296,8 +2302,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GAR");
       baseXsw.writeStartElement("GAR_GlyphAdvanceRun");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", curX);
-      baseXsw.writeIntAttribute(null, null, "y", curY);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       if (gar.getAdvances() != null) {
         writeIndent(baseXsw, childLevel);
         baseXsw.writeStartElement("advances");
@@ -2314,8 +2320,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GOR");
       baseXsw.writeStartElement("GOR_GlyphOffsetRun");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", curX);
-      baseXsw.writeIntAttribute(null, null, "y", curY);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       if (gor.getOffsets() != null) {
         writeIndent(baseXsw, childLevel);
         baseXsw.writeStartElement("offsets");
@@ -2328,16 +2334,16 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(baseXsw, level);
       baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.Undefined u) {
+    } else if (cs instanceof PTOCAControlSequence.Undefined undefinedCs) {
       baseXsw.writeStartElement("Undefined");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", curX);
-      baseXsw.writeIntAttribute(null, null, "y", curY);
-      if (u.getUndefinedData() != null) {
-        writeBinaryElement(baseXsw, childLevel, "undefinedData", u.getUndefinedData());
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
+      if (undefinedCs.getUndefinedData() != null) {
+        writeBinaryElement(baseXsw, childLevel, "undefinedData", undefinedCs.getUndefinedData());
       }
-      if (u.getText() != null) {
-        writeElement(baseXsw, childLevel, "text", u.getText());
+      if (undefinedCs.getText() != null) {
+        writeElement(baseXsw, childLevel, "text", undefinedCs.getText());
       }
       writeIndent(baseXsw, level);
       baseXsw.writeEndElement();
@@ -4937,8 +4943,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     establishedBaselinePos = 0;
     baselineIncrement = 0;
     inlineMargin = 0;
-    iOri = AFPOrientation.ori0;
-    bOri = AFPOrientation.ori90;
+    inlineOrientation = AFPOrientation.ori0;
+    baselineOrientation = AFPOrientation.ori90;
   }
 
   private void updatePtxState(PTOCAControlSequence cs) throws Exception {
@@ -4954,10 +4960,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       establishedBaselinePos = baselinePos;
     } else if (cs instanceof PTOCAControlSequence.STO_SetTextOrientation sto) {
       if (sto.getxOrientation() != null) {
-        iOri = sto.getxOrientation();
+        inlineOrientation = sto.getxOrientation();
       }
       if (sto.getyOrientation() != null) {
-        bOri = sto.getyOrientation();
+        baselineOrientation = sto.getyOrientation();
       }
     } else if (cs instanceof PTOCAControlSequence.SBI_SetBaselineIncrement sbi) {
       baselineIncrement = sbi.getIncrement();
