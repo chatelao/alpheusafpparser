@@ -1,0 +1,50 @@
+
+> Configure project :
+Source Compatibility: 21
+
+> Task :compileJava UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :compileTestJava UP-TO-DATE
+> Task :processTestResources UP-TO-DATE
+> Task :testClasses UP-TO-DATE
+
+> Task :test
+
+SFFastPathVerificationTest > testSFFastPaths() STANDARD_OUT
+    RootName: BCA_BeginColorAttributeTable
+    Jackson (Normalized): <BCA_BeginColorAttributeTable><name>BCA00001</name><tripletsXml><tripletsXml><length>0</length><type>BeginResourceGroupReference</type><format>CharacterString</format><nameAsString>RES00001</nameAsString><text>RES00001</text></tripletsXml></tripletsXml><text>BCA00001RES00001</text></BCA_BeginColorAttributeTable>
+    RootName: CDD_ContainerDataDescriptor
+    Jackson (Normalized): <CDD_ContainerDataDescriptor><retiredParameters>AAAAAAAAAAAAAAAA</retiredParameters><triplets><triplets><length>0</length><tripletID>ResourceLocalIdentifier</tripletID><resourceType>PageOverlay</resourceType><resourceLocalID>1</resourceLocalID></triplets></triplets></CDD_ContainerDataDescriptor>
+    FastPath (Normalized): <AfpFragments><CDD_ContainerDataDescriptor><retiredParameters>AAAAAAAAAAAAAAAA</retiredParameters><ResourceLocalIdentifierresourceType="PageOverlay"resourceLocalID="1"/></CDD_ContainerDataDescriptor></AfpFragments>
+    FastPath (Normalized): <AfpFragments><BCA_BeginColorAttributeTable><name>BCA00001</name><FullyQualifiedName><type>BeginResourceGroupReference</type><format>CharacterString</format><nameAsString>RES00001</nameAsString><text>RES00001</text></FullyQualifiedName><text>BCA00001RES00001</text></BCA_BeginColorAttributeTable></AfpFragments>
+
+SFFastPathVerificationTest > testImImageFastPaths() PASSED
+
+SFFastPathVerificationTest > testColorAttributeTableFastPaths() FAILED
+    org.opentest4j.AssertionFailedError at SFFastPathVerificationTest.java:292
+
+SFFastPathVerificationTest > testMapFieldsFastPaths() FAILED
+    org.opentest4j.AssertionFailedError at SFFastPathVerificationTest.java:292
+
+SFFastPathVerificationTest > testSFFastPaths() PASSED
+
+SFFastPathVerificationTest > testFocaFastPaths() PASSED
+
+SFFastPathVerificationTest > testIocaFastPaths() PASSED
+
+6 tests completed, 2 failed
+
+> Task :test FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':test'.
+> There were failing tests. See the report at: file:///app/build/reports/tests/test/index.html
+
+* Try:
+> Run with --scan to get full insights.
+
+BUILD FAILED in 4s
+5 actionable tasks: 1 executed, 4 up-to-date

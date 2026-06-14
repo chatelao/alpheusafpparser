@@ -198,8 +198,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private int currentPage = 0;
   private int inlinePos = 0;
   private int baselinePos = 0;
-  private int iOrientation = 0;
-  private int bOrientation = 0x2D00;
+  private int inlineOrientation = 0;
+  private int baselineOrientation = 0x2D00;
   private int inlineMargin = 0;
   private int baselineIncrement = 0;
   private int establishedBaselinePos = 0;
@@ -208,8 +208,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private void resetPtocaState() {
     this.inlinePos = 0;
     this.baselinePos = 0;
-    this.iOrientation = 0;
-    this.bOrientation = 0x2D00;
+    this.inlineOrientation = 0;
+    this.baselineOrientation = 0x2D00;
     this.inlineMargin = 0;
     this.baselineIncrement = 0;
     this.establishedBaselinePos = 0;
@@ -228,8 +228,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       this.baselinePos += rmb.getIncrement();
       this.hasEstablishedBaseline = false;
     } else if (cs instanceof PTOCAControlSequence.STO_SetTextOrientation sto) {
-      this.iOrientation = sto.getxOrientation().getCode();
-      this.bOrientation = sto.getyOrientation().getCode();
+      this.inlineOrientation = sto.getxOrientation().getCode();
+      this.baselineOrientation = sto.getyOrientation().getCode();
     } else if (cs instanceof PTOCAControlSequence.SBI_SetBaselineIncrement sbi) {
       this.baselineIncrement = sbi.getIncrement();
     } else if (cs instanceof PTOCAControlSequence.SIM_SetInlineMargin sim) {
@@ -262,15 +262,15 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   }
 
   private int calculateAfpX() {
-    double iRad = Math.toRadians(iOrientation / 128.0);
-    double bRad = Math.toRadians(bOrientation / 128.0);
-    return (int) Math.round(inlinePos * Math.cos(iRad) + baselinePos * Math.cos(bRad));
+    double inlineRad = Math.toRadians(inlineOrientation / 128.0);
+    double baselineRad = Math.toRadians(baselineOrientation / 128.0);
+    return (int) Math.round(inlinePos * Math.cos(inlineRad) + baselinePos * Math.cos(baselineRad));
   }
 
   private int calculateAfpY() {
-    double iRad = Math.toRadians(iOrientation / 128.0);
-    double bRad = Math.toRadians(bOrientation / 128.0);
-    return (int) Math.round(inlinePos * Math.sin(iRad) + baselinePos * Math.sin(bRad));
+    double inlineRad = Math.toRadians(inlineOrientation / 128.0);
+    double baselineRad = Math.toRadians(baselineOrientation / 128.0);
+    return (int) Math.round(inlinePos * Math.sin(inlineRad) + baselinePos * Math.sin(baselineRad));
   }
 
   /**
