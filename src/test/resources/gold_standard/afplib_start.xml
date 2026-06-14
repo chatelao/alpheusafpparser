@@ -323,20 +323,7 @@
   </BRS_BeginResource>
   <BOC_BeginObjectContainer>
     <name>TTF00001</name>
-    <tripletsXml>
-
-      <ObjectClassification>
-        <reserved2>0</reserved2>
-        <objectClass>DataObjectFont</objectClass>
-        <reserved4_5>0000</reserved4_5>
-        <structureFlags>
-          <structureFlag>OC_DataCarriedInObjectContainer</structureFlag>
-          <structureFlag>OEG_NotIncluded</structureFlag>
-          <structureFlag>OCD_DataCarriedInOCD</structureFlag>
-        </structureFlags>
-        <registeredObjectID>06072B12000401013300000000000000</registeredObjectID>
-      </ObjectClassification>
-    </tripletsXml>
+    <tripletsXml><ObjectClassification><length>24</length><tripletID>ObjectClassification</tripletID><reserved2>0</reserved2><objectClass>DataObjectFont</objectClass><reserved4_5>AAA=</reserved4_5><structureFlags><structureFlags>OC_DataCarriedInObjectContainer</structureFlags><structureFlags>OEG_NotIncluded</structureFlags><structureFlags>OCD_DataCarriedInOCD</structureFlags></structureFlags><registeredObjectID>BgcrEgAEAQEzAAAAAAAAAA==</registeredObjectID></ObjectClassification></tripletsXml>
     <text>TTF00001</text>
   </BOC_BeginObjectContainer>
   <OCD_ObjectContainerData>
@@ -6873,9 +6860,9 @@ VPxQ0/5ijTgFZvB4OOOBH2uOKywykbjY/wcKhIlMlj9t2J2FYTsmmT67c5ehCrKeqS44ow5fs1Pp
   <BOG_BeginObjectEnvironmentGroup>
   </BOG_BeginObjectEnvironmentGroup>
   <OBD_ObjectAreaDescriptor>
-    <DescriptorPosition objectAreaDescriptorID="1"/>
-    <MeasurementUnits xUnitBase="Inches10" yUnitBase="Inches10" xUnitsPerUnitbase="2400" yUnitsPerUnitbase="2400"/>
-    <ObjectAreaSize sizeType_0x02="2" xSize="1984" ySize="2806"/>
+    <tripletsXml><DescriptorPosition><length>3</length><tripletID>DescriptorPosition</tripletID><objectAreaDescriptorID>1</objectAreaDescriptorID></DescriptorPosition></tripletsXml>
+    <tripletsXml><MeasurementUnits><length>8</length><tripletID>MeasurementUnits</tripletID><xUnitBase>Inches10</xUnitBase><yUnitBase>Inches10</yUnitBase><xUnitsPerUnitbase>2400</xUnitsPerUnitbase><yUnitsPerUnitbase>2400</yUnitsPerUnitbase></MeasurementUnits></tripletsXml>
+    <tripletsXml><ObjectAreaSize><length>9</length><tripletID>ObjectAreaSize</tripletID><sizeType_0x02>2</sizeType_0x02><xSize>1984</xSize><ySize>2806</ySize></ObjectAreaSize></tripletsXml>
   </OBD_ObjectAreaDescriptor>
   <OBP_ObjectAreaPosition>
     <objectAreaPositionID>1</objectAreaPositionID>

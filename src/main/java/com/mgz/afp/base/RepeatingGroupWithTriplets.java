@@ -20,6 +20,7 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.afp.base;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import com.mgz.afp.exceptions.AFPParserException;
@@ -44,7 +45,8 @@ public class RepeatingGroupWithTriplets extends RepeatingGroupBase implements IH
   }
 
   @Override
-  @JacksonXmlProperty(localName = "tripletsXml")
+  @JacksonXmlProperty(localName = "triplets")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public List<Triplet> getTriplets() {
     return triplets;
   }
