@@ -1954,8 +1954,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("PTX");
     baseXsw.writeStartElement("PTX_PresentationTextData");
     baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-    baseXsw.writeIntAttribute(null, null, "x", CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri));
-    baseXsw.writeIntAttribute(null, null, "y", CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri));
+    int x = CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri);
+    int y = CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri);
+    baseXsw.writeIntAttribute(null, null, "x", x);
+    baseXsw.writeIntAttribute(null, null, "y", y);
     List<PTOCAControlSequence> sequences = ptx.getControlSequences();
     if (sequences != null) {
       boolean ptxDebug = com.mgz.util.PTXPerformanceMonitor.isEnabled();
@@ -1987,8 +1989,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("TRN");
       baseXsw.writeStartElement("TRN_TransparentData");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri));
-      baseXsw.writeIntAttribute(null, null, "y", CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri));
+      int x = CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri);
+      int y = CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri);
+      baseXsw.writeIntAttribute(null, null, "x", x);
+      baseXsw.writeIntAttribute(null, null, "y", y);
       if (trn.getEncoding() != null && trn.getTransparentDataEBCDIC() != null) {
         writeIndent(baseXsw, childLevel);
         baseXsw.writeStartElement("transparentData");
@@ -2012,8 +2016,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GraphicCharacters");
       baseXsw.writeStartElement("GraphicCharacters");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri));
-      baseXsw.writeIntAttribute(null, null, "y", CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri));
+      int x = CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri);
+      int y = CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri);
+      baseXsw.writeIntAttribute(null, null, "x", x);
+      baseXsw.writeIntAttribute(null, null, "y", y);
       if (gc.getEncoding() != null && gc.getData() != null) {
         writeIndent(baseXsw, childLevel);
         baseXsw.writeStartElement("text");
@@ -2103,8 +2109,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("DIR");
       baseXsw.writeStartElement("DIR_DrawIaxisRule");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri));
-      baseXsw.writeIntAttribute(null, null, "y", CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri));
+      int x = CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri);
+      int y = CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri);
+      baseXsw.writeIntAttribute(null, null, "x", x);
+      baseXsw.writeIntAttribute(null, null, "y", y);
       baseXsw.writeIntAttribute(null, null, "length", dir.getLength());
       if (dir.getWidth() != null) {
         baseXsw.writeIntAttribute(null, null, "width", dir.getWidth());
@@ -2118,8 +2126,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("DBR");
       baseXsw.writeStartElement("DBR_DrawBaxisRule");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri));
-      baseXsw.writeIntAttribute(null, null, "y", CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri));
+      int x = CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri);
+      int y = CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri);
+      baseXsw.writeIntAttribute(null, null, "x", x);
+      baseXsw.writeIntAttribute(null, null, "y", y);
       baseXsw.writeIntAttribute(null, null, "length", dbr.getLength());
       if (dbr.getWidth() != null) {
         baseXsw.writeIntAttribute(null, null, "width", dbr.getWidth());
@@ -2133,8 +2143,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("NOP");
       baseXsw.writeStartElement("NOP_NoOperation");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri));
-      baseXsw.writeIntAttribute(null, null, "y", CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri));
+      int x = CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri);
+      int y = CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri);
+      baseXsw.writeIntAttribute(null, null, "x", x);
+      baseXsw.writeIntAttribute(null, null, "y", y);
       if (nop.getText() != null) {
         writeElement(baseXsw, childLevel, "text", nop.getText());
       }
@@ -2148,8 +2160,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("TBM");
       baseXsw.writeStartElement("TBM_TemporaryBaselineMove");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri));
-      baseXsw.writeIntAttribute(null, null, "y", CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri));
+      int x = CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri);
+      int y = CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri);
+      baseXsw.writeIntAttribute(null, null, "x", x);
+      baseXsw.writeIntAttribute(null, null, "y", y);
       if (tbm.getDirection() != null) {
         baseXsw.writeAttribute("direction", tbm.getDirection().name());
       }
@@ -2165,8 +2179,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("OVS");
       baseXsw.writeStartElement("OVS_Overstrike");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri));
-      baseXsw.writeIntAttribute(null, null, "y", CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri));
+      int x = CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri);
+      int y = CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri);
+      baseXsw.writeIntAttribute(null, null, "x", x);
+      baseXsw.writeIntAttribute(null, null, "y", y);
       if (ovs.getBypassFlag() != null) {
         baseXsw.writeAttribute("bypassFlag", ovs.getBypassFlag().name());
       }
@@ -2180,8 +2196,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("RPS");
       baseXsw.writeStartElement("RPS_RepeatString");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri));
-      baseXsw.writeIntAttribute(null, null, "y", CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri));
+      int x = CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri);
+      int y = CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri);
+      baseXsw.writeIntAttribute(null, null, "x", x);
+      baseXsw.writeIntAttribute(null, null, "y", y);
       writeIndent(baseXsw, childLevel);
       XmlTemplateRegistry.getTemplate("RPL").write(baseXsw, rps.getRepeatLength());
       if (rps.getEncoding() != null && rps.getRepeatData() != null) {
@@ -2209,8 +2227,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("UCT");
       baseXsw.writeStartElement("UCT_UnicodeComplexText");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri));
-      baseXsw.writeIntAttribute(null, null, "y", CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri));
+      int x = CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri);
+      int y = CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri);
+      baseXsw.writeIntAttribute(null, null, "x", x);
+      baseXsw.writeIntAttribute(null, null, "y", y);
       writeElement(baseXsw, childLevel, "uctVers", uct.getUctVers());
       writeElement(baseXsw, childLevel, "ctLength", uct.getCtLength());
       writeElement(baseXsw, childLevel, "ctFlags", uct.getCtFlags());
@@ -2230,8 +2250,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GLC");
       baseXsw.writeStartElement("GLC_GlyphLayoutControl");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri));
-      baseXsw.writeIntAttribute(null, null, "y", CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri));
+      int x = CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri);
+      int y = CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri);
+      baseXsw.writeIntAttribute(null, null, "x", x);
+      baseXsw.writeIntAttribute(null, null, "y", y);
       writeElement(baseXsw, childLevel, "iAdvance", glc.getIAdvance());
       writeElement(baseXsw, childLevel, "oidLgth", glc.getOidLgth());
       writeElement(baseXsw, childLevel, "ffnLgth", glc.getFfnLgth());
@@ -2251,8 +2273,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("ENC");
       baseXsw.writeStartElement("ENC_EncryptedData");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri));
-      baseXsw.writeIntAttribute(null, null, "y", CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri));
+      int x = CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri);
+      int y = CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri);
+      baseXsw.writeIntAttribute(null, null, "x", x);
+      baseXsw.writeIntAttribute(null, null, "y", y);
       writeElement(baseXsw, childLevel, "reserved4_7", enc.getReserved4_7());
       if (enc.getEncryptedData() != null) {
         writeBinaryElement(baseXsw, childLevel, "encryptedData", enc.getEncryptedData());
@@ -2264,8 +2288,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SKI");
       baseXsw.writeStartElement("SKI_SetKeyInformation");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri));
-      baseXsw.writeIntAttribute(null, null, "y", CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri));
+      int x = CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri);
+      int y = CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri);
+      baseXsw.writeIntAttribute(null, null, "x", x);
+      baseXsw.writeIntAttribute(null, null, "y", y);
       writeElement(baseXsw, childLevel, "reserved4_7", ski.getReserved4_7());
       if (ski.getKeyInfo() != null) {
         writeBinaryElement(baseXsw, childLevel, "keyInfo", ski.getKeyInfo());
@@ -2277,8 +2303,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SEA");
       baseXsw.writeStartElement("SEA_SetEncryptedAlternate");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri));
-      baseXsw.writeIntAttribute(null, null, "y", CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri));
+      int x = CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri);
+      int y = CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri);
+      baseXsw.writeIntAttribute(null, null, "x", x);
+      baseXsw.writeIntAttribute(null, null, "y", y);
       writeElement(baseXsw, childLevel, "reserved4_7", sea.getReserved4_7());
       if (sea.getAlternateText() != null) {
         writeBinaryElement(baseXsw, childLevel, "alternateText", sea.getAlternateText());
@@ -2293,8 +2321,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GIR");
       baseXsw.writeStartElement("GIR_GlyphIdRun");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri));
-      baseXsw.writeIntAttribute(null, null, "y", CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri));
+      int x = CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri);
+      int y = CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri);
+      baseXsw.writeIntAttribute(null, null, "x", x);
+      baseXsw.writeIntAttribute(null, null, "y", y);
       if (gir.getGlyphIds() != null) {
         writeIndent(baseXsw, childLevel);
         baseXsw.writeStartElement("glyphIds");
@@ -2311,8 +2341,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GAR");
       baseXsw.writeStartElement("GAR_GlyphAdvanceRun");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri));
-      baseXsw.writeIntAttribute(null, null, "y", CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri));
+      int x = CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri);
+      int y = CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri);
+      baseXsw.writeIntAttribute(null, null, "x", x);
+      baseXsw.writeIntAttribute(null, null, "y", y);
       if (gar.getAdvances() != null) {
         writeIndent(baseXsw, childLevel);
         baseXsw.writeStartElement("advances");
@@ -2329,8 +2361,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GOR");
       baseXsw.writeStartElement("GOR_GlyphOffsetRun");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri));
-      baseXsw.writeIntAttribute(null, null, "y", CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri));
+      int x = CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri);
+      int y = CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri);
+      baseXsw.writeIntAttribute(null, null, "x", x);
+      baseXsw.writeIntAttribute(null, null, "y", y);
       if (gor.getOffsets() != null) {
         writeIndent(baseXsw, childLevel);
         baseXsw.writeStartElement("offsets");
@@ -2346,8 +2380,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (cs instanceof PTOCAControlSequence.Undefined u) {
       baseXsw.writeStartElement("Undefined");
       baseXsw.writeIntAttribute(null, null, "page", pageNumber);
-      baseXsw.writeIntAttribute(null, null, "x", CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri));
-      baseXsw.writeIntAttribute(null, null, "y", CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri));
+      int x = CoordinateTransformer.getAfpX(inlinePos, baselinePos, iOri, bOri);
+      int y = CoordinateTransformer.getAfpY(inlinePos, baselinePos, iOri, bOri);
+      baseXsw.writeIntAttribute(null, null, "x", x);
+      baseXsw.writeIntAttribute(null, null, "y", y);
       if (u.getUndefinedData() != null) {
         writeBinaryElement(baseXsw, childLevel, "undefinedData", u.getUndefinedData());
       }
