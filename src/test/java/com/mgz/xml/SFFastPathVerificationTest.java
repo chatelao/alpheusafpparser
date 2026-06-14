@@ -293,6 +293,11 @@ public class SFFastPathVerificationTest {
     }
 
     private String normalizeXml(String xml) {
+        // Remove attributes we added to fast-path but are not in Jackson
+        xml = xml.replaceAll(" page=\"\\d+\"", "")
+                 .replaceAll(" x=\"-?\\d+\"", "")
+                 .replaceAll(" y=\"-?\\d+\"", "");
+
         // Remove metadata tags which are in Jackson but not in our fast-path
         return xml.replaceAll("<beginSF>.*?</beginSF>", "")
                   .replaceAll("<endSF>.*?</endSF>", "")

@@ -195,6 +195,84 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   private final boolean indentEnabled;
 
+  private int currentPage = 0;
+  private int inlinePos = 0;
+  private int baselinePos = 0;
+  private int inlineOrientation = 0;
+  private int baselineOrientation = 0x2D00;
+  private int inlineMargin = 0;
+  private int baselineIncrement = 0;
+  private int establishedBaselinePos = 0;
+  private boolean hasEstablishedBaseline = false;
+
+  private void resetPtocaState() {
+    this.inlinePos = 0;
+    this.baselinePos = 0;
+    this.inlineOrientation = 0;
+    this.baselineOrientation = 0x2D00;
+    this.inlineMargin = 0;
+    this.baselineIncrement = 0;
+    this.establishedBaselinePos = 0;
+    this.hasEstablishedBaseline = false;
+  }
+
+  private void updatePtocaState(PTOCAControlSequence cs) {
+    if (cs instanceof PTOCAControlSequence.AMI_AbsoluteMoveInline ami) {
+      this.inlinePos = ami.getDisplacement();
+    } else if (cs instanceof PTOCAControlSequence.RMI_RelativeMoveInline rmi) {
+      this.inlinePos += rmi.getIncrement();
+    } else if (cs instanceof PTOCAControlSequence.AMB_AbsoluteMoveBaseline amb) {
+      this.baselinePos = amb.getDisplacement();
+      this.hasEstablishedBaseline = false;
+    } else if (cs instanceof PTOCAControlSequence.RMB_RelativeMoveBaseline rmb) {
+      this.baselinePos += rmb.getIncrement();
+      this.hasEstablishedBaseline = false;
+    } else if (cs instanceof PTOCAControlSequence.STO_SetTextOrientation sto) {
+      this.inlineOrientation = sto.getxOrientation().getCode();
+      this.baselineOrientation = sto.getyOrientation().getCode();
+    } else if (cs instanceof PTOCAControlSequence.SBI_SetBaselineIncrement sbi) {
+      this.baselineIncrement = sbi.getIncrement();
+    } else if (cs instanceof PTOCAControlSequence.SIM_SetInlineMargin sim) {
+      this.inlineMargin = sim.getDisplacement();
+    } else if (cs instanceof PTOCAControlSequence.BLN_BeginLine) {
+      this.inlinePos = this.inlineMargin;
+      this.baselinePos += this.baselineIncrement;
+      this.hasEstablishedBaseline = false;
+    } else if (cs instanceof PTOCAControlSequence.TBM_TemporaryBaselineMove tbm) {
+      if (tbm.getDirection() == PTOCAControlSequence.TBM_TemporaryBaselineMove.TBM_Direction.MoveAwayFromIAxis
+          || tbm.getDirection() == PTOCAControlSequence.TBM_TemporaryBaselineMove.TBM_Direction.MoveTowardIAxis) {
+        if (!this.hasEstablishedBaseline) {
+          this.establishedBaselinePos = this.baselinePos;
+          this.hasEstablishedBaseline = true;
+        }
+        int increment = (tbm.getTemporaryBaselineIncrement() != null)
+            ? tbm.getTemporaryBaselineIncrement() : this.baselineIncrement;
+        if (tbm.getDirection() == PTOCAControlSequence.TBM_TemporaryBaselineMove.TBM_Direction.MoveAwayFromIAxis) {
+          this.baselinePos += increment;
+        } else {
+          this.baselinePos -= increment;
+        }
+      } else if (tbm.getDirection() == PTOCAControlSequence.TBM_TemporaryBaselineMove.TBM_Direction.ReturnToEstablishedBaseline) {
+        if (this.hasEstablishedBaseline) {
+          this.baselinePos = this.establishedBaselinePos;
+          this.hasEstablishedBaseline = false;
+        }
+      }
+    }
+  }
+
+  private int calculateAfpX() {
+    double inlineRad = Math.toRadians(inlineOrientation / 128.0);
+    double baselineRad = Math.toRadians(baselineOrientation / 128.0);
+    return (int) Math.round(inlinePos * Math.cos(inlineRad) + baselinePos * Math.cos(baselineRad));
+  }
+
+  private int calculateAfpY() {
+    double inlineRad = Math.toRadians(inlineOrientation / 128.0);
+    double baselineRad = Math.toRadians(baselineOrientation / 128.0);
+    return (int) Math.round(inlinePos * Math.sin(inlineRad) + baselinePos * Math.sin(baselineRad));
+  }
+
   /**
    * Constructor for AfpJacksonXmlWriter.
    *
@@ -324,6 +402,13 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     int level = fragmentMode ? 0 : 1;
     if (!fragmentMode) {
       writePureIndent(level);
+    }
+
+    if (sf instanceof com.mgz.afp.modca.BPG_BeginPage) {
+      currentPage++;
+      resetPtocaState();
+    } else if (sf instanceof BMO_BeginOverlay || sf instanceof BPS_BeginPageSegment) {
+      resetPtocaState();
     }
 
     if (sf instanceof NOP_NoOperation nop) {
@@ -1929,6 +2014,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private void writePtxDirectly(PTX_PresentationTextData ptx, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("PTX");
     baseXsw.writeStartElement("PTX_PresentationTextData");
+    baseXsw.writeIntAttribute(null, null, "page", currentPage);
+    baseXsw.writeIntAttribute(null, null, "x", calculateAfpX());
+    baseXsw.writeIntAttribute(null, null, "y", calculateAfpY());
+
     List<PTOCAControlSequence> sequences = ptx.getControlSequences();
     if (sequences != null) {
       boolean ptxDebug = com.mgz.util.PTXPerformanceMonitor.isEnabled();
@@ -1937,6 +2026,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         long csStart = ptxDebug ? System.nanoTime() : 0;
         long csStartCount = ptxDebug ? cos.getCount() : 0;
         writeControlSequence(cs, level + 1);
+        updatePtocaState(cs);
         if (csStart > 0) {
           int payloadSize = 0;
           if (cs instanceof PTOCAControlSequence.GraphicCharacters gc) {
@@ -1958,7 +2048,11 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     int childLevel = level + 1;
     if (cs instanceof PTOCAControlSequence.TRN_TransparentData trn) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("TRN");
-      baseXsw.writeRawBytes(XmlTagTemplates.TRN_START, 0, XmlTagTemplates.TRN_START.length);
+      baseXsw.writeStartElement("TRN_TransparentData");
+      baseXsw.writeIntAttribute(null, null, "page", currentPage);
+      baseXsw.writeIntAttribute(null, null, "x", calculateAfpX());
+      baseXsw.writeIntAttribute(null, null, "y", calculateAfpY());
+
       if (trn.getEncoding() != null && trn.getTransparentDataEBCDIC() != null) {
         writeIndent(baseXsw, childLevel);
         baseXsw.writeRawBytes(XmlTagTemplates.TRN_DATA_START, 0, XmlTagTemplates.TRN_DATA_START.length);
@@ -1976,7 +2070,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         }
       }
       writeIndent(baseXsw, level);
-      baseXsw.writeRawBytes(XmlTagTemplates.TRN_END, 0, XmlTagTemplates.TRN_END.length);
+      baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.GraphicCharacters gc) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GraphicCharacters");
@@ -3716,6 +3810,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       for (PTOCAControlSequence cs : ptd.getControlSequences()) {
         writeIndent(baseXsw, childLevel);
         writeControlSequence(cs, childLevel);
+        updatePtocaState(cs);
       }
     }
     writeIndent(baseXsw, level);
