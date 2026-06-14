@@ -47,14 +47,9 @@ public abstract class StructuredFieldBaseTriplets extends StructuredField implem
     triplets = null;
   }
 
-  @JsonIgnore
   @Override
+  @JacksonXmlProperty(localName = "triplets")
   public final List<Triplet> getTriplets() {
-    return triplets;
-  }
-
-  @JacksonXmlProperty
-  public final List<Triplet> getTripletsXml() {
     return triplets;
   }
 

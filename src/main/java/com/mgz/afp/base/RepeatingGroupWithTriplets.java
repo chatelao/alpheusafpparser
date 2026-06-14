@@ -43,14 +43,9 @@ public class RepeatingGroupWithTriplets extends RepeatingGroupBase implements IH
     triplets = null;
   }
 
-  @JsonIgnore
   @Override
+  @JacksonXmlProperty(localName = "tripletsXml")
   public List<Triplet> getTriplets() {
-    return triplets;
-  }
-
-  @JacksonXmlProperty
-  public List<Triplet> getTripletsXml() {
     return triplets;
   }
 
