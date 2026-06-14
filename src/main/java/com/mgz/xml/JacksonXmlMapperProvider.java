@@ -52,6 +52,8 @@ public class JacksonXmlMapperProvider {
   private static final ConcurrentHashMap<Class<?>, ObjectWriter> FRAGMENT_INDENT_WRITER_CACHE = new ConcurrentHashMap<>();
 
   static {
+    // Note: .configureForSpeed() is NOT used here to allow for more granular tuning
+    // of performance-related properties.
     OUTPUT_FACTORY.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, false);
     try {
       OUTPUT_FACTORY.setProperty("com.ctc.wstx.addSpaceAfterEmptyElem", false);
