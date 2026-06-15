@@ -1,15 +1,15 @@
 # Roadmap: Implementation of spatial metadata in AFP XML
 
 ## Phase 1: Basic infrastructure
-- [ ] Add state variables to `AfpJacksonXmlWriter`: `currentPageNumber`, `inlinePos`, `baselinePos`, `inlineOri`, `baselineOri`, `inlineMargin`, `baselineIncrement`.
-- [ ] Implement `page` tracking: increment `currentPageNumber` on `BPG` structured fields.
-- [ ] Implement state reset logic on `BPG`, `BMO`, and `BPS` (reset positions and orientations to default).
+- [x] Add state variables to `AfpJacksonXmlWriter`: `currentPageNumber`, `inlinePos`, `baselinePos`, `inlineOri`, `baselineOri`, `inlineMargin`, `baselineIncrement`.
+- [x] Implement `page` tracking: increment `currentPageNumber` on `BPG` structured fields.
+- [x] Implement state reset logic on `BPG`, `BMO`, and `BPS` (reset positions and orientations to default).
 
 ## Phase 2: PTOCA state machine
-- [ ] Implement move sequence handling in `writeControlSequence`:
+- [x] Implement move sequence handling in `writeControlSequence`:
   - `AMI`, `RMI` (Inline moves).
   - `AMB`, `RMB` (Baseline moves).
-- [ ] Implement orientation and margin handling:
+- [x] Implement orientation and margin handling:
   - `STO` (Text orientation).
   - `SIM` (Inline margin).
   - `SBI` (Baseline increment).
