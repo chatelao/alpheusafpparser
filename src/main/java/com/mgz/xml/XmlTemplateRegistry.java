@@ -31,23 +31,27 @@ public class XmlTemplateRegistry {
 
   static {
     // PTOCA Control Sequences
-    register("AMI", new String[] {"<AMI_AbsoluteMoveInline displacement=\"", "\"/>"});
-    register("RMI", new String[] {"<RMI_RelativeMoveInline increment=\"", "\"/>"});
-    register("AMB", new String[] {"<AMB_AbsoluteMoveBaseline displacement=\"", "\"/>"});
-    register("RMB", new String[] {"<RMB_RelativeMoveBaseline increment=\"", "\"/>"});
-    register("SCFL", new String[] {"<SCFL_SetCodedFontLocal codedFontLocalID=\"", "\"/>"});
-    register("SBI", new String[] {"<SBI_SetBaselineIncrement increment=\"", "\"/>"});
-    register("SIM", new String[] {"<SIM_SetInlineMargin displacement=\"", "\"/>"});
-    register("BSU", new String[] {"<BSU_BeginSuppression suppressionID=\"", "\"/>"});
-    register("ESU", new String[] {"<ESU_EndSuppression suppressionID=\"", "\"/>"});
-    register("SVI", new String[] {"<SVI_SetVariableSpaceCharacterIncrement increment=\"", "\"/>"});
-    register("BLN", new String[] {"<BLN_BeginLine/>"});
-    register("STO", new String[] {"<STO_SetTextOrientation xOrientation=\"", "\" yOrientation=\"", "\"/>"});
-    register("SIA", new String[] {"<SIA_SetIntercharacterAdjustment adjustment=\"", "\" direction=\"", "\"/>"});
-    register("STC", new String[] {"<STC_SetTextColor foregroundColor=\"", "\" precision=\"", "\"/>"});
-    register("USC", new String[] {"<USC_Underscore bypassFlag=\"", "\"/>"});
-    register("DIR", new String[] {"<DIR_DrawIaxisRule length=\"", "\"", "\"/>"});
-    register("DBR", new String[] {"<DBR_DrawBaxisRule length=\"", "\"", "\"/>"});
+    register("AMI", new String[] {"<AMI_AbsoluteMoveInline page=\"", "\" x=\"", "\" y=\"", "\" displacement=\"", "\"/>"});
+    register("RMI", new String[] {"<RMI_RelativeMoveInline page=\"", "\" x=\"", "\" y=\"", "\" increment=\"", "\"/>"});
+    register("AMB", new String[] {"<AMB_AbsoluteMoveBaseline page=\"", "\" x=\"", "\" y=\"", "\" displacement=\"", "\"/>"});
+    register("RMB", new String[] {"<RMB_RelativeMoveBaseline page=\"", "\" x=\"", "\" y=\"", "\" increment=\"", "\"/>"});
+    register("SCFL", new String[] {"<SCFL_SetCodedFontLocal page=\"", "\" x=\"", "\" y=\"", "\" codedFontLocalID=\"", "\"/>"});
+    register("SBI", new String[] {"<SBI_SetBaselineIncrement page=\"", "\" x=\"", "\" y=\"", "\" increment=\"", "\"/>"});
+    register("SIM", new String[] {"<SIM_SetInlineMargin page=\"", "\" x=\"", "\" y=\"", "\" displacement=\"", "\"/>"});
+    register("BSU", new String[] {"<BSU_BeginSuppression page=\"", "\" x=\"", "\" y=\"", "\" suppressionID=\"", "\"/>"});
+    register("ESU", new String[] {"<ESU_EndSuppression page=\"", "\" x=\"", "\" y=\"", "\" suppressionID=\"", "\"/>"});
+    register("SVI", new String[] {"<SVI_SetVariableSpaceCharacterIncrement page=\"", "\" x=\"", "\" y=\"", "\" increment=\"", "\"/>"});
+    register("BLN", new String[] {"<BLN_BeginLine page=\"", "\" x=\"", "\" y=\"", "\"/>"});
+    register("STO", new String[] {"<STO_SetTextOrientation page=\"", "\" x=\"", "\" y=\"", "\" xOrientation=\"", "\" yOrientation=\"", "\"/>"});
+    register("SIA", new String[] {"<SIA_SetIntercharacterAdjustment page=\"", "\" x=\"", "\" y=\"", "\" adjustment=\"", "\" direction=\"", "\"/>"});
+    register("STC", new String[] {"<STC_SetTextColor page=\"", "\" x=\"", "\" y=\"", "\" foregroundColor=\"", "\" precision=\"", "\"/>"});
+    register("USC", new String[] {"<USC_Underscore page=\"", "\" x=\"", "\" y=\"", "\" bypassFlag=\"", "\"/>"});
+    register("DIR", new String[] {"<DIR_DrawIaxisRule page=\"", "\" x=\"", "\" y=\"", "\" length=\"", "\"", "\"/>"});
+    register("DBR", new String[] {"<DBR_DrawBaxisRule page=\"", "\" x=\"", "\" y=\"", "\" length=\"", "\"", "\"/>"});
+
+    register("TRN_START_TAG", new String[] {"<TRN_TransparentData page=\"", "\" x=\"", "\" y=\"", "\">"});
+    register("GC_START_TAG", new String[] {"<GraphicCharacters page=\"", "\" x=\"", "\" y=\"", "\">"});
+    register("RPS_START_TAG", new String[] {"<RPS_RepeatString page=\"", "\" x=\"", "\" y=\"", "\">"});
 
     // Triplets
     register("AQ", new String[] {"<AttributeQualifier sequenceNumber=\"", "\" levelNumber=\"", "\"/>"});
@@ -92,9 +96,9 @@ public class XmlTemplateRegistry {
     register("PTD1", new String[] {"<PTD_PresentationTextDataDescriptor_Format1", " xUnitBase=\"", "\" yUnitBase=\"", "\" xUnitsPerUnitBase=\"", "\" yUnitsPerUnitBase=\"", "\" xSize=\"", "\" ySize=\"", "\"", "/>"});
 
     // PTOCA Control Sequences
-    register("SEC", new String[] {"<SEC_SetExtendedTextColor colorSpace=\"", "\" nrOfBitsComponent1=\"", "\" nrOfBitsComponent2=\"", "\" nrOfBitsComponent3=\"", "\" nrOfBitsComponent4=\"", "\" colorValue=\"", "\"/>"});
-    register("TBM", new String[] {"<TBM_TemporaryBaselineMove", "/>"});
-    register("OVS", new String[] {"<OVS_Overstrike", "/>"});
+    register("SEC", new String[] {"<SEC_SetExtendedTextColor page=\"", "\" x=\"", "\" y=\"", "\" colorSpace=\"", "\" nrOfBitsComponent1=\"", "\" nrOfBitsComponent2=\"", "\" nrOfBitsComponent3=\"", "\" nrOfBitsComponent4=\"", "\" colorValue=\"", "\"/>"});
+    register("TBM", new String[] {"<TBM_TemporaryBaselineMove page=\"", "\" x=\"", "\" y=\"", "\"", "/>"});
+    register("OVS", new String[] {"<OVS_Overstrike page=\"", "\" x=\"", "\" y=\"", "\"", "/>"});
     register("RPL", new String[] {"<repeatLength>", "</repeatLength>"});
   }
 
