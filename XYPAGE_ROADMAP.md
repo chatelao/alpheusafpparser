@@ -16,17 +16,17 @@
   - `BLN` (Begin line transition: `inlinePos = inlineMargin`, `baselinePos += baselineIncrement`).
 
 ## Phase 3: Coordinate integration
-- [ ] Integrate `CoordinateTransformer` into `AfpJacksonXmlWriter`.
-- [ ] Calculate absolute `afpX` and `afpY` before writing `PTX` or drawable control sequences.
+- [x] Integrate `CoordinateTransformer` into `AfpJacksonXmlWriter`.
+- [x] Calculate absolute `afpX` and `afpY` before writing `PTX` or drawable control sequences.
 
 ## Phase 4: XML attribute injection
-- [ ] Modify `AfpXmlStreamWriter` or use `XMLStreamWriter2` attributes to inject `x`, `y`, and `page` into:
+- [x] Modify `AfpXmlStreamWriter` or use `XMLStreamWriter2` attributes to inject `x`, `y`, and `page` into:
   - `<PTX_PresentationTextData>`
   - `<TRN_TransparentData>`
   - `<GraphicCharacters>`
-- [ ] Update manual StAX fast-paths in `XmlTemplateRegistry` templates (e.g., `AMI`, `AMB`, `RMI`, `RMB`, `STO`) and `AfpJacksonXmlWriter` to support dynamic attributes without redundant allocations.
+- [x] Update manual StAX fast-paths in `XmlTemplateRegistry` templates (e.g., `AMI`, `AMB`, `RMI`, `RMB`, `STO`) and `AfpJacksonXmlWriter` to support dynamic attributes without redundant allocations.
 
 ## Phase 5: Verification and testing
-- [ ] Create `PTXAttributesTest.java` to verify coordinate calculations against known AFP samples.
-- [ ] Update `SFFastPathVerificationTest.java` to ensure fast-path XML matches Jackson's output with attributes.
-- [ ] Verify that `page` attributes correctly increment across multiple `BPG` fields.
+- [x] Create `PTXAttributesTest.java` to verify coordinate calculations against known AFP samples.
+- [x] Update `SFFastPathVerificationTest.java` to ensure fast-path XML matches Jackson's output with attributes.
+- [x] Verify that `page` attributes correctly increment across multiple `BPG` fields.
