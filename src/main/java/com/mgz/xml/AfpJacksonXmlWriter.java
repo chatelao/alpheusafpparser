@@ -142,6 +142,7 @@ import com.mgz.afp.bcoca.BBC_BeginBarCodeObject;
 import com.mgz.afp.bcoca.BDA_BarCodeData;
 import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor;
 import com.mgz.afp.bcoca.EBC_EndBarCodeObject;
+import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.NonClosingOutputStream;
@@ -194,6 +195,23 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private javax.xml.transform.Transformer cachedTransformer;
 
   private final boolean indentEnabled;
+
+  private int currentPageNumber = 0;
+  private int inlinePos = 0;
+  private int baselinePos = 0;
+  private AFPOrientation inlineOri = AFPOrientation.ori0;
+  private AFPOrientation baselineOri = AFPOrientation.ori90;
+  private int inlineMargin = 0;
+  private int baselineIncrement = 0;
+
+  private void resetPtocaState() {
+    inlinePos = 0;
+    baselinePos = 0;
+    inlineOri = AFPOrientation.ori0;
+    baselineOri = AFPOrientation.ori90;
+    inlineMargin = 0;
+    baselineIncrement = 0;
+  }
 
   /**
    * Constructor for AfpJacksonXmlWriter.
@@ -481,14 +499,18 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (sf instanceof BDI_BeginDocumentIndex bdi) {
       writeNameAndTripletsDirectly(bdi, "BDI_BeginDocumentIndex", level);
     } else if (sf instanceof BMO_BeginOverlay bmo) {
+      resetPtocaState();
       writeBmoDirectly(bmo, level);
     } else if (sf instanceof BPS_BeginPageSegment bps) {
+      resetPtocaState();
       writeBpsDirectly(bps, level);
     } else if (sf instanceof BRG_BeginResourceGroup brg) {
       writeNameAndTripletsDirectly(brg, "BRG_BeginResourceGroup", level);
     } else if (sf instanceof com.mgz.afp.modca.BNG_BeginNamedPageGroup bng) {
       writeNameAndTripletsDirectly(bng, "BNG_BeginNamedPageGroup", level);
     } else if (sf instanceof com.mgz.afp.modca.BPG_BeginPage bpg) {
+      currentPageNumber++;
+      resetPtocaState();
       writeNameAndTripletsDirectly(bpg, "BPG_BeginPage", level);
     } else if (sf instanceof BGR_BeginGraphicsObject bgr) {
       writeNameAndTripletsDirectly(bgr, "BGR_BeginGraphicsObject", level);
@@ -1993,22 +2015,27 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       baseXsw.writeRawBytes(XmlTagTemplates.GC_END, 0, XmlTagTemplates.GC_END.length);
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.AMI_AbsoluteMoveInline ami) {
+      inlinePos = ami.getDisplacement();
       MnemonicPerformanceMonitor.startWriteWithMnemonic("AMI");
       XmlTemplateRegistry.getTemplate("AMI").write(baseXsw, ami.getDisplacement());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.AMB_AbsoluteMoveBaseline amb) {
+      baselinePos = amb.getDisplacement();
       MnemonicPerformanceMonitor.startWriteWithMnemonic("AMB");
       XmlTemplateRegistry.getTemplate("AMB").write(baseXsw, amb.getDisplacement());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.RMI_RelativeMoveInline rmi) {
+      inlinePos += rmi.getIncrement();
       MnemonicPerformanceMonitor.startWriteWithMnemonic("RMI");
       XmlTemplateRegistry.getTemplate("RMI").write(baseXsw, rmi.getIncrement());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.RMB_RelativeMoveBaseline rmb) {
+      baselinePos += rmb.getIncrement();
       MnemonicPerformanceMonitor.startWriteWithMnemonic("RMB");
       XmlTemplateRegistry.getTemplate("RMB").write(baseXsw, rmb.getIncrement());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.SIM_SetInlineMargin sim) {
+      inlineMargin = sim.getDisplacement();
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SIM");
       XmlTemplateRegistry.getTemplate("SIM").write(baseXsw, sim.getDisplacement());
       MnemonicPerformanceMonitor.endWrite();
@@ -2017,10 +2044,13 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       XmlTemplateRegistry.getTemplate("SCFL").write(baseXsw, scfl.getCodedFontLocalID());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.SBI_SetBaselineIncrement sbi) {
+      baselineIncrement = sbi.getIncrement();
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SBI");
       XmlTemplateRegistry.getTemplate("SBI").write(baseXsw, sbi.getIncrement());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.BLN_BeginLine) {
+      inlinePos = inlineMargin;
+      baselinePos += baselineIncrement;
       MnemonicPerformanceMonitor.startWriteWithMnemonic("BLN");
       XmlTemplateRegistry.getTemplate("BLN").write(baseXsw);
       MnemonicPerformanceMonitor.endWrite();
@@ -2033,6 +2063,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       XmlTemplateRegistry.getTemplate("ESU").write(baseXsw, esu.getSuppressionID());
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.STO_SetTextOrientation sto) {
+      inlineOri = sto.getxOrientation();
+      baselineOri = sto.getyOrientation();
       MnemonicPerformanceMonitor.startWriteWithMnemonic("STO");
       XmlTemplateRegistry.getTemplate("STO").writeObjects(baseXsw, sto.getxOrientation(), sto.getyOrientation());
       MnemonicPerformanceMonitor.endWrite();
