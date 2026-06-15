@@ -68,7 +68,7 @@ public class IDD_ImageDataDescriptor extends StructuredField {
         } else {
           sdf = new IDD_SelfDefiningField.UnknownSelfDefiningField();
         }
-        sdf.decodeAFP(sfData, offset + pos, -1, config);
+        sdf.decodeAFP(sfData, offset + pos, actualLength - pos, config);
         selfDefiningFields.add(sdf);
         pos += (sdf.lengthOfFollowingData + 2);
       }

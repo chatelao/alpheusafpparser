@@ -139,13 +139,13 @@ public class TripletParser {
         } else {
           undef.setParsingException(new AFPParserException("An exception occured while parsing triplet.", pex));
         }
-        byte[] tripletData = new byte[actualLength];
-        System.arraycopy(sfData, offset, tripletData, 0, actualLength);
-        undef.setTripletData(tripletData);
         int tripletLength = sfData[offset + pos] & 0xFF;
-        if (tripletLength < 2) {
+        if (tripletLength < 2 || pos + tripletLength > actualLength) {
           tripletLength = actualLength - pos;
         }
+        byte[] tripletData = new byte[tripletLength];
+        System.arraycopy(sfData, offset + pos, tripletData, 0, tripletLength);
+        undef.setTripletData(tripletData);
         undef.setLength((short) tripletLength);
         undef.setTripletID(TripletID.Undefined);
       }
