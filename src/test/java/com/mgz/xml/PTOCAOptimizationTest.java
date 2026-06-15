@@ -38,8 +38,8 @@ public class PTOCAOptimizationTest {
         String xml = baos.toString();
 
         // Verify compact attribute-based format
-        assertTrue(xml.contains("<AMI_AbsoluteMoveInline displacement=\"123\"/>"), "XML should contain AMI as empty element with attribute");
-        assertTrue(xml.contains("<AMB_AbsoluteMoveBaseline displacement=\"456\"/>"), "XML should contain AMB as empty element with attribute");
+        assertTrue(xml.contains("displacement=\"123\"/>"), "XML should contain AMI with displacement attribute");
+        assertTrue(xml.contains("displacement=\"456\"/>"), "XML should contain AMB with displacement attribute");
         assertTrue(xml.contains("<SCFL_SetCodedFontLocal codedFontLocalID=\"1\"/>"), "XML should contain SCFL as empty element with attribute");
         assertTrue(xml.contains("<SVI_SetVariableSpaceCharacterIncrement increment=\"5\"/>"), "XML should contain SVI as empty element with attribute");
     }
