@@ -25,7 +25,7 @@ public class PtocaIndentationTest {
         System.out.println("Indented XML Output:\n" + xml);
 
         // Verify that we have indentation
-        assertTrue(xml.contains("\n  <PTX_PresentationTextData>"), "Should have PTX indentation");
+        assertTrue(xml.contains("\n  <PTX_PresentationTextData"), "Should have PTX indentation");
         assertTrue(xml.contains("\n    <AMI_AbsoluteMoveInline displacement=\"1234\"/>"), "Should have AMI indentation and correct attribute");
     }
 }

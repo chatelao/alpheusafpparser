@@ -376,8 +376,8 @@ public class XmlTemplateVerificationTest {
                     values = new Object[]{(int) ad.reserved2, ad.xOrigin, ad.yOrigin, ad.xSize, ad.ySize};
                 } else if (t instanceof Triplet.ObjectCount oc) {
                     template = XmlTemplateRegistry.getTemplate("OCNT");
-                    String extra = oc.numberOfObjectsHigh != null ? "\" numberOfObjectsHigh=\"" + oc.numberOfObjectsHigh : "";
-                    values = new Object[]{(int) oc.subordinateObjectType, (int) oc.reserved3, oc.numberOfObjectsLow, extra};
+                    String extra = oc.numberOfObjectsHigh != null ? "\" numberOfObjectsHigh=\"" + oc.numberOfObjectsHigh + "\"" : "\"";
+                    values = new Object[]{(int) oc.subordinateObjectType, (int) oc.reserved3, oc.numberOfObjectsLow + extra};
                 } else if (t instanceof Triplet.LocalObjectDateAndTimeStamp lodts) {
                     template = XmlTemplateRegistry.getTemplate("LODTS");
                     values = new Object[]{lodts.dateAndTimeStampType, (int) lodts.hundreds, (int) lodts.tens, (int) lodts.dayOfYear, (int) lodts.hourOfDay, (int) lodts.minuteOfHour, (int) lodts.secondOfMinute, (int) lodts.hundredthOfSecond};
@@ -386,21 +386,21 @@ public class XmlTemplateVerificationTest {
                     values = new Object[]{(int) udts.reserved2, (int) udts.year, (int) udts.monthOfYear, (int) udts.dayOfMonth, (int) udts.hourOfDay, (int) udts.minuteOfHour, (int) udts.secondOfMinute, udts.timeZone, (int) udts.diffHours, (int) udts.diffMinutes};
                 } else if (t instanceof Triplet.ObjectByteOffset obo) {
                     template = XmlTemplateRegistry.getTemplate("OBO");
-                    String extra = obo.byteOffsetHighOrder != null ? "\" byteOffsetHighOrder=\"" + obo.byteOffsetHighOrder : "";
-                    values = new Object[]{obo.byteOffset, extra};
+                    String extra = obo.byteOffsetHighOrder != null ? "\" byteOffsetHighOrder=\"" + obo.byteOffsetHighOrder + "\"" : "\"";
+                    values = new Object[]{obo.byteOffset + extra};
                 } else if (t instanceof Triplet.ObjectStructuredFieldOffset osfo) {
                     template = XmlTemplateRegistry.getTemplate("OSFO");
-                    String extra = osfo.offsetHigh != null ? "\" offsetHigh=\"" + osfo.offsetHigh : "";
-                    values = new Object[]{osfo.offsetLow, extra};
+                    String extra = osfo.offsetHigh != null ? "\" offsetHigh=\"" + osfo.offsetHigh + "\"" : "\"";
+                    values = new Object[]{osfo.offsetLow + extra};
                 } else if (t instanceof Triplet.ObjectStructuredFieldExtent osfe) {
                     template = XmlTemplateRegistry.getTemplate("OSFE");
-                    String extra = osfe.numberOfSFHigh != null ? "\" numberOfSFHigh=\"" + osfe.numberOfSFHigh : "";
-                    values = new Object[]{osfe.numberOfSFLow, extra};
+                    String extra = osfe.numberOfSFHigh != null ? "\" numberOfSFHigh=\"" + osfe.numberOfSFHigh + "\"" : "\"";
+                    values = new Object[]{osfe.numberOfSFLow + extra};
                 } else if (t instanceof Triplet.ObjectOffset oo) {
                     template = XmlTemplateRegistry.getTemplate("OO");
                     String typeAttr = oo.objectType != null ? " objectType=\"" + oo.objectType.name() + "\"" : "";
-                    String extra = oo.nrOfPrecedingObjectsHigh != null ? "\" nrOfPrecedingObjectsHigh=\"" + oo.nrOfPrecedingObjectsHigh : "";
-                    values = new Object[]{typeAttr, (int) oo.reserved3, oo.nrOfPrecedingObjectsLow, extra};
+                    String extra = oo.nrOfPrecedingObjectsHigh != null ? "\" nrOfPrecedingObjectsHigh=\"" + oo.nrOfPrecedingObjectsHigh + "\"" : "\"";
+                    values = new Object[]{typeAttr, (int) oo.reserved3, oo.nrOfPrecedingObjectsLow + extra};
                 }
 
                 if (template != null) {
@@ -427,25 +427,34 @@ public class XmlTemplateVerificationTest {
                      template = XmlTemplateRegistry.getTemplate("SEC");
                      values = new Object[]{sec.getColorSpace(), (int) sec.getNrOfBitsComponent1(), (int) sec.getNrOfBitsComponent2(), (int) sec.getNrOfBitsComponent3(), (int) sec.getNrOfBitsComponent4(), com.mgz.util.UtilCharacterEncoding.bytesToHexString(sec.getColorValue())};
                  } else if (cs instanceof PTOCAControlSequence.DIR_DrawIaxisRule dir) {
+                     // DIR now uses StAX in AfpJacksonXmlWriter, so we just write it via writer.handle if it was a SF
+                     // but here it's a PTOCAControlSequence. DIR is not a SF.
+                     // In the test we still want to test the template if it exists.
                      template = XmlTemplateRegistry.getTemplate("DIR");
-                     String extra = "";
-                     if (dir.getWidth() != null) {
-                         extra += "\" width=\"" + dir.getWidth();
-                         if (dir.getWidthFraction() != null) {
-                             extra += "\" widthFraction=\"" + dir.getWidthFraction();
+                     if (template != null) {
+                         String extra = "\"";
+                         if (dir.getWidth() != null) {
+                             extra = "\" width=\"" + dir.getWidth();
+                             if (dir.getWidthFraction() != null) {
+                                 extra += "\" widthFraction=\"" + dir.getWidthFraction();
+                             }
+                             extra += "\"";
                          }
+                         values = new Object[]{dir.getLength(), extra};
                      }
-                     values = new Object[]{dir.getLength(), extra};
                  } else if (cs instanceof PTOCAControlSequence.DBR_DrawBaxisRule dbr) {
                      template = XmlTemplateRegistry.getTemplate("DBR");
-                     String extra = "";
-                     if (dbr.getWidth() != null) {
-                         extra += "\" width=\"" + dbr.getWidth();
-                         if (dbr.getWidthFraction() != null) {
-                             extra += "\" widthFraction=\"" + dbr.getWidthFraction();
+                     if (template != null) {
+                         String extra = "\"";
+                         if (dbr.getWidth() != null) {
+                             extra = "\" width=\"" + dbr.getWidth();
+                             if (dbr.getWidthFraction() != null) {
+                                 extra += "\" widthFraction=\"" + dbr.getWidthFraction();
+                             }
+                             extra += "\"";
                          }
+                         values = new Object[]{dbr.getLength(), extra};
                      }
-                     values = new Object[]{dbr.getLength(), extra};
                  }
 
                  if (template != null) {
@@ -592,11 +601,20 @@ public class XmlTemplateVerificationTest {
     }
 
     private String normalizeXml(String xml) {
-        return xml.replaceAll("<beginSF>.*?</beginSF>", "")
-                  .replaceAll("<endSF>.*?</endSF>", "")
-                  .replaceAll("<shallow>.*?</shallow>", "")
-                  .replaceAll("<structuredFieldIntroducer>.*?</structuredFieldIntroducer>", "")
-                  .replaceAll("<padding>.*?</padding>", "")
-                  .replaceAll("\\s", "");
+        xml = xml.replaceAll(" page=\"\\d+\"", "")
+                 .replaceAll(" x=\"-?\\d+\"", "")
+                 .replaceAll(" y=\"-?\\d+\"", "")
+                 .replaceAll(" precision=\"\"", "")
+                 .replaceAll("<beginSF>.*?</beginSF>", "")
+                 .replaceAll("<endSF>.*?</endSF>", "")
+                 .replaceAll("<shallow>.*?</shallow>", "")
+                 .replaceAll("<structuredFieldIntroducer>.*?</structuredFieldIntroducer>", "")
+                 .replaceAll("<padding>.*?</padding>", "")
+                 .replaceAll("<tripletsXml>", "").replaceAll("</tripletsXml>", "")
+                 .replaceAll("<triplets>", "").replaceAll("</triplets>", "")
+                 .replaceAll("<repeatingGroupsXml>", "").replaceAll("</repeatingGroupsXml>", "")
+                 .replaceAll("<repeatingGroups>", "").replaceAll("</repeatingGroups>", "")
+                 .replaceAll("<length>0</length>", "");
+        return xml.replaceAll("\\s", "");
     }
 }

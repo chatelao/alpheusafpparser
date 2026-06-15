@@ -78,18 +78,28 @@ public class XmlTemplateRegistry {
     register("KGT", new String[] {"<KeepGroupTogether grpFnct=\"", "\"/>"});
     register("FCGCS", new String[] {"<FontCodedGraphicCharacterSetGlobalID codedGraphicCharacterSetGlobalID=\"", "\" codePageGlobalID=\"", "\"/>"});
     register("MFS", new String[] {"<MODCAFunctionSet fctSetID=\"", "\"/>"});
-    register("AD", new String[] {"<AreaDefinition reserved2=\"", "\" xOrigin=\"", "\" yOrigin=\"", "\" xSize=\"", "\" ySize=\"", "\"/>"});
-    register("OCNT", new String[] {"<ObjectCount subordinateObjectType=\"", "\" reserved3=\"", "\" numberOfObjectsLow=\"", "\"", "/>"});
-    register("LODTS", new String[] {"<LocalObjectDateAndTimeStamp dateAndTimeStampType=\"", "\" hundreds=\"", "\" tens=\"", "\" dayOfYear=\"", "\" hourOfDay=\"", "\" minuteOfHour=\"", "\" secondOfMinute=\"", "\" hundredthOfSecond=\"", "\"/>"});
-    register("UDTS", new String[] {"<UniversalDateAndTimeStamp reserved2=\"", "\" year=\"", "\" monthOfYear=\"", "\" dayOfMonth=\"", "\" hourOfDay=\"", "\" minuteOfHour=\"", "\" secondOfMinute=\"", "\" timeZone=\"", "\" diffHours=\"", "\" diffMinutes=\"", "\"/>"});
-    register("OBO", new String[] {"<ObjectByteOffset byteOffset=\"", "\"", "\"/>"});
-    register("OSFO", new String[] {"<ObjectStructuredFieldOffset offsetLow=\"", "\"", "\"/>"});
-    register("OSFE", new String[] {"<ObjectStructuredFieldExtent numberOfSFLow=\"", "\"", "\"/>"});
-    register("OO", new String[] {"<ObjectOffset", " reserved3=\"", "\" nrOfPrecedingObjectsLow=\"", "\"", "/>"});
+    register("AD", new String[] {"<AreaDefinition reserved2=\"", "\" xOrigin=\"",
+        "\" yOrigin=\"", "\" xSize=\"", "\" ySize=\"", "\"/>"});
+    register("OCNT", new String[] {"<ObjectCount subordinateObjectType=\"",
+        "\" reserved3=\"", "\" numberOfObjectsLow=\"", "/>"});
+    register("LODTS", new String[] {"<LocalObjectDateAndTimeStamp dateAndTimeStampType=\"",
+        "\" hundreds=\"", "\" tens=\"", "\" dayOfYear=\"", "\" hourOfDay=\"", "\" minuteOfHour=\"",
+        "\" secondOfMinute=\"", "\" hundredthOfSecond=\"", "\"/>"});
+    register("UDTS", new String[] {"<UniversalDateAndTimeStamp reserved2=\"", "\" year=\"",
+        "\" monthOfYear=\"", "\" dayOfMonth=\"", "\" hourOfDay=\"", "\" minuteOfHour=\"",
+        "\" secondOfMinute=\"", "\" timeZone=\"", "\" diffHours=\"", "\" diffMinutes=\"", "\"/>"});
+    register("OBO", new String[] {"<ObjectByteOffset byteOffset=\"", "/>"});
+    register("OSFO", new String[] {"<ObjectStructuredFieldOffset offsetLow=\"", "/>"});
+    register("OSFE", new String[] {"<ObjectStructuredFieldExtent numberOfSFLow=\"", "/>"});
+    register("OO", new String[] {"<ObjectOffset", " reserved3=\"",
+        "\" nrOfPrecedingObjectsLow=\"", "/>"});
 
     // Structured Fields
-    register("PGP1", new String[] {"<PGP_PagePosition_Format1 xOrigin=\"", "\" yOrigin=\"", "\"/>"});
-    register("PTD1", new String[] {"<PTD_PresentationTextDataDescriptor_Format1", " xUnitBase=\"", "\" yUnitBase=\"", "\" xUnitsPerUnitBase=\"", "\" yUnitsPerUnitBase=\"", "\" xSize=\"", "\" ySize=\"", "\"", "/>"});
+    register("PGP1", new String[] {"<PGP_PagePosition_Format1 xOrigin=\"",
+        "\" yOrigin=\"", "\"/>"});
+    register("PTD1", new String[] {"<PTD_PresentationTextDataDescriptor_Format1",
+        " xUnitBase=\"", "\" yUnitBase=\"", "\" xUnitsPerUnitBase=\"",
+        "\" yUnitsPerUnitBase=\"", "\" xSize=\"", "\" ySize=\"", "/>"});
 
     // PTOCA Control Sequences
     register("SEC", new String[] {"<SEC_SetExtendedTextColor colorSpace=\"", "\" nrOfBitsComponent1=\"", "\" nrOfBitsComponent2=\"", "\" nrOfBitsComponent3=\"", "\" nrOfBitsComponent4=\"", "\" colorValue=\"", "\"/>"});

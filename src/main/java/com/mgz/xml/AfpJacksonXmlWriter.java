@@ -142,7 +142,9 @@ import com.mgz.afp.bcoca.BBC_BeginBarCodeObject;
 import com.mgz.afp.bcoca.BDA_BarCodeData;
 import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor;
 import com.mgz.afp.bcoca.EBC_EndBarCodeObject;
+import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.triplets.Triplet;
+import com.mgz.pdf.CoordinateTransformer;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.NonClosingOutputStream;
 import com.mgz.util.SFSizeEstimator;
@@ -184,6 +186,15 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private final XmlMapper mapper;
   private final XmlMapper fragmentMapper;
   private ToXmlGenerator baseFragmentGenerator;
+
+  private int pageNumber = 0;
+  private int inlinePos = 0;
+  private int baselinePos = 0;
+  private int establishedBaselinePos = 0;
+  private int baselineIncrement = 0;
+  private int inlineMargin = 0;
+  private AFPOrientation inlineOrientation = AFPOrientation.ori0;
+  private AFPOrientation baselineOrientation = AFPOrientation.ori90;
 
   public ToXmlGenerator getBaseFragmentGenerator() {
     return baseFragmentGenerator;
@@ -481,14 +492,18 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (sf instanceof BDI_BeginDocumentIndex bdi) {
       writeNameAndTripletsDirectly(bdi, "BDI_BeginDocumentIndex", level);
     } else if (sf instanceof BMO_BeginOverlay bmo) {
+      resetPtxState();
       writeBmoDirectly(bmo, level);
     } else if (sf instanceof BPS_BeginPageSegment bps) {
+      resetPtxState();
       writeBpsDirectly(bps, level);
     } else if (sf instanceof BRG_BeginResourceGroup brg) {
       writeNameAndTripletsDirectly(brg, "BRG_BeginResourceGroup", level);
     } else if (sf instanceof com.mgz.afp.modca.BNG_BeginNamedPageGroup bng) {
       writeNameAndTripletsDirectly(bng, "BNG_BeginNamedPageGroup", level);
     } else if (sf instanceof com.mgz.afp.modca.BPG_BeginPage bpg) {
+      pageNumber++;
+      resetPtxState();
       writeNameAndTripletsDirectly(bpg, "BPG_BeginPage", level);
     } else if (sf instanceof BGR_BeginGraphicsObject bgr) {
       writeNameAndTripletsDirectly(bgr, "BGR_BeginGraphicsObject", level);
@@ -1257,17 +1272,17 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private void writeTriplet(XMLStreamWriter2 writer, Triplet triplet, int level) throws Exception {
     int childLevel = level + 1;
     writeIndent(writer, level);
-    if (triplet instanceof Triplet.Undefined u) {
+    if (triplet instanceof Triplet.Undefined undefinedTriplet) {
       writer.writeStartElement("tripletUndefined");
-      if (u.getTripletData() != null) {
-        writeBinaryElement(writer, childLevel, "tripletData", u.getTripletData());
+      if (undefinedTriplet.getTripletData() != null) {
+        writeBinaryElement(writer, childLevel, "tripletData", undefinedTriplet.getTripletData());
       }
       writeIndent(writer, level);
       writer.writeEndElement();
-    } else if (triplet instanceof Triplet.TripletExtender te) {
+    } else if (triplet instanceof Triplet.TripletExtender tripletExtender) {
       writer.writeStartElement("TripletExtender");
-      if (te.getDatExt() != null) {
-        writeBinaryElement(writer, childLevel, "datExt", te.getDatExt());
+      if (tripletExtender.getDatExt() != null) {
+        writeBinaryElement(writer, childLevel, "datExt", tripletExtender.getDatExt());
       }
       writeIndent(writer, level);
       writer.writeEndElement();
@@ -1291,10 +1306,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       XmlTemplateRegistry.getTemplate("MO").writeObjects(baseXsw, mo.getDataObjecMapingOption());
     } else if (triplet instanceof Triplet.AttributeQualifier aq) {
       XmlTemplateRegistry.getTemplate("AQ").write(baseXsw, aq.sequenceNumber, aq.levelNumber);
-    } else if (triplet instanceof Triplet.Comment c) {
+    } else if (triplet instanceof Triplet.Comment tripletComment) {
       writer.writeStartElement("Comment");
-      writeElement(writer, childLevel, "comment", c.comment);
-      writeElement(writer, childLevel, "text", c.getText());
+      writeElement(writer, childLevel, "comment", tripletComment.comment);
+      writeElement(writer, childLevel, "text", tripletComment.getText());
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ResourceLocalIdentifier rli) {
@@ -1929,6 +1944,13 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private void writePtxDirectly(PTX_PresentationTextData ptx, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("PTX");
     baseXsw.writeStartElement("PTX_PresentationTextData");
+    baseXsw.writeIntAttribute(null, null, "page", pageNumber);
+    baseXsw.writeIntAttribute(null, null, "x",
+        CoordinateTransformer.getAfpX(inlinePos, baselinePos, inlineOrientation,
+        baselineOrientation));
+    baseXsw.writeIntAttribute(null, null, "y",
+        CoordinateTransformer.getAfpY(inlinePos, baselinePos, inlineOrientation,
+        baselineOrientation));
     List<PTOCAControlSequence> sequences = ptx.getControlSequences();
     if (sequences != null) {
       boolean ptxDebug = com.mgz.util.PTXPerformanceMonitor.isEnabled();
@@ -1956,9 +1978,18 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   private void writeControlSequence(PTOCAControlSequence cs, int level) throws Exception {
     int childLevel = level + 1;
+    int currentX = CoordinateTransformer.getAfpX(inlinePos, baselinePos, inlineOrientation,
+        baselineOrientation);
+    int currentY = CoordinateTransformer.getAfpY(inlinePos, baselinePos, inlineOrientation,
+        baselineOrientation);
+    updatePtxState(cs);
+
     if (cs instanceof PTOCAControlSequence.TRN_TransparentData trn) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("TRN");
-      baseXsw.writeRawBytes(XmlTagTemplates.TRN_START, 0, XmlTagTemplates.TRN_START.length);
+      baseXsw.writeStartElement("TRN_TransparentData");
+      baseXsw.writeIntAttribute(null, null, "page", pageNumber);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       if (trn.getEncoding() != null && trn.getTransparentDataEBCDIC() != null) {
         writeIndent(baseXsw, childLevel);
         baseXsw.writeRawBytes(XmlTagTemplates.TRN_DATA_START, 0, XmlTagTemplates.TRN_DATA_START.length);
@@ -1976,11 +2007,14 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         }
       }
       writeIndent(baseXsw, level);
-      baseXsw.writeRawBytes(XmlTagTemplates.TRN_END, 0, XmlTagTemplates.TRN_END.length);
+      baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.GraphicCharacters gc) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GraphicCharacters");
-      baseXsw.writeRawBytes(XmlTagTemplates.GC_START, 0, XmlTagTemplates.GC_START.length);
+      baseXsw.writeStartElement("GraphicCharacters");
+      baseXsw.writeIntAttribute(null, null, "page", pageNumber);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       if (gc.getEncoding() != null && gc.getData() != null) {
         writeIndent(baseXsw, childLevel);
         baseXsw.writeRawBytes(XmlTagTemplates.TEXT_START, 0, XmlTagTemplates.TEXT_START.length);
@@ -1990,7 +2024,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writeElement(baseXsw, childLevel, "text", gc.getText());
       }
       writeIndent(baseXsw, level);
-      baseXsw.writeRawBytes(XmlTagTemplates.GC_END, 0, XmlTagTemplates.GC_END.length);
+      baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.AMI_AbsoluteMoveInline ami) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("AMI");
@@ -2058,29 +2092,40 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.DIR_DrawIaxisRule dir) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("DIR");
-      String extra = "";
+      baseXsw.writeStartElement("DIR_DrawIaxisRule");
+      baseXsw.writeIntAttribute(null, null, "page", pageNumber);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
+      baseXsw.writeIntAttribute(null, null, "length", dir.getLength());
       if (dir.getWidth() != null) {
-        extra += "\" width=\"" + dir.getWidth();
+        baseXsw.writeIntAttribute(null, null, "width", dir.getWidth());
         if (dir.getWidthFraction() != null) {
-          extra += "\" widthFraction=\"" + dir.getWidthFraction();
+          baseXsw.writeIntAttribute(null, null, "widthFraction", dir.getWidthFraction());
         }
       }
-      XmlTemplateRegistry.getTemplate("DIR").writeObjects(baseXsw, dir.getLength(), extra);
+      baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.DBR_DrawBaxisRule dbr) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("DBR");
-      String extra = "";
+      baseXsw.writeStartElement("DBR_DrawBaxisRule");
+      baseXsw.writeIntAttribute(null, null, "page", pageNumber);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
+      baseXsw.writeIntAttribute(null, null, "length", dbr.getLength());
       if (dbr.getWidth() != null) {
-        extra += "\" width=\"" + dbr.getWidth();
+        baseXsw.writeIntAttribute(null, null, "width", dbr.getWidth());
         if (dbr.getWidthFraction() != null) {
-          extra += "\" widthFraction=\"" + dbr.getWidthFraction();
+          baseXsw.writeIntAttribute(null, null, "widthFraction", dbr.getWidthFraction());
         }
       }
-      XmlTemplateRegistry.getTemplate("DBR").writeObjects(baseXsw, dbr.getLength(), extra);
+      baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.NOP_NoOperation nop) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("NOP");
       baseXsw.writeStartElement("NOP_NoOperation");
+      baseXsw.writeIntAttribute(null, null, "page", pageNumber);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       if (nop.getText() != null) {
         writeElement(baseXsw, childLevel, "text", nop.getText());
       }
@@ -2092,33 +2137,42 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.TBM_TemporaryBaselineMove tbm) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("TBM");
-      StringBuilder sb = new StringBuilder();
+      baseXsw.writeStartElement("TBM_TemporaryBaselineMove");
+      baseXsw.writeIntAttribute(null, null, "page", pageNumber);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       if (tbm.getDirection() != null) {
-        sb.append(" direction=\"").append(tbm.getDirection().name()).append("\"");
+        baseXsw.writeAttribute("direction", tbm.getDirection().name());
       }
       if (tbm.getPrecision() != null) {
-        sb.append(" precision=\"").append(tbm.getPrecision().name()).append("\"");
+        baseXsw.writeAttribute("precision", tbm.getPrecision().name());
       }
       if (tbm.getTemporaryBaselineIncrement() != null) {
-        sb.append(" temporaryBaselineIncrement=\"").append(tbm.getTemporaryBaselineIncrement()).append("\"");
+        baseXsw.writeIntAttribute(null, null, "temporaryBaselineIncrement", tbm.getTemporaryBaselineIncrement());
       }
-      XmlTemplateRegistry.getTemplate("TBM").writeObjects(baseXsw, sb.toString());
+      baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.OVS_Overstrike ovs) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("OVS");
-      StringBuilder sb = new StringBuilder();
+      baseXsw.writeStartElement("OVS_Overstrike");
+      baseXsw.writeIntAttribute(null, null, "page", pageNumber);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       if (ovs.getBypassFlag() != null) {
-        sb.append(" bypassFlag=\"").append(ovs.getBypassFlag().name()).append("\"");
+        baseXsw.writeAttribute("bypassFlag", ovs.getBypassFlag().name());
       }
-      sb.append(" overStrikeCharacterCodePoint=\"").append(ovs.getOverStrikeCharacterCodePoint()).append("\"");
+      baseXsw.writeIntAttribute(null, null, "overStrikeCharacterCodePoint", ovs.getOverStrikeCharacterCodePoint());
       if (ovs.getText() != null) {
-        sb.append(" text=\"").append(UtilCharacterEncoding.escapeXml(UtilCharacterEncoding.sanitizeForXml(ovs.getText()))).append("\"");
+        baseXsw.writeAttribute("text", ovs.getText());
       }
-      XmlTemplateRegistry.getTemplate("OVS").writeObjects(baseXsw, sb.toString());
+      baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.RPS_RepeatString rps) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("RPS");
-      baseXsw.writeRawBytes(XmlTagTemplates.RPS_START, 0, XmlTagTemplates.RPS_START.length);
+      baseXsw.writeStartElement("RPS_RepeatString");
+      baseXsw.writeIntAttribute(null, null, "page", pageNumber);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       writeIndent(baseXsw, childLevel);
       XmlTemplateRegistry.getTemplate("RPL").write(baseXsw, rps.getRepeatLength());
       if (rps.getEncoding() != null && rps.getRepeatData() != null) {
@@ -2140,11 +2194,14 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         }
       }
       writeIndent(baseXsw, level);
-      baseXsw.writeRawBytes(XmlTagTemplates.RPS_END, 0, XmlTagTemplates.RPS_END.length);
+      baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
     } else if (cs instanceof PTOCAControlSequence.UCT_UnicodeComplexText uct) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("UCT");
       baseXsw.writeStartElement("UCT_UnicodeComplexText");
+      baseXsw.writeIntAttribute(null, null, "page", pageNumber);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       writeElement(baseXsw, childLevel, "uctVers", uct.getUctVers());
       writeElement(baseXsw, childLevel, "ctLength", uct.getCtLength());
       writeElement(baseXsw, childLevel, "ctFlags", uct.getCtFlags());
@@ -2163,6 +2220,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (cs instanceof PTOCAControlSequence.GLC_GlyphLayoutControl glc) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GLC");
       baseXsw.writeStartElement("GLC_GlyphLayoutControl");
+      baseXsw.writeIntAttribute(null, null, "page", pageNumber);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       writeElement(baseXsw, childLevel, "iAdvance", glc.getIAdvance());
       writeElement(baseXsw, childLevel, "oidLgth", glc.getOidLgth());
       writeElement(baseXsw, childLevel, "ffnLgth", glc.getFfnLgth());
@@ -2181,6 +2241,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (cs instanceof PTOCAControlSequence.ENC_EncryptedData enc) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("ENC");
       baseXsw.writeStartElement("ENC_EncryptedData");
+      baseXsw.writeIntAttribute(null, null, "page", pageNumber);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       writeElement(baseXsw, childLevel, "reserved4_7", enc.getReserved4_7());
       if (enc.getEncryptedData() != null) {
         writeBinaryElement(baseXsw, childLevel, "encryptedData", enc.getEncryptedData());
@@ -2191,6 +2254,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (cs instanceof PTOCAControlSequence.SKI_SetKeyInformation ski) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SKI");
       baseXsw.writeStartElement("SKI_SetKeyInformation");
+      baseXsw.writeIntAttribute(null, null, "page", pageNumber);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       writeElement(baseXsw, childLevel, "reserved4_7", ski.getReserved4_7());
       if (ski.getKeyInfo() != null) {
         writeBinaryElement(baseXsw, childLevel, "keyInfo", ski.getKeyInfo());
@@ -2201,6 +2267,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (cs instanceof PTOCAControlSequence.SEA_SetEncryptedAlternate sea) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("SEA");
       baseXsw.writeStartElement("SEA_SetEncryptedAlternate");
+      baseXsw.writeIntAttribute(null, null, "page", pageNumber);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       writeElement(baseXsw, childLevel, "reserved4_7", sea.getReserved4_7());
       if (sea.getAlternateText() != null) {
         writeBinaryElement(baseXsw, childLevel, "alternateText", sea.getAlternateText());
@@ -2214,6 +2283,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (cs instanceof PTOCAControlSequence.GIR_GlyphIdRun gir) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GIR");
       baseXsw.writeStartElement("GIR_GlyphIdRun");
+      baseXsw.writeIntAttribute(null, null, "page", pageNumber);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       if (gir.getGlyphIds() != null) {
         writeIndent(baseXsw, childLevel);
         baseXsw.writeStartElement("glyphIds");
@@ -2229,6 +2301,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (cs instanceof PTOCAControlSequence.GAR_GlyphAdvanceRun gar) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GAR");
       baseXsw.writeStartElement("GAR_GlyphAdvanceRun");
+      baseXsw.writeIntAttribute(null, null, "page", pageNumber);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       if (gar.getAdvances() != null) {
         writeIndent(baseXsw, childLevel);
         baseXsw.writeStartElement("advances");
@@ -2244,6 +2319,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (cs instanceof PTOCAControlSequence.GOR_GlyphOffsetRun gor) {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("GOR");
       baseXsw.writeStartElement("GOR_GlyphOffsetRun");
+      baseXsw.writeIntAttribute(null, null, "page", pageNumber);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
       if (gor.getOffsets() != null) {
         writeIndent(baseXsw, childLevel);
         baseXsw.writeStartElement("offsets");
@@ -2256,13 +2334,16 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(baseXsw, level);
       baseXsw.writeEndElement();
       MnemonicPerformanceMonitor.endWrite();
-    } else if (cs instanceof PTOCAControlSequence.Undefined u) {
+    } else if (cs instanceof PTOCAControlSequence.Undefined undefinedCs) {
       baseXsw.writeStartElement("Undefined");
-      if (u.getUndefinedData() != null) {
-        writeBinaryElement(baseXsw, childLevel, "undefinedData", u.getUndefinedData());
+      baseXsw.writeIntAttribute(null, null, "page", pageNumber);
+      baseXsw.writeIntAttribute(null, null, "x", currentX);
+      baseXsw.writeIntAttribute(null, null, "y", currentY);
+      if (undefinedCs.getUndefinedData() != null) {
+        writeBinaryElement(baseXsw, childLevel, "undefinedData", undefinedCs.getUndefinedData());
       }
-      if (u.getText() != null) {
-        writeElement(baseXsw, childLevel, "text", u.getText());
+      if (undefinedCs.getText() != null) {
+        writeElement(baseXsw, childLevel, "text", undefinedCs.getText());
       }
       writeIndent(baseXsw, level);
       baseXsw.writeEndElement();
@@ -3714,6 +3795,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     if (ptd.getControlSequences() != null) {
       for (PTOCAControlSequence cs : ptd.getControlSequences()) {
+        updatePtxState(cs);
         writeIndent(baseXsw, childLevel);
         writeControlSequence(cs, childLevel);
       }
@@ -4853,5 +4935,56 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void resetPtxState() {
+    inlinePos = 0;
+    baselinePos = 0;
+    establishedBaselinePos = 0;
+    baselineIncrement = 0;
+    inlineMargin = 0;
+    inlineOrientation = AFPOrientation.ori0;
+    baselineOrientation = AFPOrientation.ori90;
+  }
+
+  private void updatePtxState(PTOCAControlSequence cs) throws Exception {
+    if (cs instanceof PTOCAControlSequence.AMI_AbsoluteMoveInline ami) {
+      inlinePos = ami.getDisplacement();
+    } else if (cs instanceof PTOCAControlSequence.RMI_RelativeMoveInline rmi) {
+      inlinePos += rmi.getIncrement();
+    } else if (cs instanceof PTOCAControlSequence.AMB_AbsoluteMoveBaseline amb) {
+      baselinePos = amb.getDisplacement();
+      establishedBaselinePos = baselinePos;
+    } else if (cs instanceof PTOCAControlSequence.RMB_RelativeMoveBaseline rmb) {
+      baselinePos += rmb.getIncrement();
+      establishedBaselinePos = baselinePos;
+    } else if (cs instanceof PTOCAControlSequence.STO_SetTextOrientation sto) {
+      if (sto.getxOrientation() != null) {
+        inlineOrientation = sto.getxOrientation();
+      }
+      if (sto.getyOrientation() != null) {
+        baselineOrientation = sto.getyOrientation();
+      }
+    } else if (cs instanceof PTOCAControlSequence.SBI_SetBaselineIncrement sbi) {
+      baselineIncrement = sbi.getIncrement();
+    } else if (cs instanceof PTOCAControlSequence.SIM_SetInlineMargin sim) {
+      inlineMargin = sim.getDisplacement();
+    } else if (cs instanceof PTOCAControlSequence.BLN_BeginLine) {
+      inlinePos = inlineMargin;
+      baselinePos = establishedBaselinePos + baselineIncrement;
+      establishedBaselinePos = baselinePos;
+    } else if (cs instanceof PTOCAControlSequence.TBM_TemporaryBaselineMove tbm) {
+      if (tbm.getDirection() == PTOCAControlSequence.TBM_TemporaryBaselineMove.TBM_Direction.ReturnToEstablishedBaseline) {
+        baselinePos = establishedBaselinePos;
+      } else if (tbm.getTemporaryBaselineIncrement() != null) {
+        if (tbm.getDirection() == PTOCAControlSequence.TBM_TemporaryBaselineMove.TBM_Direction.MoveAwayFromIAxis) {
+          baselinePos += tbm.getTemporaryBaselineIncrement();
+        } else if (tbm.getDirection() == PTOCAControlSequence.TBM_TemporaryBaselineMove.TBM_Direction.MoveTowardIAxis) {
+          baselinePos -= tbm.getTemporaryBaselineIncrement();
+        }
+      }
+    } else if (cs instanceof PTOCAControlSequence.RPS_RepeatString rps) {
+      inlinePos += rps.getRepeatLength();
+    }
   }
 }
