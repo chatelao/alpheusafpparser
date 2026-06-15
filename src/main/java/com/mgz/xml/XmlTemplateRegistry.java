@@ -73,7 +73,6 @@ public class XmlTemplateRegistry {
         "\">"});
 
     // Triplets
-    // Triplets
     register("AQ", new String[] {"<AttributeQualifier sequenceNumber=\"", "\" levelNumber=\"",
         "\"/>"});
     register("RLI", new String[] {"<ResourceLocalIdentifier resourceType=\"",
