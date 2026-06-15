@@ -157,6 +157,7 @@ import java.util.List;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
 import org.codehaus.stax2.XMLStreamWriter2;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.TransformerFactory;
@@ -1940,7 +1941,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     baseXsw.writeEndElement();
   }
 
-  private void writeSpatialAttributes(XMLStreamWriter2 writer) throws javax.xml.stream.XMLStreamException {
+  private void writeSpatialAttributes(XMLStreamWriter2 writer)
+      throws XMLStreamException {
     int afpX = CoordinateTransformer.getAfpX(inlinePos, baselinePos, inlineOri, baselineOri);
     int afpY = CoordinateTransformer.getAfpY(inlinePos, baselinePos, inlineOri, baselineOri);
     writer.writeIntAttribute(null, null, "page", currentPageNumber);
