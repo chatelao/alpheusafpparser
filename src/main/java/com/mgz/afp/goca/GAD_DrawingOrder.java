@@ -3675,7 +3675,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       yEnd = UtilBinaryDecoding.parseShort(sfData, offset + 14, 2);
 
       startColorSpec = new ColorSpecification();
-      startColorSpec.decodeAFP(sfData, offset + 16, -1, config);
+      startColorSpec.decodeAFP(sfData, offset + 16, (4 + lengthOfFollowingData) - 16, config);
 
       int pos = 16 + 1 + startColorSpec.length;
       int colorValLen = startColorSpec.colorValue.length;
@@ -3691,7 +3691,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
         colorStops = new ArrayList<ColorStop>();
         while (pos < 4 + lengthOfFollowingData) {
           ColorStop stop = new ColorStop(colorValLen);
-          stop.decodeAFP(sfData, offset + pos, -1, config);
+          stop.decodeAFP(sfData, offset + pos, (4 + lengthOfFollowingData) - pos, config);
           colorStops.add(stop);
           pos += 2 + colorValLen;
         }
@@ -3813,7 +3813,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
       mfrEnd = UtilBinaryDecoding.parseShort(sfData, offset + 19, 1);
 
       startColorSpec = new ColorSpecification();
-      startColorSpec.decodeAFP(sfData, offset + 20, -1, config);
+      startColorSpec.decodeAFP(sfData, offset + 20, (4 + lengthOfFollowingData) - 20, config);
 
       int pos = 20 + 1 + startColorSpec.length;
       int colorValLen = startColorSpec.colorValue.length;
@@ -3829,7 +3829,7 @@ public abstract sealed class GAD_DrawingOrder implements IAFPDecodeableWriteable
         colorStops = new ArrayList<ColorStop>();
         while (pos < 4 + lengthOfFollowingData) {
           ColorStop stop = new ColorStop(colorValLen);
-          stop.decodeAFP(sfData, offset + pos, -1, config);
+          stop.decodeAFP(sfData, offset + pos, (4 + lengthOfFollowingData) - pos, config);
           colorStops.add(stop);
           pos += 2 + colorValLen;
         }

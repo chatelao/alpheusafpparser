@@ -59,7 +59,7 @@ public class MCA_MapColorAttributeTable extends StructuredFieldBaseRepeatingGrou
       if (rg == null) {
         rg = new MCA_RepeatingGroup();
       }
-      rg.decodeAFP(sfData, offset + pos, -1, config);
+      rg.decodeAFP(sfData, offset + pos, actualLength - pos, config);
       repeatingGroups.add(rg);
       pos += rg.getRepeatingGroupLength();
     }
