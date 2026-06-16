@@ -4512,6 +4512,12 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
         return result;
       }
 
+      /**
+       * Converts a set of local selector flags to their byte representation.
+       *
+       * @param flags the set of flags
+       * @return the byte representation
+       */
       public static int toByte(EnumSet<LocalSelectorFlag> flags) {
         int result = 0;
 
@@ -4548,14 +4554,15 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    * finishing operations and parameters that are defined by the UP3i consortium in the UP3i
    * Specification.
    */
-  @JacksonXmlRootElement(localName = "UP3iFinishingOperation")
-  public static final class UP3iFinishingOperation extends Triplet {
+  @JacksonXmlRootElement(localName = "Up3iFinishingOperation")
+  public static final class Up3iFinishingOperation extends Triplet {
     public short sequenceNumber;
     public byte reserved3 = 0x00;
     public byte[] up3iData;
 
     @Override
-    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+        throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
       sequenceNumber = UtilBinaryDecoding.parseShort(sfData, offset + 2, 1);
       reserved3 = sfData[offset + 3];
@@ -4616,7 +4623,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     public byte grpFnct;
 
     @Override
-    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+        throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
       reserved2_3 = new byte[] {sfData[offset + 2], sfData[offset + 3]};
       grpFnct = sfData[offset + 4];
@@ -4649,7 +4657,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     public String setupName;
 
     @Override
-    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+        throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
       reserved2_3 = new byte[] {sfData[offset + 2], sfData[offset + 3]};
       int actualLength = StructuredField.getActualLength(sfData, offset, length);
@@ -4686,8 +4695,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
   /**
    * MODCA, page 466.<br><br>
    *
-   * <p>The Color Management Resource Descriptor triplet specifies the processing mode and scope for a
-   * Color Management Resource (CMR).
+   * <p>The Color Management Resource Descriptor triplet specifies the processing mode and scope
+   * for a Color Management Resource (CMR).
    */
   @JacksonXmlRootElement(localName = "ColorManagementResourceDescriptor")
   public static final class ColorManagementResourceDescriptor extends Triplet {
@@ -4696,7 +4705,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     public CMRScope cmrScope;
 
     @Override
-    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+        throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
       reserved2 = sfData[offset + 2];
       cmrProcessingMode = CMRProcessingMode.valueOf(sfData[offset + 3]);
@@ -4745,41 +4755,81 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       this.cmrScope = cmrScope;
     }
 
+    /**
+     * Color Management Resource (CMR) processing modes.
+     */
     public enum CMRProcessingMode {
+      /** Audit CMR. */
       AuditCMR,
+      /** Instruction CMR. */
       InstructionCMR,
+      /** Link CMR. */
       LinkCMR;
 
+      /**
+       * Returns the processing mode for the given code byte.
+       *
+       * @param codeByte the code byte
+       * @return the processing mode
+       * @throws AFPParserException if the code byte is undefined
+       */
       public static CMRProcessingMode valueOf(byte codeByte) throws AFPParserException {
         for (CMRProcessingMode pm : values()) {
           if (pm.ordinal() + 1 == codeByte) {
             return pm;
           }
         }
-        throw new AFPParserException(CMRProcessingMode.class.getSimpleName() + ": processing mode 0x" + Integer.toHexString(codeByte) + " is undefined.");
+        throw new AFPParserException(CMRProcessingMode.class.getSimpleName()
+            + ": processing mode 0x" + Integer.toHexString(codeByte) + " is undefined.");
       }
 
+      /**
+       * Returns the byte representation of the processing mode.
+       *
+       * @return the byte representation
+       */
       public int toByte() {
         return ordinal() + 1;
       }
     }
 
+    /**
+     * Color Management Resource (CMR) scopes.
+     */
     public enum CMRScope {
+      /** Data object scope. */
       DataObject,
+      /** Page or overlay scope. */
       PageOrOverlay,
+      /** Document scope. */
       Document,
+      /** Print file scope. */
       PrintFile,
+      /** Page group or sheet group scope. */
       PageGroup_SheetGroup;
 
+      /**
+       * Returns the scope for the given code byte.
+       *
+       * @param codeByte the code byte
+       * @return the scope
+       * @throws AFPParserException if the code byte is undefined
+       */
       public static CMRScope valueOf(byte codeByte) throws AFPParserException {
         for (CMRScope sc : values()) {
           if (sc.ordinal() + 1 == codeByte) {
             return sc;
           }
         }
-        throw new AFPParserException(CMRScope.class.getSimpleName() + ": scope code 0x" + Integer.toHexString(codeByte) + " is undefined.");
+        throw new AFPParserException(CMRScope.class.getSimpleName()
+            + ": scope code 0x" + Integer.toHexString(codeByte) + " is undefined.");
       }
 
+      /**
+       * Returns the byte representation of the scope.
+       *
+       * @return the byte representation
+       */
       public int toByte() {
         return ordinal() + 1;
       }
@@ -4789,10 +4839,11 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
   /**
    * MODCA, page 468.<br><br>
    *
-   * <p>The Rendering Intent triplet specifies the rendering intent parameter, which is used to modify
-   * the final appearance of color data. This parameter is based on the rendering intents defined by
-   * the International Color Consortium (ICC). For more information on rendering intents, see the
-   * International Color Consortium Specification ICC.x, File Format for Color Profiles.
+   * <p>The Rendering Intent triplet specifies the rendering intent parameter, which is used to
+   * modify the final appearance of color data. This parameter is based on the rendering intents
+   * defined by the International Color Consortium (ICC). For more information on rendering
+   * intents, see the International Color Consortium Specification ICC.x, File Format for Color
+   * Profiles.
    */
   @JacksonXmlRootElement(localName = "RenderingIntent")
   public static final class RenderingIntent extends Triplet {
@@ -4804,11 +4855,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     public byte[] reserved8_9 = new byte[2];
 
     @Override
-    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+        throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
       reserved2_3 = new byte[] {sfData[offset + 2], sfData[offset + 3]};
       intentForIOCA = Intent.valueOf(UtilBinaryDecoding.parseShort(sfData, offset + 4, 1));
-      intentForContainerNonIOCA = Intent.valueOf(UtilBinaryDecoding.parseShort(sfData, offset + 5, 1));
+      intentForContainerNonIOCA = Intent.valueOf(
+          UtilBinaryDecoding.parseShort(sfData, offset + 5, 1));
       intentForPTOCA = Intent.valueOf(UtilBinaryDecoding.parseShort(sfData, offset + 6, 1));
       intentForGOCA = Intent.valueOf(UtilBinaryDecoding.parseShort(sfData, offset + 7, 1));
       reserved8_9 = new byte[] {sfData[offset + 8], sfData[offset + 9]};
@@ -4838,13 +4891,28 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       reserved8_9 = new byte[2];
     }
 
+    /**
+     * Rendering intents.
+     */
     public enum Intent {
+      /** Perceptual rendering intent. */
       Perceptual,
+      /** Media-relative colorimetric rendering intent. */
       MediaRelativeColorimetric,
+      /** Saturation rendering intent. */
       Saturation,
+      /** ICC-absolute colorimetric rendering intent. */
       iccAbsoluteColorimetric,
+      /** Rendering intent not specified. */
       NotSpecified;
 
+      /**
+       * Returns the rendering intent for the given code byte.
+       *
+       * @param codeByte the code byte
+       * @return the rendering intent
+       * @throws AFPParserException if the code byte is undefined
+       */
       public static Intent valueOf(short codeByte) throws AFPParserException {
         if (codeByte == 0xFF) {
           return NotSpecified;
@@ -4854,9 +4922,15 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
             return intent;
           }
         }
-        throw new AFPParserException(Intent.class.getSimpleName() + ": intent code 0x" + Integer.toHexString(codeByte) + " is undefined.");
+        throw new AFPParserException(Intent.class.getSimpleName()
+            + ": intent code 0x" + Integer.toHexString(codeByte) + " is undefined.");
       }
 
+      /**
+       * Returns the byte representation of the rendering intent.
+       *
+       * @return the byte representation
+       */
       public int toByte() {
         if (this == NotSpecified) {
           return 0xFF;
@@ -4882,9 +4956,11 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     public byte[] reserved5_6 = {0x00, 0x00};
 
     @Override
-    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+        throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
-      exceptionContinuationRule = ColorFidelity.ExceptionContinuationRule.valueOf(sfData[offset + 2]);
+      exceptionContinuationRule = ColorFidelity.ExceptionContinuationRule.valueOf(
+          sfData[offset + 2]);
       reserved3 = sfData[offset + 3];
       exceptionReportingRule = ColorFidelity.ExceptionReportingRule.valueOf(sfData[offset + 4]);
       reserved5_6 = new byte[2];
@@ -4915,8 +4991,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
   /**
    * MODCA, page 473.<br><br>
    *
-   * <p>The Device Appearance triplet specifies one of a set of architected appearances to be assumed
-   * by the presentation device.
+   * <p>The Device Appearance triplet specifies one of a set of architected appearances to be
+   * assumed by the presentation device.
    */
   @JacksonXmlRootElement(localName = "DeviceAppearance")
   public static final class DeviceAppearance extends Triplet {
@@ -4925,7 +5001,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     public byte[] reserved5_6 = {0x00, 0x00};
 
     @Override
-    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+        throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
       reserved2 = sfData[offset + 2];
       appearance = Appearance.valueOf(sfData[offset + 3]);
@@ -4951,10 +5028,21 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       reserved5_6 = new byte[] {0x00, 0x00};
     }
 
+    /**
+     * Device appearances.
+     */
     public enum Appearance {
+      /** Device default appearance. */
       DeviceDefault,
+      /** Device default monochrome appearance. */
       DeviceDefaultMonochrome;
 
+      /**
+       * Returns the appearance for the given code byte.
+       *
+       * @param codeByte the code byte
+       * @return the appearance
+       */
       public static Appearance valueOf(byte codeByte) {
         if (codeByte == 0x00) {
           return DeviceDefault;
@@ -4963,6 +5051,11 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
         }
       }
 
+      /**
+       * Returns the byte representation of the appearance.
+       *
+       * @return the byte representation
+       */
       public int toByte() {
         return ordinal();
       }
@@ -4983,7 +5076,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     public short yUnitsPerUnitBase;
 
     @Override
-    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+        throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
       reserved2_3 = new byte[] {sfData[offset + 2], sfData[offset + 3]};
       xUnitBase = AFPUnitBase.valueOf(sfData[offset + 4]);
@@ -5021,6 +5115,9 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
    */
   @JacksonXmlRootElement(localName = "TripletExtender")
   public static final class TripletExtender extends Triplet {
+    /**
+     * Resets the triplet to its initial state.
+     */
     byte[] reserved2_3 = {0x00, 0x00};
     byte[] datExt;
 
@@ -5096,22 +5193,43 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       pdfPresentationSpace = null;
     }
 
+    /**
+     * PDF presentation space types.
+     */
     public enum PDFPresentationSpace {
+      /** Media box. */
       MediaBox,
+      /** Crop box. */
       CropBox,
+      /** Bleed box. */
       BleedBox,
+      /** Trim box. */
       TrimBox,
+      /** Art box. */
       ArtBox;
 
+      /**
+       * Returns the presentation space for the given code byte.
+       *
+       * @param codeByte the code byte
+       * @return the presentation space
+       * @throws AFPParserException if the code byte is undefined
+       */
       public static PDFPresentationSpace valueOf(byte codeByte) throws AFPParserException {
         for (PDFPresentationSpace ps : values()) {
           if (ps.ordinal() + 1 == codeByte) {
             return ps;
           }
         }
-        throw new AFPParserException(PDFPresentationSpace.class.getSimpleName() + ": presentation space code 0x" + Integer.toHexString(codeByte) + " is undfined.");
+        throw new AFPParserException(PDFPresentationSpace.class.getSimpleName()
+            + ": presentation space code 0x" + Integer.toHexString(codeByte) + " is undfined.");
       }
 
+      /**
+       * Returns the byte representation of the presentation space.
+       *
+       * @return the byte representation
+       */
       public int toByte() {
         return ordinal() + 1;
       }

@@ -95,7 +95,7 @@ public class TripletParser {
     TRIPLET_SUPPLIERS.put(TripletID.DataObjectFontDescriptor, Triplet.DataObjectFontDescriptor::new);
     TRIPLET_SUPPLIERS.put(TripletID.LocaleSelector, Triplet.LocaleSelector::new);
     TRIPLET_SUPPLIERS.put(TripletID.MODCAFunctionSet, Triplet.MODCAFunctionSet::new);
-    TRIPLET_SUPPLIERS.put(TripletID.UP3iFinishingOperation, Triplet.UP3iFinishingOperation::new);
+    TRIPLET_SUPPLIERS.put(TripletID.UP3iFinishingOperation, Triplet.Up3iFinishingOperation::new);
     TRIPLET_SUPPLIERS.put(TripletID.ColorManagementResourceDescriptor, Triplet.ColorManagementResourceDescriptor::new);
     TRIPLET_SUPPLIERS.put(TripletID.RenderingIntent, Triplet.RenderingIntent::new);
     TRIPLET_SUPPLIERS.put(TripletID.CMRTagFidelity, Triplet.CMRTagFidelity::new);
