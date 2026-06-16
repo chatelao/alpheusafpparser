@@ -37,7 +37,7 @@ public class IPG_IncludePage extends StructuredFieldBaseTriplets {
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
-    pageName = new String(sfData, 0, 8, config.getAfpCharSet());
+    pageName = new String(sfData, offset, 8, config.getAfpCharSet());
     reserved8_15 = new byte[8];
     System.arraycopy(sfData, offset + 8, reserved8_15, 0, reserved8_15.length);
     flags = IPG_Flag.valueOf(sfData[offset + 16]);

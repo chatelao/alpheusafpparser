@@ -48,3 +48,19 @@
   - `GOR_GlyphOffsetRun`
   - `NOP_NoOperation` (PTOCA)
   - `Undefined` (PTOCA)
+
+## Phase 7: Advanced spatial metadata and structural field improvements
+- [x] Fix incomplete XML serialization for `IPS_IncludePageSegment`, `IPO_IncludePageOverlay`, and `IPG_IncludePage`.
+- [x] Inject `page` attribute into more structural fields:
+  - `BMO_BeginOverlay` / `EMO_EndOverlay`
+  - `BPS_BeginPageSegment` / `EPS_EndPageSegment`
+  - `BNG_BeginNamedPageGroup` / `ENG_EndNamedPageGroup`
+  - `BSG_BeginResourceEnvironmentGroup` / `ESG_EndResourceEnvironmentGroup`
+  - `BAG_BeginActiveEnvironmentGroup` / `EAG_EndActiveEnvironmentGroup`
+  - `BOG_BeginObjectEnvironmentGroup` / `EOG_EndObjectEnvironmentGroup`
+  - `BDG_BeginDocumentEnvironmentGroup` / `EDG_EndDocumentEnvironmentGroup`
+  - `BFG_BeginFormEnvironmentGroup` / `EFG_EndFormEnvironmentGroup`
+  - `PMC_PageModificationControl`
+  - `PEC_PresentationEnvironmentControl`
+  - `IEL_IndexElement`
+  - `BDA_BarCodeData`
