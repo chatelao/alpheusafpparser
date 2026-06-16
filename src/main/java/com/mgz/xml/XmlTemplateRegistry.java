@@ -53,7 +53,8 @@ public class XmlTemplateRegistry {
     register("AQ", new String[] {"<AttributeQualifier sequenceNumber=\"", "\" levelNumber=\"", "\"/>"});
     register("RLI", new String[] {"<ResourceLocalIdentifier resourceType=\"", "\" resourceLocalID=\"", "\"/>"});
     register("CR", new String[] {"<CharacterRotation characterRotation=\"", "\"/>"});
-    register("MU", new String[] {"<MeasurementUnits xUnitBase=\"", "\" yUnitBase=\"", "\" xUnitsPerUnitbase=\"", "\" yUnitsPerUnitbase=\"", "\"/>"});
+    register("MU", new String[] {"<MeasurementUnits unitBaseX=\"", "\" unitBaseY=\"",
+        "\" unitsPerUnitBaseX=\"", "\" unitsPerUnitBaseY=\"", "\"/>"});
     register("MO", new String[] {"<MappingOption dataObjecMapingOption=\"", "\"/>"});
     register("OAS", new String[] {"<ObjectAreaSize sizeType_0x02=\"", "\" xSize=\"", "\" ySize=\"", "\"/>"});
     register("CGCS", new String[] {"<CodedGraphicCharacterSetGlobalID graphicCharacterSetGlobalID=\"", "\" codePageGlobalID_codedCharacterSetID=\"", "\"/>"});

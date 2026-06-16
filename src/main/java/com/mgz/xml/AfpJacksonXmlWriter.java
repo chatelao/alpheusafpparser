@@ -1355,7 +1355,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       String extra = obo.byteOffsetHighOrder != null ? "\" byteOffsetHighOrder=\"" + obo.byteOffsetHighOrder : "";
       XmlTemplateRegistry.getTemplate("OBO").writeObjects(baseXsw, obo.byteOffset, extra);
     } else if (triplet instanceof Triplet.MeasurementUnits mu) {
-      XmlTemplateRegistry.getTemplate("MU").writeObjects(baseXsw, mu.xUnitBase, mu.yUnitBase, (int) mu.xUnitsPerUnitbase, (int) mu.yUnitsPerUnitbase);
+      XmlTemplateRegistry.getTemplate("MU").writeObjects(baseXsw, mu.unitBaseX, mu.unitBaseY, (int) mu.unitsPerUnitBaseX, (int) mu.unitsPerUnitBaseY);
     } else if (triplet instanceof Triplet.ObjectAreaSize oas) {
       XmlTemplateRegistry.getTemplate("OAS").writeObjects(baseXsw, (int) oas.sizeType_0x02, oas.xSize, oas.ySize);
     } else if (triplet instanceof Triplet.AreaDefinition ad) {
@@ -1490,17 +1490,18 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       if (ri.reserved2_3 != null) {
         writeBinaryElement(writer, childLevel, "reserved2_3", ri.reserved2_3);
       }
-      if (ri.intentForIOCA != null) {
-        writeElement(writer, childLevel, "intentForIOCA", ri.intentForIOCA.name());
+      if (ri.intentForIoca != null) {
+        writeElement(writer, childLevel, "intentForIoca", ri.intentForIoca.name());
       }
-      if (ri.intentForContainerNonIOCA != null) {
-        writeElement(writer, childLevel, "intentForContainerNonIOCA", ri.intentForContainerNonIOCA.name());
+      if (ri.intentForContainerNonIoca != null) {
+        writeElement(writer, childLevel, "intentForContainerNonIoca",
+            ri.intentForContainerNonIoca.name());
       }
-      if (ri.intentForPTOCA != null) {
-        writeElement(writer, childLevel, "intentForPTOCA", ri.intentForPTOCA.name());
+      if (ri.intentForPtoca != null) {
+        writeElement(writer, childLevel, "intentForPtoca", ri.intentForPtoca.name());
       }
-      if (ri.intentForGOCA != null) {
-        writeElement(writer, childLevel, "intentForGOCA", ri.intentForGOCA.name());
+      if (ri.intentForGoca != null) {
+        writeElement(writer, childLevel, "intentForGoca", ri.intentForGoca.name());
       }
       if (ri.reserved8_9 != null) {
         writeBinaryElement(writer, childLevel, "reserved8_9", ri.reserved8_9);
@@ -1512,14 +1513,14 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       if (ir.reserved2_3 != null) {
         writeBinaryElement(writer, childLevel, "reserved2_3", ir.reserved2_3);
       }
-      if (ir.xUnitBase != null) {
-        writeElement(writer, childLevel, "xUnitBase", ir.xUnitBase.name());
+      if (ir.unitBaseX != null) {
+        writeElement(writer, childLevel, "unitBaseX", ir.unitBaseX.name());
       }
-      if (ir.yUnitBase != null) {
-        writeElement(writer, childLevel, "yUnitBase", ir.yUnitBase.name());
+      if (ir.unitBaseY != null) {
+        writeElement(writer, childLevel, "unitBaseY", ir.unitBaseY.name());
       }
-      writeElement(writer, childLevel, "xUnitsPerUnitBase", ir.xUnitsPerUnitBase);
-      writeElement(writer, childLevel, "yUnitsPerUnitBase", ir.yUnitsPerUnitBase);
+      writeElement(writer, childLevel, "unitsPerUnitBaseX", ir.unitsPerUnitBaseX);
+      writeElement(writer, childLevel, "unitsPerUnitBaseY", ir.unitsPerUnitBaseY);
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.PresentationSpaceResetMixing psrm) {
@@ -1640,8 +1641,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ColorManagementResourceDescriptor cmrd) {
       XmlTemplateRegistry.getTemplate("CMRD").writeObjects(baseXsw, (int) cmrd.reserved2, cmrd.cmrProcessingMode, cmrd.cmrScope);
-    } else if (triplet instanceof Triplet.CMRTagFidelity ctf) {
-      writer.writeStartElement("CMRTagFidelity");
+    } else if (triplet instanceof Triplet.CmrTagFidelity ctf) {
+      writer.writeStartElement("CmrTagFidelity");
       if (ctf.exceptionContinuationRule != null) {
         writeElement(writer, childLevel, "exceptionContinuationRule", ctf.exceptionContinuationRule.name());
       }
@@ -1805,8 +1806,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeElement(writer, childLevel, "variantCode", ls.variantCode);
       writeIndent(writer, level);
       writer.writeEndElement();
-    } else if (triplet instanceof Triplet.UP3iFinishingOperation up3i) {
-      writer.writeStartElement("UP3iFinishingOperation");
+    } else if (triplet instanceof Triplet.Up3iFinishingOperation up3i) {
+      writer.writeStartElement("Up3iFinishingOperation");
       writeElement(writer, childLevel, "sequenceNumber", (int) up3i.sequenceNumber);
       writeElement(writer, childLevel, "reserved3", (int) up3i.reserved3);
       if (up3i.up3iData != null) {

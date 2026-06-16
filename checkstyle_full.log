@@ -1,15 +1,57 @@
+Initialized native services in: /home/jules/.gradle/native
+Initialized jansi services in: /home/jules/.gradle/native
+Received JVM installation metadata from '/usr/lib/jvm/java-21-openjdk-amd64': {JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64, JAVA_VERSION=21.0.10, JAVA_VENDOR=Ubuntu, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=21.0.10+7-Ubuntu-124.04, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.10+7-Ubuntu-124.04, VM_VENDOR=Ubuntu, OS_ARCH=amd64}
+The client will now receive all logging from the daemon (pid: 4780). The daemon log file: /home/jules/.gradle/daemon/8.5/daemon-4780.out.log
+Starting 16th build in daemon [uptime: 44 mins 30.315 secs, performance: 96%, GC rate: 0.00/s, heap usage: 0% of 512 MiB, non-heap usage: 41% of 384 MiB]
+Using 4 worker leases.
+Not watching /app since the file system is not supported
+Watching the file system is configured to be enabled if available
+File system watching is active
+Closing daemon's stdin at end of input.
+The daemon will no longer process any standard input.
+Starting Build
+Settings evaluated using settings file '/app/settings.gradle.kts'.
+Projects loaded. Root project using build file '/app/build.gradle.kts'.
+Included projects: [root project 'alpheusafpparser']
 
 > Configure project :
+Evaluating root project 'alpheusafpparser' using build file '/app/build.gradle.kts'.
+Caching disabled for Kotlin DSL accessors for root project 'alpheusafpparser' because:
+  Build cache is disabled
+Skipping Kotlin DSL accessors for root project 'alpheusafpparser' as it is up-to-date.
 Source Compatibility: 21
+All projects evaluated.
+Task name matched 'checkstyleMain'
+Selected primary task 'checkstyleMain' from project :
+Tasks to be executed: [task ':compileJava', task ':processResources', task ':classes', task ':checkstyleMain']
+Tasks that were excluded: []
+Resolve mutations for :compileJava (Thread[#660,Execution worker,5,main]) started.
+:compileJava (Thread[#660,Execution worker,5,main]) started.
 
 > Task :compileJava UP-TO-DATE
-> Task :processResources UP-TO-DATE
-> Task :classes UP-TO-DATE
-> Task :checkstyleMain UP-TO-DATE
-> Task :compileTestJava UP-TO-DATE
-> Task :processTestResources UP-TO-DATE
-> Task :testClasses UP-TO-DATE
-> Task :checkstyleTest UP-TO-DATE
+Caching disabled for task ':compileJava' because:
+  Build cache is disabled
+Skipping task ':compileJava' as it is up-to-date.
+Resolve mutations for :processResources (Thread[#660,Execution worker,5,main]) started.
+:processResources (Thread[#660,Execution worker,5,main]) started.
 
-BUILD SUCCESSFUL in 1s
-6 actionable tasks: 6 up-to-date
+> Task :processResources UP-TO-DATE
+Caching disabled for task ':processResources' because:
+  Build cache is disabled
+Skipping task ':processResources' as it is up-to-date.
+Resolve mutations for :classes (Thread[#660,Execution worker,5,main]) started.
+:classes (Thread[#660,Execution worker,5,main]) started.
+
+> Task :classes UP-TO-DATE
+Skipping task ':classes' as it has no actions.
+Resolve mutations for :checkstyleMain (Thread[#660,Execution worker,5,main]) started.
+:checkstyleMain (Thread[#660,Execution worker,5,main]) started.
+
+> Task :checkstyleMain UP-TO-DATE
+Caching disabled for task ':checkstyleMain' because:
+  Build cache is disabled
+Skipping task ':checkstyleMain' as it is up-to-date.
+
+BUILD SUCCESSFUL in 907ms
+3 actionable tasks: 3 up-to-date
+Some of the file system contents retained in the virtual file system are on file systems that Gradle doesn't support watching. The relevant state was discarded to ensure changes to these locations are properly detected. You can override this by explicitly enabling file system watching.
