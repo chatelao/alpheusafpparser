@@ -30,3 +30,21 @@
 - [x] Create `PTXAttributesTest.java` to verify coordinate calculations against known AFP samples.
 - [x] Update `SFFastPathVerificationTest.java` to ensure fast-path XML matches Jackson's output with attributes.
 - [x] Verify that `page` attributes correctly increment across multiple `BPG` fields.
+
+## Phase 6: Extended coverage
+- [x] Inject `page` attribute into structural fields:
+  - `BPG_BeginPage`
+  - `EPG_EndPage`
+  - `TLE_TagLogicalElement`
+  - `IOB_IncludeObject`
+- [x] Inject `page`, `x`, and `y` attributes into remaining PTOCA data sequences:
+  - `UCT_UnicodeComplexText`
+  - `GLC_GlyphLayoutControl`
+  - `ENC_EncryptedData`
+  - `SKI_SetKeyInformation`
+  - `SEA_SetEncryptedAlternate`
+  - `GIR_GlyphIdRun`
+  - `GAR_GlyphAdvanceRun`
+  - `GOR_GlyphOffsetRun`
+  - `NOP_NoOperation` (PTOCA)
+  - `Undefined` (PTOCA)
