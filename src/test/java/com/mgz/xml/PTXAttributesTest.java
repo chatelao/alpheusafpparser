@@ -4,6 +4,12 @@ import com.mgz.afp.modca.BPG_BeginPage;
 import com.mgz.afp.modca.EPG_EndPage;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
 import com.mgz.afp.modca.IOB_IncludeObject;
+import com.mgz.afp.modca.IPS_IncludePageSegment;
+import com.mgz.afp.modca.IPO_IncludePageOverlay;
+import com.mgz.afp.modca.BNG_BeginNamedPageGroup;
+import com.mgz.afp.modca.ENG_EndNamedPageGroup;
+import com.mgz.afp.bcoca.BBC_BeginBarCodeObject;
+import com.mgz.afp.goca.BGR_BeginGraphicsObject;
 import com.mgz.afp.ptoca.PTX_PresentationTextData;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import org.junit.jupiter.api.Test;
@@ -59,6 +65,34 @@ public class PTXAttributesTest {
             iob1.setName("IOB1");
             writer.handle(iob1);
 
+            IPS_IncludePageSegment ips1 = new IPS_IncludePageSegment();
+            ips1.setPageSegmentName("S1SEG001");
+            ips1.setxOrigin(100);
+            ips1.setyOrigin(200);
+            writer.handle(ips1);
+
+            IPO_IncludePageOverlay ipo1 = new IPO_IncludePageOverlay();
+            ipo1.setOverlayName("O1OVL001");
+            ipo1.setxOrigin(300);
+            ipo1.setyOrigin(400);
+            writer.handle(ipo1);
+
+            BNG_BeginNamedPageGroup bng1 = new BNG_BeginNamedPageGroup();
+            bng1.setName("GRP001");
+            writer.handle(bng1);
+
+            BBC_BeginBarCodeObject bbc1 = new BBC_BeginBarCodeObject();
+            bbc1.setName("BC001");
+            writer.handle(bbc1);
+
+            BGR_BeginGraphicsObject bgr1 = new BGR_BeginGraphicsObject();
+            bgr1.setName("GR001");
+            writer.handle(bgr1);
+
+            ENG_EndNamedPageGroup eng1 = new ENG_EndNamedPageGroup();
+            eng1.setName("GRP001");
+            writer.handle(eng1);
+
             EPG_EndPage epg1 = new EPG_EndPage();
             epg1.setName("PAGE0001");
             writer.handle(epg1);
@@ -99,6 +133,18 @@ public class PTXAttributesTest {
         assertTrue(xml.contains("<GraphicCharacters page=\"1\" x=\"1000\" y=\"2000\">"), "GC on page 1");
         assertTrue(xml.contains("<UCT_UnicodeComplexText page=\"1\" x=\"1000\" y=\"2000\">"), "UCT should contain spatial attributes");
         assertTrue(xml.contains("<IOB_IncludeObject page=\"1\">"), "IOB should contain page=\"1\"");
+        assertTrue(xml.contains("<IPS_IncludePageSegment page=\"1\">"), "IPS should contain page=\"1\"");
+        assertTrue(xml.contains("<pageSegmentName>S1SEG001</pageSegmentName>"), "IPS should contain pageSegmentName");
+        assertTrue(xml.contains("<xOrigin>100</xOrigin>"), "IPS should contain xOrigin");
+        assertTrue(xml.contains("<yOrigin>200</yOrigin>"), "IPS should contain yOrigin");
+        assertTrue(xml.contains("<IPO_IncludePageOverlay page=\"1\">"), "IPO should contain page=\"1\"");
+        assertTrue(xml.contains("<overlayName>O1OVL001</overlayName>"), "IPO should contain overlayName");
+        assertTrue(xml.contains("<xOrigin>300</xOrigin>"), "IPO should contain xOrigin");
+        assertTrue(xml.contains("<yOrigin>400</yOrigin>"), "IPO should contain yOrigin");
+        assertTrue(xml.contains("<BNG_BeginNamedPageGroup page=\"1\">"), "BNG should contain page=\"1\"");
+        assertTrue(xml.contains("<BBC_BeginBarCodeObject page=\"1\""), "BBC should contain page=\"1\"");
+        assertTrue(xml.contains("<BGR_BeginGraphicsObject page=\"1\">"), "BGR should contain page=\"1\"");
+        assertTrue(xml.contains("<ENG_EndNamedPageGroup page=\"1\">"), "ENG should contain page=\"1\"");
         assertTrue(xml.contains("<EPG_EndPage page=\"1\">"), "EPG should contain page=\"1\"");
 
         // Verify Page 2

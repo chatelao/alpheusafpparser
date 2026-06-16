@@ -48,3 +48,14 @@
   - `GOR_GlyphOffsetRun`
   - `NOP_NoOperation` (PTOCA)
   - `Undefined` (PTOCA)
+
+## Phase 7: Further structural coverage and completeness
+- [x] Inject `page` attribute into additional structural fields:
+  - `BNG_BeginNamedPageGroup` / `ENG_EndNamedPageGroup`
+  - `IPS_IncludePageSegment`
+  - `IPO_IncludePageOverlay`
+  - `BGR_BeginGraphicsObject` / `EGR_EndGraphicsObject`
+  - `BBC_BeginBarCodeObject` / `EBC_EndBarCodeObject`
+  - `BIM_BeginImageObject` / `EIM_EndImageObject`
+  - `BOC_BeginObjectContainer` / `EOC_EndObjectContainer`
+- [x] Complete manual fast-path serialization for `IPS` and `IPO` in `AfpJacksonXmlWriter`.
