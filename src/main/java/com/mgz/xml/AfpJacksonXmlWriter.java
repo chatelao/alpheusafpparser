@@ -660,7 +660,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeFgdDirectly(FGD_FormEnvironmentGroupDescriptor fgd, int level) throws Exception {
+  private void writeFgdDirectly(FGD_FormEnvironmentGroupDescriptor fgd,
+      int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("FGD");
     baseXsw.writeStartElement("FGD_FormEnvironmentGroupDescriptor");
     int childLevel = level + 1;
@@ -1126,7 +1127,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeRepeatingGroupsXml(com.mgz.afp.base.IHasRepeatingGroups sf, int level) throws Exception {
+  private void writeRepeatingGroupsXml(com.mgz.afp.base.IHasRepeatingGroups sf,
+      int level) throws Exception {
     if (sf.getRepeatingGroups() != null) {
       writeIndent(baseXsw, level);
       baseXsw.writeStartElement("repeatingGroupsXml");
@@ -1259,7 +1261,76 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeTripletsAndText(XMLStreamWriter2 writer, List<Triplet> triplets, String text, int level, int closingLevel) throws Exception {
+  /**
+   * Writes an IPS structured field.
+   *
+   * @param ips the structured field
+   * @param level the indentation level
+   * @throws Exception if writing fails
+   */
+  private void writeIpsDirectly(com.mgz.afp.modca.IPS_IncludePageSegment ips,
+      int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("IPS");
+    baseXsw.writeStartElement("IPS_IncludePageSegment");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "pageSegmentName", ips.getPageSegmentName());
+    writeElement(baseXsw, childLevel, "xOrigin", ips.getxOrigin());
+    writeElement(baseXsw, childLevel, "yOrigin", ips.getyOrigin());
+    if (ips.getTriplets() != null && !ips.getTriplets().isEmpty()) {
+      for (Triplet triplet : ips.getTriplets()) {
+        writeTriplet(baseXsw, triplet, childLevel);
+      }
+    }
+    if (ips.getText() != null) {
+      writeElement(baseXsw, childLevel, "text", ips.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  /**
+   * Writes an IPO structured field.
+   *
+   * @param ipo the structured field
+   * @param level the indentation level
+   * @throws Exception if writing fails
+   */
+  private void writeIpoDirectly(com.mgz.afp.modca.IPO_IncludePageOverlay ipo,
+      int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("IPO");
+    baseXsw.writeStartElement("IPO_IncludePageOverlay");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "overlayName", ipo.getOverlayName());
+    writeElement(baseXsw, childLevel, "xOrigin", ipo.getxOrigin());
+    writeElement(baseXsw, childLevel, "yOrigin", ipo.getyOrigin());
+    if (ipo.getxRotation() != null) {
+      writeElement(baseXsw, childLevel, "xRotation", ipo.getxRotation().name());
+    }
+    if (ipo.getTriplets() != null && !ipo.getTriplets().isEmpty()) {
+      for (Triplet triplet : ipo.getTriplets()) {
+        writeTriplet(baseXsw, triplet, childLevel);
+      }
+    }
+    if (ipo.getText() != null) {
+      writeElement(baseXsw, childLevel, "text", ipo.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeTripletsAndText(XMLStreamWriter2 writer,
+      List<Triplet> triplets,
+      String text,
+      int level,
+      int closingLevel) throws Exception {
     if (triplets != null) {
       for (Triplet triplet : triplets) {
         writeTriplet(writer, triplet, level);
@@ -1881,7 +1952,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeMcf1RepeatingGroup(MCF_MapCodedFont_Format1.MCF_RepeatingGroup rg, int level) throws Exception {
+  private void writeMcf1RepeatingGroup(MCF_MapCodedFont_Format1.MCF_RepeatingGroup rg,
+      int level) throws Exception {
     writeIndent(baseXsw, level);
     baseXsw.writeStartElement("repeatingGroups");
     int childLevel = level + 1;
@@ -2471,7 +2543,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeDrawingOrderDirectly(XMLStreamWriter2 writer, GAD_DrawingOrder order, int level) throws Exception {
+  private void writeDrawingOrderDirectly(XMLStreamWriter2 writer,
+      GAD_DrawingOrder order,
+      int level) throws Exception {
     int childLevel = level + 1;
     writeIndent(writer, level);
     if (order instanceof GAD_DrawingOrder.GNOP1_NopOperation) {
@@ -3022,7 +3096,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
   }
 
-  private void writeIpdSegmentDirectly(XMLStreamWriter2 writer, IPD_Segment segment, int level) throws Exception {
+  private void writeIpdSegmentDirectly(XMLStreamWriter2 writer,
+      IPD_Segment segment,
+      int level) throws Exception {
     writeIndent(writer, level);
     int childLevel = level + 1;
     if (segment instanceof IPD_Segment.BeginSegment bs) {
@@ -3458,7 +3534,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeIddSelfDefiningFieldDirectly(XMLStreamWriter2 writer, IDD_SelfDefiningField sdf, int level) throws Exception {
+  private void writeIddSelfDefiningFieldDirectly(XMLStreamWriter2 writer,
+      IDD_SelfDefiningField sdf,
+      int level) throws Exception {
     int childLevel = level + 1;
     writeIndent(writer, level);
     if (sdf instanceof IDD_SelfDefiningField.SetBilevelImageColor sbic) {
@@ -3634,7 +3712,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeBdtDirectly(com.mgz.afp.modca.BDT_BeginDocument bdt, int level) throws Exception {
+  private void writeBdtDirectly(com.mgz.afp.modca.BDT_BeginDocument bdt,
+      int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("BDT");
     baseXsw.writeStartElement("BDT_BeginDocument");
     int childLevel = level + 1;
@@ -3750,60 +3829,32 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeIpsDirectly(com.mgz.afp.modca.IPS_IncludePageSegment ips, int level) throws Exception {
-    MnemonicPerformanceMonitor.startWriteWithMnemonic("IPS");
-    baseXsw.writeStartElement("IPS_IncludePageSegment");
-    if (currentPageNumber > 0) {
-      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
-    }
-    int childLevel = level + 1;
-    writeElement(baseXsw, childLevel, "pageSegmentName", ips.getPageSegmentName());
-    writeElement(baseXsw, childLevel, "xOrigin", ips.getxOrigin());
-    writeElement(baseXsw, childLevel, "yOrigin", ips.getyOrigin());
-    if (ips.getTriplets() != null && !ips.getTriplets().isEmpty()) {
-      for (Triplet triplet : ips.getTriplets()) {
-        writeTriplet(baseXsw, triplet, childLevel);
-      }
-    }
-    if (ips.getText() != null) {
-      writeElement(baseXsw, childLevel, "text", ips.getText());
-    }
-    writeIndent(baseXsw, level);
-    baseXsw.writeEndElement();
-    MnemonicPerformanceMonitor.endWrite();
-  }
-
-  private void writeIpoDirectly(com.mgz.afp.modca.IPO_IncludePageOverlay ipo, int level) throws Exception {
-    MnemonicPerformanceMonitor.startWriteWithMnemonic("IPO");
-    baseXsw.writeStartElement("IPO_IncludePageOverlay");
-    if (currentPageNumber > 0) {
-      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
-    }
-    int childLevel = level + 1;
-    writeElement(baseXsw, childLevel, "overlayName", ipo.getOverlayName());
-    writeElement(baseXsw, childLevel, "xOrigin", ipo.getxOrigin());
-    writeElement(baseXsw, childLevel, "yOrigin", ipo.getyOrigin());
-    if (ipo.getxRotation() != null) {
-      writeElement(baseXsw, childLevel, "xRotation", ipo.getxRotation().name());
-    }
-    if (ipo.getTriplets() != null && !ipo.getTriplets().isEmpty()) {
-      for (Triplet triplet : ipo.getTriplets()) {
-        writeTriplet(baseXsw, triplet, childLevel);
-      }
-    }
-    if (ipo.getText() != null) {
-      writeElement(baseXsw, childLevel, "text", ipo.getText());
-    }
-    writeIndent(baseXsw, level);
-    baseXsw.writeEndElement();
-    MnemonicPerformanceMonitor.endWrite();
-  }
-
-  private void writeNameAndTripletsDirectly(com.mgz.afp.base.StructuredFieldBaseNameAndTriplets sf, String rootName, int level) throws Exception {
+  /**
+   * Writes a structured field with name and triplets.
+   *
+   * @param sf the structured field
+   * @param rootName the root element name
+   * @param level the indentation level
+   * @throws Exception if writing fails
+   */
+  private void writeNameAndTripletsDirectly(com.mgz.afp.base.StructuredFieldBaseNameAndTriplets sf,
+      String rootName,
+      int level) throws Exception {
     writeNameAndTripletsDirectly(sf, rootName, level, false);
   }
 
-  private void writeNameAndTripletsDirectly(com.mgz.afp.base.StructuredFieldBaseNameAndTriplets sf, String rootName, int level, boolean injectPage) throws Exception {
+  /**
+   * Writes a structured field with name and triplets.
+   *
+   * @param sf the structured field
+   * @param rootName the root element name
+   * @param level the indentation level
+   * @param injectPage if true, inject page attribute
+   * @throws Exception if writing fails
+   */
+  private void writeNameAndTripletsDirectly(com.mgz.afp.base.StructuredFieldBaseNameAndTriplets sf,
+      String rootName,
+      int level, boolean injectPage) throws Exception {
     if (MnemonicPerformanceMonitor.isEnabled()) {
       String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
       MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
@@ -3829,11 +3880,32 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
   }
 
-  private void writeTripletsAndTextDirectly(com.mgz.afp.base.StructuredFieldBaseTriplets sf, String rootName, int level) throws Exception {
+  /**
+   * Writes a structured field with triplets and text.
+   *
+   * @param sf the structured field
+   * @param rootName the root element name
+   * @param level the indentation level
+   * @throws Exception if writing fails
+   */
+  private void writeTripletsAndTextDirectly(com.mgz.afp.base.StructuredFieldBaseTriplets sf,
+      String rootName,
+      int level) throws Exception {
     writeTripletsAndTextDirectly(sf, rootName, level, false);
   }
 
-  private void writeTripletsAndTextDirectly(com.mgz.afp.base.StructuredFieldBaseTriplets sf, String rootName, int level, boolean injectPage) throws Exception {
+  /**
+   * Writes a structured field with triplets and text.
+   *
+   * @param sf the structured field
+   * @param rootName the root element name
+   * @param level the indentation level
+   * @param injectPage if true, inject page attribute
+   * @throws Exception if writing fails
+   */
+  private void writeTripletsAndTextDirectly(com.mgz.afp.base.StructuredFieldBaseTriplets sf,
+      String rootName,
+      int level, boolean injectPage) throws Exception {
     if (MnemonicPerformanceMonitor.isEnabled()) {
       String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
       MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
@@ -3858,11 +3930,31 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
   }
 
-  private void writeNameDirectly(com.mgz.afp.base.StructuredFieldBaseName sf, String rootName, int level) throws Exception {
+  /**
+   * Writes a structured field with name.
+   *
+   * @param sf the structured field
+   * @param rootName the root element name
+   * @param level the indentation level
+   * @throws Exception if writing fails
+   */
+  private void writeNameDirectly(com.mgz.afp.base.StructuredFieldBaseName sf,
+      String rootName,
+      int level) throws Exception {
     writeNameDirectly(sf, rootName, level, false);
   }
 
-  private void writeNameDirectly(com.mgz.afp.base.StructuredFieldBaseName sf, String rootName, int level, boolean injectPage) throws Exception {
+  /**
+   * Writes a structured field with name.
+   *
+   * @param sf the structured field
+   * @param rootName the root element name
+   * @param level the indentation level
+   * @param injectPage if true, inject page attribute
+   * @throws Exception if writing fails
+   */
+  private void writeNameDirectly(com.mgz.afp.base.StructuredFieldBaseName sf, String rootName,
+      int level, boolean injectPage) throws Exception {
     if (MnemonicPerformanceMonitor.isEnabled()) {
       String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
       MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
@@ -3883,7 +3975,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
   }
 
-  private void writePtdFormat1Directly(PTD_PresentationTextDataDescriptor_Format1 ptd, int level) throws Exception {
+  private void writePtdFormat1Directly(PTD_PresentationTextDataDescriptor_Format1 ptd,
+      int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("PTD");
     String typeAttr = ptd.getxUnitBase() != null ? " xUnitBase=\"" + ptd.getxUnitBase().name() + "\"" : "";
     String yUbAttr = ptd.getyUnitBase() != null ? " yUnitBase=\"" + ptd.getyUnitBase().name() + "\"" : "";
@@ -3892,7 +3985,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writePtdFormat2Directly(PTD_PresentationTextDataDescriptor_Format2 ptd, int level) throws Exception {
+  private void writePtdFormat2Directly(PTD_PresentationTextDataDescriptor_Format2 ptd,
+      int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("PTD");
     baseXsw.writeStartElement("PTD_PresentationTextDataDescriptor_Format2");
     int childLevel = level + 1;
@@ -3934,7 +4028,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeGddParameterDirectly(XMLStreamWriter2 writer, GDD_Parameter param, int level) throws Exception {
+  private void writeGddParameterDirectly(XMLStreamWriter2 writer,
+      GDD_Parameter param,
+      int level) throws Exception {
     int childLevel = level + 1;
     writeIndent(writer, level);
     if (param instanceof GDD_Parameter.SetCurrentDefaultInstruction scd) {
@@ -4082,7 +4178,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
   }
 
-  private void writePgdDirectly(com.mgz.afp.modca.PGD_PageDescriptor pgd, int level) throws Exception {
+  private void writePgdDirectly(com.mgz.afp.modca.PGD_PageDescriptor pgd,
+      int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("PGD");
     baseXsw.writeStartElement("PGD_PageDescriptor");
     int childLevel = level + 1;
@@ -4104,7 +4201,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeMddDirectly(com.mgz.afp.modca.MDD_MediumDescriptor mdd, int level) throws Exception {
+  private void writeMddDirectly(com.mgz.afp.modca.MDD_MediumDescriptor mdd,
+      int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("MDD");
     baseXsw.writeStartElement("MDD_MediumDescriptor");
     int childLevel = level + 1;
@@ -4126,7 +4224,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeDrawingOrderWithPoints(XMLStreamWriter2 writer, GAD_DrawingOrder.DrawingOrder_HasPoints order, String rootName, int level) throws Exception {
+  private void writeDrawingOrderWithPoints(XMLStreamWriter2 writer,
+      GAD_DrawingOrder.DrawingOrder_HasPoints order,
+      String rootName,
+      int level) throws Exception {
     writer.writeStartElement(rootName);
     int childLevel = level + 1;
     if (order.getPoints() != null && !order.getPoints().isEmpty()) {
@@ -4147,7 +4248,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   }
 
 
-  private void writeElement(XMLStreamWriter2 writer, int level, String name, String value) throws Exception {
+  private void writeElement(XMLStreamWriter2 writer,
+      int level,
+      String name,
+      String value) throws Exception {
     if (value != null) {
       writeIndent(writer, level);
       writer.writeStartElement(name);
@@ -4156,14 +4260,20 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
   }
 
-  private void writeElement(XMLStreamWriter2 writer, int level, String name, int value) throws Exception {
+  private void writeElement(XMLStreamWriter2 writer,
+      int level,
+      String name,
+      int value) throws Exception {
     writeIndent(writer, level);
     writer.writeStartElement(name);
     writer.writeInt(value);
     writer.writeEndElement();
   }
 
-  private void writeElement(XMLStreamWriter2 writer, int level, String name, long value) throws Exception {
+  private void writeElement(XMLStreamWriter2 writer,
+      int level,
+      String name,
+      long value) throws Exception {
     writeIndent(writer, level);
     writer.writeStartElement(name);
     writer.writeLong(value);
@@ -4182,7 +4292,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     writeElement(xsw, level, name, value);
   }
 
-  private void writeBinaryElement(XMLStreamWriter2 writer, int level, String name, byte[] data) throws Exception {
+  private void writeBinaryElement(XMLStreamWriter2 writer,
+      int level,
+      String name,
+      byte[] data) throws Exception {
     if (data != null) {
       writeIndent(writer, level);
       writer.writeStartElement(name);
@@ -4297,7 +4410,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
   }
 
-  private void writeColorSpecification(XMLStreamWriter2 writer, GAD_DrawingOrder.ColorSpecification cs, int level, String rootName) throws Exception {
+  private void writeColorSpecification(XMLStreamWriter2 writer,
+      GAD_DrawingOrder.ColorSpecification cs,
+      int level,
+      String rootName) throws Exception {
     int childLevel = level + 1;
     writer.writeStartElement(rootName);
     writeElement(writer, childLevel, "length", cs.length);
@@ -4317,7 +4433,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     writer.writeEndElement();
   }
 
-  private void writeColorStop(XMLStreamWriter2 writer, GAD_DrawingOrder.ColorStop stop, int level) throws Exception {
+  private void writeColorStop(XMLStreamWriter2 writer,
+      GAD_DrawingOrder.ColorStop stop,
+      int level) throws Exception {
     int childLevel = level + 1;
     writer.writeStartElement("ColorStop");
     writeElement(writer, childLevel, "offset", stop.offset);
@@ -4361,7 +4479,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeBdaParametersDataDirectly(XMLStreamWriter2 writer, BDA_BarCodeData.ParametersData pd, int level) throws Exception {
+  private void writeBdaParametersDataDirectly(XMLStreamWriter2 writer,
+      BDA_BarCodeData.ParametersData pd,
+      int level) throws Exception {
     int childLevel = level + 1;
     writeIndent(writer, level);
     writer.writeStartElement(MnemonicPerformanceMonitor.getSimpleName(pd.getClass()));
@@ -4481,7 +4601,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     int childLevel = level + 1;
     if (bbc.getName() != null) {
-      baseXsw.writeAttribute("name", bbc.getName());
+      writeElement(baseXsw, childLevel, "name", bbc.getName());
     }
     if (bbc.getTriplets() != null && !bbc.getTriplets().isEmpty()) {
       for (Triplet triplet : bbc.getTriplets()) {
@@ -4504,7 +4624,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     int childLevel = level + 1;
     if (ebc.getName() != null) {
-      baseXsw.writeAttribute("name", ebc.getName());
+      writeElement(baseXsw, childLevel, "name", ebc.getName());
     }
     if (ebc.getTriplets() != null && !ebc.getTriplets().isEmpty()) {
       for (Triplet triplet : ebc.getTriplets()) {

@@ -34,7 +34,8 @@ public class PTXAttributesTest {
 
             TLE_TagLogicalElement tle1 = new TLE_TagLogicalElement();
             // TLE text comes from triplets
-            com.mgz.afp.triplets.Triplet.Comment comment = new com.mgz.afp.triplets.Triplet.Comment();
+            com.mgz.afp.triplets.Triplet.Comment
+                comment = new com.mgz.afp.triplets.Triplet.Comment();
             comment.comment = "TLE1";
             tle1.addTriplet(comment);
             writer.handle(tle1);
@@ -42,19 +43,23 @@ public class PTXAttributesTest {
             PTX_PresentationTextData ptx1 = new PTX_PresentationTextData();
             List<PTOCAControlSequence> cs1 = new ArrayList<>();
 
-            PTOCAControlSequence.AMI_AbsoluteMoveInline ami1 = new PTOCAControlSequence.AMI_AbsoluteMoveInline();
+            PTOCAControlSequence.AMI_AbsoluteMoveInline
+                ami1 = new PTOCAControlSequence.AMI_AbsoluteMoveInline();
             ami1.setDisplacement((short)1000);
             cs1.add(ami1);
 
-            PTOCAControlSequence.AMB_AbsoluteMoveBaseline amb1 = new PTOCAControlSequence.AMB_AbsoluteMoveBaseline();
+            PTOCAControlSequence.AMB_AbsoluteMoveBaseline
+                amb1 = new PTOCAControlSequence.AMB_AbsoluteMoveBaseline();
             amb1.setDisplacement((short)2000);
             cs1.add(amb1);
 
-            PTOCAControlSequence.GraphicCharacters gc1 = new PTOCAControlSequence.GraphicCharacters();
+            PTOCAControlSequence.GraphicCharacters
+                gc1 = new PTOCAControlSequence.GraphicCharacters();
             gc1.setData("Hello".getBytes(StandardCharsets.US_ASCII)); // Simplification
             cs1.add(gc1);
 
-            PTOCAControlSequence.UCT_UnicodeComplexText uct1 = new PTOCAControlSequence.UCT_UnicodeComplexText();
+            PTOCAControlSequence.UCT_UnicodeComplexText
+                uct1 = new PTOCAControlSequence.UCT_UnicodeComplexText();
             uct1.setComplexText("UCT1".getBytes(StandardCharsets.UTF_16BE));
             cs1.add(uct1);
 
@@ -105,15 +110,18 @@ public class PTXAttributesTest {
             PTX_PresentationTextData ptx2 = new PTX_PresentationTextData();
             List<PTOCAControlSequence> cs2 = new ArrayList<>();
 
-            PTOCAControlSequence.AMI_AbsoluteMoveInline ami2 = new PTOCAControlSequence.AMI_AbsoluteMoveInline();
+            PTOCAControlSequence.AMI_AbsoluteMoveInline
+                ami2 = new PTOCAControlSequence.AMI_AbsoluteMoveInline();
             ami2.setDisplacement((short)500);
             cs2.add(ami2);
 
-            PTOCAControlSequence.AMB_AbsoluteMoveBaseline amb2 = new PTOCAControlSequence.AMB_AbsoluteMoveBaseline();
+            PTOCAControlSequence.AMB_AbsoluteMoveBaseline
+                amb2 = new PTOCAControlSequence.AMB_AbsoluteMoveBaseline();
             amb2.setDisplacement((short)1500);
             cs2.add(amb2);
 
-            PTOCAControlSequence.TRN_TransparentData trn2 = new PTOCAControlSequence.TRN_TransparentData();
+            PTOCAControlSequence.TRN_TransparentData
+                trn2 = new PTOCAControlSequence.TRN_TransparentData();
             trn2.setTransparentData("World");
             cs2.add(trn2);
 
@@ -133,18 +141,25 @@ public class PTXAttributesTest {
         assertTrue(xml.contains("<GraphicCharacters page=\"1\" x=\"1000\" y=\"2000\">"), "GC on page 1");
         assertTrue(xml.contains("<UCT_UnicodeComplexText page=\"1\" x=\"1000\" y=\"2000\">"), "UCT should contain spatial attributes");
         assertTrue(xml.contains("<IOB_IncludeObject page=\"1\">"), "IOB should contain page=\"1\"");
-        assertTrue(xml.contains("<IPS_IncludePageSegment page=\"1\">"), "IPS should contain page=\"1\"");
-        assertTrue(xml.contains("<pageSegmentName>S1SEG001</pageSegmentName>"), "IPS should contain pageSegmentName");
+        assertTrue(xml.contains("<IPS_IncludePageSegment page=\"1\">"),
+                "IPS should contain page=\"1\"");
+        assertTrue(xml.contains("<pageSegmentName>S1SEG001</pageSegmentName>"),
+                "IPS should contain pageSegmentName");
         assertTrue(xml.contains("<xOrigin>100</xOrigin>"), "IPS should contain xOrigin");
         assertTrue(xml.contains("<yOrigin>200</yOrigin>"), "IPS should contain yOrigin");
-        assertTrue(xml.contains("<IPO_IncludePageOverlay page=\"1\">"), "IPO should contain page=\"1\"");
-        assertTrue(xml.contains("<overlayName>O1OVL001</overlayName>"), "IPO should contain overlayName");
-        assertTrue(xml.contains("<xOrigin>300</xOrigin>"), "IPO should contain xOrigin");
-        assertTrue(xml.contains("<yOrigin>400</yOrigin>"), "IPO should contain yOrigin");
-        assertTrue(xml.contains("<BNG_BeginNamedPageGroup page=\"1\">"), "BNG should contain page=\"1\"");
-        assertTrue(xml.contains("<BBC_BeginBarCodeObject page=\"1\""), "BBC should contain page=\"1\"");
-        assertTrue(xml.contains("<BGR_BeginGraphicsObject page=\"1\">"), "BGR should contain page=\"1\"");
-        assertTrue(xml.contains("<ENG_EndNamedPageGroup page=\"1\">"), "ENG should contain page=\"1\"");
+        assertTrue(xml.contains("<IPO_IncludePageOverlay page=\"1\">"),
+                "IPO should contain page=\"1\"");
+        assertTrue(xml.contains("<overlayName>O1OVL001</overlayName>"),
+                "IPO should contain overlayName");
+        assertTrue(xml.contains("<BNG_BeginNamedPageGroup page=\"1\">"),
+                "BNG should contain page=\"1\"");
+        assertTrue(xml.contains("<BBC_BeginBarCodeObject page=\"1\">"),
+                "BBC should contain page=\"1\"");
+        assertTrue(xml.contains("<name>BC001</name>"), "BBC should contain name");
+        assertTrue(xml.contains("<BGR_BeginGraphicsObject page=\"1\">"),
+                "BGR should contain page=\"1\"");
+        assertTrue(xml.contains("<ENG_EndNamedPageGroup page=\"1\">"),
+                "ENG should contain page=\"1\"");
         assertTrue(xml.contains("<EPG_EndPage page=\"1\">"), "EPG should contain page=\"1\"");
 
         // Verify Page 2

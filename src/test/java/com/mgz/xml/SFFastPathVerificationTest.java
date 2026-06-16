@@ -308,7 +308,7 @@ public class SFFastPathVerificationTest {
                   .replaceAll("<shallow>.*?</shallow>", "")
                   .replaceAll("<structuredFieldIntroducer>.*?</structuredFieldIntroducer>", "")
                   .replaceAll("<padding>.*?</padding>", "")
-                  .replaceAll(" (page|x|y)=\"(-?\\d+)\"", "")
+                  .replaceAll(" (page|x|y)=\"(-?\\d+)\"", "").replace("<AfpFragments>", "").replace("</AfpFragments>", "")
                   .replaceAll("\\s", ""); // Remove whitespace for comparison
     }
 
