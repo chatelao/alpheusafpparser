@@ -44,7 +44,7 @@ public class TripletFastPathVerificationTest {
         verifyTriplet(createTextFidelity(), "TextFidelity");
         verifyTriplet(createMediaFidelity(), "MediaFidelity");
         verifyTriplet(createFinishingFidelity(), "FinishingFidelity");
-        verifyTriplet(createCMRTagFidelity(), "CMRTagFidelity");
+        verifyTriplet(createCmrTagFidelity(), "CmrTagFidelity");
         verifyTriplet(createPresentationSpaceResetMixing(), "PresentationSpaceResetMixing");
         verifyTriplet(createPresentationSpaceMixingRule(), "PresentationSpaceMixingRule");
         verifyTriplet(createObjectContainerPresentationSpaceSize(), "ObjectContainerPresentationSpaceSize");
@@ -66,7 +66,7 @@ public class TripletFastPathVerificationTest {
         verifyTriplet(createParameterValue(), "ParameterValue");
         verifyTriplet(createDataObjectFontDescriptor(), "DataObjectFontDescriptor");
         verifyTriplet(createLocaleSelector(), "LocaleSelector");
-        verifyTriplet(createUP3iFinishingOperation(), "UP3iFinishingOperation");
+        verifyTriplet(createUp3iFinishingOperation(), "Up3iFinishingOperation");
         verifyTriplet(createKeepGroupTogether(), "KeepGroupTogether");
         verifyTriplet(createSetupName(), "SetupName");
     }
@@ -202,10 +202,10 @@ public class TripletFastPathVerificationTest {
     private Triplet.RenderingIntent createRenderingIntent() {
         Triplet.RenderingIntent ri = new Triplet.RenderingIntent();
         ri.reserved2_3 = new byte[]{0x00, 0x00};
-        ri.intentForIOCA = Intent.Perceptual;
-        ri.intentForContainerNonIOCA = Intent.Saturation;
-        ri.intentForPTOCA = Intent.MediaRelativeColorimetric;
-        ri.intentForGOCA = Intent.iccAbsoluteColorimetric;
+        ri.intentForIoca = Intent.Perceptual;
+        ri.intentForContainerNonIoca = Intent.Saturation;
+        ri.intentForPtoca = Intent.MediaRelativeColorimetric;
+        ri.intentForGoca = Intent.iccAbsoluteColorimetric;
         ri.reserved8_9 = new byte[]{0x00, 0x00};
         return ri;
     }
@@ -213,18 +213,19 @@ public class TripletFastPathVerificationTest {
     private Triplet.ImageResolution createImageResolution() {
         Triplet.ImageResolution ir = new Triplet.ImageResolution();
         ir.reserved2_3 = new byte[]{0x00, 0x00};
-        ir.xUnitBase = AFPUnitBase.Inches10;
-        ir.yUnitBase = AFPUnitBase.Inches10;
-        ir.xUnitsPerUnitBase = 600;
-        ir.yUnitsPerUnitBase = 600;
+        ir.unitBaseX = AFPUnitBase.Inches10;
+        ir.unitBaseY = AFPUnitBase.Inches10;
+        ir.unitsPerUnitBaseX = 600;
+        ir.unitsPerUnitBaseY = 600;
         return ir;
     }
 
     private Triplet.ColorManagementResourceDescriptor createColorManagementResourceDescriptor() {
-        Triplet.ColorManagementResourceDescriptor cmrd = new Triplet.ColorManagementResourceDescriptor();
+        Triplet.ColorManagementResourceDescriptor cmrd =
+            new Triplet.ColorManagementResourceDescriptor();
         cmrd.reserved2 = 0x00;
-        cmrd.cmrProcessingMode = Triplet.ColorManagementResourceDescriptor.CMRProcessingMode.AuditCMR;
-        cmrd.cmrScope = Triplet.ColorManagementResourceDescriptor.CMRScope.Document;
+        cmrd.cmrProcessingMode = Triplet.ColorManagementResourceDescriptor.CmrProcessingMode.AuditCMR;
+        cmrd.cmrScope = Triplet.ColorManagementResourceDescriptor.CmrScope.Document;
         return cmrd;
     }
 
@@ -287,8 +288,8 @@ public class TripletFastPathVerificationTest {
         return ff;
     }
 
-    private Triplet.CMRTagFidelity createCMRTagFidelity() {
-        Triplet.CMRTagFidelity ctf = new Triplet.CMRTagFidelity();
+    private Triplet.CmrTagFidelity createCmrTagFidelity() {
+        Triplet.CmrTagFidelity ctf = new Triplet.CmrTagFidelity();
         ctf.exceptionContinuationRule = Triplet.ColorFidelity.ExceptionContinuationRule.DoNotStop;
         ctf.reserved3 = 0x00;
         ctf.exceptionReportingRule = Triplet.ColorFidelity.ExceptionReportingRule.Report;
@@ -312,9 +313,11 @@ public class TripletFastPathVerificationTest {
     }
 
     private Triplet.ObjectContainerPresentationSpaceSize createObjectContainerPresentationSpaceSize() {
-        Triplet.ObjectContainerPresentationSpaceSize ocpss = new Triplet.ObjectContainerPresentationSpaceSize();
+        Triplet.ObjectContainerPresentationSpaceSize ocpss =
+            new Triplet.ObjectContainerPresentationSpaceSize();
         ocpss.reserved2_3 = new byte[]{0x00, 0x00};
-        ocpss.pdfPresentationSpace = Triplet.ObjectContainerPresentationSpaceSize.PDFPresentationSpace.ArtBox;
+        ocpss.pdfPresentationSpace =
+            Triplet.ObjectContainerPresentationSpaceSize.PdfPresentationSpace.ArtBox;
         return ocpss;
     }
 
@@ -447,8 +450,8 @@ public class TripletFastPathVerificationTest {
         return ls;
     }
 
-    private Triplet.UP3iFinishingOperation createUP3iFinishingOperation() {
-        Triplet.UP3iFinishingOperation up3i = new Triplet.UP3iFinishingOperation();
+    private Triplet.Up3iFinishingOperation createUp3iFinishingOperation() {
+        Triplet.Up3iFinishingOperation up3i = new Triplet.Up3iFinishingOperation();
         up3i.sequenceNumber = 1;
         up3i.reserved3 = 0x00;
         up3i.up3iData = new byte[]{0x01, 0x02, 0x03};

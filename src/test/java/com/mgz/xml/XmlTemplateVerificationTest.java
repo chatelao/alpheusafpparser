@@ -39,10 +39,10 @@ public class XmlTemplateVerificationTest {
 
         // MeasurementUnits
         Triplet.MeasurementUnits mu = new Triplet.MeasurementUnits();
-        mu.xUnitBase = AFPUnitBase.Inches10;
-        mu.yUnitBase = AFPUnitBase.Inches10;
-        mu.xUnitsPerUnitbase = 2400;
-        mu.yUnitsPerUnitbase = 2400;
+        mu.unitBaseX = AFPUnitBase.Inches10;
+        mu.unitBaseY = AFPUnitBase.Inches10;
+        mu.unitsPerUnitBaseX = 2400;
+        mu.unitsPerUnitBaseY = 2400;
         verifySF(mu, "MeasurementUnits");
 
         // MappingOption
@@ -298,7 +298,8 @@ public class XmlTemplateVerificationTest {
                     values = new Object[]{cr.characterRotation};
                 } else if (t instanceof Triplet.MeasurementUnits mu) {
                     template = XmlTemplateRegistry.getTemplate("MU");
-                    values = new Object[]{mu.xUnitBase, mu.yUnitBase, (int)mu.xUnitsPerUnitbase, (int)mu.yUnitsPerUnitbase};
+                    values = new Object[]{mu.unitBaseX, mu.unitBaseY,
+                        (int) mu.unitsPerUnitBaseX, (int) mu.unitsPerUnitBaseY};
                 } else if (t instanceof Triplet.MappingOption mo) {
                     template = XmlTemplateRegistry.getTemplate("MO");
                     values = new Object[]{mo.getDataObjecMapingOption()};
@@ -470,8 +471,8 @@ public class XmlTemplateVerificationTest {
         } else if (rootName.equals("CharacterRotation")) {
             assertTrue(normalizedFastPath.contains("characterRotation=\"ori90\""));
         } else if (rootName.equals("MeasurementUnits")) {
-            assertTrue(normalizedFastPath.contains("xUnitBase=\"Inches10\""));
-            assertTrue(normalizedFastPath.contains("xUnitsPerUnitbase=\"2400\""));
+            assertTrue(normalizedFastPath.contains("unitBaseX=\"Inches10\""));
+            assertTrue(normalizedFastPath.contains("unitsPerUnitBaseX=\"2400\""));
         } else if (rootName.equals("MappingOption")) {
             assertTrue(normalizedFastPath.contains("dataObjecMapingOption=\"ScaleToFit\""));
         } else if (rootName.equals("ObjectAreaSize")) {

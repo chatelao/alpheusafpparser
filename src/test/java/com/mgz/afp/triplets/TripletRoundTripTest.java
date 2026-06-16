@@ -15,7 +15,7 @@ import com.mgz.afp.triplets.Triplet.MODCAInterchangeSet.MODCAInterchangeSet_Iden
 import com.mgz.afp.triplets.Triplet.MODCAInterchangeSet.MODCAInterchangeSet_Type;
 import com.mgz.afp.triplets.Triplet.MappingOption;
 import com.mgz.afp.triplets.Triplet.AreaDefinition;
-import com.mgz.afp.triplets.Triplet.CMRTagFidelity;
+import com.mgz.afp.triplets.Triplet.CmrTagFidelity;
 import com.mgz.afp.triplets.Triplet.ColorFidelity;
 import com.mgz.afp.triplets.Triplet.ColorManagementResourceDescriptor;
 import com.mgz.afp.triplets.Triplet.ColorSpecification;
@@ -71,7 +71,7 @@ import com.mgz.afp.triplets.Triplet.FinishingOperation.ReferenceCorner;
 import com.mgz.afp.triplets.Triplet.TextFidelity;
 import com.mgz.afp.triplets.Triplet.MediaFidelity;
 import com.mgz.afp.triplets.Triplet.FinishingFidelity;
-import com.mgz.afp.triplets.Triplet.UP3iFinishingOperation;
+import com.mgz.afp.triplets.Triplet.Up3iFinishingOperation;
 import com.mgz.afp.triplets.Triplet.EncodingSchemeID;
 import com.mgz.afp.triplets.Triplet.FontResolutionAndMetricTechnology;
 import com.mgz.afp.triplets.Triplet.FontResolutionAndMetricTechnology.MetricTechnology;
@@ -297,8 +297,8 @@ public class TripletRoundTripTest {
 
     @Test
     public void testCMRTagFidelityRoundTrip() throws Exception {
-        CMRTagFidelity triplet = new CMRTagFidelity();
-        triplet.setTripletID(TripletID.CMRTagFidelity);
+        CmrTagFidelity triplet = new CmrTagFidelity();
+        triplet.setTripletID(TripletID.CmrTagFidelity);
 
         // Length(1) | ID(1) | Continuation(1) | Reserved(1) | Reporting(1) | Reserved(2)
         byte[] data = new byte[] {
@@ -796,8 +796,8 @@ public class TripletRoundTripTest {
 
     @Test
     public void testUP3iFinishingOperationRoundTrip() throws Exception {
-        UP3iFinishingOperation triplet = new UP3iFinishingOperation();
-        triplet.setTripletID(TripletID.UP3iFinishingOperation);
+        Up3iFinishingOperation triplet = new Up3iFinishingOperation();
+        triplet.setTripletID(TripletID.Up3iFinishingOperation);
 
         // Length(1) | ID(1) | Seq(1) | Reserved(1) | Data(variable)
         byte[] data = new byte[] {

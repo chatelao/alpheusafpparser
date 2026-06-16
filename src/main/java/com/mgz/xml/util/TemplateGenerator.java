@@ -32,7 +32,7 @@ public class TemplateGenerator {
     String[] triplets = {
         "AQ", "<AttributeQualifier sequenceNumber=\"{{VAL}}\" levelNumber=\"{{VAL}}\"/>",
         "DP", "<DescriptorPosition objectAreaDescriptorID=\"{{VAL}}\"/>",
-        "MU", "<MeasurementUnits xUnitBase=\"{{VAL}}\" yUnitBase=\"{{VAL}}\" xUnitsPerUnitbase=\"{{VAL}}\" yUnitsPerUnitbase=\"{{VAL}}\"/>",
+        "MU", "<MeasurementUnits unitBaseX=\"{{VAL}}\" unitBaseY=\"{{VAL}}\" unitsPerUnitBaseX=\"{{VAL}}\" unitsPerUnitBaseY=\"{{VAL}}\"/>",
         "STO", "<STO_SetTextOrientation xOrientation=\"{{VAL}}\" yOrientation=\"{{VAL}}\"/>",
         "SIA", "<SIA_SetIntercharacterAdjustment adjustment=\"{{VAL}}\" direction=\"{{VAL}}\"/>"
     };
