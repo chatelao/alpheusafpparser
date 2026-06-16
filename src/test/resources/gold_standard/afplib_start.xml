@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?><AFPDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <BRG_BeginResourceGroup>
     <name>&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;</name>
@@ -28,9 +29,7 @@
     <xMediumExtent>0</xMediumExtent>
     <yMediumExtent>0</yMediumExtent>
     <flag>DoNotPassMediumOrientationToCutsheetPrinter</flag>
-    <MediumOrientation>
-      <mediumOrientation>Portrait</mediumOrientation>
-    </MediumOrientation>
+    <MediumOrientation mediumOrientation="Portrait"/>
   </MDD_MediumDescriptor>
   <EDG_EndDocumentEnvironmentGroup>
   </EDG_EndDocumentEnvironmentGroup>
@@ -55,9 +54,7 @@
     <xMediumExtent>0</xMediumExtent>
     <yMediumExtent>0</yMediumExtent>
     <flag>DoNotPassMediumOrientationToCutsheetPrinter</flag>
-    <MediumOrientation>
-      <mediumOrientation>Portrait</mediumOrientation>
-    </MediumOrientation>
+    <MediumOrientation mediumOrientation="Portrait"/>
   </MDD_MediumDescriptor>
   <MCC_MediumCopyCount>
     <repeatingGroups>
@@ -121,10 +118,7 @@
   </BAG_BeginActiveEnvironmentGroup>
   <MDR_MapDataResource>
     <mdrRepeatingGroup>
-      <CodedGraphicCharacterSetGlobalID>
-        <graphicCharacterSetGlobalID>0</graphicCharacterSetGlobalID>
-        <codePageGlobalID_codedCharacterSetID>1200</codePageGlobalID_codedCharacterSetID>
-      </CodedGraphicCharacterSetGlobalID>
+      <CodedGraphicCharacterSetGlobalID graphicCharacterSetGlobalID="0" codePageGlobalID_codedCharacterSetID="1200"/>
       <FullyQualifiedName>
         <type>DataObjectExternalResourceReference</type>
         <format>CharacterString</format>
@@ -175,10 +169,7 @@
       </DataObjectFontDescriptor>
     </mdrRepeatingGroup>
     <mdrRepeatingGroup>
-      <CodedGraphicCharacterSetGlobalID>
-        <graphicCharacterSetGlobalID>0</graphicCharacterSetGlobalID>
-        <codePageGlobalID_codedCharacterSetID>1200</codePageGlobalID_codedCharacterSetID>
-      </CodedGraphicCharacterSetGlobalID>
+      <CodedGraphicCharacterSetGlobalID graphicCharacterSetGlobalID="0" codePageGlobalID_codedCharacterSetID="1200"/>
       <FullyQualifiedName>
         <type>DataObjectExternalResourceReference</type>
         <format>CharacterString</format>
@@ -251,90 +242,74 @@
   </EAG_EndActiveEnvironmentGroup>
   <BPT_BeginPresentationTextObject>
   </BPT_BeginPresentationTextObject>
-  <PTX_PresentationTextData>
-    <STO_SetTextOrientation xOrientation="ori0" yOrientation="ori90"/>
-    <STC_SetTextColor foregroundColor="DeviceDefault_0x00"/>
-    <AMB_AbsoluteMoveBaseline displacement="874"/>
-    <AMI_AbsoluteMoveInline displacement="581"/>
+  <PTX_PresentationTextData page="0" x="0" y="0">
+    <STO_SetTextOrientation page="0" x="0" y="0" xOrientation="ori0" yOrientation="ori90"/>
+    <STC_SetTextColor foregroundColor="DeviceDefault_0x00" precision=""/>
+    <AMB_AbsoluteMoveBaseline page="0" x="0" y="0" displacement="874"/>
+    <AMI_AbsoluteMoveInline page="0" x="0" y="874" displacement="581"/>
     <SCFL_SetCodedFontLocal codedFontLocalID="1"/>
-    <TRN_TransparentData>
+    <TRN_TransparentData page="0" x="581" y="874">
       <transparentData> ë è   ê è</transparentData>
       <text> ë è   ê è</text>
     </TRN_TransparentData>
-    <AMB_AbsoluteMoveBaseline displacement="0"/>
-    <AMI_AbsoluteMoveInline displacement="0"/>
+    <AMB_AbsoluteMoveBaseline page="0" x="581" y="874" displacement="0"/>
+    <AMI_AbsoluteMoveInline page="0" x="581" y="0" displacement="0"/>
     <SIM_SetInlineMargin displacement="0"/>
     <SBI_SetBaselineIncrement increment="50"/>
-    <DIR_DrawIaxisRule>
-      <length>59</length>
-      <width>50</width>
-      <widthFraction>0</widthFraction>
-    </DIR_DrawIaxisRule>
-    <BLN_BeginLine/>
-    <DIR_DrawIaxisRule>
-      <length>59</length>
-      <width>9</width>
-      <widthFraction>0</widthFraction>
-    </DIR_DrawIaxisRule>
-    <AMB_AbsoluteMoveBaseline displacement="0"/>
-    <AMI_AbsoluteMoveInline displacement="2421"/>
+    <DIR_DrawIaxisRule page="0" x="0" y="0" length="59"" width="50" widthFraction="0"/>
+    <BLN_BeginLine page="0" x="0" y="0"/>
+    <DIR_DrawIaxisRule page="0" x="0" y="50" length="59"" width="9" widthFraction="0"/>
+    <AMB_AbsoluteMoveBaseline page="0" x="0" y="50" displacement="0"/>
+    <AMI_AbsoluteMoveInline page="0" x="0" y="0" displacement="2421"/>
     <SIM_SetInlineMargin displacement="2421"/>
     <SBI_SetBaselineIncrement increment="50"/>
-    <DIR_DrawIaxisRule>
-      <length>59</length>
-      <width>50</width>
-      <widthFraction>0</widthFraction>
-    </DIR_DrawIaxisRule>
-    <BLN_BeginLine/>
-    <DIR_DrawIaxisRule>
-      <length>59</length>
-      <width>9</width>
-      <widthFraction>0</widthFraction>
-    </DIR_DrawIaxisRule>
-    <AMB_AbsoluteMoveBaseline displacement="1634"/>
-    <AMI_AbsoluteMoveInline displacement="889"/>
+    <DIR_DrawIaxisRule page="0" x="2421" y="0" length="59"" width="50" widthFraction="0"/>
+    <BLN_BeginLine page="0" x="2421" y="0"/>
+    <DIR_DrawIaxisRule page="0" x="2421" y="50" length="59"" width="9" widthFraction="0"/>
+    <AMB_AbsoluteMoveBaseline page="0" x="2421" y="50" displacement="1634"/>
+    <AMI_AbsoluteMoveInline page="0" x="2421" y="1634" displacement="889"/>
     <SCFL_SetCodedFontLocal codedFontLocalID="2"/>
-    <TRN_TransparentData>
+    <TRN_TransparentData page="0" x="889" y="1634">
       <transparentData> ë è   ê è</transparentData>
       <text> ë è   ê è</text>
     </TRN_TransparentData>
-    <AMB_AbsoluteMoveBaseline displacement="1864"/>
-    <AMI_AbsoluteMoveInline displacement="889"/>
-    <TRN_TransparentData>
+    <AMB_AbsoluteMoveBaseline page="0" x="889" y="1634" displacement="1864"/>
+    <AMI_AbsoluteMoveInline page="0" x="889" y="1864" displacement="889"/>
+    <TRN_TransparentData page="0" x="889" y="1864">
       <transparentData> ë è   ê è</transparentData>
       <text> ë è   ê è</text>
     </TRN_TransparentData>
-    <AMB_AbsoluteMoveBaseline displacement="2094"/>
-    <AMI_AbsoluteMoveInline displacement="889"/>
-    <TRN_TransparentData>
+    <AMB_AbsoluteMoveBaseline page="0" x="889" y="1864" displacement="2094"/>
+    <AMI_AbsoluteMoveInline page="0" x="889" y="2094" displacement="889"/>
+    <TRN_TransparentData page="0" x="889" y="2094">
       <transparentData> ë è   ê è</transparentData>
       <text> ë è   ê è</text>
     </TRN_TransparentData>
-    <AMB_AbsoluteMoveBaseline displacement="2324"/>
-    <AMI_AbsoluteMoveInline displacement="889"/>
-    <TRN_TransparentData>
+    <AMB_AbsoluteMoveBaseline page="0" x="889" y="2094" displacement="2324"/>
+    <AMI_AbsoluteMoveInline page="0" x="889" y="2324" displacement="889"/>
+    <TRN_TransparentData page="0" x="889" y="2324">
       <transparentData> ë è   ê è</transparentData>
       <text> ë è   ê è</text>
     </TRN_TransparentData>
-    <AMB_AbsoluteMoveBaseline displacement="2554"/>
-    <AMI_AbsoluteMoveInline displacement="889"/>
-    <TRN_TransparentData>
+    <AMB_AbsoluteMoveBaseline page="0" x="889" y="2324" displacement="2554"/>
+    <AMI_AbsoluteMoveInline page="0" x="889" y="2554" displacement="889"/>
+    <TRN_TransparentData page="0" x="889" y="2554">
       <transparentData> ë è   ê è</transparentData>
       <text> ë è   ê è</text>
     </TRN_TransparentData>
-    <AMB_AbsoluteMoveBaseline displacement="2784"/>
-    <AMI_AbsoluteMoveInline displacement="889"/>
-    <TRN_TransparentData>
+    <AMB_AbsoluteMoveBaseline page="0" x="889" y="2554" displacement="2784"/>
+    <AMI_AbsoluteMoveInline page="0" x="889" y="2784" displacement="889"/>
+    <TRN_TransparentData page="0" x="889" y="2784">
       <transparentData> ë è   ê è</transparentData>
       <text> ë è   ê è</text>
     </TRN_TransparentData>
-    <AMB_AbsoluteMoveBaseline displacement="3014"/>
-    <AMI_AbsoluteMoveInline displacement="889"/>
-    <TRN_TransparentData>
+    <AMB_AbsoluteMoveBaseline page="0" x="889" y="2784" displacement="3014"/>
+    <AMI_AbsoluteMoveInline page="0" x="889" y="3014" displacement="889"/>
+    <TRN_TransparentData page="0" x="889" y="3014">
       <transparentData> ë è   ê è</transparentData>
       <text> ë è   ê è</text>
     </TRN_TransparentData>
-    <NOP_NoOperation>
+    <NOP_NoOperation page="0" x="889" y="3014">
     </NOP_NoOperation>
   </PTX_PresentationTextData>
   <EPT_EndPresentationTextObject>
@@ -6851,7 +6826,7 @@ VPxQ0/5ijTgFZvB4OOOBH2uOKywykbjY/wcKhIlMlj9t2J2FYTsmmT67c5ehCrKeqS44ow5fs1Pp
     <name>MM000000</name>
     <text>MM000000</text>
   </IMM_InvokeMediumMap>
-  <BPG_BeginPage>
+  <BPG_BeginPage page="1">
     <name>&#x90;&#x90;&#x90;&#x90;&#x90;&#x90;&#x90;&#x91;</name>
     <text>&#x90;&#x90;&#x90;&#x90;&#x90;&#x90;&#x90;&#x91;</text>
   </BPG_BeginPage>
@@ -6896,9 +6871,7 @@ VPxQ0/5ijTgFZvB4OOOBH2uOKywykbjY/wcKhIlMlj9t2J2FYTsmmT67c5ehCrKeqS44ow5fs1Pp
   <BOG_BeginObjectEnvironmentGroup>
   </BOG_BeginObjectEnvironmentGroup>
   <OBD_ObjectAreaDescriptor>
-    <DescriptorPosition>
-      <objectAreaDescriptorID>1</objectAreaDescriptorID>
-    </DescriptorPosition>
+    <DescriptorPosition objectAreaDescriptorID="1"/>
     <MeasurementUnits xUnitBase="Inches10" yUnitBase="Inches10" xUnitsPerUnitbase="2400" yUnitsPerUnitbase="2400"/>
     <ObjectAreaSize sizeType_0x02="2" xSize="1984" ySize="2806"/>
   </OBD_ObjectAreaDescriptor>
@@ -6919,17 +6892,9 @@ VPxQ0/5ijTgFZvB4OOOBH2uOKywykbjY/wcKhIlMlj9t2J2FYTsmmT67c5ehCrKeqS44ow5fs1Pp
     </repeatingGroup>
   </OBP_ObjectAreaPosition>
   <MBC_MapBarCodeObject>
-  <lengthOfRepeatingGroup>5</lengthOfRepeatingGroup>
-  <triplet>
-    <length>3</length>
-    <tripletID>MappingOption</tripletID>
-    <dataObjecMapingOption>Position</dataObjecMapingOption>
-  </triplet>
-  <beginSF>false</beginSF>
-  <endSF>false</endSF>
-  <shallow>false</shallow>
-</MBC_MapBarCodeObject>
-
+    <lengthOfRepeatingGroup>5</lengthOfRepeatingGroup>
+    <MappingOption dataObjecMapingOption="Position"/>
+  </MBC_MapBarCodeObject>
   <BDD_BarCodeDataDescriptor>
     <unitBase>Inches10</unitBase>
     <unitsPerUnitBaseX>3000</unitsPerUnitBaseX>
@@ -6967,7 +6932,7 @@ VPxQ0/5ijTgFZvB4OOOBH2uOKywykbjY/wcKhIlMlj9t2J2FYTsmmT67c5ehCrKeqS44ow5fs1Pp
   <EBC_EndBarCodeObject name="INSDMBCP">
     <text>INSDMBCP</text>
   </EBC_EndBarCodeObject>
-  <EPG_EndPage>
+  <EPG_EndPage page="1">
     <name>&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;</name>
     <text>&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;</text>
   </EPG_EndPage>

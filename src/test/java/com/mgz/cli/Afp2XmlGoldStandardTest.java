@@ -48,13 +48,13 @@ public class Afp2XmlGoldStandardTest {
 
         // Test Sequential Mode
         Path seqOutput = tempDir.resolve("seq_" + afpFile.getName() + ".xml");
-        int seqResult = Afp2Xml.execute(new String[]{afpFile.getAbsolutePath(), seqOutput.toString()});
+        int seqResult = Afp2Xml.execute(new String[]{"-i", afpFile.getAbsolutePath(), seqOutput.toString()});
         assertEquals(0, seqResult, "Sequential conversion failed for " + afpPath);
         assertArrayEquals(goldBytes, Files.readAllBytes(seqOutput), "Sequential XML output mismatch for " + afpPath);
 
         // Test Parallel Mode
         Path parOutput = tempDir.resolve("par_" + afpFile.getName() + ".xml");
-        int parResult = Afp2Xml.execute(new String[]{"--parallel", afpFile.getAbsolutePath(), parOutput.toString()});
+        int parResult = Afp2Xml.execute(new String[]{"-i", "--parallel", afpFile.getAbsolutePath(), parOutput.toString()});
         assertEquals(0, parResult, "Parallel conversion failed for " + afpPath);
         assertArrayEquals(goldBytes, Files.readAllBytes(parOutput), "Parallel XML output mismatch for " + afpPath);
     }
