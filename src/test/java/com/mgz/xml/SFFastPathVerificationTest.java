@@ -272,6 +272,15 @@ public class SFFastPathVerificationTest {
         verifySF(createFNP(), "FNP_FontPosition");
     }
 
+    @Test
+    public void testPtxFastPath() throws Exception {
+        com.mgz.afp.ptoca.PTX_PresentationTextData ptx = new com.mgz.afp.ptoca.PTX_PresentationTextData();
+        com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMI_AbsoluteMoveInline ami = new com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMI_AbsoluteMoveInline();
+        ami.setDisplacement((short) 100);
+        ptx.addControlSequence(ami);
+        verifySF(ptx, "PTX_PresentationTextData");
+    }
+
     private void verifySF(com.mgz.afp.base.StructuredField sf, String rootName) throws Exception {
         ByteArrayOutputStream baosFast = new ByteArrayOutputStream();
         try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baosFast, null, true, false)) {
@@ -299,6 +308,7 @@ public class SFFastPathVerificationTest {
                   .replaceAll("<shallow>.*?</shallow>", "")
                   .replaceAll("<structuredFieldIntroducer>.*?</structuredFieldIntroducer>", "")
                   .replaceAll("<padding>.*?</padding>", "")
+                  .replaceAll(" (page|x|y)=\"(-?\\d+)\"", "")
                   .replaceAll("\\s", ""); // Remove whitespace for comparison
     }
 
