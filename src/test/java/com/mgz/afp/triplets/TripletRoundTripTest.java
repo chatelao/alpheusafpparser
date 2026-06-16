@@ -296,7 +296,7 @@ public class TripletRoundTripTest {
     }
 
     @Test
-    public void testCMRTagFidelityRoundTrip() throws Exception {
+    public void testCmrTagFidelityRoundTrip() throws Exception {
         CmrTagFidelity triplet = new CmrTagFidelity();
         triplet.setTripletID(TripletID.CmrTagFidelity);
 
@@ -795,7 +795,7 @@ public class TripletRoundTripTest {
     }
 
     @Test
-    public void testUP3iFinishingOperationRoundTrip() throws Exception {
+    public void testUp3iFinishingOperationRoundTrip() throws Exception {
         Up3iFinishingOperation triplet = new Up3iFinishingOperation();
         triplet.setTripletID(TripletID.Up3iFinishingOperation);
 

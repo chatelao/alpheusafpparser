@@ -1708,9 +1708,7 @@ Source Compatibility: 21
 [ant:checkstyle] [WARN] /app/src/main/java/com/mgz/afp/triplets/Triplet.java:4472:5: Missing a Javadoc comment. [MissingJavadocType]
 [ant:checkstyle] [WARN] /app/src/main/java/com/mgz/afp/triplets/Triplet.java:4484: Line is longer than 100 characters (found 148). [LineLength]
 [ant:checkstyle] [WARN] /app/src/main/java/com/mgz/afp/triplets/Triplet.java:4491:7: Missing a Javadoc comment. [MissingJavadocMethod]
-[ant:checkstyle] [WARN] /app/src/main/java/com/mgz/afp/triplets/Triplet.java:4837:7: Javadoc comment is placed in the wrong location. [InvalidJavadocPosition]
-[ant:checkstyle] [WARN] /app/src/main/java/com/mgz/afp/triplets/Triplet.java:4886:7: Javadoc comment is placed in the wrong location. [InvalidJavadocPosition]
-[ant:checkstyle] [WARN] /app/src/main/java/com/mgz/afp/triplets/Triplet.java:5218: Line is longer than 100 characters (found 123). [LineLength]
+[ant:checkstyle] [WARN] /app/src/main/java/com/mgz/afp/triplets/Triplet.java:5204: Line is longer than 100 characters (found 123). [LineLength]
 [ant:checkstyle] [WARN] /app/src/main/java/com/mgz/afp/cmoca/CMR_ColorManagementResource.java:23:1: Wrong lexicographical order for 'com.mgz.afp.base.StructuredField' import. Should be before 'com.mgz.util.UtilCharacterEncoding'. [CustomImportOrder]
 [ant:checkstyle] [WARN] /app/src/main/java/com/mgz/afp/cmoca/CMR_ColorManagementResource.java:24:1: Wrong lexicographical order for 'com.mgz.afp.base.annotations.AFPField' import. Should be before 'com.mgz.util.UtilCharacterEncoding'. [CustomImportOrder]
 [ant:checkstyle] [WARN] /app/src/main/java/com/mgz/afp/cmoca/CMR_ColorManagementResource.java:25:1: Wrong lexicographical order for 'com.mgz.afp.exceptions.AFPParserException' import. Should be before 'com.mgz.util.UtilCharacterEncoding'. [CustomImportOrder]
@@ -4309,8 +4307,8 @@ Source Compatibility: 21
 [ant:checkstyle] [WARN] /app/src/main/java/com/mgz/xml/XmlTemplateRegistry.java:114:3: Missing a Javadoc comment. [MissingJavadocMethod]
 Checkstyle rule violations were found. See the report at: file:///app/build/reports/checkstyle/main.html
 Checkstyle files with violations: 248
-Checkstyle violations by severity: [warning:4293]
+Checkstyle violations by severity: [warning:4291]
 
 
-BUILD SUCCESSFUL in 22s
+BUILD SUCCESSFUL in 32s
 4 actionable tasks: 4 executed
