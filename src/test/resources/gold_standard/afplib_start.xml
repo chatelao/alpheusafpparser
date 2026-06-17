@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8"?><AFPDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <BRG_BeginResourceGroup>
     <name>&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;&#x9f;</name>
@@ -256,16 +255,16 @@
     <AMI_AbsoluteMoveInline page="0" x="581" y="0" displacement="0"/>
     <SIM_SetInlineMargin displacement="0"/>
     <SBI_SetBaselineIncrement increment="50"/>
-    <DIR_DrawIaxisRule page="0" x="0" y="0" length="59"" width="50" widthFraction="0"/>
+    <DIR_DrawIaxisRule page="0" x="0" y="0" length="59" width="50" widthFraction="0"/>
     <BLN_BeginLine page="0" x="0" y="0"/>
-    <DIR_DrawIaxisRule page="0" x="0" y="50" length="59"" width="9" widthFraction="0"/>
+    <DIR_DrawIaxisRule page="0" x="0" y="50" length="59" width="9" widthFraction="0"/>
     <AMB_AbsoluteMoveBaseline page="0" x="0" y="50" displacement="0"/>
     <AMI_AbsoluteMoveInline page="0" x="0" y="0" displacement="2421"/>
     <SIM_SetInlineMargin displacement="2421"/>
     <SBI_SetBaselineIncrement increment="50"/>
-    <DIR_DrawIaxisRule page="0" x="2421" y="0" length="59"" width="50" widthFraction="0"/>
+    <DIR_DrawIaxisRule page="0" x="2421" y="0" length="59" width="50" widthFraction="0"/>
     <BLN_BeginLine page="0" x="2421" y="0"/>
-    <DIR_DrawIaxisRule page="0" x="2421" y="50" length="59"" width="9" widthFraction="0"/>
+    <DIR_DrawIaxisRule page="0" x="2421" y="50" length="59" width="9" widthFraction="0"/>
     <AMB_AbsoluteMoveBaseline page="0" x="2421" y="50" displacement="1634"/>
     <AMI_AbsoluteMoveInline page="0" x="2421" y="1634" displacement="889"/>
     <SCFL_SetCodedFontLocal codedFontLocalID="2"/>
