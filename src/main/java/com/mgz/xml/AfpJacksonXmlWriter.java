@@ -1355,7 +1355,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (triplet instanceof Triplet.CharacterRotation cr) {
       XmlTemplateRegistry.getTemplate("CR").writeObjects(baseXsw, cr.characterRotation);
     } else if (triplet instanceof Triplet.ObjectByteOffset obo) {
-      String extra = obo.byteOffsetHighOrder != null ? "\" byteOffsetHighOrder=\"" + obo.byteOffsetHighOrder : "";
+      String extra = obo.byteOffsetHighOrder != null ? " byteOffsetHighOrder=\"" + obo.byteOffsetHighOrder + "\"" : "";
       XmlTemplateRegistry.getTemplate("OBO").writeObjects(baseXsw, obo.byteOffset, extra);
     } else if (triplet instanceof Triplet.MeasurementUnits mu) {
       XmlTemplateRegistry.getTemplate("MU").writeObjects(baseXsw, mu.xUnitBase, mu.yUnitBase, (int) mu.xUnitsPerUnitbase, (int) mu.yUnitsPerUnitbase);
@@ -1404,7 +1404,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ObjectCount oc) {
-      String extra = oc.numberOfObjectsHigh != null ? "\" numberOfObjectsHigh=\"" + oc.numberOfObjectsHigh : "";
+      String extra = oc.numberOfObjectsHigh != null ? " numberOfObjectsHigh=\"" + oc.numberOfObjectsHigh + "\"" : "";
       XmlTemplateRegistry.getTemplate("OCNT").writeObjects(baseXsw, (int) oc.subordinateObjectType, (int) oc.reserved3, oc.numberOfObjectsLow, extra);
     } else if (triplet instanceof Triplet.LocalObjectDateAndTimeStamp lodts) {
       XmlTemplateRegistry.getTemplate("LODTS").writeObjects(baseXsw, lodts.dateAndTimeStampType, (int) lodts.hundreds, (int) lodts.tens, (int) lodts.dayOfYear, (int) lodts.hourOfDay, (int) lodts.minuteOfHour, (int) lodts.secondOfMinute, (int) lodts.hundredthOfSecond);
@@ -1458,14 +1458,14 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (triplet instanceof Triplet.ObjectByteExtent obe) {
       XmlTemplateRegistry.getTemplate("OBE").writeObjects(baseXsw, obe.byteExtentLow, obe.byteExtentHigh);
     } else if (triplet instanceof Triplet.ObjectStructuredFieldOffset osfo) {
-      String extra = osfo.offsetHigh != null ? "\" offsetHigh=\"" + osfo.offsetHigh : "";
+      String extra = osfo.offsetHigh != null ? " offsetHigh=\"" + osfo.offsetHigh + "\"" : "";
       XmlTemplateRegistry.getTemplate("OSFO").writeObjects(baseXsw, osfo.offsetLow, extra);
     } else if (triplet instanceof Triplet.ObjectStructuredFieldExtent osfe) {
-      String extra = osfe.numberOfSFHigh != null ? "\" numberOfSFHigh=\"" + osfe.numberOfSFHigh : "";
+      String extra = osfe.numberOfSFHigh != null ? " numberOfSFHigh=\"" + osfe.numberOfSFHigh + "\"" : "";
       XmlTemplateRegistry.getTemplate("OSFE").writeObjects(baseXsw, osfe.numberOfSFLow, extra);
     } else if (triplet instanceof Triplet.ObjectOffset oo) {
       String typeAttr = oo.objectType != null ? " objectType=\"" + oo.objectType.name() + "\"" : "";
-      String extra = oo.nrOfPrecedingObjectsHigh != null ? "\" nrOfPrecedingObjectsHigh=\"" + oo.nrOfPrecedingObjectsHigh : "";
+      String extra = oo.nrOfPrecedingObjectsHigh != null ? " nrOfPrecedingObjectsHigh=\"" + oo.nrOfPrecedingObjectsHigh + "\"" : "";
       XmlTemplateRegistry.getTemplate("OO").writeObjects(baseXsw, typeAttr, (int) oo.reserved3, oo.nrOfPrecedingObjectsLow, extra);
     } else if (triplet instanceof Triplet.FontHorizontalScaleFactor fhsf) {
       XmlTemplateRegistry.getTemplate("FHSF").write(baseXsw, (int) fhsf.horizontalScaleFactor);
@@ -2102,9 +2102,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("DIR");
       String extra = "";
       if (dir.getWidth() != null) {
-        extra += "\" width=\"" + dir.getWidth();
+        extra += " width=\"" + dir.getWidth() + "\"";
         if (dir.getWidthFraction() != null) {
-          extra += "\" widthFraction=\"" + dir.getWidthFraction();
+          extra += " widthFraction=\"" + dir.getWidthFraction() + "\"";
         }
       }
       XmlTemplateRegistry.getTemplate("DIR").writeObjects(baseXsw, currentPageNumber, getAfpX(), getAfpY(), dir.getLength(), extra);
@@ -2113,9 +2113,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("DBR");
       String extra = "";
       if (dbr.getWidth() != null) {
-        extra += "\" width=\"" + dbr.getWidth();
+        extra += " width=\"" + dbr.getWidth() + "\"";
         if (dbr.getWidthFraction() != null) {
-          extra += "\" widthFraction=\"" + dbr.getWidthFraction();
+          extra += " widthFraction=\"" + dbr.getWidthFraction() + "\"";
         }
       }
       XmlTemplateRegistry.getTemplate("DBR").writeObjects(baseXsw, currentPageNumber, getAfpX(), getAfpY(), dbr.getLength(), extra);
@@ -3817,8 +3817,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("PTD");
     String typeAttr = ptd.getxUnitBase() != null ? " xUnitBase=\"" + ptd.getxUnitBase().name() + "\"" : "";
     String yUbAttr = ptd.getyUnitBase() != null ? " yUnitBase=\"" + ptd.getyUnitBase().name() + "\"" : "";
-    String extra = ptd.getReserved10_11() != null ? "\" reserved10_11=\"" + UtilCharacterEncoding.bytesToHexString(ptd.getReserved10_11()) : "";
-    XmlTemplateRegistry.getTemplate("PTD1").writeObjects(baseXsw, typeAttr, yUbAttr, ptd.getxUnitsPerUnitBase(), ptd.getyUnitsPerUnitBase(), ptd.getxSize(), ptd.getySize(), extra);
+    String extra = ptd.getReserved10_11() != null ? " reserved10_11=\"" + UtilCharacterEncoding.bytesToHexString(ptd.getReserved10_11()) + "\"" : "";
+    XmlTemplateRegistry.getTemplate("PTD1").writeObjects(baseXsw, typeAttr + yUbAttr, (int) ptd.getxUnitsPerUnitBase(), (int) ptd.getyUnitsPerUnitBase(), (int) ptd.getxSize(), (int) ptd.getySize(), extra);
     MnemonicPerformanceMonitor.endWrite();
   }
 
