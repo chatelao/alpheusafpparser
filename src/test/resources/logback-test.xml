@@ -1,3 +1,5 @@
+<configuration debug="true">
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- encoders are  by default assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
@@ -5,6 +7,7 @@
             <pattern>%d{HH:mm:ss.SSS} - [%thread] - %-5level - %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
+
     <root level="debug">
         <appender-ref ref="STDOUT"/>
     </root>
