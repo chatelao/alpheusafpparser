@@ -268,7 +268,6 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       this.xsw = MnemonicPerformanceMonitor.isEnabled() ? new MnemonicXMLStreamWriter(this.baseXsw) : this.baseXsw;
       if (!fragmentMode) {
         this.xsw.writeStartDocument("UTF-8", "1.0");
-        writeNewline();
         this.xsw.setPrefix("xsi", "http://www.w3.org/2001/XMLSchema-instance");
         this.xsw.writeStartElement("AFPDocument");
         this.xsw.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
