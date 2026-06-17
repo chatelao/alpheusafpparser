@@ -392,14 +392,19 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
   public static final class FullyQualifiedName extends Triplet {
     GlobalID_Use type;
     GlobalID_Format format;
+    byte typeByte;
+    byte formatByte;
     byte[] nameAsBytes;
     String nameAsString;
 
     @Override
-    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+        throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
-      type = GlobalID_Use.valueOf(UtilBinaryDecoding.parseShort(sfData, offset + 2, 1));
-      format = GlobalID_Format.valueOf(sfData[offset + 3]);
+      typeByte = sfData[offset + 2];
+      formatByte = sfData[offset + 3];
+      type = GlobalID_Use.valueOf((short) (typeByte & 0xFF));
+      format = GlobalID_Format.valueOf(formatByte);
       int actualLength = StructuredField.getActualLength(sfData, offset, length);
       nameAsBytes = new byte[actualLength - 4];
       System.arraycopy(sfData, offset + 4, nameAsBytes, 0, nameAsBytes.length);
@@ -411,8 +416,8 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
       baos.write(tripletID != null ? tripletID.toByte() : TripletID.FullyQualifiedName.toByte());
-      baos.write(type != null ? type.toByte() : GlobalID_Use.OtherObjectDataReference.toByte());
-      baos.write(format != null ? format.toByte() : GlobalID_Format.CharacterString.toByte());
+      baos.write(typeByte);
+      baos.write(formatByte);
       if (nameAsBytes != null) {
         baos.write(nameAsBytes);
       } else if (nameAsString != null) {
@@ -428,16 +433,28 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
       return type;
     }
 
+    /**
+     * Sets the type and updates typeByte.
+     */
     public void setType(GlobalID_Use type) {
       this.type = type;
+      if (type != null) {
+        this.typeByte = (byte) type.toByte();
+      }
     }
 
     public GlobalID_Format getFormat() {
       return format;
     }
 
+    /**
+     * Sets the format and updates formatByte.
+     */
     public void setFormat(GlobalID_Format format) {
       this.format = format;
+      if (format != null) {
+        this.formatByte = (byte) format.toByte();
+      }
     }
 
     public byte[] getNameAsBytes() {
@@ -478,24 +495,28 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
   @JacksonXmlRootElement(localName = "MappingOption")
   public static final class MappingOption extends Triplet {
     DataObjecMapingOption dataObjecMapingOption;
+    byte mappingOptionByte;
 
     @Override
-    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+        throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
-      dataObjecMapingOption = DataObjecMapingOption.valueOf(sfData[offset + 2]);
+      mappingOptionByte = sfData[offset + 2];
+      dataObjecMapingOption = DataObjecMapingOption.valueOf(mappingOptionByte);
     }
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
-      os.write(tripletID.toByte());
-      os.write(dataObjecMapingOption.toByte());
+      os.write(tripletID != null ? tripletID.toByte() : TripletID.MappingOption.toByte());
+      os.write(mappingOptionByte);
     }
 
     @Override
     public void reset() {
       super.reset();
       dataObjecMapingOption = null;
+      mappingOptionByte = 0;
     }
 
     public DataObjecMapingOption getDataObjecMapingOption() {
@@ -541,6 +562,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
   public static final class ObjectClassification extends Triplet {
     public byte reserved2 = 0x00;
     public ObjectClass objectClass;
+    public byte objectClassByte;
     public byte[] reserved4_5 = new byte[2];
     public EnumSet<StructureFlag> structureFlags;
     public byte[] registeredObjectID; // 16 bytes.
@@ -549,11 +571,13 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     public String companyName;
 
     @Override
-    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+        throws AFPParserException {
       StructuredField.checkDataLength(sfData, offset, length, 24);
       super.decodeAFP(sfData, offset, length, config);
       reserved2 = sfData[offset + 2];
-      objectClass = ObjectClass.valueOf(sfData[offset + 3]);
+      objectClassByte = sfData[offset + 3];
+      objectClass = ObjectClass.valueOf(objectClassByte);
       reserved4_5 = new byte[2];
       System.arraycopy(sfData, offset + 4, reserved4_5, 0, reserved4_5.length);
       structureFlags = StructureFlag.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 6, 2));
@@ -581,10 +605,10 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
-      baos.write(tripletID.toByte());
+      baos.write(tripletID != null ? tripletID.toByte() : TripletID.ObjectClassification.toByte());
 
       baos.write(reserved2);
-      baos.write(objectClass.toByte());
+      baos.write(objectClassByte);
       baos.write(reserved4_5);
       baos.write(StructureFlag.toBytes(structureFlags));
       if (registeredObjectID != null) {
@@ -1571,20 +1595,23 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
   @JacksonXmlRootElement(localName = "CharacterRotation")
   public static final class CharacterRotation extends Triplet {
     public AFPOrientation characterRotation;
+    int characterRotationRaw;
 
     @Override
-    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+        throws AFPParserException {
       StructuredField.checkDataLength(sfData, offset, length, 4);
       super.decodeAFP(sfData, offset, length, config);
-      characterRotation = AFPOrientation.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 2, 2));
+      characterRotationRaw = UtilBinaryDecoding.parseInt(sfData, offset + 2, 2);
+      characterRotation = AFPOrientation.valueOf(characterRotationRaw);
     }
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       length = 4;
       os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
-      os.write(tripletID.toByte());
-      os.write(characterRotation.toBytes());
+      os.write(tripletID != null ? tripletID.toByte() : TripletID.CharacterRotation.toByte());
+      os.write(UtilBinaryDecoding.intToByteArray(characterRotationRaw, 2));
     }
 
     @Override
@@ -2483,26 +2510,32 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
   public static final class EncodingSchemeID extends Triplet {
     public EnumSet<EncodingScheme> encodingSchemeForCodePage;
     public EnumSet<EncodingScheme> encodingSchemeForUserData;
+    int encodingSchemeForCodePageRaw;
+    int encodingSchemeForUserDataRaw;
 
     @Override
-    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+    public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+        throws AFPParserException {
       super.decodeAFP(sfData, offset, length, config);
-      encodingSchemeForCodePage = EncodingScheme.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 2, 2));
+      encodingSchemeForCodePageRaw = UtilBinaryDecoding.parseInt(sfData, offset + 2, 2);
+      encodingSchemeForCodePage = EncodingScheme.valueOf(encodingSchemeForCodePageRaw);
       if (length > 4) {
-        encodingSchemeForUserData = EncodingScheme.valueOf(UtilBinaryDecoding.parseInt(sfData, offset + 4, 2));
+        encodingSchemeForUserDataRaw = UtilBinaryDecoding.parseInt(sfData, offset + 4, 2);
+        encodingSchemeForUserData = EncodingScheme.valueOf(encodingSchemeForUserDataRaw);
       } else {
         encodingSchemeForUserData = null;
+        encodingSchemeForUserDataRaw = 0;
       }
     }
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-      length = (short) (encodingSchemeForUserData == null ? 4 : 6);
+      length = (short) (encodingSchemeForUserData == null && encodingSchemeForUserDataRaw == 0 ? 4 : 6);
       os.write(length);
-      os.write(tripletID.toByte());
-      os.write(EncodingScheme.toBytes(encodingSchemeForCodePage));
-      if (encodingSchemeForUserData != null) {
-        os.write(EncodingScheme.toBytes(encodingSchemeForUserData));
+      os.write(tripletID != null ? tripletID.toByte() : TripletID.EncodingSchemeID.toByte());
+      os.write(UtilBinaryDecoding.intToByteArray(encodingSchemeForCodePageRaw, 2));
+      if (length > 4) {
+        os.write(UtilBinaryDecoding.intToByteArray(encodingSchemeForUserDataRaw, 2));
       }
     }
 
