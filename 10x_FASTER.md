@@ -10,7 +10,7 @@ This document outlines the architectural shift required to achieve an order-of-m
 | **3. Zero-Allocation Encoding** | High | Medium | 🚧 In Progress |
 | **4. Multi-Stage Parallel Pipeline** | High | Medium | 🚧 In Progress |
 | **5. SIMD-Accelerated Scanning** | Medium | Medium | ⏳ Pending |
-| **6. Template-Based Serialization** | Very High | High | 🚧 In Progress |
+| **6. Template-Based Serialization** | Very High | High | 🛑 **RETIRED** |
 | **7. Kernel-Level I/O & Zero-Copy** | Medium | High | ⏳ Pending |
 
 ---
@@ -53,12 +53,13 @@ Utilize hardware-level parallelism for record-skipping and character validation.
 - ⏳ **Vector API Integration**: Use the **Java Vector API** (Incubator) to scan for the `0x5A` prefix across 512-bit registers.
 - ⏳ **Accelerated Sanitization**: Accelerate EBCDIC character validation and XML sanitization using SIMD instructions.
 
-## 6. Template-Based Serialization
-Serialize a field in a single memory copy operation. See [TEMPLATE_BASED_ROADMAP.md](TEMPLATE_BASED_ROADMAP.md).
+## 6. Template-Based Serialization (RETIRED)
+Serialize a field in a single memory copy operation. See [TEMPLATE_BASED_ROADMAP.md](TEMPLATE_BASED_ROADMAP.md) and [REMOVE_PUNCARD_CONCEPT.md](REMOVE_PUNCARD_CONCEPT.md).
 
+- 🛑 **Status**: This strategy (internally "Punchard") has been retired in favor of **Strategy 1: 100% Manual StAX Fast-Paths**.
 - ✅ **Infrastructure**: Implemented `XmlTagTemplates` and integrated `writeRawBytes` into `AfpXmlStreamWriter`.
-- ⏳ **XML Byte Templates**: Generate pre-computed XML byte templates for each Structured Field type.
-- ⏳ **Hole-Punching**: Inject variable data (like coordinates or lengths) directly into the template.
+- 🛑 **XML Byte Templates**: (Discontinued) Generate pre-computed XML byte templates for each Structured Field type.
+- 🛑 **Hole-Punching**: (Discontinued) Inject variable data (like coordinates or lengths) directly into the template.
 
 ## 7. Kernel-Level I/O & Direct Buffer Orchestration
 Zero-copy from disk to XML output.
