@@ -28,8 +28,8 @@ public class DoubleQuoteBugTest {
         }
         String xml = baos.toString(StandardCharsets.UTF_8);
 
+        System.out.println("XML: " + xml);
         // The bug looks like: length="4252"" width="8"
-        // We want it to be: length="4252" width="8"
         assertFalse(xml.contains("\"\""), "XML should not contain double quotes: " + xml);
         assertTrue(xml.contains("length=\"4252\" width=\"8\""), "XML should contain correctly formatted attributes: " + xml);
     }
@@ -48,6 +48,7 @@ public class DoubleQuoteBugTest {
         }
         String xml = baos.toString(StandardCharsets.UTF_8);
 
+        System.out.println("XML OBO: " + xml);
         assertFalse(xml.contains("\"\""), "XML should not contain double quotes: " + xml);
         assertTrue(xml.contains("byteOffset=\"1000\" byteOffsetHighOrder=\"1\""), "XML should contain correctly formatted attributes: " + xml);
     }
