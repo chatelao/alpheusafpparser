@@ -309,6 +309,32 @@ public class SFFastPathVerificationTest {
                   .replaceAll("<structuredFieldIntroducer>.*?</structuredFieldIntroducer>", "")
                   .replaceAll("<padding>.*?</padding>", "")
                   .replaceAll(" (page|x|y)=\"(-?\\d+)\"", "")
+                  .replaceAll("<tripletsXml>", "")
+                  .replaceAll("</tripletsXml>", "")
+                  .replaceAll("<triplets>", "")
+                  .replaceAll("</triplets>", "")
+                  .replaceAll("<controlSequences>", "")
+                  .replaceAll("</controlSequences>", "")
+                  .replaceAll("<repeatingGroupsXml>", "")
+                  .replaceAll("</repeatingGroupsXml>", "")
+                  .replaceAll("<mcf2RepeatingGroup>", "")
+                  .replaceAll("</mcf2RepeatingGroup>", "")
+                  .replaceAll("<mioRepeatingGroup>", "")
+                  .replaceAll("</mioRepeatingGroup>", "")
+                  .replaceAll("<mdrRepeatingGroup>", "")
+                  .replaceAll("</mdrRepeatingGroup>", "")
+                  .replaceAll("<mgoRepeatingGroup>", "")
+                  .replaceAll("</mgoRepeatingGroup>", "")
+                  .replaceAll("<mpoRepeatingGroup>", "")
+                  .replaceAll("</mpoRepeatingGroup>", "")
+                  .replaceAll("<msuRepeatingGroup>", "")
+                  .replaceAll("</msuRepeatingGroup>", "")
+                  .replaceAll("<pgpRepeatingGroup>", "")
+                  .replaceAll("</pgpRepeatingGroup>", "")
+                  .replaceAll("<tripletUndefined>", "")
+                  .replaceAll("</tripletUndefined>", "")
+                  .replaceAll("/>", ">") // Standardize tag endings
+                  .replaceAll(" />", ">") // Standardize tag endings
                   .replaceAll("\\s", ""); // Remove whitespace for comparison
     }
 

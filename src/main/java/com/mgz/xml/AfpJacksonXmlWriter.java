@@ -2107,10 +2107,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("DIR");
       String extra = "";
       if (dir.getWidth() != null) {
-        extra += " width=\"" + dir.getWidth() + "\"";
-        if (dir.getWidthFraction() != null) {
-          extra += " widthFraction=\"" + dir.getWidthFraction() + "\"";
-        }
+        extra += " width=\"" + dir.getWidth() + "\"" + (dir.getWidthFraction() != null
+            ? " widthFraction=\"" + dir.getWidthFraction() + "\"" : "");
       }
       XmlTemplateRegistry.getTemplate("DIR").writeObjects(baseXsw, currentPageNumber,
           getAfpX(), getAfpY(), dir.getLength(), extra);
@@ -2119,10 +2117,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic("DBR");
       String extra = "";
       if (dbr.getWidth() != null) {
-        extra += " width=\"" + dbr.getWidth() + "\"";
-        if (dbr.getWidthFraction() != null) {
-          extra += " widthFraction=\"" + dbr.getWidthFraction() + "\"";
-        }
+        extra += " width=\"" + dbr.getWidth() + "\"" + (dbr.getWidthFraction() != null
+            ? " widthFraction=\"" + dbr.getWidthFraction() + "\"" : "");
       }
       XmlTemplateRegistry.getTemplate("DBR").writeObjects(baseXsw, currentPageNumber,
           getAfpX(), getAfpY(), dbr.getLength(), extra);
