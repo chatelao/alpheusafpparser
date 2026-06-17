@@ -52,11 +52,14 @@ public class XmlTemplateVerificationTest {
 
         // ObjectAreaSize
         Triplet.ObjectAreaSize oas = new Triplet.ObjectAreaSize();
-        oas.decodeAFP(new byte[] {0x09, 0x4C, 0x02, 0x00, 0x04, (byte)0xB0, 0x00, 0x06, (byte)0x40}, 0, 9, null);
+        oas.decodeAFP(new byte[] {
+            0x09, 0x4C, 0x02, 0x00, 0x04, (byte) 0xB0, 0x00, 0x06, (byte) 0x40
+        }, 0, 9, null);
         verifySF(oas, "ObjectAreaSize");
 
         // CodedGraphicCharacterSetGlobalID
-        Triplet.CodedGraphicCharacterSetGlobalID cgcs = new Triplet.CodedGraphicCharacterSetGlobalID();
+        Triplet.CodedGraphicCharacterSetGlobalID cgcs =
+            new Triplet.CodedGraphicCharacterSetGlobalID();
         cgcs.decodeAFP(new byte[] {0x06, 0x01, 0x04, (byte)0xB0, 0x01, (byte)0xF4}, 0, 6, null);
         verifySF(cgcs, "CodedGraphicCharacterSetGlobalID");
 
@@ -86,7 +89,8 @@ public class XmlTemplateVerificationTest {
         verifySF(psrm, "PresentationSpaceResetMixing");
 
         // ERLI - ExtendedResourceLocalIdentifier
-        Triplet.ExtendedResourceLocalIdentifier erli = new Triplet.ExtendedResourceLocalIdentifier();
+        Triplet.ExtendedResourceLocalIdentifier erli =
+            new Triplet.ExtendedResourceLocalIdentifier();
         erli.decodeAFP(new byte[] {0x07, 0x22, 0x30, 0x00, 0x00, 0x00, 0x05}, 0, 7, null);
         verifySF(erli, "ExtendedResourceLocalIdentifier");
 
@@ -102,7 +106,9 @@ public class XmlTemplateVerificationTest {
 
         // OBE - ObjectByteExtent
         Triplet.ObjectByteExtent obe = new Triplet.ObjectByteExtent();
-        obe.decodeAFP(new byte[] {0x0A, 0x57, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02}, 0, 10, null);
+        obe.decodeAFP(new byte[] {
+            0x0A, 0x57, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02
+        }, 0, 10, null);
         verifySF(obe, "ObjectByteExtent");
 
         // FHSF - FontHorizontalScaleFactor
@@ -121,17 +127,20 @@ public class XmlTemplateVerificationTest {
         verifySF(ts, "TonerSaver");
 
         // FRAMT - FontResolutionAndMetricTechnology
-        Triplet.FontResolutionAndMetricTechnology framt = new Triplet.FontResolutionAndMetricTechnology();
+        Triplet.FontResolutionAndMetricTechnology framt =
+            new Triplet.FontResolutionAndMetricTechnology();
         framt.decodeAFP(new byte[] {0x06, (byte) 0x84, 0x01, 0x00, 0x00, (byte) 0xF0}, 0, 6, null);
         verifySF(framt, "FontResolutionAndMetricTechnology");
 
         // CMRD - ColorManagementResourceDescriptor
-        Triplet.ColorManagementResourceDescriptor cmrd = new Triplet.ColorManagementResourceDescriptor();
+        Triplet.ColorManagementResourceDescriptor cmrd =
+            new Triplet.ColorManagementResourceDescriptor();
         cmrd.decodeAFP(new byte[] {0x05, (byte) 0x91, 0x00, 0x01, 0x02}, 0, 5, null);
         verifySF(cmrd, "ColorManagementResourceDescriptor");
 
         // OCPSS - ObjectContainerPresentationSpaceSize
-        Triplet.ObjectContainerPresentationSpaceSize ocpss = new Triplet.ObjectContainerPresentationSpaceSize();
+        Triplet.ObjectContainerPresentationSpaceSize ocpss =
+            new Triplet.ObjectContainerPresentationSpaceSize();
         ocpss.decodeAFP(new byte[] {0x05, (byte) 0x9C, 0x00, 0x00, 0x01}, 0, 5, null);
         verifySF(ocpss, "ObjectContainerPresentationSpaceSize");
 
@@ -146,7 +155,8 @@ public class XmlTemplateVerificationTest {
         verifySF(to, "TextOrientation");
 
         // LDOPM - LineDataObjectPositionMigration
-        Triplet.LineDataObjectPositionMigration ldopm = new Triplet.LineDataObjectPositionMigration();
+        Triplet.LineDataObjectPositionMigration ldopm =
+            new Triplet.LineDataObjectPositionMigration();
         ldopm.decodeAFP(new byte[] {0x03, 0x27, 0x01}, 0, 3, null);
         verifySF(ldopm, "LineDataObjectPositionMigration");
 
@@ -156,7 +166,8 @@ public class XmlTemplateVerificationTest {
         verifySF(kgt, "KeepGroupTogether");
 
         // FCGCS - FontCodedGraphicCharacterSetGlobalID
-        Triplet.FontCodedGraphicCharacterSetGlobalID fcgcs = new Triplet.FontCodedGraphicCharacterSetGlobalID();
+        Triplet.FontCodedGraphicCharacterSetGlobalID fcgcs =
+            new Triplet.FontCodedGraphicCharacterSetGlobalID();
         fcgcs.decodeAFP(new byte[] {0x06, 0x20, 0x04, (byte) 0xB0, 0x01, (byte) 0xF4}, 0, 6, null);
         verifySF(fcgcs, "FontCodedGraphicCharacterSetGlobalID");
 
@@ -182,7 +193,8 @@ public class XmlTemplateVerificationTest {
 
         // LODTS - LocalObjectDateAndTimeStamp
         Triplet.LocalObjectDateAndTimeStamp lodts = new Triplet.LocalObjectDateAndTimeStamp();
-        lodts.dateAndTimeStampType = Triplet.LocalObjectDateAndTimeStamp.DateAndTimeStampType.Creation;
+        lodts.dateAndTimeStampType =
+            Triplet.LocalObjectDateAndTimeStamp.DateAndTimeStampType.Creation;
         lodts.hundreds = 2026;
         verifySF(lodts, "LocalObjectDateAndTimeStamp");
 
@@ -220,7 +232,8 @@ public class XmlTemplateVerificationTest {
         verifySF(oo, "ObjectOffset");
 
         // PTD1
-        PTD_PresentationTextDataDescriptor_Format1 ptd1 = new PTD_PresentationTextDataDescriptor_Format1();
+        PTD_PresentationTextDataDescriptor_Format1 ptd1 =
+            new PTD_PresentationTextDataDescriptor_Format1();
         ptd1.setxUnitBase(AFPUnitBase.Inches10);
         ptd1.setyUnitBase(AFPUnitBase.Inches10);
         ptd1.setxUnitsPerUnitBase((short) 1440);
@@ -234,21 +247,25 @@ public class XmlTemplateVerificationTest {
     @Test
     public void testPtocaTemplates() throws Exception {
         // STO
-        PTOCAControlSequence.STO_SetTextOrientation sto = new PTOCAControlSequence.STO_SetTextOrientation();
+        PTOCAControlSequence.STO_SetTextOrientation sto =
+            new PTOCAControlSequence.STO_SetTextOrientation();
         sto.setxOrientation(AFPOrientation.ori0);
         sto.setyOrientation(AFPOrientation.ori90);
         verifySF(sto, "STO_SetTextOrientation");
 
         // SIA
-        PTOCAControlSequence.SIA_SetIntercharacterAdjustment sia = new PTOCAControlSequence.SIA_SetIntercharacterAdjustment();
+        PTOCAControlSequence.SIA_SetIntercharacterAdjustment sia =
+            new PTOCAControlSequence.SIA_SetIntercharacterAdjustment();
         sia.setAdjustment((short) 10);
-        sia.setDirection(PTOCAControlSequence.SIA_SetIntercharacterAdjustment.SIA_Direction.NegativeIDirection);
+        sia.setDirection(
+            PTOCAControlSequence.SIA_SetIntercharacterAdjustment.SIA_Direction.NegativeIDirection);
         verifySF(sia, "SIA_SetIntercharacterAdjustment");
 
         // STC
         PTOCAControlSequence.STC_SetTextColor stc = new PTOCAControlSequence.STC_SetTextColor();
         stc.setForegroundColor(AFPColorValue.Blue_0x01);
-        stc.setPrecision(PTOCAControlSequence.STC_SetTextColor.STC_Precision.IfSpecifiedColorNotSupported_SubstitutColorOrDefaul0xFF07);
+        stc.setPrecision(PTOCAControlSequence.STC_SetTextColor.STC_Precision
+            .IfSpecifiedColorNotSupported_SubstitutColorOrDefaul0xFF07);
         verifySF(stc, "STC_SetTextColor");
 
         // USC
@@ -257,7 +274,8 @@ public class XmlTemplateVerificationTest {
         verifySF(usc, "USC_Underscore");
 
         // SEC
-        PTOCAControlSequence.SEC_SetExtendedTextColor sec = new PTOCAControlSequence.SEC_SetExtendedTextColor();
+        PTOCAControlSequence.SEC_SetExtendedTextColor sec =
+            new PTOCAControlSequence.SEC_SetExtendedTextColor();
         sec.setColorSpace(AFPColorSpace.RGB);
         sec.setNrOfBitsComponent1((byte) 8);
         sec.setNrOfBitsComponent2((byte) 8);
@@ -299,7 +317,10 @@ public class XmlTemplateVerificationTest {
                     values = new Object[]{cr.characterRotation};
                 } else if (t instanceof Triplet.MeasurementUnits mu) {
                     template = XmlTemplateRegistry.getTemplate("MU");
-                    values = new Object[]{mu.xUnitBase, mu.yUnitBase, (int)mu.xUnitsPerUnitbase, (int)mu.yUnitsPerUnitbase};
+                    values = new Object[]{
+                        mu.xUnitBase, mu.yUnitBase, (int) mu.xUnitsPerUnitbase,
+                        (int) mu.yUnitsPerUnitbase
+                    };
                 } else if (t instanceof Triplet.MappingOption mo) {
                     template = XmlTemplateRegistry.getTemplate("MO");
                     values = new Object[]{mo.getDataObjecMapingOption()};
@@ -308,7 +329,10 @@ public class XmlTemplateVerificationTest {
                     values = new Object[]{(int)oas.sizeType_0x02, oas.xSize, oas.ySize};
                 } else if (t instanceof Triplet.CodedGraphicCharacterSetGlobalID cgcs) {
                     template = XmlTemplateRegistry.getTemplate("CGCS");
-                    values = new Object[]{cgcs.getGraphicCharacterSetGlobalID(), cgcs.getCodePageGlobalID_codedCharacterSetID()};
+                    values = new Object[]{
+                        cgcs.getGraphicCharacterSetGlobalID(),
+                        cgcs.getCodePageGlobalID_codedCharacterSetID()
+                    };
                 } else if (t instanceof Triplet.ResourceObjectType rot) {
                     template = XmlTemplateRegistry.getTemplate("ROT");
                     values = new Object[]{rot.objectType};
@@ -347,10 +371,14 @@ public class XmlTemplateVerificationTest {
                     values = new Object[]{(int)ts.reserved2, ts.tonerSaverFunction};
                 } else if (t instanceof Triplet.FontResolutionAndMetricTechnology framt) {
                     template = XmlTemplateRegistry.getTemplate("FRAMT");
-                    values = new Object[]{framt.metricTechnology, framt.unitBase, (int)framt.unitsPerUnitBase};
+                    values = new Object[]{
+                        framt.metricTechnology, framt.unitBase, (int) framt.unitsPerUnitBase
+                    };
                 } else if (t instanceof Triplet.ColorManagementResourceDescriptor cmrd) {
                     template = XmlTemplateRegistry.getTemplate("CMRD");
-                    values = new Object[]{(int)cmrd.reserved2, cmrd.cmrProcessingMode, cmrd.cmrScope};
+                    values = new Object[]{
+                        (int) cmrd.reserved2, cmrd.cmrProcessingMode, cmrd.cmrScope
+                    };
                 } else if (t instanceof Triplet.ObjectContainerPresentationSpaceSize ocpss) {
                     template = XmlTemplateRegistry.getTemplate("OCPSS");
                     values = new Object[]{ocpss.pdfPresentationSpace};
@@ -368,40 +396,64 @@ public class XmlTemplateVerificationTest {
                     values = new Object[]{(int)kgt.grpFnct};
                 } else if (t instanceof Triplet.FontCodedGraphicCharacterSetGlobalID fcgcs) {
                     template = XmlTemplateRegistry.getTemplate("FCGCS");
-                    values = new Object[]{fcgcs.codedGraphicCharacterSetGlobalID, fcgcs.codePageGlobalID};
+                    values = new Object[]{
+                        fcgcs.codedGraphicCharacterSetGlobalID, fcgcs.codePageGlobalID
+                    };
                 } else if (t instanceof Triplet.MODCAFunctionSet mfs) {
                     template = XmlTemplateRegistry.getTemplate("MFS");
                     values = new Object[]{mfs.fctSetID};
                 } else if (t instanceof Triplet.AreaDefinition ad) {
                     template = XmlTemplateRegistry.getTemplate("AD");
-                    values = new Object[]{(int) ad.reserved2, ad.xOrigin, ad.yOrigin, ad.xSize, ad.ySize};
+                    values = new Object[]{
+                        (int) ad.reserved2, ad.xOrigin, ad.yOrigin, ad.xSize, ad.ySize
+                    };
                 } else if (t instanceof Triplet.ObjectCount oc) {
                     template = XmlTemplateRegistry.getTemplate("OCNT");
-                    String extra = oc.numberOfObjectsHigh != null ? " numberOfObjectsHigh=\"" + oc.numberOfObjectsHigh + "\"" : "";
-                    values = new Object[]{(int) oc.subordinateObjectType, (int) oc.reserved3, oc.numberOfObjectsLow, extra};
+                    String extra = oc.numberOfObjectsHigh != null
+                        ? " numberOfObjectsHigh=\"" + oc.numberOfObjectsHigh + "\"" : "";
+                    values = new Object[]{
+                        (int) oc.subordinateObjectType, (int) oc.reserved3, oc.numberOfObjectsLow,
+                        extra
+                    };
                 } else if (t instanceof Triplet.LocalObjectDateAndTimeStamp lodts) {
                     template = XmlTemplateRegistry.getTemplate("LODTS");
-                    values = new Object[]{lodts.dateAndTimeStampType, (int) lodts.hundreds, (int) lodts.tens, (int) lodts.dayOfYear, (int) lodts.hourOfDay, (int) lodts.minuteOfHour, (int) lodts.secondOfMinute, (int) lodts.hundredthOfSecond};
+                    values = new Object[]{
+                        lodts.dateAndTimeStampType, (int) lodts.hundreds, (int) lodts.tens,
+                        (int) lodts.dayOfYear, (int) lodts.hourOfDay, (int) lodts.minuteOfHour,
+                        (int) lodts.secondOfMinute, (int) lodts.hundredthOfSecond
+                    };
                 } else if (t instanceof Triplet.UniversalDateAndTimeStamp udts) {
                     template = XmlTemplateRegistry.getTemplate("UDTS");
-                    values = new Object[]{(int) udts.reserved2, (int) udts.year, (int) udts.monthOfYear, (int) udts.dayOfMonth, (int) udts.hourOfDay, (int) udts.minuteOfHour, (int) udts.secondOfMinute, udts.timeZone, (int) udts.diffHours, (int) udts.diffMinutes};
+                    values = new Object[]{
+                        (int) udts.reserved2, (int) udts.year, (int) udts.monthOfYear,
+                        (int) udts.dayOfMonth, (int) udts.hourOfDay, (int) udts.minuteOfHour,
+                        (int) udts.secondOfMinute, udts.timeZone, (int) udts.diffHours,
+                        (int) udts.diffMinutes
+                    };
                 } else if (t instanceof Triplet.ObjectByteOffset obo) {
                     template = XmlTemplateRegistry.getTemplate("OBO");
-                    String extra = obo.byteOffsetHighOrder != null ? " byteOffsetHighOrder=\"" + obo.byteOffsetHighOrder + "\"" : "";
+                    String extra = obo.byteOffsetHighOrder != null
+                        ? " byteOffsetHighOrder=\"" + obo.byteOffsetHighOrder + "\"" : "";
                     values = new Object[]{obo.byteOffset, extra};
                 } else if (t instanceof Triplet.ObjectStructuredFieldOffset osfo) {
                     template = XmlTemplateRegistry.getTemplate("OSFO");
-                    String extra = osfo.offsetHigh != null ? " offsetHigh=\"" + osfo.offsetHigh + "\"" : "";
+                    String extra = osfo.offsetHigh != null
+                        ? " offsetHigh=\"" + osfo.offsetHigh + "\"" : "";
                     values = new Object[]{osfo.offsetLow, extra};
                 } else if (t instanceof Triplet.ObjectStructuredFieldExtent osfe) {
                     template = XmlTemplateRegistry.getTemplate("OSFE");
-                    String extra = osfe.numberOfSFHigh != null ? " numberOfSFHigh=\"" + osfe.numberOfSFHigh + "\"" : "";
+                    String extra = osfe.numberOfSFHigh != null
+                        ? " numberOfSFHigh=\"" + osfe.numberOfSFHigh + "\"" : "";
                     values = new Object[]{osfe.numberOfSFLow, extra};
                 } else if (t instanceof Triplet.ObjectOffset oo) {
                     template = XmlTemplateRegistry.getTemplate("OO");
-                    String typeAttr = oo.objectType != null ? " objectType=\"" + oo.objectType.name() + "\"" : "";
-                    String extra = oo.nrOfPrecedingObjectsHigh != null ? " nrOfPrecedingObjectsHigh=\"" + oo.nrOfPrecedingObjectsHigh + "\"" : "";
-                    values = new Object[]{typeAttr, (int) oo.reserved3, oo.nrOfPrecedingObjectsLow, extra};
+                    String typeAttr = oo.objectType != null
+                        ? " objectType=\"" + oo.objectType.name() + "\"" : "";
+                    String extra = oo.nrOfPrecedingObjectsHigh != null
+                        ? " nrOfPrecedingObjectsHigh=\"" + oo.nrOfPrecedingObjectsHigh + "\"" : "";
+                    values = new Object[]{
+                        typeAttr, (int) oo.reserved3, oo.nrOfPrecedingObjectsLow, extra
+                    };
                 }
 
                 if (template != null) {
@@ -415,7 +467,8 @@ public class XmlTemplateVerificationTest {
                  if (cs instanceof PTOCAControlSequence.STO_SetTextOrientation sto) {
                      template = XmlTemplateRegistry.getTemplate("STO");
                      values = new Object[]{0, 0, 0, sto.getxOrientation(), sto.getyOrientation()};
-                 } else if (cs instanceof PTOCAControlSequence.SIA_SetIntercharacterAdjustment sia) {
+                 } else if (cs instanceof PTOCAControlSequence
+                     .SIA_SetIntercharacterAdjustment sia) {
                      template = XmlTemplateRegistry.getTemplate("SIA");
                      values = new Object[]{(int)sia.getAdjustment(), sia.getDirection()};
                  } else if (cs instanceof PTOCAControlSequence.STC_SetTextColor stc) {
@@ -426,7 +479,12 @@ public class XmlTemplateVerificationTest {
                      values = new Object[]{usc.getBypassFlag()};
                  } else if (cs instanceof PTOCAControlSequence.SEC_SetExtendedTextColor sec) {
                      template = XmlTemplateRegistry.getTemplate("SEC");
-                     values = new Object[]{sec.getColorSpace(), (int) sec.getNrOfBitsComponent1(), (int) sec.getNrOfBitsComponent2(), (int) sec.getNrOfBitsComponent3(), (int) sec.getNrOfBitsComponent4(), com.mgz.util.UtilCharacterEncoding.bytesToHexString(sec.getColorValue())};
+                     values = new Object[]{
+                         sec.getColorSpace(), (int) sec.getNrOfBitsComponent1(),
+                         (int) sec.getNrOfBitsComponent2(), (int) sec.getNrOfBitsComponent3(),
+                         (int) sec.getNrOfBitsComponent4(),
+                         com.mgz.util.UtilCharacterEncoding.bytesToHexString(sec.getColorValue())
+                     };
                  } else if (cs instanceof PTOCAControlSequence.DIR_DrawIaxisRule dir) {
                      template = XmlTemplateRegistry.getTemplate("DIR");
                      String extra = "";
@@ -556,7 +614,8 @@ public class XmlTemplateVerificationTest {
             assertTrue(normalizedFastPath.contains("direction=\"NegativeIDirection\""));
         } else if (rootName.equals("STC_SetTextColor")) {
             assertTrue(normalizedFastPath.contains("foregroundColor=\"Blue_0x01\""));
-            assertTrue(normalizedFastPath.contains("precision=\"IfSpecifiedColorNotSupported_SubstitutColorOrDefaul0xFF07\""));
+            assertTrue(normalizedFastPath.contains(
+                "precision=\"IfSpecifiedColorNotSupported_SubstitutColorOrDefaul0xFF07\""));
         } else if (rootName.equals("USC_Underscore")) {
             assertTrue(normalizedFastPath.contains("bypassFlag=\"BypassRelativeMoveInline\""));
         } else if (rootName.equals("SEC_SetExtendedTextColor")) {
