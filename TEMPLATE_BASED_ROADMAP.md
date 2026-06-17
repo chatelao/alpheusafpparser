@@ -4,9 +4,12 @@ This document outlines the phased implementation of Strategy 6 from `10x_FASTER.
 
 ## Status Summary
 - **Phase 1: Infrastructure & Primitive Templates**: ✅ Complete
-- **Phase 2: Static Structured Field Templates**: 🚧 In Progress
-- **Phase 3: Dynamic Hole-Punching Engine**: 🚧 In Progress
-- **Phase 4: Vectorized Assembly & Output**: ⏳ Pending
+- **Phase 2: Static Structured Field Templates**: 🛑 DISCONTINUED
+- **Phase 3: Dynamic Hole-Punching Engine**: 🛑 DISCONTINUED
+- **Phase 4: Vectorized Assembly & Output**: 🛑 DISCONTINUED
+
+> [!IMPORTANT]
+> The template-based serialization approach (Project "Punchard") is being retired. See [REMOVE_PUNCHARD_CONCEPT.md](REMOVE_PUNCHARD_CONCEPT.md) for details on the transition to StAX2-based fast-paths.
 
 ---
 
@@ -17,7 +20,7 @@ Establish the foundation for byte-level templating.
 - ✅ **AfpXmlStreamWriter Integration**: Updated the stream writer to support direct `writeRawBytes` to bypass UTF-16 overhead.
 - ✅ **XmlIndenter Integration**: Indentation logic optimized to use pre-allocated byte arrays.
 
-## Phase 2: Static Structured Field Templates 🚧
+## Phase 2: Static Structured Field Templates 🛑
 Generate byte templates for fixed-structure fields.
 
 - ✅ **Structured Field Templates**: Initial support for SF templating (PGP1, PTD1).
@@ -26,16 +29,16 @@ Generate byte templates for fixed-structure fields.
 - ✅ **Triplet Templating**: Extended templating to 36+ common triplets (AQ, RLI, CR, MU, MO, OAS, CGCS, ROT, DP, MEC, RUA, PSRM, ERLI, RSN, MMPN, OBE, FHSF, MOR, TS, FRAMT, CMRD, OCPSS, PPI, TO, LDOPM, KGT, FCGCS, MFS, AD, OCNT, LODTS, UDTS, OBO, OSFO, OSFE, OO).
 - ✅ **PTOCA Templating**: Extended templating to PTOCA control sequences (AMI, RMI, AMB, RMB, SCFL, SBI, SIM, BSU, ESU, SVI, BLN, STO, SIA, STC, USC, SEC, DIR, DBR).
 
-## Phase 3: Dynamic Hole-Punching Engine ✅
+## Phase 3: Dynamic Hole-Punching Engine 🛑
 Inject variable data directly into the pre-computed byte buffers.
 
 - ✅ **Offset Mapping**: (Alternative) Implemented fragment-based `XmlTemplate` which effectively maps offsets for variable data.
 - ✅ **Fast Integer-to-Byte Conversion**: Implemented `FastIntConverter` for high-performance integer-to-UTF8-byte conversion.
 - ✅ **Buffer Orchestration**: Implemented `ThreadLocal` assembly buffer in `XmlTemplate` for single-copy flushed writing.
 
-## Phase 4: Vectorized Assembly & Output ⏳
+## Phase 4: Vectorized Assembly & Output 🛑
 Maximize throughput by minimizing individual syscalls and buffer copies.
 
-- ⏳ **Gathering Byte Channels**: Use `GatheringByteChannel` to flush multiple template fragments in a single operation.
-- ⏳ **SIMD Hole-Filling**: (Optional) Explore SIMD instructions for filling multiple holes in a single pass.
-- ⏳ **End-to-End Performance Verification**: Benchmarking vs. manual StAX and Jackson fast-paths.
+- 🛑 **Gathering Byte Channels**: Use `GatheringByteChannel` to flush multiple template fragments in a single operation.
+- 🛑 **SIMD Hole-Filling**: (Optional) Explore SIMD instructions for filling multiple holes in a single pass.
+- 🛑 **End-to-End Performance Verification**: Benchmarking vs. manual StAX and Jackson fast-paths.

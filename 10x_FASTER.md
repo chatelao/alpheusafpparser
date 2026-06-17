@@ -10,7 +10,7 @@ This document outlines the architectural shift required to achieve an order-of-m
 | **3. Zero-Allocation Encoding** | High | Medium | 🚧 In Progress |
 | **4. Multi-Stage Parallel Pipeline** | High | Medium | 🚧 In Progress |
 | **5. SIMD-Accelerated Scanning** | Medium | Medium | ⏳ Pending |
-| **6. Template-Based Serialization** | Very High | High | 🚧 In Progress |
+| **6. Template-Based Serialization** | Very High | High | 🛑 RETIRED |
 | **7. Kernel-Level I/O & Zero-Copy** | Medium | High | ⏳ Pending |
 
 ---
@@ -53,12 +53,15 @@ Utilize hardware-level parallelism for record-skipping and character validation.
 - ⏳ **Vector API Integration**: Use the **Java Vector API** (Incubator) to scan for the `0x5A` prefix across 512-bit registers.
 - ⏳ **Accelerated Sanitization**: Accelerate EBCDIC character validation and XML sanitization using SIMD instructions.
 
-## 6. Template-Based Serialization
-Serialize a field in a single memory copy operation. See [TEMPLATE_BASED_ROADMAP.md](TEMPLATE_BASED_ROADMAP.md).
+## 6. Template-Based Serialization (RETIRED)
+Serialize a field in a single memory copy operation. See [TEMPLATE_BASED_ROADMAP.md](TEMPLATE_BASED_ROADMAP.md) and [REMOVE_PUNCHARD_CONCEPT.md](REMOVE_PUNCHARD_CONCEPT.md).
+
+> [!CAUTION]
+> This strategy is being retired in favor of **100% Manual StAX Fast-Paths** using StAX2 typed attributes, which provides equivalent performance with significantly lower maintenance overhead.
 
 - ✅ **Infrastructure**: Implemented `XmlTagTemplates` and integrated `writeRawBytes` into `AfpXmlStreamWriter`.
-- ⏳ **XML Byte Templates**: Generate pre-computed XML byte templates for each Structured Field type.
-- ⏳ **Hole-Punching**: Inject variable data (like coordinates or lengths) directly into the template.
+- 🛑 **XML Byte Templates**: Generation of pre-computed XML byte templates is discontinued.
+- 🛑 **Hole-Punching**: Dynamic injection into templates is discontinued in favor of StAX2 `writeIntAttribute`.
 
 ## 7. Kernel-Level I/O & Direct Buffer Orchestration
 Zero-copy from disk to XML output.
