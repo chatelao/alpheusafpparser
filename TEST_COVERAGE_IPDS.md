@@ -426,7 +426,7 @@
 | IPDS-4-005 | BP | X'D6AF' | Begin Page | Yes | ✅ |
 | IPDS-4-006 | DF | X'D64F' | Deactivate Font | Yes | ❓ |
 | IPDS-4-007 | DUA | X'D6CE' | Define User Area | No | ❓ |
-| IPDS-4-008 | END | X'D65D' | End | Yes | ❓ |
+| IPDS-4-008 | END | X'D65D' | End | Yes | ✅ |
 | IPDS-4-009 | EP | X'D6BF' | End Page | Yes | ✅ |
 | IPDS-4-010 | ISP | X'D67E' | Include Saved Page | No | ❓ |
 | IPDS-4-011 | ICMR | X'D66B' | Invoke CMR | No | ❓ |
@@ -438,7 +438,7 @@
 | IPDS-4-017 | NOP | X'D603' | No Operation | Yes | ✅ |
 | IPDS-4-018 | PFC | X'D634' | Presentation Fidelity Control | No | ❓ |
 | IPDS-4-019 | RPO | X'D67B' | Rasterize Presentation Object | No | ❓ |
-| IPDS-4-020 | STM | X'D6E4' | Sense Type and Model | Yes | ❓ |
+| IPDS-4-020 | STM | X'D6E4' | Sense Type and Model | Yes | ✅ |
 | IPDS-4-021 | SHS | X'D697' | Set Home State | Yes | ✅ |
 | IPDS-4-022 | SPE | X'D608' | Set Presentation Environment | No | ❓ |
 | IPDS-4-023 | XOA | X'D633' | Execute Order Anystate | See command description | ❓ |

@@ -129,4 +129,51 @@ public class IPDSCommandTest {
     ep.writeAFP(baos, config);
     assertArrayEquals(data, baos.toByteArray());
   }
+
+  @Test
+  public void testENDRoundTrip() throws Exception {
+    // END: D65D, ARQ=0, ignored data: CC DD
+    // SFI length = 8 + 1 (IPDS header) + 2 (ignored data) = 11 (0x0B)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0B, (byte) 0xD6, (byte) 0x5D, 0x00, 0x00, 0x00, 0x00,
+        0x00, // Flag: no ARQ
+        (byte) 0xCC, (byte) 0xDD
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    END_End end = (END_End) parser.parseNextSF();
+
+    assertNotNull(end);
+    assertArrayEquals(new byte[] {(byte) 0xCC, (byte) 0xDD}, end.getIgnoredData());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    end.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testSTMRoundTrip() throws Exception {
+    // STM: D6E4, ARQ=1, CID=0xABCD
+    // SFI length = 8 + 3 (IPDS header) = 11 (0x0B)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0B, (byte) 0xD6, (byte) 0xE4, 0x00, 0x00, 0x00, 0x00,
+        (byte) 0x80, // Flag: ARQ
+        (byte) 0xAB, (byte) 0xCD
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    STM_SenseTypeAndModel stm = (STM_SenseTypeAndModel) parser.parseNextSF();
+
+    assertNotNull(stm);
+    assertTrue(stm.isAcknowledgementRequired());
+    assertEquals(0xABCD, stm.getCorrelationId());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    stm.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
 }
