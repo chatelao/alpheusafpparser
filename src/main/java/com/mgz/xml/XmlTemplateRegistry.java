@@ -46,8 +46,8 @@ public class XmlTemplateRegistry {
     register("SIA", new String[] {"<SIA_SetIntercharacterAdjustment adjustment=\"", "\" direction=\"", "\"/>"});
     register("STC", new String[] {"<STC_SetTextColor foregroundColor=\"", "\" precision=\"", "\"/>"});
     register("USC", new String[] {"<USC_Underscore bypassFlag=\"", "\"/>"});
-    register("DIR", new String[] {"<DIR_DrawIaxisRule page=\"", "\" x=\"", "\" y=\"", "\" length=\"", "\"", "\"/>"});
-    register("DBR", new String[] {"<DBR_DrawBaxisRule page=\"", "\" x=\"", "\" y=\"", "\" length=\"", "\"", "\"/>"});
+    register("DIR", new String[] {"<DIR_DrawIaxisRule page=\"", "\" x=\"", "\" y=\"", "\" length=\"", "\"", "/>"});
+    register("DBR", new String[] {"<DBR_DrawBaxisRule page=\"", "\" x=\"", "\" y=\"", "\" length=\"", "\"", "/>"});
 
     // Triplets
     register("AQ", new String[] {"<AttributeQualifier sequenceNumber=\"", "\" levelNumber=\"", "\"/>"});
@@ -82,14 +82,14 @@ public class XmlTemplateRegistry {
     register("OCNT", new String[] {"<ObjectCount subordinateObjectType=\"", "\" reserved3=\"", "\" numberOfObjectsLow=\"", "\"", "/>"});
     register("LODTS", new String[] {"<LocalObjectDateAndTimeStamp dateAndTimeStampType=\"", "\" hundreds=\"", "\" tens=\"", "\" dayOfYear=\"", "\" hourOfDay=\"", "\" minuteOfHour=\"", "\" secondOfMinute=\"", "\" hundredthOfSecond=\"", "\"/>"});
     register("UDTS", new String[] {"<UniversalDateAndTimeStamp reserved2=\"", "\" year=\"", "\" monthOfYear=\"", "\" dayOfMonth=\"", "\" hourOfDay=\"", "\" minuteOfHour=\"", "\" secondOfMinute=\"", "\" timeZone=\"", "\" diffHours=\"", "\" diffMinutes=\"", "\"/>"});
-    register("OBO", new String[] {"<ObjectByteOffset byteOffset=\"", "\"", "\"/>"});
-    register("OSFO", new String[] {"<ObjectStructuredFieldOffset offsetLow=\"", "\"", "\"/>"});
-    register("OSFE", new String[] {"<ObjectStructuredFieldExtent numberOfSFLow=\"", "\"", "\"/>"});
+    register("OBO", new String[] {"<ObjectByteOffset byteOffset=\"", "\"", "/>"});
+    register("OSFO", new String[] {"<ObjectStructuredFieldOffset offsetLow=\"", "\"", "/>"});
+    register("OSFE", new String[] {"<ObjectStructuredFieldExtent numberOfSFLow=\"", "\"", "/>"});
     register("OO", new String[] {"<ObjectOffset", " reserved3=\"", "\" nrOfPrecedingObjectsLow=\"", "\"", "/>"});
 
     // Structured Fields
     register("PGP1", new String[] {"<PGP_PagePosition_Format1 xOrigin=\"", "\" yOrigin=\"", "\"/>"});
-    register("PTD1", new String[] {"<PTD_PresentationTextDataDescriptor_Format1", " xUnitBase=\"", "\" yUnitBase=\"", "\" xUnitsPerUnitBase=\"", "\" yUnitsPerUnitBase=\"", "\" xSize=\"", "\" ySize=\"", "\"", "/>"});
+    register("PTD1", new String[] {"<PTD_PresentationTextDataDescriptor_Format1", "", " xUnitsPerUnitBase=\"", "\" yUnitsPerUnitBase=\"", "\" xSize=\"", "\" ySize=\"", "\"", "/>"});
 
     // PTOCA Control Sequences
     register("SEC", new String[] {"<SEC_SetExtendedTextColor colorSpace=\"", "\" nrOfBitsComponent1=\"", "\" nrOfBitsComponent2=\"", "\" nrOfBitsComponent3=\"", "\" nrOfBitsComponent4=\"", "\" colorValue=\"", "\"/>"});

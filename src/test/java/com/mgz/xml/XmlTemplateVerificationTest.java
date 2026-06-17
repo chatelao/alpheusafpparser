@@ -376,7 +376,7 @@ public class XmlTemplateVerificationTest {
                     values = new Object[]{(int) ad.reserved2, ad.xOrigin, ad.yOrigin, ad.xSize, ad.ySize};
                 } else if (t instanceof Triplet.ObjectCount oc) {
                     template = XmlTemplateRegistry.getTemplate("OCNT");
-                    String extra = oc.numberOfObjectsHigh != null ? "\" numberOfObjectsHigh=\"" + oc.numberOfObjectsHigh : "";
+                    String extra = oc.numberOfObjectsHigh != null ? " numberOfObjectsHigh=\"" + oc.numberOfObjectsHigh + "\"" : "";
                     values = new Object[]{(int) oc.subordinateObjectType, (int) oc.reserved3, oc.numberOfObjectsLow, extra};
                 } else if (t instanceof Triplet.LocalObjectDateAndTimeStamp lodts) {
                     template = XmlTemplateRegistry.getTemplate("LODTS");
@@ -386,20 +386,20 @@ public class XmlTemplateVerificationTest {
                     values = new Object[]{(int) udts.reserved2, (int) udts.year, (int) udts.monthOfYear, (int) udts.dayOfMonth, (int) udts.hourOfDay, (int) udts.minuteOfHour, (int) udts.secondOfMinute, udts.timeZone, (int) udts.diffHours, (int) udts.diffMinutes};
                 } else if (t instanceof Triplet.ObjectByteOffset obo) {
                     template = XmlTemplateRegistry.getTemplate("OBO");
-                    String extra = obo.byteOffsetHighOrder != null ? "\" byteOffsetHighOrder=\"" + obo.byteOffsetHighOrder : "";
+                    String extra = obo.byteOffsetHighOrder != null ? " byteOffsetHighOrder=\"" + obo.byteOffsetHighOrder + "\"" : "";
                     values = new Object[]{obo.byteOffset, extra};
                 } else if (t instanceof Triplet.ObjectStructuredFieldOffset osfo) {
                     template = XmlTemplateRegistry.getTemplate("OSFO");
-                    String extra = osfo.offsetHigh != null ? "\" offsetHigh=\"" + osfo.offsetHigh : "";
+                    String extra = osfo.offsetHigh != null ? " offsetHigh=\"" + osfo.offsetHigh + "\"" : "";
                     values = new Object[]{osfo.offsetLow, extra};
                 } else if (t instanceof Triplet.ObjectStructuredFieldExtent osfe) {
                     template = XmlTemplateRegistry.getTemplate("OSFE");
-                    String extra = osfe.numberOfSFHigh != null ? "\" numberOfSFHigh=\"" + osfe.numberOfSFHigh : "";
+                    String extra = osfe.numberOfSFHigh != null ? " numberOfSFHigh=\"" + osfe.numberOfSFHigh + "\"" : "";
                     values = new Object[]{osfe.numberOfSFLow, extra};
                 } else if (t instanceof Triplet.ObjectOffset oo) {
                     template = XmlTemplateRegistry.getTemplate("OO");
                     String typeAttr = oo.objectType != null ? " objectType=\"" + oo.objectType.name() + "\"" : "";
-                    String extra = oo.nrOfPrecedingObjectsHigh != null ? "\" nrOfPrecedingObjectsHigh=\"" + oo.nrOfPrecedingObjectsHigh : "";
+                    String extra = oo.nrOfPrecedingObjectsHigh != null ? " nrOfPrecedingObjectsHigh=\"" + oo.nrOfPrecedingObjectsHigh + "\"" : "";
                     values = new Object[]{typeAttr, (int) oo.reserved3, oo.nrOfPrecedingObjectsLow, extra};
                 }
 
@@ -413,7 +413,7 @@ public class XmlTemplateVerificationTest {
                  Object[] values = null;
                  if (cs instanceof PTOCAControlSequence.STO_SetTextOrientation sto) {
                      template = XmlTemplateRegistry.getTemplate("STO");
-                     values = new Object[]{sto.getxOrientation(), sto.getyOrientation()};
+                     values = new Object[]{0, 0, 0, sto.getxOrientation(), sto.getyOrientation()};
                  } else if (cs instanceof PTOCAControlSequence.SIA_SetIntercharacterAdjustment sia) {
                      template = XmlTemplateRegistry.getTemplate("SIA");
                      values = new Object[]{(int)sia.getAdjustment(), sia.getDirection()};
@@ -430,22 +430,22 @@ public class XmlTemplateVerificationTest {
                      template = XmlTemplateRegistry.getTemplate("DIR");
                      String extra = "";
                      if (dir.getWidth() != null) {
-                         extra += "\" width=\"" + dir.getWidth();
+                         extra += " width=\"" + dir.getWidth() + "\"";
                          if (dir.getWidthFraction() != null) {
-                             extra += "\" widthFraction=\"" + dir.getWidthFraction();
+                             extra += " widthFraction=\"" + dir.getWidthFraction() + "\"";
                          }
                      }
-                     values = new Object[]{dir.getLength(), extra};
+                     values = new Object[]{0, 0, 0, dir.getLength(), extra};
                  } else if (cs instanceof PTOCAControlSequence.DBR_DrawBaxisRule dbr) {
                      template = XmlTemplateRegistry.getTemplate("DBR");
                      String extra = "";
                      if (dbr.getWidth() != null) {
-                         extra += "\" width=\"" + dbr.getWidth();
+                         extra += " width=\"" + dbr.getWidth() + "\"";
                          if (dbr.getWidthFraction() != null) {
-                             extra += "\" widthFraction=\"" + dbr.getWidthFraction();
+                             extra += " widthFraction=\"" + dbr.getWidthFraction() + "\"";
                          }
                      }
-                     values = new Object[]{dbr.getLength(), extra};
+                     values = new Object[]{0, 0, 0, dbr.getLength(), extra};
                  }
 
                  if (template != null) {
