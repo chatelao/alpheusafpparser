@@ -21,7 +21,7 @@ The following attributes will be added to specific XML tags:
 - `TLE_TagLogicalElement`: ✅
 - `IOB_IncludeObject`: ✅
 - `BNG`, `ENG`, `IPS`, `IPO`, `IPG`: ✅
-- `BGR`, `EGR`, `BIM`, `EIM`, `BBC`, `EBC`, `BOC`, `EOC`: ⏳
+- `BGR`, `EGR`, `BIM`, `EIM`, `BBC`, `EBC`, `BOC`, `EOC`: ✅
 
 ## State tracking ✅
 To calculate these values, the `AfpJacksonXmlWriter` must maintain a PTOCA state machine:
