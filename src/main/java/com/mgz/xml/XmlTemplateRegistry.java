@@ -33,15 +33,6 @@ public class XmlTemplateRegistry {
     // PTOCA Control Sequences - ALL MIGRATED TO StAX2 Fast-Paths in AfpJacksonXmlWriter
 
     // Triplets
-    register("AQ", new String[] {
-        "<AttributeQualifier sequenceNumber=\"", "\" levelNumber=\"", "\"/>"});
-    register("RLI", new String[] {
-        "<ResourceLocalIdentifier resourceType=\"", "\" resourceLocalID=\"", "\"/>"});
-    register("CR", new String[] {"<CharacterRotation characterRotation=\"", "\"/>"});
-    register("MU", new String[] {
-        "<MeasurementUnits xUnitBase=\"", "\" yUnitBase=\"", "\" xUnitsPerUnitbase=\"",
-        "\" yUnitsPerUnitbase=\"", "\"/>"});
-    register("MO", new String[] {"<MappingOption dataObjecMapingOption=\"", "\"/>"});
     register("OAS", new String[] {
         "<ObjectAreaSize sizeType_0x02=\"", "\" xSize=\"", "\" ySize=\"", "\"/>"});
     register("CGCS", new String[] {
