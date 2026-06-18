@@ -19,6 +19,8 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.pdf;
 
+import com.itextpdf.io.font.FontProgram;
+import com.itextpdf.io.font.FontProgramFactory;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
@@ -41,36 +43,21 @@ public class PdfFontRegistry {
   public PdfFontRegistry() {
     this.fontSet = new FontSet();
     this.fontProvider = new FontProvider(fontSet);
-    // Add standard fonts to the provider to support basic resolution
     this.fontProvider.addStandardPdfFonts();
 
     try {
-      // PDF/A and PDF/X require fonts to be embedded.
-      // StandardFonts are usually not embedded by default in iText.
       this.defaultFont = PdfFontFactory.createFont(StandardFonts.HELVETICA);
     } catch (Exception e) {
-      // Should not happen with StandardFonts
+      // Should not happen
     }
   }
 
-  /**
-   * Registers a font under the given AFP font name.
-   *
-   * @param fontName the AFP font name (e.g., from MCF or MDR)
-   * @param font the iText {@link PdfFont} instance
-   */
   public void registerFont(String fontName, PdfFont font) {
     if (fontName != null && font != null) {
       afpNameCache.put(fontName.trim(), font);
     }
   }
 
-  /**
-   * Retrieves a font by its AFP font name.
-   *
-   * @param fontName the AFP font name
-   * @return the {@link PdfFont}, or null if not registered
-   */
   public PdfFont getFont(String fontName) {
     if (fontName == null) {
       return null;
@@ -86,39 +73,31 @@ public class PdfFontRegistry {
     return font;
   }
 
-  /**
-   * Maps a standard AFP font name to a PDF standard font.
-   * AFP font names often follow the pattern C0xxxxxx or X0xxxxxx.
-   *
-   * @param afpFontName the AFP font name
-   * @return the mapped {@link PdfFont}, or null if no mapping found
-   */
   private PdfFont mapToStandardFont(String afpFontName) {
     if (afpFontName.length() < 4 || (!afpFontName.startsWith("C0") && !afpFontName.startsWith("X0"))) {
       return null;
     }
 
-    // Standardize to C0 prefix for mapping logic
     String mappingName = "C0" + afpFontName.substring(2);
     String prefix = mappingName.substring(0, 3);
     char style = mappingName.charAt(3);
     String standardFontName = null;
 
-    if (prefix.equals("C0H") || prefix.equals("C0S")) { // Helvetica / Swiss
+    if (prefix.equals("C0H") || prefix.equals("C0S")) {
       standardFontName = switch (style) {
         case '3' -> StandardFonts.HELVETICA_BOLD;
         case '4' -> StandardFonts.HELVETICA_OBLIQUE;
         case '5' -> StandardFonts.HELVETICA_BOLDOBLIQUE;
         default -> StandardFonts.HELVETICA;
       };
-    } else if (prefix.equals("C0N") || prefix.equals("C0D")) { // Times New Roman / Dutch
+    } else if (prefix.equals("C0N") || prefix.equals("C0D")) {
       standardFontName = switch (style) {
         case '3' -> StandardFonts.TIMES_BOLD;
         case '4' -> StandardFonts.TIMES_ITALIC;
         case '5' -> StandardFonts.TIMES_BOLDITALIC;
         default -> StandardFonts.TIMES_ROMAN;
       };
-    } else if (prefix.equals("C04") || prefix.equals("C06")) { // Courier
+    } else if (prefix.equals("C04") || prefix.equals("C06")) {
       standardFontName = switch (style) {
         case '3' -> StandardFonts.COURIER_BOLD;
         case '4' -> StandardFonts.COURIER_OBLIQUE;
@@ -131,12 +110,8 @@ public class PdfFontRegistry {
       final String finalStandardFontName = standardFontName;
       return standardFontCache.computeIfAbsent(finalStandardFontName, k -> {
         try {
-          // For PDF/VT and PDF/X-4 compliance, we should ideally embed fonts.
-          // iText 9 createFont with StandardFonts usually creates a non-embedded font.
-          // Passing embedding = true and subset = true for compliance.
           return PdfFontFactory.createFont(finalStandardFontName, null, PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED);
         } catch (Exception e) {
-          // Fallback
           try {
             return PdfFontFactory.createFont(finalStandardFontName);
           } catch (Exception ex) {
@@ -149,24 +124,11 @@ public class PdfFontRegistry {
     return null;
   }
 
-  /**
-   * Retrieves a font by its AFP font name, falling back to a default font if not found.
-   *
-   * @param fontName the AFP font name
-   * @return the {@link PdfFont}, or the default font if not registered
-   */
   public PdfFont getFontWithFallback(String fontName) {
     PdfFont font = getFont(fontName);
     return (font != null) ? font : defaultFont;
   }
 
-  /**
-   * Extracts the point size from a standard AFP font name.
-   * e.g., 'C0H20012' -> 12.0f, 'C0H200A0' -> 10.0f
-   *
-   * @param afpFontName the font name
-   * @return the extracted size, or 10.0f as default
-   */
   public static float extractSizeFromName(String afpFontName) {
     if (afpFontName == null || afpFontName.isEmpty()) {
       return 10.0f;
@@ -174,29 +136,21 @@ public class PdfFontRegistry {
 
     String trimmed = afpFontName.trim();
     int len = trimmed.length();
-
-    // AFP font names with size usually have at least 8 characters: C0H20012
     if (len < 6) {
       return 10.0f;
     }
 
-    // Try to extract digits from the end, but only if they follow a common pattern.
-    // Standard names are C0xxxxxx where the last 2 or 3 digits are size.
-    // However, some might have A0 etc. which is NOT a size.
-
-    // Look for last 3 digits
     for (int d = 3; d >= 2; d--) {
       if (len >= d) {
         String sub = trimmed.substring(len - d);
         if (sub.matches("\\d+")) {
           try {
             int size = Integer.parseInt(sub);
-            // Reasonable font sizes are 4 to 144 points
             if (size >= 4 && size <= 144) {
               return (float) size;
             }
           } catch (NumberFormatException e) {
-            // Should not happen
+            // Ignored
           }
         }
       }
@@ -204,32 +158,16 @@ public class PdfFontRegistry {
     return 10.0f;
   }
 
-  /**
-   * Returns the default fallback font.
-   *
-   * @return the default font
-   */
   public PdfFont getDefaultFont() {
     return defaultFont;
   }
 
-  /**
-   * Sets the default fallback font.
-   *
-   * @param defaultFont the new default font
-   */
   public void setDefaultFont(PdfFont defaultFont) {
     if (defaultFont != null) {
       this.defaultFont = defaultFont;
     }
   }
 
-  /**
-   * Checks if a font is registered.
-   *
-   * @param fontName the AFP font name
-   * @return true if registered
-   */
   public boolean hasFont(String fontName) {
     if (fontName == null) {
       return false;
@@ -237,27 +175,14 @@ public class PdfFontRegistry {
     return afpNameCache.containsKey(fontName.trim());
   }
 
-  /**
-   * Returns the font provider.
-   *
-   * @return the font provider
-   */
   public FontProvider getFontProvider() {
     return fontProvider;
   }
 
-  /**
-   * Returns the font set.
-   *
-   * @return the font set
-   */
   public FontSet getFontSet() {
     return fontSet;
   }
 
-  /**
-   * Clears all registered fonts.
-   */
   public void clear() {
     afpNameCache.clear();
     standardFontCache.clear();

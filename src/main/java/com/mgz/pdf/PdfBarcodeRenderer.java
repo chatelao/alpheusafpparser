@@ -313,6 +313,24 @@ public class PdfBarcodeRenderer {
         case IntelligentMailBarcode:
           totalWidth = renderIntelligentMailBarcode(content, startX, startY, state, canvas);
           break;
+        case RoyalMail_RED_TAG:
+          totalWidth = renderRoyalMailRedTag(content, startX, startY, state, canvas);
+          break;
+        case GS1_DataBar:
+          totalWidth = renderGs1DataBar(content, startX, startY, state, canvas);
+          break;
+        case RoyalMail_Mailmark:
+          totalWidth = renderRoyalMailMailmark(content, startX, startY, state, canvas);
+          break;
+        case AztecCode:
+          totalWidth = renderAztecCode(content, startX, startY, state, canvas);
+          break;
+        case HanXinCode:
+          totalWidth = renderHanXinCode(content, startX, startY, state, canvas);
+          break;
+        case MaxiCode_2D:
+          totalWidth = renderMaxiCode(content, startX, startY, state, canvas);
+          break;
         case QRCode_2D:
           totalWidth = renderQrCode(content, startX, startY, state, canvas);
           break;
@@ -331,6 +349,30 @@ public class PdfBarcodeRenderer {
     if (!flags.contains(BarCodeFlag.HRINotPresent)) {
       renderHRI(content, startX, startY, totalWidth, flags, state, canvas);
     }
+  }
+
+  private static float renderMaxiCode(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    return 0;
+  }
+
+  private static float renderAztecCode(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    return 0;
+  }
+
+  private static float renderHanXinCode(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    return 0;
+  }
+
+  private static float renderRoyalMailRedTag(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    return 0;
+  }
+
+  private static float renderGs1DataBar(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    return 0;
+  }
+
+  private static float renderRoyalMailMailmark(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
+    return 0;
   }
 
   private static float renderMsi(String content, int x, int y, PdfBarcodeState state, PdfCanvas canvas) {
@@ -1086,13 +1128,27 @@ public class PdfBarcodeRenderer {
     int startCode;
     java.util.List<Integer> values = new java.util.ArrayList<>();
 
-    // Heuristic: if numeric and length is even and at least 4, use Subset C.
+    String workingContent = content;
+    boolean startsWithFnc1 = content.startsWith("\u008f");
+    if (startsWithFnc1) {
+      workingContent = content.substring(1);
+    }
+
+    // Heuristic: if numeric and length is at least 2, use Subset C.
     // If it has control characters (ASCII < 32), use Subset A.
     // Otherwise use Subset B.
-    if (content.matches("^\\d+$") && content.length() >= 4 && content.length() % 2 == 0) {
+    if (workingContent.matches("^\\d+$") && workingContent.length() >= 2) {
       startCode = 105; // Start C
-      for (int i = 0; i < content.length(); i += 2) {
-        values.add(Integer.parseInt(content.substring(i, i + 2)));
+      if (startsWithFnc1) {
+        values.add(102); // FNC1
+      }
+      for (int i = 0; i < workingContent.length(); i += 2) {
+        if (i + 1 < workingContent.length()) {
+          values.add(Integer.parseInt(workingContent.substring(i, i + 2)));
+        } else {
+          values.add(100); // Switch to B
+          values.add(workingContent.charAt(i) - 32);
+        }
       }
     } else {
       boolean hasControl = false;
@@ -1107,16 +1163,28 @@ public class PdfBarcodeRenderer {
         startCode = 103; // Start A
         for (int i = 0; i < content.length(); i++) {
           char c = content.charAt(i);
-          if (c < 32) values.add(c + 64);
-          else if (c >= 32 && c <= 95) values.add(c - 32);
-          else values.add(0); // Fallback for characters > 95 in Subset A
+          if (c == 0x8F) {
+            values.add(102); // FNC1
+          } else if (c < 32) {
+            values.add(c + 64);
+          } else if (c >= 32 && c <= 95) {
+            values.add(c - 32);
+          } else {
+            values.add(0); // Fallback for characters > 95 in Subset A
+          }
         }
       } else {
         startCode = 104; // Start B
         for (int i = 0; i < content.length(); i++) {
           char c = content.charAt(i);
-          int val = c - 32;
-          if (val >= 0 && val <= 102) values.add(val);
+          if (c == 0x8F) {
+            values.add(102); // FNC1
+          } else {
+            int val = c - 32;
+            if (val >= 0 && val <= 102) {
+              values.add(val);
+            }
+          }
         }
       }
     }
@@ -1143,8 +1211,13 @@ public class PdfBarcodeRenderer {
     canvas.rectangle(curX, curY - height, 2 * narrowWidth, height).fill();
     curX += 2 * narrowWidth;
 
+    float barcodeWidth = curX - x;
+    if (state.getBarcodeModifier() == 0x05 || state.getBarcodeModifier() == 0x06) {
+      renderUspsSpecializedFeatures(x, y, barcodeWidth, height, narrowWidth, state, canvas);
+    }
+
     canvas.restoreState();
-    return curX - x;
+    return barcodeWidth;
   }
 
   private static void renderWidthPattern(String widths, float x, float y, float height, float moduleWidth, PdfCanvas canvas) {
@@ -1605,5 +1678,53 @@ public class PdfBarcodeRenderer {
         .setTextMatrix(1, 0, 0, -1, textX, textY) // Note: -1 for Y as canvas is flipped
         .showText(content)
         .endText();
+  }
+
+  private static void renderUspsSpecializedFeatures(float x, float y, float barcodeWidth, float height, float narrowWidth, PdfBarcodeState state, PdfCanvas canvas) {
+    BDA_BarCodeData firstBda = state.getBarcodeData().isEmpty() ? null : state.getBarcodeData().get(0);
+    if (firstBda == null) {
+      return;
+    }
+
+    boolean suppressBars = false;
+    boolean suppressBanner = false;
+    String bannerText = "USPS SCAN REQUIRED";
+
+    if (firstBda.parametersData instanceof BDA_BarCodeData.ParametersDataIntelligentMailPackageBarcode params) {
+      if (params.intelligentMailPackageBarcodeFlags != null) {
+        suppressBars = params.intelligentMailPackageBarcodeFlags.contains(
+            BDA_BarCodeData.ParametersDataIntelligentMailPackageBarcode.IntelligentMailPackageBarcodeFlag.SuppressIdentificationBars);
+        suppressBanner = params.intelligentMailPackageBarcodeFlags.contains(
+            BDA_BarCodeData.ParametersDataIntelligentMailPackageBarcode.IntelligentMailPackageBarcodeFlag.SuppressUSPS_ServiceBanner);
+      }
+      if (params.bannerString != null && params.bannerString.length > 0) {
+        bannerText = new String(params.bannerString, java.nio.charset.StandardCharsets.UTF_16BE);
+      }
+    }
+
+    float barThickness = narrowWidth * 2.0f;
+    float gap = narrowWidth * 4.0f;
+
+    if (!suppressBars) {
+      // Identification Bars (Horizontal bars above and below)
+      canvas.rectangle(x, y + gap, barcodeWidth, barThickness).fill();
+      canvas.rectangle(x, y - height - gap - barThickness, barcodeWidth, barThickness).fill();
+    }
+
+    if (!suppressBanner) {
+      PdfFont font = state.getHriFont();
+      if (font != null) {
+        float fontSize = 150.0f; // ~10 points in 1440 units
+        float textWidth = font.getWidth(bannerText, fontSize);
+        float textX = x + (barcodeWidth - textWidth) / 2.0f;
+        float textY = y + gap + barThickness + fontSize * 0.8f;
+
+        canvas.beginText()
+            .setFontAndSize(font, fontSize)
+            .setTextMatrix(1, 0, 0, -1, textX, textY)
+            .showText(bannerText)
+            .endText();
+      }
+    }
   }
 }
