@@ -50,3 +50,9 @@ Final removal of the template infrastructure.
 - ✅ Delete `src/main/java/com/mgz/xml/XmlTemplateRegistry.java`.
 - ✅ Remove `XmlTemplateVerificationTest.java`.
 - ✅ Prune `XmlTagTemplates.java` to only include basic tag fragments if necessary.
+
+### Phase 6: Extended Structural Coverage ✅
+Expand manual fast-path coverage to include remaining structural fields with spatial metadata.
+- ✅ Implement specialized manual fast-paths for `BNG` and `ENG` to include the `page` attribute.
+- ✅ Implement specialized manual fast-paths for `IPS`, `IPO`, and `IPG` to include the `page` attribute.
+- ✅ Verify coverage in `XYPAGE_CONCEPT.md`.
