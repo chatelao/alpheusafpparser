@@ -819,9 +819,9 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   }
 
   public static final class ExternalAlgorithmSpecification extends IPD_Segment.IPD_SegmentLong {
-    ExternalAlgorithmSpecification.AlgorithmType algorithmType;
+    public ExternalAlgorithmSpecification.AlgorithmType algorithmType;
     public short reserved3 = 0x00;
-    IPD_Segment.AlgorithmSpecification algorithmSpecification;
+    public IPD_Segment.AlgorithmSpecification algorithmSpecification;
 
     @Override
     public void reset() {
@@ -903,7 +903,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
     }
   }
 
-  protected abstract static sealed class AlgorithmSpecification implements IAFPDecodeableWriteable {
+  public abstract static sealed class AlgorithmSpecification implements IAFPDecodeableWriteable {
     /**
      * Resets the algorithm specification to its initial state for reuse.
      */
@@ -911,9 +911,9 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   }
 
   public static final class AlgorithmSpecificationRecording extends IPD_Segment.AlgorithmSpecification {
-    short direction;
-    short boundaryLengthForPadding;
-    short allignmentForPadding;
+    public short direction;
+    public short boundaryLengthForPadding;
+    public short allignmentForPadding;
 
     @Override
     public void reset() {
@@ -984,11 +984,11 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   }
 
   public static final class JPEGCompressionAlgorithmSpecification extends IPD_Segment.AlgorithmSpecificationCompression {
-    short reserved1 = 0x00;
-    short version;
+    public short reserved1 = 0x00;
+    public short version;
     public short reserved3 = 0x00;
-    JPEGCompressionAlgorithmSpecificationMarker marker;
-    byte[] reserved5_7 = new byte[] {0x00, 0x00, 0x00};
+    public JPEGCompressionAlgorithmSpecificationMarker marker;
+    public byte[] reserved5_7 = new byte[] {0x00, 0x00, 0x00};
 
     @Override
     public void reset() {
@@ -1060,9 +1060,9 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   }
 
   public static final class UserDefinedCompressionAlgorithmSpecification extends IPD_Segment.AlgorithmSpecificationCompression {
-    short lengthOfData;
-    long compressionAlgorithmCodePoint;
-    byte[] userDefinedSpecification;
+    public short lengthOfData;
+    public long compressionAlgorithmCodePoint;
+    public byte[] userDefinedSpecification;
 
     @Override
     public void reset() {
@@ -1482,7 +1482,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   }
 
   public static final class TileTOC extends IPD_Segment.IPD_SegmentExtended {
-    byte[] reserved4_5 = new byte[] {0x00, 0x00};
+    public byte[] reserved4_5 = new byte[] {0x00, 0x00};
     public List<TileTOC.TileTOC_RepeatingGroup> listOfRepeatingGroups;
 
     @Override
@@ -1725,8 +1725,8 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
   }
 
   public static final class nColorNames extends IPD_Segment.IPD_SegmentExtended {
-    short reserved4_5;
-    List<ColorNameRepeatingGroup> repeatingGroups;
+    public short reserved4_5;
+    public List<ColorNameRepeatingGroup> repeatingGroups;
     String text;
 
     @Override

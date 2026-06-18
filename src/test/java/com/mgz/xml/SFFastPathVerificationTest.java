@@ -71,6 +71,8 @@ public class SFFastPathVerificationTest {
         verifySF(createCCP(), "CCP_ConditionalProcessingControl");
         verifySF(createRCD(), "RCD_RecordDescriptor");
         verifySF(createXMD(), "XMD_XMLDescriptor");
+        verifySF(createIps(), "IPS_IncludePageSegment");
+        verifySF(createIpo(), "IPO_IncludePageOverlay");
     }
 
     @Test
@@ -164,7 +166,12 @@ public class SFFastPathVerificationTest {
 
         IPD_Segment.ExternalAlgorithmSpecification eas = new IPD_Segment.ExternalAlgorithmSpecification();
         eas.setSegmentType(IPD_Segment.IPD_SegmentType.ExternalAlgorithmSpecification);
+        eas.algorithmType = IPD_Segment.ExternalAlgorithmSpecification.AlgorithmType.Compressing;
         eas.reserved3 = 5;
+        IPD_Segment.JPEGCompressionAlgorithmSpecification jpeg = new IPD_Segment.JPEGCompressionAlgorithmSpecification();
+        jpeg.setCompressionAlgorithmID(IPD_Segment.AlgorithmSpecificationCompression.CompressionAlgorithmID.JPEG);
+        jpeg.marker = IPD_Segment.JPEGCompressionAlgorithmSpecification.JPEGCompressionAlgorithmSpecificationMarker.NonDifferentialHuffman_BaselineDCT;
+        eas.algorithmSpecification = jpeg;
         segments.add(eas);
 
         IPD_Segment.ImageSubsampling issub = new IPD_Segment.ImageSubsampling();
@@ -228,6 +235,8 @@ public class SFFastPathVerificationTest {
 
         IPD_Segment.nColorNames ncn = new IPD_Segment.nColorNames();
         ncn.setSegmentType(IPD_Segment.IPD_SegmentType.nColorNames);
+        ncn.reserved4_5 = 0;
+        ncn.repeatingGroups = List.of(new IPD_Segment.nColorNames.ColorNameRepeatingGroup((short)0, new byte[]{0x42}));
         segments.add(ncn);
 
         IPD_Segment.UnknownSegmentLong usl = new IPD_Segment.UnknownSegmentLong();
@@ -797,6 +806,8 @@ public class SFFastPathVerificationTest {
                   .replaceAll("<structuredFieldIntroducer>.*?</structuredFieldIntroducer>", "")
                   .replaceAll("<padding>.*?</padding>", "")
                   .replaceAll(" (page|x|y)=\"(-?\\d+)\"", "")
+                  .replaceAll(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"", "")
+                  .replaceAll(" xsi:type=\".*?\"", "")
                   .replaceAll("\\s", ""); // Remove whitespace for comparison
     }
 
@@ -1308,5 +1319,22 @@ public class SFFastPathVerificationTest {
         rg.setTriplets(triplets);
         mca.addRepeatingGroup(rg);
         return mca;
+    }
+
+    private com.mgz.afp.modca.IPS_IncludePageSegment createIps() {
+        com.mgz.afp.modca.IPS_IncludePageSegment ips = new com.mgz.afp.modca.IPS_IncludePageSegment();
+        ips.setPageSegmentName("S1TEST");
+        ips.setxOrigin(100);
+        ips.setyOrigin(200);
+        return ips;
+    }
+
+    private com.mgz.afp.modca.IPO_IncludePageOverlay createIpo() {
+        com.mgz.afp.modca.IPO_IncludePageOverlay ipo = new com.mgz.afp.modca.IPO_IncludePageOverlay();
+        ipo.setOverlayName("O1TEST");
+        ipo.setxOrigin(300);
+        ipo.setyOrigin(400);
+        ipo.setxRotation(AFPOrientation.ori90);
+        return ipo;
     }
 }

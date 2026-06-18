@@ -561,9 +561,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (sf instanceof com.mgz.afp.modca.PEC_PresentationEnvironmentControl pec) {
       writeTripletsAndTextDirectly(pec, "PEC_PresentationEnvironmentControl", level);
     } else if (sf instanceof com.mgz.afp.modca.IPS_IncludePageSegment ips) {
-      writeTripletsAndTextDirectly(ips, "IPS_IncludePageSegment", level);
+      writeIpsDirectly(ips, level);
     } else if (sf instanceof com.mgz.afp.modca.IPO_IncludePageOverlay ipo) {
-      writeTripletsAndTextDirectly(ipo, "IPO_IncludePageOverlay", level);
+      writeIpoDirectly(ipo, level);
     } else if (sf instanceof com.mgz.afp.modca.MFC_MediumFinishingControl mfc) {
       writeTripletsAndTextDirectly(mfc, "MFC_MediumFinishingControl", level);
     } else if (sf instanceof com.mgz.afp.modca.PFC_PresentationFidelityControl pfc) {
@@ -644,6 +644,55 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     if (tle.getText() != null) {
       writeElement(baseXsw, level + 1, "text", tle.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeIpsDirectly(com.mgz.afp.modca.IPS_IncludePageSegment ips, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("IPS");
+    baseXsw.writeStartElement("IPS_IncludePageSegment");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "pageSegmentName", ips.getPageSegmentName());
+    writeElement(baseXsw, childLevel, "xOrigin", ips.getxOrigin());
+    writeElement(baseXsw, childLevel, "yOrigin", ips.getyOrigin());
+    if (ips.getTriplets() != null && !ips.getTriplets().isEmpty()) {
+      for (Triplet triplet : ips.getTriplets()) {
+        writeTriplet(baseXsw, triplet, childLevel);
+      }
+    }
+    if (ips.getText() != null) {
+      writeElement(baseXsw, childLevel, "text", ips.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeIpoDirectly(com.mgz.afp.modca.IPO_IncludePageOverlay ipo, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("IPO");
+    baseXsw.writeStartElement("IPO_IncludePageOverlay");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "overlayName", ipo.getOverlayName());
+    writeElement(baseXsw, childLevel, "xOrigin", ipo.getxOrigin());
+    writeElement(baseXsw, childLevel, "yOrigin", ipo.getyOrigin());
+    if (ipo.getxRotation() != null) {
+      writeElement(baseXsw, childLevel, "xRotation", ipo.getxRotation().name());
+    }
+    if (ipo.getTriplets() != null && !ipo.getTriplets().isEmpty()) {
+      for (Triplet triplet : ipo.getTriplets()) {
+        writeTriplet(baseXsw, triplet, childLevel);
+      }
+    }
+    if (ipo.getText() != null) {
+      writeElement(baseXsw, childLevel, "text", ipo.getText());
     }
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
@@ -3429,6 +3478,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
       }
       writeElement(writer, childLevel, "lengthOfFollowingData", toc.getLengthOfFollowingData());
+      if (toc.reserved4_5 != null) {
+        writeBinaryElement(writer, childLevel, "reserved4_5", toc.reserved4_5);
+      }
       if (toc.listOfRepeatingGroups != null) {
         writeIndent(writer, childLevel);
         writer.writeStartElement("listOfRepeatingGroups");
@@ -3547,7 +3599,13 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
       }
       writeElement(writer, childLevel, "lengthOfFollowingData", eas.getLengthOfFollowingData());
-      writeElement(writer, childLevel, "reserved3", eas.reserved3);
+      if (eas.algorithmType != null) {
+        writeElement(writer, childLevel, "algorithmType", eas.algorithmType.name());
+      }
+      writeElement(writer, childLevel, "reserved3", (int) eas.reserved3);
+      if (eas.algorithmSpecification != null) {
+        writeAlgorithmSpecificationDirectly(writer, eas.algorithmSpecification, childLevel);
+      }
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (segment instanceof IPD_Segment.ImageSubsampling issub) {
@@ -3564,6 +3622,22 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
       }
       writeElement(writer, childLevel, "lengthOfFollowingData", ncn.getLengthOfFollowingData());
+      writeElement(writer, childLevel, "reserved4_5", (int) ncn.reserved4_5);
+      if (ncn.repeatingGroups != null) {
+        writeIndent(writer, childLevel);
+        writer.writeStartElement("repeatingGroups");
+        for (IPD_Segment.nColorNames.ColorNameRepeatingGroup rg : ncn.repeatingGroups) {
+          writeIndent(writer, childLevel + 1);
+          writer.writeStartElement("repeatingGroups");
+          int rgLevel = childLevel + 2;
+          writeElement(writer, rgLevel, "reserved", (int) rg.reserved());
+          writeBinaryElement(writer, rgLevel, "colorName", rg.colorName());
+          writeIndent(writer, childLevel + 1);
+          writer.writeEndElement();
+        }
+        writeIndent(writer, childLevel);
+        writer.writeEndElement();
+      }
       if (ncn.getText() != null) {
         writeElement(writer, childLevel, "text", ncn.getText());
       }
@@ -4445,6 +4519,49 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private void writeNewline() throws Exception {
     if (indentEnabled) {
       baseXsw.writeRawBytes(XmlIndenter.INDENT_BYTES[0], 0, 1);
+    }
+  }
+
+  private void writeAlgorithmSpecificationDirectly(XMLStreamWriter2 writer, IPD_Segment.AlgorithmSpecification spec, int level) throws Exception {
+    writeIndent(writer, level);
+    int childLevel = level + 1;
+    if (spec instanceof IPD_Segment.AlgorithmSpecificationRecording rec) {
+      writer.writeStartElement("algorithmSpecification");
+      writeElement(writer, childLevel, "direction", (int) rec.direction);
+      writeElement(writer, childLevel, "boundaryLengthForPadding", (int) rec.boundaryLengthForPadding);
+      writeElement(writer, childLevel, "allignmentForPadding", (int) rec.allignmentForPadding);
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (spec instanceof IPD_Segment.JPEGCompressionAlgorithmSpecification jpeg) {
+      writer.writeStartElement("algorithmSpecification");
+      if (jpeg.getCompressionAlgorithmID() != null) {
+        writeElement(writer, childLevel, "compressionAlgorithmID", jpeg.getCompressionAlgorithmID().name());
+      }
+      writeElement(writer, childLevel, "reserved1", (int) jpeg.reserved1);
+      writeElement(writer, childLevel, "version", (int) jpeg.version);
+      writeElement(writer, childLevel, "reserved3", (int) jpeg.reserved3);
+      if (jpeg.marker != null) {
+        writeElement(writer, childLevel, "marker", jpeg.marker.name());
+      }
+      if (jpeg.reserved5_7 != null) {
+        writeBinaryElement(writer, childLevel, "reserved5_7", jpeg.reserved5_7);
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else if (spec instanceof IPD_Segment.UserDefinedCompressionAlgorithmSpecification user) {
+      writer.writeStartElement("algorithmSpecification");
+      if (user.getCompressionAlgorithmID() != null) {
+        writeElement(writer, childLevel, "compressionAlgorithmID", user.getCompressionAlgorithmID().name());
+      }
+      writeElement(writer, childLevel, "lengthOfData", (int) user.lengthOfData);
+      writeElement(writer, childLevel, "compressionAlgorithmCodePoint", user.compressionAlgorithmCodePoint);
+      if (user.userDefinedSpecification != null) {
+        writeBinaryElement(writer, childLevel, "userDefinedSpecification", user.userDefinedSpecification);
+      }
+      writeIndent(writer, level);
+      writer.writeEndElement();
+    } else {
+      JacksonXmlMapperProvider.getCachedWriter(spec.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, spec);
     }
   }
 

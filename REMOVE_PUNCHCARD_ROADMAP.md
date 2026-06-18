@@ -50,3 +50,9 @@ Final removal of the template infrastructure.
 - ✅ Delete `src/main/java/com/mgz/xml/XmlTemplateRegistry.java`.
 - ✅ Remove `XmlTemplateVerificationTest.java`.
 - ✅ Prune `XmlTagTemplates.java` to only include basic tag fragments if necessary.
+
+### Phase 6: Final Coverage Polish 🚧
+Complete coverage for remaining Structured Fields and complex IOCA segments.
+- ✅ Implement manual fast-paths for `IPS_IncludePageSegment` and `IPO_IncludePageOverlay`.
+- ✅ Enhance `IPD_Segment` fast-paths for `ExternalAlgorithmSpecification`, `nColorNames`, and `TileTOC`.
+- ⏳ Eliminate any remaining Jackson fallbacks for Structured Fields.
