@@ -1154,7 +1154,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   private void writePgpFormat1Directly(PGP_PagePosition_Format1 pgp, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("PGP");
-    XmlTemplateRegistry.getTemplate("PGP1").write(baseXsw, pgp.getxOrigin(), pgp.getyOrigin());
+    baseXsw.writeEmptyElement("PGP_PagePosition_Format1");
+    baseXsw.writeIntAttribute(null, null, "xOrigin", pgp.getxOrigin());
+    baseXsw.writeIntAttribute(null, null, "yOrigin", pgp.getyOrigin());
     MnemonicPerformanceMonitor.endWrite();
   }
 
@@ -3822,16 +3824,20 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private void writePtdFormat1Directly(PTD_PresentationTextDataDescriptor_Format1 ptd, int level)
       throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("PTD");
-    String typeAttr = ptd.getxUnitBase() != null
-        ? " xUnitBase=\"" + ptd.getxUnitBase().name() + "\"" : "";
-    String yUbAttr = ptd.getyUnitBase() != null
-        ? " yUnitBase=\"" + ptd.getyUnitBase().name() + "\"" : "";
-    String extra = ptd.getReserved10_11() != null
-        ? " reserved10_11=\"" + UtilCharacterEncoding.bytesToHexString(ptd.getReserved10_11()) + "\""
-        : "";
-    XmlTemplateRegistry.getTemplate("PTD1").writeObjects(baseXsw, typeAttr + yUbAttr,
-        (int) ptd.getxUnitsPerUnitBase(), (int) ptd.getyUnitsPerUnitBase(), (int) ptd.getxSize(),
-        (int) ptd.getySize(), extra);
+    baseXsw.writeEmptyElement("PTD_PresentationTextDataDescriptor_Format1");
+    if (ptd.getxUnitBase() != null) {
+      baseXsw.writeAttribute("xUnitBase", ptd.getxUnitBase().name());
+    }
+    if (ptd.getyUnitBase() != null) {
+      baseXsw.writeAttribute("yUnitBase", ptd.getyUnitBase().name());
+    }
+    baseXsw.writeIntAttribute(null, null, "xUnitsPerUnitBase", (int) ptd.getxUnitsPerUnitBase());
+    baseXsw.writeIntAttribute(null, null, "yUnitsPerUnitBase", (int) ptd.getyUnitsPerUnitBase());
+    baseXsw.writeIntAttribute(null, null, "xSize", (int) ptd.getxSize());
+    baseXsw.writeIntAttribute(null, null, "ySize", (int) ptd.getySize());
+    if (ptd.getReserved10_11() != null) {
+      baseXsw.writeAttribute("reserved10_11", UtilCharacterEncoding.bytesToHexString(ptd.getReserved10_11()));
+    }
     MnemonicPerformanceMonitor.endWrite();
   }
 
