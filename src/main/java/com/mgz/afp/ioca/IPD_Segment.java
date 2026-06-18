@@ -880,6 +880,22 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
       }
     }
 
+    public AlgorithmType getAlgorithmType() {
+      return algorithmType;
+    }
+
+    public void setAlgorithmType(AlgorithmType algorithmType) {
+      this.algorithmType = algorithmType;
+    }
+
+    public IPD_Segment.AlgorithmSpecification getAlgorithmSpecification() {
+      return algorithmSpecification;
+    }
+
+    public void setAlgorithmSpecification(IPD_Segment.AlgorithmSpecification algorithmSpecification) {
+      this.algorithmSpecification = algorithmSpecification;
+    }
+
     public enum AlgorithmType {
       Recording(0x00),
       Compressing(0x10);

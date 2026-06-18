@@ -3343,7 +3343,16 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writeElement(writer, childLevel, "segmentType", segment.getSegmentType().name());
       }
       writeElement(writer, childLevel, "lengthOfFollowingData", eas.getLengthOfFollowingData());
+      if (eas.getAlgorithmType() != null) {
+        writeElement(writer, childLevel, "algorithmType", eas.getAlgorithmType().name());
+      }
       writeElement(writer, childLevel, "reserved3", eas.reserved3);
+      if (eas.getAlgorithmSpecification() != null) {
+        writeIndent(writer, childLevel);
+        writer.writeStartElement("algorithmSpecification");
+        mapper.writeValue(writer, eas.getAlgorithmSpecification());
+        writer.writeEndElement();
+      }
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (segment instanceof IPD_Segment.ImageSubsampling issub) {
@@ -4072,15 +4081,16 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private void writeDrawingOrderWithPoints(XMLStreamWriter2 writer, GAD_DrawingOrder.DrawingOrder_HasPoints order, String rootName, int level) throws Exception {
     writer.writeStartElement(rootName);
     int childLevel = level + 1;
-    if (order.getPoints() != null && !order.getPoints().isEmpty()) {
+    short[] points = order.getPointsArray();
+    if (points != null && points.length > 0) {
       writeIndent(writer, childLevel);
       writer.writeStartElement("points");
-      StringBuilder sb = new StringBuilder(order.getPoints().size() * 10);
-      for (GAD_DrawingOrder.GOCA_Point p : order.getPoints()) {
-        if (!sb.isEmpty()) {
+      StringBuilder sb = new StringBuilder(points.length * 5);
+      for (int i = 0; i < points.length; i += 2) {
+        if (i > 0) {
           sb.append(' ');
         }
-        sb.append(p.xCoordinate()).append(' ').append(p.yCoordinate());
+        sb.append(points[i]).append(' ').append(points[i + 1]);
       }
       writer.writeRaw(sb.toString());
       writer.writeEndElement();

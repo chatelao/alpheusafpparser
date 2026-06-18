@@ -281,6 +281,19 @@ public class SFFastPathVerificationTest {
         verifySF(ptx, "PTX_PresentationTextData");
     }
 
+    @Test
+    public void testGocaFastPaths() throws Exception {
+        com.mgz.afp.goca.GAD_GraphicsData gad = new com.mgz.afp.goca.GAD_GraphicsData();
+        List<com.mgz.afp.goca.GAD_DrawingOrder> orders = new ArrayList<>();
+
+        com.mgz.afp.goca.GAD_DrawingOrder.GCLINE_LineAtCurrentPosition gcline = new com.mgz.afp.goca.GAD_DrawingOrder.GCLINE_LineAtCurrentPosition();
+        gcline.setPoints(List.of(new com.mgz.afp.goca.GAD_DrawingOrder.GOCA_Point((short) 10, (short) 20), new com.mgz.afp.goca.GAD_DrawingOrder.GOCA_Point((short) 30, (short) 40)));
+        orders.add(gcline);
+
+        gad.setDrawingOrders(orders);
+        verifySF(gad, "GAD_GraphicsData");
+    }
+
     private void verifySF(com.mgz.afp.base.StructuredField sf, String rootName) throws Exception {
         ByteArrayOutputStream baosFast = new ByteArrayOutputStream();
         try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baosFast, null, true, false)) {
@@ -293,12 +306,13 @@ public class SFFastPathVerificationTest {
         String normalizedJackson = normalizeXml(jacksonXml);
         String normalizedFastPath = normalizeXml(fastPathXml);
 
-        if (!normalizedFastPath.contains(normalizedJackson)) {
+        boolean contains = normalizedFastPath.contains(normalizedJackson);
+        if (!contains) {
             System.out.println("RootName: " + rootName);
             System.out.println("Jackson (Normalized): " + normalizedJackson);
             System.out.println("FastPath (Normalized): " + normalizedFastPath);
         }
-        assertTrue(normalizedFastPath.contains(normalizedJackson), "Normalized FastPath XML does not contain expected Normalized Jackson XML for " + rootName);
+        assertTrue(contains, "Normalized FastPath XML does not contain expected Normalized Jackson XML for " + rootName);
     }
 
     private String normalizeXml(String xml) {
