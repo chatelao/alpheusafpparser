@@ -4078,7 +4078,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeDrawingOrderWithPoints(XMLStreamWriter2 writer, GAD_DrawingOrder.DrawingOrder_HasPoints order, String rootName, int level) throws Exception {
+  private void writeDrawingOrderWithPoints(XMLStreamWriter2 writer,
+      GAD_DrawingOrder.DrawingOrder_HasPoints order, String rootName, int level) throws Exception {
     writer.writeStartElement(rootName);
     int childLevel = level + 1;
     short[] points = order.getPointsArray();
