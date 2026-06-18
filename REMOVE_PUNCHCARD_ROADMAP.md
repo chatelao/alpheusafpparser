@@ -19,10 +19,10 @@ The project is transitioning back to pure StAX2-based manual fast-paths in `AfpJ
 
 ## Phased Roadmap
 
-### Phase 1: Deprecation and Documentation 🚧
+### Phase 1: Deprecation and Documentation ✅
 Establish the plan and communicate the architectural shift.
 - ✅ Create `REMOVE_PUNCHCARD_CONCEPT.md`.
-- 🚧 Create `REMOVE_PUNCHCARD_ROADMAP.md`.
+- ✅ Create `REMOVE_PUNCHCARD_ROADMAP.md`.
 - ✅ Mark Strategy 6 in `10x_FASTER.md` as RETIRED.
 - ✅ Mark pending phases in `TEMPLATE_BASED_ROADMAP.md` as DISCONTINUED.
 
@@ -39,14 +39,14 @@ Migrate PTOCA serialization to the unified spatial-aware driver.
 - ✅ Ensure all spatial PTOCA sequences utilize the `CoordinateTransformer` for `afpX`/`afpY` calculation.
 - ✅ Verify output parity using `SFFastPathVerificationTest`.
 
-### Phase 4: Verification and Performance Parity ⏳
+### Phase 4: Verification and Performance Parity ✅
 Ensure the new approach meets or exceeds "Punchard" performance.
-- ⏳ Run end-to-end benchmarks comparing "Punchard" (v0.8) vs. StAX2 Fast-Paths (v0.9).
-- ⏳ Validate XML well-formedness for all migrated fields using `XmlEndToEndTest`.
+- ✅ Run end-to-end benchmarks comparing "Punchard" (v0.8) vs. StAX2 Fast-Paths (v0.9).
+- ✅ Validate XML well-formedness for all migrated fields using `XmlEndToEndTest`.
 
-### Phase 5: Cleanup and Removal ⏳
+### Phase 5: Cleanup and Removal ✅
 Final removal of the template infrastructure.
-- ⏳ Delete `src/main/java/com/mgz/xml/XmlTemplate.java`.
-- ⏳ Delete `src/main/java/com/mgz/xml/XmlTemplateRegistry.java`.
-- ⏳ Remove `XmlTemplateVerificationTest.java`.
-- ⏳ Prune `XmlTagTemplates.java` to only include basic tag fragments if necessary.
+- ✅ Delete `src/main/java/com/mgz/xml/XmlTemplate.java`.
+- ✅ Delete `src/main/java/com/mgz/xml/XmlTemplateRegistry.java`.
+- ✅ Remove `XmlTemplateVerificationTest.java`.
+- ✅ Prune `XmlTagTemplates.java` to only include basic tag fragments if necessary.
