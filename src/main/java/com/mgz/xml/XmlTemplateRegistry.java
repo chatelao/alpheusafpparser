@@ -130,11 +130,6 @@ public class XmlTemplateRegistry {
         "<ObjectOffset", " reserved3=\"", "\" nrOfPrecedingObjectsLow=\"", "\"", "/>"});
 
     // Structured Fields
-    register("PGP1", new String[] {
-        "<PGP_PagePosition_Format1 xOrigin=\"", "\" yOrigin=\"", "\"/>"});
-    register("PTD1", new String[] {
-        "<PTD_PresentationTextDataDescriptor_Format1", " xUnitsPerUnitBase=\"",
-        "\" yUnitsPerUnitBase=\"", "\" xSize=\"", "\" ySize=\"", "\"", "/>"});
 
     // PTOCA Control Sequences
     register("SEC", new String[] {

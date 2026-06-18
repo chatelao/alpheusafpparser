@@ -26,10 +26,10 @@ Establish the plan and communicate the architectural shift.
 - ✅ Mark Strategy 6 in `10x_FASTER.md` as RETIRED.
 - ✅ Mark pending phases in `TEMPLATE_BASED_ROADMAP.md` as DISCONTINUED.
 
-### Phase 2: Conversion of Structured Fields ⏳
+### Phase 2: Conversion of Structured Fields 🚧
 Migrate high-frequency Structured Fields from templates to StAX2.
-- ⏳ Re-implement `PGP1` and `PTD1` manual fast-paths in `AfpJacksonXmlWriter`.
-- ⏳ Convert remaining SF templates in `XmlTemplateRegistry` to manual `write` methods.
+- ✅ Re-implement `PGP1` and `PTD1` manual fast-paths in `AfpJacksonXmlWriter`.
+- ✅ Convert remaining SF templates in `XmlTemplateRegistry` to manual `write` methods.
 - ⏳ Verify output parity using `SFFastPathVerificationTest`.
 
 ### Phase 3: Conversion of PTOCA Control Sequences ⏳
