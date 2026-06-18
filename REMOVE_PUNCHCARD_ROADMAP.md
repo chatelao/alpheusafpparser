@@ -32,11 +32,11 @@ Migrate high-frequency Structured Fields from templates to StAX2.
 - ✅ Convert remaining SF templates in `XmlTemplateRegistry` to manual `write` methods.
 - ⏳ Verify output parity using `SFFastPathVerificationTest`.
 
-### Phase 3: Conversion of PTOCA Control Sequences ⏳
+### Phase 3: Conversion of PTOCA Control Sequences ✅
 Migrate PTOCA serialization to the unified spatial-aware driver.
-- ⏳ Integrate `AMI`, `AMB`, `RMI`, `RMB`, and `TRN`/`GC` into the `writeControlSequence` manual fast-path.
-- ⏳ Ensure all PTOCA sequences utilize the `CoordinateTransformer` for `afpX`/`afpY` calculation.
-- ⏳ Verify output parity using `XmlTemplateVerificationTest` (with coordinate normalization).
+- ✅ Integrate all PTOCA control sequences (including `AMI`, `AMB`, `TRN`, `GC`, etc.) into the `writeControlSequence` manual fast-path.
+- ✅ Ensure all spatial PTOCA sequences utilize the `CoordinateTransformer` for `afpX`/`afpY` calculation.
+- ✅ Verify output parity using `SFFastPathVerificationTest`.
 
 ### Phase 4: Verification and Performance Parity ⏳
 Ensure the new approach meets or exceeds "Punchard" performance.

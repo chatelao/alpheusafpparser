@@ -1939,6 +1939,10 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     public void setData(byte[] data) {
       this.data = data;
     }
+
+    public void setText(String text) {
+      this.text = text;
+    }
   }
 
   @JacksonXmlRootElement(localName = "GLC_GlyphLayoutControl")

@@ -244,57 +244,6 @@ public class XmlTemplateVerificationTest {
         verifySF(ptd1, "PTD1");
     }
 
-    @Test
-    public void testPtocaTemplates() throws Exception {
-        // STO
-        PTOCAControlSequence.STO_SetTextOrientation sto =
-            new PTOCAControlSequence.STO_SetTextOrientation();
-        sto.setxOrientation(AFPOrientation.ori0);
-        sto.setyOrientation(AFPOrientation.ori90);
-        verifySF(sto, "STO_SetTextOrientation");
-
-        // SIA
-        PTOCAControlSequence.SIA_SetIntercharacterAdjustment sia =
-            new PTOCAControlSequence.SIA_SetIntercharacterAdjustment();
-        sia.setAdjustment((short) 10);
-        sia.setDirection(
-            PTOCAControlSequence.SIA_SetIntercharacterAdjustment.SIA_Direction.NegativeIDirection);
-        verifySF(sia, "SIA_SetIntercharacterAdjustment");
-
-        // STC
-        PTOCAControlSequence.STC_SetTextColor stc = new PTOCAControlSequence.STC_SetTextColor();
-        stc.setForegroundColor(AFPColorValue.Blue_0x01);
-        stc.setPrecision(PTOCAControlSequence.STC_SetTextColor.STC_Precision
-            .IfSpecifiedColorNotSupported_SubstitutColorOrDefaul0xFF07);
-        verifySF(stc, "STC_SetTextColor");
-
-        // USC
-        PTOCAControlSequence.USC_Underscore usc = new PTOCAControlSequence.USC_Underscore();
-        usc.setBypassFlag(PTOCAControlSequence.PTOCA_BypassFlag.BypassRelativeMoveInline);
-        verifySF(usc, "USC_Underscore");
-
-        // SEC
-        PTOCAControlSequence.SEC_SetExtendedTextColor sec =
-            new PTOCAControlSequence.SEC_SetExtendedTextColor();
-        sec.setColorSpace(AFPColorSpace.RGB);
-        sec.setNrOfBitsComponent1((byte) 8);
-        sec.setNrOfBitsComponent2((byte) 8);
-        sec.setNrOfBitsComponent3((byte) 8);
-        sec.setColorValue(new byte[] {0x01, 0x02, 0x03});
-        verifySF(sec, "SEC_SetExtendedTextColor");
-
-        // DIR
-        PTOCAControlSequence.DIR_DrawIaxisRule dir = new PTOCAControlSequence.DIR_DrawIaxisRule();
-        dir.setLength((short) 500);
-        dir.setWidth((short) 10);
-        verifySF(dir, "DIR_DrawIaxisRule");
-
-        // DBR
-        PTOCAControlSequence.DBR_DrawBaxisRule dbr = new PTOCAControlSequence.DBR_DrawBaxisRule();
-        dbr.setLength((short) 1000);
-        dbr.setWidth((short) 20);
-        verifySF(dbr, "DBR_DrawBaxisRule");
-    }
 
     private void verifySF(Object obj, String rootName) throws Exception {
         ByteArrayOutputStream baosFast = new ByteArrayOutputStream();
