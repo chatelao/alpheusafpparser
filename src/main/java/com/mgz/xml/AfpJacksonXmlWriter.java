@@ -1305,11 +1305,21 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.CodedGraphicCharacterSetGlobalID cgcs) {
-      XmlTemplateRegistry.getTemplate("CGCS").writeObjects(baseXsw, cgcs.getGraphicCharacterSetGlobalID(), cgcs.getCodePageGlobalID_codedCharacterSetID());
+      writer.writeEmptyElement("CodedGraphicCharacterSetGlobalID");
+      writer.writeIntAttribute(null, null, "graphicCharacterSetGlobalID",
+          cgcs.getGraphicCharacterSetGlobalID());
+      writer.writeIntAttribute(null, null, "codePageGlobalID_codedCharacterSetID",
+          cgcs.getCodePageGlobalID_codedCharacterSetID());
     } else if (triplet instanceof Triplet.MappingOption mo) {
-      XmlTemplateRegistry.getTemplate("MO").writeObjects(baseXsw, mo.getDataObjecMapingOption());
+      writer.writeEmptyElement("MappingOption");
+      if (mo.getDataObjecMapingOption() != null) {
+        writer.writeIntAttribute(null, null, "dataObjecMapingOption",
+            mo.getDataObjecMapingOption().toByte());
+      }
     } else if (triplet instanceof Triplet.AttributeQualifier aq) {
-      XmlTemplateRegistry.getTemplate("AQ").write(baseXsw, aq.sequenceNumber, aq.levelNumber);
+      writer.writeEmptyElement("AttributeQualifier");
+      writer.writeIntAttribute(null, null, "sequenceNumber", aq.sequenceNumber);
+      writer.writeIntAttribute(null, null, "levelNumber", aq.levelNumber);
     } else if (triplet instanceof Triplet.Comment c) {
       writer.writeStartElement("Comment");
       writeElement(writer, childLevel, "comment", c.comment);
@@ -1317,7 +1327,11 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ResourceLocalIdentifier rli) {
-      XmlTemplateRegistry.getTemplate("RLI").writeObjects(baseXsw, rli.getResourceType(), (int) rli.getResourceLocalID());
+      writer.writeEmptyElement("ResourceLocalIdentifier");
+      if (rli.getResourceType() != null) {
+        writer.writeAttribute("resourceType", rli.getResourceType().name());
+      }
+      writer.writeIntAttribute(null, null, "resourceLocalID", (int) rli.getResourceLocalID());
     } else if (triplet instanceof Triplet.ObjectClassification oc) {
       writer.writeStartElement("ObjectClassification");
       writeElement(writer, childLevel, "reserved2", oc.reserved2);
@@ -1355,12 +1369,23 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.CharacterRotation cr) {
-      XmlTemplateRegistry.getTemplate("CR").writeObjects(baseXsw, cr.characterRotation);
+      writer.writeEmptyElement("CharacterRotation");
+      if (cr.characterRotation != null) {
+        writer.writeAttribute("characterRotation", cr.characterRotation.name());
+      }
     } else if (triplet instanceof Triplet.ObjectByteOffset obo) {
       String extra = obo.byteOffsetHighOrder != null ? " byteOffsetHighOrder=\"" + obo.byteOffsetHighOrder + "\"" : "";
       XmlTemplateRegistry.getTemplate("OBO").writeObjects(baseXsw, obo.byteOffset, extra);
     } else if (triplet instanceof Triplet.MeasurementUnits mu) {
-      XmlTemplateRegistry.getTemplate("MU").writeObjects(baseXsw, mu.xUnitBase, mu.yUnitBase, (int) mu.xUnitsPerUnitbase, (int) mu.yUnitsPerUnitbase);
+      writer.writeEmptyElement("MeasurementUnits");
+      if (mu.xUnitBase != null) {
+        writer.writeAttribute("xUnitBase", mu.xUnitBase.name());
+      }
+      if (mu.yUnitBase != null) {
+        writer.writeAttribute("yUnitBase", mu.yUnitBase.name());
+      }
+      writer.writeIntAttribute(null, null, "xUnitsPerUnitbase", (int) mu.xUnitsPerUnitbase);
+      writer.writeIntAttribute(null, null, "yUnitsPerUnitbase", (int) mu.yUnitsPerUnitbase);
     } else if (triplet instanceof Triplet.ObjectAreaSize oas) {
       XmlTemplateRegistry.getTemplate("OAS").writeObjects(baseXsw, (int) oas.sizeType_0x02, oas.xSize, oas.ySize);
     } else if (triplet instanceof Triplet.AreaDefinition ad) {

@@ -27,9 +27,10 @@ Establish the plan and communicate the architectural shift.
 - ✅ Mark pending phases in `TEMPLATE_BASED_ROADMAP.md` as DISCONTINUED.
 
 ### Phase 2: Conversion of Structured Fields 🚧
-Migrate high-frequency Structured Fields from templates to StAX2.
+Migrate high-frequency Structured Fields and Triplets from templates to StAX2.
 - ✅ Re-implement `PGP1` and `PTD1` manual fast-paths in `AfpJacksonXmlWriter`.
 - ✅ Convert remaining SF templates in `XmlTemplateRegistry` to manual `write` methods.
+- 🚧 Decommission Triplet templates in `XmlTemplateRegistry` in favor of manual StAX2 `writeTriplet` methods.
 - ⏳ Verify output parity using `SFFastPathVerificationTest`.
 
 ### Phase 3: Conversion of PTOCA Control Sequences ✅

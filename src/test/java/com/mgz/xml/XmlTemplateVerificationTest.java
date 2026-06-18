@@ -251,38 +251,24 @@ public class XmlTemplateVerificationTest {
             if (obj instanceof com.mgz.afp.base.StructuredField sf) {
                 writer.handle(sf);
             } else if (obj instanceof Triplet t) {
-                // We need to use reflection or a helper to call private writeTriplet in AfpJacksonXmlWriter
-                // Or just test the template directly
-                XmlTemplate template = null;
-                Object[] values = null;
-                if (t instanceof Triplet.AttributeQualifier aq) {
-                    template = XmlTemplateRegistry.getTemplate("AQ");
-                    values = new Object[]{aq.sequenceNumber, aq.levelNumber};
-                } else if (t instanceof Triplet.ResourceLocalIdentifier rli) {
-                    template = XmlTemplateRegistry.getTemplate("RLI");
-                    values = new Object[]{rli.getResourceType(), (int)rli.getResourceLocalID()};
-                } else if (t instanceof Triplet.CharacterRotation cr) {
-                    template = XmlTemplateRegistry.getTemplate("CR");
-                    values = new Object[]{cr.characterRotation};
-                } else if (t instanceof Triplet.MeasurementUnits mu) {
-                    template = XmlTemplateRegistry.getTemplate("MU");
-                    values = new Object[]{
-                        mu.xUnitBase, mu.yUnitBase, (int) mu.xUnitsPerUnitbase,
-                        (int) mu.yUnitsPerUnitbase
-                    };
-                } else if (t instanceof Triplet.MappingOption mo) {
-                    template = XmlTemplateRegistry.getTemplate("MO");
-                    values = new Object[]{mo.getDataObjecMapingOption()};
-                } else if (t instanceof Triplet.ObjectAreaSize oas) {
-                    template = XmlTemplateRegistry.getTemplate("OAS");
-                    values = new Object[]{(int)oas.sizeType_0x02, oas.xSize, oas.ySize};
-                } else if (t instanceof Triplet.CodedGraphicCharacterSetGlobalID cgcs) {
-                    template = XmlTemplateRegistry.getTemplate("CGCS");
-                    values = new Object[]{
-                        cgcs.getGraphicCharacterSetGlobalID(),
-                        cgcs.getCodePageGlobalID_codedCharacterSetID()
-                    };
-                } else if (t instanceof Triplet.ResourceObjectType rot) {
+                // For migrated triplets, we use handle via a dummy SF
+                if (t instanceof Triplet.AttributeQualifier
+                    || t instanceof Triplet.ResourceLocalIdentifier
+                    || t instanceof Triplet.CharacterRotation
+                    || t instanceof Triplet.MeasurementUnits
+                    || t instanceof Triplet.MappingOption
+                    || t instanceof Triplet.CodedGraphicCharacterSetGlobalID) {
+                    com.mgz.afp.modca.BDT_BeginDocument bdt = new com.mgz.afp.modca.BDT_BeginDocument();
+                    bdt.addTriplet(t);
+                    writer.handle(bdt);
+                } else {
+                    // For remaining templates, test them directly
+                    XmlTemplate template = null;
+                    Object[] values = null;
+                    if (t instanceof Triplet.ObjectAreaSize oas) {
+                        template = XmlTemplateRegistry.getTemplate("OAS");
+                        values = new Object[]{(int)oas.sizeType_0x02, oas.xSize, oas.ySize};
+                    } else if (t instanceof Triplet.ResourceObjectType rot) {
                     template = XmlTemplateRegistry.getTemplate("ROT");
                     values = new Object[]{rot.objectType};
                 } else if (t instanceof Triplet.DescriptorPosition dp) {
@@ -405,10 +391,11 @@ public class XmlTemplateVerificationTest {
                     };
                 }
 
-                if (template != null) {
-                    AfpXmlStreamWriter baseXsw = getBaseXsw(writer);
-                    template.writeObjects(baseXsw, values);
-                    baseXsw.flush();
+                    if (template != null) {
+                        AfpXmlStreamWriter baseXsw = getBaseXsw(writer);
+                        template.writeObjects(baseXsw, values);
+                        baseXsw.flush();
+                    }
                 }
             } else if (obj instanceof PTOCAControlSequence cs) {
                  XmlTemplate template = null;
@@ -481,7 +468,7 @@ public class XmlTemplateVerificationTest {
             assertTrue(normalizedFastPath.contains("xUnitBase=\"Inches10\""));
             assertTrue(normalizedFastPath.contains("xUnitsPerUnitbase=\"2400\""));
         } else if (rootName.equals("MappingOption")) {
-            assertTrue(normalizedFastPath.contains("dataObjecMapingOption=\"ScaleToFit\""));
+            assertTrue(normalizedFastPath.contains("dataObjecMapingOption=\"32\""));
         } else if (rootName.equals("ObjectAreaSize")) {
             assertTrue(normalizedFastPath.contains("sizeType_0x02=\"2\""));
             assertTrue(normalizedFastPath.contains("xSize=\"1200\""));

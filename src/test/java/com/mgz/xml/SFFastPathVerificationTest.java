@@ -273,6 +273,49 @@ public class SFFastPathVerificationTest {
     }
 
     @Test
+    public void testTripletFastPaths() throws Exception {
+        // CGCS
+        Triplet.CodedGraphicCharacterSetGlobalID cgcs = new Triplet.CodedGraphicCharacterSetGlobalID();
+        byte[] cgcsData = new byte[6];
+        cgcsData[2] = 0; cgcsData[3] = 123;
+        cgcsData[4] = 1; cgcsData[5] = (byte) 200; // 456 = 1*256 + 200
+        cgcs.decodeAFP(cgcsData, 0, 6, null);
+        verifyTriplet(cgcs, "CodedGraphicCharacterSetGlobalID");
+
+        // MO
+        Triplet.MappingOption mo = new Triplet.MappingOption();
+        byte[] moData = new byte[3];
+        moData[2] = 0x10;
+        mo.decodeAFP(moData, 0, 3, null);
+        verifyTriplet(mo, "MappingOption");
+
+        // AQ
+        Triplet.AttributeQualifier aq = new Triplet.AttributeQualifier();
+        aq.sequenceNumber = 1;
+        aq.levelNumber = 2;
+        verifyTriplet(aq, "AttributeQualifier");
+
+        // RLI
+        Triplet.ResourceLocalIdentifier rli = new Triplet.ResourceLocalIdentifier();
+        rli.setResourceType(Triplet.ResourceLocalIdentifier.RLI_ResourceType.PageOverlay);
+        rli.setResourceLocalID((short) 1);
+        verifyTriplet(rli, "ResourceLocalIdentifier");
+
+        // CR
+        Triplet.CharacterRotation cr = new Triplet.CharacterRotation();
+        cr.characterRotation = AFPOrientation.ori90;
+        verifyTriplet(cr, "CharacterRotation");
+
+        // MU
+        Triplet.MeasurementUnits mu = new Triplet.MeasurementUnits();
+        mu.xUnitBase = AFPUnitBase.Inches10;
+        mu.yUnitBase = AFPUnitBase.Inches10;
+        mu.xUnitsPerUnitbase = 3000;
+        mu.yUnitsPerUnitbase = 3000;
+        verifyTriplet(mu, "MeasurementUnits");
+    }
+
+    @Test
     public void testPtxFastPath() throws Exception {
         com.mgz.afp.ptoca.PTX_PresentationTextData ptx = new com.mgz.afp.ptoca.PTX_PresentationTextData();
 
@@ -336,6 +379,41 @@ public class SFFastPathVerificationTest {
         ptx.addControlSequence(gc);
 
         verifySF(ptx, "PTX_PresentationTextData");
+    }
+
+    private void verifyTriplet(Triplet triplet, String rootName) throws Exception {
+        ByteArrayOutputStream baosFast = new ByteArrayOutputStream();
+        try (AfpJacksonXmlWriter writer = new AfpJacksonXmlWriter(baosFast, null, true, false)) {
+            // We need to call writeTriplet which is private, but handle() calls it for triplets if we wrap it in a dummy SF or just use a helper
+            // AfpJacksonXmlWriter.handle only accepts StructuredField.
+            // We can use reflection or add a public test helper to AfpJacksonXmlWriter.
+            // Alternatively, we can use a SF that contains triplets, like BDT.
+            com.mgz.afp.modca.BDT_BeginDocument bdt = new com.mgz.afp.modca.BDT_BeginDocument();
+            bdt.addTriplet(triplet);
+            writer.handle(bdt);
+        }
+        String fastPathXml = baosFast.toString(StandardCharsets.UTF_8);
+        assertTrue(fastPathXml.contains(rootName), "FastPath XML should contain " + rootName);
+
+        if (rootName.equals("CodedGraphicCharacterSetGlobalID")) {
+            assertTrue(fastPathXml.contains("graphicCharacterSetGlobalID=\"123\""));
+            assertTrue(fastPathXml.contains("codePageGlobalID_codedCharacterSetID=\"456\""));
+        } else if (rootName.equals("MappingOption")) {
+            assertTrue(fastPathXml.contains("dataObjecMapingOption=\"16\""));
+        } else if (rootName.equals("AttributeQualifier")) {
+            assertTrue(fastPathXml.contains("sequenceNumber=\"1\""));
+            assertTrue(fastPathXml.contains("levelNumber=\"2\""));
+        } else if (rootName.equals("ResourceLocalIdentifier")) {
+            assertTrue(fastPathXml.contains("resourceType=\"PageOverlay\""));
+            assertTrue(fastPathXml.contains("resourceLocalID=\"1\""));
+        } else if (rootName.equals("CharacterRotation")) {
+            assertTrue(fastPathXml.contains("characterRotation=\"ori90\""));
+        } else if (rootName.equals("MeasurementUnits")) {
+            assertTrue(fastPathXml.contains("xUnitBase=\"Inches10\""));
+            assertTrue(fastPathXml.contains("yUnitBase=\"Inches10\""));
+            assertTrue(fastPathXml.contains("xUnitsPerUnitbase=\"3000\""));
+            assertTrue(fastPathXml.contains("yUnitsPerUnitbase=\"3000\""));
+        }
     }
 
     private void verifySF(com.mgz.afp.base.StructuredField sf, String rootName) throws Exception {
