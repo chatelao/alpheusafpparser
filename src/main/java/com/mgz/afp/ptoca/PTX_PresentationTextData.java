@@ -19,22 +19,24 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.ptoca;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import com.mgz.afp.parser.PTOCAControlSequenceParser;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Structured field for Presentation Text Data (PTX).
+ */
 public class PTX_PresentationTextData extends StructuredField {
   @AFPField
   @JsonIgnore
@@ -58,13 +60,15 @@ public class PTX_PresentationTextData extends StructuredField {
   }
 
   @Override
-  public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+  public void decodeAFP(byte[] sfData, int offset, int length,
+      AFPParserConfiguration config) throws AFPParserException {
     long startTime = config.isPtxDebug() ? System.nanoTime() : 0;
     int actualLength = getActualLength(sfData, offset, length);
     if (actualLength > 0) {
       originalPayload = new byte[actualLength];
       System.arraycopy(sfData, offset, originalPayload, 0, actualLength);
-      controlSequences = PTOCAControlSequenceParser.parseControlSequences(sfData, offset, actualLength, config);
+      controlSequences = PTOCAControlSequenceParser.parseControlSequences(
+          sfData, offset, actualLength, config);
     } else {
       originalPayload = null;
       controlSequences = null;
@@ -72,7 +76,8 @@ public class PTX_PresentationTextData extends StructuredField {
 
     if (config.isPtxDebug()) {
       long duration = System.nanoTime() - startTime;
-      com.mgz.util.PTXPerformanceMonitor.recordPtxParse(duration, actualLength, controlSequences != null ? controlSequences.size() : 0);
+      com.mgz.util.PTXPerformanceMonitor.recordPtxParse(duration, actualLength,
+          controlSequences != null ? controlSequences.size() : 0);
     }
   }
 
@@ -84,8 +89,10 @@ public class PTX_PresentationTextData extends StructuredField {
       for (int i = 0; i < controlSequences.size(); i++) {
         PTOCAControlSequence cs = controlSequences.get(i);
         long csStart = ptxDebug ? System.nanoTime() : 0;
-        byte[] csiBytes = cs.getCsi().toBytes();
-        baos.write(csiBytes);
+        if (cs.getCsi() != null) {
+          byte[] csiBytes = cs.getCsi().toBytes();
+          baos.write(csiBytes);
+        }
 
         if (ptxDebug && config.isPtxDebug()) {
           // High-precision debug path: capture payload for slowest instance tracking
@@ -93,13 +100,15 @@ public class PTX_PresentationTextData extends StructuredField {
           cs.writeAFP(csBaos, config);
           byte[] payload = csBaos.toByteArray();
           baos.write(payload);
-          com.mgz.util.PTXPerformanceMonitor.recordPtocaWrite(cs.getClass().getSimpleName(), System.nanoTime() - csStart, payload.length, payload);
+          com.mgz.util.PTXPerformanceMonitor.recordPtocaWrite(cs.getClass().getSimpleName(),
+              System.nanoTime() - csStart, payload.length, payload);
         } else {
           // Normal optimized path
           int oldSize = baos.size();
           cs.writeAFP(baos, config);
           if (csStart > 0) {
-            com.mgz.util.PTXPerformanceMonitor.recordPtocaWrite(cs.getClass().getSimpleName(), System.nanoTime() - csStart, baos.size() - oldSize, null);
+            com.mgz.util.PTXPerformanceMonitor.recordPtocaWrite(cs.getClass().getSimpleName(),
+                System.nanoTime() - csStart, baos.size() - oldSize, null);
           }
         }
       }
@@ -111,14 +120,29 @@ public class PTX_PresentationTextData extends StructuredField {
     }
   }
 
+  /**
+   * Returns the list of control sequences.
+   *
+   * @return the list of control sequences.
+   */
   public List<PTOCAControlSequence> getControlSequences() {
     return controlSequences;
   }
 
+  /**
+   * Sets the list of control sequences.
+   *
+   * @param controlSequences the list of control sequences.
+   */
   public void setControlSequences(List<PTOCAControlSequence> controlSequences) {
     this.controlSequences = controlSequences;
   }
 
+  /**
+   * Adds a control sequence to the list.
+   *
+   * @param cs the control sequence to add.
+   */
   public void addControlSequence(PTOCAControlSequence cs) {
     if (cs == null) {
       return;
@@ -129,6 +153,11 @@ public class PTX_PresentationTextData extends StructuredField {
     controlSequences.add(cs);
   }
 
+  /**
+   * Removes a control sequence from the list.
+   *
+   * @param cs the control sequence to remove.
+   */
   public void removeControlSequence(PTOCAControlSequence cs) {
     if (controlSequences == null) {
       return;
