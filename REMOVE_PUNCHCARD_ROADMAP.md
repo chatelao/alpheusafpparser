@@ -56,3 +56,13 @@ Expand manual fast-path coverage to include remaining structural fields with spa
 - ✅ Implement specialized manual fast-paths for `BNG` and `ENG` to include the `page` attribute.
 - ✅ Implement specialized manual fast-paths for `IPS`, `IPO`, and `IPG` to include the `page` attribute.
 - ✅ Verify coverage in `XYPAGE_CONCEPT.md`.
+
+### Phase 7: Final Structural Spatial Coverage ✅
+Complete manual fast-path coverage for remaining structural fields.
+- ✅ Implement specialized manual fast-paths for `BGR`, `EGR`, `BIM`, `EIM`, `BBC`, `EBC`, `BOC`, and `EOC` to include the `page` attribute.
+- ✅ Verify coverage in `XYPAGE_CONCEPT.md`.
+
+### Phase 8: Generic Fast-Path Spatial Metadata 🚧
+Generalize the injection of spatial metadata to all fast-path serializable objects.
+- 🚧 Update generic helpers (`writeNameAndTripletsDirectly`, etc.) to inject the `page` attribute.
+- ⏳ Consolidate redundant specialized methods by using generalized helpers where appropriate.
