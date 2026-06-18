@@ -505,9 +505,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       resetPtocaState();
       writeBpgDirectly(bpg, level);
     } else if (sf instanceof BGR_BeginGraphicsObject bgr) {
-      writeNameAndTripletsDirectly(bgr, "BGR_BeginGraphicsObject", level);
+      writeBgrDirectly(bgr, level);
     } else if (sf instanceof EGR_EndGraphicsObject egr) {
-      writeNameAndTripletsDirectly(egr, "EGR_EndGraphicsObject", level);
+      writeEgrDirectly(egr, level);
     } else if (sf instanceof GDD_GraphicsDataDescriptor gdd) {
       writeGddDirectly(gdd, level);
     } else if (sf instanceof CDD_ContainerDataDescriptor cdd) {
@@ -549,13 +549,13 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (sf instanceof com.mgz.afp.modca.IMM_InvokeMediumMap imm) {
       writeNameAndTripletsDirectly(imm, "IMM_InvokeMediumMap", level);
     } else if (sf instanceof com.mgz.afp.modca.BOC_BeginObjectContainer boc) {
-      writeNameAndTripletsDirectly(boc, "BOC_BeginObjectContainer", level);
+      writeBocDirectly(boc, level);
     } else if (sf instanceof com.mgz.afp.modca.EOC_EndObjectContainer eoc) {
-      writeNameDirectly(eoc, "EOC_EndObjectContainer", level);
+      writeEocDirectly(eoc, level);
     } else if (sf instanceof com.mgz.afp.modca.BIM_BeginImageObject bim) {
-      writeNameAndTripletsDirectly(bim, "BIM_BeginImageObject", level);
+      writeBimDirectly(bim, level);
     } else if (sf instanceof com.mgz.afp.modca.EIM_EndImageObject eim) {
-      writeNameDirectly(eim, "EIM_EndImageObject", level);
+      writeEimDirectly(eim, level);
     } else if (sf instanceof com.mgz.afp.modca.PMC_PageModificationControl pmc) {
       writeTripletsAndTextDirectly(pmc, "PMC_PageModificationControl", level);
     } else if (sf instanceof com.mgz.afp.modca.PEC_PresentationEnvironmentControl pec) {
@@ -3962,6 +3962,122 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     return CoordinateTransformer.getAfpY(inlinePos, baselinePos, inlineOri, baselineOri);
   }
 
+  private void writeBgrDirectly(BGR_BeginGraphicsObject bgr, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BGR");
+    baseXsw.writeStartElement("BGR_BeginGraphicsObject");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "name", bgr.getName());
+    if (bgr.getTriplets() != null && !bgr.getTriplets().isEmpty()) {
+      for (Triplet triplet : bgr.getTriplets()) {
+        writeTriplet(baseXsw, triplet, childLevel);
+      }
+    }
+    if (bgr.getText() != null) {
+      writeElement(baseXsw, childLevel, "text", bgr.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeEgrDirectly(EGR_EndGraphicsObject egr, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("EGR");
+    baseXsw.writeStartElement("EGR_EndGraphicsObject");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "name", egr.getName());
+    if (egr.getTriplets() != null && !egr.getTriplets().isEmpty()) {
+      for (Triplet triplet : egr.getTriplets()) {
+        writeTriplet(baseXsw, triplet, childLevel);
+      }
+    }
+    if (egr.getText() != null) {
+      writeElement(baseXsw, childLevel, "text", egr.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeBimDirectly(com.mgz.afp.modca.BIM_BeginImageObject bim, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BIM");
+    baseXsw.writeStartElement("BIM_BeginImageObject");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "name", bim.getName());
+    if (bim.getTriplets() != null && !bim.getTriplets().isEmpty()) {
+      for (Triplet triplet : bim.getTriplets()) {
+        writeTriplet(baseXsw, triplet, childLevel);
+      }
+    }
+    if (bim.getText() != null) {
+      writeElement(baseXsw, childLevel, "text", bim.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeEimDirectly(com.mgz.afp.modca.EIM_EndImageObject eim, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("EIM");
+    baseXsw.writeStartElement("EIM_EndImageObject");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "name", eim.getName());
+    if (eim.getText() != null) {
+      writeElement(baseXsw, childLevel, "text", eim.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeBocDirectly(com.mgz.afp.modca.BOC_BeginObjectContainer boc, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BOC");
+    baseXsw.writeStartElement("BOC_BeginObjectContainer");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "name", boc.getName());
+    if (boc.getTriplets() != null && !boc.getTriplets().isEmpty()) {
+      for (Triplet triplet : boc.getTriplets()) {
+        writeTriplet(baseXsw, triplet, childLevel);
+      }
+    }
+    if (boc.getText() != null) {
+      writeElement(baseXsw, childLevel, "text", boc.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeEocDirectly(com.mgz.afp.modca.EOC_EndObjectContainer eoc, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("EOC");
+    baseXsw.writeStartElement("EOC_EndObjectContainer");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "name", eoc.getName());
+    if (eoc.getText() != null) {
+      writeElement(baseXsw, childLevel, "text", eoc.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
   private void writeBngDirectly(com.mgz.afp.modca.BNG_BeginNamedPageGroup bng, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("BNG");
     baseXsw.writeStartElement("BNG_BeginNamedPageGroup");
@@ -4745,6 +4861,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private void writeBbcDirectly(BBC_BeginBarCodeObject bbc, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("BBC");
     baseXsw.writeStartElement("BBC_BeginBarCodeObject");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
     int childLevel = level + 1;
     if (bbc.getName() != null) {
       baseXsw.writeAttribute("name", bbc.getName());
@@ -4765,6 +4884,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private void writeEbcDirectly(EBC_EndBarCodeObject ebc, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("EBC");
     baseXsw.writeStartElement("EBC_EndBarCodeObject");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
     int childLevel = level + 1;
     if (ebc.getName() != null) {
       baseXsw.writeAttribute("name", ebc.getName());
