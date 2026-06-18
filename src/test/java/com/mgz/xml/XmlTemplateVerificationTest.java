@@ -251,29 +251,19 @@ public class XmlTemplateVerificationTest {
             if (obj instanceof com.mgz.afp.base.StructuredField sf) {
                 writer.handle(sf);
             } else if (obj instanceof Triplet t) {
+                if (t instanceof Triplet.AttributeQualifier
+                    || t instanceof Triplet.ResourceLocalIdentifier
+                    || t instanceof Triplet.CharacterRotation
+                    || t instanceof Triplet.MeasurementUnits
+                    || t instanceof Triplet.MappingOption) {
+                    // Use fast-path directly
+                    invokeWriteTriplet(writer, t, 0);
+                } else {
                 // We need to use reflection or a helper to call private writeTriplet in AfpJacksonXmlWriter
                 // Or just test the template directly
                 XmlTemplate template = null;
                 Object[] values = null;
-                if (t instanceof Triplet.AttributeQualifier aq) {
-                    template = XmlTemplateRegistry.getTemplate("AQ");
-                    values = new Object[]{aq.sequenceNumber, aq.levelNumber};
-                } else if (t instanceof Triplet.ResourceLocalIdentifier rli) {
-                    template = XmlTemplateRegistry.getTemplate("RLI");
-                    values = new Object[]{rli.getResourceType(), (int)rli.getResourceLocalID()};
-                } else if (t instanceof Triplet.CharacterRotation cr) {
-                    template = XmlTemplateRegistry.getTemplate("CR");
-                    values = new Object[]{cr.characterRotation};
-                } else if (t instanceof Triplet.MeasurementUnits mu) {
-                    template = XmlTemplateRegistry.getTemplate("MU");
-                    values = new Object[]{
-                        mu.xUnitBase, mu.yUnitBase, (int) mu.xUnitsPerUnitbase,
-                        (int) mu.yUnitsPerUnitbase
-                    };
-                } else if (t instanceof Triplet.MappingOption mo) {
-                    template = XmlTemplateRegistry.getTemplate("MO");
-                    values = new Object[]{mo.getDataObjecMapingOption()};
-                } else if (t instanceof Triplet.ObjectAreaSize oas) {
+                if (t instanceof Triplet.ObjectAreaSize oas) {
                     template = XmlTemplateRegistry.getTemplate("OAS");
                     values = new Object[]{(int)oas.sizeType_0x02, oas.xSize, oas.ySize};
                 } else if (t instanceof Triplet.CodedGraphicCharacterSetGlobalID cgcs) {
@@ -409,6 +399,7 @@ public class XmlTemplateVerificationTest {
                     AfpXmlStreamWriter baseXsw = getBaseXsw(writer);
                     template.writeObjects(baseXsw, values);
                     baseXsw.flush();
+                }
                 }
             } else if (obj instanceof PTOCAControlSequence cs) {
                  XmlTemplate template = null;
@@ -598,6 +589,13 @@ public class XmlTemplateVerificationTest {
         java.lang.reflect.Field field = AfpJacksonXmlWriter.class.getDeclaredField("baseXsw");
         field.setAccessible(true);
         return (AfpXmlStreamWriter) field.get(writer);
+    }
+
+    private void invokeWriteTriplet(AfpJacksonXmlWriter writer, Triplet t, int level) throws Exception {
+        java.lang.reflect.Method method = AfpJacksonXmlWriter.class.getDeclaredMethod("writeTriplet",
+            org.codehaus.stax2.XMLStreamWriter2.class, Triplet.class, int.class);
+        method.setAccessible(true);
+        method.invoke(writer, getBaseXsw(writer), t, level);
     }
 
     private String normalizeXml(String xml) {
