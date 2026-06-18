@@ -251,207 +251,11 @@ public class XmlTemplateVerificationTest {
             if (obj instanceof com.mgz.afp.base.StructuredField sf) {
                 writer.handle(sf);
             } else if (obj instanceof Triplet t) {
-                if (t instanceof Triplet.AttributeQualifier
-                    || t instanceof Triplet.ResourceLocalIdentifier
-                    || t instanceof Triplet.CharacterRotation
-                    || t instanceof Triplet.MeasurementUnits
-                    || t instanceof Triplet.MappingOption) {
-                    // Use fast-path directly
-                    invokeWriteTriplet(writer, t, 0);
-                } else {
-                // We need to use reflection or a helper to call private writeTriplet in AfpJacksonXmlWriter
-                // Or just test the template directly
-                XmlTemplate template = null;
-                Object[] values = null;
-                if (t instanceof Triplet.ObjectAreaSize oas) {
-                    template = XmlTemplateRegistry.getTemplate("OAS");
-                    values = new Object[]{(int)oas.sizeType_0x02, oas.xSize, oas.ySize};
-                } else if (t instanceof Triplet.CodedGraphicCharacterSetGlobalID cgcs) {
-                    template = XmlTemplateRegistry.getTemplate("CGCS");
-                    values = new Object[]{
-                        cgcs.getGraphicCharacterSetGlobalID(),
-                        cgcs.getCodePageGlobalID_codedCharacterSetID()
-                    };
-                } else if (t instanceof Triplet.ResourceObjectType rot) {
-                    template = XmlTemplateRegistry.getTemplate("ROT");
-                    values = new Object[]{rot.objectType};
-                } else if (t instanceof Triplet.DescriptorPosition dp) {
-                    template = XmlTemplateRegistry.getTemplate("DP");
-                    values = new Object[]{(int)dp.objectAreaDescriptorID};
-                } else if (t instanceof Triplet.MediaEjectControl mec) {
-                    template = XmlTemplateRegistry.getTemplate("MEC");
-                    values = new Object[]{(int)mec.reserved2, mec.mediaEjectControl};
-                } else if (t instanceof Triplet.ResourceUsageAttribute rua) {
-                    template = XmlTemplateRegistry.getTemplate("RUA");
-                    values = new Object[]{rua.frequencyOfUse};
-                } else if (t instanceof Triplet.PresentationSpaceResetMixing psrm) {
-                    template = XmlTemplateRegistry.getTemplate("PSRM");
-                    values = new Object[]{psrm.backgroundMixingFlag};
-                } else if (t instanceof Triplet.ExtendedResourceLocalIdentifier erli) {
-                    template = XmlTemplateRegistry.getTemplate("ERLI");
-                    values = new Object[]{erli.resourceType, erli.extendedResourceLocalID};
-                } else if (t instanceof Triplet.ResourceSectionNumber rsn) {
-                    template = XmlTemplateRegistry.getTemplate("RSN");
-                    values = new Object[]{(int)rsn.resourceSectionNumber};
-                } else if (t instanceof Triplet.MediumMapPageNumber mmpn) {
-                    template = XmlTemplateRegistry.getTemplate("MMPN");
-                    values = new Object[]{mmpn.pageNumber};
-                } else if (t instanceof Triplet.ObjectByteExtent obe) {
-                    template = XmlTemplateRegistry.getTemplate("OBE");
-                    values = new Object[]{obe.byteExtentLow, obe.byteExtentHigh};
-                } else if (t instanceof Triplet.FontHorizontalScaleFactor fhsf) {
-                    template = XmlTemplateRegistry.getTemplate("FHSF");
-                    values = new Object[]{(int)fhsf.horizontalScaleFactor};
-                } else if (t instanceof Triplet.MediumOrientation mor) {
-                    template = XmlTemplateRegistry.getTemplate("MOR");
-                    values = new Object[]{mor.mediumOrientation};
-                } else if (t instanceof Triplet.TonerSaver ts) {
-                    template = XmlTemplateRegistry.getTemplate("TS");
-                    values = new Object[]{(int)ts.reserved2, ts.tonerSaverFunction};
-                } else if (t instanceof Triplet.FontResolutionAndMetricTechnology framt) {
-                    template = XmlTemplateRegistry.getTemplate("FRAMT");
-                    values = new Object[]{
-                        framt.metricTechnology, framt.unitBase, (int) framt.unitsPerUnitBase
-                    };
-                } else if (t instanceof Triplet.ColorManagementResourceDescriptor cmrd) {
-                    template = XmlTemplateRegistry.getTemplate("CMRD");
-                    values = new Object[]{
-                        (int) cmrd.reserved2, cmrd.cmrProcessingMode, cmrd.cmrScope
-                    };
-                } else if (t instanceof Triplet.ObjectContainerPresentationSpaceSize ocpss) {
-                    template = XmlTemplateRegistry.getTemplate("OCPSS");
-                    values = new Object[]{ocpss.pdfPresentationSpace};
-                } else if (t instanceof Triplet.PagePositionInformation ppi) {
-                    template = XmlTemplateRegistry.getTemplate("PPI");
-                    values = new Object[]{(int)ppi.repeatingGroupNumber};
-                } else if (t instanceof Triplet.TextOrientation to) {
-                    template = XmlTemplateRegistry.getTemplate("TO");
-                    values = new Object[]{to.xOrientation, to.yOrientation};
-                } else if (t instanceof Triplet.LineDataObjectPositionMigration ldopm) {
-                    template = XmlTemplateRegistry.getTemplate("LDOPM");
-                    values = new Object[]{ldopm.locationAndOrientation};
-                } else if (t instanceof Triplet.KeepGroupTogether kgt) {
-                    template = XmlTemplateRegistry.getTemplate("KGT");
-                    values = new Object[]{(int)kgt.grpFnct};
-                } else if (t instanceof Triplet.FontCodedGraphicCharacterSetGlobalID fcgcs) {
-                    template = XmlTemplateRegistry.getTemplate("FCGCS");
-                    values = new Object[]{
-                        fcgcs.codedGraphicCharacterSetGlobalID, fcgcs.codePageGlobalID
-                    };
-                } else if (t instanceof Triplet.MODCAFunctionSet mfs) {
-                    template = XmlTemplateRegistry.getTemplate("MFS");
-                    values = new Object[]{mfs.fctSetID};
-                } else if (t instanceof Triplet.AreaDefinition ad) {
-                    template = XmlTemplateRegistry.getTemplate("AD");
-                    values = new Object[]{
-                        (int) ad.reserved2, ad.xOrigin, ad.yOrigin, ad.xSize, ad.ySize
-                    };
-                } else if (t instanceof Triplet.ObjectCount oc) {
-                    template = XmlTemplateRegistry.getTemplate("OCNT");
-                    String extra = oc.numberOfObjectsHigh != null
-                        ? " numberOfObjectsHigh=\"" + oc.numberOfObjectsHigh + "\"" : "";
-                    values = new Object[]{
-                        (int) oc.subordinateObjectType, (int) oc.reserved3, oc.numberOfObjectsLow,
-                        extra
-                    };
-                } else if (t instanceof Triplet.LocalObjectDateAndTimeStamp lodts) {
-                    template = XmlTemplateRegistry.getTemplate("LODTS");
-                    values = new Object[]{
-                        lodts.dateAndTimeStampType, (int) lodts.hundreds, (int) lodts.tens,
-                        (int) lodts.dayOfYear, (int) lodts.hourOfDay, (int) lodts.minuteOfHour,
-                        (int) lodts.secondOfMinute, (int) lodts.hundredthOfSecond
-                    };
-                } else if (t instanceof Triplet.UniversalDateAndTimeStamp udts) {
-                    template = XmlTemplateRegistry.getTemplate("UDTS");
-                    values = new Object[]{
-                        (int) udts.reserved2, (int) udts.year, (int) udts.monthOfYear,
-                        (int) udts.dayOfMonth, (int) udts.hourOfDay, (int) udts.minuteOfHour,
-                        (int) udts.secondOfMinute, udts.timeZone, (int) udts.diffHours,
-                        (int) udts.diffMinutes
-                    };
-                } else if (t instanceof Triplet.ObjectByteOffset obo) {
-                    template = XmlTemplateRegistry.getTemplate("OBO");
-                    String extra = obo.byteOffsetHighOrder != null
-                        ? " byteOffsetHighOrder=\"" + obo.byteOffsetHighOrder + "\"" : "";
-                    values = new Object[]{obo.byteOffset, extra};
-                } else if (t instanceof Triplet.ObjectStructuredFieldOffset osfo) {
-                    template = XmlTemplateRegistry.getTemplate("OSFO");
-                    String extra = osfo.offsetHigh != null
-                        ? " offsetHigh=\"" + osfo.offsetHigh + "\"" : "";
-                    values = new Object[]{osfo.offsetLow, extra};
-                } else if (t instanceof Triplet.ObjectStructuredFieldExtent osfe) {
-                    template = XmlTemplateRegistry.getTemplate("OSFE");
-                    String extra = osfe.numberOfSFHigh != null
-                        ? " numberOfSFHigh=\"" + osfe.numberOfSFHigh + "\"" : "";
-                    values = new Object[]{osfe.numberOfSFLow, extra};
-                } else if (t instanceof Triplet.ObjectOffset oo) {
-                    template = XmlTemplateRegistry.getTemplate("OO");
-                    String typeAttr = oo.objectType != null
-                        ? " objectType=\"" + oo.objectType.name() + "\"" : "";
-                    String extra = oo.nrOfPrecedingObjectsHigh != null
-                        ? " nrOfPrecedingObjectsHigh=\"" + oo.nrOfPrecedingObjectsHigh + "\"" : "";
-                    values = new Object[]{
-                        typeAttr, (int) oo.reserved3, oo.nrOfPrecedingObjectsLow, extra
-                    };
-                }
-
-                if (template != null) {
-                    AfpXmlStreamWriter baseXsw = getBaseXsw(writer);
-                    template.writeObjects(baseXsw, values);
-                    baseXsw.flush();
-                }
-                }
+                // All Triplets have been migrated to fast-paths
+                invokeWriteTriplet(writer, t, 0);
             } else if (obj instanceof PTOCAControlSequence cs) {
-                 XmlTemplate template = null;
-                 Object[] values = null;
-                 if (cs instanceof PTOCAControlSequence.STO_SetTextOrientation sto) {
-                     template = XmlTemplateRegistry.getTemplate("STO");
-                     values = new Object[]{0, 0, 0, sto.getxOrientation(), sto.getyOrientation()};
-                 } else if (cs instanceof PTOCAControlSequence
-                     .SIA_SetIntercharacterAdjustment sia) {
-                     template = XmlTemplateRegistry.getTemplate("SIA");
-                     values = new Object[]{(int)sia.getAdjustment(), sia.getDirection()};
-                 } else if (cs instanceof PTOCAControlSequence.STC_SetTextColor stc) {
-                     template = XmlTemplateRegistry.getTemplate("STC");
-                     values = new Object[]{stc.getForegroundColor(), stc.getPrecision()};
-                 } else if (cs instanceof PTOCAControlSequence.USC_Underscore usc) {
-                     template = XmlTemplateRegistry.getTemplate("USC");
-                     values = new Object[]{usc.getBypassFlag()};
-                 } else if (cs instanceof PTOCAControlSequence.SEC_SetExtendedTextColor sec) {
-                     template = XmlTemplateRegistry.getTemplate("SEC");
-                     values = new Object[]{
-                         sec.getColorSpace(), (int) sec.getNrOfBitsComponent1(),
-                         (int) sec.getNrOfBitsComponent2(), (int) sec.getNrOfBitsComponent3(),
-                         (int) sec.getNrOfBitsComponent4(),
-                         com.mgz.util.UtilCharacterEncoding.bytesToHexString(sec.getColorValue())
-                     };
-                 } else if (cs instanceof PTOCAControlSequence.DIR_DrawIaxisRule dir) {
-                     template = XmlTemplateRegistry.getTemplate("DIR");
-                     String extra = "";
-                     if (dir.getWidth() != null) {
-                         extra += " width=\"" + dir.getWidth() + "\"";
-                         if (dir.getWidthFraction() != null) {
-                             extra += " widthFraction=\"" + dir.getWidthFraction() + "\"";
-                         }
-                     }
-                     values = new Object[]{0, 0, 0, dir.getLength(), extra};
-                 } else if (cs instanceof PTOCAControlSequence.DBR_DrawBaxisRule dbr) {
-                     template = XmlTemplateRegistry.getTemplate("DBR");
-                     String extra = "";
-                     if (dbr.getWidth() != null) {
-                         extra += " width=\"" + dbr.getWidth() + "\"";
-                         if (dbr.getWidthFraction() != null) {
-                             extra += " widthFraction=\"" + dbr.getWidthFraction() + "\"";
-                         }
-                     }
-                     values = new Object[]{0, 0, 0, dbr.getLength(), extra};
-                 }
-
-                 if (template != null) {
-                     AfpXmlStreamWriter baseXsw = getBaseXsw(writer);
-                     template.writeObjects(baseXsw, values);
-                     baseXsw.flush();
-                 }
+                // All PTOCA sequences have been migrated to fast-paths
+                invokeWriteControlSequence(writer, cs, 0);
             }
         }
         String fastPathXml = baosFast.toString(StandardCharsets.UTF_8);
@@ -596,6 +400,13 @@ public class XmlTemplateVerificationTest {
             org.codehaus.stax2.XMLStreamWriter2.class, Triplet.class, int.class);
         method.setAccessible(true);
         method.invoke(writer, getBaseXsw(writer), t, level);
+    }
+
+    private void invokeWriteControlSequence(AfpJacksonXmlWriter writer, PTOCAControlSequence cs, int level) throws Exception {
+        java.lang.reflect.Method method = AfpJacksonXmlWriter.class.getDeclaredMethod("writeControlSequence",
+            PTOCAControlSequence.class, int.class);
+        method.setAccessible(true);
+        method.invoke(writer, cs, level);
     }
 
     private String normalizeXml(String xml) {

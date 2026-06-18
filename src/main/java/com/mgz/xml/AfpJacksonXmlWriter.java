@@ -1305,7 +1305,11 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.CodedGraphicCharacterSetGlobalID cgcs) {
-      XmlTemplateRegistry.getTemplate("CGCS").writeObjects(baseXsw, cgcs.getGraphicCharacterSetGlobalID(), cgcs.getCodePageGlobalID_codedCharacterSetID());
+      baseXsw.writeEmptyElement("CodedGraphicCharacterSetGlobalID");
+      baseXsw.writeIntAttribute(null, null, "graphicCharacterSetGlobalID",
+          cgcs.getGraphicCharacterSetGlobalID());
+      baseXsw.writeIntAttribute(null, null, "codePageGlobalID_codedCharacterSetID",
+          cgcs.getCodePageGlobalID_codedCharacterSetID());
     } else if (triplet instanceof Triplet.MappingOption mo) {
       baseXsw.writeEmptyElement("MappingOption");
       if (mo.getDataObjecMapingOption() != null) {
@@ -1369,8 +1373,11 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         baseXsw.writeAttribute("characterRotation", cr.characterRotation.name());
       }
     } else if (triplet instanceof Triplet.ObjectByteOffset obo) {
-      String extra = obo.byteOffsetHighOrder != null ? " byteOffsetHighOrder=\"" + obo.byteOffsetHighOrder + "\"" : "";
-      XmlTemplateRegistry.getTemplate("OBO").writeObjects(baseXsw, obo.byteOffset, extra);
+      baseXsw.writeEmptyElement("ObjectByteOffset");
+      baseXsw.writeLongAttribute(null, null, "byteOffset", obo.byteOffset);
+      if (obo.byteOffsetHighOrder != null) {
+        baseXsw.writeLongAttribute(null, null, "byteOffsetHighOrder", obo.byteOffsetHighOrder);
+      }
     } else if (triplet instanceof Triplet.MeasurementUnits mu) {
       baseXsw.writeEmptyElement("MeasurementUnits");
       if (mu.xUnitBase != null) {
@@ -1382,9 +1389,17 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       baseXsw.writeIntAttribute(null, null, "xUnitsPerUnitbase", (int) mu.xUnitsPerUnitbase);
       baseXsw.writeIntAttribute(null, null, "yUnitsPerUnitbase", (int) mu.yUnitsPerUnitbase);
     } else if (triplet instanceof Triplet.ObjectAreaSize oas) {
-      XmlTemplateRegistry.getTemplate("OAS").writeObjects(baseXsw, (int) oas.sizeType_0x02, oas.xSize, oas.ySize);
+      baseXsw.writeEmptyElement("ObjectAreaSize");
+      baseXsw.writeIntAttribute(null, null, "sizeType_0x02", (int) oas.sizeType_0x02);
+      baseXsw.writeIntAttribute(null, null, "xSize", oas.xSize);
+      baseXsw.writeIntAttribute(null, null, "ySize", oas.ySize);
     } else if (triplet instanceof Triplet.AreaDefinition ad) {
-      XmlTemplateRegistry.getTemplate("AD").writeObjects(baseXsw, (int) ad.reserved2, ad.xOrigin, ad.yOrigin, ad.xSize, ad.ySize);
+      baseXsw.writeEmptyElement("AreaDefinition");
+      baseXsw.writeIntAttribute(null, null, "reserved2", (int) ad.reserved2);
+      baseXsw.writeIntAttribute(null, null, "xOrigin", ad.xOrigin);
+      baseXsw.writeIntAttribute(null, null, "yOrigin", ad.yOrigin);
+      baseXsw.writeIntAttribute(null, null, "xSize", ad.xSize);
+      baseXsw.writeIntAttribute(null, null, "ySize", ad.ySize);
     } else if (triplet instanceof Triplet.ColorSpecification cs) {
       writer.writeStartElement("ColorSpecification");
       writeElement(writer, childLevel, "reserved2", cs.reserved2);
@@ -1426,14 +1441,39 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ObjectCount oc) {
-      String extra = oc.numberOfObjectsHigh != null
-          ? " numberOfObjectsHigh=\"" + oc.numberOfObjectsHigh + "\"" : "";
-      XmlTemplateRegistry.getTemplate("OCNT").writeObjects(baseXsw,
-          (int) oc.subordinateObjectType, (int) oc.reserved3, oc.numberOfObjectsLow, extra);
+      baseXsw.writeEmptyElement("ObjectCount");
+      baseXsw.writeIntAttribute(null, null, "subordinateObjectType", (int) oc.subordinateObjectType);
+      baseXsw.writeIntAttribute(null, null, "reserved3", (int) oc.reserved3);
+      baseXsw.writeLongAttribute(null, null, "numberOfObjectsLow", oc.numberOfObjectsLow);
+      if (oc.numberOfObjectsHigh != null) {
+        baseXsw.writeLongAttribute(null, null, "numberOfObjectsHigh", oc.numberOfObjectsHigh);
+      }
     } else if (triplet instanceof Triplet.LocalObjectDateAndTimeStamp lodts) {
-      XmlTemplateRegistry.getTemplate("LODTS").writeObjects(baseXsw, lodts.dateAndTimeStampType, (int) lodts.hundreds, (int) lodts.tens, (int) lodts.dayOfYear, (int) lodts.hourOfDay, (int) lodts.minuteOfHour, (int) lodts.secondOfMinute, (int) lodts.hundredthOfSecond);
+      baseXsw.writeEmptyElement("LocalObjectDateAndTimeStamp");
+      if (lodts.dateAndTimeStampType != null) {
+        baseXsw.writeAttribute("dateAndTimeStampType", lodts.dateAndTimeStampType.name());
+      }
+      baseXsw.writeIntAttribute(null, null, "hundreds", (int) lodts.hundreds);
+      baseXsw.writeIntAttribute(null, null, "tens", (int) lodts.tens);
+      baseXsw.writeIntAttribute(null, null, "dayOfYear", (int) lodts.dayOfYear);
+      baseXsw.writeIntAttribute(null, null, "hourOfDay", (int) lodts.hourOfDay);
+      baseXsw.writeIntAttribute(null, null, "minuteOfHour", (int) lodts.minuteOfHour);
+      baseXsw.writeIntAttribute(null, null, "secondOfMinute", (int) lodts.secondOfMinute);
+      baseXsw.writeIntAttribute(null, null, "hundredthOfSecond", (int) lodts.hundredthOfSecond);
     } else if (triplet instanceof Triplet.UniversalDateAndTimeStamp udts) {
-      XmlTemplateRegistry.getTemplate("UDTS").writeObjects(baseXsw, (int) udts.reserved2, (int) udts.year, (int) udts.monthOfYear, (int) udts.dayOfMonth, (int) udts.hourOfDay, (int) udts.minuteOfHour, (int) udts.secondOfMinute, udts.timeZone, (int) udts.diffHours, (int) udts.diffMinutes);
+      baseXsw.writeEmptyElement("UniversalDateAndTimeStamp");
+      baseXsw.writeIntAttribute(null, null, "reserved2", (int) udts.reserved2);
+      baseXsw.writeIntAttribute(null, null, "year", (int) udts.year);
+      baseXsw.writeIntAttribute(null, null, "monthOfYear", (int) udts.monthOfYear);
+      baseXsw.writeIntAttribute(null, null, "dayOfMonth", (int) udts.dayOfMonth);
+      baseXsw.writeIntAttribute(null, null, "hourOfDay", (int) udts.hourOfDay);
+      baseXsw.writeIntAttribute(null, null, "minuteOfHour", (int) udts.minuteOfHour);
+      baseXsw.writeIntAttribute(null, null, "secondOfMinute", (int) udts.secondOfMinute);
+      if (udts.timeZone != null) {
+        baseXsw.writeAttribute("timeZone", udts.timeZone.name());
+      }
+      baseXsw.writeIntAttribute(null, null, "diffHours", (int) udts.diffHours);
+      baseXsw.writeIntAttribute(null, null, "diffMinutes", (int) udts.diffMinutes);
     } else if (triplet instanceof Triplet.FontDescriptorSpecification fds) {
       writer.writeStartElement("FontDescriptorSpecification");
       if (fds.fontWeigthClass != null) {
@@ -1468,37 +1508,74 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ResourceObjectType rot) {
-      XmlTemplateRegistry.getTemplate("ROT").writeObjects(baseXsw, rot.objectType);
+      baseXsw.writeEmptyElement("ResourceObjectType");
+      if (rot.objectType != null) {
+        baseXsw.writeAttribute("objectType", rot.objectType.name());
+      }
     } else if (triplet instanceof Triplet.MODCAFunctionSet mfs) {
-      XmlTemplateRegistry.getTemplate("MFS").write(baseXsw, mfs.fctSetID);
+      baseXsw.writeEmptyElement("MODCAFunctionSet");
+      baseXsw.writeIntAttribute(null, null, "fctSetID", mfs.fctSetID);
     } else if (triplet instanceof Triplet.FontCodedGraphicCharacterSetGlobalID fcgcs) {
-      XmlTemplateRegistry.getTemplate("FCGCS").write(baseXsw, fcgcs.codedGraphicCharacterSetGlobalID, fcgcs.codePageGlobalID);
+      baseXsw.writeEmptyElement("FontCodedGraphicCharacterSetGlobalID");
+      baseXsw.writeIntAttribute(null, null, "codedGraphicCharacterSetGlobalID",
+          fcgcs.codedGraphicCharacterSetGlobalID);
+      baseXsw.writeIntAttribute(null, null, "codePageGlobalID", fcgcs.codePageGlobalID);
     } else if (triplet instanceof Triplet.ExtendedResourceLocalIdentifier erli) {
-      XmlTemplateRegistry.getTemplate("ERLI").writeObjects(baseXsw, erli.resourceType, erli.extendedResourceLocalID);
+      baseXsw.writeEmptyElement("ExtendedResourceLocalIdentifier");
+      if (erli.resourceType != null) {
+        baseXsw.writeAttribute("resourceType", erli.resourceType.name());
+      }
+      baseXsw.writeIntAttribute(null, null, "extendedResourceLocalID",
+          (int) erli.extendedResourceLocalID);
     } else if (triplet instanceof Triplet.ResourceSectionNumber rsn) {
-      XmlTemplateRegistry.getTemplate("RSN").write(baseXsw, (int) rsn.resourceSectionNumber);
+      baseXsw.writeEmptyElement("ResourceSectionNumber");
+      baseXsw.writeIntAttribute(null, null, "resourceSectionNumber",
+          (int) rsn.resourceSectionNumber);
     } else if (triplet instanceof Triplet.MediumMapPageNumber mmpn) {
-      XmlTemplateRegistry.getTemplate("MMPN").write(baseXsw, mmpn.pageNumber);
+      baseXsw.writeEmptyElement("MediumMapPageNumber");
+      baseXsw.writeLongAttribute(null, null, "pageNumber", mmpn.pageNumber);
     } else if (triplet instanceof Triplet.ObjectByteExtent obe) {
-      XmlTemplateRegistry.getTemplate("OBE").writeObjects(baseXsw, obe.byteExtentLow, obe.byteExtentHigh);
+      baseXsw.writeEmptyElement("ObjectByteExtent");
+      baseXsw.writeLongAttribute(null, null, "byteExtentLow", obe.byteExtentLow);
+      baseXsw.writeLongAttribute(null, null, "byteExtentHigh", obe.byteExtentHigh);
     } else if (triplet instanceof Triplet.ObjectStructuredFieldOffset osfo) {
-      String extra = osfo.offsetHigh != null ? " offsetHigh=\"" + osfo.offsetHigh + "\"" : "";
-      XmlTemplateRegistry.getTemplate("OSFO").writeObjects(baseXsw, osfo.offsetLow, extra);
+      baseXsw.writeEmptyElement("ObjectStructuredFieldOffset");
+      baseXsw.writeLongAttribute(null, null, "offsetLow", osfo.offsetLow);
+      if (osfo.offsetHigh != null) {
+        baseXsw.writeLongAttribute(null, null, "offsetHigh", osfo.offsetHigh);
+      }
     } else if (triplet instanceof Triplet.ObjectStructuredFieldExtent osfe) {
-      String extra = osfe.numberOfSFHigh != null ? " numberOfSFHigh=\"" + osfe.numberOfSFHigh + "\"" : "";
-      XmlTemplateRegistry.getTemplate("OSFE").writeObjects(baseXsw, osfe.numberOfSFLow, extra);
+      baseXsw.writeEmptyElement("ObjectStructuredFieldExtent");
+      baseXsw.writeLongAttribute(null, null, "numberOfSFLow", osfe.numberOfSFLow);
+      if (osfe.numberOfSFHigh != null) {
+        baseXsw.writeLongAttribute(null, null, "numberOfSFHigh", osfe.numberOfSFHigh);
+      }
     } else if (triplet instanceof Triplet.ObjectOffset oo) {
-      String typeAttr = oo.objectType != null ? " objectType=\"" + oo.objectType.name() + "\"" : "";
-      String extra = oo.nrOfPrecedingObjectsHigh != null
-          ? " nrOfPrecedingObjectsHigh=\"" + oo.nrOfPrecedingObjectsHigh + "\"" : "";
-      XmlTemplateRegistry.getTemplate("OO").writeObjects(baseXsw, typeAttr, (int) oo.reserved3,
-          oo.nrOfPrecedingObjectsLow, extra);
+      baseXsw.writeEmptyElement("ObjectOffset");
+      if (oo.objectType != null) {
+        baseXsw.writeAttribute("objectType", oo.objectType.name());
+      }
+      baseXsw.writeIntAttribute(null, null, "reserved3", (int) oo.reserved3);
+      baseXsw.writeLongAttribute(null, null, "nrOfPrecedingObjectsLow", oo.nrOfPrecedingObjectsLow);
+      if (oo.nrOfPrecedingObjectsHigh != null) {
+        baseXsw.writeLongAttribute(null, null, "nrOfPrecedingObjectsHigh",
+            oo.nrOfPrecedingObjectsHigh);
+      }
     } else if (triplet instanceof Triplet.FontHorizontalScaleFactor fhsf) {
-      XmlTemplateRegistry.getTemplate("FHSF").write(baseXsw, (int) fhsf.horizontalScaleFactor);
+      baseXsw.writeEmptyElement("FontHorizontalScaleFactor");
+      baseXsw.writeIntAttribute(null, null, "horizontalScaleFactor",
+          (int) fhsf.horizontalScaleFactor);
     } else if (triplet instanceof Triplet.MediumOrientation mo) {
-      XmlTemplateRegistry.getTemplate("MOR").writeObjects(baseXsw, mo.mediumOrientation);
+      baseXsw.writeEmptyElement("MediumOrientation");
+      if (mo.mediumOrientation != null) {
+        baseXsw.writeAttribute("mediumOrientation", mo.mediumOrientation.name());
+      }
     } else if (triplet instanceof Triplet.TonerSaver ts) {
-      XmlTemplateRegistry.getTemplate("TS").writeObjects(baseXsw, (int) ts.reserved2, ts.tonerSaverFunction);
+      baseXsw.writeEmptyElement("TonerSaver");
+      baseXsw.writeIntAttribute(null, null, "reserved2", (int) ts.reserved2);
+      if (ts.tonerSaverFunction != null) {
+        baseXsw.writeAttribute("tonerSaverFunction", ts.tonerSaverFunction.name());
+      }
     } else if (triplet instanceof Triplet.PresentationControl pc) {
       writer.writeStartElement("PresentationControl");
       if (pc.presentationControlFlags != null) {
@@ -1513,7 +1590,14 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.FontResolutionAndMetricTechnology framt) {
-      XmlTemplateRegistry.getTemplate("FRAMT").writeObjects(baseXsw, framt.metricTechnology, framt.unitBase, (int) framt.unitsPerUnitBase);
+      baseXsw.writeEmptyElement("FontResolutionAndMetricTechnology");
+      if (framt.metricTechnology != null) {
+        baseXsw.writeAttribute("metricTechnology", framt.metricTechnology.name());
+      }
+      if (framt.unitBase != null) {
+        baseXsw.writeAttribute("unitBase", framt.unitBase.name());
+      }
+      baseXsw.writeIntAttribute(null, null, "unitsPerUnitBase", (int) framt.unitsPerUnitBase);
     } else if (triplet instanceof Triplet.RenderingIntent ri) {
       writer.writeStartElement("RenderingIntent");
       if (ri.reserved2_3 != null) {
@@ -1552,7 +1636,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.PresentationSpaceResetMixing psrm) {
-      XmlTemplateRegistry.getTemplate("PSRM").writeObjects(baseXsw, psrm.backgroundMixingFlag);
+      baseXsw.writeEmptyElement("PresentationSpaceResetMixing");
+      if (psrm.backgroundMixingFlag != null) {
+        baseXsw.writeAttribute("backgroundMixingFlag", psrm.backgroundMixingFlag.name());
+      }
     } else if (triplet instanceof Triplet.PresentationSpaceMixingRule psmr) {
       writer.writeStartElement("PresentationSpaceMixingRule");
       if (psmr.getMixingRules() != null) {
@@ -1668,7 +1755,14 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ColorManagementResourceDescriptor cmrd) {
-      XmlTemplateRegistry.getTemplate("CMRD").writeObjects(baseXsw, (int) cmrd.reserved2, cmrd.cmrProcessingMode, cmrd.cmrScope);
+      baseXsw.writeEmptyElement("ColorManagementResourceDescriptor");
+      baseXsw.writeIntAttribute(null, null, "reserved2", (int) cmrd.reserved2);
+      if (cmrd.cmrProcessingMode != null) {
+        baseXsw.writeAttribute("cmrProcessingMode", cmrd.cmrProcessingMode.name());
+      }
+      if (cmrd.cmrScope != null) {
+        baseXsw.writeAttribute("cmrScope", cmrd.cmrScope.name());
+      }
     } else if (triplet instanceof Triplet.CMRTagFidelity ctf) {
       writer.writeStartElement("CMRTagFidelity");
       if (ctf.exceptionContinuationRule != null) {
@@ -1695,7 +1789,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ObjectContainerPresentationSpaceSize ocpss) {
-      XmlTemplateRegistry.getTemplate("OCPSS").writeObjects(baseXsw, ocpss.pdfPresentationSpace);
+      baseXsw.writeEmptyElement("ObjectContainerPresentationSpaceSize");
+      if (ocpss.pdfPresentationSpace != null) {
+        baseXsw.writeAttribute("pdfPresentationSpace", ocpss.pdfPresentationSpace.name());
+      }
     } else if (triplet instanceof Triplet.ObjectFunctionSetSpecification_Retired ofss) {
       writer.writeStartElement("ObjectFunctionSetSpecification_Retired");
       if (ofss.objectType != null) {
@@ -1712,9 +1809,15 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.DescriptorPosition dp) {
-      XmlTemplateRegistry.getTemplate("DP").write(baseXsw, (int) dp.objectAreaDescriptorID);
+      baseXsw.writeEmptyElement("DescriptorPosition");
+      baseXsw.writeIntAttribute(null, null, "objectAreaDescriptorID",
+          (int) dp.objectAreaDescriptorID);
     } else if (triplet instanceof Triplet.MediaEjectControl mec) {
-      XmlTemplateRegistry.getTemplate("MEC").writeObjects(baseXsw, (int) mec.reserved2, mec.mediaEjectControl);
+      baseXsw.writeEmptyElement("MediaEjectControl");
+      baseXsw.writeIntAttribute(null, null, "reserved2", (int) mec.reserved2);
+      if (mec.mediaEjectControl != null) {
+        baseXsw.writeAttribute("mediaEjectControl", mec.mediaEjectControl.name());
+      }
     } else if (triplet instanceof Triplet.PageOverlayConditionalProcessing pocp) {
       writer.writeStartElement("PageOverlayConditionalProcessing");
       if (pocp.pageOverlayType != null) {
@@ -1726,7 +1829,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.ResourceUsageAttribute rua) {
-      XmlTemplateRegistry.getTemplate("RUA").writeObjects(baseXsw, rua.frequencyOfUse);
+      baseXsw.writeEmptyElement("ResourceUsageAttribute");
+      if (rua.frequencyOfUse != null) {
+        baseXsw.writeAttribute("frequencyOfUse", rua.frequencyOfUse.name());
+      }
     } else if (triplet instanceof Triplet.ObjectChecksum oc) {
       writer.writeStartElement("ObjectChecksum");
       if (oc.checksumFormat != null) {
@@ -1762,9 +1868,18 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.TextOrientation to) {
-      XmlTemplateRegistry.getTemplate("TO").writeObjects(baseXsw, to.xOrientation, to.yOrientation);
+      baseXsw.writeEmptyElement("TextOrientation");
+      if (to.xOrientation != null) {
+        baseXsw.writeAttribute("xOrientation", to.xOrientation.name());
+      }
+      if (to.yOrientation != null) {
+        baseXsw.writeAttribute("yOrientation", to.yOrientation.name());
+      }
     } else if (triplet instanceof Triplet.LineDataObjectPositionMigration ldopm) {
-      XmlTemplateRegistry.getTemplate("LDOPM").writeObjects(baseXsw, ldopm.locationAndOrientation);
+      baseXsw.writeEmptyElement("LineDataObjectPositionMigration");
+      if (ldopm.locationAndOrientation != null) {
+        baseXsw.writeAttribute("locationAndOrientation", ldopm.locationAndOrientation.name());
+      }
     } else if (triplet instanceof Triplet.ResourceObjectInclude roi) {
       writer.writeStartElement("ResourceObjectInclude");
       writeElement(writer, childLevel, "objectType", (int) roi.objectType);
@@ -1777,7 +1892,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.PagePositionInformation ppi) {
-      XmlTemplateRegistry.getTemplate("PPI").write(baseXsw, (int) ppi.repeatingGroupNumber);
+      baseXsw.writeEmptyElement("PagePositionInformation");
+      baseXsw.writeIntAttribute(null, null, "repeatingGroupNumber", (int) ppi.repeatingGroupNumber);
     } else if (triplet instanceof Triplet.ParameterValue pv) {
       writer.writeStartElement("ParameterValue");
       writeElement(writer, childLevel, "reserved2", (int) pv.reserved2);
@@ -1844,7 +1960,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (triplet instanceof Triplet.KeepGroupTogether kgt) {
-      XmlTemplateRegistry.getTemplate("KGT").write(baseXsw, (int) kgt.grpFnct);
+      baseXsw.writeEmptyElement("KeepGroupTogether");
+      baseXsw.writeIntAttribute(null, null, "grpFnct", (int) kgt.grpFnct);
     } else if (triplet instanceof Triplet.SetupName sn) {
       writer.writeStartElement("SetupName");
       if (sn.reserved2_3 != null) {
