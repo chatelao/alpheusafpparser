@@ -243,7 +243,7 @@
   </BPT_BeginPresentationTextObject>
   <PTX_PresentationTextData page="0" x="0" y="0">
     <STO_SetTextOrientation page="0" x="0" y="0" xOrientation="ori0" yOrientation="ori90"/>
-    <STC_SetTextColor foregroundColor="DeviceDefault_0x00" precision=""/>
+    <STC_SetTextColor foregroundColor="DeviceDefault_0x00"/>
     <AMB_AbsoluteMoveBaseline page="0" x="0" y="0" displacement="874"/>
     <AMI_AbsoluteMoveInline page="0" x="0" y="874" displacement="581"/>
     <SCFL_SetCodedFontLocal codedFontLocalID="1"/>
@@ -6862,7 +6862,10 @@ VPxQ0/5ijTgFZvB4OOOBH2uOKywykbjY/wcKhIlMlj9t2J2FYTsmmT67c5ehCrKeqS44ow5fs1Pp
   </PTD_PresentationTextDataDescriptor_Format2>
   <EAG_EndActiveEnvironmentGroup>
   </EAG_EndActiveEnvironmentGroup>
-  <IPO_IncludePageOverlay>
+  <IPO_IncludePageOverlay page="1">
+    <overlayName>O1VORNAL</overlayName>
+    <xOrigin>0</xOrigin>
+    <yOrigin>0</yOrigin>
   </IPO_IncludePageOverlay>
   <BBC_BeginBarCodeObject name="INSDMBCP">
     <text>INSDMBCP</text>

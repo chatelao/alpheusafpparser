@@ -499,7 +499,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (sf instanceof BRG_BeginResourceGroup brg) {
       writeNameAndTripletsDirectly(brg, "BRG_BeginResourceGroup", level);
     } else if (sf instanceof com.mgz.afp.modca.BNG_BeginNamedPageGroup bng) {
-      writeNameAndTripletsDirectly(bng, "BNG_BeginNamedPageGroup", level);
+      writeBngDirectly(bng, level);
     } else if (sf instanceof com.mgz.afp.modca.BPG_BeginPage bpg) {
       currentPageNumber++;
       resetPtocaState();
@@ -529,7 +529,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (sf instanceof com.mgz.afp.modca.EDT_EndDocument edt) {
       writeNameAndTripletsDirectly(edt, "EDT_EndDocument", level);
     } else if (sf instanceof com.mgz.afp.modca.ENG_EndNamedPageGroup eng) {
-      writeNameAndTripletsDirectly(eng, "ENG_EndNamedPageGroup", level);
+      writeEngDirectly(eng, level);
     } else if (sf instanceof com.mgz.afp.modca.EPG_EndPage epg) {
       writeEpgDirectly(epg, level);
     } else if (sf instanceof com.mgz.afp.modca.IEL_IndexElement iel) {
@@ -537,7 +537,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (sf instanceof LLE_LinkLogicalElement lle) {
       writeLleDirectly(lle, level);
     } else if (sf instanceof com.mgz.afp.modca.IPG_IncludePage ipg) {
-      writeTripletsAndTextDirectly(ipg, "IPG_IncludePage", level);
+      writeIpgDirectly(ipg, level);
     } else if (sf instanceof com.mgz.afp.modca.PGD_PageDescriptor pgd) {
       writePgdDirectly(pgd, level);
     } else if (sf instanceof PGP_PagePosition_Format1 pgp) {
@@ -561,9 +561,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (sf instanceof com.mgz.afp.modca.PEC_PresentationEnvironmentControl pec) {
       writeTripletsAndTextDirectly(pec, "PEC_PresentationEnvironmentControl", level);
     } else if (sf instanceof com.mgz.afp.modca.IPS_IncludePageSegment ips) {
-      writeTripletsAndTextDirectly(ips, "IPS_IncludePageSegment", level);
+      writeIpsDirectly(ips, level);
     } else if (sf instanceof com.mgz.afp.modca.IPO_IncludePageOverlay ipo) {
-      writeTripletsAndTextDirectly(ipo, "IPO_IncludePageOverlay", level);
+      writeIpoDirectly(ipo, level);
     } else if (sf instanceof com.mgz.afp.modca.MFC_MediumFinishingControl mfc) {
       writeTripletsAndTextDirectly(mfc, "MFC_MediumFinishingControl", level);
     } else if (sf instanceof com.mgz.afp.modca.PFC_PresentationFidelityControl pfc) {
@@ -644,6 +644,82 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     if (tle.getText() != null) {
       writeElement(baseXsw, level + 1, "text", tle.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeIpgDirectly(com.mgz.afp.modca.IPG_IncludePage ipg, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("IPG");
+    baseXsw.writeStartElement("IPG_IncludePage");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "pageName", ipg.getPageName());
+    if (ipg.getReserved8_15() != null) {
+      writeBinaryElement(baseXsw, childLevel, "reserved8_15", ipg.getReserved8_15());
+    }
+    if (ipg.getFlags() != null) {
+      writeElement(baseXsw, childLevel, "flags", ipg.getFlags().name());
+    }
+    if (ipg.getTriplets() != null && !ipg.getTriplets().isEmpty()) {
+      for (Triplet triplet : ipg.getTriplets()) {
+        writeTriplet(baseXsw, triplet, childLevel);
+      }
+    }
+    if (ipg.getText() != null) {
+      writeElement(baseXsw, childLevel, "text", ipg.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeIpsDirectly(com.mgz.afp.modca.IPS_IncludePageSegment ips, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("IPS");
+    baseXsw.writeStartElement("IPS_IncludePageSegment");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "pageSegmentName", ips.getPageSegmentName());
+    writeElement(baseXsw, childLevel, "xOrigin", ips.getxOrigin());
+    writeElement(baseXsw, childLevel, "yOrigin", ips.getyOrigin());
+    if (ips.getTriplets() != null && !ips.getTriplets().isEmpty()) {
+      for (Triplet triplet : ips.getTriplets()) {
+        writeTriplet(baseXsw, triplet, childLevel);
+      }
+    }
+    if (ips.getText() != null) {
+      writeElement(baseXsw, childLevel, "text", ips.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeIpoDirectly(com.mgz.afp.modca.IPO_IncludePageOverlay ipo, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("IPO");
+    baseXsw.writeStartElement("IPO_IncludePageOverlay");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "overlayName", ipo.getOverlayName());
+    writeElement(baseXsw, childLevel, "xOrigin", ipo.getxOrigin());
+    writeElement(baseXsw, childLevel, "yOrigin", ipo.getyOrigin());
+    if (ipo.getxRotation() != null) {
+      writeElement(baseXsw, childLevel, "xRotation", ipo.getxRotation().name());
+    }
+    if (ipo.getTriplets() != null && !ipo.getTriplets().isEmpty()) {
+      for (Triplet triplet : ipo.getTriplets()) {
+        writeTriplet(baseXsw, triplet, childLevel);
+      }
+    }
+    if (ipo.getText() != null) {
+      writeElement(baseXsw, childLevel, "text", ipo.getText());
     }
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
@@ -3884,6 +3960,48 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   private int getAfpY() {
     return CoordinateTransformer.getAfpY(inlinePos, baselinePos, inlineOri, baselineOri);
+  }
+
+  private void writeBngDirectly(com.mgz.afp.modca.BNG_BeginNamedPageGroup bng, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BNG");
+    baseXsw.writeStartElement("BNG_BeginNamedPageGroup");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "name", bng.getName());
+    if (bng.getTriplets() != null && !bng.getTriplets().isEmpty()) {
+      for (Triplet triplet : bng.getTriplets()) {
+        writeTriplet(baseXsw, triplet, childLevel);
+      }
+    }
+    if (bng.getText() != null) {
+      writeElement(baseXsw, childLevel, "text", bng.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeEngDirectly(com.mgz.afp.modca.ENG_EndNamedPageGroup eng, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("ENG");
+    baseXsw.writeStartElement("ENG_EndNamedPageGroup");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "name", eng.getName());
+    if (eng.getTriplets() != null && !eng.getTriplets().isEmpty()) {
+      for (Triplet triplet : eng.getTriplets()) {
+        writeTriplet(baseXsw, triplet, childLevel);
+      }
+    }
+    if (eng.getText() != null) {
+      writeElement(baseXsw, childLevel, "text", eng.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
   }
 
   private void writeBpgDirectly(com.mgz.afp.modca.BPG_BeginPage bpg, int level) throws Exception {
