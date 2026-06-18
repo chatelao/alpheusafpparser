@@ -27,16 +27,16 @@ Establish the plan and communicate the architectural shift.
 - ✅ Mark pending phases in `TEMPLATE_BASED_ROADMAP.md` as DISCONTINUED.
 
 ### Phase 2: Conversion of Structured Fields 🚧
-Migrate high-frequency Structured Fields from templates to StAX2.
+Migrate high-frequency Structured Fields and Triplets from templates to StAX2.
 - ✅ Re-implement `PGP1` and `PTD1` manual fast-paths in `AfpJacksonXmlWriter`.
-- ✅ Convert remaining SF templates in `XmlTemplateRegistry` to manual `write` methods.
-- ⏳ Verify output parity using `SFFastPathVerificationTest`.
+- 🚧 Convert remaining Triplet templates in `XmlTemplateRegistry` to manual `writeTriplet` methods.
+- 🚧 Verify output parity using `SFFastPathVerificationTest`.
 
-### Phase 3: Conversion of PTOCA Control Sequences ⏳
+### Phase 3: Conversion of PTOCA Control Sequences ✅
 Migrate PTOCA serialization to the unified spatial-aware driver.
-- ⏳ Integrate `AMI`, `AMB`, `RMI`, `RMB`, and `TRN`/`GC` into the `writeControlSequence` manual fast-path.
-- ⏳ Ensure all PTOCA sequences utilize the `CoordinateTransformer` for `afpX`/`afpY` calculation.
-- ⏳ Verify output parity using `XmlTemplateVerificationTest` (with coordinate normalization).
+- ✅ Integrate `AMI`, `AMB`, `RMI`, `RMB`, and `TRN`/`GC` into the `writeControlSequence` manual fast-path.
+- ✅ Ensure all PTOCA sequences utilize the `CoordinateTransformer` for `afpX`/`afpY` calculation.
+- ✅ Verify output parity using `XmlTemplateVerificationTest` (with coordinate normalization).
 
 ### Phase 4: Verification and Performance Parity ⏳
 Ensure the new approach meets or exceeds "Punchard" performance.
