@@ -1,0 +1,27 @@
+
+> Configure project :
+Source Compatibility: 21
+
+> Task :clean
+
+> Task :compileJava FAILED
+/app/src/main/java/com/mgz/xml/AfpJacksonXmlWriter.java:281: error: not a statement
+        "Trying to output second root"
+        ^
+/app/src/main/java/com/mgz/xml/AfpJacksonXmlWriter.java:281: error: ';' expected
+        "Trying to output second root"
+                                      ^
+2 errors
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler error output for details.
+
+* Try:
+> Run with --info option to get more log output.
+> Run with --scan to get full insights.
+
+BUILD FAILED in 2s
+2 actionable tasks: 2 executed

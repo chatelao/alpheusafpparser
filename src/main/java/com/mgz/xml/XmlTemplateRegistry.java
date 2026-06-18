@@ -102,7 +102,7 @@ public class XmlTemplateRegistry {
     register("PPI", new String[] {"<PagePositionInformation repeatingGroupNumber=\"", "\"/>"});
     register("TO", new String[] {
         "<TextOrientation xOrientation=\"", "\" yOrientation=\"", "\"/>"});
-    register("LDOPM", new String[] {"<LineDataObjectPositionMigration locationAndOrientation=\"", "\"/>"});
+    register("LDOPM", new String[] {"<LineDataObjectPositionMigration locationAndOrientation="", ""/>"});
     register("KGT", new String[] {"<KeepGroupTogether grpFnct=\"", "\"/>"});
     register("FCGCS", new String[] {
         "<FontCodedGraphicCharacterSetGlobalID codedGraphicCharacterSetGlobalID=\"",
@@ -147,7 +147,8 @@ public class XmlTemplateRegistry {
         "<OVS_Overstrike page=\"", "\" x=\"", "\" y=\"", "\"", "/>"});
     register("RPL", new String[] {"<repeatLength>", "</repeatLength>"});
 
-    register("TRN_START", new String[] {"<TRN_TransparentData page=\"", "\" x=\"", "\" y=\"", "\">"});
+    register("TRN_START", new String[] {
+        "<TRN_TransparentData page=\"", "\" x=\"", "\" y=\"", "\">"});
     register("GC_START", new String[] {"<GraphicCharacters page=\"", "\" x=\"", "\" y=\"", "\">"});
     register("RPS_START", new String[] {"<RPS_RepeatString page=\"", "\" x=\"", "\" y=\"", "\">"});
   }

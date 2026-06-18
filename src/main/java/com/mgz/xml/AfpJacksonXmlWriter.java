@@ -249,13 +249,15 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
    * @param indent if true, enable indentation
    * @throws Exception if initialization fails
    */
-  public AfpJacksonXmlWriter(OutputStream os, String xpathExpression, boolean fragmentMode, boolean indent)
+  public AfpJacksonXmlWriter(OutputStream os, String xpathExpression, boolean fragmentMode, boolean
+      indent)
       throws Exception {
     this.os = os;
 
     this.indentEnabled = indent;
     this.cos = new com.mgz.util.CountingOutputStream(new NonClosingOutputStream(os));
-    this.xpathExpression = (xpathExpression == null || xpathExpression.isBlank()) ? null : xpathExpression;
+    this.xpathExpression = (xpathExpression == null || xpathExpression.isBlank())
+        ? null : xpathExpression;
     this.fragmentMode = fragmentMode;
     this.mapper = JacksonXmlMapperProvider.getMapper();
     // Fragment mapper to avoid repeated XML declarations
@@ -265,7 +267,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       XMLOutputFactory xof = JacksonXmlMapperProvider.getOutputFactory();
       XMLStreamWriter2 rawXsw = (XMLStreamWriter2) xof.createXMLStreamWriter(cos, "UTF-8");
       this.baseXsw = new AfpXmlStreamWriter(rawXsw, cos);
-      this.xsw = MnemonicPerformanceMonitor.isEnabled() ? new MnemonicXMLStreamWriter(this.baseXsw) : this.baseXsw;
+      this.xsw = MnemonicPerformanceMonitor.isEnabled() ? new MnemonicXMLStreamWriter(this.baseXsw)
+          : this.baseXsw;
       if (!fragmentMode) {
         this.xsw.writeStartDocument("UTF-8", "1.0");
         writeNewline();
@@ -283,7 +286,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
 
     if (this.baseXsw != null) {
-      this.baseFragmentGenerator = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(baseXsw);
+      this.baseFragmentGenerator = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(
+          baseXsw);
     } else {
       this.baseFragmentGenerator = null;
     }
@@ -320,7 +324,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
           if (xsw != null) {
             xsw.flush();
           }
-          com.mgz.util.PTXPerformanceMonitor.recordPtxWrite(System.nanoTime() - startTime, cos.getCount() - startCount);
+          com.mgz.util.PTXPerformanceMonitor.recordPtxWrite(
+              System.nanoTime() - startTime, cos.getCount() - startCount);
         }
       } finally {
         if (ptxDebug) {
@@ -333,7 +338,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private void writeFieldDirectly(StructuredField sf) throws Exception {
     int level = fragmentMode ? 0 : 1;
     if (!fragmentMode) {
-      writePureIndent(level);
+      writePureIndent(baseXsw, level);
     }
 
     if (sf instanceof NOP_NoOperation nop) {
@@ -598,7 +603,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
         MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
       }
-      JacksonXmlMapperProvider.getCachedWriter(sf.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, sf);
+      JacksonXmlMapperProvider.getCachedWriter(sf.getClass(), true, indentEnabled).writeValue(
+          baseFragmentGenerator, sf);
       if (MnemonicPerformanceMonitor.isEnabled()) {
         MnemonicPerformanceMonitor.endWrite();
       }
@@ -660,7 +666,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.endWrite();
   }
 
-  private void writeFgdDirectly(FGD_FormEnvironmentGroupDescriptor fgd, int level) throws Exception {
+  private void writeFgdDirectly(FGD_FormEnvironmentGroupDescriptor
+      fgd, int level) throws Exception {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("FGD");
     baseXsw.writeStartElement("FGD_FormEnvironmentGroupDescriptor");
     int childLevel = level + 1;
@@ -678,7 +685,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(baseXsw, childLevel);
       baseXsw.writeStartElement("repeatingGroupsXml");
       for (com.mgz.afp.base.IRepeatingGroup irg : ppo.getRepeatingGroups()) {
-        PPO_PreprocessPresentationObject.PPO_RepeatingGroup rg = (PPO_PreprocessPresentationObject.PPO_RepeatingGroup) irg;
+        PPO_PreprocessPresentationObject.PPO_RepeatingGroup rg =
+            (PPO_PreprocessPresentationObject.PPO_RepeatingGroup) irg;
         writeIndent(baseXsw, childLevel + 1);
         baseXsw.writeStartElement("repeatingGroupsXml");
         int rgLevel = childLevel + 2;
@@ -729,7 +737,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         int rgLevel = childLevel + 1;
         writeElement(baseXsw, rgLevel, "lengthOfRepeatingGroup", rg.getLengthOfRepeatingGroup());
         if (rg.getRepeatingGroupFunction() != null) {
-          writeElement(baseXsw, rgLevel, "repeatingGroupFunction", rg.getRepeatingGroupFunction().name());
+          writeElement(baseXsw, rgLevel, "repeatingGroupFunction", rg.getRepeatingGroupFunction()
+              .name());
         }
         if (rg.getTriplets() != null) {
           for (Triplet t : rg.getTriplets()) {
@@ -862,7 +871,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writeElement(baseXsw, bpLevel, "resetLCTFlag", cat.getBasePart().getResetLCTFlag().name());
       }
       writeElement(baseXsw, bpLevel, "reserved1", (int) cat.getBasePart().getReserved1());
-      writeElement(baseXsw, bpLevel, "colorTableLocalID", (int) cat.getBasePart().getColorTableLocalID());
+      writeElement(baseXsw, bpLevel, "colorTableLocalID", (int) cat.getBasePart()
+          .getColorTableLocalID());
       writeIndent(baseXsw, childLevel);
       baseXsw.writeEndElement();
     }
@@ -928,7 +938,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     writeElement(baseXsw, childLevel, "shiftOutFontLocalID", rcd.getShiftOutFontLocalID());
     writeElement(baseXsw, childLevel, "dataStartPosition", rcd.getDataStartPosition());
     writeElement(baseXsw, childLevel, "dataLength", rcd.getDataLength());
-    writeElement(baseXsw, childLevel, "conditionalProcessingRCDPointer", rcd.getConditionalProcessingRCDPointer());
+    writeElement(baseXsw, childLevel, "conditionalProcessingRCDPointer", rcd.getConditionalProcessingRCDPointer
+        ());
     writeElement(baseXsw, childLevel, "subpageID", (int) rcd.getSubpageID());
     writeElement(baseXsw, childLevel, "ccpIdentifier", rcd.getCcpIdentifier());
     writeElement(baseXsw, childLevel, "startingPageNumber", rcd.getStartingPageNumber());
@@ -936,7 +947,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     writeElement(baseXsw, childLevel, "fieldAllignment", (int) rcd.getFieldAllignment());
     writeElement(baseXsw, childLevel, "fieldDelimiter", rcd.getFieldDelimiter());
     writeElement(baseXsw, childLevel, "fieldNumber", rcd.getFieldNumber());
-    writeElement(baseXsw, childLevel, "additionalBaselineIncrement", rcd.getAdditionalBaselineIncrement());
+    writeElement(baseXsw, childLevel, "additionalBaselineIncrement", rcd.getAdditionalBaselineIncrement
+        ());
     if (rcd.getReserved57_69() != null) {
       writeBinaryElement(baseXsw, childLevel, "reserved57_69", rcd.getReserved57_69());
     }
@@ -984,7 +996,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     writeElement(baseXsw, childLevel, "reserved26", (int) xmd.getReserved26());
     writeElement(baseXsw, childLevel, "dataStartPosition", xmd.getDataStartPosition());
     writeElement(baseXsw, childLevel, "dataLength", xmd.getDataLength());
-    writeElement(baseXsw, childLevel, "conditionalProcessingRCDPointer", xmd.getConditionalProcessingRCDPointer());
+    writeElement(baseXsw, childLevel, "conditionalProcessingRCDPointer", xmd.getConditionalProcessingRCDPointer
+        ());
     writeElement(baseXsw, childLevel, "subpageID", (int) xmd.getSubpageID());
     writeElement(baseXsw, childLevel, "ccpIdentifier", xmd.getCcpIdentifier());
     writeElement(baseXsw, childLevel, "startingPageNumber", xmd.getStartingPageNumber());
@@ -992,7 +1005,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     writeElement(baseXsw, childLevel, "fieldAllignment", (int) xmd.getFieldAllignment());
     writeElement(baseXsw, childLevel, "fieldDelimiter", xmd.getFieldDelimiter());
     writeElement(baseXsw, childLevel, "fieldNumber", xmd.getFieldNumber());
-    writeElement(baseXsw, childLevel, "additionalBaselineIncrement", xmd.getAdditionalBaselineIncrement());
+    writeElement(baseXsw, childLevel, "additionalBaselineIncrement", xmd.getAdditionalBaselineIncrement
+        ());
     if (xmd.getReserved48_61() != null) {
       writeBinaryElement(baseXsw, childLevel, "reserved48_61", xmd.getReserved48_61());
     }
@@ -1043,7 +1057,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("MMO");
     baseXsw.writeStartElement("MMO_MapMediumOverlay");
     int childLevel = level + 1;
-    writeElement(baseXsw, childLevel, "lengthOfEachRepeatingGroup", (int) mmo.getLengthOfEachRepeatingGroup());
+    writeElement(baseXsw, childLevel, "lengthOfEachRepeatingGroup",
+        (int) mmo.getLengthOfEachRepeatingGroup());
     writeBinaryElement(baseXsw, childLevel, "reserved1_3", mmo.getReserved1_3());
     if (mmo.getRepeatingGroups() != null) {
       writeIndent(baseXsw, childLevel);
@@ -1053,7 +1068,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
           writeIndent(baseXsw, childLevel + 1);
           baseXsw.writeStartElement("repeatingGroupsXml");
           int rgLevel = childLevel + 2;
-          writeElement(baseXsw, rgLevel, "mediumOverlayLocalId", (int) mmorg.getMediumOverlayLocalId());
+          writeElement(baseXsw, rgLevel, "mediumOverlayLocalId",
+              (int) mmorg.getMediumOverlayLocalId());
           if (mmorg.getFlag() != null) {
             writeElement(baseXsw, rgLevel, "flag", mmorg.getFlag().name());
           }
@@ -1093,7 +1109,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("MPS");
     baseXsw.writeStartElement("MPS_MapPageSegment");
     int childLevel = level + 1;
-    writeElement(baseXsw, childLevel, "lengthOfRepeatingGroup", (int) mps.getLengthOfRepeatingGroup());
+    writeElement(baseXsw, childLevel, "lengthOfRepeatingGroup",
+        (int) mps.getLengthOfRepeatingGroup());
     writeBinaryElement(baseXsw, childLevel, "reserved1_3", mps.getReserved1_3());
     if (mps.getRepeatingGroups() != null) {
       writeIndent(baseXsw, childLevel);
@@ -1144,7 +1161,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
           baseXsw.writeEndElement();
         } else {
           // Fallback for non-triplet RGs if needed, though most Map Fields use RepeatingGroupWithTriplets
-          JacksonXmlMapperProvider.getCachedWriter(rg.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, rg);
+          JacksonXmlMapperProvider.getCachedWriter(rg.getClass(), true, indentEnabled)
+              .writeValue(baseFragmentGenerator, rg);
         }
       }
       writeIndent(baseXsw, level);
@@ -4559,7 +4577,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     writeElement(baseXsw, childLevel, "xOriginOfContent", iob.getxOriginOfContent());
     writeElement(baseXsw, childLevel, "yOriginOfContent", iob.getyOriginOfContent());
-    writeElement(baseXsw, childLevel, "referenceCoordinateSystem", (int) iob.getReferenceCoordinateSystem());
+    writeElement(baseXsw, childLevel, "referenceCoordinateSystem",
+        (int) iob.getReferenceCoordinateSystem());
     if (iob.getTriplets() != null && !iob.getTriplets().isEmpty()) {
       writeIndent(baseXsw, childLevel);
       baseXsw.writeStartElement("triplets");
@@ -4581,7 +4600,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("CFC");
     baseXsw.writeStartElement("CFC_CodedFontControl");
     int childLevel = level + 1;
-    writeElement(baseXsw, childLevel, "cfiRepeatingGroupLength", (int) cfc.getCfiRepeatingGroupLength());
+    writeElement(baseXsw, childLevel, "cfiRepeatingGroupLength",
+        (int) cfc.getCfiRepeatingGroupLength());
     writeElement(baseXsw, childLevel, "retired", (int) cfc.getRetired());
     if (cfc.getTriplets() != null) {
       for (Triplet triplet : cfc.getTriplets()) {
@@ -4624,7 +4644,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("CPC");
     baseXsw.writeStartElement("CPC_CodePageControl");
     int childLevel = level + 1;
-    writeElement(baseXsw, childLevel, "defaultGraphicCharacterGlobalID", cpc.getDefaultGraphicCharacterGlobalID());
+    writeElement(baseXsw, childLevel, "defaultGraphicCharacterGlobalID",
+        cpc.getDefaultGraphicCharacterGlobalID());
 
     if (cpc.getDefaultCharacterUseFlags() != null) {
       writeIndent(baseXsw, childLevel);
@@ -4637,10 +4658,13 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
 
     if (cpc.getCpiRepeatingGroupLength() != null) {
-      writeElement(baseXsw, childLevel, "cpiRepeatingGroupLength", cpc.getCpiRepeatingGroupLength().name());
+      writeElement(baseXsw, childLevel, "cpiRepeatingGroupLength",
+          cpc.getCpiRepeatingGroupLength().name());
     }
-    writeElement(baseXsw, childLevel, "spaceCharacterSectionNumber", (int) cpc.getSpaceCharacterSectionNumber());
-    writeElement(baseXsw, childLevel, "spaceCharacterCodePoint", (int) cpc.getSpaceCharacterCodePoint());
+    writeElement(baseXsw, childLevel, "spaceCharacterSectionNumber",
+        (int) cpc.getSpaceCharacterSectionNumber());
+    writeElement(baseXsw, childLevel, "spaceCharacterCodePoint",
+        (int) cpc.getSpaceCharacterCodePoint());
 
     if (cpc.getCodePageUseFlags() != null) {
       writeIndent(baseXsw, childLevel);
@@ -4712,8 +4736,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     writeElement(baseXsw, childLevel, "nominalVerticalSize", (int) fnd.getNominalVerticalSize());
     writeElement(baseXsw, childLevel, "minimumVerticalSize", (int) fnd.getMinimumVerticalSize());
     writeElement(baseXsw, childLevel, "maxHorizontalSize", (int) fnd.getMaxHorizontalSize());
-    writeElement(baseXsw, childLevel, "nominalHorizontalSize", (int) fnd.getNominalHorizontalSize());
-    writeElement(baseXsw, childLevel, "minimumHorizontalSize", (int) fnd.getMinimumHorizontalSize());
+    writeElement(baseXsw, childLevel, "nominalHorizontalSize",
+        (int) fnd.getNominalHorizontalSize());
+    writeElement(baseXsw, childLevel, "minimumHorizontalSize",
+        (int) fnd.getMinimumHorizontalSize());
     writeElement(baseXsw, childLevel, "designGeneralClass", (int) fnd.getDesignGeneralClass());
     writeElement(baseXsw, childLevel, "designSubclass", (int) fnd.getDesignSubclass());
     writeElement(baseXsw, childLevel, "designSpecificGroup", (int) fnd.getDesignSpecificGroup());
@@ -4747,7 +4773,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writeElement(baseXsw, rgLevel, "charIncrement", (int) rg.getCharIncrement());
         writeElement(baseXsw, rgLevel, "ascenderHeight", (int) rg.getAscenderHeight());
         writeElement(baseXsw, rgLevel, "descenderDepth", (int) rg.getDescenderDepth());
-        writeElement(baseXsw, rgLevel, "kernableCharacterFlags", (int) rg.getKernableCharacterFlags());
+        writeElement(baseXsw, rgLevel, "kernableCharacterFlags",
+              (int) rg.getKernableCharacterFlags());
         writeElement(baseXsw, rgLevel, "reserved15", (int) rg.getReserved15());
         writeElement(baseXsw, rgLevel, "baselineOffset", (int) rg.getBaselineOffset());
         writeElement(baseXsw, rgLevel, "aspace", (int) rg.getASpace());
@@ -4804,8 +4831,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
           writeElement(baseXsw, rgLevel, "charRotation", rg.getCharRotation().name());
         }
         writeElement(baseXsw, rgLevel, "maxBaselineOffset", (int) rg.getMaxBaselineOffset());
-        writeElement(baseXsw, rgLevel, "maxCharacterIncrement", (int) rg.getMaxCharacterIncrement());
-        writeElement(baseXsw, rgLevel, "spaceCharacterIncrement", (int) rg.getSpaceCharacterIncrement());
+        writeElement(baseXsw, rgLevel, "maxCharacterIncrement",
+              (int) rg.getMaxCharacterIncrement());
+        writeElement(baseXsw, rgLevel, "spaceCharacterIncrement",
+              (int) rg.getSpaceCharacterIncrement());
         writeElement(baseXsw, rgLevel, "maxBaselineExtent", (int) rg.getMaxBaselineExtent());
         if (rg.getControlFlags() != null) {
           writeIndent(baseXsw, rgLevel);
@@ -4818,8 +4847,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         }
         writeElement(baseXsw, rgLevel, "emSpaceIncrement", (int) rg.getEmSpaceIncrement());
         writeElement(baseXsw, rgLevel, "figureSpaceIncrement", (int) rg.getFigureSpaceIncrement());
-        writeElement(baseXsw, rgLevel, "nominalCharacterIncrement", (int) rg.getNominalCharacterIncrement());
-        writeElement(baseXsw, rgLevel, "defaultBaselineIncrement", rg.getDefaultBaselineIncrement());
+        writeElement(baseXsw, rgLevel, "nominalCharacterIncrement",
+              (int) rg.getNominalCharacterIncrement());
+        writeElement(baseXsw, rgLevel, "defaultBaselineIncrement",
+              rg.getDefaultBaselineIncrement());
         writeElement(baseXsw, rgLevel, "minASpace", (int) rg.getMinASpace());
         writeIndent(baseXsw, childLevel + 1);
         baseXsw.writeEndElement();
@@ -4856,7 +4887,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writeElement(baseXsw, rgLevel, "retired15", (int) rg.getRetired15());
         writeElement(baseXsw, rgLevel, "reserved16", (int) rg.getReserved16());
         writeElement(baseXsw, rgLevel, "underscoreWidth", (int) rg.getUnderscoreWidth());
-        writeElement(baseXsw, rgLevel, "underscoreWidthFraction", (int) rg.getUnderscoreWidthFraction());
+        writeElement(baseXsw, rgLevel, "underscoreWidthFraction",
+              (int) rg.getUnderscoreWidthFraction());
         writeElement(baseXsw, rgLevel, "underscorePosition", (int) rg.getUnderscorePosition());
         writeIndent(baseXsw, childLevel + 1);
         baseXsw.writeEndElement();
@@ -4934,9 +4966,11 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     MnemonicPerformanceMonitor.startWriteWithMnemonic("CPD");
     baseXsw.writeStartElement("CPD_CodePageDescriptor");
     int childLevel = level + 1;
-    writeElement(baseXsw, childLevel, "graphicCharacterGIDLength", (int) cpd.getGraphicCharacterGIDLength());
+    writeElement(baseXsw, childLevel, "graphicCharacterGIDLength",
+        (int) cpd.getGraphicCharacterGIDLength());
     writeElement(baseXsw, childLevel, "codePageDescription", cpd.getCodePageDescription());
-    writeElement(baseXsw, childLevel, "numberOfCodedGraphicCharactersAssigned", cpd.getNumberOfCodedGraphicCharactersAssigned());
+    writeElement(baseXsw, childLevel, "numberOfCodedGraphicCharactersAssigned",
+        cpd.getNumberOfCodedGraphicCharactersAssigned());
     writeElement(baseXsw, childLevel, "graphicCharacterSetGID", cpd.getGraphicCharacterSetGID());
     writeElement(baseXsw, childLevel, "codePageGID", cpd.getCodePageGID());
     if (cpd.getEncodingScheme() != null) {
