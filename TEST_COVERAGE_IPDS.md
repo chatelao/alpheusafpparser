@@ -421,11 +421,11 @@
 | IPDS-3-386 | a specific coded font. | ❓ |
 | IPDS-4-001 | Table 19**. Device Control Commands | ❓ |
 | IPDS-4-002 | AR | X'D62E' | Activate Resource | No | ❓ |
-| IPDS-4-003 | ASN | X'D60A' | Activate Setup Name | No | ❓ |
-| IPDS-4-004 | AFO | X'D602' | Apply Finishing Operations | No | ❓ |
+| IPDS-4-003 | ASN | X'D60A' | Activate Setup Name | No | ✅ |
+| IPDS-4-004 | AFO | X'D602' | Apply Finishing Operations | No | ✅ |
 | IPDS-4-005 | BP | X'D6AF' | Begin Page | Yes | ✅ |
-| IPDS-4-006 | DF | X'D64F' | Deactivate Font | Yes | ❓ |
-| IPDS-4-007 | DUA | X'D6CE' | Define User Area | No | ❓ |
+| IPDS-4-006 | DF | X'D64F' | Deactivate Font | Yes | ✅ |
+| IPDS-4-007 | DUA | X'D6CE' | Define User Area | No | ✅ |
 | IPDS-4-008 | END | X'D65D' | End | Yes | ✅ |
 | IPDS-4-009 | EP | X'D6BF' | End Page | Yes | ✅ |
 | IPDS-4-010 | ISP | X'D67E' | Include Saved Page | No | ❓ |
