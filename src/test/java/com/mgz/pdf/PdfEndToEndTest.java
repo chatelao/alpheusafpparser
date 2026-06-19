@@ -62,6 +62,8 @@ public class PdfEndToEndTest {
 
     // Load PDF and render to image using PDFBox
     try (PDDocument document = Loader.loadPDF(outputFile)) {
+      // PDFBox loadPDF already performs basic structural validation.
+      // If it returns without exception, the PDF is considered valid enough to be loaded.
       assertTrue(document.getNumberOfPages() >= 1, "Should have at least one page");
 
       PDFRenderer renderer = new PDFRenderer(document);

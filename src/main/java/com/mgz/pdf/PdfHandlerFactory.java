@@ -30,7 +30,6 @@ import java.util.Map;
  */
 public class PdfHandlerFactory implements HandlerFactory {
 
-  private final PdfFontRegistry fontRegistry = new PdfFontRegistry();
   private String iccProfilePath;
 
   @Override
@@ -60,7 +59,7 @@ public class PdfHandlerFactory implements HandlerFactory {
    */
   @Override
   public StructuredFieldHandler createHandler(OutputStream os, boolean fragmentMode) throws Exception {
-    PdfHandler handler = new PdfHandler(os, fontRegistry);
+    PdfHandler handler = new PdfHandler(os, new PdfFontRegistry());
     if (iccProfilePath != null) {
       java.io.File iccFile = new java.io.File(iccProfilePath);
       if (iccFile.exists()) {
