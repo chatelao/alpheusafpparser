@@ -519,6 +519,12 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeEndDirectly(end, level);
     } else if (sf instanceof com.mgz.afp.ipds.STM_SenseTypeAndModel stm) {
       writeStmDirectly(stm, level);
+    } else if (sf instanceof com.mgz.afp.ipds.LPP_LogicalPagePosition lpp) {
+      writeLppDirectly(lpp, level);
+    } else if (sf instanceof com.mgz.afp.ipds.LPD_LogicalPageDescriptor lpd) {
+      writeLpdDirectly(lpd, level);
+    } else if (sf instanceof com.mgz.afp.ipds.LCC_LoadCopyControl lcc) {
+      writeLccDirectly(lcc, level);
     } else if (sf instanceof com.mgz.afp.ipds.NOP_NoOperation nop) {
       writeNopIpdsDirectly(nop, level);
     } else if (sf instanceof BGR_BeginGraphicsObject bgr) {
@@ -802,6 +808,109 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     writeElement(baseXsw, childLevel, "pageId", bp.getPageId());
     if (bp.getText() != null) {
       writeElement(baseXsw, childLevel, "text", bp.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeLppDirectly(com.mgz.afp.ipds.LPP_LogicalPagePosition lpp, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("LPP");
+    baseXsw.writeStartElement("LPP_LogicalPagePosition");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) lpp.getFlagByte());
+    if (lpp.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", lpp.getCorrelationId());
+    }
+    writeElement(baseXsw, childLevel, "xmPageOffset", lpp.getXmPageOffset());
+    if (lpp.getPlacement() != null) {
+      writeElement(baseXsw, childLevel, "placement", lpp.getPlacement().name());
+    }
+    writeElement(baseXsw, childLevel, "ymPageOffset", lpp.getYmPageOffset());
+    if (lpp.getOrientation() != null) {
+      writeElement(baseXsw, childLevel, "orientation", lpp.getOrientation().name());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeLpdDirectly(com.mgz.afp.ipds.LPD_LogicalPageDescriptor lpd, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("LPD");
+    baseXsw.writeStartElement("LPD_LogicalPageDescriptor");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) lpd.getFlagByte());
+    if (lpd.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", lpd.getCorrelationId());
+    }
+    if (lpd.getUnitBase() != null) {
+      writeElement(baseXsw, childLevel, "unitBase", lpd.getUnitBase().name());
+    }
+    writeElement(baseXsw, childLevel, "xupub", lpd.getXupub());
+    writeElement(baseXsw, childLevel, "yupub", lpd.getYupub());
+    writeElement(baseXsw, childLevel, "xpExtent", lpd.getXpExtent());
+    writeElement(baseXsw, childLevel, "ypExtent", lpd.getYpExtent());
+    writeElement(baseXsw, childLevel, "orderedDataFlags", (int) lpd.getOrderedDataFlags());
+    if (lpd.getiAxisOrientation() != null) {
+      writeElement(baseXsw, childLevel, "iAxisOrientation", lpd.getiAxisOrientation().name());
+    }
+    if (lpd.getbAxisOrientation() != null) {
+      writeElement(baseXsw, childLevel, "bAxisOrientation", lpd.getbAxisOrientation().name());
+    }
+    writeElement(baseXsw, childLevel, "initialI", lpd.getInitialI());
+    writeElement(baseXsw, childLevel, "initialB", lpd.getInitialB());
+    writeElement(baseXsw, childLevel, "inlineMargin", lpd.getInlineMargin());
+    writeElement(baseXsw, childLevel, "intercharAdjustment", lpd.getIntercharAdjustment());
+    writeElement(baseXsw, childLevel, "baselineIncrement", lpd.getBaselineIncrement());
+    writeElement(baseXsw, childLevel, "lid", (int) lpd.getLid());
+    if (lpd.getColor() != null) {
+      writeElement(baseXsw, childLevel, "color", lpd.getColor().name());
+    }
+    if (lpd.getTriplets() != null) {
+      for (Triplet t : lpd.getTriplets()) {
+        writeTriplet(baseXsw, t, childLevel);
+      }
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeLccDirectly(com.mgz.afp.ipds.LCC_LoadCopyControl lcc, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("LCC");
+    baseXsw.writeStartElement("LCC_LoadCopyControl");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) lcc.getFlagByte());
+    if (lcc.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", lcc.getCorrelationId());
+    }
+    if (lcc.getRepeatingGroups() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("repeatingGroups");
+      for (IRepeatingGroup irg : lcc.getRepeatingGroups()) {
+        com.mgz.afp.ipds.LCC_LoadCopyControl.LCC_RepeatingGroup rg = (com.mgz.afp.ipds.LCC_LoadCopyControl.LCC_RepeatingGroup) irg;
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeStartElement("repeatingGroups");
+        int rgLevel = childLevel + 2;
+        writeElement(baseXsw, rgLevel, "count", (int) rg.getCount());
+        writeElement(baseXsw, rgLevel, "copies", (int) rg.getCopies());
+        if (rg.getKeywords() != null) {
+          writeBinaryElement(baseXsw, rgLevel, "keywords", rg.getKeywords());
+        }
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeEndElement();
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
     }
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
