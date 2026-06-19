@@ -199,4 +199,59 @@ public class IPDSCommandTest {
     mid.writeAFP(baos, config);
     assertArrayEquals(data, baos.toByteArray());
   }
+
+  @Test
+  public void testISPRoundTrip() throws Exception {
+    // ISP: D67E, ARQ=0, PageSequenceNumber=0x00000001
+    // SFI length = 8 + 1 (IPDS header) + 4 (PageSequenceNumber) = 13 (0x0D)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0D, (byte) 0xD6, (byte) 0x7E, 0x00, 0x00, 0x00, 0x00,
+        0x00, // Flag: no ARQ
+        0x00, 0x00, 0x00, 0x01 // Page Sequence Number
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    ISP_IncludeSavedPage isp = (ISP_IncludeSavedPage) parser.parseNextSF();
+
+    assertNotNull(isp);
+    assertEquals(1, isp.getPageSequenceNumber());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    isp.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testICMRRoundTrip() throws Exception {
+    // ICMR: D66B, ARQ=1, CID=0x9999, InvocationFlags=0x80 (Reset), HAIDs=0x1111, 0x2222
+    // SFI length = 8 + 3 (IPDS header) + 1 (flags) + 4 (reserved) + 4 (2 HAIDs) = 20 (0x14)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x14, (byte) 0xD6, (byte) 0x6B, 0x00, 0x00, 0x00, 0x00,
+        (byte) 0x80, // Flag: ARQ
+        (byte) 0x99, (byte) 0x99, // CID
+        (byte) 0x80, // Invocation Flags: Reset
+        0x00, 0x00, 0x00, 0x00, // Reserved
+        0x11, 0x11, // HAID 1
+        0x22, 0x22  // HAID 2
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    ICMR_InvokeCMR icmr = (ICMR_InvokeCMR) parser.parseNextSF();
+
+    assertNotNull(icmr);
+    assertTrue(icmr.isAcknowledgementRequired());
+    assertEquals(0x9999, icmr.getCorrelationId());
+    assertTrue(icmr.isReset());
+    assertEquals(2, icmr.getHaids().size());
+    assertEquals(0x1111, icmr.getHaids().get(0));
+    assertEquals(0x2222, icmr.getHaids().get(1));
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    icmr.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
 }

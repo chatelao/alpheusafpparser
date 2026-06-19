@@ -428,8 +428,8 @@
 | IPDS-4-007 | DUA | X'D6CE' | Define User Area | No | ✅ |
 | IPDS-4-008 | END | X'D65D' | End | Yes | ✅ |
 | IPDS-4-009 | EP | X'D6BF' | End Page | Yes | ✅ |
-| IPDS-4-010 | ISP | X'D67E' | Include Saved Page | No | ❓ |
-| IPDS-4-011 | ICMR | X'D66B' | Invoke CMR | No | ❓ |
+| IPDS-4-010 | ISP | X'D67E' | Include Saved Page | No | ✅ |
+| IPDS-4-011 | ICMR | X'D66B' | Invoke CMR | No | ✅ |
 | IPDS-4-012 | LCC | X'D69F' | Load Copy Control | Yes | ✅ |
 | IPDS-4-013 | LFE | X'D63F' | Load Font Equivalence | Yes | ❓ |
 | IPDS-4-014 | LPD | X'D6CF' | Logical Page Descriptor | Yes | ✅ |
@@ -748,37 +748,37 @@
 | IPDS-4-327 | Direct the operator to restore the printer characteristics to those originally used when the group was | ❓ |
 | IPDS-4-328 | BP , IO-with PFO parameter, ISP , EP | ❓ |
 | IPDS-4-329 | BP , ISP , IO-with PFO parameter, EP | ❓ |
-| IPDS-4-330 | The length of the ISP command can be: | ❓ |
-| IPDS-4-331 | Without CID | X'000B'–X'7FFF' | ❓ |
-| IPDS-4-332 | With CID | X'000D'–X'7FFF' | ❓ |
-| IPDS-4-333 | invalid or unsupported. | ❓ |
-| IPDS-4-334 | The format of the data field for this command is as follows: | ❓ |
-| IPDS-4-335 | 0–3 | UBIN | Page sequence number | X'00000001'–X'FFFFFFFF' | Page sequence number for the page to be included | X'00000001'–X'FFFFFFFF' | ❓ |
-| IPDS-4-336 | 4 to end of ISP | | Triplets | | One or more ISP triplets:<br>X'00' Group ID triplet with variable-length group ID | ❓ |
-| IPDS-4-337 | exception ID X'0255..02' exists. | ❓ |
-| IPDS-4-338 | “Group ID (X'00') Triplet” | ❓ |
-| IPDS-4-339 | absent, exception ID X'0255..03' exists. | ❓ |
-| IPDS-4-340 | hierarchy and the home-state level. | ❓ |
-| IPDS-4-341 | ICMR command or until the printer is reinitialized (returns an IML NACK). | ❓ |
-| IPDS-4-342 | CMR is not an error, but it performs no function. Refer to the CMR-Processing-Modes table, Table 62, for a description of which processing mode is appropriate for each type of CMR. | ❓ |
-| IPDS-4-343 | vector of an STM reply. | ❓ |
-| IPDS-4-344 | The length of the ICMR command can be: | ❓ |
-| IPDS-4-345 | Without CID | X'000A'–X'7FFE' even values | ❓ |
-| IPDS-4-346 | With CID | X'000C'–X'7FFE' even values | ❓ |
-| IPDS-4-347 | Exception ID X'0202..02' exists if the command length is invalid or unsupported. | ❓ |
-| IPDS-4-348 | The data in an ICMR command is defined as follows: | ❓ |
-| IPDS-4-349 | 0 | BITS | Invocation flags | | bit 0: Reset<br>B'0' Don't reset<br>B'1' Reset to printer defaults<br>bits 1–7: Reserved (B'0000000') | B'0' or B'1' | ❓ |
-| IPDS-4-350 | 1–4 | | Reserved | X'00000000' | Reserved | X'00000000' | ❓ |
-| IPDS-4-351 | 5 to end | | ICMR entries | | Zero or more entries in the format below | ❓ |
-| IPDS-4-352 | ICMR Entry Format:** | ❓ |
-| IPDS-4-353 | 0–1 | CODE | HAID | X'0001'–X'7EFF' | Host-Assigned ID of previously activated CMR | X'0001'–X'7EFF' | ❓ |
-| IPDS-4-354 | - **Bit 0 Reset flag**: When B'1', all previous home-state-level CMRs are reset so that there are no | ❓ |
-| IPDS-4-355 | invoked CMRs at the home-state level. When B'0', this step is skipped (no resets occur). | ❓ |
-| IPDS-4-356 | LIFO manner (last-invoked to first-invoked). | ❓ |
-| IPDS-4-357 | Bits 1–7 Reserved** | ❓ |
-| IPDS-4-358 | Bytes 1–4 Reserved** | ❓ |
-| IPDS-4-359 | Bytes 5 to end ICMR entries** | ❓ |
-| IPDS-4-360 | of that HAID are also removed. | ❓ |
+| IPDS-4-330 | The length of the ISP command can be: | ✅ |
+| IPDS-4-331 | Without CID | X'000B'–X'7FFF' | ✅ |
+| IPDS-4-332 | With CID | X'000D'–X'7FFF' | ✅ |
+| IPDS-4-333 | invalid or unsupported. | ✅ |
+| IPDS-4-334 | The format of the data field for this command is as follows: | ✅ |
+| IPDS-4-335 | 0–3 | UBIN | Page sequence number | X'00000001'–X'FFFFFFFF' | Page sequence number for the page to be included | X'00000001'–X'FFFFFFFF' | ✅ |
+| IPDS-4-336 | 4 to end of ISP | | Triplets | | One or more ISP triplets:<br>X'00' Group ID triplet with variable-length group ID | ✅ |
+| IPDS-4-337 | exception ID X'0255..02' exists. | ✅ |
+| IPDS-4-338 | “Group ID (X'00') Triplet” | ✅ |
+| IPDS-4-339 | absent, exception ID X'0255..03' exists. | ✅ |
+| IPDS-4-340 | hierarchy and the home-state level. | ✅ |
+| IPDS-4-341 | ICMR command or until the printer is reinitialized (returns an IML NACK). | ✅ |
+| IPDS-4-342 | CMR is not an error, but it performs no function. Refer to the CMR-Processing-Modes table, Table 62, for a description of which processing mode is appropriate for each type of CMR. | ✅ |
+| IPDS-4-343 | vector of an STM reply. | ✅ |
+| IPDS-4-344 | The length of the ICMR command can be: | ✅ |
+| IPDS-4-345 | Without CID | X'000A'–X'7FFE' even values | ✅ |
+| IPDS-4-346 | With CID | X'000C'–X'7FFE' even values | ✅ |
+| IPDS-4-347 | Exception ID X'0202..02' exists if the command length is invalid or unsupported. | ✅ |
+| IPDS-4-348 | The data in an ICMR command is defined as follows: | ✅ |
+| IPDS-4-349 | 0 | BITS | Invocation flags | | bit 0: Reset<br>B'0' Don't reset<br>B'1' Reset to printer defaults<br>bits 1–7: Reserved (B'0000000') | B'0' or B'1' | ✅ |
+| IPDS-4-350 | 1–4 | | Reserved | X'00000000' | Reserved | X'00000000' | ✅ |
+| IPDS-4-351 | 5 to end | | ICMR entries | | Zero or more entries in the format below | ✅ |
+| IPDS-4-352 | ICMR Entry Format:** | ✅ |
+| IPDS-4-353 | 0–1 | CODE | HAID | X'0001'–X'7EFF' | Host-Assigned ID of previously activated CMR | X'0001'–X'7EFF' | ✅ |
+| IPDS-4-354 | - **Bit 0 Reset flag**: When B'1', all previous home-state-level CMRs are reset so that there are no | ✅ |
+| IPDS-4-355 | invoked CMRs at the home-state level. When B'0', this step is skipped (no resets occur). | ✅ |
+| IPDS-4-356 | LIFO manner (last-invoked to first-invoked). | ✅ |
+| IPDS-4-357 | Bits 1–7 Reserved** | ✅ |
+| IPDS-4-358 | Bytes 1–4 Reserved** | ✅ |
+| IPDS-4-359 | Bytes 5 to end ICMR entries** | ✅ |
+| IPDS-4-360 | of that HAID are also removed. | ✅ |
 | IPDS-4-361 | An LCC command without the X'C3nn' keyword (CSE) is encountered. | ❓ |
 | IPDS-4-362 | An LCC command with the X'C2nn' keyword (N-up) is encountered. | ❓ |
 | IPDS-4-363 | More than one copy is specified in any copy subgroup. | ❓ |

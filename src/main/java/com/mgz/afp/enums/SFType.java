@@ -141,7 +141,9 @@ public enum SFType {
   DF(0x4F),
   DUA(0xCE),
   AFO(0x02),
-  ASN(0x0A);
+  ASN(0x0A),
+  ISP(0x7E),
+  ICMR(0x6B);
 
   int val;
 
