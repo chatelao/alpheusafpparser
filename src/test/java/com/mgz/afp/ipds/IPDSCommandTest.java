@@ -176,4 +176,27 @@ public class IPDSCommandTest {
     stm.writeAFP(baos, config);
     assertArrayEquals(data, baos.toByteArray());
   }
+
+  @Test
+  public void testMIDRoundTrip() throws Exception {
+    // MID: D601, ARQ=0, type=StartIPDSDialog (0x00)
+    // SFI length = 8 + 1 (IPDS header) + 1 (type) = 10 (0x0A)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0A, (byte) 0xD6, (byte) 0x01, 0x00, 0x00, 0x00, 0x00,
+        0x00, // Flag: no ARQ
+        0x00  // Type: StartIPDSDialog
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    MID_ManageIPDSDialog mid = (MID_ManageIPDSDialog) parser.parseNextSF();
+
+    assertNotNull(mid);
+    assertEquals(MID_ManageIPDSDialog.MID_Type.StartIPDSDialog, mid.getType());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    mid.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
 }

@@ -65,6 +65,7 @@ public class SFFastPathVerificationTest {
 
     @Test
     public void testSFFastPaths() throws Exception {
+        verifySF(createMid(), "MID_ManageIPDSDialog");
         verifySF(createMCC(), "MCC_MediumCopyCount");
         verifySF(createMCF1(), "MCF_MapCodedFont_Format1");
         verifySF(createLNC(), "LNC_LineDescriptorCount");
@@ -796,8 +797,19 @@ public class SFFastPathVerificationTest {
                   .replaceAll("<shallow>.*?</shallow>", "")
                   .replaceAll("<structuredFieldIntroducer>.*?</structuredFieldIntroducer>", "")
                   .replaceAll("<padding>.*?</padding>", "")
+                  .replaceAll("<acknowledgementRequired>.*?</acknowledgementRequired>", "")
+                  .replaceAll("<AfpFragments>", "")
+                  .replaceAll("</AfpFragments>", "")
                   .replaceAll(" (page|x|y)=\"(-?\\d+)\"", "")
                   .replaceAll("\\s", ""); // Remove whitespace for comparison
+    }
+
+    private com.mgz.afp.ipds.MID_ManageIPDSDialog createMid() {
+        com.mgz.afp.ipds.MID_ManageIPDSDialog mid = new com.mgz.afp.ipds.MID_ManageIPDSDialog();
+        mid.setFlagByte((byte) 0x80);
+        mid.setCorrelationId(0x1234);
+        mid.setType(com.mgz.afp.ipds.MID_ManageIPDSDialog.MID_Type.StartIPDSDialog);
+        return mid;
     }
 
     private MCC_MediumCopyCount createMCC() {
