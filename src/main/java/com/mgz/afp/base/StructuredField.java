@@ -175,6 +175,15 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
   public abstract void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException;
 
   /**
+   * Returns a textual representation of the structured field's data, if available.
+   *
+   * @return textual data or null
+   */
+  public String getText() {
+    return null;
+  }
+
+  /**
    * Returns the {@link StructuredFieldIntroducer} of this structured field.
    *
    * @return the {@link StructuredFieldIntroducer} of this structured field.
