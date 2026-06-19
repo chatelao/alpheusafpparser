@@ -134,7 +134,10 @@ public enum SFType {
   BP(0xAF),
   EP(0xBF),
   END(0x5D),
-  STM(0xE4);
+  STM(0xE4),
+  LPP(0x6D),
+  LPD(0xCF),
+  LCC(0x9F);
 
   int val;
 

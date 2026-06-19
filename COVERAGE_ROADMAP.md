@@ -35,7 +35,7 @@ This document outlines a phased, actionable plan to increase the code coverage o
 - 🚧 **4.1. Special Specifications**
     - 🚧 CMOCA, BCOCA, and MOCA verification (Currently 40-84% coverage; CMOCA improved with tag validation; BCOCA improved with architectural validations).
     - 🚧 IPDS verification (Currently ~1% coverage; initial infrastructure and basic commands implemented).
-        - 🚧 Device-Control command set (MID, SHS, NOP, BP, EP, END, STM implemented)
+        - 🚧 Device-Control command set (MID, SHS, NOP, BP, EP, END, STM, LPP, LPD, LCC implemented)
         - 🚧 Text command set
         - 🚧 IM-Image command set
         - 🚧 IO-Image command set

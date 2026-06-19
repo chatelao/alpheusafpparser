@@ -66,6 +66,9 @@ public class SFFastPathVerificationTest {
     @Test
     public void testSFFastPaths() throws Exception {
         verifySF(createMid(), "MID_ManageIPDSDialog");
+        verifySF(createLpp(), "LPP_LogicalPagePosition");
+        verifySF(createLpd(), "LPD_LogicalPageDescriptor");
+        verifySF(createLcc(), "LCC_LoadCopyControl");
         verifySF(createMCC(), "MCC_MediumCopyCount");
         verifySF(createMCF1(), "MCF_MapCodedFont_Format1");
         verifySF(createLNC(), "LNC_LineDescriptorCount");
@@ -810,6 +813,51 @@ public class SFFastPathVerificationTest {
         mid.setCorrelationId(0x1234);
         mid.setType(com.mgz.afp.ipds.MID_ManageIPDSDialog.MID_Type.StartIPDSDialog);
         return mid;
+    }
+
+    private com.mgz.afp.ipds.LPP_LogicalPagePosition createLpp() {
+        com.mgz.afp.ipds.LPP_LogicalPagePosition lpp = new com.mgz.afp.ipds.LPP_LogicalPagePosition();
+        lpp.setFlagByte((byte) 0x80);
+        lpp.setCorrelationId(0x1234);
+        lpp.setXmPageOffset(100);
+        lpp.setPlacement(com.mgz.afp.ipds.LPP_LogicalPagePosition.LPP_Placement.DefaultPlacement);
+        lpp.setYmPageOffset(200);
+        lpp.setOrientation(AFPOrientation.ori0);
+        return lpp;
+    }
+
+    private com.mgz.afp.ipds.LPD_LogicalPageDescriptor createLpd() {
+        com.mgz.afp.ipds.LPD_LogicalPageDescriptor lpd = new com.mgz.afp.ipds.LPD_LogicalPageDescriptor();
+        lpd.setFlagByte((byte) 0x80);
+        lpd.setCorrelationId(0x1234);
+        lpd.setUnitBase(AFPUnitBase.Inches10);
+        lpd.setXupub(1440);
+        lpd.setYupub(1440);
+        lpd.setXpExtent(12240);
+        lpd.setYpExtent(15840);
+        lpd.setOrderedDataFlags((byte) 0);
+        lpd.setiAxisOrientation(AFPOrientation.ori0);
+        lpd.setbAxisOrientation(AFPOrientation.ori90);
+        lpd.setInitialI(0);
+        lpd.setInitialB(0);
+        lpd.setInlineMargin(0);
+        lpd.setIntercharAdjustment(0);
+        lpd.setBaselineIncrement(0);
+        lpd.setLid((short) 1);
+        lpd.setColor(AFPColorValue.White_DeviceDefault_0xFF07);
+        return lpd;
+    }
+
+    private com.mgz.afp.ipds.LCC_LoadCopyControl createLcc() {
+        com.mgz.afp.ipds.LCC_LoadCopyControl lcc = new com.mgz.afp.ipds.LCC_LoadCopyControl();
+        lcc.setFlagByte((byte) 0x80);
+        lcc.setCorrelationId(0x1234);
+        com.mgz.afp.ipds.LCC_LoadCopyControl.LCC_RepeatingGroup rg = new com.mgz.afp.ipds.LCC_LoadCopyControl.LCC_RepeatingGroup();
+        rg.setCount((short) 4);
+        rg.setCopies((short) 1);
+        rg.setKeywords(new byte[] { (byte) 0x80, 0x01 });
+        lcc.addRepeatingGroup(rg);
+        return lcc;
     }
 
     private MCC_MediumCopyCount createMCC() {
