@@ -69,6 +69,10 @@ public class SFFastPathVerificationTest {
         verifySF(createLpp(), "LPP_LogicalPagePosition");
         verifySF(createLpd(), "LPD_LogicalPageDescriptor");
         verifySF(createLcc(), "LCC_LoadCopyControl");
+        verifySF(createDf(), "DF_DeactivateFont");
+        verifySF(createDua(), "DUA_DefineUserArea");
+        verifySF(createAfo(), "AFO_ApplyFinishingOperations");
+        verifySF(createAsn(), "ASN_ActivateSetupName");
         verifySF(createMCC(), "MCC_MediumCopyCount");
         verifySF(createMCF1(), "MCF_MapCodedFont_Format1");
         verifySF(createLNC(), "LNC_LineDescriptorCount");
@@ -858,6 +862,55 @@ public class SFFastPathVerificationTest {
         rg.setKeywords(new byte[] { (byte) 0x80, 0x01 });
         lcc.addRepeatingGroup(rg);
         return lcc;
+    }
+
+    private com.mgz.afp.ipds.DF_DeactivateFont createDf() {
+        com.mgz.afp.ipds.DF_DeactivateFont df = new com.mgz.afp.ipds.DF_DeactivateFont();
+        df.setFlagByte((byte) 0x80);
+        df.setCorrelationId(0x1234);
+        df.setDeactivationType((byte) 0x11);
+        df.setHaid(0x0001);
+        df.setSectionId((short) 0x00);
+        df.setFis(0x0000);
+        return df;
+    }
+
+    private com.mgz.afp.ipds.DUA_DefineUserArea createDua() {
+        com.mgz.afp.ipds.DUA_DefineUserArea dua = new com.mgz.afp.ipds.DUA_DefineUserArea();
+        dua.setFlagByte((byte) 0x80);
+        dua.setCorrelationId(0x1234);
+        dua.setReset((byte) 0);
+        dua.setUnitBase((byte) 0);
+        dua.setUpub(14400);
+        dua.setXmOffset(0);
+        dua.setYmOffset(0);
+        dua.setXmExtent(144000);
+        dua.setYmExtent(144000);
+        return dua;
+    }
+
+    private com.mgz.afp.ipds.AFO_ApplyFinishingOperations createAfo() {
+        com.mgz.afp.ipds.AFO_ApplyFinishingOperations afo = new com.mgz.afp.ipds.AFO_ApplyFinishingOperations();
+        afo.setFlagByte((byte) 0x80);
+        afo.setCorrelationId(0x1234);
+        List<Triplet> triplets = new ArrayList<>();
+        Triplet.Undefined u = new Triplet.Undefined();
+        u.setTripletData(new byte[] { 0x04, (byte) 0x85, 0x01, 0x02 });
+        triplets.add(u);
+        afo.setTriplets(triplets);
+        return afo;
+    }
+
+    private com.mgz.afp.ipds.ASN_ActivateSetupName createAsn() {
+        com.mgz.afp.ipds.ASN_ActivateSetupName asn = new com.mgz.afp.ipds.ASN_ActivateSetupName();
+        asn.setFlagByte((byte) 0x80);
+        asn.setCorrelationId(0x1234);
+        List<Triplet> triplets = new ArrayList<>();
+        Triplet.Undefined u = new Triplet.Undefined();
+        u.setTripletData(new byte[] { 0x04, (byte) 0x9E, 0x01, 0x02 });
+        triplets.add(u);
+        asn.setTriplets(triplets);
+        return asn;
     }
 
     private MCC_MediumCopyCount createMCC() {
