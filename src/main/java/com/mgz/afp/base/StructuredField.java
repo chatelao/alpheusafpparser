@@ -389,6 +389,15 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
     }
   }
 
+  /**
+   * Returns the text content of the structured field, if any.
+   *
+   * @return the text content, or null if none
+   */
+  public String getText() {
+    return null;
+  }
+
   @Override
   public String toString() {
     return "StructuredField{" + structuredFieldIntroducer + '}';
