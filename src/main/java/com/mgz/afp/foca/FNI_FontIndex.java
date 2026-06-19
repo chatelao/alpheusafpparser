@@ -19,6 +19,7 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.foca;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.mgz.afp.base.StructuredField;
 import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.exceptions.AFPParserException;
@@ -59,7 +60,7 @@ public class FNI_FontIndex extends StructuredField {
       rg.charIncrement = UtilBinaryDecoding.parseShort(sfData, offset + pos + 8, 2);
       rg.ascenderHeight = UtilBinaryDecoding.parseShort(sfData, offset + pos + 10, 2);
       rg.descenderDepth = UtilBinaryDecoding.parseShort(sfData, offset + pos + 12, 2);
-      rg.kernableCharacterFlags = (short) (sfData[offset + pos + 14] & 0xFF);
+      rg.kernableCharacterFlags = sfData[offset + pos + 14];
       rg.reserved15 = sfData[offset + pos + 15];
       rg.aSpace = UtilBinaryDecoding.parseShort(sfData, offset + pos + 16, 2);
       rg.bSpace = UtilBinaryDecoding.parseShort(sfData, offset + pos + 18, 2);
@@ -86,7 +87,7 @@ public class FNI_FontIndex extends StructuredField {
     if (repeatingGroups != null) {
       for (var rg : repeatingGroups) {
         var rgBaos = new ByteArrayOutputStream();
-        rgBaos.write(UtilCharacterEncoding.stringToByteArray(rg.gcgid, config.getAfpCharSet(), 8, (byte)0x40));
+        rgBaos.write(UtilCharacterEncoding.stringToByteArray(rg.gcgid, config.getAfpCharSet(), 8, (byte) 0x40));
         rgBaos.write(UtilBinaryDecoding.shortToByteArray(rg.charIncrement, 2));
         rgBaos.write(UtilBinaryDecoding.shortToByteArray(rg.ascenderHeight, 2));
         rgBaos.write(UtilBinaryDecoding.shortToByteArray(rg.descenderDepth, 2));
@@ -123,6 +124,9 @@ public class FNI_FontIndex extends StructuredField {
   /**
    * FNI Repeating Group.
    */
+  @JsonPropertyOrder({"gcgid", "charIncrement", "ascenderHeight", "descenderDepth",
+      "kernableCharacterFlags", "reserved15", "aspace", "bspace", "cspace", "reserved22_23",
+      "baselineOffset", "reserved26_27"})
   public static class FNI_RepeatingGroup {
     @AFPField
     private String gcgid;
@@ -133,7 +137,7 @@ public class FNI_FontIndex extends StructuredField {
     @AFPField
     private short descenderDepth;
     @AFPField
-    private short kernableCharacterFlags;
+    private byte kernableCharacterFlags;
     @AFPField
     private byte reserved15;
     @AFPField
@@ -181,11 +185,11 @@ public class FNI_FontIndex extends StructuredField {
       this.descenderDepth = descenderDepth;
     }
 
-    public short getKernableCharacterFlags() {
+    public byte getKernableCharacterFlags() {
       return kernableCharacterFlags;
     }
 
-    public void setKernableCharacterFlags(short kernableCharacterFlags) {
+    public void setKernableCharacterFlags(byte kernableCharacterFlags) {
       this.kernableCharacterFlags = kernableCharacterFlags;
     }
 
@@ -221,12 +225,28 @@ public class FNI_FontIndex extends StructuredField {
       this.cSpace = cSpace;
     }
 
+    public short getReserved22_23() {
+      return reserved22_23;
+    }
+
+    public void setReserved22_23(short reserved22_23) {
+      this.reserved22_23 = reserved22_23;
+    }
+
     public short getBaselineOffset() {
       return baselineOffset;
     }
 
     public void setBaselineOffset(short baselineOffset) {
       this.baselineOffset = baselineOffset;
+    }
+
+    public short getReserved26_27() {
+      return reserved26_27;
+    }
+
+    public void setReserved26_27(short reserved26_27) {
+      this.reserved26_27 = reserved26_27;
     }
   }
 }
