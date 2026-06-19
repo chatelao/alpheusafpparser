@@ -188,6 +188,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private ToXmlGenerator baseFragmentGenerator;
 
   private int currentPageNumber = 0;
+  private boolean pageIncrementedByStarter = false;
   private int inlinePos = 0;
   private int baselinePos = 0;
   private AFPOrientation inlineOri = AFPOrientation.ori0;
@@ -502,15 +503,18 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeNameAndTripletsDirectly(bng, "BNG_BeginNamedPageGroup", level);
     } else if (sf instanceof com.mgz.afp.modca.BPG_BeginPage bpg) {
       currentPageNumber++;
+      pageIncrementedByStarter = true;
       resetPtocaState();
       writeBpgDirectly(bpg, level);
     } else if (sf instanceof com.mgz.afp.ipds.MID_ManageIPDSDialog mid) {
       writeMidDirectly(mid, level);
     } else if (sf instanceof com.mgz.afp.ipds.BP_BeginPage bp) {
       currentPageNumber++;
+      pageIncrementedByStarter = true;
       resetPtocaState();
       writeBpDirectly(bp, level);
     } else if (sf instanceof com.mgz.afp.ipds.EP_EndPage ep) {
+      pageIncrementedByStarter = false;
       writeEpDirectly(ep, level);
     } else if (sf instanceof com.mgz.afp.ipds.SHS_SetHomeState shs) {
       resetPtocaState();
@@ -554,6 +558,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (sf instanceof com.mgz.afp.modca.ENG_EndNamedPageGroup eng) {
       writeNameAndTripletsDirectly(eng, "ENG_EndNamedPageGroup", level);
     } else if (sf instanceof com.mgz.afp.modca.EPG_EndPage epg) {
+      pageIncrementedByStarter = false;
       writeEpgDirectly(epg, level);
     } else if (sf instanceof com.mgz.afp.modca.IEL_IndexElement iel) {
       writeTripletsAndTextDirectly(iel, "IEL_IndexElement", level);
@@ -561,8 +566,13 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeLleDirectly(lle, level);
     } else if (sf instanceof com.mgz.afp.modca.IPG_IncludePage ipg) {
       currentPageNumber++;
+      pageIncrementedByStarter = true;
       writeIpgDirectly(ipg, level);
     } else if (sf instanceof com.mgz.afp.modca.PGD_PageDescriptor pgd) {
+      if (!pageIncrementedByStarter) {
+        currentPageNumber++;
+      }
+      pageIncrementedByStarter = false;
       writePgdDirectly(pgd, level);
     } else if (sf instanceof PGP_PagePosition_Format1 pgp) {
       writePgpFormat1Directly(pgp, level);
