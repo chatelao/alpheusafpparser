@@ -54,8 +54,9 @@ public class FNM_FontPatternsMap extends StructuredField {
     var pos = 0;
     while (pos + rgLen <= actualLength) {
       var rg = new FNM_RepeatingGroup();
-      rg.charDataOffset = UtilBinaryDecoding.parseLong(sfData, offset + pos, 4);
-      rg.charDataCount = UtilBinaryDecoding.parseLong(sfData, offset + pos + 4, 4);
+      rg.charBoxWd = UtilBinaryDecoding.parseInt(sfData, offset + pos, 2);
+      rg.charBoxHt = UtilBinaryDecoding.parseInt(sfData, offset + pos + 2, 2);
+      rg.patDOset = UtilBinaryDecoding.parseLong(sfData, offset + pos + 4, 4);
       repeatingGroups.add(rg);
       pos += rgLen;
     }
@@ -74,8 +75,9 @@ public class FNM_FontPatternsMap extends StructuredField {
     if (repeatingGroups != null) {
       for (var rg : repeatingGroups) {
         var rgBaos = new ByteArrayOutputStream();
-        rgBaos.write(UtilBinaryDecoding.longToByteArray(rg.charDataOffset, 4));
-        rgBaos.write(UtilBinaryDecoding.longToByteArray(rg.charDataCount, 4));
+        rgBaos.write(UtilBinaryDecoding.intToByteArray(rg.charBoxWd, 2));
+        rgBaos.write(UtilBinaryDecoding.intToByteArray(rg.charBoxHt, 2));
+        rgBaos.write(UtilBinaryDecoding.longToByteArray(rg.patDOset, 4));
 
         var rgData = rgBaos.toByteArray();
         if (rgData.length < rgLen) {
@@ -103,24 +105,34 @@ public class FNM_FontPatternsMap extends StructuredField {
    */
   public static class FNM_RepeatingGroup {
     @AFPField
-    private long charDataOffset;
+    private int charBoxWd;
     @AFPField
-    private long charDataCount;
+    private int charBoxHt;
+    @AFPField
+    private long patDOset;
 
-    public long getCharDataOffset() {
-      return charDataOffset;
+    public int getCharBoxWd() {
+      return charBoxWd;
     }
 
-    public void setCharDataOffset(long charDataOffset) {
-      this.charDataOffset = charDataOffset;
+    public void setCharBoxWd(int charBoxWd) {
+      this.charBoxWd = charBoxWd;
     }
 
-    public long getCharDataCount() {
-      return charDataCount;
+    public int getCharBoxHt() {
+      return charBoxHt;
     }
 
-    public void setCharDataCount(long charDataCount) {
-      this.charDataCount = charDataCount;
+    public void setCharBoxHt(int charBoxHt) {
+      this.charBoxHt = charBoxHt;
+    }
+
+    public long getPatDOset() {
+      return patDOset;
+    }
+
+    public void setPatDOset(long patDOset) {
+      this.patDOset = patDOset;
     }
   }
 }

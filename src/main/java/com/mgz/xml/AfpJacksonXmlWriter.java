@@ -5583,11 +5583,12 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writeElement(baseXsw, rgLevel, "descenderDepth", (int) rg.getDescenderDepth());
         writeElement(baseXsw, rgLevel, "kernableCharacterFlags", (int) rg.getKernableCharacterFlags());
         writeElement(baseXsw, rgLevel, "reserved15", (int) rg.getReserved15());
-        writeElement(baseXsw, rgLevel, "baselineOffset", (int) rg.getBaselineOffset());
         writeElement(baseXsw, rgLevel, "aspace", (int) rg.getASpace());
         writeElement(baseXsw, rgLevel, "bspace", (int) rg.getBSpace());
         writeElement(baseXsw, rgLevel, "cspace", (int) rg.getCSpace());
-        // reserved26_27 is not public
+        writeElement(baseXsw, rgLevel, "reserved22_23", (int) rg.getReserved22_23());
+        writeElement(baseXsw, rgLevel, "baselineOffset", (int) rg.getBaselineOffset());
+        writeElement(baseXsw, rgLevel, "reserved26_27", (int) rg.getReserved26_27());
         writeIndent(baseXsw, childLevel + 1);
         baseXsw.writeEndElement();
       }
@@ -5613,8 +5614,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writeIndent(baseXsw, childLevel + 1);
         baseXsw.writeStartElement("repeatingGroups");
         int rgLevel = childLevel + 2;
-        writeElement(baseXsw, rgLevel, "charDataOffset", rg.getCharDataOffset());
-        writeElement(baseXsw, rgLevel, "charDataCount", rg.getCharDataCount());
+        writeElement(baseXsw, rgLevel, "charBoxWd", rg.getCharBoxWd());
+        writeElement(baseXsw, rgLevel, "charBoxHt", rg.getCharBoxHt());
+        writeElement(baseXsw, rgLevel, "patDOset", rg.getPatDOset());
         writeIndent(baseXsw, childLevel + 1);
         baseXsw.writeEndElement();
       }

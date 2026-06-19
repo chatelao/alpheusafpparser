@@ -975,12 +975,14 @@ public class SFFastPathVerificationTest {
         rg.setCharIncrement((short) 120);
         rg.setAscenderHeight((short) 100);
         rg.setDescenderDepth((short) 20);
-        rg.setKernableCharacterFlags((short) 0);
+        rg.setKernableCharacterFlags((byte) 0);
         rg.setReserved15((byte) 0);
         rg.setASpace((short) 10);
         rg.setBSpace((short) 100);
         rg.setCSpace((short) 10);
+        rg.setReserved22_23((short) 0);
         rg.setBaselineOffset((short) 50);
+        rg.setReserved26_27((short) 0);
         rgs.add(rg);
         fni.setRepeatingGroups(rgs);
         return fni;
@@ -990,8 +992,9 @@ public class SFFastPathVerificationTest {
         FNM_FontPatternsMap fnm = new FNM_FontPatternsMap();
         List<FNM_FontPatternsMap.FNM_RepeatingGroup> rgs = new ArrayList<>();
         FNM_FontPatternsMap.FNM_RepeatingGroup rg = new FNM_FontPatternsMap.FNM_RepeatingGroup();
-        rg.setCharDataOffset(1000);
-        rg.setCharDataCount(500);
+        rg.setCharBoxWd(24);
+        rg.setCharBoxHt(36);
+        rg.setPatDOset(1000L);
         rgs.add(rg);
         fnm.setRepeatingGroups(rgs);
         return fnm;
