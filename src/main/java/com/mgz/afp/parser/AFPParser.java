@@ -198,6 +198,7 @@ public class AFPParser {
     SF_SUPPLIERS.put(SFTypeID.TLE_TagLogicalElement, com.mgz.afp.modca.TLE_TagLogicalElement::new);
     SF_SUPPLIERS.put(SFTypeID.XMD_XMLDescriptor, com.mgz.afp.lineData.XMD_XMLDescriptor::new);
 
+    SF_SUPPLIERS.put(SFTypeID.MID_ManageIPDSDialog, com.mgz.afp.ipds.MID_ManageIPDSDialog::new);
     SF_SUPPLIERS.put(SFTypeID.SHS_SetHomeState, com.mgz.afp.ipds.SHS_SetHomeState::new);
     SF_SUPPLIERS.put(SFTypeID.NOP_NoOperation_IPDS, com.mgz.afp.ipds.NOP_NoOperation::new);
     SF_SUPPLIERS.put(SFTypeID.BP_BeginPage, com.mgz.afp.ipds.BP_BeginPage::new);

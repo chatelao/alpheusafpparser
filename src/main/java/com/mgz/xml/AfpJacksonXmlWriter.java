@@ -504,6 +504,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       currentPageNumber++;
       resetPtocaState();
       writeBpgDirectly(bpg, level);
+    } else if (sf instanceof com.mgz.afp.ipds.MID_ManageIPDSDialog mid) {
+      writeMidDirectly(mid, level);
     } else if (sf instanceof com.mgz.afp.ipds.BP_BeginPage bp) {
       currentPageNumber++;
       resetPtocaState();
@@ -690,6 +692,24 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeElement(baseXsw, childLevel, "text", ep.getText());
     }
     writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeMidDirectly(com.mgz.afp.ipds.MID_ManageIPDSDialog mid, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("MID");
+    baseXsw.writeStartElement("MID_ManageIPDSDialog");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) mid.getFlagByte());
+    if (mid.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", mid.getCorrelationId());
+    }
+    if (mid.getType() != null) {
+      writeElement(baseXsw, childLevel, "type", mid.getType().name());
+    }
     baseXsw.writeEndElement();
     MnemonicPerformanceMonitor.endWrite();
   }

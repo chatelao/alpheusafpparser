@@ -128,6 +128,7 @@ public enum SFType {
   Data(0xEE),
 
   // IPDS Command types (when class is D6)
+  MID(0x01),
   SHS(0x97),
   NOP(0x03),
   BP(0xAF),
