@@ -72,15 +72,28 @@ public class PdfFontRegistry {
    * @return the {@link PdfFont}, or null if not registered
    */
   public PdfFont getFont(String fontName) {
+    return getFont(fontName, false, false);
+  }
+
+  /**
+   * Retrieves a font by its AFP font name, with style hints.
+   *
+   * @param fontName the AFP font name
+   * @param bold whether the font should be bold
+   * @param italic whether the font should be italic
+   * @return the {@link PdfFont}, or null if not registered
+   */
+  public PdfFont getFont(String fontName, boolean bold, boolean italic) {
     if (fontName == null) {
       return null;
     }
     String trimmedName = fontName.trim();
-    PdfFont font = afpNameCache.get(trimmedName);
+    String cacheKey = trimmedName + (bold ? "_B" : "") + (italic ? "_I" : "");
+    PdfFont font = afpNameCache.get(cacheKey);
     if (font == null) {
-      font = mapToStandardFont(trimmedName);
+      font = mapToStandardFont(trimmedName, bold, italic);
       if (font != null) {
-        afpNameCache.put(trimmedName, font);
+        afpNameCache.put(cacheKey, font);
       }
     }
     return font;
@@ -91,40 +104,74 @@ public class PdfFontRegistry {
    * AFP font names often follow the pattern C0xxxxxx or X0xxxxxx.
    *
    * @param afpFontName the AFP font name
+   * @param boldHint whether the font should be bold (overrides name mapping if set)
+   * @param italicHint whether the font should be italic (overrides name mapping if set)
    * @return the mapped {@link PdfFont}, or null if no mapping found
    */
-  private PdfFont mapToStandardFont(String afpFontName) {
-    if (afpFontName.length() < 4 || (!afpFontName.startsWith("C0") && !afpFontName.startsWith("X0"))) {
+  private PdfFont mapToStandardFont(String afpFontName, boolean boldHint, boolean italicHint) {
+    if (afpFontName.length() < 4) {
       return null;
     }
 
-    // Standardize to C0 prefix for mapping logic
-    String mappingName = "C0" + afpFontName.substring(2);
-    String prefix = mappingName.substring(0, 3);
-    char style = mappingName.charAt(3);
+    String prefix = afpFontName.substring(0, 2);
+    // Supported prefixes: C0-C6, X0-X6 (Raster), CZ, XZ (Outline)
+    if (!prefix.matches("[CX][0-6Z]")) {
+      return null;
+    }
+
+    boolean isOutline = prefix.charAt(1) == 'Z';
+
+    // Standardize to C0 prefix for family mapping logic
+    String familyPrefix = "C0" + afpFontName.substring(2, 3);
+    char styleDigit = afpFontName.charAt(3);
     String standardFontName = null;
 
-    if (prefix.equals("C0H") || prefix.equals("C0S")) { // Helvetica / Swiss
-      standardFontName = switch (style) {
-        case '3' -> StandardFonts.HELVETICA_BOLD;
-        case '4' -> StandardFonts.HELVETICA_OBLIQUE;
-        case '5' -> StandardFonts.HELVETICA_BOLDOBLIQUE;
-        default -> StandardFonts.HELVETICA;
-      };
-    } else if (prefix.equals("C0N") || prefix.equals("C0D")) { // Times New Roman / Dutch
-      standardFontName = switch (style) {
-        case '3' -> StandardFonts.TIMES_BOLD;
-        case '4' -> StandardFonts.TIMES_ITALIC;
-        case '5' -> StandardFonts.TIMES_BOLDITALIC;
-        default -> StandardFonts.TIMES_ROMAN;
-      };
-    } else if (prefix.equals("C04") || prefix.equals("C06")) { // Courier
-      standardFontName = switch (style) {
-        case '3' -> StandardFonts.COURIER_BOLD;
-        case '4' -> StandardFonts.COURIER_OBLIQUE;
-        case '5' -> StandardFonts.COURIER_BOLDOBLIQUE;
-        default -> StandardFonts.COURIER;
-      };
+    boolean isBold = boldHint;
+    boolean isItalic = italicHint;
+
+    if (!boldHint && !italicHint) {
+      // Extract from style digit if no hints provided
+      if (isOutline) {
+        // CZ/XZ Outline style mapping: 3=Italic, 4=Bold, 5=Bold Italic
+        isBold = (styleDigit == '4' || styleDigit == '5');
+        isItalic = (styleDigit == '3' || styleDigit == '5');
+      } else {
+        // Raster style mapping: 3=Bold, 4=Italic, 5=Bold Italic
+        isBold = (styleDigit == '3' || styleDigit == '5');
+        isItalic = (styleDigit == '4' || styleDigit == '5');
+      }
+    }
+
+    if (familyPrefix.equals("C0H") || familyPrefix.equals("C0S")) { // Helvetica / Swiss
+      if (isBold && isItalic) {
+        standardFontName = StandardFonts.HELVETICA_BOLDOBLIQUE;
+      } else if (isBold) {
+        standardFontName = StandardFonts.HELVETICA_BOLD;
+      } else if (isItalic) {
+        standardFontName = StandardFonts.HELVETICA_OBLIQUE;
+      } else {
+        standardFontName = StandardFonts.HELVETICA;
+      }
+    } else if (familyPrefix.equals("C0N") || familyPrefix.equals("C0D")) { // Times New Roman / Dutch
+      if (isBold && isItalic) {
+        standardFontName = StandardFonts.TIMES_BOLDITALIC;
+      } else if (isBold) {
+        standardFontName = StandardFonts.TIMES_BOLD;
+      } else if (isItalic) {
+        standardFontName = StandardFonts.TIMES_ITALIC;
+      } else {
+        standardFontName = StandardFonts.TIMES_ROMAN;
+      }
+    } else if (familyPrefix.equals("C04") || familyPrefix.equals("C06")) { // Courier
+      if (isBold && isItalic) {
+        standardFontName = StandardFonts.COURIER_BOLDOBLIQUE;
+      } else if (isBold) {
+        standardFontName = StandardFonts.COURIER_BOLD;
+      } else if (isItalic) {
+        standardFontName = StandardFonts.COURIER_OBLIQUE;
+      } else {
+        standardFontName = StandardFonts.COURIER;
+      }
     }
 
     if (standardFontName != null) {
@@ -156,7 +203,19 @@ public class PdfFontRegistry {
    * @return the {@link PdfFont}, or the default font if not registered
    */
   public PdfFont getFontWithFallback(String fontName) {
-    PdfFont font = getFont(fontName);
+    return getFontWithFallback(fontName, false, false);
+  }
+
+  /**
+   * Retrieves a font by its AFP font name with style hints, falling back to a default font if not found.
+   *
+   * @param fontName the AFP font name
+   * @param bold whether the font should be bold
+   * @param italic whether the font should be italic
+   * @return the {@link PdfFont}, or the default font if not registered
+   */
+  public PdfFont getFontWithFallback(String fontName, boolean bold, boolean italic) {
+    PdfFont font = getFont(fontName, bold, italic);
     return (font != null) ? font : defaultFont;
   }
 

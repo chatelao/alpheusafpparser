@@ -182,9 +182,9 @@ import java.util.concurrent.atomic.AtomicLong;
 public class PdfHandler implements StructuredFieldHandler {
 
   /**
-   * Represents a font resource with its name and size.
+   * Represents a font resource with its name, size, and style hints.
    */
-  public record FontResource(String name, float size) {}
+  public record FontResource(String name, float size, boolean bold, boolean italic) {}
 
   private final AtomicLong fieldCount = new AtomicLong(0);
   private final Deque<StructuredField> structureStack = new ArrayDeque<>();
@@ -442,7 +442,7 @@ public class PdfHandler implements StructuredFieldHandler {
           if (size == 10.0f && rg.getFontCharacterSetName() != null) {
             size = PdfFontRegistry.extractSizeFromName(rg.getFontCharacterSetName());
           }
-          currentFontMap.put(rg.getCodedFontLocalID(), new FontResource(rg.getCodedFontName(), size));
+          currentFontMap.put(rg.getCodedFontLocalID(), new FontResource(rg.getCodedFontName(), size, false, false));
         }
       }
     } else if (sf instanceof MCF_MapCodedFont_Format2 mcf2) {
@@ -452,6 +452,8 @@ public class PdfHandler implements StructuredFieldHandler {
             Short lid = null;
             String name = null;
             float size = -1.0f;
+            boolean bold = false;
+            boolean italic = false;
             for (Triplet t : rg.getTriplets()) {
               if (t instanceof Triplet.ResourceLocalIdentifier rli
                   && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
@@ -466,6 +468,12 @@ public class PdfHandler implements StructuredFieldHandler {
                 if (fds.fontHeight > 0) {
                   size = fds.fontHeight * defaultScaleY;
                 }
+                if (fds.fontWeigthClass != null && fds.fontWeigthClass.ordinal() >= Triplet.FontDescriptorSpecification.FDS_FontWeigthClass.Bold.ordinal()) {
+                  bold = true;
+                }
+                if (fds.fontDsFlags != null && fds.fontDsFlags.contains(Triplet.FontDescriptorSpecification.FDS_FontDsFlag.ItalicCharacters)) {
+                  italic = true;
+                }
               }
             }
             if (size <= 0 && name != null) {
@@ -475,7 +483,7 @@ public class PdfHandler implements StructuredFieldHandler {
               size = 10.0f;
             }
             if (lid != null && name != null) {
-              fontMapStack.peek().put(lid, new FontResource(name, size));
+              fontMapStack.peek().put(lid, new FontResource(name, size, bold, italic));
             }
           }
         }
@@ -487,6 +495,8 @@ public class PdfHandler implements StructuredFieldHandler {
             Short lid = null;
             String name = null;
             float size = -1.0f;
+            boolean bold = false;
+            boolean italic = false;
             for (Triplet t : rg.getTriplets()) {
               if (t instanceof Triplet.ResourceLocalIdentifier rli
                   && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
@@ -502,6 +512,13 @@ public class PdfHandler implements StructuredFieldHandler {
                 if (dofd.specifiedVerticalFontSize > 0) {
                   size = dofd.specifiedVerticalFontSize * defaultScaleY;
                 }
+              } else if (t instanceof Triplet.FontDescriptorSpecification fds) {
+                if (fds.fontWeigthClass != null && fds.fontWeigthClass.ordinal() >= Triplet.FontDescriptorSpecification.FDS_FontWeigthClass.Bold.ordinal()) {
+                  bold = true;
+                }
+                if (fds.fontDsFlags != null && fds.fontDsFlags.contains(Triplet.FontDescriptorSpecification.FDS_FontDsFlag.ItalicCharacters)) {
+                  italic = true;
+                }
               }
             }
             if (size <= 0 && name != null) {
@@ -511,7 +528,7 @@ public class PdfHandler implements StructuredFieldHandler {
               size = 10.0f;
             }
             if (lid != null && name != null) {
-              fontMapStack.peek().put(lid, new FontResource(name, size));
+              fontMapStack.peek().put(lid, new FontResource(name, size, bold, italic));
             }
           }
         }
@@ -1252,7 +1269,10 @@ public class PdfHandler implements StructuredFieldHandler {
     }
     applyGraphicsState();
     FontResource resource = resolveFontResource(graphicsState.getCharacterSet());
-    PdfFont font = fontRegistry.getFontWithFallback(resource != null ? resource.name() : null);
+    PdfFont font = fontRegistry.getFontWithFallback(
+        resource != null ? resource.name() : null,
+        resource != null && resource.bold(),
+        resource != null && resource.italic());
 
     float fontSize = graphicsState.getCharCellHeight() > 0 ? graphicsState.getCharCellHeight() : (resource != null ? resource.size() / defaultScaleY : 100.0f);
 
@@ -1564,7 +1584,10 @@ public class PdfHandler implements StructuredFieldHandler {
 
     try {
       FontResource resource = resolveFontResource(textState.getFontLid());
-      PdfFont font = fontRegistry.getFontWithFallback(resource != null ? resource.name() : null);
+      PdfFont font = fontRegistry.getFontWithFallback(
+          resource != null ? resource.name() : null,
+          resource != null && resource.bold(),
+          resource != null && resource.italic());
       float fontSizePoints = resource != null ? resource.size() : 10.0f;
       float fontSizeAfp = fontSizePoints / defaultScaleY;
 
@@ -1759,7 +1782,10 @@ public class PdfHandler implements StructuredFieldHandler {
    */
   private PdfFont resolveFont(short lid) {
     FontResource resource = resolveFontResource(lid);
-    return fontRegistry.getFontWithFallback(resource != null ? resource.name() : null);
+    return fontRegistry.getFontWithFallback(
+        resource != null ? resource.name() : null,
+        resource != null && resource.bold(),
+        resource != null && resource.italic());
   }
 
   /**
