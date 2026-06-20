@@ -523,6 +523,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeEndDirectly(end, level);
     } else if (sf instanceof com.mgz.afp.ipds.STM_SenseTypeAndModel stm) {
       writeStmDirectly(stm, level);
+    } else if (sf instanceof com.mgz.afp.ipds.ISP_IncludeSavedPage isp) {
+      writeIspDirectly(isp, level);
+    } else if (sf instanceof com.mgz.afp.ipds.ICMR_InvokeCMR icmr) {
+      writeIcmrDirectly(icmr, level);
     } else if (sf instanceof com.mgz.afp.ipds.LPP_LogicalPagePosition lpp) {
       writeLppDirectly(lpp, level);
     } else if (sf instanceof com.mgz.afp.ipds.LPD_LogicalPageDescriptor lpd) {
@@ -695,6 +699,54 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     if (tle.getText() != null) {
       writeElement(baseXsw, level + 1, "text", tle.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeIspDirectly(com.mgz.afp.ipds.ISP_IncludeSavedPage isp, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("ISP");
+    baseXsw.writeStartElement("ISP_IncludeSavedPage");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) isp.getFlagByte());
+    if (isp.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", isp.getCorrelationId());
+    }
+    writeElement(baseXsw, childLevel, "pageSequenceNumber", isp.getPageSequenceNumber());
+    if (isp.getTriplets() != null) {
+      for (Triplet t : isp.getTriplets()) {
+        writeTriplet(baseXsw, t, childLevel);
+      }
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeIcmrDirectly(com.mgz.afp.ipds.ICMR_InvokeCMR icmr, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("ICMR");
+    baseXsw.writeStartElement("ICMR_InvokeCMR");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) icmr.getFlagByte());
+    if (icmr.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", icmr.getCorrelationId());
+    }
+    writeElement(baseXsw, childLevel, "invocationFlags", (int) icmr.getInvocationFlags());
+    if (icmr.getHaids() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("haids");
+      for (Integer haid : icmr.getHaids()) {
+        writeElement(baseXsw, childLevel + 1, "haids", haid);
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
     }
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();

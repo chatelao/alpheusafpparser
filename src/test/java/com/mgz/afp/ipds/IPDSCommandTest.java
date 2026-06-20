@@ -24,6 +24,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.mgz.afp.enums.AFPColorValue;
+import com.mgz.afp.enums.AFPOrientation;
+import com.mgz.afp.enums.AFPUnitBase;
 import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import java.io.ByteArrayInputStream;
@@ -252,6 +255,232 @@ public class IPDSCommandTest {
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     icmr.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testASNRoundTrip() throws Exception {
+    // ASN: D60A, ARQ=0, reserved=0000, no triplets
+    // SFI length = 8 + 1 (IPDS header) + 2 (reserved) = 11 (0x0B)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0B, (byte) 0xD6, (byte) 0x0A, 0x00, 0x00, 0x00, 0x00,
+        0x00, // Flag: no ARQ
+        0x00, 0x00 // Reserved
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    ASN_ActivateSetupName asn = (ASN_ActivateSetupName) parser.parseNextSF();
+
+    assertNotNull(asn);
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    asn.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testAFORoundTrip() throws Exception {
+    // AFO: D602, ARQ=0, no triplets
+    // SFI length = 8 + 1 (IPDS header) = 9 (0x09)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x09, (byte) 0xD6, (byte) 0x02, 0x00, 0x00, 0x00, 0x00,
+        0x00 // Flag: no ARQ
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    AFO_ApplyFinishingOperations afo = (AFO_ApplyFinishingOperations) parser.parseNextSF();
+
+    assertNotNull(afo);
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    afo.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testDFRoundTrip() throws Exception {
+    // DF: D64F, ARQ=0, deactivationType=0x11, HAID=0x1234, sectionId=0x41, FIS=0x2D00
+    // SFI length = 8 + 1 (IPDS header) + 1 (type) + 2 (HAID) + 1 (section) + 2 (FIS) = 15 (0x0F)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0F, (byte) 0xD6, (byte) 0x4F, 0x00, 0x00, 0x00, 0x00,
+        0x00, // Flag: no ARQ
+        0x11, // deactivationType
+        0x12, 0x34, // HAID
+        0x41, // sectionId
+        0x2D, 0x00 // FIS
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    DF_DeactivateFont df = (DF_DeactivateFont) parser.parseNextSF();
+
+    assertNotNull(df);
+    assertEquals(0x11, df.getDeactivationType());
+    assertEquals(0x1234, df.getHaid());
+    assertEquals((short) 0x41, df.getSectionId());
+    assertEquals(0x2D00, df.getFis());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    df.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testDUARoundTrip() throws Exception {
+    // DUA: D6CE, ARQ=0, reset=0, unitBase=0, upub=1440, xmOffset=0, ymOffset=0, xmExtent=1000, ymExtent=2000
+    // SFI length = 8 + 1 (IPDS header) + 16 (payload) = 25 (0x19)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x19, (byte) 0xD6, (byte) 0xCE, 0x00, 0x00, 0x00, 0x00,
+        0x00, // Flag: no ARQ
+        0x00, // reset
+        0x00, // unitBase
+        0x05, (byte) 0xA0, // upub (1440)
+        0x00, 0x00, 0x00, // xmOffset
+        0x00, 0x00, 0x00, // ymOffset
+        0x00, 0x03, (byte) 0xE8, // xmExtent (1000)
+        0x00, 0x07, (byte) 0xD0  // ymExtent (2000)
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    DUA_DefineUserArea dua = (DUA_DefineUserArea) parser.parseNextSF();
+
+    assertNotNull(dua);
+    assertEquals(0, dua.getReset());
+    assertEquals(0, dua.getUnitBase());
+    assertEquals(1440, dua.getUpub());
+    assertEquals(1000, dua.getXmExtent());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    dua.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testLCCRoundTrip() throws Exception {
+    // LCC: D69F, ARQ=0, RG: count=4, copies=2, keywords=C100
+    // SFI length = 8 + 1 (IPDS header) + 4 (RG) = 13 (0x0D)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0D, (byte) 0xD6, (byte) 0x9F, 0x00, 0x00, 0x00, 0x00,
+        0x00, // Flag: no ARQ
+        0x04, // RG count
+        0x02, // copies
+        (byte) 0xC1, 0x00 // Simplex keyword
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    LCC_LoadCopyControl lcc = (LCC_LoadCopyControl) parser.parseNextSF();
+
+    assertNotNull(lcc);
+    assertEquals(1, lcc.getRepeatingGroups().size());
+    LCC_LoadCopyControl.LCC_RepeatingGroup rg = (LCC_LoadCopyControl.LCC_RepeatingGroup) lcc.getRepeatingGroups().get(0);
+    assertEquals(4, rg.getCount());
+    assertEquals(2, rg.getCopies());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    lcc.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testLPDRoundTrip() throws Exception {
+    // LPD: D6CF, ARQ=0, mandatory 43 bytes
+    // SFI length = 8 + 1 (IPDS header) + 43 = 52 (0x34)
+    byte[] payload = new byte[43];
+    payload[0] = 0x00; // unitBase
+    payload[2] = 0x38; payload[3] = 0x40; // xupub
+    payload[4] = 0x38; payload[5] = 0x40; // yupub
+    payload[7] = 0x00; payload[8] = 0x7F; payload[9] = (byte) 0xFF; // xpExtent
+    payload[11] = 0x00; payload[12] = 0x7F; payload[13] = (byte) 0xFF; // ypExtent
+    payload[41] = (byte) 0xFF; payload[42] = 0x07; // color
+
+    byte[] data = new byte[52];
+    System.arraycopy(new byte[] {0x5A, 0x00, 0x34, (byte) 0xD6, (byte) 0xCF, 0x00, 0x00, 0x00, 0x00, 0x00}, 0, data, 0, 10);
+    System.arraycopy(payload, 0, data, 9, 43); // 9 is where flagByte is
+
+    // Correction: flagByte is byte 9 of SF, then payload. SFI is 8 bytes, then IPDS header (flag + CID).
+    // IPDSCommand.decodeIPDSHeader decodes flag and CID.
+    // Length 52: 8 (SFI) + 1 (flag) + 43 (payload) = 52. CID is optional.
+    data = new byte[] {
+        0x5A, 0x00, 0x34, (byte) 0xD6, (byte) 0xCF, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x00, // unitBase
+        0x00, // reserved
+        0x38, 0x40, // xupub
+        0x38, 0x40, // yupub
+        0x00, // reserved
+        0x00, 0x03, (byte) 0xE8, // xpExtent (1000)
+        0x00, // reserved
+        0x00, 0x07, (byte) 0xD0, // ypExtent (2000)
+        0x00, // reserved
+        0x01, // orderedDataFlags
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, // reserved 16-23
+        0x00, 0x00, // iAxisOrientation
+        0x2D, 0x00, // bAxisOrientation
+        0x00, 0x00, // initialI
+        0x00, 0x00, // initialB
+        0x00, 0x00, // inlineMargin
+        0x00, 0x00, // intercharAdjustment
+        0x00, 0x00, // reserved 36-37
+        0x00, 0x00, // baselineIncrement
+        0x01, // lid
+        (byte) 0xFF, 0x07 // color
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    LPD_LogicalPageDescriptor lpd = (LPD_LogicalPageDescriptor) parser.parseNextSF();
+
+    assertNotNull(lpd);
+    assertEquals(AFPUnitBase.Inches10, lpd.getUnitBase());
+    assertEquals(1000, lpd.getXpExtent());
+    assertEquals(2000, lpd.getYpExtent());
+    assertEquals(AFPOrientation.ori0, lpd.getiAxisOrientation());
+    assertEquals(AFPOrientation.ori90, lpd.getbAxisOrientation());
+    assertEquals(1, lpd.getLid());
+    assertEquals(AFPColorValue.White_DeviceDefault_0xFF07, lpd.getColor());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    lpd.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testLPPRoundTrip() throws Exception {
+    // LPP: D66D, ARQ=0, xmOffset=1000, placement=Partition1_FrontSide, ymOffset=2000, orientation=Degree90
+    // SFI length = 8 + 1 (IPDS header) + 10 (payload) = 19 (0x13)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x13, (byte) 0xD6, (byte) 0x6D, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x00, // reserved
+        0x00, 0x03, (byte) 0xE8, // xmOffset (1000)
+        0x10, // placement
+        0x00, 0x07, (byte) 0xD0, // ymOffset (2000)
+        0x2D, 0x00 // orientation (90)
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    LPP_LogicalPagePosition lpp = (LPP_LogicalPagePosition) parser.parseNextSF();
+
+    assertNotNull(lpp);
+    assertEquals(1000, lpp.getXmPageOffset());
+    assertEquals(LPP_LogicalPagePosition.LPP_Placement.Partition1_FrontSide, lpp.getPlacement());
+    assertEquals(2000, lpp.getYmPageOffset());
+    assertEquals(AFPOrientation.ori90, lpp.getOrientation());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    lpp.writeAFP(baos, config);
     assertArrayEquals(data, baos.toByteArray());
   }
 }
