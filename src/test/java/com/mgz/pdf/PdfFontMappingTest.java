@@ -34,6 +34,51 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class PdfFontMappingTest {
 
   @Test
+  public void testOutlineMapping() {
+    PdfFontRegistry registry = new PdfFontRegistry();
+
+    // CZ Outline fonts: 2=Normal, 3=Italic, 4=Bold, 5=Bold Italic
+    PdfFont fontPlain = registry.getFont("CZH282"); // Swiss Plain
+    assertNotNull(fontPlain);
+    assertTrue(fontPlain.getFontProgram().getFontNames().getFontName().contains("Helvetica"));
+
+    PdfFont fontBold = registry.getFont("CZH483"); // Swiss Bold
+    assertNotNull(fontBold);
+    assertTrue(fontBold.getFontProgram().getFontNames().getFontName().contains("Helvetica-Bold"));
+
+    PdfFont fontItalic = registry.getFont("CZH382"); // Swiss Italic
+    assertNotNull(fontItalic);
+    assertTrue(fontItalic.getFontProgram().getFontNames().getFontName().contains("Helvetica-Oblique"));
+
+    PdfFont fontBoldItalic = registry.getFont("CZH583"); // Swiss Bold Italic
+    assertNotNull(fontBoldItalic);
+    assertTrue(fontBoldItalic.getFontProgram().getFontNames().getFontName().contains("Helvetica-BoldOblique"));
+  }
+
+  @Test
+  public void testHintMapping() {
+    PdfFontRegistry registry = new PdfFontRegistry();
+
+    // Use a font name that would normally be plain
+    PdfFont fontBoldHint = registry.getFont("C0H20010", true, false);
+    assertNotNull(fontBoldHint);
+    assertTrue(fontBoldHint.getFontProgram().getFontNames().getFontName().contains("Helvetica-Bold"));
+
+    PdfFont fontItalicHint = registry.getFont("C0H20010", false, true);
+    assertNotNull(fontItalicHint);
+    assertTrue(fontItalicHint.getFontProgram().getFontNames().getFontName().contains("Helvetica-Oblique"));
+
+    PdfFont fontBothHint = registry.getFont("C0H20010", true, true);
+    assertNotNull(fontBothHint);
+    assertTrue(fontBothHint.getFontProgram().getFontNames().getFontName().contains("Helvetica-BoldOblique"));
+
+    // Verify caching with hints
+    PdfFont fontPlain = registry.getFont("C0H20010");
+    assertTrue(fontPlain.getFontProgram().getFontNames().getFontName().contains("Helvetica"));
+    assertSame(fontBoldHint, registry.getFont("C0H20010", true, false));
+  }
+
+  @Test
   public void testHelveticaMapping() {
     PdfFontRegistry registry = new PdfFontRegistry();
 
