@@ -22,6 +22,7 @@ package com.mgz.pdf;
 import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.DeviceCmyk;
 import com.itextpdf.kernel.colors.DeviceRgb;
+import com.itextpdf.kernel.colors.Lab;
 import com.mgz.afp.enums.AFPColorSpace;
 import com.mgz.afp.enums.AFPColorValue;
 import org.junit.jupiter.api.Test;
@@ -70,5 +71,16 @@ public class ColorHandlerTest {
     Color color = ColorHandler.getExtendedColor(AFPColorSpace.StandardOCA, ocaData);
     assertTrue(color instanceof DeviceRgb);
     assertArrayEquals(new float[] {1.0f, 0.0f, 0.0f}, color.getColorValue());
+  }
+
+  @Test
+  public void testGetExtendedColorCielab() {
+    byte[] labData = new byte[] {(byte) 0x80, 0x00, 0x00}; // L=50%, a=-128, b=-128
+    Color color = ColorHandler.getExtendedColor(AFPColorSpace.CIELAB, labData);
+    assertTrue(color instanceof Lab);
+    float[] colorValue = color.getColorValue();
+    assertEquals(128.0f * 100.0f / 255.0f, colorValue[0], 0.01f);
+    assertEquals(-128.0f, colorValue[1], 0.01f);
+    assertEquals(-128.0f, colorValue[2], 0.01f);
   }
 }
