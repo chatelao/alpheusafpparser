@@ -23,6 +23,7 @@ import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.DeviceCmyk;
 import com.itextpdf.kernel.colors.DeviceGray;
 import com.itextpdf.kernel.colors.DeviceRgb;
+import com.itextpdf.kernel.colors.Lab;
 import com.mgz.afp.enums.AFPColorSpace;
 import com.mgz.afp.enums.AFPColorValue;
 
@@ -79,8 +80,18 @@ public class ColorHandler {
         } catch (Exception e) {
           return DeviceRgb.BLACK;
         }
+      case CIELAB:
+        if (colorValue.length >= 3) {
+          // Standard D65 white point
+          float[] whitePoint = new float[] {0.95047f, 1.00000f, 1.08883f};
+          // Map L, a, b from bytes
+          float l = (colorValue[0] & 0xFF) * 100.0f / 255.0f;
+          float a = (colorValue[1] & 0xFF) - 128.0f;
+          float b = (colorValue[2] & 0xFF) - 128.0f;
+          return new Lab(whitePoint, new float[] {l, a, b});
+        }
+        break;
       default:
-        // TODO: Implement other color spaces (CIELAB, etc.) if needed
         break;
     }
     return null;

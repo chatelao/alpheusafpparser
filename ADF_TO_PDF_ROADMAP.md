@@ -79,7 +79,7 @@ Implement the drivers for converting AFP content architectures to PDF operators.
             - ✅ **PdfFont Resolution**:
                 - ✅ **Font Registry**: Implement a registry to map AFP font names to iText `PdfFont` instances.
                 - ✅ **Fallback Font Strategy**: Implement logic to use a default font when a resource cannot be resolved.
-        - ✅ **Color Mapping**: Map `STC` (Set Text Color) and `SEC` (Set Extended Color) to `DeviceRGB` or `DeviceCMYK`.
+        - ✅ **Color Mapping**: Map `STC` (Set Text Color) and `SEC` (Set Extended Color) to `DeviceRGB`, `DeviceCMYK`, or `CIELAB`.
     - ✅ **Positioning Operators**:
         - ✅ **Inline Positioning**: Map `AMI` (Absolute Move Inline) and `RMI` (Relative Move Inline) to PDF.
     - ✅ **Baseline Positioning**:
@@ -153,19 +153,22 @@ Implement the drivers for converting AFP content architectures to PDF operators.
             - ✅ **GS1 Data Matrix**: Implement Modifier 0x02 for GS1-compliant Data Matrix.
         - ✅ **PDF417**: Implement rendering for PDF417 barcodes (Type 0x1E). (✅ Basic support using iText).
         - ⏳ **MaxiCode**: Implement rendering for MaxiCode barcodes (Type 0x1D).
-            - ⏳ **Research**: Study MaxiCode specification (ISO/IEC 16023) and Modes 2-6.
-            - ⏳ **Implementation**: Implement bit-stream encoding and Reed-Solomon error correction.
-            - ⏳ **Implementation**: Implement hexagonal grid placement and orientation patterns.
+            - ⏳ **Research**: Study MaxiCode specification (ISO/IEC 16023) and Modes 2-6 (Standard and Enhanced Message).
+            - ⏳ **Implementation**: Implement the 6-bit character encoding and codeword generation.
+            - ⏳ **Implementation**: Implement the Reed-Solomon (32, 20) and (64, 40) error correction based on Mode.
+            - ⏳ **Implementation**: Implement the hexagonal grid rendering including the central bullseye (3-concentric rings).
             - ⏳ **Testing**: Add MaxiCode validation test cases and sample AFPs.
         - ⏳ **Aztec Code**: Implement rendering for Aztec Code barcodes (Type 0x26).
             - ⏳ **Research**: Study Aztec Code specification (ISO/IEC 24778).
-            - ⏳ **Implementation**: Implement bit-stream encoding and Reed-Solomon error correction.
-            - ⏳ **Implementation**: Implement square-grid placement and bullseye finder pattern.
+            - ⏳ **Implementation**: Implement the bit-stream encoding including mode switching (Upper, Lower, Mixed, Punct, Digit).
+            - ⏳ **Implementation**: Implement the Reed-Solomon error correction over GF(16), GF(64), GF(256), etc., depending on symbol size.
+            - ⏳ **Implementation**: Implement the square-grid placement around the central bullseye finder pattern.
             - ⏳ **Testing**: Add Aztec Code validation test cases and sample AFPs.
         - ⏳ **Han Xin Code**: Implement rendering for Han Xin Code barcodes (Type 0x27).
             - ⏳ **Research**: Study Han Xin Code specification (ISO/IEC 20830).
-            - ⏳ **Implementation**: Implement bit-stream encoding and Reed-Solomon error correction.
-            - ⏳ **Implementation**: Implement matrix placement and finder patterns.
+            - ⏳ **Implementation**: Implement the data encoding for numeric, ECI, Binary, Common Chinese Characters (Region 1 & 2), and GB 18030.
+            - ⏳ **Implementation**: Implement the Reed-Solomon error correction and matrix placement.
+            - ⏳ **Implementation**: Implement the four chevron-shaped finder patterns in the corners.
             - ⏳ **Testing**: Add Han Xin Code validation test cases and sample AFPs.
     - ✅ **Postal Barcode Support**:
         - ✅ **POSTNET/PLANET**: Implement rendering for POSTNET and PLANET barcodes.
