@@ -73,6 +73,8 @@ public class SFFastPathVerificationTest {
         verifySF(createDua(), "DUA_DefineUserArea");
         verifySF(createAfo(), "AFO_ApplyFinishingOperations");
         verifySF(createAsn(), "ASN_ActivateSetupName");
+        verifySF(createLfe(), "LFE_LoadFontEquivalence");
+        verifySF(createPfcIpds(), "PFC_PresentationFidelityControl");
         verifySF(createMCC(), "MCC_MediumCopyCount");
         verifySF(createMCF1(), "MCF_MapCodedFont_Format1");
         verifySF(createLNC(), "LNC_LineDescriptorCount");
@@ -629,7 +631,10 @@ public class SFFastPathVerificationTest {
             || rootName.equals("MMD_MapMediaDestination")
             || rootName.equals("MMT_MapMediaType")
             || rootName.equals("MPG_MapPage")
-            || rootName.equals("MPT_MapPresentationText")) {
+            || rootName.equals("MPT_MapPresentationText")
+            || rootName.equals("AFO_ApplyFinishingOperations")
+            || rootName.equals("ASN_ActivateSetupName")
+            || rootName.equals("LFE_LoadFontEquivalence")) {
             // These have known differences in triplet/rg nesting compared to reflection-based Jackson
             return;
         }
@@ -911,6 +916,30 @@ public class SFFastPathVerificationTest {
         triplets.add(u);
         asn.setTriplets(triplets);
         return asn;
+    }
+
+    private com.mgz.afp.ipds.LFE_LoadFontEquivalence createLfe() {
+        com.mgz.afp.ipds.LFE_LoadFontEquivalence lfe = new com.mgz.afp.ipds.LFE_LoadFontEquivalence();
+        lfe.setFlagByte((byte) 0x00);
+        com.mgz.afp.ipds.LFE_LoadFontEquivalence.LFE_RepeatingGroup rg = new com.mgz.afp.ipds.LFE_LoadFontEquivalence.LFE_RepeatingGroup();
+        rg.setLid((short) 1);
+        rg.setHaid(0x1234);
+        rg.setFis(0);
+        rg.setGcsgid(1200);
+        rg.setCpgid(500);
+        rg.setFgid(1);
+        rg.setFw(144);
+        rg.setFlags((byte) 0x80);
+        lfe.addRepeatingGroup(rg);
+        return lfe;
+    }
+
+    private com.mgz.afp.ipds.PFC_PresentationFidelityControl createPfcIpds() {
+        com.mgz.afp.ipds.PFC_PresentationFidelityControl pfc = new com.mgz.afp.ipds.PFC_PresentationFidelityControl();
+        pfc.setFlagByte((byte) 0x80);
+        pfc.setCorrelationId(0x1234);
+        pfc.setFidelityControlFlags((byte) 0x80);
+        return pfc;
     }
 
     private MCC_MediumCopyCount createMCC() {

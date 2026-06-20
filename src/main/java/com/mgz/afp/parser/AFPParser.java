@@ -214,6 +214,8 @@ public class AFPParser {
     SF_SUPPLIERS.put(SFTypeID.LCC_LoadCopyControl, com.mgz.afp.ipds.LCC_LoadCopyControl::new);
     SF_SUPPLIERS.put(SFTypeID.LPD_LogicalPageDescriptor, com.mgz.afp.ipds.LPD_LogicalPageDescriptor::new);
     SF_SUPPLIERS.put(SFTypeID.LPP_LogicalPagePosition, com.mgz.afp.ipds.LPP_LogicalPagePosition::new);
+    SF_SUPPLIERS.put(SFTypeID.LFE_LoadFontEquivalence, com.mgz.afp.ipds.LFE_LoadFontEquivalence::new);
+    SF_SUPPLIERS.put(SFTypeID.PFC_PresentationFidelityControl_IPDS, com.mgz.afp.ipds.PFC_PresentationFidelityControl::new);
   }
   AFPParserConfiguration parserConf;
   long nrOfBytesRead;

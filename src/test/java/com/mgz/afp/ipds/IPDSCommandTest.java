@@ -483,4 +483,69 @@ public class IPDSCommandTest {
     lpp.writeAFP(baos, config);
     assertArrayEquals(data, baos.toByteArray());
   }
+
+  @Test
+  public void testLFERoundTrip() throws Exception {
+    // LFE: D63F, ARQ=0, 1 RG (16 bytes)
+    // SFI length = 8 + 1 (IPDS header) + 16 (RG) = 25 (0x19)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x19, (byte) 0xD6, (byte) 0x3F, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x01, // lid
+        0x12, 0x34, // haid
+        0x00, 0x00, // fis
+        0x00, 0x01, // gcsgid
+        0x01, (byte) 0xF4, // cpgid (500)
+        0x12, 0x34, // fgid
+        0x00, 0x64, // fw (100)
+        0x00, // reserved
+        (byte) 0x80, // flags (symbol set)
+        0x00  // reserved
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    LFE_LoadFontEquivalence lfe = (LFE_LoadFontEquivalence) parser.parseNextSF();
+
+    assertNotNull(lfe);
+    assertEquals(1, lfe.getRepeatingGroups().size());
+    LFE_LoadFontEquivalence.LFE_RepeatingGroup rg = (LFE_LoadFontEquivalence.LFE_RepeatingGroup) lfe.getRepeatingGroups().get(0);
+    assertEquals(1, rg.getLid());
+    assertEquals(0x1234, rg.getHaid());
+    assertEquals(500, rg.getCpgid());
+    assertEquals((byte) 0x80, rg.getFlags());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    lfe.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testPFCRoundTrip() throws Exception {
+    // PFC: D634, ARQ=1, CID=0x1122, flags=0x80, no triplets
+    // SFI length = 8 + 3 (IPDS header) + 4 (payload) = 15 (0x0F)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0F, (byte) 0xD6, (byte) 0x34, 0x00, 0x00, 0x00, 0x00,
+        (byte) 0x80, // Flag: ARQ
+        0x11, 0x22,  // CID
+        0x00, // reserved
+        (byte) 0x80, // flags
+        0x00, 0x00 // reserved
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    PFC_PresentationFidelityControl pfc = (PFC_PresentationFidelityControl) parser.parseNextSF();
+
+    assertNotNull(pfc);
+    assertTrue(pfc.isAcknowledgementRequired());
+    assertEquals(0x1122, pfc.getCorrelationId());
+    assertEquals((byte) 0x80, pfc.getFidelityControlFlags());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    pfc.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
 }
