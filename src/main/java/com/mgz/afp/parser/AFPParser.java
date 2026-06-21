@@ -208,6 +208,7 @@ public class AFPParser {
     SF_SUPPLIERS.put(SFTypeID.ISP_IncludeSavedPage, com.mgz.afp.ipds.ISP_IncludeSavedPage::new);
     SF_SUPPLIERS.put(SFTypeID.ICMR_InvokeCMR, com.mgz.afp.ipds.ICMR_InvokeCMR::new);
     SF_SUPPLIERS.put(SFTypeID.ASN_ActivateSetupName, com.mgz.afp.ipds.ASN_ActivateSetupName::new);
+    SF_SUPPLIERS.put(SFTypeID.SPE_SetPresentationEnvironment, com.mgz.afp.ipds.SPE_SetPresentationEnvironment::new);
     SF_SUPPLIERS.put(SFTypeID.AFO_ApplyFinishingOperations, com.mgz.afp.ipds.AFO_ApplyFinishingOperations::new);
     SF_SUPPLIERS.put(SFTypeID.DF_DeactivateFont, com.mgz.afp.ipds.DF_DeactivateFont::new);
     SF_SUPPLIERS.put(SFTypeID.DUA_DefineUserArea, com.mgz.afp.ipds.DUA_DefineUserArea::new);

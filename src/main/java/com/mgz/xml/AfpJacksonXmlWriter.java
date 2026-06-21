@@ -545,6 +545,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeAfoDirectly(afo, level);
     } else if (sf instanceof com.mgz.afp.ipds.ASN_ActivateSetupName asn) {
       writeAsnDirectly(asn, level);
+    } else if (sf instanceof com.mgz.afp.ipds.SPE_SetPresentationEnvironment spe) {
+      writeSpeDirectly(spe, level);
     } else if (sf instanceof com.mgz.afp.ipds.NOP_NoOperation nop) {
       writeNopIpdsDirectly(nop, level);
     } else if (sf instanceof BGR_BeginGraphicsObject bgr) {
@@ -703,6 +705,27 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     if (tle.getText() != null) {
       writeElement(baseXsw, level + 1, "text", tle.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeSpeDirectly(com.mgz.afp.ipds.SPE_SetPresentationEnvironment spe, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("SPE");
+    baseXsw.writeStartElement("SPE_SetPresentationEnvironment");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) spe.getFlagByte());
+    if (spe.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", spe.getCorrelationId());
+    }
+    if (spe.getTriplets() != null) {
+      for (Triplet t : spe.getTriplets()) {
+        writeTriplet(baseXsw, t, childLevel);
+      }
     }
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();

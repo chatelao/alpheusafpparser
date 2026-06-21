@@ -548,4 +548,33 @@ public class IPDSCommandTest {
     pfc.writeAFP(baos, config);
     assertArrayEquals(data, baos.toByteArray());
   }
+
+  @Test
+  public void testSPERoundTrip() throws Exception {
+    // SPE: D608, ARQ=1, CID=0x1234, Reserved=0000, 1 Triplet (Device Appearance 0x97)
+    // Device Appearance: 07 97 00 01 00 00 00 -> Length=7, ID=97, Reserved=00, Appearance=01 (DeviceDefaultMonochrome), Reserved=00, Reserved=0000
+    // SFI length = 8 + 3 (IPDS header) + 2 (reserved) + 7 (triplet) = 20 (0x14)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x14, (byte) 0xD6, (byte) 0x08, 0x00, 0x00, 0x00, 0x00,
+        (byte) 0x80, // Flag: ARQ
+        0x12, 0x34,  // CID
+        0x00, 0x00,  // Reserved
+        0x07, (byte) 0x97, 0x00, 0x01, 0x00, 0x00, 0x00 // Device Appearance Triplet
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    SPE_SetPresentationEnvironment spe = (SPE_SetPresentationEnvironment) parser.parseNextSF();
+
+    assertNotNull(spe);
+    assertTrue(spe.isAcknowledgementRequired());
+    assertEquals(0x1234, spe.getCorrelationId());
+    assertEquals(1, spe.getTriplets().size());
+    assertTrue(spe.getTriplets().get(0) instanceof com.mgz.afp.triplets.Triplet.DeviceAppearance);
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    spe.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
 }
