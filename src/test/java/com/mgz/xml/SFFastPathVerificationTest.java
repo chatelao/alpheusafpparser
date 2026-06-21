@@ -75,6 +75,7 @@ public class SFFastPathVerificationTest {
         verifySF(createAsn(), "ASN_ActivateSetupName");
         verifySF(createLfe(), "LFE_LoadFontEquivalence");
         verifySF(createPfcIpds(), "PFC_PresentationFidelityControl");
+        verifySF(createSpe(), "SPE_SetPresentationEnvironment");
         verifySF(createMCC(), "MCC_MediumCopyCount");
         verifySF(createMCF1(), "MCF_MapCodedFont_Format1");
         verifySF(createLNC(), "LNC_LineDescriptorCount");
@@ -634,6 +635,7 @@ public class SFFastPathVerificationTest {
             || rootName.equals("MPT_MapPresentationText")
             || rootName.equals("AFO_ApplyFinishingOperations")
             || rootName.equals("ASN_ActivateSetupName")
+            || rootName.equals("SPE_SetPresentationEnvironment")
             || rootName.equals("LFE_LoadFontEquivalence")) {
             // These have known differences in triplet/rg nesting compared to reflection-based Jackson
             return;
@@ -940,6 +942,18 @@ public class SFFastPathVerificationTest {
         pfc.setCorrelationId(0x1234);
         pfc.setFidelityControlFlags((byte) 0x80);
         return pfc;
+    }
+
+    private com.mgz.afp.ipds.SPE_SetPresentationEnvironment createSpe() {
+        com.mgz.afp.ipds.SPE_SetPresentationEnvironment spe = new com.mgz.afp.ipds.SPE_SetPresentationEnvironment();
+        spe.setFlagByte((byte) 0x80);
+        spe.setCorrelationId(0x1234);
+        List<Triplet> triplets = new ArrayList<>();
+        Triplet.DeviceAppearance da = new Triplet.DeviceAppearance();
+        da.appearance = Triplet.DeviceAppearance.Appearance.DeviceDefaultMonochrome;
+        triplets.add(da);
+        spe.setTriplets(triplets);
+        return spe;
     }
 
     private MCC_MediumCopyCount createMCC() {

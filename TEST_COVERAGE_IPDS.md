@@ -440,7 +440,7 @@
 | IPDS-4-019 | RPO | X'D67B' | Rasterize Presentation Object | No | ❓ |
 | IPDS-4-020 | STM | X'D6E4' | Sense Type and Model | Yes | ✅ |
 | IPDS-4-021 | SHS | X'D697' | Set Home State | Yes | ✅ |
-| IPDS-4-022 | SPE | X'D608' | Set Presentation Environment | No | ❓ |
+| IPDS-4-022 | SPE | X'D608' | Set Presentation Environment | No | ✅ |
 | IPDS-4-023 | XOA | X'D633' | Execute Order Anystate | See command description | ❓ |
 | IPDS-4-024 | XOH | X'D68F' | Execute Order Home State | See command description | ❓ |
 | IPDS-4-025 | X'D61C' | Retired Command Code | No | ❓ |
@@ -1329,15 +1329,15 @@
 | IPDS-4-908 | Without CID | X'0005' | ❓ |
 | IPDS-4-909 | With CID | X'0007' | ❓ |
 | IPDS-4-910 | command is treated as a No Operation (NOP) command. | ❓ |
-| IPDS-4-911 | The length of the SPE command can be: | ❓ |
-| IPDS-4-912 | Without CID | X'0007' or X'0009'–X'7FFF' | ❓ |
-| IPDS-4-913 | With CID | X'0009' or X'000B'–X'7FFF' | ❓ |
-| IPDS-4-914 | invalid or unsupported. | ❓ |
-| IPDS-4-915 | The data in an SPE command is defined as follows: | ❓ |
-| IPDS-4-916 | 0–1 | X'0000' | Reserved | X'0000' | Reserved | X'0000' | ❓ |
-| IPDS-4-917 | 2 to end of SPE | | Triplets | | Zero or more triplets:<br>X'95' Rendering Intent triplet<br>X'97' Device Appearance triplet | ❓ |
-| IPDS-4-918 | Bytes 0–1 Reserved** | ❓ |
-| IPDS-4-919 | Zero or more triplets** | ❓ |
+| IPDS-4-911 | The length of the SPE command can be: | ✅ |
+| IPDS-4-912 | Without CID | X'0007' or X'0009'–X'7FFF' | ✅ |
+| IPDS-4-913 | With CID | X'0009' or X'000B'–X'7FFF' | ✅ |
+| IPDS-4-914 | invalid or unsupported. | ✅ |
+| IPDS-4-915 | The data in an SPE command is defined as follows: | ✅ |
+| IPDS-4-916 | 0–1 | X'0000' | Reserved | X'0000' | Reserved | X'0000' | ✅ |
+| IPDS-4-917 | 2 to end of SPE | | Triplets | | Zero or more triplets:<br>X'95' Rendering Intent triplet<br>X'97' Device Appearance triplet | ✅ |
+| IPDS-4-918 | Bytes 0–1 Reserved** | ✅ |
+| IPDS-4-919 | Zero or more triplets** | ✅ |
 | IPDS-4-920 | 1. If no triplets are specified in the SPE command, all presentation attributes are set to the | ❓ |
 | IPDS-4-921 | 2. If one or more triplets are specified in the SPE command, each specified triplet sets the | ❓ |
 | IPDS-4-922 | X'F205'—Rendering Intent (X'95') triplet support | ❓ |

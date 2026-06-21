@@ -145,7 +145,8 @@ public enum SFType {
   ISP(0x7E),
   ICMR(0x6B),
   LFE(0x3F),
-  PFC(0x34);
+  PFC(0x34),
+  SPE(0x08);
 
   int val;
 
