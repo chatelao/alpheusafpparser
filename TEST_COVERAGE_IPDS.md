@@ -232,7 +232,7 @@
 | IPDS-3-197 | Overlay Bar Code state | ❓ |
 | IPDS-3-198 | Overlay Object Container state | ❓ |
 | IPDS-3-199 | Home state after completion. | ❓ |
-| IPDS-3-200 | Load Equivalence (LE) X'D61D' Home Home | ❓ |
+| IPDS-3-200 | Load Equivalence (LE) X'D61D' Home Home | ✅ |
 | IPDS-3-201 | 1. The End command is valid at any time in the text, IO-Image, graphics, bar code, and object-container | ❓ |
 | IPDS-3-202 | 2. The XOA Discard Buffered Data and XOA Discard Unstacked Pages commands cause the printer to enter | ❓ |
 | IPDS-3-203 | associated with the state transition. | ❓ |
@@ -5852,10 +5852,10 @@
 | IPDS-A-008 | X'D619' | Load Font Character Set Control (LFCSC) | “Load Font Character Set Control” | ❓ |
 | IPDS-A-009 | X'D61A' | Load Code Page Control (LCPC) | “Load Code Page Control” | ❓ |
 | IPDS-A-010 | X'D61B' | Load Code Page (LCP) | “Load Code Page” | ❓ |
-| IPDS-A-011 | X'D61D' | Load Equivalence (LE) | “Load Equivalence” | ❓ |
+| IPDS-A-011 | X'D61D' | Load Equivalence (LE) | “Load Equivalence” | ✅ |
 | IPDS-A-012 | X'D61E' | Load Symbol Set (LSS) | “Load Symbol Set” | ❓ |
 | IPDS-A-013 | X'D61F' | Load Font Control (LFC) | “Load Font Control” | ❓ |
-| IPDS-A-014 | X'D62D' | Write Text (WT) | “Write Text” | ❓ |
+| IPDS-A-014 | X'D62D' | Write Text (WT) | “Write Text” | ✅ |
 | IPDS-A-015 | X'D62E' | Activate Resource (AR) | “Activate Resource” | ❓ |
 | IPDS-A-016 | X'D62F' | Load Font (LF) | “Load Font” | ❓ |
 | IPDS-A-017 | X'D633' | Execute Order Anystate (XOA) | “Execute Order Anystate” | ❓ |

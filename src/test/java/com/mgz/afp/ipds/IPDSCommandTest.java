@@ -577,4 +577,58 @@ public class IPDSCommandTest {
     spe.writeAFP(baos, config);
     assertArrayEquals(data, baos.toByteArray());
   }
+
+  @Test
+  public void testLERoundTrip() throws Exception {
+    // LE: D61D, ARQ=0, mappingType=0x0100, 1 RG (0x0001, 0x0002)
+    // SFI length = 8 + 1 (IPDS header) + 2 (type) + 4 (RG) = 15 (0x0F)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0F, (byte) 0xD6, (byte) 0x1D, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x01, 0x00, // mappingType
+        0x00, 0x01, // internal
+        0x00, 0x02  // external
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    LE_LoadEquivalence le = (LE_LoadEquivalence) parser.parseNextSF();
+
+    assertNotNull(le);
+    assertEquals(0x0100, le.getMappingType());
+    assertEquals(1, le.getRepeatingGroups().size());
+    LE_LoadEquivalence.LE_RepeatingGroup rg = (LE_LoadEquivalence.LE_RepeatingGroup) le.getRepeatingGroups().get(0);
+    assertEquals(1, rg.getInternal());
+    assertEquals(2, rg.getExternal());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    le.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testWTRoundTrip() throws Exception {
+    // WT: D62D, ARQ=0, PTOCA data: TRN "Hi" (2B D3 04 93 48 69) - Wait, TRN opcode is 0xDA/0xDB
+    // TRN chained: 2B D3 04 DB C8 C9 (in EBCDIC C8 C9 is 'HI')
+    // SFI length = 8 + 1 (IPDS header) + 6 (PTOCA) = 15 (0x0F)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0F, (byte) 0xD6, (byte) 0x2D, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x2B, (byte) 0xD3, 0x04, (byte) 0xDB, (byte) 0xC8, (byte) 0xC9
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    WT_WriteText wt = (WT_WriteText) parser.parseNextSF();
+
+    assertNotNull(wt);
+    assertEquals(1, wt.getControlSequences().size());
+    assertTrue(wt.getControlSequences().get(0) instanceof com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.TRN_TransparentData);
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    wt.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
 }

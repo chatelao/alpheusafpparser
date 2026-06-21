@@ -76,6 +76,8 @@ public class SFFastPathVerificationTest {
         verifySF(createLfe(), "LFE_LoadFontEquivalence");
         verifySF(createPfcIpds(), "PFC_PresentationFidelityControl");
         verifySF(createSpe(), "SPE_SetPresentationEnvironment");
+        verifySF(createLe(), "LE_LoadEquivalence");
+        verifySF(createWt(), "WT_WriteText");
         verifySF(createMCC(), "MCC_MediumCopyCount");
         verifySF(createMCF1(), "MCF_MapCodedFont_Format1");
         verifySF(createLNC(), "LNC_LineDescriptorCount");
@@ -636,7 +638,9 @@ public class SFFastPathVerificationTest {
             || rootName.equals("AFO_ApplyFinishingOperations")
             || rootName.equals("ASN_ActivateSetupName")
             || rootName.equals("SPE_SetPresentationEnvironment")
-            || rootName.equals("LFE_LoadFontEquivalence")) {
+            || rootName.equals("LFE_LoadFontEquivalence")
+            || rootName.equals("LE_LoadEquivalence")
+            || rootName.equals("WT_WriteText")) {
             // These have known differences in triplet/rg nesting compared to reflection-based Jackson
             return;
         }
@@ -942,6 +946,28 @@ public class SFFastPathVerificationTest {
         pfc.setCorrelationId(0x1234);
         pfc.setFidelityControlFlags((byte) 0x80);
         return pfc;
+    }
+
+    private com.mgz.afp.ipds.LE_LoadEquivalence createLe() {
+        com.mgz.afp.ipds.LE_LoadEquivalence le = new com.mgz.afp.ipds.LE_LoadEquivalence();
+        le.setFlagByte((byte) 0x80);
+        le.setCorrelationId(0x1234);
+        le.setMappingType(0x0100);
+        com.mgz.afp.ipds.LE_LoadEquivalence.LE_RepeatingGroup rg = new com.mgz.afp.ipds.LE_LoadEquivalence.LE_RepeatingGroup();
+        rg.setInternal(1);
+        rg.setExternal(2);
+        le.addRepeatingGroup(rg);
+        return le;
+    }
+
+    private com.mgz.afp.ipds.WT_WriteText createWt() {
+        com.mgz.afp.ipds.WT_WriteText wt = new com.mgz.afp.ipds.WT_WriteText();
+        wt.setFlagByte((byte) 0x80);
+        wt.setCorrelationId(0x1234);
+        com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.TRN_TransparentData trn = new com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.TRN_TransparentData();
+        trn.setTransparentData("Hi");
+        wt.addControlSequence(trn);
+        return wt;
     }
 
     private com.mgz.afp.ipds.SPE_SetPresentationEnvironment createSpe() {

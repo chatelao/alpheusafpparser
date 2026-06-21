@@ -537,6 +537,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeLfeDirectly(lfe, level);
     } else if (sf instanceof com.mgz.afp.ipds.PFC_PresentationFidelityControl pfc) {
       writePfcIpdsDirectly(pfc, level);
+    } else if (sf instanceof com.mgz.afp.ipds.LE_LoadEquivalence le) {
+      writeLeDirectly(le, level);
+    } else if (sf instanceof com.mgz.afp.ipds.WT_WriteText wt) {
+      writeWtDirectly(wt, level);
     } else if (sf instanceof com.mgz.afp.ipds.DF_DeactivateFont df) {
       writeDfDirectly(df, level);
     } else if (sf instanceof com.mgz.afp.ipds.DUA_DefineUserArea dua) {
@@ -1020,6 +1024,65 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     if (stm.getText() != null) {
       writeElement(baseXsw, childLevel, "text", stm.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeLeDirectly(com.mgz.afp.ipds.LE_LoadEquivalence le, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("LE");
+    baseXsw.writeStartElement("LE_LoadEquivalence");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) le.getFlagByte());
+    if (le.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", le.getCorrelationId());
+    }
+    writeElement(baseXsw, childLevel, "mappingType", le.getMappingType());
+    if (le.getRepeatingGroups() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("entries");
+      for (IRepeatingGroup irg : le.getRepeatingGroups()) {
+        com.mgz.afp.ipds.LE_LoadEquivalence.LE_RepeatingGroup rg =
+            (com.mgz.afp.ipds.LE_LoadEquivalence.LE_RepeatingGroup) irg;
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeStartElement("entries");
+        int rgLevel = childLevel + 2;
+        writeElement(baseXsw, rgLevel, "internal", rg.getInternal());
+        writeElement(baseXsw, rgLevel, "external", rg.getExternal());
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeEndElement();
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeWtDirectly(com.mgz.afp.ipds.WT_WriteText wt, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("WT");
+    baseXsw.writeStartElement("WT_WriteText");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) wt.getFlagByte());
+    if (wt.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", wt.getCorrelationId());
+    }
+    if (wt.getControlSequences() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("controlSequences");
+      for (com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence cs : wt.getControlSequences()) {
+        writeControlSequence(cs, childLevel + 1);
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
     }
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
