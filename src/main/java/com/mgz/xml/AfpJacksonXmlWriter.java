@@ -533,6 +533,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeLpdDirectly(lpd, level);
     } else if (sf instanceof com.mgz.afp.ipds.LCC_LoadCopyControl lcc) {
       writeLccDirectly(lcc, level);
+    } else if (sf instanceof com.mgz.afp.ipds.LFE_LoadFontEquivalence lfe) {
+      writeLfeDirectly(lfe, level);
+    } else if (sf instanceof com.mgz.afp.ipds.PFC_PresentationFidelityControl pfc) {
+      writePfcIpdsDirectly(pfc, level);
     } else if (sf instanceof com.mgz.afp.ipds.DF_DeactivateFont df) {
       writeDfDirectly(df, level);
     } else if (sf instanceof com.mgz.afp.ipds.DUA_DefineUserArea dua) {
@@ -699,6 +703,66 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     if (tle.getText() != null) {
       writeElement(baseXsw, level + 1, "text", tle.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeLfeDirectly(com.mgz.afp.ipds.LFE_LoadFontEquivalence lfe, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("LFE");
+    baseXsw.writeStartElement("LFE_LoadFontEquivalence");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) lfe.getFlagByte());
+    if (lfe.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", lfe.getCorrelationId());
+    }
+    if (lfe.getRepeatingGroups() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("repeatingGroups");
+      for (IRepeatingGroup irg : lfe.getRepeatingGroups()) {
+        com.mgz.afp.ipds.LFE_LoadFontEquivalence.LFE_RepeatingGroup rg = (com.mgz.afp.ipds.LFE_LoadFontEquivalence.LFE_RepeatingGroup) irg;
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeStartElement("repeatingGroups");
+        int rgLevel = childLevel + 2;
+        writeElement(baseXsw, rgLevel, "lid", (int) rg.getLid());
+        writeElement(baseXsw, rgLevel, "haid", rg.getHaid());
+        writeElement(baseXsw, rgLevel, "fis", rg.getFis());
+        writeElement(baseXsw, rgLevel, "gcsgid", rg.getGcsgid());
+        writeElement(baseXsw, rgLevel, "cpgid", rg.getCpgid());
+        writeElement(baseXsw, rgLevel, "fgid", rg.getFgid());
+        writeElement(baseXsw, rgLevel, "fw", rg.getFw());
+        writeElement(baseXsw, rgLevel, "flags", (int) rg.getFlags());
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeEndElement();
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writePfcIpdsDirectly(com.mgz.afp.ipds.PFC_PresentationFidelityControl pfc, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("PFC");
+    baseXsw.writeStartElement("PFC_PresentationFidelityControl");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) pfc.getFlagByte());
+    if (pfc.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", pfc.getCorrelationId());
+    }
+    writeElement(baseXsw, childLevel, "fidelityControlFlags", (int) pfc.getFidelityControlFlags());
+    if (pfc.getTriplets() != null) {
+      for (Triplet triplet : pfc.getTriplets()) {
+        writeTriplet(baseXsw, triplet, childLevel);
+      }
     }
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
