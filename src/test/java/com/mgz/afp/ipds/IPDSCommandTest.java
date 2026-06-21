@@ -631,4 +631,132 @@ public class IPDSCommandTest {
     wt.writeAFP(baos, config);
     assertArrayEquals(data, baos.toByteArray());
   }
+
+  @Test
+  public void testBORoundTrip() throws Exception {
+    // BO: D6DF, ARQ=0, basic Overlay ID=0x01
+    byte[] dataBasic = new byte[] {
+        0x5A, 0x00, 0x0A, (byte) 0xD6, (byte) 0xDF, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x01  // Overlay ID
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(dataBasic));
+    AFPParser parser = new AFPParser(config);
+    BO_BeginOverlay boBasic = (BO_BeginOverlay) parser.parseNextSF();
+    assertNotNull(boBasic);
+    assertEquals(1, boBasic.getOverlayHaid());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    boBasic.writeAFP(baos, config);
+    assertArrayEquals(dataBasic, baos.toByteArray());
+
+    // BO: D6DF, ARQ=1, CID=0x1234, extended HAID=0x1234
+    byte[] dataExtended = new byte[] {
+        0x5A, 0x00, 0x0D, (byte) 0xD6, (byte) 0xDF, 0x00, 0x00, 0x00, 0x00,
+        (byte) 0x80, // Flag: ARQ
+        0x12, 0x34,  // CID
+        0x12, 0x34   // HAID
+    };
+    config.setInputStream(new ByteArrayInputStream(dataExtended));
+    parser = new AFPParser(config);
+    BO_BeginOverlay boExtended = (BO_BeginOverlay) parser.parseNextSF();
+    assertNotNull(boExtended);
+    assertEquals(0x1234, boExtended.getOverlayHaid());
+
+    baos = new ByteArrayOutputStream();
+    boExtended.writeAFP(baos, config);
+    assertArrayEquals(dataExtended, baos.toByteArray());
+  }
+
+  @Test
+  public void testDORoundTrip() throws Exception {
+    // DO: D6EF, ARQ=0, basic Overlay ID=0x00 (Deactivate All)
+    byte[] dataBasic = new byte[] {
+        0x5A, 0x00, 0x0A, (byte) 0xD6, (byte) 0xEF, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x00  // Deactivate All
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(dataBasic));
+    AFPParser parser = new AFPParser(config);
+    DO_DeactivateOverlay doBasic = (DO_DeactivateOverlay) parser.parseNextSF();
+    assertNotNull(doBasic);
+    assertEquals(0, doBasic.getOverlayHaid());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    doBasic.writeAFP(baos, config);
+    assertArrayEquals(dataBasic, baos.toByteArray());
+
+    // DO: D6EF, ARQ=1, CID=0x5555, extended HAID=0x7EFF
+    byte[] dataExtended = new byte[] {
+        0x5A, 0x00, 0x0D, (byte) 0xD6, (byte) 0xEF, 0x00, 0x00, 0x00, 0x00,
+        (byte) 0x80, // Flag: ARQ
+        0x55, 0x55,  // CID
+        0x7E, (byte) 0xFF   // HAID
+    };
+    config.setInputStream(new ByteArrayInputStream(dataExtended));
+    parser = new AFPParser(config);
+    DO_DeactivateOverlay doExtended = (DO_DeactivateOverlay) parser.parseNextSF();
+    assertNotNull(doExtended);
+    assertEquals(0x7EFF, doExtended.getOverlayHaid());
+
+    baos = new ByteArrayOutputStream();
+    doExtended.writeAFP(baos, config);
+    assertArrayEquals(dataExtended, baos.toByteArray());
+  }
+
+  @Test
+  public void testIORoundTrip() throws Exception {
+    // IO: D67D, ARQ=0, HAID=0x1234, type=0, Xp=0x112233, use=1, Yp=0x445566, Ori=0
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x15, (byte) 0xD6, (byte) 0x7D, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x12, 0x34, // HAID
+        0x00, // type
+        0x11, 0x22, 0x33, // xpOffset
+        0x01, // overlayUse
+        0x44, 0x55, 0x66, // ypOffset
+        0x00, 0x00 // orientation
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    IO_IncludeOverlay io = (IO_IncludeOverlay) parser.parseNextSF();
+
+    assertNotNull(io);
+    assertEquals(0x1234, io.getOverlayHaid());
+    assertEquals(0, io.getOverlayType());
+    assertEquals(0x112233, io.getXpOffset());
+    assertEquals(1, io.getOverlayUse());
+    assertEquals(0x445566, io.getYpOffset());
+    assertEquals(AFPOrientation.ori0, io.getOrientation());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    io.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+
+    // Test without orientation
+    byte[] dataShort = new byte[] {
+        0x5A, 0x00, 0x13, (byte) 0xD6, (byte) 0x7D, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x12, 0x34, // HAID
+        0x00, // type
+        0x11, 0x22, 0x33, // xpOffset
+        0x01, // overlayUse
+        0x44, 0x55, 0x66  // ypOffset
+    };
+    config.setInputStream(new ByteArrayInputStream(dataShort));
+    parser = new AFPParser(config);
+    io = (IO_IncludeOverlay) parser.parseNextSF();
+    assertNotNull(io);
+    assertTrue(io.getOrientation() == null);
+
+    baos = new ByteArrayOutputStream();
+    io.writeAFP(baos, config);
+    assertArrayEquals(dataShort, baos.toByteArray());
+  }
 }
