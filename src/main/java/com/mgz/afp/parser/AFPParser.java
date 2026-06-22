@@ -222,6 +222,9 @@ public class AFPParser {
     SF_SUPPLIERS.put(SFTypeID.BO_BeginOverlay, com.mgz.afp.ipds.BO_BeginOverlay::new);
     SF_SUPPLIERS.put(SFTypeID.DO_DeactivateOverlay, com.mgz.afp.ipds.DO_DeactivateOverlay::new);
     SF_SUPPLIERS.put(SFTypeID.IO_IncludeOverlay, com.mgz.afp.ipds.IO_IncludeOverlay::new);
+    SF_SUPPLIERS.put(SFTypeID.BPS_BeginPageSegment_IPDS, com.mgz.afp.ipds.BPS_BeginPageSegment::new);
+    SF_SUPPLIERS.put(SFTypeID.DPS_DeactivatePageSegment_IPDS, com.mgz.afp.ipds.DPS_DeactivatePageSegment::new);
+    SF_SUPPLIERS.put(SFTypeID.IPS_IncludePageSegment_IPDS, com.mgz.afp.ipds.IPS_IncludePageSegment::new);
   }
   AFPParserConfiguration parserConf;
   long nrOfBytesRead;
