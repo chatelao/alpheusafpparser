@@ -3324,9 +3324,9 @@
 | IPDS-11-016 | but ignore this field; generators should not specify this field. | ❓ |
 | IPDS-11-017 | Note: Only Anystate commands are valid between concatenated WM commands; refer to Figure 45 for a list of Anystate commands. | ❓ |
 | IPDS-12-001 | Table 53. Overlay Commands** | ❓ |
-| IPDS-12-002 | BO | X'D6DF' | Begin Overlay | Yes | ❓ |
-| IPDS-12-003 | DO | X'D6EF' | Deactivate Overlay | Yes | ❓ |
-| IPDS-12-004 | IO | X'D67D' | Include Overlay | Yes | ❓ |
+| IPDS-12-002 | BO | X'D6DF' | Begin Overlay | Yes | ✅ |
+| IPDS-12-003 | DO | X'D6EF' | Deactivate Overlay | Yes | ✅ |
+| IPDS-12-004 | IO | X'D67D' | Include Overlay | Yes | ✅ |
 | IPDS-12-005 | Support for page-overlay rotation is indicated by a X'A004' property pair in the Overlay command-set vector of | ❓ |
 | IPDS-12-006 | operates exactly as it does on a page. | ❓ |
 | IPDS-12-007 | Exception ID X'0202..02' exists if the command length is invalid or unsupported. | ❓ |
@@ -5882,7 +5882,7 @@
 | IPDS-A-038 | X'D66F' | Deactivate Page Segment (DPS) | “Deactivate Page Segment” | ❓ |
 | IPDS-A-039 | X'D67B' | Rasterize Presentation Object (RPO) | “Rasterize Presentation Object” | ❓ |
 | IPDS-A-040 | X'D67C' | Include Data Object (IDO) | “Include Data Object” | ❓ |
-| IPDS-A-041 | X'D67D' | Include Overlay (IO) | “Include Overlay” | ❓ |
+| IPDS-A-041 | X'D67D' | Include Overlay (IO) | “Include Overlay” | ✅ |
 | IPDS-A-042 | X'D67E' | Include Saved Page (ISP) | “Include Saved Page” | ❓ |
 | IPDS-A-043 | X'D67F' | Include Page Segment (IPS) | “Include Page Segment” | ❓ |
 | IPDS-A-044 | X'D680' | Write Bar Code Control (WBCC) | “Write Bar Code Control” | ❓ |
@@ -5899,9 +5899,9 @@
 | IPDS-A-055 | X'D6BF' | End Page (EP) | “End Page” | ❓ |
 | IPDS-A-056 | X'D6CE' | Define User Area (DUA) | “Define User Area” | ❓ |
 | IPDS-A-057 | X'D6CF' | Logical Page Descriptor (LPD) | “Logical Page Descriptor” | ❓ |
-| IPDS-A-058 | X'D6DF' | Begin Overlay (BO) | “Begin Overlay” | ❓ |
+| IPDS-A-058 | X'D6DF' | Begin Overlay (BO) | “Begin Overlay” | ✅ |
 | IPDS-A-059 | X'D6E4' | Sense Type and Model (STM) | “Sense Type and Model” | ❓ |
-| IPDS-A-060 | X'D6EF' | Deactivate Overlay (DO) | “Deactivate Overlay” | ❓ |
+| IPDS-A-060 | X'D6EF' | Deactivate Overlay (DO) | “Deactivate Overlay” | ✅ |
 | IPDS-A-061 | X'D61C' Retired item 134 | ❓ |
 | IPDS-A-062 | The following table lists the Acknowledge Reply: | ❓ |
 | IPDS-A-063 | X'D6FF' | Acknowledge Reply (ACK) | “Acknowledge Reply” | ❓ |

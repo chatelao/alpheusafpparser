@@ -219,6 +219,9 @@ public class AFPParser {
     SF_SUPPLIERS.put(SFTypeID.PFC_PresentationFidelityControl_IPDS, com.mgz.afp.ipds.PFC_PresentationFidelityControl::new);
     SF_SUPPLIERS.put(SFTypeID.LE_LoadEquivalence, com.mgz.afp.ipds.LE_LoadEquivalence::new);
     SF_SUPPLIERS.put(SFTypeID.WT_WriteText, com.mgz.afp.ipds.WT_WriteText::new);
+    SF_SUPPLIERS.put(SFTypeID.BO_BeginOverlay, com.mgz.afp.ipds.BO_BeginOverlay::new);
+    SF_SUPPLIERS.put(SFTypeID.DO_DeactivateOverlay, com.mgz.afp.ipds.DO_DeactivateOverlay::new);
+    SF_SUPPLIERS.put(SFTypeID.IO_IncludeOverlay, com.mgz.afp.ipds.IO_IncludeOverlay::new);
   }
   AFPParserConfiguration parserConf;
   long nrOfBytesRead;
