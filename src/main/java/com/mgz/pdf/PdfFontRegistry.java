@@ -142,7 +142,7 @@ public class PdfFontRegistry {
       }
     }
 
-    if (familyPrefix.equals("C0H") || familyPrefix.equals("C0S")) { // Helvetica / Swiss
+    if (familyPrefix.equals("C0H") || familyPrefix.equals("C0S") || familyPrefix.equals("C0A")) { // Helvetica / Swiss / Antique Olive
       if (isBold && isItalic) {
         standardFontName = StandardFonts.HELVETICA_BOLDOBLIQUE;
       } else if (isBold) {
@@ -152,7 +152,9 @@ public class PdfFontRegistry {
       } else {
         standardFontName = StandardFonts.HELVETICA;
       }
-    } else if (familyPrefix.equals("C0N") || familyPrefix.equals("C0D")) { // Times New Roman / Dutch
+    } else if (familyPrefix.equals("C0N") || familyPrefix.equals("C0D") || familyPrefix.equals("C0T")
+        || familyPrefix.equals("C0B") || familyPrefix.equals("C0M") || familyPrefix.equals("C0G")
+        || familyPrefix.equals("C0C")) { // Times / Dutch / Bookman / Garamond / Gothic / Century
       if (isBold && isItalic) {
         standardFontName = StandardFonts.TIMES_BOLDITALIC;
       } else if (isBold) {

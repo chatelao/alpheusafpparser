@@ -351,11 +351,6 @@ public class PdfHandler implements StructuredFieldHandler {
           currentCanvas.setFillColor(DeviceRgb.BLACK);
           this.isCanvasTransformed = false;
 
-          // Apply default page size and transformation if defined (from PGD)
-          if (defaultPageWidth > 0 && defaultPageHeight > 0) {
-            currentPage.setMediaBox(new com.itextpdf.kernel.geom.Rectangle(defaultPageWidth, defaultPageHeight));
-            applyTransformation(defaultPageHeight, defaultScaleX, defaultScaleY);
-          }
         }
       }
     } else if (sf.isEndSF()) {
@@ -384,12 +379,14 @@ public class PdfHandler implements StructuredFieldHandler {
         } else if (begin instanceof BIM_BeginImageObject) {
           imageState.setInImageObject(false);
           if (currentCanvas != null) {
+            ensureTransformationApplied();
             PdfImageRenderer.render(imageState, currentCanvas, imageCache);
           }
           imageState.reset();
         } else if (begin instanceof BBC_BeginBarCodeObject) {
           barcodeState.setInBarcodeObject(false);
           if (currentCanvas != null) {
+            ensureTransformationApplied();
             PdfBarcodeRenderer.render(barcodeState, currentCanvas);
           }
           barcodeState.reset();
@@ -547,6 +544,7 @@ public class PdfHandler implements StructuredFieldHandler {
 
       if (currentPage != null) {
         currentPage.setMediaBox(new com.itextpdf.kernel.geom.Rectangle(widthPoints, heightPoints));
+        // Force transformation on PGD if not yet done, or if it's a size update
         applyTransformation(heightPoints, scaleX, scaleY);
       }
     } else if (sf instanceof PTX_PresentationTextData ptx) {
@@ -614,6 +612,7 @@ public class PdfHandler implements StructuredFieldHandler {
     if (currentCanvas == null || name == null) {
       return;
     }
+    ensureTransformationApplied();
     PdfFormXObject xObject = resourceCache.get(name);
     if (xObject != null) {
       currentCanvas.saveState();
@@ -664,6 +663,7 @@ public class PdfHandler implements StructuredFieldHandler {
   }
 
   private void handleDrawingOrderInternal(GAD_DrawingOrder order) {
+    ensureTransformationApplied();
     if (order instanceof GSCOL_SetColor gscol) {
       graphicsState.setColor(gscol.getColor());
     } else if (order instanceof GSECOL_SetExtendedColor gsecol) {
@@ -1014,6 +1014,7 @@ public class PdfHandler implements StructuredFieldHandler {
       gocaImageBuffer = null;
       return;
     }
+    ensureTransformationApplied();
     byte[] data = gocaImageBuffer.toByteArray();
     if (data.length == 0) {
       gocaImageBuffer = null;
@@ -1163,6 +1164,7 @@ public class PdfHandler implements StructuredFieldHandler {
     if (currentCanvas == null || (points == null && !atCurrentPosition)) {
       return;
     }
+    ensureTransformationApplied();
     List<GAD_DrawingOrder.GOCA_Point> markerPoints = points;
     if (atCurrentPosition) {
       markerPoints = new ArrayList<>();
@@ -1268,6 +1270,7 @@ public class PdfHandler implements StructuredFieldHandler {
     if (text == null || text.isEmpty() || currentCanvas == null) {
       return;
     }
+    ensureTransformationApplied();
     applyGraphicsState();
     FontResource resource = resolveFontResource(graphicsState.getCharacterSet());
     PdfFont font = fontRegistry.getFontWithFallback(
@@ -1676,6 +1679,7 @@ public class PdfHandler implements StructuredFieldHandler {
     if (currentCanvas == null) {
       return;
     }
+    ensureTransformationApplied();
 
     int afpX = CoordinateTransformer.getAfpX(textState.getInlinePos(), textState.getBaselinePos(),
         textState.getIOrientation(), textState.getBOrientation());
@@ -1736,6 +1740,12 @@ public class PdfHandler implements StructuredFieldHandler {
       AffineTransform at = CoordinateTransformer.getAfpToPdfTransform(heightPoints, scaleX, scaleY);
       currentCanvas.concatMatrix(at);
       this.isCanvasTransformed = true;
+    }
+  }
+
+  private void ensureTransformationApplied() {
+    if (currentPage != null && !isCanvasTransformed && defaultPageHeight > 0) {
+      applyTransformation(defaultPageHeight, defaultScaleX, defaultScaleY);
     }
   }
 

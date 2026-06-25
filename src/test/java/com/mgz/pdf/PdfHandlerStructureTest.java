@@ -1664,6 +1664,47 @@ public class PdfHandlerStructureTest {
     assertEquals(1, handler.getFieldCount());
   }
 
+  @Test
+  public void testMultiPageTransformation() throws Exception {
+    PdfHandler handler = new PdfHandler(new java.io.ByteArrayOutputStream());
+
+    // Page 1: 1440 DPI (Scale = 0.5)
+    BPG_BeginPage bpg1 = new BPG_BeginPage();
+    bpg1.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg1);
+
+    PGD_PageDescriptor pgd1 = new PGD_PageDescriptor();
+    pgd1.setxUnitBase(AFPUnitBase.Inches10);
+    pgd1.setyUnitBase(AFPUnitBase.Inches10);
+    pgd1.setxUnitsPerUnitBase((short) 14400); // 1440 DPI
+    pgd1.setyUnitsPerUnitBase((short) 14400);
+    pgd1.setxSize(14400);
+    pgd1.setySize(14400);
+    handler.handle(pgd1);
+
+    assertEquals(0.05f, handler.getDefaultScaleY(), 0.0001f); // 720 / 14400 = 0.05
+
+    EPG_EndPage epg1 = new EPG_EndPage();
+    epg1.setStructuredFieldIntroducer(createSfi(SFTypeID.EPG_EndPage));
+    handler.handle(epg1);
+
+    // Page 2: 720 DPI (Scale = 0.1)
+    BPG_BeginPage bpg2 = new BPG_BeginPage();
+    bpg2.setStructuredFieldIntroducer(createSfi(SFTypeID.BPG_BeginPage));
+    handler.handle(bpg2);
+
+    PGD_PageDescriptor pgd2 = new PGD_PageDescriptor();
+    pgd2.setxUnitBase(AFPUnitBase.Inches10);
+    pgd2.setyUnitBase(AFPUnitBase.Inches10);
+    pgd2.setxUnitsPerUnitBase((short) 7200); // 720 DPI
+    pgd2.setyUnitsPerUnitBase((short) 7200);
+    pgd2.setxSize(7200);
+    pgd2.setySize(7200);
+    handler.handle(pgd2);
+
+    assertEquals(0.1f, handler.getDefaultScaleY(), 0.0001f); // 720 / 7200 = 0.1
+  }
+
   private StructuredFieldIntroducer createSfi(SFTypeID typeID) {
     StructuredFieldIntroducer sfi = new StructuredFieldIntroducer();
     sfi.setSFTypeID(typeID);
