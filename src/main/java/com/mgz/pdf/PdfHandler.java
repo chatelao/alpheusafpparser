@@ -349,6 +349,7 @@ public class PdfHandler implements StructuredFieldHandler {
           barcodeState.reset();
           imageState.reset();
           currentCanvas.setFillColor(DeviceRgb.BLACK);
+          this.isCanvasTransformed = false;
 
           // Apply default page size and transformation if defined (from PGD)
           if (defaultPageWidth > 0 && defaultPageHeight > 0) {
