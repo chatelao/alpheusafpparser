@@ -2500,8 +2500,8 @@
 | IPDS-5-117 | X'029A..01' – Invalid overstrike character increment | ❓ |
 | IPDS-5-118 | X'029D..03' – No text string encryption key information set | ❓ |
 | IPDS-6-001 | Table 39. IM-Image Commands | ❓ |
-| IPDS-6-002 | WIC | X'D63D' | “Write Image Control” | Yes | ❓ |
-| IPDS-6-003 | WI | X'D64D' | “Write Image” | Yes | ❓ |
+| IPDS-6-002 | WIC | X'D63D' | “Write Image Control” | Yes | ✅ |
+| IPDS-6-003 | WI | X'D64D' | “Write Image” | Yes | ✅ |
 | IPDS-6-004 | Table 40. IM-Image and IO-Image Comparison | ❓ |
 | IPDS-6-005 | Replicate and trim input to fill output | X | O | ❓ |
 | IPDS-6-006 | Bilevel image | X | X | ❓ |
@@ -2598,8 +2598,8 @@
 | IPDS-6-097 | Scan-line count (bytes 6 and 7 of the WIC command). | ❓ |
 | IPDS-6-098 | the image; the preferred exception ID is X'02AF..01'. | ❓ |
 | IPDS-7-001 | Table 42. IO-Image Commands | ❓ |
-| IPDS-7-002 | WIC2 | X'D63E' | “Write Image Control 2” | Yes | ❓ |
-| IPDS-7-003 | WI2 | X'D64E' | “Write Image 2” | Yes | ❓ |
+| IPDS-7-002 | WIC2 | X'D63E' | “Write Image Control 2” | Yes | ✅ |
+| IPDS-7-003 | WI2 | X'D64E' | “Write Image 2” | Yes | ✅ |
 | IPDS-7-004 | Table 43. IM-Image and IO-Image Comparison | ❓ |
 | IPDS-7-005 | Replicate and trim input to fill output | X | O | ❓ |
 | IPDS-7-006 | Bilevel image | X | X | ❓ |
@@ -5861,12 +5861,12 @@
 | IPDS-A-017 | X'D633' | Execute Order Anystate (XOA) | “Execute Order Anystate” | ❓ |
 | IPDS-A-018 | X'D634' | Presentation Fidelity Control (PFC) | “Presentation Fidelity Control” | ❓ |
 | IPDS-A-019 | X'D63C' | Write Object Container Control (WOCC) | “Write Object Container Control” | ❓ |
-| IPDS-A-020 | X'D63D' | Write Image Control (WIC) | “Write Image Control” | ❓ |
-| IPDS-A-021 | X'D63E' | Write Image Control 2 (WIC2) | “Write Image Control 2” | ❓ |
+| IPDS-A-020 | X'D63D' | Write Image Control (WIC) | “Write Image Control” | ✅ |
+| IPDS-A-021 | X'D63E' | Write Image Control 2 (WIC2) | “Write Image Control 2” | ✅ |
 | IPDS-A-022 | X'D63F' | Load Font Equivalence (LFE) | “Load Font Equivalence” | ❓ |
 | IPDS-A-023 | X'D64C' | Write Object Container (WOC) | “Write Object Container” | ❓ |
-| IPDS-A-024 | X'D64D' | Write Image (WI) | “Write Image” | ❓ |
-| IPDS-A-025 | X'D64E' | Write Image 2 (WI2) | “Write Image 2” | ❓ |
+| IPDS-A-024 | X'D64D' | Write Image (WI) | “Write Image” | ✅ |
+| IPDS-A-025 | X'D64E' | Write Image 2 (WI2) | “Write Image 2” | ✅ |
 | IPDS-A-026 | X'D64F' | Deactivate Font (DF) | “Deactivate Font” | ❓ |
 | IPDS-A-027 | X'D658' | Delete Home-State Metadata (DHM) | “Delete Home-State Metadata” | ❓ |
 | IPDS-A-028 | X'D659' | Request Resident Resource List (RRRL) | “Request Resident Resource List” | ❓ |

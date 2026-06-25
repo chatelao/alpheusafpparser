@@ -37,8 +37,8 @@ This document outlines a phased, actionable plan to increase the code coverage o
     - 🚧 IPDS verification (Currently ~1% coverage; initial infrastructure and basic commands implemented).
         - 🚧 Device-Control command set (MID, SHS, NOP, BP, EP, END, STM, LPP, LPD, LCC, DF, DUA, AFO, ASN, ISP, ICMR, LFE, PFC implemented)
         - 🚧 Text command set (LE, WT implemented)
-        - 🚧 IM-Image command set
-        - 🚧 IO-Image command set
+        - ✅ IM-Image command set (WIC, WI implemented)
+        - ✅ IO-Image command set (WIC2, WI2 implemented)
         - 🚧 Graphics command set
         - 🚧 Bar Code command set
         - 🚧 Object-Container command set

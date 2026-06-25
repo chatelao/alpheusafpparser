@@ -22,6 +22,7 @@ package com.mgz.afp.ipds;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.mgz.afp.enums.AFPColorValue;
@@ -59,6 +60,135 @@ public class IPDSCommandTest {
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     shs.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testWIC2InfiniteLoopFix() throws Exception {
+    // WIC2 with an SDF of length 0 (would cause infinite loop before fix)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0D, (byte) 0xD6, (byte) 0x3E, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x00, 0x00, 0x00, 0x00 // Length 0 SDF
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+
+    assertThrows(com.mgz.afp.exceptions.AFPParserException.class, () -> {
+      parser.parseNextSF();
+    });
+  }
+
+  @Test
+  public void testWICRoundTrip() throws Exception {
+    // WIC: D63D, ARQ=0, payload=24 bytes + 2 bytes color = 26. SFI(8) + 1 (flag) + 26 = 35 (0x23)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x23, (byte) 0xD6, (byte) 0x3D, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x03, (byte) 0xE8, // ppslOutput (1000)
+        0x07, (byte) 0xD0, // nslOutput (2000)
+        0x03, (byte) 0xE8, // ppslInput (1000)
+        0x07, (byte) 0xD0, // nslInput (2000)
+        0x00, // compress
+        0x00, // bitsPerPel
+        0x01, // pelMag
+        0x01, // scanLineMag
+        0x00, 0x00, // slDirection
+        0x2D, 0x00, // slsDirection
+        (byte) 0xA0, // rcs (Page Xp, Yp)
+        0x00, 0x00, 0x64, // xOffset (100)
+        0x00, // reserved
+        0x00, 0x00, (byte) 0xC8, // yOffset (200)
+        (byte) 0xFF, 0x07 // color
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    WIC_WriteImageControl wic = (WIC_WriteImageControl) parser.parseNextSF();
+
+    assertNotNull(wic);
+    assertEquals(1000, wic.getPpslOutput());
+    assertEquals(2000, wic.getNslOutput());
+    assertEquals(100, wic.getXOffset());
+    assertEquals(AFPColorValue.White_DeviceDefault_0xFF07, wic.getColor());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    wic.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testWIRoundTrip() throws Exception {
+    // WI: D64D, ARQ=0, data: 11 22 33 44
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0D, (byte) 0xD6, (byte) 0x4D, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x11, 0x22, 0x33, 0x44
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    WI_WriteImage wi = (WI_WriteImage) parser.parseNextSF();
+
+    assertNotNull(wi);
+    assertArrayEquals(new byte[] {0x11, 0x22, 0x33, 0x44}, wi.getImageData());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    wi.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testWIC2RoundTrip() throws Exception {
+    // WIC2: D63E, ARQ=0, IAP + IDD
+    // IAP: 00 0B AC 6B 00 64 00 C8 00 00 A0 (x=100, y=200, ori=0, rcs=A0)
+    // IDD: 00 0F A6 FB 00 00 00 05 A0 05 A0 03 E8 07 D0 (haid=0, unit=0, res=1440, ext=1000x2000)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x23, (byte) 0xD6, (byte) 0x3E, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x00, 0x0B, (byte) 0xAC, 0x6B, 0x00, 0x64, 0x00, (byte) 0xC8, 0x00, 0x00, (byte) 0xA0, // IAP
+        0x00, 0x0F, (byte) 0xA6, (byte) 0xFB, 0x00, 0x00, 0x00, 0x05, (byte) 0xA0, 0x05, (byte) 0xA0, 0x03, (byte) 0xE8, 0x07, (byte) 0xD0 // IDD
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    WIC2_WriteImageControl2 wic2 = (WIC2_WriteImageControl2) parser.parseNextSF();
+
+    assertNotNull(wic2);
+    assertEquals(100, wic2.getIap().getXOffset());
+    assertEquals(200, wic2.getIap().getYOffset());
+    assertEquals(1000, wic2.getIdd().getXioExtent());
+    assertEquals(2000, wic2.getIdd().getYioExtent());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    wic2.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testWI2RoundTrip() throws Exception {
+    // WI2: D64E, ARQ=0, data: 55 66 77 88
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0D, (byte) 0xD6, (byte) 0x4E, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x55, 0x66, 0x77, (byte) 0x88
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    WI2_WriteImage2 wi2 = (WI2_WriteImage2) parser.parseNextSF();
+
+    assertNotNull(wi2);
+    assertArrayEquals(new byte[] {0x55, 0x66, 0x77, (byte) 0x88}, wi2.getIocaData());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    wi2.writeAFP(baos, config);
     assertArrayEquals(data, baos.toByteArray());
   }
 
