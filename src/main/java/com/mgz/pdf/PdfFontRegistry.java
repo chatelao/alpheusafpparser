@@ -142,7 +142,9 @@ public class PdfFontRegistry {
       }
     }
 
-    if (familyPrefix.equals("C0H") || familyPrefix.equals("C0S")) { // Helvetica / Swiss
+    if (familyPrefix.equals("C0H") || familyPrefix.equals("C0S")
+        || familyPrefix.equals("C0A") || familyPrefix.equals("C0U")
+        || familyPrefix.equals("C0G")) { // Helvetica / Swiss / Arial / Univers / Gothic
       if (isBold && isItalic) {
         standardFontName = StandardFonts.HELVETICA_BOLDOBLIQUE;
       } else if (isBold) {
@@ -152,7 +154,8 @@ public class PdfFontRegistry {
       } else {
         standardFontName = StandardFonts.HELVETICA;
       }
-    } else if (familyPrefix.equals("C0N") || familyPrefix.equals("C0D")) { // Times New Roman / Dutch
+    } else if (familyPrefix.equals("C0N") || familyPrefix.equals("C0D")
+        || familyPrefix.equals("C0T")) { // Times New Roman / Dutch / Times
       if (isBold && isItalic) {
         standardFontName = StandardFonts.TIMES_BOLDITALIC;
       } else if (isBold) {
@@ -162,7 +165,8 @@ public class PdfFontRegistry {
       } else {
         standardFontName = StandardFonts.TIMES_ROMAN;
       }
-    } else if (familyPrefix.equals("C04") || familyPrefix.equals("C06")) { // Courier
+    } else if (familyPrefix.equals("C04") || familyPrefix.equals("C06")
+        || familyPrefix.equals("C0M") || familyPrefix.equals("C0C")) { // Courier / Modern / Courier
       if (isBold && isItalic) {
         standardFontName = StandardFonts.COURIER_BOLDOBLIQUE;
       } else if (isBold) {
