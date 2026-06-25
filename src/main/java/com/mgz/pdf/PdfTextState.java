@@ -39,9 +39,9 @@ public class PdfTextState {
   private byte[] extendedColorValue = null;
   private AFPOrientation iOrientation = AFPOrientation.ori0;
   private AFPOrientation bOrientation = AFPOrientation.ori90;
-  private int inlinePos = 0;
-  private int baselinePos = 0;
-  private int establishedBaselinePos = 0;
+  private double inlinePos = 0;
+  private double baselinePos = 0;
+  private double establishedBaselinePos = 0;
   private boolean hasEstablishedBaseline = false;
   private short intercharacterAdjustment = 0;
   private short variableSpaceIncrement = 0;
@@ -136,27 +136,27 @@ public class PdfTextState {
     this.bOrientation = bOrientation;
   }
 
-  public int getInlinePos() {
+  public double getInlinePos() {
     return inlinePos;
   }
 
-  public void setInlinePos(int inlinePos) {
+  public void setInlinePos(double inlinePos) {
     this.inlinePos = inlinePos;
   }
 
-  public int getBaselinePos() {
+  public double getBaselinePos() {
     return baselinePos;
   }
 
-  public void setBaselinePos(int baselinePos) {
+  public void setBaselinePos(double baselinePos) {
     this.baselinePos = baselinePos;
   }
 
-  public int getEstablishedBaselinePos() {
+  public double getEstablishedBaselinePos() {
     return establishedBaselinePos;
   }
 
-  public void setEstablishedBaselinePos(int establishedBaselinePos) {
+  public void setEstablishedBaselinePos(double establishedBaselinePos) {
     this.establishedBaselinePos = establishedBaselinePos;
   }
 

@@ -65,29 +65,29 @@ public class CoordinateTransformerTest {
     public void testGetAfpX() {
         // iOri=0, bOri=90 (standard)
         // x = iPos * cos(0) + bPos * cos(90) = iPos * 1 + bPos * 0 = iPos
-        assertEquals(100, CoordinateTransformer.getAfpX(100, 200, AFPOrientation.ori0, AFPOrientation.ori90));
+        assertEquals(100, CoordinateTransformer.getAfpX(100, 200, AFPOrientation.ori0, AFPOrientation.ori90), 0.001);
 
         // iOri=90, bOri=180
         // x = iPos * cos(90) + bPos * cos(180) = iPos * 0 + bPos * -1 = -bPos
-        assertEquals(-200, CoordinateTransformer.getAfpX(100, 200, AFPOrientation.ori90, AFPOrientation.ori180));
+        assertEquals(-200, CoordinateTransformer.getAfpX(100, 200, AFPOrientation.ori90, AFPOrientation.ori180), 0.001);
 
         // iOri=180, bOri=270
         // x = iPos * cos(180) + bPos * cos(270) = -iPos
-        assertEquals(-100, CoordinateTransformer.getAfpX(100, 200, AFPOrientation.ori180, AFPOrientation.ori270));
+        assertEquals(-100, CoordinateTransformer.getAfpX(100, 200, AFPOrientation.ori180, AFPOrientation.ori270), 0.001);
 
         // iOri=270, bOri=0
         // x = iPos * cos(270) + bPos * cos(0) = bPos
-        assertEquals(200, CoordinateTransformer.getAfpX(100, 200, AFPOrientation.ori270, AFPOrientation.ori0));
+        assertEquals(200, CoordinateTransformer.getAfpX(100, 200, AFPOrientation.ori270, AFPOrientation.ori0), 0.001);
     }
 
     @Test
     public void testGetAfpY() {
         // iOri=0, bOri=90 (standard)
         // y = iPos * sin(0) + bPos * sin(90) = iPos * 0 + bPos * 1 = bPos
-        assertEquals(200, CoordinateTransformer.getAfpY(100, 200, AFPOrientation.ori0, AFPOrientation.ori90));
+        assertEquals(200, CoordinateTransformer.getAfpY(100, 200, AFPOrientation.ori0, AFPOrientation.ori90), 0.001);
 
         // iOri=90, bOri=180
         // y = iPos * sin(90) + bPos * sin(180) = iPos * 1 + bPos * 0 = iPos
-        assertEquals(100, CoordinateTransformer.getAfpY(100, 200, AFPOrientation.ori90, AFPOrientation.ori180));
+        assertEquals(100, CoordinateTransformer.getAfpY(100, 200, AFPOrientation.ori90, AFPOrientation.ori180), 0.001);
     }
 }

@@ -76,10 +76,10 @@ public class CoordinateTransformer {
    * @param bOri the baseline orientation
    * @return the AFP X coordinate
    */
-  public static int getAfpX(int iPos, int bPos, AFPOrientation iOri, AFPOrientation bOri) {
+  public static double getAfpX(double iPos, double bPos, AFPOrientation iOri, AFPOrientation bOri) {
     double iRad = Math.toRadians(iOri.getCode() / 128.0);
     double bRad = Math.toRadians(bOri.getCode() / 128.0);
-    return (int) Math.round(iPos * Math.cos(iRad) + bPos * Math.cos(bRad));
+    return iPos * Math.cos(iRad) + bPos * Math.cos(bRad);
   }
 
   /**
@@ -91,9 +91,9 @@ public class CoordinateTransformer {
    * @param bOri the baseline orientation
    * @return the AFP Y coordinate
    */
-  public static int getAfpY(int iPos, int bPos, AFPOrientation iOri, AFPOrientation bOri) {
+  public static double getAfpY(double iPos, double bPos, AFPOrientation iOri, AFPOrientation bOri) {
     double iRad = Math.toRadians(iOri.getCode() / 128.0);
     double bRad = Math.toRadians(bOri.getCode() / 128.0);
-    return (int) Math.round(iPos * Math.sin(iRad) + bPos * Math.sin(bRad));
+    return iPos * Math.sin(iRad) + bPos * Math.sin(bRad);
   }
 }
