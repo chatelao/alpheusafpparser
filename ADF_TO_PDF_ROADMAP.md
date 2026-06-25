@@ -8,6 +8,7 @@ This document outlines the phased implementation plan for converting the Alpheus
 - **Phase 2: Resource Management & Optimization**: ✅ Complete
 - **Phase 3: Content Conversion (Base Operators)**: 🚧 In Progress
 - **Phase 4: Verification & Compliance**: 🚧 In Progress
+- **Phase 5: High-Performance Parallel Generation**: ⏳ Pending
 
 ---
 
@@ -170,6 +171,9 @@ Implement the drivers for converting AFP content architectures to PDF operators.
             - ⏳ **Implementation**: Implement the Reed-Solomon error correction and matrix placement.
             - ⏳ **Implementation**: Implement the four chevron-shaped finder patterns in the corners.
             - ⏳ **Testing**: Add Han Xin Code validation test cases and sample AFPs.
+        - ⏳ **GS1 DataBar**: Implement rendering for GS1 DataBar (Type 0x24).
+        - ⏳ **Royal Mail Mailmark**: Implement rendering for Royal Mail Mailmark (Type 0x25).
+        - ⏳ **Royal Mail RED TAG**: Implement rendering for Royal Mail RED TAG (Type 0x23).
     - ✅ **Postal Barcode Support**:
         - ✅ **POSTNET/PLANET**: Implement rendering for POSTNET and PLANET barcodes.
         - ✅ **Intelligent Mail Barcode (IMB)**: Implement rendering for USPS IMB. (Direct mode 0x01).
@@ -196,7 +200,7 @@ Ensure the generated output meets the PDF/VT-1 standard and accurately reflects 
 
 - ⏳ **PDF/VT-1 Validation**: Validate generated files against PDF/VT-1 profiles using preflight tools.
     - ⏳ **Integrate VeraPDF**: Implement automated compliance checks for PDF/VT-1 and PDF/X-4. (Blocked: VeraPDF not available in environment).
-    - ⏳ **VeraPDF CLI Wrapper**: Create a helper to run VeraPDF from within Alpheus tests.
+    - ✅ **VeraPDF CLI Wrapper**: Create a helper to run VeraPDF from within Alpheus tests.
     - ✅ **Preflight Report Parser**: Implement a parser to extract and assert on VeraPDF validation results. (✅ Implemented `VeraPdfReportParser.java`).
     - ⏳ **Preflight Automation**: Establish CI/CD integration for automated validation.
 - 🚧 **DPart Hierarchy Verification**:
@@ -212,6 +216,19 @@ Ensure the generated output meets the PDF/VT-1 standard and accurately reflects 
         - ✅ **Automated Image Diffing**: Implement pixel-by-pixel comparison with configurable tolerance. (✅ Implemented in `PdfVerificationUtils.java`).
     - ✅ **Pixel-Perfect Verification**: Establish a suite for pixel-level regression testing against golden PDFs. (✅ Implemented `PdfPixelPerfectVerificationTest.java`).
     - ✅ **PDF-to-Image Rasterizer**: Integrate a tool (e.g., PDFBox or Ghostscript) to rasterize PDF pages for visual diffing. (✅ Implemented `PdfVerificationUtils` using PDFBox 3.0).
+
+## Phase 5: High-Performance Parallel Generation ⏳
+Enable multi-threaded PDF generation for high-volume production streams.
+
+- ⏳ **Architectural Refactoring**:
+    - ⏳ **Fragment Support**: Enhance `PdfHandler` to support independent page fragment generation.
+    - ⏳ **Resource Virtualization**: Implement a mechanism to share XObjects and Fonts across worker threads without document-level locks.
+- ⏳ **Ordered Assembly**:
+    - ⏳ **Stream Splicing**: Implement `PdfDocument.copyPagesTo` integration in `ParallelAfpConverter`.
+    - ⏳ **DPart Reconstruction**: Ensure the `/DPartRoot` hierarchy is correctly reassembled from parallel fragments.
+- ⏳ **Validation**:
+    - ⏳ **Thread Safety Audit**: Verify font and image registries under high contention.
+    - ⏳ **Benchmarking**: Compare sequential vs. parallel PDF generation throughput on large (10k+ page) AFP files.
 
 ---
 
