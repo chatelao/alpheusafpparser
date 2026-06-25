@@ -130,7 +130,8 @@ public class FontHeightReproductionTest {
         // Check scaling: 72 points / (3000/10 units) = 72 / 300 = 0.24
         assertEquals(0.24f, handler.getDefaultScaleY(), 0.001f);
 
-        // 3. MCF2 with fontHeight 50 (50 * 0.24 = 12pt)
+        // 3. MCF2 with fontHeight 240 (240 * 0.05 = 12pt)
+        // Note: fontHeight is now fixed to 1/1440 inch (0.05 scale) regardless of PGD
         MCF_MapCodedFont_Format2 mcf2 = new MCF_MapCodedFont_Format2();
         prepareSF(mcf2, SFTypeID.MCF_MapCodedFont_Format2);
         List<com.mgz.afp.base.IRepeatingGroup> groups = new ArrayList<>();
@@ -143,7 +144,7 @@ public class FontHeightReproductionTest {
         triplets.add(rli);
 
         FontDescriptorSpecification fds = new FontDescriptorSpecification();
-        fds.fontHeight = 50;
+        fds.fontHeight = 240;
         triplets.add(fds);
 
         FullyQualifiedName fqn = new FullyQualifiedName();
