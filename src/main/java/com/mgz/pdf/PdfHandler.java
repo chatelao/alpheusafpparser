@@ -466,7 +466,8 @@ public class PdfHandler implements StructuredFieldHandler {
                 }
               } else if (t instanceof Triplet.FontDescriptorSpecification fds) {
                 if (fds.fontHeight > 0) {
-                  size = fds.fontHeight * defaultScaleY;
+                  // Font Height in Triplet X'1F' is in 1/1440 inch units (1/20 points)
+                  size = fds.fontHeight * 0.05f;
                 }
                 if (fds.fontWeigthClass != null && fds.fontWeigthClass.ordinal() >= Triplet.FontDescriptorSpecification.FDS_FontWeigthClass.Bold.ordinal()) {
                   bold = true;
@@ -510,7 +511,8 @@ public class PdfHandler implements StructuredFieldHandler {
                 }
               } else if (t instanceof Triplet.DataObjectFontDescriptor dofd) {
                 if (dofd.specifiedVerticalFontSize > 0) {
-                  size = dofd.specifiedVerticalFontSize * defaultScaleY;
+                  // Font Size in Triplet X'43' is in 1/1440 inch units (1/20 points)
+                  size = dofd.specifiedVerticalFontSize * 0.05f;
                 }
               } else if (t instanceof Triplet.FontDescriptorSpecification fds) {
                 if (fds.fontWeigthClass != null && fds.fontWeigthClass.ordinal() >= Triplet.FontDescriptorSpecification.FDS_FontWeigthClass.Bold.ordinal()) {
