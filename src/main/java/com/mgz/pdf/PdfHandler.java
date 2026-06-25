@@ -1671,9 +1671,7 @@ public class PdfHandler implements StructuredFieldHandler {
         }
       }
 
-      if (defaultPageWidth > 0) {
-        textState.setInlinePos(textState.getInlinePos() + (int) totalWidthAfp);
-      }
+      textState.setInlinePos(textState.getInlinePos() + (int) totalWidthAfp);
     } catch (Exception e) {
       System.err.println("Error rendering text: " + e.getMessage());
     }
@@ -1711,6 +1709,7 @@ public class PdfHandler implements StructuredFieldHandler {
   }
 
   private void startResourceCapture(String name) {
+    textState.reset();
     // Default size for resources if not yet known, will be adjusted by PGD if present inside
     float width = defaultPageWidth > 0 ? defaultPageWidth : 1000;
     float height = defaultPageHeight > 0 ? defaultPageHeight : 1000;
