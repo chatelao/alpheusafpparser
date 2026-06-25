@@ -144,7 +144,8 @@ public class PdfFontRegistry {
 
     if (familyPrefix.equals("C0H") || familyPrefix.equals("C0S")
         || familyPrefix.equals("C0A") || familyPrefix.equals("C0U")
-        || familyPrefix.equals("C0G")) {
+        || familyPrefix.equals("C0G")
+        || (isOutline && familyPrefix.equals("C0N"))) { // CZN / XZN are Sans-Serif
       // Helvetica / Swiss / Arial / Univers / Gothic
       if (isBold && isItalic) {
         standardFontName = StandardFonts.HELVETICA_BOLDOBLIQUE;
@@ -156,7 +157,8 @@ public class PdfFontRegistry {
         standardFontName = StandardFonts.HELVETICA;
       }
     } else if (familyPrefix.equals("C0D")
-        || familyPrefix.equals("C0T") || familyPrefix.equals("C0N")) { // Dutch / Times / Nimbus Sans (Serif)
+        || familyPrefix.equals("C0T")
+        || (!isOutline && familyPrefix.equals("C0N"))) { // C0N-C6N / X0N-X6N are Serif
       if (isBold && isItalic) {
         standardFontName = StandardFonts.TIMES_BOLDITALIC;
       } else if (isBold) {
