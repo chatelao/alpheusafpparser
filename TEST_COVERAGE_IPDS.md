@@ -2793,8 +2793,8 @@
 | IPDS-7-194 | X'05CE..10' | | X | X | ❓ |
 | IPDS-7-195 | X'05F4..10' | ❓ |
 | IPDS-8-001 | Table 46. Graphics Commands | ❓ |
-| IPDS-8-002 | WGC | X'D684' | “Write Graphics Control” | Yes | ❓ |
-| IPDS-8-003 | WG | X'D685' | “Write Graphics” | Yes | ❓ |
+| IPDS-8-002 | WGC | X'D684' | “Write Graphics Control” | Yes | ✅ |
+| IPDS-8-003 | WG | X'D685' | “Write Graphics” | Yes | ✅ |
 | IPDS-8-004 | graphics presentation space window, and the graphics object area. | ❓ |
 | IPDS-8-005 | X Left Limitg X Right Limitg | ❓ |
 | IPDS-8-006 | vector of the Sense Type and Model command reply. | ❓ |
@@ -2949,8 +2949,8 @@
 | IPDS-8-155 | X'A0' | Set Pattern Reference Point | Long | ❓ |
 | IPDS-8-156 | and exception conditions. | ❓ |
 | IPDS-9-001 | Table 49. Bar Code Commands | ❓ |
-| IPDS-9-002 | WBCC | X'D680' | “Write Bar Code Control” | Yes | ❓ |
-| IPDS-9-003 | WBC | X'D681' | “Write Bar Code” | Yes | ❓ |
+| IPDS-9-002 | WBCC | X'D680' | “Write Bar Code Control” | Yes | ✅ |
+| IPDS-9-003 | WBC | X'D681' | “Write Bar Code” | Yes | ✅ |
 | IPDS-9-004 | vector of the Sense Type and Model command reply. | ❓ |
 | IPDS-9-005 | ... END string is required whenever: | ❓ |
 | IPDS-9-006 | A new bar code object area is started. | ❓ |
@@ -3037,8 +3037,8 @@
 | IPDS-10-006 | IDO | X'D67C' | Include Data Object | No | ❓ |
 | IPDS-10-007 | RRR | X'D65A' | Remove Resident Resource | No | ❓ |
 | IPDS-10-008 | RRRL | X'D659' | Request Resident Resource List | No | ❓ |
-| IPDS-10-009 | WOCC | X'D63C' | Write Object Container Control | Yes | ❓ |
-| IPDS-10-010 | WOC | X'D64C' | Write Object Container | Yes | ❓ |
+| IPDS-10-009 | WOCC | X'D63C' | Write Object Container Control | Yes | ✅ |
+| IPDS-10-010 | WOC | X'D64C' | Write Object Container | Yes | ✅ |
 | IPDS-10-011 | object container is saved as a data object resource to be presented later via an IDO command. If the WOCC is | ❓ |
 | IPDS-10-012 | function is indicated by the X'6201' property pair that is returned in the Device-Control command-set vector of | ❓ |
 | IPDS-10-013 | Object Container Area | ❓ |
@@ -3308,8 +3308,8 @@
 | IPDS-10-277 | Note: Only Anystate commands are valid between concatenated WOC commands; refer to Figure 45 for a list of Anystate commands. | ❓ |
 | IPDS-11-001 | Table 52. Metadata Commands | ❓ |
 | IPDS-11-002 | DHM | X'D658' | “Delete Home-State Metadata” | Yes | ❓ |
-| IPDS-11-003 | WMC | X'D68A' | “Write Metadata control” | Yes | ❓ |
-| IPDS-11-004 | WM | X'D68B' | “Write Metadata” | Yes | ❓ |
+| IPDS-11-003 | WMC | X'D68A' | “Write Metadata control” | Yes | ✅ |
+| IPDS-11-004 | WM | X'D68B' | “Write Metadata” | Yes | ✅ |
 | IPDS-11-005 | metadata is deleted with a Delete Home-State Metadata (DHM) command. | ❓ |
 | IPDS-11-006 | The DHM command data field is as follows: | ❓ |
 | IPDS-11-007 | 0–1 | UBIN | MDLevel | X'0000'<br>X'0001' – X'FFFF' | Used to delete all home-state metadata<br>Level of the home-state metadata being deleted | X'0000'<br>X'0001' – X'FFFF' | ❓ |
@@ -5860,11 +5860,11 @@
 | IPDS-A-016 | X'D62F' | Load Font (LF) | “Load Font” | ❓ |
 | IPDS-A-017 | X'D633' | Execute Order Anystate (XOA) | “Execute Order Anystate” | ❓ |
 | IPDS-A-018 | X'D634' | Presentation Fidelity Control (PFC) | “Presentation Fidelity Control” | ❓ |
-| IPDS-A-019 | X'D63C' | Write Object Container Control (WOCC) | “Write Object Container Control” | ❓ |
+| IPDS-A-019 | X'D63C' | Write Object Container Control (WOCC) | “Write Object Container Control” | ✅ |
 | IPDS-A-020 | X'D63D' | Write Image Control (WIC) | “Write Image Control” | ✅ |
 | IPDS-A-021 | X'D63E' | Write Image Control 2 (WIC2) | “Write Image Control 2” | ✅ |
 | IPDS-A-022 | X'D63F' | Load Font Equivalence (LFE) | “Load Font Equivalence” | ❓ |
-| IPDS-A-023 | X'D64C' | Write Object Container (WOC) | “Write Object Container” | ❓ |
+| IPDS-A-023 | X'D64C' | Write Object Container (WOC) | “Write Object Container” | ✅ |
 | IPDS-A-024 | X'D64D' | Write Image (WI) | “Write Image” | ✅ |
 | IPDS-A-025 | X'D64E' | Write Image 2 (WI2) | “Write Image 2” | ✅ |
 | IPDS-A-026 | X'D64F' | Deactivate Font (DF) | “Deactivate Font” | ❓ |
@@ -5885,13 +5885,13 @@
 | IPDS-A-041 | X'D67D' | Include Overlay (IO) | “Include Overlay” | ✅ |
 | IPDS-A-042 | X'D67E' | Include Saved Page (ISP) | “Include Saved Page” | ❓ |
 | IPDS-A-043 | X'D67F' | Include Page Segment (IPS) | “Include Page Segment” | ❓ |
-| IPDS-A-044 | X'D680' | Write Bar Code Control (WBCC) | “Write Bar Code Control” | ❓ |
-| IPDS-A-045 | X'D681' | Write Bar Code (WBC) | “Write Bar Code” | ❓ |
-| IPDS-A-046 | X'D684' | Write Graphics Control (WGC) | “Write Graphics Control” | ❓ |
-| IPDS-A-047 | X'D685' | Write Graphics (WG) | “Write Graphics” | ❓ |
+| IPDS-A-044 | X'D680' | Write Bar Code Control (WBCC) | “Write Bar Code Control” | ✅ |
+| IPDS-A-045 | X'D681' | Write Bar Code (WBC) | “Write Bar Code” | ✅ |
+| IPDS-A-046 | X'D684' | Write Graphics Control (WGC) | “Write Graphics Control” | ✅ |
+| IPDS-A-047 | X'D685' | Write Graphics (WG) | “Write Graphics” | ✅ |
 | IPDS-A-048 | X'D688' | Write Text Control (WTC) | “Write Text Control” | ❓ |
-| IPDS-A-049 | X'D68A' | Write Metadata Control (WMC) | “Write Metadata Control” | ❓ |
-| IPDS-A-050 | X'D68B' | Write Metadata (WM) | “Write Metadata” | ❓ |
+| IPDS-A-049 | X'D68A' | Write Metadata Control (WMC) | “Write Metadata Control” | ✅ |
+| IPDS-A-050 | X'D68B' | Write Metadata (WM) | “Write Metadata” | ✅ |
 | IPDS-A-051 | X'D68F' | Execute Order Home State (XOH) | “Execute Order Home State” | ❓ |
 | IPDS-A-052 | X'D697' | Set Home State (SHS) | “Set Home State” | ❓ |
 | IPDS-A-053 | X'D69F' | Load Copy Control (LCC) | “Load Copy Control” | ❓ |

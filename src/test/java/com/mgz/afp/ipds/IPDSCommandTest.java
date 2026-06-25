@@ -957,4 +957,198 @@ public class IPDSCommandTest {
     ips.writeAFP(baos, config);
     assertArrayEquals(data, baos.toByteArray());
   }
+
+  @Test
+  public void testWGCRoundTrip() throws Exception {
+    // WGC: D684, ARQ=0, GAP + GDD
+    // SFI(8) + Flag(1) + GAP(11) + GDD(28) = 48 (0x30)
+    // GAP: 00 0B AC 6B 00 64 00 C8 00 00 A0 (x=100, y=200, ori=0, rcs=A0)
+    // GDD: 00 1C A6 BB 00 00 38 40 38 40 00 00 00 00 00 00 7F FF 80 00 7F FF 00 00 00 00 00 00
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x30, (byte) 0xD6, (byte) 0x84, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x00, 0x0B, (byte) 0xAC, 0x6B, 0x00, 0x64, 0x00, (byte) 0xC8, 0x00, 0x00, (byte) 0xA0, // GAP
+        0x00, 0x1C, (byte) 0xA6, (byte) 0xBB, 0x00, 0x00, 0x38, 0x40, 0x38, 0x40, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x7F, (byte) 0xFF, (byte) 0x80, 0x00, 0x7F, (byte) 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 // GDD
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    WGC_WriteGraphicsControl wgc = (WGC_WriteGraphicsControl) parser.parseNextSF();
+
+    assertNotNull(wgc);
+    assertEquals(100, wgc.getGap().getXOffset());
+    assertEquals(0x3840, wgc.getGdd().getXupub());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    wgc.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testWGRoundTrip() throws Exception {
+    // WG: D685, ARQ=0, GOCA data: GNOP (00)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0A, (byte) 0xD6, (byte) 0x85, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x00  // GOCA GNOP
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    WG_WriteGraphics wg = (WG_WriteGraphics) parser.parseNextSF();
+
+    assertNotNull(wg);
+    assertEquals(1, wg.getDrawingOrders().size());
+    assertTrue(wg.getDrawingOrders().get(0) instanceof com.mgz.afp.goca.GAD_DrawingOrder.GNOP1_NopOperation);
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    wg.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testWBCCRoundTrip() throws Exception {
+    // WBCC: D680, ARQ=0, BCAP + BCDD
+    // SFI(8) + Flag(1) + BCAP(11) + BCDD(27) = 47 (0x2F)
+    // BCAP: 00 0B AC 6B 00 64 00 C8 00 00 A0
+    // BCDD: 00 1B A6 EB 00 00 38 40 38 40 7F FF 7F FF 00 00 01 01 01 FF FF FF 00 00 01 00 00
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x2F, (byte) 0xD6, (byte) 0x80, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x00, 0x0B, (byte) 0xAC, 0x6B, 0x00, 0x64, 0x00, (byte) 0xC8, 0x00, 0x00, (byte) 0xA0, // BCAP
+        0x00, 0x1B, (byte) 0xA6, (byte) 0xEB, 0x00, 0x00, 0x38, 0x40, 0x38, 0x40, 0x7F, (byte) 0xFF, 0x7F, (byte) 0xFF,
+        0x00, 0x00, 0x01, 0x01, 0x01, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, 0x00, 0x00, 0x01, 0x00, 0x00 // BCDD
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    WBCC_WriteBarCodeControl wbcc = (WBCC_WriteBarCodeControl) parser.parseNextSF();
+
+    assertNotNull(wbcc);
+    assertEquals(100, wbcc.getBcap().getXOffset());
+    assertEquals(0x3840, wbcc.getBcdd().getXupub());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    wbcc.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testWBCRoundTrip() throws Exception {
+    // WBC: D681, ARQ=0, data: 11 22 33
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0C, (byte) 0xD6, (byte) 0x81, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x11, 0x22, 0x33
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    WBC_WriteBarCode wbc = (WBC_WriteBarCode) parser.parseNextSF();
+
+    assertNotNull(wbc);
+    assertArrayEquals(new byte[] {0x11, 0x22, 0x33}, wbc.getBarCodeData());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    wbc.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testWOCCRoundTrip() throws Exception {
+    // WOCC: D63C, ARQ=0, OCAP + OCDD
+    // SFI(8) + Flag(1) + OCAP(11) + OCDD(22) = 42 (0x2A)
+    // OCAP: 00 0B AC 6B 00 64 00 C8 00 00 A0
+    // OCDD: 00 16 A6 92 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 22
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x2A, (byte) 0xD6, (byte) 0x3C, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x00, 0x0B, (byte) 0xAC, 0x6B, 0x00, 0x64, 0x00, (byte) 0xC8, 0x00, 0x00, (byte) 0xA0, // OCAP
+        0x00, 0x16, (byte) 0xA6, (byte) 0x92, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x22 // OCDD
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    WOCC_WriteObjectContainerControl wocc = (WOCC_WriteObjectContainerControl) parser.parseNextSF();
+
+    assertNotNull(wocc);
+    assertEquals(100, wocc.getOcap().getXOffset());
+    assertArrayEquals(new byte[] {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10}, wocc.getOcdd().getObjectTypeOid());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    wocc.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testWOCRoundTrip() throws Exception {
+    // WOC: D64C, ARQ=0, data: 44 55 66
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0C, (byte) 0xD6, (byte) 0x4C, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x44, 0x55, 0x66
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    WOC_WriteObjectContainer woc = (WOC_WriteObjectContainer) parser.parseNextSF();
+
+    assertNotNull(woc);
+    assertArrayEquals(new byte[] {0x44, 0x55, 0x66}, woc.getData());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    woc.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testWMCRoundTrip() throws Exception {
+    // WMC: D68A, ARQ=0, data: 77 88
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0B, (byte) 0xD6, (byte) 0x8A, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x77, (byte) 0x88
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    WMC_WriteMetadataControl wmc = (WMC_WriteMetadataControl) parser.parseNextSF();
+
+    assertNotNull(wmc);
+    assertArrayEquals(new byte[] {0x77, (byte) 0x88}, wmc.getMetadataControlData());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    wmc.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testWMRoundTrip() throws Exception {
+    // WM: D68B, ARQ=0, data: 99 AA
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0B, (byte) 0xD6, (byte) 0x8B, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        (byte) 0x99, (byte) 0xAA
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    WM_WriteMetadata wm = (WM_WriteMetadata) parser.parseNextSF();
+
+    assertNotNull(wm);
+    assertArrayEquals(new byte[] {(byte) 0x99, (byte) 0xAA}, wm.getMetadataData());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    wm.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
 }
