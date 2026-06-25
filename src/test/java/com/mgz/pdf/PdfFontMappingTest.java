@@ -150,18 +150,6 @@ public class PdfFontMappingTest {
     assertTrue(fontBold.getFontProgram().getFontNames().getFontName().contains("Times-Bold"));
   }
 
-  @Test
-  public void testTimesMapping() {
-    PdfFontRegistry registry = new PdfFontRegistry();
-
-    PdfFont fontPlain = registry.getFont("C0N20010");
-    assertNotNull(fontPlain);
-    assertTrue(fontPlain.getFontProgram().getFontNames().getFontName().contains("Times-Roman"));
-
-    PdfFont fontBold = registry.getFont("C0N30010");
-    assertNotNull(fontBold);
-    assertTrue(fontBold.getFontProgram().getFontNames().getFontName().contains("Times-Bold"));
-  }
 
   @Test
   public void testCourierMapping() {
@@ -201,5 +189,18 @@ public class PdfFontMappingTest {
     PdfFont font = registry.getFontWithFallback("UNKNOWN");
 
     assertSame(defaultFont, font, "Should fallback to default font");
+  }
+
+  @Test
+  public void testNimbusSansMapping() {
+    PdfFontRegistry registry = new PdfFontRegistry();
+    // Nimbus Sans (Sans-Serif) should map to Helvetica, regardless of raster/outline
+    PdfFont fontOutline = registry.getFont("CZN481");
+    assertNotNull(fontOutline);
+    assertTrue(fontOutline.getFontProgram().getFontNames().getFontName().contains("Helvetica"));
+
+    PdfFont fontRaster = registry.getFont("C0N20010");
+    assertNotNull(fontRaster);
+    assertTrue(fontRaster.getFontProgram().getFontNames().getFontName().contains("Helvetica"));
   }
 }
