@@ -1495,7 +1495,11 @@ public class PdfHandler implements StructuredFieldHandler {
         }
       }
     } else if (cs instanceof SIA_SetIntercharacterAdjustment sia) {
-      textState.setIntercharacterAdjustment(sia.getAdjustment());
+      short adjustment = sia.getAdjustment();
+      if (sia.getDirection() == SIA_SetIntercharacterAdjustment.SIA_Direction.NegativeIDirection) {
+        adjustment = (short) -adjustment;
+      }
+      textState.setIntercharacterAdjustment(adjustment);
     } else if (cs instanceof SVI_SetVariableSpaceCharacterIncrement svi) {
       textState.setVariableSpaceIncrement(svi.getIncrement());
     } else if (cs instanceof SIM_SetInlineMargin sim) {
@@ -1599,9 +1603,9 @@ public class PdfHandler implements StructuredFieldHandler {
       float fontSizePoints = resource != null ? resource.size() : 10.0f;
       float fontSizeAfp = fontSizePoints / defaultScaleY;
 
-      int afpX = CoordinateTransformer.getAfpX(textState.getInlinePos(), textState.getBaselinePos(),
+      double afpX = CoordinateTransformer.getAfpX(textState.getInlinePos(), textState.getBaselinePos(),
           textState.getIOrientation(), textState.getBOrientation());
-      int afpY = CoordinateTransformer.getAfpY(textState.getInlinePos(), textState.getBaselinePos(),
+      double afpY = CoordinateTransformer.getAfpY(textState.getInlinePos(), textState.getBaselinePos(),
           textState.getIOrientation(), textState.getBOrientation());
 
       // AFP coordinates are already in 1/1440 or similar, but the CTM will scale them to points.
@@ -1630,7 +1634,7 @@ public class PdfHandler implements StructuredFieldHandler {
         currentCanvas.setWordSpacing((float) textState.getVariableSpaceIncrement() - fontSpaceWidthAfp - textState.getIntercharacterAdjustment());
       }
 
-      currentCanvas.setTextMatrix(cos, sin, sin, -cos, afpX, afpY)
+      currentCanvas.setTextMatrix(cos, sin, sin, -cos, (float) afpX, (float) afpY)
           .showText(text)
           .endText();
 
@@ -1664,16 +1668,14 @@ public class PdfHandler implements StructuredFieldHandler {
             String ovsText = ovsChar.repeat(count);
             currentCanvas.beginText()
                 .setFontAndSize(font, fontSizeAfp)
-                .setTextMatrix(cos, sin, sin, -cos, afpX, afpY)
+                .setTextMatrix(cos, sin, sin, -cos, (float) afpX, (float) afpY)
                 .showText(ovsText)
                 .endText();
           }
         }
       }
 
-      if (defaultPageWidth > 0) {
-        textState.setInlinePos(textState.getInlinePos() + (int) totalWidthAfp);
-      }
+      textState.setInlinePos(textState.getInlinePos() + totalWidthAfp);
     } catch (Exception e) {
       System.err.println("Error rendering text: " + e.getMessage());
     }
@@ -1685,9 +1687,9 @@ public class PdfHandler implements StructuredFieldHandler {
     }
     ensureCanvasTransformed();
 
-    int afpX = CoordinateTransformer.getAfpX(textState.getInlinePos(), textState.getBaselinePos(),
+    double afpX = CoordinateTransformer.getAfpX(textState.getInlinePos(), textState.getBaselinePos(),
         textState.getIOrientation(), textState.getBOrientation());
-    int afpY = CoordinateTransformer.getAfpY(textState.getInlinePos(), textState.getBaselinePos(),
+    double afpY = CoordinateTransformer.getAfpY(textState.getInlinePos(), textState.getBaselinePos(),
         textState.getIOrientation(), textState.getBOrientation());
 
     double iRad = Math.toRadians(textState.getIOrientation().getCode() / 128.0);
@@ -1700,7 +1702,7 @@ public class PdfHandler implements StructuredFieldHandler {
 
     currentCanvas.saveState();
     // Orientation matrix: [cosI sinI; cosB sinB] at (afpX, afpY)
-    currentCanvas.concatMatrix(cosI, sinI, cosB, sinB, afpX, afpY);
+    currentCanvas.concatMatrix(cosI, sinI, cosB, sinB, (float) afpX, (float) afpY);
 
     if (isIaxis) {
       currentCanvas.rectangle(0, 0, length, width).fill();

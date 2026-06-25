@@ -4639,11 +4639,11 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   }
 
   private int getAfpX() {
-    return CoordinateTransformer.getAfpX(inlinePos, baselinePos, inlineOri, baselineOri);
+    return (int) Math.round(CoordinateTransformer.getAfpX(inlinePos, baselinePos, inlineOri, baselineOri));
   }
 
   private int getAfpY() {
-    return CoordinateTransformer.getAfpY(inlinePos, baselinePos, inlineOri, baselineOri);
+    return (int) Math.round(CoordinateTransformer.getAfpY(inlinePos, baselinePos, inlineOri, baselineOri));
   }
 
   private void writeBgrDirectly(BGR_BeginGraphicsObject bgr, int level) throws Exception {
