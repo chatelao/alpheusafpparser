@@ -58,6 +58,12 @@ public class PdfGraphicsState {
   private boolean drawAreaBoundary = false;
   private boolean evenOddRule = true;
 
+  private boolean inGraphicsObject = false;
+  private int xOrigin = 0;
+  private int yOrigin = 0;
+  private float xScale = 0.05f;
+  private float yScale = 0.05f;
+
   private short arcTransformP = 1;
   private short arcTransformQ = 0;
   private short arcTransformR = 0;
@@ -100,6 +106,11 @@ public class PdfGraphicsState {
     this.inArea = false;
     this.drawAreaBoundary = false;
     this.evenOddRule = true;
+    this.inGraphicsObject = false;
+    this.xOrigin = 0;
+    this.yOrigin = 0;
+    this.xScale = 0.05f;
+    this.yScale = 0.05f;
     this.arcTransformP = 1;
     this.arcTransformQ = 0;
     this.arcTransformR = 0;
@@ -318,6 +329,46 @@ public class PdfGraphicsState {
 
   public void setEvenOddRule(boolean evenOddRule) {
     this.evenOddRule = evenOddRule;
+  }
+
+  public boolean isInGraphicsObject() {
+    return inGraphicsObject;
+  }
+
+  public void setInGraphicsObject(boolean inGraphicsObject) {
+    this.inGraphicsObject = inGraphicsObject;
+  }
+
+  public int getxOrigin() {
+    return xOrigin;
+  }
+
+  public void setxOrigin(int xOrigin) {
+    this.xOrigin = xOrigin;
+  }
+
+  public int getyOrigin() {
+    return yOrigin;
+  }
+
+  public void setyOrigin(int yOrigin) {
+    this.yOrigin = yOrigin;
+  }
+
+  public float getxScale() {
+    return xScale;
+  }
+
+  public void setxScale(float xScale) {
+    this.xScale = xScale;
+  }
+
+  public float getyScale() {
+    return yScale;
+  }
+
+  public void setyScale(float yScale) {
+    this.yScale = yScale;
   }
 
   public short getArcTransformP() {

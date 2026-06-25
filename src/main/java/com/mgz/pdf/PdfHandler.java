@@ -51,6 +51,10 @@ import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor;
 import com.mgz.afp.bcoca.EBC_EndBarCodeObject;
 import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.enums.AFPUnitBase;
+import com.mgz.afp.goca.BGR_BeginGraphicsObject;
+import com.mgz.afp.goca.EGR_EndGraphicsObject;
+import com.mgz.afp.goca.GDD_GraphicsDataDescriptor;
+import com.mgz.afp.goca.GDD_Parameter;
 import com.mgz.afp.goca.GAD_DrawingOrder;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBAR_BeginArea;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
@@ -219,6 +223,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private float defaultScaleX = 0.05f; // Standard 1/1440 inch units
   private float defaultScaleY = 0.05f; // Standard 1/1440 inch units
   private boolean isCanvasTransformed = false;
+  private boolean isGocaTransformed = false;
 
   public PdfHandler(OutputStream os) {
     this(os, new PdfFontRegistry());
@@ -277,6 +282,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private void handleInternal(StructuredField sf) throws Exception {
     if (sf instanceof PTX_PresentationTextData
         || sf instanceof GAD_GraphicsData
+        || sf instanceof BGR_BeginGraphicsObject
         || sf instanceof BIM_BeginImageObject
         || sf instanceof BBC_BeginBarCodeObject
         || sf instanceof IPO_IncludePageOverlay
@@ -300,6 +306,9 @@ public class PdfHandler implements StructuredFieldHandler {
 
       if (sf instanceof BIM_BeginImageObject) {
         imageState.startNewImage();
+      } else if (sf instanceof BGR_BeginGraphicsObject) {
+        graphicsState.reset();
+        graphicsState.setInGraphicsObject(true);
       } else if (sf instanceof BBC_BeginBarCodeObject) {
         barcodeState.startNewBarcode();
       } else if (sf instanceof BMO_BeginOverlay bmo) {
@@ -350,6 +359,7 @@ public class PdfHandler implements StructuredFieldHandler {
           imageState.reset();
           currentCanvas.setFillColor(DeviceRgb.BLACK);
           this.isCanvasTransformed = false;
+          this.isGocaTransformed = false;
 
           // Apply default page size if defined (from PGD)
           if (defaultPageWidth > 0 && defaultPageHeight > 0) {
@@ -386,6 +396,12 @@ public class PdfHandler implements StructuredFieldHandler {
             PdfImageRenderer.render(imageState, currentCanvas, imageCache);
           }
           imageState.reset();
+        } else if (begin instanceof BGR_BeginGraphicsObject) {
+          if (isGocaTransformed) {
+            currentCanvas.restoreState();
+            isGocaTransformed = false;
+          }
+          graphicsState.setInGraphicsObject(false);
         } else if (begin instanceof BBC_BeginBarCodeObject) {
           barcodeState.setInBarcodeObject(false);
           if (currentCanvas != null) {
@@ -486,6 +502,15 @@ public class PdfHandler implements StructuredFieldHandler {
             if (lid != null && name != null) {
               fontMapStack.peek().put(lid, new FontResource(name, size, bold, italic));
             }
+          }
+        }
+      }
+    } else if (sf instanceof GDD_GraphicsDataDescriptor gdd) {
+      if (gdd.getGddParameters() != null) {
+        for (GDD_Parameter param : gdd.getGddParameters()) {
+          if (param instanceof GDD_Parameter.WindowSpecification ws) {
+            graphicsState.setxScale(CoordinateTransformer.getScaleFactor(ws.getUnitBaseGPS(), (short) ws.getUnitsPerUnitBaseX()));
+            graphicsState.setyScale(CoordinateTransformer.getScaleFactor(ws.getUnitBaseGPS(), (short) ws.getUnitsPerUnitBaseY()));
           }
         }
       }
@@ -598,6 +623,9 @@ public class PdfHandler implements StructuredFieldHandler {
       if (imageState.isInImageObject()) {
         imageState.setxOrigin(obp.getRepeatingGroup().getxOrigin());
         imageState.setyOrigin(obp.getRepeatingGroup().getyOrigin());
+      } else if (graphicsState.isInGraphicsObject()) {
+        graphicsState.setxOrigin(obp.getRepeatingGroup().getxOrigin());
+        graphicsState.setyOrigin(obp.getRepeatingGroup().getyOrigin());
       } else if (barcodeState.isInBarcodeObject()) {
         barcodeState.setxOrigin(obp.getRepeatingGroup().getxOrigin());
         barcodeState.setyOrigin(obp.getRepeatingGroup().getyOrigin());
@@ -669,8 +697,10 @@ public class PdfHandler implements StructuredFieldHandler {
     ensureCanvasTransformed();
     if (order instanceof GSCOL_SetColor gscol) {
       graphicsState.setColor(gscol.getColor());
+      graphicsState.setProcessColorSpace(null);
     } else if (order instanceof GSECOL_SetExtendedColor gsecol) {
       graphicsState.setColor(gsecol.getColor());
+      graphicsState.setProcessColorSpace(null);
     } else if (order instanceof GSLW_SetLineWidth gslw) {
       graphicsState.setLineWidth(gslw.getLineWidth());
     } else if (order instanceof GSLT_SetLineType gslt) {
@@ -1360,15 +1390,23 @@ public class PdfHandler implements StructuredFieldHandler {
       }
     }
 
+    Color color;
+    if (graphicsState.getProcessColorSpace() != null) {
+      color = ColorHandler.getExtendedColor(graphicsState.getProcessColorSpace(), graphicsState.getProcessColorValue());
+    } else {
+      color = ColorHandler.getColor(graphicsState.getColor());
+    }
+    if (color == null) {
+      color = DeviceRgb.BLACK;
+    }
+
     if (symbol <= 0 || symbol >= 16 || symbol == 0x0F) {
       // Use current solid color
-      Color color = ColorHandler.getColor(graphicsState.getColor());
       currentCanvas.setFillColor(color);
       return;
     }
 
-    Color color = ColorHandler.getColor(graphicsState.getColor());
-    String key = symbol + "_" + graphicsState.getColor().name();
+    String key = symbol + "_" + (graphicsState.getProcessColorSpace() != null ? graphicsState.getProcessColorSpace().name() + "_" + java.util.Arrays.hashCode(graphicsState.getProcessColorValue()) : graphicsState.getColor().name());
     PdfPattern.Tiling tiling = patternCache.get(key);
 
     if (tiling == null) {
@@ -1424,7 +1462,17 @@ public class PdfHandler implements StructuredFieldHandler {
   private void applyGraphicsState() {
     if (currentCanvas != null) {
       ensureCanvasTransformed();
-      Color color = ColorHandler.getColor(graphicsState.getColor());
+
+      Color color;
+      if (graphicsState.getProcessColorSpace() != null) {
+        color = ColorHandler.getExtendedColor(graphicsState.getProcessColorSpace(), graphicsState.getProcessColorValue());
+      } else {
+        color = ColorHandler.getColor(graphicsState.getColor());
+      }
+      if (color == null) {
+        color = DeviceRgb.BLACK;
+      }
+
       currentCanvas.setStrokeColor(color);
       currentCanvas.setFillColor(color);
 
@@ -1724,6 +1772,7 @@ public class PdfHandler implements StructuredFieldHandler {
     }
     this.currentCanvas = new PdfCanvas(xObject, pdfDoc);
     this.isCanvasTransformed = false;
+    this.isGocaTransformed = false;
 
     // Apply transformation to the XObject canvas
     ensureCanvasTransformed();
@@ -1737,11 +1786,15 @@ public class PdfHandler implements StructuredFieldHandler {
       this.currentCanvas = null;
       this.isCanvasTransformed = false;
     }
+    this.isGocaTransformed = false;
   }
 
   private void ensureCanvasTransformed() {
     if (!isCanvasTransformed && defaultPageHeight > 0) {
       applyTransformation(defaultPageHeight, defaultScaleX, defaultScaleY);
+    }
+    if (graphicsState.isInGraphicsObject() && !isGocaTransformed) {
+      applyGocaTransformation();
     }
   }
 
@@ -1750,6 +1803,20 @@ public class PdfHandler implements StructuredFieldHandler {
       AffineTransform at = CoordinateTransformer.getAfpToPdfTransform(heightPoints, scaleX, scaleY);
       currentCanvas.concatMatrix(at);
       this.isCanvasTransformed = true;
+    }
+  }
+
+  private void applyGocaTransformation() {
+    if (currentCanvas != null && !isGocaTransformed) {
+      currentCanvas.saveState();
+      currentCanvas.concatMatrix(1, 0, 0, 1, graphicsState.getxOrigin(), graphicsState.getyOrigin());
+
+      float sx = graphicsState.getxScale() / defaultScaleX;
+      float sy = graphicsState.getyScale() / defaultScaleY;
+      if (Math.abs(sx - 1.0f) > 0.001f || Math.abs(sy - 1.0f) > 0.001f) {
+        currentCanvas.concatMatrix(sx, 0, 0, sy, 0, 0);
+      }
+      isGocaTransformed = true;
     }
   }
 
