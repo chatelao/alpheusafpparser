@@ -134,6 +134,8 @@ import com.mgz.afp.modca.OBD_ObjectAreaDescriptor;
 import com.mgz.afp.modca.OBP_ObjectAreaPosition;
 import com.mgz.afp.modca.PGD_PageDescriptor;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
+import com.mgz.afp.ptoca.PTD_PresentationTextDataDescriptor_Format1;
+import com.mgz.afp.ptoca.PTD_PresentationTextDataDescriptor_Format2;
 import com.mgz.afp.ptoca.PTX_PresentationTextData;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMB_AbsoluteMoveBaseline;
@@ -550,6 +552,16 @@ public class PdfHandler implements StructuredFieldHandler {
         currentPage.setMediaBox(new com.itextpdf.kernel.geom.Rectangle(widthPoints, heightPoints));
         ensureCanvasTransformed();
       }
+    } else if (sf instanceof PTD_PresentationTextDataDescriptor_Format1 ptd1) {
+      this.defaultScaleX = CoordinateTransformer.getScaleFactor(ptd1.getxUnitBase(),
+          ptd1.getxUnitsPerUnitBase());
+      this.defaultScaleY = CoordinateTransformer.getScaleFactor(ptd1.getyUnitBase(),
+          ptd1.getyUnitsPerUnitBase());
+    } else if (sf instanceof PTD_PresentationTextDataDescriptor_Format2 ptd2) {
+      this.defaultScaleX = CoordinateTransformer.getScaleFactor(ptd2.getxUnitBase(),
+          ptd2.getxUnitsPerUnitBase());
+      this.defaultScaleY = CoordinateTransformer.getScaleFactor(ptd2.getyUnitBase(),
+          ptd2.getyUnitsPerUnitBase());
     } else if (sf instanceof PTX_PresentationTextData ptx) {
       if (ptx.getControlSequences() != null) {
         for (PTOCAControlSequence cs : ptx.getControlSequences()) {
@@ -1627,7 +1639,8 @@ public class PdfHandler implements StructuredFieldHandler {
           }
         }
         float fontSpaceWidthAfp = font.getWidth(" ", fontSizeAfp);
-        currentCanvas.setWordSpacing((float) textState.getVariableSpaceIncrement() - fontSpaceWidthAfp - textState.getIntercharacterAdjustment());
+        currentCanvas.setWordSpacing((float) textState.getVariableSpaceIncrement()
+            - fontSpaceWidthAfp);
       }
 
       currentCanvas.setTextMatrix(cos, sin, sin, -cos, afpX, afpY)
@@ -1647,7 +1660,8 @@ public class PdfHandler implements StructuredFieldHandler {
           + (textState.getIntercharacterAdjustment() * text.length());
 
       if (textState.getVariableSpaceIncrement() != 0) {
-        totalWidthAfp += spaceCount * (textState.getVariableSpaceIncrement() - font.getWidth(" ", fontSizeAfp) - textState.getIntercharacterAdjustment());
+        totalWidthAfp += spaceCount * (textState.getVariableSpaceIncrement()
+            - font.getWidth(" ", fontSizeAfp));
       }
 
       if (textState.getUnderscoreMode() != null) {
@@ -1671,9 +1685,7 @@ public class PdfHandler implements StructuredFieldHandler {
         }
       }
 
-      if (defaultPageWidth > 0) {
-        textState.setInlinePos(textState.getInlinePos() + (int) totalWidthAfp);
-      }
+      textState.setInlinePos(textState.getInlinePos() + (int) totalWidthAfp);
     } catch (Exception e) {
       System.err.println("Error rendering text: " + e.getMessage());
     }
