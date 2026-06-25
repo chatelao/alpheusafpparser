@@ -221,6 +221,12 @@ public class WIC2_WriteImageControl2 extends IPDSCommand {
     int pos = offset + consumed;
     while (pos < offset + actualLength) {
       int sdfLen = UtilBinaryDecoding.parseInt(sfData, pos, 2);
+      if (sdfLen < 4) {
+        throw new AFPParserException("WIC2 Self-Defining Field length must be at least 4");
+      }
+      if (pos + sdfLen > offset + actualLength) {
+        throw new AFPParserException("WIC2 Self-Defining Field exceeds structured field boundaries");
+      }
       int sdfId = UtilBinaryDecoding.parseInt(sfData, pos + 2, 2);
 
       switch (sdfId & 0xFFFF) {

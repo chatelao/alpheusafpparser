@@ -22,6 +22,7 @@ package com.mgz.afp.ipds;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.mgz.afp.enums.AFPColorValue;
@@ -60,6 +61,24 @@ public class IPDSCommandTest {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     shs.writeAFP(baos, config);
     assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testWIC2InfiniteLoopFix() throws Exception {
+    // WIC2 with an SDF of length 0 (would cause infinite loop before fix)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0D, (byte) 0xD6, (byte) 0x3E, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x00, 0x00, 0x00, 0x00 // Length 0 SDF
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+
+    assertThrows(com.mgz.afp.exceptions.AFPParserException.class, () -> {
+      parser.parseNextSF();
+    });
   }
 
   @Test
