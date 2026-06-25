@@ -454,6 +454,16 @@ public class PdfHandler implements StructuredFieldHandler {
             float size = -1.0f;
             boolean bold = false;
             boolean italic = false;
+            float mcfScaleY = 0.05f; // Default architected 1/1440 inch scale for MCF/MDR
+
+            // First pass to find MeasurementUnits if any
+            for (Triplet t : rg.getTriplets()) {
+              if (t instanceof Triplet.MeasurementUnits mu) {
+                mcfScaleY = CoordinateTransformer.getScaleFactor(mu.yUnitBase, mu.yUnitsPerUnitbase);
+                break;
+              }
+            }
+
             for (Triplet t : rg.getTriplets()) {
               if (t instanceof Triplet.ResourceLocalIdentifier rli
                   && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
@@ -466,7 +476,7 @@ public class PdfHandler implements StructuredFieldHandler {
                 }
               } else if (t instanceof Triplet.FontDescriptorSpecification fds) {
                 if (fds.fontHeight > 0) {
-                  size = fds.fontHeight * defaultScaleY;
+                  size = fds.fontHeight * mcfScaleY;
                 }
                 if (fds.fontWeigthClass != null && fds.fontWeigthClass.ordinal() >= Triplet.FontDescriptorSpecification.FDS_FontWeigthClass.Bold.ordinal()) {
                   bold = true;
@@ -497,6 +507,16 @@ public class PdfHandler implements StructuredFieldHandler {
             float size = -1.0f;
             boolean bold = false;
             boolean italic = false;
+            float mcfScaleY = 0.05f; // Default architected 1/1440 inch scale for MCF/MDR
+
+            // First pass to find MeasurementUnits if any
+            for (Triplet t : rg.getTriplets()) {
+              if (t instanceof Triplet.MeasurementUnits mu) {
+                mcfScaleY = CoordinateTransformer.getScaleFactor(mu.yUnitBase, mu.yUnitsPerUnitbase);
+                break;
+              }
+            }
+
             for (Triplet t : rg.getTriplets()) {
               if (t instanceof Triplet.ResourceLocalIdentifier rli
                   && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
@@ -510,9 +530,12 @@ public class PdfHandler implements StructuredFieldHandler {
                 }
               } else if (t instanceof Triplet.DataObjectFontDescriptor dofd) {
                 if (dofd.specifiedVerticalFontSize > 0) {
-                  size = dofd.specifiedVerticalFontSize * defaultScaleY;
+                  size = dofd.specifiedVerticalFontSize * mcfScaleY;
                 }
               } else if (t instanceof Triplet.FontDescriptorSpecification fds) {
+                if (fds.fontHeight > 0) {
+                  size = fds.fontHeight * mcfScaleY;
+                }
                 if (fds.fontWeigthClass != null && fds.fontWeigthClass.ordinal() >= Triplet.FontDescriptorSpecification.FDS_FontWeigthClass.Bold.ordinal()) {
                   bold = true;
                 }

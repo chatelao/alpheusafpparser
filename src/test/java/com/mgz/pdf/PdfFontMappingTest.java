@@ -151,16 +151,16 @@ public class PdfFontMappingTest {
   }
 
   @Test
-  public void testTimesMapping() {
+  public void testNeueHaasMapping() {
     PdfFontRegistry registry = new PdfFontRegistry();
 
     PdfFont fontPlain = registry.getFont("C0N20010");
     assertNotNull(fontPlain);
-    assertTrue(fontPlain.getFontProgram().getFontNames().getFontName().contains("Times-Roman"));
+    assertTrue(fontPlain.getFontProgram().getFontNames().getFontName().contains("Helvetica"));
 
     PdfFont fontBold = registry.getFont("C0N30010");
     assertNotNull(fontBold);
-    assertTrue(fontBold.getFontProgram().getFontNames().getFontName().contains("Times-Bold"));
+    assertTrue(fontBold.getFontProgram().getFontNames().getFontName().contains("Helvetica-Bold"));
   }
 
   @Test

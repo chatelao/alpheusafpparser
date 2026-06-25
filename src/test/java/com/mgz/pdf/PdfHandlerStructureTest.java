@@ -1218,7 +1218,7 @@ public class PdfHandlerStructureTest {
 
     Triplet.FontDescriptorSpecification fds = new Triplet.FontDescriptorSpecification();
     fds.setTripletID(Triplet.TripletID.FontDescriptorSpecification);
-    fds.fontHeight = 240; // 240 / 20 = 12 points
+    fds.fontHeight = 240; // 240 * 0.05 = 12 points
     rg.addTriplet(fds);
 
     mcf2.addRepeatingGroup(rg);
@@ -1250,7 +1250,7 @@ public class PdfHandlerStructureTest {
 
     Triplet.DataObjectFontDescriptor dofd = new Triplet.DataObjectFontDescriptor();
     dofd.setTripletID(Triplet.TripletID.DataObjectFontDescriptor);
-    dofd.specifiedVerticalFontSize = 280; // 280 / 20 = 14 points
+    dofd.specifiedVerticalFontSize = 280; // 280 * 0.05 = 14 points
     rg.addTriplet(dofd);
 
     mdr.addRepeatingGroup(rg);
