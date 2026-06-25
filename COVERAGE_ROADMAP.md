@@ -43,7 +43,7 @@ This document outlines a phased, actionable plan to increase the code coverage o
         - 🚧 Bar Code command set
         - 🚧 Object-Container command set
         - 🚧 Metadata command set
-        - 🚧 Page-Segment command set
+        - ✅ Page-Segment command set (BPS, DPS, IPS implemented)
         - 🚧 Overlay command set (BO, DO, IO implemented)
         - 🚧 Loaded-Font command set
     - 🚧 DB2Z verification (Target: 85% coverage; granularly broken down in `TEST_COVERAGE_DB2Z.md`).

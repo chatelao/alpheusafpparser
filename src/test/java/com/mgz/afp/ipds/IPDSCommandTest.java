@@ -759,4 +759,72 @@ public class IPDSCommandTest {
     io.writeAFP(baos, config);
     assertArrayEquals(dataShort, baos.toByteArray());
   }
+
+  @Test
+  public void testBPSRoundTrip() throws Exception {
+    // BPS: D65F, ARQ=0, HAID=0x1234
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0B, (byte) 0xD6, (byte) 0x5F, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x12, 0x34 // HAID
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    BPS_BeginPageSegment bps = (BPS_BeginPageSegment) parser.parseNextSF();
+
+    assertNotNull(bps);
+    assertEquals(0x1234, bps.getHaid());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    bps.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testDPSRoundTrip() throws Exception {
+    // DPS: D66F, ARQ=1, CID=0xABCD, HAID=0x0000 (Deactivate All)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0D, (byte) 0xD6, (byte) 0x6F, 0x00, 0x00, 0x00, 0x00,
+        (byte) 0x80, // flagByte: ARQ
+        (byte) 0xAB, (byte) 0xCD, // CID
+        0x00, 0x00 // HAID
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    DPS_DeactivatePageSegment dps = (DPS_DeactivatePageSegment) parser.parseNextSF();
+
+    assertNotNull(dps);
+    assertEquals(0, dps.getHaid());
+    assertEquals(0xABCD, dps.getCorrelationId());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    dps.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testIPSRoundTrip() throws Exception {
+    // IPS: D67F, ARQ=0, HAID=0x5555
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0B, (byte) 0xD6, (byte) 0x7F, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x55, 0x55 // HAID
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    IPS_IncludePageSegment ips = (IPS_IncludePageSegment) parser.parseNextSF();
+
+    assertNotNull(ips);
+    assertEquals(0x5555, ips.getHaid());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    ips.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
 }
