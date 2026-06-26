@@ -132,12 +132,14 @@ public class PdfFontRegistry {
     if (!boldHint && !italicHint) {
       // Extract from style digit if no hints provided
       if (isOutline) {
-        // CZ/XZ Outline style mapping: 3=Italic, 4=Bold, 5=Bold Italic
-        isBold = (styleDigit == '4' || styleDigit == '5');
+        // CZ/XZ Outline style mapping: 3=Italic, 4=Bold, 5=Bold Italic, 6-8=Bold
+        isBold = (styleDigit == '4' || styleDigit == '5' || styleDigit == '6'
+            || styleDigit == '7' || styleDigit == '8');
         isItalic = (styleDigit == '3' || styleDigit == '5');
       } else {
-        // Raster style mapping: 3=Bold, 4=Italic, 5=Bold Italic
-        isBold = (styleDigit == '3' || styleDigit == '5');
+        // Raster style mapping: 3=Bold, 4=Italic, 5=Bold Italic, 6-8=Bold
+        isBold = (styleDigit == '3' || styleDigit == '5' || styleDigit == '6'
+            || styleDigit == '7' || styleDigit == '8');
         isItalic = (styleDigit == '4' || styleDigit == '5');
       }
     }
@@ -145,7 +147,8 @@ public class PdfFontRegistry {
     if (familyPrefix.equals("C0H") || familyPrefix.equals("C0S")
         || familyPrefix.equals("C0A") || familyPrefix.equals("C0U")
         || familyPrefix.equals("C0G") || familyPrefix.equals("C0N")
-        || familyPrefix.equals("C0V")) {
+        || familyPrefix.equals("C0V") || familyPrefix.equals("C00")
+        || familyPrefix.equals("C02")) {
       // Helvetica / Swiss / Arial / Univers / Gothic / Nimbus Sans / Avant Garde
       if (isBold && isItalic) {
         standardFontName = StandardFonts.HELVETICA_BOLDOBLIQUE;
@@ -158,8 +161,9 @@ public class PdfFontRegistry {
       }
     } else if (familyPrefix.equals("C0D") || familyPrefix.equals("C0T")
         || familyPrefix.equals("C0P") || familyPrefix.equals("C0B")
-        || familyPrefix.equals("C0R")) {
-      // Dutch / Times / Palatino / Bookman / Zapf Chancery
+        || familyPrefix.equals("C0R") || familyPrefix.equals("C01")
+        || familyPrefix.equals("C0Q") || familyPrefix.equals("C0W")) {
+      // Dutch / Times / Palatino / Bookman / Zapf Chancery / Roman / Century Schoolbook / Souvenir
       if (isBold && isItalic) {
         standardFontName = StandardFonts.TIMES_BOLDITALIC;
       } else if (isBold) {
@@ -172,8 +176,10 @@ public class PdfFontRegistry {
     } else if (familyPrefix.equals("C04") || familyPrefix.equals("C06")
         || familyPrefix.equals("C0M") || familyPrefix.equals("C0C")
         || familyPrefix.equals("C0L") || familyPrefix.equals("C0K")
-        || familyPrefix.equals("C0O")) {
-      // Courier / Modern / Courier / Letter Gothic / OCR-A / OCR-B
+        || familyPrefix.equals("C0O") || familyPrefix.equals("C03")
+        || familyPrefix.equals("C0E") || familyPrefix.equals("C0F")
+        || familyPrefix.equals("C0I") || familyPrefix.equals("C0J")) {
+      // Courier / Modern / Courier / Letter Gothic / OCR-A / OCR-B / Elite / Prestige
       if (isBold && isItalic) {
         standardFontName = StandardFonts.COURIER_BOLDOBLIQUE;
       } else if (isBold) {
@@ -183,6 +189,9 @@ public class PdfFontRegistry {
       } else {
         standardFontName = StandardFonts.COURIER;
       }
+    } else if (familyPrefix.equals("C05") || familyPrefix.equals("C0Y")) {
+      // Symbol
+      standardFontName = StandardFonts.SYMBOL;
     }
 
     if (standardFontName != null) {

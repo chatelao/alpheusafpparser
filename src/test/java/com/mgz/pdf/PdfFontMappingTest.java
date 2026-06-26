@@ -246,4 +246,44 @@ public class PdfFontMappingTest {
     assertNotNull(fontOcrA);
     assertTrue(fontOcrA.getFontProgram().getFontNames().getFontName().contains("Courier"));
   }
+
+  @Test
+  public void testEveryFamilyIdentifier() {
+    PdfFontRegistry registry = new PdfFontRegistry();
+
+    // Sans-Serif (Helvetica)
+    assertTrue(registry.getFont("C0020010").getFontProgram().getFontNames().getFontName().contains("Helvetica"));
+    assertTrue(registry.getFont("C0220010").getFontProgram().getFontNames().getFontName().contains("Helvetica"));
+
+    // Serif (Times)
+    assertTrue(registry.getFont("C0120010").getFontProgram().getFontNames().getFontName().contains("Times-Roman"));
+    assertTrue(registry.getFont("C0Q20010").getFontProgram().getFontNames().getFontName().contains("Times-Roman"));
+    assertTrue(registry.getFont("C0W20010").getFontProgram().getFontNames().getFontName().contains("Times-Roman"));
+
+    // Monospace (Courier)
+    assertTrue(registry.getFont("C0320010").getFontProgram().getFontNames().getFontName().contains("Courier"));
+    assertTrue(registry.getFont("C0E20010").getFontProgram().getFontNames().getFontName().contains("Courier"));
+    assertTrue(registry.getFont("C0F20010").getFontProgram().getFontNames().getFontName().contains("Courier"));
+    assertTrue(registry.getFont("C0I20010").getFontProgram().getFontNames().getFontName().contains("Courier"));
+    assertTrue(registry.getFont("C0J20010").getFontProgram().getFontNames().getFontName().contains("Courier"));
+
+    // Symbol
+    assertTrue(registry.getFont("C0520010").getFontProgram().getFontNames().getFontName().contains("Symbol"));
+    assertTrue(registry.getFont("C0Y20010").getFontProgram().getFontNames().getFontName().contains("Symbol"));
+  }
+
+  @Test
+  public void testExtendedStyleDigits() {
+    PdfFontRegistry registry = new PdfFontRegistry();
+
+    // Raster Bold (6, 7, 8)
+    assertTrue(registry.getFont("C0H60010").getFontProgram().getFontNames().getFontName().contains("Helvetica-Bold"));
+    assertTrue(registry.getFont("C0H70010").getFontProgram().getFontNames().getFontName().contains("Helvetica-Bold"));
+    assertTrue(registry.getFont("C0H80010").getFontProgram().getFontNames().getFontName().contains("Helvetica-Bold"));
+
+    // Outline Bold (6, 7, 8)
+    assertTrue(registry.getFont("CZH681").getFontProgram().getFontNames().getFontName().contains("Helvetica-Bold"));
+    assertTrue(registry.getFont("CZH781").getFontProgram().getFontNames().getFontName().contains("Helvetica-Bold"));
+    assertTrue(registry.getFont("CZH881").getFontProgram().getFontNames().getFontName().contains("Helvetica-Bold"));
+  }
 }
