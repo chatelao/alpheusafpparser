@@ -506,6 +506,42 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       pageIncrementedByStarter = true;
       resetPtocaState();
       writeBpgDirectly(bpg, level);
+    } else if (sf instanceof com.mgz.afp.ipds.BO_BeginOverlay bo) {
+      writeBoDirectly(bo, level);
+    } else if (sf instanceof com.mgz.afp.ipds.DO_DeactivateOverlay doDeact) {
+      writeDoDirectly(doDeact, level);
+    } else if (sf instanceof com.mgz.afp.ipds.IO_IncludeOverlay io) {
+      writeIoDirectly(io, level);
+    } else if (sf instanceof com.mgz.afp.ipds.BPS_BeginPageSegment bps) {
+      writeBpsIpdsDirectly(bps, level);
+    } else if (sf instanceof com.mgz.afp.ipds.DPS_DeactivatePageSegment dps) {
+      writeDpsIpdsDirectly(dps, level);
+    } else if (sf instanceof com.mgz.afp.ipds.IPS_IncludePageSegment ips) {
+      writeIpsIpdsDirectly(ips, level);
+    } else if (sf instanceof com.mgz.afp.ipds.WMC_WriteMetadataControl wmc) {
+      writeWmcIpdsDirectly(wmc, level);
+    } else if (sf instanceof com.mgz.afp.ipds.WM_WriteMetadata wm) {
+      writeWmIpdsDirectly(wm, level);
+    } else if (sf instanceof com.mgz.afp.ipds.WIC_WriteImageControl wic) {
+      writeWicIpdsDirectly(wic, level);
+    } else if (sf instanceof com.mgz.afp.ipds.WI_WriteImage wi) {
+      writeWiIpdsDirectly(wi, level);
+    } else if (sf instanceof com.mgz.afp.ipds.WIC2_WriteImageControl2 wic2) {
+      writeWic2IpdsDirectly(wic2, level);
+    } else if (sf instanceof com.mgz.afp.ipds.WI2_WriteImage2 wi2) {
+      writeWi2IpdsDirectly(wi2, level);
+    } else if (sf instanceof com.mgz.afp.ipds.WOCC_WriteObjectContainerControl wocc) {
+      writeWoccIpdsDirectly(wocc, level);
+    } else if (sf instanceof com.mgz.afp.ipds.WOC_WriteObjectContainer woc) {
+      writeWocIpdsDirectly(woc, level);
+    } else if (sf instanceof com.mgz.afp.ipds.WBCC_WriteBarCodeControl wbcc) {
+      writeWbccIpdsDirectly(wbcc, level);
+    } else if (sf instanceof com.mgz.afp.ipds.WBC_WriteBarCode wbc) {
+      writeWbcIpdsDirectly(wbc, level);
+    } else if (sf instanceof com.mgz.afp.ipds.WGC_WriteGraphicsControl wgc) {
+      writeWgcIpdsDirectly(wgc, level);
+    } else if (sf instanceof com.mgz.afp.ipds.WG_WriteGraphics wg) {
+      writeWgIpdsDirectly(wg, level);
     } else if (sf instanceof com.mgz.afp.ipds.MID_ManageIPDSDialog mid) {
       writeMidDirectly(mid, level);
     } else if (sf instanceof com.mgz.afp.ipds.BP_BeginPage bp) {
@@ -709,6 +745,366 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     if (tle.getText() != null) {
       writeElement(baseXsw, level + 1, "text", tle.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeWic2IpdsDirectly(com.mgz.afp.ipds.WIC2_WriteImageControl2 wic2, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("WIC2");
+    baseXsw.writeStartElement("WIC2_WriteImageControl2");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) wic2.getFlagByte());
+    if (wic2.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", wic2.getCorrelationId());
+    }
+    if (wic2.getIap() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("iap");
+      int iapLevel = childLevel + 1;
+      writeElement(baseXsw, iapLevel, "xOffset", wic2.getIap().getXOffset());
+      writeElement(baseXsw, iapLevel, "yOffset", wic2.getIap().getYOffset());
+      if (wic2.getIap().getOrientation() != null) {
+        writeElement(baseXsw, iapLevel, "orientation", wic2.getIap().getOrientation().name());
+      }
+      writeElement(baseXsw, iapLevel, "coordinateSystem", (int) wic2.getIap().getCoordinateSystem());
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    if (wic2.getIoc() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("ioc");
+      int iocLevel = childLevel + 1;
+      if (wic2.getIoc().getUnitBase() != null) {
+        writeElement(baseXsw, iocLevel, "unitBase", wic2.getIoc().getUnitBase().name());
+      }
+      writeElement(baseXsw, iocLevel, "upub", wic2.getIoc().getUpub());
+      writeElement(baseXsw, iocLevel, "xoaExtent", wic2.getIoc().getXoaExtent());
+      writeElement(baseXsw, iocLevel, "yoaExtent", wic2.getIoc().getYoaExtent());
+      writeElement(baseXsw, iocLevel, "mappingControl", (int) wic2.getIoc().getMappingControl());
+      writeElement(baseXsw, iocLevel, "xoaOffset", wic2.getIoc().getXoaOffset());
+      writeElement(baseXsw, iocLevel, "yoaOffset", wic2.getIoc().getYoaOffset());
+      if (wic2.getIoc().getTriplets() != null) {
+        for (Triplet t : wic2.getIoc().getTriplets()) {
+          writeTriplet(baseXsw, t, iocLevel);
+        }
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    if (wic2.getIdd() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("idd");
+      int iddLevel = childLevel + 1;
+      writeElement(baseXsw, iddLevel, "haid", wic2.getIdd().getHaid());
+      if (wic2.getIdd().getUnitBase() != null) {
+        writeElement(baseXsw, iddLevel, "unitBase", wic2.getIdd().getUnitBase().name());
+      }
+      writeElement(baseXsw, iddLevel, "xioResolution", wic2.getIdd().getXioResolution());
+      writeElement(baseXsw, iddLevel, "yioResolution", wic2.getIdd().getYioResolution());
+      writeElement(baseXsw, iddLevel, "xioExtent", wic2.getIdd().getXioExtent());
+      writeElement(baseXsw, iddLevel, "yioExtent", wic2.getIdd().getYioExtent());
+      if (wic2.getIdd().getIocaSdfs() != null) {
+        writeBinaryElement(baseXsw, iddLevel, "iocaSdfs", wic2.getIdd().getIocaSdfs());
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeWi2IpdsDirectly(com.mgz.afp.ipds.WI2_WriteImage2 wi2, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("WI2");
+    baseXsw.writeStartElement("WI2_WriteImage2");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) wi2.getFlagByte());
+    if (wi2.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", wi2.getCorrelationId());
+    }
+    if (wi2.getIocaData() != null) {
+      writeBinaryElement(baseXsw, childLevel, "iocaData", wi2.getIocaData());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeWoccIpdsDirectly(com.mgz.afp.ipds.WOCC_WriteObjectContainerControl wocc, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("WOCC");
+    baseXsw.writeStartElement("WOCC_WriteObjectContainerControl");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) wocc.getFlagByte());
+    if (wocc.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", wocc.getCorrelationId());
+    }
+    if (wocc.getOcap() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("ocap");
+      int ocapLevel = childLevel + 1;
+      writeElement(baseXsw, ocapLevel, "xOffset", wocc.getOcap().getXOffset());
+      writeElement(baseXsw, ocapLevel, "yOffset", wocc.getOcap().getYOffset());
+      if (wocc.getOcap().getOrientation() != null) {
+        writeElement(baseXsw, ocapLevel, "orientation", wocc.getOcap().getOrientation().name());
+      }
+      writeElement(baseXsw, ocapLevel, "coordinateSystem", (int) wocc.getOcap().getCoordinateSystem());
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    if (wocc.getOcoc() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("ococ");
+      int ococLevel = childLevel + 1;
+      if (wocc.getOcoc().getUnitBase() != null) {
+        writeElement(baseXsw, ococLevel, "unitBase", wocc.getOcoc().getUnitBase().name());
+      }
+      writeElement(baseXsw, ococLevel, "upub", wocc.getOcoc().getUpub());
+      writeElement(baseXsw, ococLevel, "xoaExtent", wocc.getOcoc().getXoaExtent());
+      writeElement(baseXsw, ococLevel, "yoaExtent", wocc.getOcoc().getYoaExtent());
+      writeElement(baseXsw, ococLevel, "mappingControl", (int) wocc.getOcoc().getMappingControl());
+      writeElement(baseXsw, ococLevel, "xoaOffset", wocc.getOcoc().getXoaOffset());
+      writeElement(baseXsw, ococLevel, "yoaOffset", wocc.getOcoc().getYoaOffset());
+      if (wocc.getOcoc().getTriplets() != null) {
+        for (Triplet t : wocc.getOcoc().getTriplets()) {
+          writeTriplet(baseXsw, t, ococLevel);
+        }
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    if (wocc.getOcdd() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("ocdd");
+      int ocddLevel = childLevel + 1;
+      if (wocc.getOcdd().getObjectTypeOid() != null) {
+        writeBinaryElement(baseXsw, ocddLevel, "objectTypeOid", wocc.getOcdd().getObjectTypeOid());
+      }
+      writeElement(baseXsw, ocddLevel, "haid", wocc.getOcdd().getHaid());
+      if (wocc.getOcdd().getTriplets() != null) {
+        for (Triplet t : wocc.getOcdd().getTriplets()) {
+          writeTriplet(baseXsw, t, ocddLevel);
+        }
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeWocIpdsDirectly(com.mgz.afp.ipds.WOC_WriteObjectContainer woc, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("WOC");
+    baseXsw.writeStartElement("WOC_WriteObjectContainer");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) woc.getFlagByte());
+    if (woc.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", woc.getCorrelationId());
+    }
+    if (woc.getData() != null) {
+      writeBinaryElement(baseXsw, childLevel, "data", woc.getData());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeWbccIpdsDirectly(com.mgz.afp.ipds.WBCC_WriteBarCodeControl wbcc, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("WBCC");
+    baseXsw.writeStartElement("WBCC_WriteBarCodeControl");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) wbcc.getFlagByte());
+    if (wbcc.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", wbcc.getCorrelationId());
+    }
+    if (wbcc.getBcap() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("bcap");
+      int bcapLevel = childLevel + 1;
+      writeElement(baseXsw, bcapLevel, "xOffset", wbcc.getBcap().getXOffset());
+      writeElement(baseXsw, bcapLevel, "yOffset", wbcc.getBcap().getYOffset());
+      if (wbcc.getBcap().getOrientation() != null) {
+        writeElement(baseXsw, bcapLevel, "orientation", wbcc.getBcap().getOrientation().name());
+      }
+      writeElement(baseXsw, bcapLevel, "coordinateSystem", (int) wbcc.getBcap().getReferenceSystem());
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    if (wbcc.getBcoc() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("bcoc");
+      int bcocLevel = childLevel + 1;
+      if (wbcc.getBcoc().getUnitBase() != null) {
+        writeElement(baseXsw, bcocLevel, "unitBase", wbcc.getBcoc().getUnitBase().name());
+      }
+      writeElement(baseXsw, bcocLevel, "upub", wbcc.getBcoc().getUpub());
+      writeElement(baseXsw, bcocLevel, "xoaExtent", wbcc.getBcoc().getXoaExtent());
+      writeElement(baseXsw, bcocLevel, "yoaExtent", wbcc.getBcoc().getYoaExtent());
+      writeElement(baseXsw, bcocLevel, "xoaOffset", wbcc.getBcoc().getXoaOffset());
+      writeElement(baseXsw, bcocLevel, "yoaOffset", wbcc.getBcoc().getYoaOffset());
+      if (wbcc.getBcoc().getTriplets() != null) {
+        for (Triplet t : wbcc.getBcoc().getTriplets()) {
+          writeTriplet(baseXsw, t, bcocLevel);
+        }
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    if (wbcc.getBcdd() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("bcdd");
+      int bcddLevel = childLevel + 1;
+      if (wbcc.getBcdd().getUnitBase() != null) {
+        writeElement(baseXsw, bcddLevel, "unitBase", wbcc.getBcdd().getUnitBase().name());
+      }
+      writeElement(baseXsw, bcddLevel, "xupub", wbcc.getBcdd().getXupub());
+      writeElement(baseXsw, bcddLevel, "yupub", wbcc.getBcdd().getYupub());
+      writeElement(baseXsw, bcddLevel, "xbcExtent", wbcc.getBcdd().getXbcExtent());
+      writeElement(baseXsw, bcddLevel, "ybcExtent", wbcc.getBcdd().getYbcExtent());
+      writeElement(baseXsw, bcddLevel, "symbolWidth", wbcc.getBcdd().getSymbolWidth());
+      writeElement(baseXsw, bcddLevel, "type", (int) wbcc.getBcdd().getType());
+      writeElement(baseXsw, bcddLevel, "modifier", (int) wbcc.getBcdd().getModifier());
+      writeElement(baseXsw, bcddLevel, "lid", (int) wbcc.getBcdd().getLid());
+      if (wbcc.getBcdd().getColor() != null) {
+        writeElement(baseXsw, bcddLevel, "color", wbcc.getBcdd().getColor().name());
+      }
+      writeElement(baseXsw, bcddLevel, "moduleWidth", (int) wbcc.getBcdd().getModuleWidth());
+      writeElement(baseXsw, bcddLevel, "height", wbcc.getBcdd().getHeight());
+      writeElement(baseXsw, bcddLevel, "multiplier", (int) wbcc.getBcdd().getMultiplier());
+      writeElement(baseXsw, bcddLevel, "wnRatio", wbcc.getBcdd().getWnRatio());
+      if (wbcc.getBcdd().getTriplets() != null) {
+        for (Triplet t : wbcc.getBcdd().getTriplets()) {
+          writeTriplet(baseXsw, t, bcddLevel);
+        }
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeWbcIpdsDirectly(com.mgz.afp.ipds.WBC_WriteBarCode wbc, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("WBC");
+    baseXsw.writeStartElement("WBC_WriteBarCode");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) wbc.getFlagByte());
+    if (wbc.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", wbc.getCorrelationId());
+    }
+    if (wbc.getBarCodeData() != null) {
+      writeBinaryElement(baseXsw, childLevel, "barCodeData", wbc.getBarCodeData());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeWgcIpdsDirectly(com.mgz.afp.ipds.WGC_WriteGraphicsControl wgc, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("WGC");
+    baseXsw.writeStartElement("WGC_WriteGraphicsControl");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) wgc.getFlagByte());
+    if (wgc.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", wgc.getCorrelationId());
+    }
+    if (wgc.getGap() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("gap");
+      int gapLevel = childLevel + 1;
+      writeElement(baseXsw, gapLevel, "xOffset", wgc.getGap().getXOffset());
+      writeElement(baseXsw, gapLevel, "yOffset", wgc.getGap().getYOffset());
+      if (wgc.getGap().getOrientation() != null) {
+        writeElement(baseXsw, gapLevel, "orientation", wgc.getGap().getOrientation().name());
+      }
+      writeElement(baseXsw, gapLevel, "coordinateSystem", (int) wgc.getGap().getCoordinateSystem());
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    if (wgc.getGoc() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("goc");
+      int gocLevel = childLevel + 1;
+      if (wgc.getGoc().getUnitBase() != null) {
+        writeElement(baseXsw, gocLevel, "unitBase", wgc.getGoc().getUnitBase().name());
+      }
+      writeElement(baseXsw, gocLevel, "upub", wgc.getGoc().getUpub());
+      writeElement(baseXsw, gocLevel, "xoaExtent", wgc.getGoc().getXoaExtent());
+      writeElement(baseXsw, gocLevel, "yoaExtent", wgc.getGoc().getYoaExtent());
+      writeElement(baseXsw, gocLevel, "xoaOffset", wgc.getGoc().getXoaOffset());
+      writeElement(baseXsw, gocLevel, "yoaOffset", wgc.getGoc().getYoaOffset());
+      if (wgc.getGoc().getTriplets() != null) {
+        for (Triplet t : wgc.getGoc().getTriplets()) {
+          writeTriplet(baseXsw, t, gocLevel);
+        }
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    if (wgc.getGdd() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("gdd");
+      int gddLevel = childLevel + 1;
+      if (wgc.getGdd().getUnitBase() != null) {
+        writeElement(baseXsw, gddLevel, "unitBase", wgc.getGdd().getUnitBase().name());
+      }
+      writeElement(baseXsw, gddLevel, "xupub", wgc.getGdd().getXupub());
+      writeElement(baseXsw, gddLevel, "yupub", wgc.getGdd().getYupub());
+      writeElement(baseXsw, gddLevel, "xgLeftLimit", wgc.getGdd().getXgLeftLimit());
+      writeElement(baseXsw, gddLevel, "xgRightLimit", wgc.getGdd().getXgRightLimit());
+      writeElement(baseXsw, gddLevel, "ygTopLimit", wgc.getGdd().getYgTopLimit());
+      writeElement(baseXsw, gddLevel, "ygBottomLimit", wgc.getGdd().getYgBottomLimit());
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeWgIpdsDirectly(com.mgz.afp.ipds.WG_WriteGraphics wg, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("WG");
+    baseXsw.writeStartElement("WG_WriteGraphics");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) wg.getFlagByte());
+    if (wg.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", wg.getCorrelationId());
+    }
+    if (wg.getDrawingOrders() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("drawingOrders");
+      for (GAD_DrawingOrder order : wg.getDrawingOrders()) {
+        writeDrawingOrderDirectly(baseXsw, order, childLevel + 1);
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
     }
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();
@@ -1188,6 +1584,204 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       for (Triplet t : lpd.getTriplets()) {
         writeTriplet(baseXsw, t, childLevel);
       }
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeBoDirectly(com.mgz.afp.ipds.BO_BeginOverlay bo, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BO");
+    baseXsw.writeStartElement("BO_BeginOverlay");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) bo.getFlagByte());
+    if (bo.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", bo.getCorrelationId());
+    }
+    writeElement(baseXsw, childLevel, "overlayHaid", bo.getOverlayHaid());
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeDoDirectly(com.mgz.afp.ipds.DO_DeactivateOverlay doDeact, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("DO");
+    baseXsw.writeStartElement("DO_DeactivateOverlay");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) doDeact.getFlagByte());
+    if (doDeact.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", doDeact.getCorrelationId());
+    }
+    writeElement(baseXsw, childLevel, "overlayHaid", doDeact.getOverlayHaid());
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeIoDirectly(com.mgz.afp.ipds.IO_IncludeOverlay io, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("IO");
+    baseXsw.writeStartElement("IO_IncludeOverlay");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) io.getFlagByte());
+    if (io.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", io.getCorrelationId());
+    }
+    writeElement(baseXsw, childLevel, "overlayHaid", io.getOverlayHaid());
+    writeElement(baseXsw, childLevel, "overlayType", (int) io.getOverlayType());
+    writeElement(baseXsw, childLevel, "xpOffset", io.getXpOffset());
+    writeElement(baseXsw, childLevel, "overlayUse", (int) io.getOverlayUse());
+    writeElement(baseXsw, childLevel, "ypOffset", io.getYpOffset());
+    if (io.getOrientation() != null) {
+      writeElement(baseXsw, childLevel, "orientation", io.getOrientation().name());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeBpsIpdsDirectly(com.mgz.afp.ipds.BPS_BeginPageSegment bps, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("BPS");
+    baseXsw.writeStartElement("BPS_BeginPageSegment");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) bps.getFlagByte());
+    if (bps.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", bps.getCorrelationId());
+    }
+    writeElement(baseXsw, childLevel, "haid", bps.getHaid());
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeDpsIpdsDirectly(com.mgz.afp.ipds.DPS_DeactivatePageSegment dps, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("DPS");
+    baseXsw.writeStartElement("DPS_DeactivatePageSegment");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) dps.getFlagByte());
+    if (dps.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", dps.getCorrelationId());
+    }
+    writeElement(baseXsw, childLevel, "haid", dps.getHaid());
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeIpsIpdsDirectly(com.mgz.afp.ipds.IPS_IncludePageSegment ips, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("IPS");
+    baseXsw.writeStartElement("IPS_IncludePageSegment");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) ips.getFlagByte());
+    if (ips.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", ips.getCorrelationId());
+    }
+    writeElement(baseXsw, childLevel, "haid", ips.getHaid());
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeWmcIpdsDirectly(com.mgz.afp.ipds.WMC_WriteMetadataControl wmc, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("WMC");
+    baseXsw.writeStartElement("WMC_WriteMetadataControl");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) wmc.getFlagByte());
+    if (wmc.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", wmc.getCorrelationId());
+    }
+    if (wmc.getMetadataControlData() != null) {
+      writeBinaryElement(baseXsw, childLevel, "metadataControlData", wmc.getMetadataControlData());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeWmIpdsDirectly(com.mgz.afp.ipds.WM_WriteMetadata wm, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("WM");
+    baseXsw.writeStartElement("WM_WriteMetadata");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) wm.getFlagByte());
+    if (wm.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", wm.getCorrelationId());
+    }
+    if (wm.getMetadataData() != null) {
+      writeBinaryElement(baseXsw, childLevel, "metadataData", wm.getMetadataData());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeWicIpdsDirectly(com.mgz.afp.ipds.WIC_WriteImageControl wic, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("WIC");
+    baseXsw.writeStartElement("WIC_WriteImageControl");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) wic.getFlagByte());
+    if (wic.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", wic.getCorrelationId());
+    }
+    writeElement(baseXsw, childLevel, "ppslOutput", wic.getPpslOutput());
+    writeElement(baseXsw, childLevel, "nslOutput", wic.getNslOutput());
+    writeElement(baseXsw, childLevel, "ppslInput", wic.getPpslInput());
+    writeElement(baseXsw, childLevel, "nslInput", wic.getNslInput());
+    writeElement(baseXsw, childLevel, "compress", (int) wic.getCompress());
+    writeElement(baseXsw, childLevel, "bitsPerPel", (int) wic.getBitsPerPel());
+    writeElement(baseXsw, childLevel, "pelMag", (int) wic.getPelMag());
+    writeElement(baseXsw, childLevel, "scanLineMag", (int) wic.getScanLineMag());
+    writeElement(baseXsw, childLevel, "slDirection", wic.getSlDirection());
+    writeElement(baseXsw, childLevel, "slsDirection", wic.getSlsDirection());
+    writeElement(baseXsw, childLevel, "rcs", (int) wic.getRcs());
+    writeElement(baseXsw, childLevel, "xOffset", wic.getXOffset());
+    writeElement(baseXsw, childLevel, "yOffset", wic.getYOffset());
+    if (wic.getColor() != null) {
+      writeElement(baseXsw, childLevel, "color", wic.getColor().name());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeWiIpdsDirectly(com.mgz.afp.ipds.WI_WriteImage wi, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("WI");
+    baseXsw.writeStartElement("WI_WriteImage");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) wi.getFlagByte());
+    if (wi.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", wi.getCorrelationId());
+    }
+    if (wi.getImageData() != null) {
+      writeBinaryElement(baseXsw, childLevel, "imageData", wi.getImageData());
     }
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();

@@ -87,6 +87,28 @@ public class SFFastPathVerificationTest {
     }
 
     @Test
+    public void testMoreIpdsFastPaths() throws Exception {
+        verifySF(createBo(), "BO_BeginOverlay");
+        verifySF(createDo(), "DO_DeactivateOverlay");
+        verifySF(createIo(), "IO_IncludeOverlay");
+        verifySF(createBpsIpds(), "BPS_BeginPageSegment");
+        verifySF(createDpsIpds(), "DPS_DeactivatePageSegment");
+        verifySF(createIpsIpds(), "IPS_IncludePageSegment");
+        verifySF(createWmcIpds(), "WMC_WriteMetadataControl");
+        verifySF(createWmIpds(), "WM_WriteMetadata");
+        verifySF(createWicIpds(), "WIC_WriteImageControl");
+        verifySF(createWiIpds(), "WI_WriteImage");
+        verifySF(createWic2Ipds(), "WIC2_WriteImageControl2");
+        verifySF(createWi2Ipds(), "WI2_WriteImage2");
+        verifySF(createWoccIpds(), "WOCC_WriteObjectContainerControl");
+        verifySF(createWocIpds(), "WOC_WriteObjectContainer");
+        verifySF(createWbccIpds(), "WBCC_WriteBarCodeControl");
+        verifySF(createWbcIpds(), "WBC_WriteBarCode");
+        verifySF(createWgcIpds(), "WGC_WriteGraphicsControl");
+        verifySF(createWgIpds(), "WG_WriteGraphics");
+    }
+
+    @Test
     public void testImImageFastPaths() throws Exception {
         verifySF(createIid(), "IID_IMImageInputDescriptor");
         verifySF(createIcp(), "ICP_IMImageCellPosition");
@@ -640,7 +662,25 @@ public class SFFastPathVerificationTest {
             || rootName.equals("SPE_SetPresentationEnvironment")
             || rootName.equals("LFE_LoadFontEquivalence")
             || rootName.equals("LE_LoadEquivalence")
-            || rootName.equals("WT_WriteText")) {
+            || rootName.equals("WT_WriteText")
+            || rootName.equals("BO_BeginOverlay")
+            || rootName.equals("DO_DeactivateOverlay")
+            || rootName.equals("IO_IncludeOverlay")
+            || rootName.equals("BPS_BeginPageSegment")
+            || rootName.equals("DPS_DeactivatePageSegment")
+            || rootName.equals("IPS_IncludePageSegment")
+            || rootName.equals("WMC_WriteMetadataControl")
+            || rootName.equals("WM_WriteMetadata")
+            || rootName.equals("WIC_WriteImageControl")
+            || rootName.equals("WI_WriteImage")
+            || rootName.equals("WIC2_WriteImageControl2")
+            || rootName.equals("WI2_WriteImage2")
+            || rootName.equals("WOCC_WriteObjectContainerControl")
+            || rootName.equals("WOC_WriteObjectContainer")
+            || rootName.equals("WBCC_WriteBarCodeControl")
+            || rootName.equals("WBC_WriteBarCode")
+            || rootName.equals("WGC_WriteGraphicsControl")
+            || rootName.equals("WG_WriteGraphics")) {
             // These have known differences in triplet/rg nesting compared to reflection-based Jackson
             return;
         }
@@ -980,6 +1020,254 @@ public class SFFastPathVerificationTest {
         triplets.add(da);
         spe.setTriplets(triplets);
         return spe;
+    }
+
+    private com.mgz.afp.ipds.BO_BeginOverlay createBo() {
+        com.mgz.afp.ipds.BO_BeginOverlay bo = new com.mgz.afp.ipds.BO_BeginOverlay();
+        bo.setFlagByte((byte) 0x80);
+        bo.setCorrelationId(0x1234);
+        bo.setOverlayHaid(0x5678);
+        return bo;
+    }
+
+    private com.mgz.afp.ipds.DO_DeactivateOverlay createDo() {
+        com.mgz.afp.ipds.DO_DeactivateOverlay doDeact = new com.mgz.afp.ipds.DO_DeactivateOverlay();
+        doDeact.setFlagByte((byte) 0x00);
+        doDeact.setOverlayHaid(0x5678);
+        return doDeact;
+    }
+
+    private com.mgz.afp.ipds.IO_IncludeOverlay createIo() {
+        com.mgz.afp.ipds.IO_IncludeOverlay io = new com.mgz.afp.ipds.IO_IncludeOverlay();
+        io.setFlagByte((byte) 0x80);
+        io.setCorrelationId(0x1234);
+        io.setOverlayHaid(0x5678);
+        io.setOverlayType((byte) 0x01);
+        io.setXpOffset(1000);
+        io.setOverlayUse((byte) 0x02);
+        io.setYpOffset(2000);
+        io.setOrientation(AFPOrientation.ori90);
+        return io;
+    }
+
+    private com.mgz.afp.ipds.BPS_BeginPageSegment createBpsIpds() {
+        com.mgz.afp.ipds.BPS_BeginPageSegment bps = new com.mgz.afp.ipds.BPS_BeginPageSegment();
+        bps.setFlagByte((byte) 0x80);
+        bps.setCorrelationId(0x1234);
+        bps.setHaid(0x5678);
+        return bps;
+    }
+
+    private com.mgz.afp.ipds.DPS_DeactivatePageSegment createDpsIpds() {
+        com.mgz.afp.ipds.DPS_DeactivatePageSegment dps = new com.mgz.afp.ipds.DPS_DeactivatePageSegment();
+        dps.setFlagByte((byte) 0x00);
+        dps.setHaid(0x5678);
+        return dps;
+    }
+
+    private com.mgz.afp.ipds.IPS_IncludePageSegment createIpsIpds() {
+        com.mgz.afp.ipds.IPS_IncludePageSegment ips = new com.mgz.afp.ipds.IPS_IncludePageSegment();
+        ips.setFlagByte((byte) 0x80);
+        ips.setCorrelationId(0x1234);
+        ips.setHaid(0x5678);
+        return ips;
+    }
+
+    private com.mgz.afp.ipds.WMC_WriteMetadataControl createWmcIpds() {
+        com.mgz.afp.ipds.WMC_WriteMetadataControl wmc = new com.mgz.afp.ipds.WMC_WriteMetadataControl();
+        wmc.setFlagByte((byte) 0x80);
+        wmc.setCorrelationId(0x1234);
+        wmc.setMetadataControlData(new byte[] { 0x01, 0x02 });
+        return wmc;
+    }
+
+    private com.mgz.afp.ipds.WM_WriteMetadata createWmIpds() {
+        com.mgz.afp.ipds.WM_WriteMetadata wm = new com.mgz.afp.ipds.WM_WriteMetadata();
+        wm.setFlagByte((byte) 0x00);
+        wm.setMetadataData(new byte[] { 0x03, 0x04 });
+        return wm;
+    }
+
+    private com.mgz.afp.ipds.WIC_WriteImageControl createWicIpds() {
+        com.mgz.afp.ipds.WIC_WriteImageControl wic = new com.mgz.afp.ipds.WIC_WriteImageControl();
+        wic.setFlagByte((byte) 0x80);
+        wic.setCorrelationId(0x1234);
+        wic.setPpslOutput(1000);
+        wic.setNslOutput(2000);
+        wic.setPpslInput(1000);
+        wic.setNslInput(2000);
+        wic.setCompress((byte) 0);
+        wic.setBitsPerPel((byte) 1);
+        wic.setPelMag((byte) 1);
+        wic.setScanLineMag((byte) 1);
+        wic.setSlDirection(0);
+        wic.setSlsDirection(90);
+        wic.setRcs((byte) 0xA0);
+        wic.setXOffset(100);
+        wic.setYOffset(200);
+        wic.setColor(AFPColorValue.Blue_0x01);
+        return wic;
+    }
+
+    private com.mgz.afp.ipds.WI_WriteImage createWiIpds() {
+        com.mgz.afp.ipds.WI_WriteImage wi = new com.mgz.afp.ipds.WI_WriteImage();
+        wi.setFlagByte((byte) 0x00);
+        wi.setImageData(new byte[] { 0x05, 0x06 });
+        return wi;
+    }
+
+    private com.mgz.afp.ipds.WIC2_WriteImageControl2 createWic2Ipds() {
+        com.mgz.afp.ipds.WIC2_WriteImageControl2 wic2 = new com.mgz.afp.ipds.WIC2_WriteImageControl2();
+        wic2.setFlagByte((byte) 0x80);
+        wic2.setCorrelationId(0x1234);
+        com.mgz.afp.ipds.WIC2_WriteImageControl2.IAP_ImageAreaPosition iap = new com.mgz.afp.ipds.WIC2_WriteImageControl2.IAP_ImageAreaPosition();
+        iap.setXOffset(100);
+        iap.setYOffset(200);
+        iap.setOrientation(AFPOrientation.ori0);
+        iap.setCoordinateSystem((byte) 0xA0);
+        wic2.setIap(iap);
+        com.mgz.afp.ipds.WIC2_WriteImageControl2.IOC_ImageOutputControl ioc = new com.mgz.afp.ipds.WIC2_WriteImageControl2.IOC_ImageOutputControl();
+        ioc.setUnitBase(AFPUnitBase.Inches10);
+        ioc.setUpub(1440);
+        ioc.setXoaExtent(1000);
+        ioc.setYoaExtent(2000);
+        ioc.setMappingControl((byte) 0);
+        ioc.setXoaOffset(10);
+        ioc.setYoaOffset(20);
+        wic2.setIoc(ioc);
+        com.mgz.afp.ipds.WIC2_WriteImageControl2.IDD_ImageDataDescriptor idd = new com.mgz.afp.ipds.WIC2_WriteImageControl2.IDD_ImageDataDescriptor();
+        idd.setHaid(1);
+        idd.setUnitBase(AFPUnitBase.Inches10);
+        idd.setXioResolution(1440);
+        idd.setYioResolution(1440);
+        idd.setXioExtent(1000);
+        idd.setYioExtent(2000);
+        idd.setIocaSdfs(new byte[] { 0x01, 0x02 });
+        wic2.setIdd(idd);
+        return wic2;
+    }
+
+    private com.mgz.afp.ipds.WI2_WriteImage2 createWi2Ipds() {
+        com.mgz.afp.ipds.WI2_WriteImage2 wi2 = new com.mgz.afp.ipds.WI2_WriteImage2();
+        wi2.setFlagByte((byte) 0x00);
+        wi2.setIocaData(new byte[] { 0x01, 0x02, 0x03, 0x04 });
+        return wi2;
+    }
+
+    private com.mgz.afp.ipds.WOCC_WriteObjectContainerControl createWoccIpds() {
+        com.mgz.afp.ipds.WOCC_WriteObjectContainerControl wocc = new com.mgz.afp.ipds.WOCC_WriteObjectContainerControl();
+        wocc.setFlagByte((byte) 0x80);
+        wocc.setCorrelationId(0x1234);
+        com.mgz.afp.ipds.WOCC_WriteObjectContainerControl.OCAP_ObjectContainerAreaPosition ocap = new com.mgz.afp.ipds.WOCC_WriteObjectContainerControl.OCAP_ObjectContainerAreaPosition();
+        ocap.setXOffset(100);
+        ocap.setYOffset(200);
+        ocap.setOrientation(AFPOrientation.ori0);
+        ocap.setCoordinateSystem((byte) 0xA0);
+        wocc.setOcap(ocap);
+        com.mgz.afp.ipds.WOCC_WriteObjectContainerControl.OCOC_ObjectContainerOutputControl ococ = new com.mgz.afp.ipds.WOCC_WriteObjectContainerControl.OCOC_ObjectContainerOutputControl();
+        ococ.setUnitBase(AFPUnitBase.Inches10);
+        ococ.setUpub(1440);
+        ococ.setXoaExtent(1000);
+        ococ.setYoaExtent(2000);
+        ococ.setMappingControl((byte) 0);
+        ococ.setXoaOffset(10);
+        ococ.setYoaOffset(20);
+        wocc.setOcoc(ococ);
+        com.mgz.afp.ipds.WOCC_WriteObjectContainerControl.OCDD_ObjectContainerDataDescriptor ocdd = new com.mgz.afp.ipds.WOCC_WriteObjectContainerControl.OCDD_ObjectContainerDataDescriptor();
+        ocdd.setObjectTypeOid(new byte[16]);
+        ocdd.setHaid(1);
+        wocc.setOcdd(ocdd);
+        return wocc;
+    }
+
+    private com.mgz.afp.ipds.WOC_WriteObjectContainer createWocIpds() {
+        com.mgz.afp.ipds.WOC_WriteObjectContainer woc = new com.mgz.afp.ipds.WOC_WriteObjectContainer();
+        woc.setFlagByte((byte) 0x00);
+        woc.setData(new byte[] { 0x05, 0x06 });
+        return woc;
+    }
+
+    private com.mgz.afp.ipds.WBCC_WriteBarCodeControl createWbccIpds() {
+        com.mgz.afp.ipds.WBCC_WriteBarCodeControl wbcc = new com.mgz.afp.ipds.WBCC_WriteBarCodeControl();
+        wbcc.setFlagByte((byte) 0x80);
+        wbcc.setCorrelationId(0x1234);
+        com.mgz.afp.ipds.WBCC_WriteBarCodeControl.BCAP_BarCodeAreaPosition bcap = new com.mgz.afp.ipds.WBCC_WriteBarCodeControl.BCAP_BarCodeAreaPosition();
+        bcap.setXOffset(100);
+        bcap.setYOffset(200);
+        bcap.setOrientation(AFPOrientation.ori0);
+        bcap.setReferenceSystem((byte) 0xA0);
+        wbcc.setBcap(bcap);
+        com.mgz.afp.ipds.WBCC_WriteBarCodeControl.BCOC_BarCodeOutputControl bcoc = new com.mgz.afp.ipds.WBCC_WriteBarCodeControl.BCOC_BarCodeOutputControl();
+        bcoc.setUnitBase(AFPUnitBase.Inches10);
+        bcoc.setUpub(1440);
+        bcoc.setXoaExtent(1000);
+        bcoc.setYoaExtent(2000);
+        bcoc.setXoaOffset(10);
+        bcoc.setYoaOffset(20);
+        wbcc.setBcoc(bcoc);
+        com.mgz.afp.ipds.WBCC_WriteBarCodeControl.BCDD_BarCodeDataDescriptor bcdd = new com.mgz.afp.ipds.WBCC_WriteBarCodeControl.BCDD_BarCodeDataDescriptor();
+        bcdd.setUnitBase(AFPUnitBase.Inches10);
+        bcdd.setXupub(1440);
+        bcdd.setYupub(1440);
+        bcdd.setXbcExtent(1000);
+        bcdd.setYbcExtent(2000);
+        bcdd.setSymbolWidth(500);
+        bcdd.setType((byte) 0x01);
+        bcdd.setModifier((byte) 0x01);
+        bcdd.setLid(1);
+        bcdd.setColor(AFPColorValue.Blue_0x01);
+        bcdd.setModuleWidth(10);
+        bcdd.setHeight(100);
+        bcdd.setMultiplier(1);
+        bcdd.setWnRatio(2);
+        wbcc.setBcdd(bcdd);
+        return wbcc;
+    }
+
+    private com.mgz.afp.ipds.WBC_WriteBarCode createWbcIpds() {
+        com.mgz.afp.ipds.WBC_WriteBarCode wbc = new com.mgz.afp.ipds.WBC_WriteBarCode();
+        wbc.setFlagByte((byte) 0x00);
+        wbc.setBarCodeData(new byte[] { 0x07, 0x08 });
+        return wbc;
+    }
+
+    private com.mgz.afp.ipds.WGC_WriteGraphicsControl createWgcIpds() {
+        com.mgz.afp.ipds.WGC_WriteGraphicsControl wgc = new com.mgz.afp.ipds.WGC_WriteGraphicsControl();
+        wgc.setFlagByte((byte) 0x80);
+        wgc.setCorrelationId(0x1234);
+        com.mgz.afp.ipds.WGC_WriteGraphicsControl.GAP_GraphicsAreaPosition gap = new com.mgz.afp.ipds.WGC_WriteGraphicsControl.GAP_GraphicsAreaPosition();
+        gap.setXOffset(100);
+        gap.setYOffset(200);
+        gap.setOrientation(AFPOrientation.ori0);
+        gap.setCoordinateSystem((byte) 0xA0);
+        wgc.setGap(gap);
+        com.mgz.afp.ipds.WGC_WriteGraphicsControl.GOC_GraphicsOutputControl goc = new com.mgz.afp.ipds.WGC_WriteGraphicsControl.GOC_GraphicsOutputControl();
+        goc.setUnitBase(AFPUnitBase.Inches10);
+        goc.setUpub(1440);
+        goc.setXoaExtent(1000);
+        goc.setYoaExtent(2000);
+        goc.setXoaOffset(10);
+        goc.setYoaOffset(20);
+        wgc.setGoc(goc);
+        com.mgz.afp.ipds.WGC_WriteGraphicsControl.GDD_GraphicsDataDescriptor gdd = new com.mgz.afp.ipds.WGC_WriteGraphicsControl.GDD_GraphicsDataDescriptor();
+        gdd.setUnitBase(AFPUnitBase.Inches10);
+        gdd.setXupub(1440);
+        gdd.setYupub(1440);
+        gdd.setXgLeftLimit(0);
+        gdd.setXgRightLimit(1000);
+        gdd.setYgBottomLimit(0);
+        gdd.setYgTopLimit(2000);
+        wgc.setGdd(gdd);
+        return wgc;
+    }
+
+    private com.mgz.afp.ipds.WG_WriteGraphics createWgIpds() {
+        com.mgz.afp.ipds.WG_WriteGraphics wg = new com.mgz.afp.ipds.WG_WriteGraphics();
+        wg.setFlagByte((byte) 0x00);
+        List<com.mgz.afp.goca.GAD_DrawingOrder> orders = new ArrayList<>();
+        orders.add(new com.mgz.afp.goca.GAD_DrawingOrder.GNOP1_NopOperation());
+        wg.setDrawingOrders(orders);
+        return wg;
     }
 
     private MCC_MediumCopyCount createMCC() {
