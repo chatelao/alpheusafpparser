@@ -114,8 +114,8 @@ public class PdfFontRegistry {
     }
 
     String prefix = afpFontName.substring(0, 2);
-    // Supported prefixes: C0-C6, X0-X6 (Raster), CZ, XZ (Outline)
-    if (!prefix.matches("[CX][0-6Z]")) {
+    // Supported prefixes: C0-CG, X0-XG (Raster), CZ, XZ (Outline)
+    if (!prefix.matches("[CX][0-9A-GZ]")) {
       return null;
     }
 
@@ -144,8 +144,9 @@ public class PdfFontRegistry {
 
     if (familyPrefix.equals("C0H") || familyPrefix.equals("C0S")
         || familyPrefix.equals("C0A") || familyPrefix.equals("C0U")
-        || familyPrefix.equals("C0G") || familyPrefix.equals("C0N")) {
-      // Helvetica / Swiss / Arial / Univers / Gothic / Nimbus Sans
+        || familyPrefix.equals("C0G") || familyPrefix.equals("C0N")
+        || familyPrefix.equals("C0V")) {
+      // Helvetica / Swiss / Arial / Univers / Gothic / Nimbus Sans / Avant Garde
       if (isBold && isItalic) {
         standardFontName = StandardFonts.HELVETICA_BOLDOBLIQUE;
       } else if (isBold) {
@@ -155,8 +156,10 @@ public class PdfFontRegistry {
       } else {
         standardFontName = StandardFonts.HELVETICA;
       }
-    } else if (familyPrefix.equals("C0D")
-        || familyPrefix.equals("C0T")) { // Dutch / Times
+    } else if (familyPrefix.equals("C0D") || familyPrefix.equals("C0T")
+        || familyPrefix.equals("C0P") || familyPrefix.equals("C0B")
+        || familyPrefix.equals("C0R")) {
+      // Dutch / Times / Palatino / Bookman / Zapf Chancery
       if (isBold && isItalic) {
         standardFontName = StandardFonts.TIMES_BOLDITALIC;
       } else if (isBold) {
@@ -167,7 +170,10 @@ public class PdfFontRegistry {
         standardFontName = StandardFonts.TIMES_ROMAN;
       }
     } else if (familyPrefix.equals("C04") || familyPrefix.equals("C06")
-        || familyPrefix.equals("C0M") || familyPrefix.equals("C0C")) { // Courier / Modern / Courier
+        || familyPrefix.equals("C0M") || familyPrefix.equals("C0C")
+        || familyPrefix.equals("C0L") || familyPrefix.equals("C0K")
+        || familyPrefix.equals("C0O")) {
+      // Courier / Modern / Courier / Letter Gothic / OCR-A / OCR-B
       if (isBold && isItalic) {
         standardFontName = StandardFonts.COURIER_BOLDOBLIQUE;
       } else if (isBold) {
