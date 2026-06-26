@@ -3370,8 +3370,8 @@
 | IPDS-14-003 | LCPC | X'D61A' | Load Code Page Control | LF3, LF4 | ❓ |
 | IPDS-14-004 | LF | X'D62F' | Load Font | LF1, LF3 | ❓ |
 | IPDS-14-005 | LFCSC | X'D619' | Load Font Character Set Control | LF3 | ❓ |
-| IPDS-14-006 | LFC | X'D61F' | Load Font Control | LF1 | ❓ |
-| IPDS-14-007 | LFI | X'D60F' | Load Font Index | LF1 | ❓ |
+| IPDS-14-006 | LFC | X'D61F' | Load Font Control | LF1 | ✅ |
+| IPDS-14-007 | LFI | X'D60F' | Load Font Index | LF1 | ✅ |
 | IPDS-14-008 | LSS | X'D61E' | Load Symbol Set | LF2 | ❓ |
 | IPDS-14-009 | A LF1-type coded font, that consists of a fully described font plus font indexes, or of several fully described | ❓ |
 | IPDS-14-010 | A LF2-type coded font, that consists of a symbol set | ❓ |
@@ -5848,13 +5848,13 @@
 | IPDS-A-004 | X'D603' | No Operation (NOP) | “No Operation” | ❓ |
 | IPDS-A-005 | X'D608' | Set Presentation Environment (SPE) | “Set Presentation Environment” | ❓ |
 | IPDS-A-006 | X'D60A' | Activate Setup Name (ASN) | “Activate Setup Name” | ❓ |
-| IPDS-A-007 | X'D60F' | Load Font Index (LFI) | “Load Font Index” | ❓ |
+| IPDS-A-007 | X'D60F' | Load Font Index (LFI) | “Load Font Index” | ✅ |
 | IPDS-A-008 | X'D619' | Load Font Character Set Control (LFCSC) | “Load Font Character Set Control” | ❓ |
 | IPDS-A-009 | X'D61A' | Load Code Page Control (LCPC) | “Load Code Page Control” | ❓ |
 | IPDS-A-010 | X'D61B' | Load Code Page (LCP) | “Load Code Page” | ❓ |
 | IPDS-A-011 | X'D61D' | Load Equivalence (LE) | “Load Equivalence” | ✅ |
 | IPDS-A-012 | X'D61E' | Load Symbol Set (LSS) | “Load Symbol Set” | ❓ |
-| IPDS-A-013 | X'D61F' | Load Font Control (LFC) | “Load Font Control” | ❓ |
+| IPDS-A-013 | X'D61F' | Load Font Control (LFC) | “Load Font Control” | ✅ |
 | IPDS-A-014 | X'D62D' | Write Text (WT) | “Write Text” | ✅ |
 | IPDS-A-015 | X'D62E' | Activate Resource (AR) | “Activate Resource” | ❓ |
 | IPDS-A-016 | X'D62F' | Load Font (LF) | “Load Font” | ❓ |

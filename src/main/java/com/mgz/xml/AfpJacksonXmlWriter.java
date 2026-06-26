@@ -559,6 +559,10 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeEndDirectly(end, level);
     } else if (sf instanceof com.mgz.afp.ipds.STM_SenseTypeAndModel stm) {
       writeStmDirectly(stm, level);
+    } else if (sf instanceof com.mgz.afp.ipds.LFC_LoadFontControl lfc) {
+      writeLfcDirectly(lfc, level);
+    } else if (sf instanceof com.mgz.afp.ipds.LFI_LoadFontIndex lfi) {
+      writeLfiDirectly(lfi, level);
     } else if (sf instanceof com.mgz.afp.ipds.ISP_IncludeSavedPage isp) {
       writeIspDirectly(isp, level);
     } else if (sf instanceof com.mgz.afp.ipds.ICMR_InvokeCMR icmr) {
@@ -745,6 +749,112 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     if (tle.getText() != null) {
       writeElement(baseXsw, level + 1, "text", tle.getText());
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeLfcDirectly(com.mgz.afp.ipds.LFC_LoadFontControl lfc, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("LFC");
+    baseXsw.writeStartElement("LFC_LoadFontControl");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) lfc.getFlagByte());
+    if (lfc.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", lfc.getCorrelationId());
+    }
+    writeElement(baseXsw, childLevel, "haid", lfc.getHaid());
+    writeElement(baseXsw, childLevel, "sectionId", (int) lfc.getSectionId());
+    writeElement(baseXsw, childLevel, "format", (int) lfc.getFormat());
+    writeElement(baseXsw, childLevel, "patternFormat", (int) lfc.getPatternFormat());
+    writeElement(baseXsw, childLevel, "fontTypeFlags", (int) lfc.getFontTypeFlags());
+    writeElement(baseXsw, childLevel, "xSize", lfc.getxSize());
+    writeElement(baseXsw, childLevel, "ySize", lfc.getySize());
+    writeElement(baseXsw, childLevel, "lUnitBase", (int) lfc.getlUnitBase());
+    writeElement(baseXsw, childLevel, "xUpub", lfc.getxUpub());
+    writeElement(baseXsw, childLevel, "yUpub", lfc.getyUpub());
+    writeElement(baseXsw, childLevel, "byteCount", lfc.getByteCount());
+    writeElement(baseXsw, childLevel, "dataAlignment", (int) lfc.getDataAlignment());
+    writeElement(baseXsw, childLevel, "gcsgid", lfc.getGcsgid());
+    writeElement(baseXsw, childLevel, "cpgid", lfc.getCpgid());
+    writeElement(baseXsw, childLevel, "pelUnitBase", (int) lfc.getPelUnitBase());
+    writeElement(baseXsw, childLevel, "xPelUnits", lfc.getxPelUnits());
+    writeElement(baseXsw, childLevel, "yPelUnits", lfc.getyPelUnits());
+    writeElement(baseXsw, childLevel, "rmmf", lfc.getRmmf());
+    writeElement(baseXsw, childLevel, "fgid", lfc.getFgid());
+    writeElement(baseXsw, childLevel, "intendedUseFlags", (int) lfc.getIntendedUseFlags());
+    writeElement(baseXsw, childLevel, "fw", lfc.getFw());
+
+    if (lfc.getRepeatingGroups() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("repeatingGroups");
+      for (IRepeatingGroup irg : lfc.getRepeatingGroups()) {
+        com.mgz.afp.ipds.LFC_LoadFontControl.LFC_CharacterPatternDescriptor rg =
+            (com.mgz.afp.ipds.LFC_LoadFontControl.LFC_CharacterPatternDescriptor) irg;
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeStartElement("repeatingGroups");
+        int rgLevel = childLevel + 2;
+        writeElement(baseXsw, rgLevel, "xSize", rg.getxSize());
+        writeElement(baseXsw, rgLevel, "ySize", rg.getySize());
+        writeElement(baseXsw, rgLevel, "address", rg.getAddress());
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeEndElement();
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
+    }
+    writeIndent(baseXsw, level);
+    baseXsw.writeEndElement();
+    MnemonicPerformanceMonitor.endWrite();
+  }
+
+  private void writeLfiDirectly(com.mgz.afp.ipds.LFI_LoadFontIndex lfi, int level) throws Exception {
+    MnemonicPerformanceMonitor.startWriteWithMnemonic("LFI");
+    baseXsw.writeStartElement("LFI_LoadFontIndex");
+    if (currentPageNumber > 0) {
+      baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
+    }
+    int childLevel = level + 1;
+    writeElement(baseXsw, childLevel, "flagByte", (int) lfi.getFlagByte());
+    if (lfi.getCorrelationId() != null) {
+      writeElement(baseXsw, childLevel, "correlationId", lfi.getCorrelationId());
+    }
+    writeElement(baseXsw, childLevel, "haid", lfi.getHaid());
+    writeElement(baseXsw, childLevel, "sectionId", (int) lfi.getSectionId());
+    writeElement(baseXsw, childLevel, "spaceFlags", (int) lfi.getSpaceFlags());
+    writeElement(baseXsw, childLevel, "fis", lfi.getFis());
+    writeElement(baseXsw, childLevel, "baselineOffset", lfi.getBaselineOffset());
+    writeElement(baseXsw, childLevel, "characterIncrement", lfi.getCharacterIncrement());
+    writeElement(baseXsw, childLevel, "maxExtent", lfi.getMaxExtent());
+    writeElement(baseXsw, childLevel, "orientationFlags", (int) lfi.getOrientationFlags());
+    writeElement(baseXsw, childLevel, "aSpace", lfi.getaSpace());
+    writeElement(baseXsw, childLevel, "vsp", lfi.getVsp());
+    writeElement(baseXsw, childLevel, "defaultVsi", lfi.getDefaultVsi());
+    writeElement(baseXsw, childLevel, "underscoreWidth", lfi.getUnderscoreWidth());
+    writeElement(baseXsw, childLevel, "underscorePosition", lfi.getUnderscorePosition());
+
+    if (lfi.getRepeatingGroups() != null) {
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeStartElement("repeatingGroups");
+      for (IRepeatingGroup irg : lfi.getRepeatingGroups()) {
+        com.mgz.afp.ipds.LFI_LoadFontIndex.LFI_CharacterIndexEntry rg =
+            (com.mgz.afp.ipds.LFI_LoadFontIndex.LFI_CharacterIndexEntry) irg;
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeStartElement("repeatingGroups");
+        int rgLevel = childLevel + 2;
+        writeElement(baseXsw, rgLevel, "characterFlags", rg.getCharacterFlags());
+        writeElement(baseXsw, rgLevel, "patternIndex", rg.getPatternIndex());
+        writeElement(baseXsw, rgLevel, "characterIncrement", rg.getCharacterIncrement());
+        writeElement(baseXsw, rgLevel, "aSpace", rg.getaSpace());
+        writeElement(baseXsw, rgLevel, "baselineOffset", rg.getBaselineOffset());
+        writeIndent(baseXsw, childLevel + 1);
+        baseXsw.writeEndElement();
+      }
+      writeIndent(baseXsw, childLevel);
+      baseXsw.writeEndElement();
     }
     writeIndent(baseXsw, level);
     baseXsw.writeEndElement();

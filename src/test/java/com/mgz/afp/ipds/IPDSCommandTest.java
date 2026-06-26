@@ -1151,4 +1151,111 @@ public class IPDSCommandTest {
     wm.writeAFP(baos, config);
     assertArrayEquals(data, baos.toByteArray());
   }
+
+  @Test
+  public void testLFCRoundTrip() throws Exception {
+    // LFC: D61F, ARQ=0, 40-byte header + 1 descriptor (8 bytes)
+    // SFI(8) + Flag(1) + Payload(48) = 57 (0x39)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x39, (byte) 0xD6, 0x1F, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x12, 0x34, // haid
+        0x00, // sectionId
+        0x00, // format
+        0x05, // patternFormat
+        0x40, // fontTypeFlags (uniform character box)
+        0x00, 0x07, // xSize (8 - 1 = 7)
+        0x00, 0x0F, // ySize (16 - 1 = 15)
+        0x02, // lUnitBase (Relative)
+        0x00, // reserved
+        0x03, (byte) 0xE8, // xUpub (1000)
+        0x03, (byte) 0xE8, // yUpub (1000)
+        0x00, 0x00, // reserved
+        0x00, 0x01, (byte) 0xF4, // byteCount (500)
+        0x04, // dataAlignment
+        0x00, 0x01, // gcsgid
+        0x01, (byte) 0xF4, // cpgid (500)
+        0x00, // pelUnitBase
+        0x00, // reserved
+        0x01, 0x2C, // xPelUnits (300)
+        0x01, 0x2C, // yPelUnits (300)
+        0x09, 0x60, // rmmf (2400)
+        0x12, 0x34, // fgid
+        0x01, // reserved
+        0x00, // intendedUseFlags
+        0x00, 0x64, // fw (100)
+        // Descriptor
+        0x00, 0x07, // xSize
+        0x00, 0x0F, // ySize
+        0x00, 0x00, 0x00, 0x64 // address (100)
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    LFC_LoadFontControl lfc = (LFC_LoadFontControl) parser.parseNextSF();
+
+    assertNotNull(lfc);
+    assertEquals(0x1234, lfc.getHaid());
+    assertEquals(500, lfc.getByteCount());
+    assertEquals(1, lfc.getRepeatingGroups().size());
+    LFC_LoadFontControl.LFC_CharacterPatternDescriptor rg = (LFC_LoadFontControl.LFC_CharacterPatternDescriptor) lfc.getRepeatingGroups().get(0);
+    assertEquals(7, rg.getxSize());
+    assertEquals(100, rg.getAddress());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    lfc.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testLFIRoundTrip() throws Exception {
+    // LFI: D60F, ARQ=0, 32-byte header + 1 entry (16 bytes)
+    // SFI(8) + Flag(1) + Payload(48) = 57 (0x39)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x39, (byte) 0xD6, 0x0F, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x12, 0x34, // haid
+        0x00, // sectionId
+        (byte) 0x80, // spaceFlags (VSP enabled)
+        0x00, 0x00, // fis
+        0x00, 0x00, // reserved
+        0x00, 0x64, // baselineOffset (100)
+        0x00, (byte) 0xC8, // characterIncrement (200)
+        0x00, 0x00, // reserved
+        0x00, (byte) 0xA0, // maxExtent (160)
+        (byte) 0xE0, // orientationFlags (uniform everything)
+        0x00, // reserved
+        0x00, 0x00, // aSpace
+        0x00, 0x40, // vsp (0x40)
+        0x00, 0x20, // defaultVsi (32)
+        0x00, 0x02, // underscoreWidth
+        0x00, 0x05, // underscorePosition
+        0x00, 0x00, 0x00, 0x00, // reserved
+        // Entry
+        (byte) 0x00, 0x00, // characterFlags
+        0x00, 0x01, // patternIndex
+        0x00, (byte) 0xC8, // characterIncrement
+        0x00, 0x00, // aSpace
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, // reserved
+        0x00, 0x64  // baselineOffset
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    LFI_LoadFontIndex lfi = (LFI_LoadFontIndex) parser.parseNextSF();
+
+    assertNotNull(lfi);
+    assertEquals(0x1234, lfi.getHaid());
+    assertEquals(100, lfi.getBaselineOffset());
+    assertEquals(1, lfi.getRepeatingGroups().size());
+    LFI_LoadFontIndex.LFI_CharacterIndexEntry rg = (LFI_LoadFontIndex.LFI_CharacterIndexEntry) lfi.getRepeatingGroups().get(0);
+    assertEquals(1, rg.getPatternIndex());
+    assertEquals(100, rg.getBaselineOffset());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    lfi.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
 }

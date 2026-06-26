@@ -237,6 +237,13 @@ public class AFPParser {
     SF_SUPPLIERS.put(SFTypeID.WG_WriteGraphics, com.mgz.afp.ipds.WG_WriteGraphics::new);
     SF_SUPPLIERS.put(SFTypeID.WMC_WriteMetadataControl, com.mgz.afp.ipds.WMC_WriteMetadataControl::new);
     SF_SUPPLIERS.put(SFTypeID.WM_WriteMetadata, com.mgz.afp.ipds.WM_WriteMetadata::new);
+    SF_SUPPLIERS.put(SFTypeID.LFI_LoadFontIndex, com.mgz.afp.ipds.LFI_LoadFontIndex::new);
+    SF_SUPPLIERS.put(SFTypeID.LFCSC_LoadFontCharacterSetControl, com.mgz.afp.ipds.LFCSC_LoadFontCharacterSetControl::new);
+    SF_SUPPLIERS.put(SFTypeID.LCPC_LoadCodePageControl, com.mgz.afp.ipds.LCPC_LoadCodePageControl::new);
+    SF_SUPPLIERS.put(SFTypeID.LCP_LoadCodePage, com.mgz.afp.ipds.LCP_LoadCodePage::new);
+    SF_SUPPLIERS.put(SFTypeID.LSS_LoadSymbolSet, com.mgz.afp.ipds.LSS_LoadSymbolSet::new);
+    SF_SUPPLIERS.put(SFTypeID.LFC_LoadFontControl, com.mgz.afp.ipds.LFC_LoadFontControl::new);
+    SF_SUPPLIERS.put(SFTypeID.LF_LoadFont, com.mgz.afp.ipds.LF_LoadFont::new);
   }
   AFPParserConfiguration parserConf;
   long nrOfBytesRead;
