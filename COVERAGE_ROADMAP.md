@@ -39,10 +39,10 @@ This document outlines a phased, actionable plan to increase the code coverage o
         - 🚧 Text command set (LE, WT implemented)
         - ✅ IM-Image command set (WIC, WI implemented)
         - ✅ IO-Image command set (WIC2, WI2 implemented)
-        - 🚧 Graphics command set
-        - 🚧 Bar Code command set
-        - 🚧 Object-Container command set
-        - 🚧 Metadata command set
+        - ✅ Graphics command set (WGC, WG implemented)
+        - ✅ Bar Code command set (WBCC, WBC implemented)
+        - ✅ Object-Container command set (WOCC, WOC implemented)
+        - ✅ Metadata command set (WMC, WM implemented)
         - ✅ Page-Segment command set (BPS, DPS, IPS implemented)
         - 🚧 Overlay command set (BO, DO, IO implemented)
         - 🚧 Loaded-Font command set

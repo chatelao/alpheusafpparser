@@ -229,6 +229,14 @@ public class AFPParser {
     SF_SUPPLIERS.put(SFTypeID.BPS_BeginPageSegment_IPDS, com.mgz.afp.ipds.BPS_BeginPageSegment::new);
     SF_SUPPLIERS.put(SFTypeID.DPS_DeactivatePageSegment_IPDS, com.mgz.afp.ipds.DPS_DeactivatePageSegment::new);
     SF_SUPPLIERS.put(SFTypeID.IPS_IncludePageSegment_IPDS, com.mgz.afp.ipds.IPS_IncludePageSegment::new);
+    SF_SUPPLIERS.put(SFTypeID.WBCC_WriteBarCodeControl, com.mgz.afp.ipds.WBCC_WriteBarCodeControl::new);
+    SF_SUPPLIERS.put(SFTypeID.WBC_WriteBarCode, com.mgz.afp.ipds.WBC_WriteBarCode::new);
+    SF_SUPPLIERS.put(SFTypeID.WOCC_WriteObjectContainerControl, com.mgz.afp.ipds.WOCC_WriteObjectContainerControl::new);
+    SF_SUPPLIERS.put(SFTypeID.WOC_WriteObjectContainer, com.mgz.afp.ipds.WOC_WriteObjectContainer::new);
+    SF_SUPPLIERS.put(SFTypeID.WGC_WriteGraphicsControl, com.mgz.afp.ipds.WGC_WriteGraphicsControl::new);
+    SF_SUPPLIERS.put(SFTypeID.WG_WriteGraphics, com.mgz.afp.ipds.WG_WriteGraphics::new);
+    SF_SUPPLIERS.put(SFTypeID.WMC_WriteMetadataControl, com.mgz.afp.ipds.WMC_WriteMetadataControl::new);
+    SF_SUPPLIERS.put(SFTypeID.WM_WriteMetadata, com.mgz.afp.ipds.WM_WriteMetadata::new);
   }
   AFPParserConfiguration parserConf;
   long nrOfBytesRead;
