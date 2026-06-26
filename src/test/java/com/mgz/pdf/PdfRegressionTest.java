@@ -53,8 +53,8 @@ public class PdfRegressionTest {
         // Check internal state
         Field defaultScaleYField = PdfHandler.class.getDeclaredField("defaultScaleY");
         defaultScaleYField.setAccessible(true);
-        float scaleY = (float) defaultScaleYField.get(handler);
-        assertEquals(0.1f, scaleY, 0.001f, "Scale should be 0.1 for 720 dpi");
+        double scaleY = (double) defaultScaleYField.get(handler);
+        assertEquals(0.1, scaleY, 0.001, "Scale should be 0.1 for 720 dpi");
 
         // Verify that isCanvasTransformed is true and it matches the 1440dpi scale from Page 1
         // (This is what I suspect is the bug: it should have been 0.1 but remains 0.05 from inherited BPG call)

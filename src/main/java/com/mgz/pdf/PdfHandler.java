@@ -134,6 +134,8 @@ import com.mgz.afp.modca.OBD_ObjectAreaDescriptor;
 import com.mgz.afp.modca.OBP_ObjectAreaPosition;
 import com.mgz.afp.modca.PGD_PageDescriptor;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
+import com.mgz.afp.ptoca.PTD_PresentationTextDataDescriptor_Format1;
+import com.mgz.afp.ptoca.PTD_PresentationTextDataDescriptor_Format2;
 import com.mgz.afp.ptoca.PTX_PresentationTextData;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence;
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.AMB_AbsoluteMoveBaseline;
@@ -216,8 +218,8 @@ public class PdfHandler implements StructuredFieldHandler {
   private PdfCanvas currentCanvas;
   private float defaultPageWidth = -1;
   private float defaultPageHeight = -1;
-  private float defaultScaleX = 0.05f; // Standard 1/1440 inch units
-  private float defaultScaleY = 0.05f; // Standard 1/1440 inch units
+  private double defaultScaleX = 0.05; // Standard 1/1440 inch units
+  private double defaultScaleY = 0.05; // Standard 1/1440 inch units
   private boolean isCanvasTransformed = false;
 
   public PdfHandler(OutputStream os) {
@@ -535,11 +537,17 @@ public class PdfHandler implements StructuredFieldHandler {
           }
         }
       }
+    } else if (sf instanceof PTD_PresentationTextDataDescriptor_Format1 ptd) {
+      this.defaultScaleX = CoordinateTransformer.getScaleFactor(ptd.getxUnitBase(), ptd.getxUnitsPerUnitBase());
+      this.defaultScaleY = CoordinateTransformer.getScaleFactor(ptd.getyUnitBase(), ptd.getyUnitsPerUnitBase());
+    } else if (sf instanceof PTD_PresentationTextDataDescriptor_Format2 ptd) {
+      this.defaultScaleX = CoordinateTransformer.getScaleFactor(ptd.getxUnitBase(), ptd.getxUnitsPerUnitBase());
+      this.defaultScaleY = CoordinateTransformer.getScaleFactor(ptd.getyUnitBase(), ptd.getyUnitsPerUnitBase());
     } else if (sf instanceof PGD_PageDescriptor pgd) {
-      float scaleX = CoordinateTransformer.getScaleFactor(pgd.getxUnitBase(), pgd.getxUnitsPerUnitBase());
-      float scaleY = CoordinateTransformer.getScaleFactor(pgd.getyUnitBase(), pgd.getyUnitsPerUnitBase());
-      float widthPoints = pgd.getxSize() * scaleX;
-      float heightPoints = pgd.getySize() * scaleY;
+      double scaleX = CoordinateTransformer.getScaleFactor(pgd.getxUnitBase(), pgd.getxUnitsPerUnitBase());
+      double scaleY = CoordinateTransformer.getScaleFactor(pgd.getyUnitBase(), pgd.getyUnitsPerUnitBase());
+      float widthPoints = (float) (pgd.getxSize() * scaleX);
+      float heightPoints = (float) (pgd.getySize() * scaleY);
 
       this.defaultPageWidth = widthPoints;
       this.defaultPageHeight = heightPoints;
@@ -1280,7 +1288,7 @@ public class PdfHandler implements StructuredFieldHandler {
         resource != null && resource.bold(),
         resource != null && resource.italic());
 
-    float fontSize = graphicsState.getCharCellHeight() > 0 ? graphicsState.getCharCellHeight() : (resource != null ? resource.size() / defaultScaleY : 100.0f);
+    float fontSize = (float) (graphicsState.getCharCellHeight() > 0 ? graphicsState.getCharCellHeight() : (resource != null ? resource.size() / defaultScaleY : 100.0f));
 
     // Determine rotation from character angle point
     double angle = Math.atan2(graphicsState.getCharAngleY(), graphicsState.getCharAngleX());
@@ -1601,7 +1609,7 @@ public class PdfHandler implements StructuredFieldHandler {
           resource != null && resource.bold(),
           resource != null && resource.italic());
       float fontSizePoints = resource != null ? resource.size() : 10.0f;
-      float fontSizeAfp = fontSizePoints / defaultScaleY;
+      float fontSizeAfp = (float) (fontSizePoints / defaultScaleY);
 
       double afpX = CoordinateTransformer.getAfpX(textState.getInlinePos(), textState.getBaselinePos(),
           textState.getIOrientation(), textState.getBOrientation());
@@ -1631,7 +1639,12 @@ public class PdfHandler implements StructuredFieldHandler {
           }
         }
         float fontSpaceWidthAfp = font.getWidth(" ", fontSizeAfp);
-        currentCanvas.setWordSpacing((float) textState.getVariableSpaceIncrement() - fontSpaceWidthAfp - textState.getIntercharacterAdjustment());
+        // SVI specifies the total increment for a variable space character.
+        // PDF WordSpacing (Tw) is added to the font's character width and character spacing (Tc).
+        // Total Space Width = fontSpaceWidthAfp + Tc + Tw
+        // We want Total Space Width to be SVI + Tc (SIA).
+        // So Tw = SVI - fontSpaceWidthAfp.
+        currentCanvas.setWordSpacing((float) textState.getVariableSpaceIncrement() - fontSpaceWidthAfp);
       }
 
       currentCanvas.setTextMatrix(cos, sin, sin, -cos, (float) afpX, (float) afpY)
@@ -1647,15 +1660,18 @@ public class PdfHandler implements StructuredFieldHandler {
       }
 
       // Update inline position based on text width (approximation in AFP units)
-      float totalWidthAfp = font.getWidth(text, fontSizeAfp)
+      double totalWidthAfp = font.getWidth(text, fontSizeAfp)
           + (textState.getIntercharacterAdjustment() * text.length());
 
       if (textState.getVariableSpaceIncrement() != 0) {
-        totalWidthAfp += spaceCount * (textState.getVariableSpaceIncrement() - font.getWidth(" ", fontSizeAfp) - textState.getIntercharacterAdjustment());
+        // Space characters in the string already have 'font.getWidth' and 'SIA' (Tc) applied above.
+        // We need to add the 'Tw' (Word Spacing) for each space character.
+        float fontSpaceWidthAfp = font.getWidth(" ", fontSizeAfp);
+        totalWidthAfp += spaceCount * (textState.getVariableSpaceIncrement() - fontSpaceWidthAfp);
       }
 
       if (textState.getUnderscoreMode() != null) {
-        int ruleThickness = Math.max(1, Math.round(fontSizeAfp * defaultScaleY));
+        int ruleThickness = (int) Math.max(1, Math.round(fontSizeAfp * defaultScaleY));
         renderRule((int) totalWidthAfp, ruleThickness, true);
       }
 
@@ -1747,7 +1763,7 @@ public class PdfHandler implements StructuredFieldHandler {
     }
   }
 
-  private void applyTransformation(float heightPoints, float scaleX, float scaleY) {
+  private void applyTransformation(float heightPoints, double scaleX, double scaleY) {
     if (currentCanvas != null && !isCanvasTransformed) {
       AffineTransform at = CoordinateTransformer.getAfpToPdfTransform(heightPoints, scaleX, scaleY);
       currentCanvas.concatMatrix(at);
@@ -1931,7 +1947,7 @@ public class PdfHandler implements StructuredFieldHandler {
    *
    * @return the scale factor
    */
-  public float getDefaultScaleY() {
+  public double getDefaultScaleY() {
     return defaultScaleY;
   }
 

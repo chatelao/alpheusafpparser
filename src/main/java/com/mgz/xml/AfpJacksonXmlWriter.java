@@ -189,8 +189,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
 
   private int currentPageNumber = 0;
   private boolean pageIncrementedByStarter = false;
-  private int inlinePos = 0;
-  private int baselinePos = 0;
+  private double inlinePos = 0;
+  private double baselinePos = 0;
   private AFPOrientation inlineOri = AFPOrientation.ori0;
   private AFPOrientation baselineOri = AFPOrientation.ori90;
   private int inlineMargin = 0;
@@ -2898,7 +2898,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (cs instanceof PTOCAControlSequence.AMI_AbsoluteMoveInline ami) {
       int x = getAfpX();
       int y = getAfpY();
-      this.inlinePos = ami.getDisplacement();
+      this.inlinePos = (double) ami.getDisplacement();
       MnemonicPerformanceMonitor.startWriteWithMnemonic("AMI");
       baseXsw.writeEmptyElement("AMI_AbsoluteMoveInline");
       baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
@@ -2909,7 +2909,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (cs instanceof PTOCAControlSequence.AMB_AbsoluteMoveBaseline amb) {
       int x = getAfpX();
       int y = getAfpY();
-      this.baselinePos = amb.getDisplacement();
+      this.baselinePos = (double) amb.getDisplacement();
       MnemonicPerformanceMonitor.startWriteWithMnemonic("AMB");
       baseXsw.writeEmptyElement("AMB_AbsoluteMoveBaseline");
       baseXsw.writeIntAttribute(null, null, "page", currentPageNumber);
@@ -4630,8 +4630,8 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   }
 
   private void resetPtocaState() {
-    this.inlinePos = 0;
-    this.baselinePos = 0;
+    this.inlinePos = 0.0;
+    this.baselinePos = 0.0;
     this.inlineOri = AFPOrientation.ori0;
     this.baselineOri = AFPOrientation.ori90;
     this.inlineMargin = 0;
