@@ -203,4 +203,47 @@ public class PdfFontMappingTest {
     assertNotNull(fontRaster);
     assertTrue(fontRaster.getFontProgram().getFontNames().getFontName().contains("Helvetica"));
   }
+
+  @Test
+  public void testNewPrefixesAndFamilies() {
+    PdfFontRegistry registry = new PdfFontRegistry();
+
+    // Test rotation prefixes (C0-CG)
+    PdfFont fontRot90 = registry.getFont("C5H20010"); // Swiss rotation 90
+    assertNotNull(fontRot90);
+    assertTrue(fontRot90.getFontProgram().getFontNames().getFontName().contains("Helvetica"));
+
+    PdfFont fontRot180 = registry.getFont("C9H20010"); // Swiss rotation 180
+    assertNotNull(fontRot180);
+    assertTrue(fontRot180.getFontProgram().getFontNames().getFontName().contains("Helvetica"));
+
+    PdfFont fontRot270 = registry.getFont("CDH20010"); // Swiss rotation 270
+    assertNotNull(fontRot270);
+    assertTrue(fontRot270.getFontProgram().getFontNames().getFontName().contains("Helvetica"));
+
+    // Test Avant Garde (V) -> Helvetica
+    PdfFont fontAvant = registry.getFont("C0V20010");
+    assertNotNull(fontAvant);
+    assertTrue(fontAvant.getFontProgram().getFontNames().getFontName().contains("Helvetica"));
+
+    // Test Palatino (P) -> Times
+    PdfFont fontPalatino = registry.getFont("C0P20010");
+    assertNotNull(fontPalatino);
+    assertTrue(fontPalatino.getFontProgram().getFontNames().getFontName().contains("Times-Roman"));
+
+    // Test Bookman (B) -> Times
+    PdfFont fontBookman = registry.getFont("C0B20010");
+    assertNotNull(fontBookman);
+    assertTrue(fontBookman.getFontProgram().getFontNames().getFontName().contains("Times-Roman"));
+
+    // Test Letter Gothic (L) -> Courier
+    PdfFont fontLetterGothic = registry.getFont("C0L20010");
+    assertNotNull(fontLetterGothic);
+    assertTrue(fontLetterGothic.getFontProgram().getFontNames().getFontName().contains("Courier"));
+
+    // Test OCR-A (K) -> Courier
+    PdfFont fontOcrA = registry.getFont("C0K20010");
+    assertNotNull(fontOcrA);
+    assertTrue(fontOcrA.getFontProgram().getFontNames().getFontName().contains("Courier"));
+  }
 }
