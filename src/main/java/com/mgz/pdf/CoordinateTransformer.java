@@ -37,16 +37,16 @@ public class CoordinateTransformer {
    * @param unitsPerBase the number of units per base
    * @return the scale factor (points per AFP unit)
    */
-  public static float getScaleFactor(AFPUnitBase base, short unitsPerBase) {
+  public static double getScaleFactor(AFPUnitBase base, short unitsPerBase) {
     if (unitsPerBase <= 0) {
-      return 0.0f;
+      return 0.0;
     }
     if (base == AFPUnitBase.Inches10) {
-      return 720.0f / unitsPerBase;
+      return 720.0 / unitsPerBase;
     } else if (base == AFPUnitBase.Centimeter10) {
-      return (720.0f / 2.54f) / unitsPerBase;
+      return (720.0 / 2.54) / unitsPerBase;
     }
-    return 0.0f;
+    return 0.0;
   }
 
   /**
@@ -58,7 +58,7 @@ public class CoordinateTransformer {
    * @param scaleY the vertical scale factor
    * @return the affine transform
    */
-  public static AffineTransform getAfpToPdfTransform(float pageHeightPoints, float scaleX, float scaleY) {
+  public static AffineTransform getAfpToPdfTransform(float pageHeightPoints, double scaleX, double scaleY) {
     // PDF: x' = x * scaleX
     //      y' = pageHeightPoints - (y * scaleY)
     // AffineTransform(a, b, c, d, e, f)
