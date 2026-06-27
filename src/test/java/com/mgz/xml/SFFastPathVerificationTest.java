@@ -307,6 +307,8 @@ public class SFFastPathVerificationTest {
         verifySF(createFNN(), "FNN_FontNameMap");
         verifySF(createFNO(), "FNO_FontOrientation");
         verifySF(createFNP(), "FNP_FontPosition");
+        verifySF(createLfc(), "LFC_LoadFontControl");
+        verifySF(createLfi(), "LFI_LoadFontIndex");
     }
 
     @Test
@@ -1781,5 +1783,30 @@ public class SFFastPathVerificationTest {
         rg.setTriplets(triplets);
         mca.addRepeatingGroup(rg);
         return mca;
+    }
+
+    private com.mgz.afp.ipds.LFC_LoadFontControl createLfc() {
+        com.mgz.afp.ipds.LFC_LoadFontControl lfc = new com.mgz.afp.ipds.LFC_LoadFontControl();
+        lfc.setFlagByte((byte) 0x00);
+        lfc.setHaid(0x1234);
+        lfc.setByteCount(100);
+        com.mgz.afp.ipds.LFC_LoadFontControl.LFC_CharacterPatternDescriptor rg = new com.mgz.afp.ipds.LFC_LoadFontControl.LFC_CharacterPatternDescriptor();
+        rg.setxSize(24);
+        rg.setySize(36);
+        rg.setAddress(1000L);
+        lfc.addRepeatingGroup(rg);
+        return lfc;
+    }
+
+    private com.mgz.afp.ipds.LFI_LoadFontIndex createLfi() {
+        com.mgz.afp.ipds.LFI_LoadFontIndex lfi = new com.mgz.afp.ipds.LFI_LoadFontIndex();
+        lfi.setFlagByte((byte) 0x80);
+        lfi.setCorrelationId(0x1234);
+        lfi.setHaid(0x1234);
+        com.mgz.afp.ipds.LFI_LoadFontIndex.LFI_CharacterIndexEntry rg = new com.mgz.afp.ipds.LFI_LoadFontIndex.LFI_CharacterIndexEntry();
+        rg.setPatternIndex(1);
+        rg.setBaselineOffset(50);
+        lfi.addRepeatingGroup(rg);
+        return lfi;
     }
 }
