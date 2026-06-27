@@ -106,6 +106,11 @@ public class SFFastPathVerificationTest {
         verifySF(createWbcIpds(), "WBC_WriteBarCode");
         verifySF(createWgcIpds(), "WGC_WriteGraphicsControl");
         verifySF(createWgIpds(), "WG_WriteGraphics");
+        verifySF(createLfcscIpds(), "LFCSC_LoadFontCharacterSetControl");
+        verifySF(createLcpcIpds(), "LCPC_LoadCodePageControl");
+        verifySF(createLfIpds(), "LF_LoadFont");
+        verifySF(createLcpIpds(), "LCP_LoadCodePage");
+        verifySF(createLssIpds(), "LSS_LoadSymbolSet");
     }
 
     @Test
@@ -682,7 +687,12 @@ public class SFFastPathVerificationTest {
             || rootName.equals("WBCC_WriteBarCodeControl")
             || rootName.equals("WBC_WriteBarCode")
             || rootName.equals("WGC_WriteGraphicsControl")
-            || rootName.equals("WG_WriteGraphics")) {
+            || rootName.equals("WG_WriteGraphics")
+            || rootName.equals("LFCSC_LoadFontCharacterSetControl")
+            || rootName.equals("LCPC_LoadCodePageControl")
+            || rootName.equals("LF_LoadFont")
+            || rootName.equals("LCP_LoadCodePage")
+            || rootName.equals("LSS_LoadSymbolSet")) {
             // These have known differences in triplet/rg nesting compared to reflection-based Jackson
             return;
         }
@@ -1270,6 +1280,47 @@ public class SFFastPathVerificationTest {
         orders.add(new com.mgz.afp.goca.GAD_DrawingOrder.GNOP1_NopOperation());
         wg.setDrawingOrders(orders);
         return wg;
+    }
+
+    private com.mgz.afp.ipds.LFCSC_LoadFontCharacterSetControl createLfcscIpds() {
+        com.mgz.afp.ipds.LFCSC_LoadFontCharacterSetControl lfcsc = new com.mgz.afp.ipds.LFCSC_LoadFontCharacterSetControl();
+        lfcsc.setFlagByte((byte) 0x00);
+        lfcsc.setHaid(0x1234);
+        lfcsc.setPatternTechnology((byte) 0x1F);
+        lfcsc.setLoadFontCount(1000);
+        return lfcsc;
+    }
+
+    private com.mgz.afp.ipds.LCPC_LoadCodePageControl createLcpcIpds() {
+        com.mgz.afp.ipds.LCPC_LoadCodePageControl lcpc = new com.mgz.afp.ipds.LCPC_LoadCodePageControl();
+        lcpc.setFlagByte((byte) 0x00);
+        lcpc.setHaid(0x1234);
+        lcpc.setEncodingScheme(0x0100);
+        lcpc.setByteCount(1000);
+        lcpc.setVariableSpaceCodePoint(new byte[] { 0x40 });
+        return lcpc;
+    }
+
+    private com.mgz.afp.ipds.LF_LoadFont createLfIpds() {
+        com.mgz.afp.ipds.LF_LoadFont lf = new com.mgz.afp.ipds.LF_LoadFont();
+        lf.setFlagByte((byte) 0x00);
+        lf.setFontData(new byte[] { 0x01, 0x02 });
+        return lf;
+    }
+
+    private com.mgz.afp.ipds.LCP_LoadCodePage createLcpIpds() {
+        com.mgz.afp.ipds.LCP_LoadCodePage lcp = new com.mgz.afp.ipds.LCP_LoadCodePage();
+        lcp.setFlagByte((byte) 0x00);
+        lcp.setCodePageData(new byte[] { 0x03, 0x04 });
+        return lcp;
+    }
+
+    private com.mgz.afp.ipds.LSS_LoadSymbolSet createLssIpds() {
+        com.mgz.afp.ipds.LSS_LoadSymbolSet lss = new com.mgz.afp.ipds.LSS_LoadSymbolSet();
+        lss.setFlagByte((byte) 0x00);
+        lss.setHaid(0x1234);
+        lss.setRasterData(new byte[] { 0x05, 0x06 });
+        return lss;
     }
 
     private MCC_MediumCopyCount createMCC() {
