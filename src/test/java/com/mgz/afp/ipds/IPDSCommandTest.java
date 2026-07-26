@@ -1427,4 +1427,46 @@ public class IPDSCommandTest {
     lfi.writeAFP(baos, config);
     assertArrayEquals(data, baos.toByteArray());
   }
+
+  @Test
+  public void testLCCWithInvalidRepeatingGroupCount() throws Exception {
+    // LCC: D69F, RG with invalid count = 1 (must be >= 2)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0C, (byte) 0xD6, (byte) 0x9F, 0x00, 0x00, 0x00, 0x00,
+        0x00, // Flag: no ARQ
+        0x01, // Count: 1 (Invalid, < 2)
+        0x02  // copies
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+
+    assertThrows(com.mgz.afp.exceptions.AFPParserException.class, () -> {
+      parser.parseNextSF();
+    });
+  }
+
+  @Test
+  public void testWICWithInsufficientPayload() throws Exception {
+    // WIC: D63D, remaining payload < 24 bytes (e.g. 10 bytes)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x13, (byte) 0xD6, (byte) 0x3D, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x03, (byte) 0xE8, // ppslOutput (1000)
+        0x07, (byte) 0xD0, // nslOutput (2000)
+        0x03, (byte) 0xE8, // ppslInput (1000)
+        0x07, (byte) 0xD0, // nslInput (2000)
+        0x00, // compress
+        0x00  // bitsPerPel
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+
+    assertThrows(com.mgz.afp.exceptions.AFPParserException.class, () -> {
+      parser.parseNextSF();
+    });
+  }
 }

@@ -36,16 +36,30 @@ This document outlines a phased, actionable plan to increase the code coverage o
 
 ## Phase 4: Full Compliance & Optimization (Target: 85%+) 🚧
 - 🚧 **4.1. Special Specifications**
-    - 🚧 **4.1.1. CMOCA, BCOCA, and MOCA Verification**
-        - 🚧 **4.1.1.1. CMOCA Tag Validation**: Focus on verification of color management resources and tag structures.
-        - 🚧 **4.1.1.2. BCOCA Architectural Validations**: Verify modifiers, types, and HRI text placement.
-        - 🚧 **4.1.1.3. MOCA Metadata Integrity**: Complete tests for Metadata Object syntax.
+    - ✅ **4.1.1. CMOCA, BCOCA, and MOCA Verification**
+        - ✅ **4.1.1.1. CMOCA Tag Validation**: Focus on verification of color management resources and tag structures (Verified in `CMRTagVerificationTest`, `CMRValidationTest`, `CMRHeaderVerificationTest`, `CMRPropertyVerificationTest`, and `CMRRoundTripTest`).
+        - ✅ **4.1.1.2. BCOCA Architectural Validations**: Verify modifiers, types, and HRI text placement (Verified in `BCOCAArchitecturalValidationTest`, `BCOCAValidationTest`, `BCOCAChapter4Test`, `BCOCAChapter5Test`, and `BCOCARoundTripTest`).
+        - ✅ **4.1.1.3. MOCA Metadata Integrity**: Complete tests for Metadata Object syntax (Verified in `MetadataObjectTest`).
     - 🚧 **4.1.2. IPDS Verification** (Currently ~1% coverage)
-        - 🚧 **4.1.2.1. Device-Control command set**: Complete tests for command sequence and acknowledgement protocol (MID, SHS, NOP, BP, EP, END, STM, LPP, LPD, LCC, DF, DUA, AFO, ASN, ISP, ICMR, LFE, PFC).
-        - 🚧 **4.1.2.2. Text command set**: Validate PTOCA integration and coordinate state tracking within WT commands.
-        - 🚧 **4.1.2.3. Resource activation & equivalents**: Add test suites for LE, LFE and deactivation mappings.
-        - 🚧 **4.1.2.4. IM/IO-Image & Graphics command sets**: Verify raster images and vector GOCA drawing orders under IPDS context.
-        - 🚧 **4.1.2.5. Barcode, Loaded-Font & Container command sets**: Validate 2D barcodes, font mapping (LFC/LFI/LCPC), and object container processing.
+        - 🚧 **4.1.2.1. Device-Control command set**:
+            - ✅ **MID, SHS, NOP, BP, EP, END, STM, LPP, LPD, LCC, DF, DUA, AFO, ASN, ISP, ICMR, LFE, PFC Parsing & Round-trip**: Tested in `IPDSCommandTest.java`.
+            - 🚧 **Command Sequence & State Transitions**: Verify correct sequence of commands conforming to the IPDS state diagram.
+            - 🚧 **Acknowledgement Protocol Simulation**: Simulate positive and negative Acknowledge Replies (ACK/NACK) with various Acknowledge Types (SDA formats).
+        - 🚧 **4.1.2.2. Text command set**:
+            - ✅ **WT command parsing & round-trip**: Tested in `IPDSCommandTest.java`.
+            - 🚧 **WT Coordinate State Tracking**: Validate cursor advancement and state preservation within WT command sequences.
+            - 🚧 **PTOCA Integration with WT**: Verify handling of PT1/PT2/PT3/PT4 data streams inside WT commands.
+        - 🚧 **4.1.2.3. Resource activation & equivalents**:
+            - ✅ **LE, LFE parsing & round-trip**: Tested in `IPDSCommandTest.java`.
+            - 🚧 **Deactivation Mappings**: Test precise behavior of DF, DPS, DO commands for resource deactivation.
+            - 🚧 **Equivalences Verification**: Validate mapping of internal 2-byte values to external 2-byte values inside LE.
+        - 🚧 **4.1.2.4. IM/IO-Image & Graphics command sets**:
+            - ✅ **WIC, WI, WIC2, WI2, WGC, WG parsing & round-trip**: Tested in `IPDSCommandTest.java`.
+            - 🚧 **Raster & Vector Parsing**: Verify correct extraction of raster IOCA pixels and vector GOCA drawing orders within the IPDS context.
+        - 🚧 **4.1.2.5. Barcode, Loaded-Font & Container command sets**:
+            - ✅ **WBCC, WBC, WOCC, WOC, LFC, LFI, LFCSC, LCPC, LCP, LSS, LF parsing & round-trip**: Tested in `IPDSCommandTest.java`.
+            - 🚧 **2D Barcode Rendering**: Validate 2D barcodes under the IPDS context.
+            - 🚧 **Font Mapping (LFC/LFI/LCPC)**: Verify character mapping logic.
     - 🚧 **4.1.3. DB2Z Verification**
         - 🚧 **4.1.3.1. DB2Z Character Encoding Verification**: Validate CDRA character set mappings and EBCDIC/ASCII/Unicode conversion edge cases.
         - 🚧 **4.1.3.2. DB2Z Variant Characters & SQLDA Verification**: Verify DPart TLE and metadata mappings for invariant vs variant characters.
