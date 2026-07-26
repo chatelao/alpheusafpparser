@@ -43,6 +43,14 @@ public interface StructuredFieldHandler extends AutoCloseable {
   default void flush() throws Exception {}
 
   /**
+   * Sets the current page number for the handler.
+   * Useful in parallel or multi-threaded scenarios.
+   *
+   * @param pageNumber the current page number
+   */
+  default void setCurrentPageNumber(int pageNumber) {}
+
+  /**
    * Closes the handler and releases any resources.
    *
    * @throws Exception if closing fails

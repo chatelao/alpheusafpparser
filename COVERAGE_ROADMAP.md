@@ -36,10 +36,10 @@ This document outlines a phased, actionable plan to increase the code coverage o
 
 ## Phase 4: Full Compliance & Optimization (Target: 85%+) 🚧
 - 🚧 **4.1. Special Specifications**
-    - 🚧 **4.1.1. CMOCA, BCOCA, and MOCA Verification**
-        - 🚧 **4.1.1.1. CMOCA Tag Validation**: Focus on verification of color management resources and tag structures.
-        - 🚧 **4.1.1.2. BCOCA Architectural Validations**: Verify modifiers, types, and HRI text placement.
-        - 🚧 **4.1.1.3. MOCA Metadata Integrity**: Complete tests for Metadata Object syntax.
+    - ✅ **4.1.1. CMOCA, BCOCA, and MOCA Verification**
+        - ✅ **4.1.1.1. CMOCA Tag Validation**: Focus on verification of color management resources and tag structures (Completed).
+        - ✅ **4.1.1.2. BCOCA Architectural Validations**: Verify modifiers, types, and HRI text placement (Completed).
+        - ✅ **4.1.1.3. MOCA Metadata Integrity**: Complete tests for Metadata Object syntax (Completed).
     - 🚧 **4.1.2. IPDS Verification** (Currently ~1% coverage)
         - 🚧 **4.1.2.1. Device-Control command set**: Complete tests for command sequence and acknowledgement protocol (MID, SHS, NOP, BP, EP, END, STM, LPP, LPD, LCC, DF, DUA, AFO, ASN, ISP, ICMR, LFE, PFC).
         - 🚧 **4.1.2.2. Text command set**: Validate PTOCA integration and coordinate state tracking within WT commands.

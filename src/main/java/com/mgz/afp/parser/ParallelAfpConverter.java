@@ -191,6 +191,7 @@ public class ParallelAfpConverter {
         }
 
         try (StructuredFieldHandler handler = handlerFactory.createHandler(baos, true)) {
+          handler.setCurrentPageNumber(sequence);
           StructuredField sf;
           while ((sf = parser.parseNextSF()) != null) {
             handler.handle(sf);
