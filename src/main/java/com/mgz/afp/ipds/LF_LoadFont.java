@@ -19,6 +19,7 @@ along with Alpheus AFP Parser.  See <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.ipds;
 
+import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import java.io.ByteArrayOutputStream;
@@ -29,16 +30,38 @@ import java.io.OutputStream;
  * IPDS Load Font (LF) Command (X'D62F').
  */
 public class LF_LoadFont extends IPDSCommand {
+
+  @AFPField
+  private byte[] fontData;
+
   @Override
-  public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+  public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+      throws AFPParserException {
     int actualLength = getActualLength(sfData, offset, length);
-    decodeIPDSHeader(sfData, offset, actualLength);
+    int consumed = decodeIPDSHeader(sfData, offset, actualLength);
+    int remaining = actualLength - consumed;
+
+    if (remaining > 0) {
+      this.fontData = new byte[remaining];
+      System.arraycopy(sfData, offset + consumed, this.fontData, 0, remaining);
+    }
   }
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     writeIPDSHeader(baos);
+    if (fontData != null) {
+      baos.write(fontData);
+    }
     writeFullStructuredField(os, baos.toByteArray());
+  }
+
+  public byte[] getFontData() {
+    return fontData;
+  }
+
+  public void setFontData(byte[] fontData) {
+    this.fontData = fontData;
   }
 }

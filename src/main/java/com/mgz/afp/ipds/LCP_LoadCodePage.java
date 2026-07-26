@@ -19,6 +19,7 @@ along with Alpheus AFP Parser.  See <http://www.gnu.org/licenses/>
 
 package com.mgz.afp.ipds;
 
+import com.mgz.afp.base.annotations.AFPField;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
 import java.io.ByteArrayOutputStream;
@@ -29,16 +30,38 @@ import java.io.OutputStream;
  * IPDS Load Code Page (LCP) Command (X'D61B').
  */
 public class LCP_LoadCodePage extends IPDSCommand {
+
+  @AFPField
+  private byte[] codePageData;
+
   @Override
-  public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
+  public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config)
+      throws AFPParserException {
     int actualLength = getActualLength(sfData, offset, length);
-    decodeIPDSHeader(sfData, offset, actualLength);
+    int consumed = decodeIPDSHeader(sfData, offset, actualLength);
+    int remaining = actualLength - consumed;
+
+    if (remaining > 0) {
+      this.codePageData = new byte[remaining];
+      System.arraycopy(sfData, offset + consumed, this.codePageData, 0, remaining);
+    }
   }
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     writeIPDSHeader(baos);
+    if (codePageData != null) {
+      baos.write(codePageData);
+    }
     writeFullStructuredField(os, baos.toByteArray());
+  }
+
+  public byte[] getCodePageData() {
+    return codePageData;
+  }
+
+  public void setCodePageData(byte[] codePageData) {
+    this.codePageData = codePageData;
   }
 }

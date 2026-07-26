@@ -1209,6 +1209,175 @@ public class IPDSCommandTest {
   }
 
   @Test
+  public void testLFCSCRoundTrip() throws Exception {
+    // LFCSC: D619, ARQ=0, HAID=0x1234, patternTech=0x1F, useFlags=0x80,
+    // count=1000, mapSize=500, idCount=100, gcsgid=1, fgid=1234
+    // SFI(8) + Flag(1) + Payload(21) = 30 (0x1E)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x1E, (byte) 0xD6, 0x19, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x12, 0x34, // haid
+        0x00, 0x00, // reserved
+        0x1F, // patternTech
+        0x00, // reserved
+        (byte) 0x80, // intendedUseFlags
+        0x00, 0x00, 0x03, (byte) 0xE8, // loadFontCount (1000)
+        0x00, 0x00, 0x01, (byte) 0xF4, // mapSize (500)
+        0x00, 0x64, // characterIdCount (100)
+        0x00, 0x01, // gcsgid
+        0x04, (byte) 0xD2  // fgid (1234)
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    LFCSC_LoadFontCharacterSetControl lfcsc = (LFCSC_LoadFontCharacterSetControl) parser.parseNextSF();
+
+    assertNotNull(lfcsc);
+    assertEquals(0x1234, lfcsc.getHaid());
+    assertEquals((byte) 0x1F, lfcsc.getPatternTechnology());
+    assertEquals(1000, lfcsc.getLoadFontCount());
+    assertEquals(500, lfcsc.getMapSize());
+    assertEquals(1, lfcsc.getGcsgid());
+    assertEquals(1234, lfcsc.getFgid());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    lfcsc.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testLCPCRoundTrip() throws Exception {
+    // LCPC: D61A, ARQ=0, HAID=0x1234, enc=0x0100 (Single Byte), count=1000, flags=0x80 (Unicode)
+    // VSP=0x40, GCSGID=1, CPGID=500, DefaultGcgid="SPACE   ", DefaultFlags=0x10, DefaultUnicode=0x0020
+    // SFI(8) + Flag(1) + 2(HAID) + 2(ENC) + 4(COUNT) + 1(EXT) + 1(RES) + 1(VSP)
+    // + 2(GCSGID) + 2(CPGID) + 8(GCGID) + 1(FLAGS) + 4(UNICODE) = 37 (0x25)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x25, (byte) 0xD6, 0x1A, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x12, 0x34, // haid
+        0x01, 0x00, // encodingScheme
+        0x00, 0x00, 0x03, (byte) 0xE8, // byteCount
+        (byte) 0x80, // extensionFlags
+        0x00, // reserved
+        0x40, // variableSpaceCodePoint
+        0x00, 0x01, // gcsgid
+        0x01, (byte) 0xF4, // cpgid
+        'S', 'P', 'A', 'C', 'E', ' ', ' ', ' ', // defaultGcgid
+        0x10, // defaultProcessingFlags
+        0x00, 0x00, 0x00, 0x20 // defaultUnicodeScalarValue
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    LCPC_LoadCodePageControl lcpc = (LCPC_LoadCodePageControl) parser.parseNextSF();
+
+    assertNotNull(lcpc);
+    assertEquals(0x1234, lcpc.getHaid());
+    assertEquals(0x0100, lcpc.getEncodingScheme());
+    assertEquals(1000, lcpc.getByteCount());
+    assertArrayEquals(new byte[] {0x40}, lcpc.getVariableSpaceCodePoint());
+    assertEquals(1, lcpc.getGcsgid());
+    assertEquals(500, lcpc.getCpgid());
+    assertEquals("SPACE   ", lcpc.getDefaultGcgid());
+    assertEquals((byte) 0x10, lcpc.getDefaultProcessingFlags());
+    assertEquals(0x20L, lcpc.getDefaultUnicodeScalarValue());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    lcpc.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testLFRoundTrip() throws Exception {
+    // LF: D62F, ARQ=0, data: 12 34 56 78
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0D, (byte) 0xD6, 0x2F, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        0x12, 0x34, 0x56, 0x78
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    LF_LoadFont lf = (LF_LoadFont) parser.parseNextSF();
+
+    assertNotNull(lf);
+    assertArrayEquals(new byte[] {0x12, 0x34, 0x56, 0x78}, lf.getFontData());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    lf.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testLCPRoundTrip() throws Exception {
+    // LCP: D61B, ARQ=0, data: AB CD EF
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x0C, (byte) 0xD6, 0x1B, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        (byte) 0xAB, (byte) 0xCD, (byte) 0xEF
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    LCP_LoadCodePage lcp = (LCP_LoadCodePage) parser.parseNextSF();
+
+    assertNotNull(lcp);
+    assertArrayEquals(new byte[] {(byte) 0xAB, (byte) 0xCD, (byte) 0xEF}, lcp.getCodePageData());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    lcp.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
+  public void testLSSRoundTrip() throws Exception {
+    // LSS: D61E, ARQ=0, flags1=0x90, scode=0x01, addLen=0x0D (13), flags2=0x60,
+    // xBox=0x08, yBox=0x10, section=0x00, ecode=0xFF, haid=0x1234, rest=0, raster=112233
+    // SFI(8) + Flag(1) + Header(17) + Raster(3) = 29 (0x1D)
+    byte[] data = new byte[] {
+        0x5A, 0x00, 0x1D, (byte) 0xD6, 0x1E, 0x00, 0x00, 0x00, 0x00,
+        0x00, // flagByte
+        (byte) 0x90, // flags1
+        0x00, // retired
+        0x01, // scode
+        0x00, // retired
+        0x0D, // additionalLength (13)
+        0x60, // flags2
+        0x08, // xBoxSize
+        0x10, // yBoxSize
+        0x00, // sectionId
+        0x00, 0x00, // retired
+        (byte) 0xFF, // ecode
+        0x00, 0x00, 0x00, // retired
+        0x12, 0x34, // haid
+        0x11, 0x22, 0x33 // rasterData
+    };
+
+    AFPParserConfiguration config = new AFPParserConfiguration();
+    config.setInputStream(new ByteArrayInputStream(data));
+    AFPParser parser = new AFPParser(config);
+    LSS_LoadSymbolSet lss = (LSS_LoadSymbolSet) parser.parseNextSF();
+
+    assertNotNull(lss);
+    assertEquals((byte) 0x90, lss.getFlags1());
+    assertEquals(1, lss.getScode());
+    assertEquals(13, lss.getAdditionalLength());
+    assertEquals(8, lss.getxBoxSize());
+    assertEquals(16, lss.getyBoxSize());
+    assertEquals(255, lss.getEcode());
+    assertEquals(0x1234, lss.getHaid());
+    assertArrayEquals(new byte[] {0x11, 0x22, 0x33}, lss.getRasterData());
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    lss.writeAFP(baos, config);
+    assertArrayEquals(data, baos.toByteArray());
+  }
+
+  @Test
   public void testLFIRoundTrip() throws Exception {
     // LFI: D60F, ARQ=0, 32-byte header + 1 entry (16 bytes)
     // SFI(8) + Flag(1) + Payload(48) = 57 (0x39)
