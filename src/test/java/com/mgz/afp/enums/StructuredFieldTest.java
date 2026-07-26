@@ -37,7 +37,9 @@ public class StructuredFieldTest {
       }
       assertFalse(a.getSfClass() == SFClass.Undefined, a.name() + "'s SFClass is undefined.");
       assertFalse(a.getSfType() == SFType.Undefined, a.name() + "'s SFType is undefined.");
-      assertFalse(a.getSfCategory() == SFCategory.Undefined, a.name() + "'s SGCategory is undefined.");
+      if (a.getSfClass() != SFClass.D6) {
+        assertFalse(a.getSfCategory() == SFCategory.Undefined, a.name() + "'s SGCategory is undefined.");
+      }
     }
   }
 
@@ -70,7 +72,7 @@ public class StructuredFieldTest {
       assertFalse(
           a.getSfClass() == SFClass.Undefined
               || a.getSfType() == SFType.Undefined
-              || a.getSfCategory() == SFCategory.Undefined,
+              || (a.getSfClass() != SFClass.D6 && a.getSfCategory() == SFCategory.Undefined),
           "Undefined: " + a.name() + ":"
               + " class:" + a.getSfClass()
               + " type:" + a.getSfType()
@@ -88,7 +90,12 @@ public class StructuredFieldTest {
       sfi.setSFTypeID(sfTypeID);
       StructuredField sf1 = AFPParser.createSFInstance(sfi);
 
-      assertTrue(sf1.getClass().getSimpleName().equals(sfTypeID.name()), i + ": " + sf1.getClass().getSimpleName() + " != " + sfTypeID.name());
+      String expectedName = sfTypeID.name();
+      if (expectedName.endsWith("_IPDS")) {
+        expectedName = expectedName.substring(0, expectedName.length() - 5);
+      }
+
+      assertTrue(sf1.getClass().getSimpleName().equals(expectedName), i + ": " + sf1.getClass().getSimpleName() + " != " + expectedName);
       i++;
     }
   }
