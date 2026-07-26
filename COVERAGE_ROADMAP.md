@@ -25,10 +25,10 @@ This document outlines a phased, actionable plan to increase the code coverage o
 ---
 
 ## Phase 3: Robustness & Edge Cases (Target: 75%) 🚧
-- ⏳ **3.1. Systematic Fuzzing**
-    - ⏳ **3.1.1. PTOCA Control Sequence Fuzzing**: Seed-based fuzzing of PTOCA control sequences to test parsing resilience.
-    - ⏳ **3.1.2. Structured Field Introducer (SFI) Fuzzing**: Validate SFI padding, segmentation, and boundary limits against malformed headers.
-    - ⏳ **3.1.3. Triplet Parsing Fuzzing**: Verify resilience when parsing variable-length triplets to prevent out-of-bounds or negative length exceptions.
+- ✅ **3.1. Systematic Fuzzing**
+    - ✅ **3.1.1. PTOCA Control Sequence Fuzzing**: Seed-based fuzzing of PTOCA control sequences to test parsing resilience (Verified in `PTOCAFuzzTest.java`).
+    - ✅ **3.1.2. Structured Field Introducer (SFI) Fuzzing**: Validate SFI padding, segmentation, and boundary limits against malformed headers (Verified in `SFIFuzzTest.java`).
+    - ✅ **3.1.3. Triplet Parsing Fuzzing**: Verify resilience when parsing variable-length triplets to prevent out-of-bounds or negative length exceptions (Verified in `TripletFuzzTest.java`).
 - ✅ **3.2. SFI Extensions & Padding** (Verified in `SFIExtensionsAndPaddingTest.java`)
 - ✅ **3.3. Error Handling Paths** (Verified in `SFIErrorHandlingTest.java`)
 
