@@ -1145,16 +1145,16 @@ public class PdfHandler implements StructuredFieldHandler {
       double endDeg = startDeg + sweepDeg;
 
       // Start point of the arc on the unit circle is (cos, sin)
-      // Transformed start point: [P Q; R S] * M * [cos; sin] + [xc; yc]
+      // Transformed start point: [P R; S Q] * M * [cos; sin] + [xc; yc]
       double startRad = Math.toRadians(startDeg);
       float arcStartX = xc + (p * m * (float) Math.cos(startRad)) + (r * m * (float) Math.sin(startRad));
-      float arcStartY = yc + (q * m * (float) Math.cos(startRad)) + (s * m * (float) Math.sin(startRad));
+      float arcStartY = yc + (s * m * (float) Math.cos(startRad)) + (q * m * (float) Math.sin(startRad));
 
       currentCanvas.moveTo(xStart, yStart);
       currentCanvas.lineTo(arcStartX, arcStartY);
 
       currentCanvas.saveState();
-      currentCanvas.concatMatrix(p * m, q * m, r * m, s * m, xc, yc);
+      currentCanvas.concatMatrix(p * m, s * m, r * m, q * m, xc, yc);
       // Draw partial arc of unit circle
       currentCanvas.arc(-1, -1, 1, 1, startDeg, sweepDeg);
       currentCanvas.restoreState();
@@ -1166,7 +1166,7 @@ public class PdfHandler implements StructuredFieldHandler {
       // Update current position to the end of the arc
       double endRad = Math.toRadians(endDeg);
       float arcEndX = xc + (p * m * (float) Math.cos(endRad)) + (r * m * (float) Math.sin(endRad));
-      float arcEndY = yc + (q * m * (float) Math.cos(endRad)) + (s * m * (float) Math.sin(endRad));
+      float arcEndY = yc + (s * m * (float) Math.cos(endRad)) + (q * m * (float) Math.sin(endRad));
       graphicsState.setCurrentX(Math.round(arcEndX));
       graphicsState.setCurrentY(Math.round(arcEndY));
     }
@@ -1340,11 +1340,11 @@ public class PdfHandler implements StructuredFieldHandler {
       float r = graphicsState.getArcTransformR();
       float s = graphicsState.getArcTransformS();
 
-      // Effective transformation: T = [P Q; R S] * M
+      // Effective transformation: T = [P R; S Q] * M
       // But we draw a unit circle at (0,0) and want it to be transformed to the ellipse.
-      // So the matrix is [p*m q*m r*m s*m xc yc]
+      // So the matrix is [p*m s*m r*m q*m xc yc]
       currentCanvas.saveState();
-      currentCanvas.concatMatrix(p * m, q * m, r * m, s * m, xc, yc);
+      currentCanvas.concatMatrix(p * m, s * m, r * m, q * m, xc, yc);
       currentCanvas.circle(0, 0, 1);
       currentCanvas.restoreState();
 
@@ -1421,8 +1421,9 @@ public class PdfHandler implements StructuredFieldHandler {
       Color c1 = ColorHandler.getExtendedColor(grgd.startColorSpec.colorSpace, grgd.startColorSpec.colorValue);
       Color c2 = ColorHandler.getExtendedColor(grgd.startColorSpec.colorSpace, grgd.endColorValue);
       if (c1 != null && c2 != null) {
-        float r1 = grgd.mhStart + (grgd.mfrStart / 256.0f);
-        float r2 = grgd.mhEnd + (grgd.mfrEnd / 256.0f);
+        float p = graphicsState.getArcTransformP();
+        float r1 = (grgd.mhStart + (grgd.mfrStart / 256.0f)) * p;
+        float r2 = (grgd.mhEnd + (grgd.mfrEnd / 256.0f)) * p;
         PdfRadialShading shading = new PdfRadialShading(c1.getColorSpace(), grgd.xStart, grgd.yStart, r1, c1.getColorValue(), grgd.xEnd, grgd.yEnd, r2, c2.getColorValue());
         currentCanvas.setFillColorShading(new PdfPattern.Shading(shading));
       }
