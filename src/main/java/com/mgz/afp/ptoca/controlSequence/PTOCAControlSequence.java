@@ -984,8 +984,13 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
       nrOfBitsComponent2 = sfData[offset + 7];
       nrOfBitsComponent3 = sfData[offset + 8];
       nrOfBitsComponent4 = sfData[offset + 9];
-      colorValue = new byte[4];
-      System.arraycopy(sfData, offset + 10, colorValue, 0, colorValue.length);
+      int valLen = length - 10;
+      if (valLen > 0) {
+        colorValue = new byte[valLen];
+        System.arraycopy(sfData, offset + 10, colorValue, 0, valLen);
+      } else {
+        colorValue = new byte[0];
+      }
     }
 
     @Override
