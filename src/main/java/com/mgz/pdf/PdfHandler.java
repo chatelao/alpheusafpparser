@@ -51,6 +51,10 @@ import com.mgz.afp.bcoca.BDD_BarCodeDataDescriptor;
 import com.mgz.afp.bcoca.EBC_EndBarCodeObject;
 import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.enums.AFPUnitBase;
+import com.mgz.afp.goca.BGR_BeginGraphicsObject;
+import com.mgz.afp.goca.EGR_EndGraphicsObject;
+import com.mgz.afp.goca.GDD_GraphicsDataDescriptor;
+import com.mgz.afp.goca.GDD_Parameter;
 import com.mgz.afp.goca.GAD_DrawingOrder;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBAR_BeginArea;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
@@ -222,6 +226,24 @@ public class PdfHandler implements StructuredFieldHandler {
   private double defaultScaleY = 0.05; // Standard 1/1440 inch units
   private boolean isCanvasTransformed = false;
 
+  // GOCA Object State (for Phase 1 and Phase 2)
+  private boolean inGraphicsObject = false;
+  private boolean isGocaTransformApplied = false;
+  private boolean hasGocaObp = false;
+  private int gocaXOrigin = 0;
+  private int gocaYOrigin = 0;
+  private AFPOrientation gocaRotation = AFPOrientation.ori0;
+
+  private boolean hasGocaOapsSize = false;
+  private int gocaOapsWidth = 0;
+  private int gocaOapsHeight = 0;
+
+  private boolean hasGocaGdd = false;
+  private int gocaLeftEdge = 0;
+  private int gocaRightEdge = 0;
+  private int gocaBottomEdge = 0;
+  private int gocaTopEdge = 0;
+
   public PdfHandler(OutputStream os) {
     this(os, new PdfFontRegistry());
   }
@@ -281,6 +303,7 @@ public class PdfHandler implements StructuredFieldHandler {
         || sf instanceof GAD_GraphicsData
         || sf instanceof BIM_BeginImageObject
         || sf instanceof BBC_BeginBarCodeObject
+        || sf instanceof BGR_BeginGraphicsObject
         || sf instanceof IPO_IncludePageOverlay
         || sf instanceof IPS_IncludePageSegment) {
       ensurePageExists();
@@ -304,6 +327,22 @@ public class PdfHandler implements StructuredFieldHandler {
         imageState.startNewImage();
       } else if (sf instanceof BBC_BeginBarCodeObject) {
         barcodeState.startNewBarcode();
+      } else if (sf instanceof BGR_BeginGraphicsObject) {
+        ensurePageExists();
+        ensureCanvasTransformed();
+        if (currentCanvas != null) {
+          currentCanvas.saveState();
+        }
+        inGraphicsObject = true;
+        isGocaTransformApplied = false;
+        hasGocaObp = false;
+        gocaXOrigin = 0;
+        gocaYOrigin = 0;
+        gocaRotation = AFPOrientation.ori0;
+        hasGocaOapsSize = false;
+        gocaOapsWidth = 0;
+        gocaOapsHeight = 0;
+        hasGocaGdd = false;
       } else if (sf instanceof BMO_BeginOverlay bmo) {
         startResourceCapture(bmo.getName());
       } else if (sf instanceof BPS_BeginPageSegment bps) {
@@ -352,6 +391,8 @@ public class PdfHandler implements StructuredFieldHandler {
           imageState.reset();
           currentCanvas.setFillColor(DeviceRgb.BLACK);
           this.isCanvasTransformed = false;
+          this.inGraphicsObject = false;
+          this.isGocaTransformApplied = false;
 
           // Apply default page size if defined (from PGD)
           if (defaultPageWidth > 0 && defaultPageHeight > 0) {
@@ -394,6 +435,12 @@ public class PdfHandler implements StructuredFieldHandler {
             PdfBarcodeRenderer.render(barcodeState, currentCanvas);
           }
           barcodeState.reset();
+        } else if (begin instanceof BGR_BeginGraphicsObject) {
+          if (currentCanvas != null && inGraphicsObject) {
+            currentCanvas.restoreState();
+          }
+          inGraphicsObject = false;
+          isGocaTransformApplied = false;
         }
       }
     } else if (sf instanceof TLE_TagLogicalElement tle) {
@@ -565,6 +612,10 @@ public class PdfHandler implements StructuredFieldHandler {
         }
       }
     } else if (sf instanceof GAD_GraphicsData gad) {
+      if (inGraphicsObject && !isGocaTransformApplied) {
+        applyGocaTransform();
+        isGocaTransformApplied = true;
+      }
       if (gad.getDrawingOrders() != null) {
         for (GAD_DrawingOrder order : gad.getDrawingOrders()) {
           if (order != null) {
@@ -609,9 +660,34 @@ public class PdfHandler implements StructuredFieldHandler {
       } else if (barcodeState.isInBarcodeObject()) {
         barcodeState.setxOrigin(obp.getRepeatingGroup().getxOrigin());
         barcodeState.setyOrigin(obp.getRepeatingGroup().getyOrigin());
+      } else if (inGraphicsObject) {
+        gocaXOrigin = obp.getRepeatingGroup().getxOrigin();
+        gocaYOrigin = obp.getRepeatingGroup().getyOrigin();
+        gocaRotation = obp.getRepeatingGroup().getxRotation();
+        hasGocaObp = true;
       }
     } else if (sf instanceof OBD_ObjectAreaDescriptor obd) {
-      // Currently sizes are mostly taken from image descriptor or BDD
+      if (inGraphicsObject && obd.getTriplets() != null) {
+        for (com.mgz.afp.triplets.Triplet t : obd.getTriplets()) {
+          if (t instanceof com.mgz.afp.triplets.Triplet.ObjectAreaSize oas) {
+            gocaOapsWidth = oas.xSize;
+            gocaOapsHeight = oas.ySize;
+            hasGocaOapsSize = true;
+          }
+        }
+      }
+    } else if (sf instanceof GDD_GraphicsDataDescriptor gdd) {
+      if (inGraphicsObject && gdd.getGddParameters() != null) {
+        for (GDD_Parameter param : gdd.getGddParameters()) {
+          if (param instanceof GDD_Parameter.WindowSpecification win) {
+            gocaLeftEdge = win.getLeftEdgeOfGPSWindow();
+            gocaRightEdge = win.getRightEdgeOfGPSWindow();
+            gocaBottomEdge = win.getBottomEdgeOfGPSWindow();
+            gocaTopEdge = win.getTopEdgeOfGPSWindow();
+            hasGocaGdd = true;
+          }
+        }
+      }
     } else if (sf instanceof IPO_IncludePageOverlay ipo) {
       renderXObject(ipo.getOverlayName(), ipo.getxOrigin(), ipo.getyOrigin(), ipo.getxRotation());
     } else if (sf instanceof IPS_IncludePageSegment ips) {
@@ -1769,6 +1845,46 @@ public class PdfHandler implements StructuredFieldHandler {
       AffineTransform at = CoordinateTransformer.getAfpToPdfTransform(heightPoints, scaleX, scaleY);
       currentCanvas.concatMatrix(at);
       this.isCanvasTransformed = true;
+    }
+  }
+
+  private void applyGocaTransform() {
+    if (currentCanvas == null) {
+      return;
+    }
+
+    // 1. OBP translation and rotation
+    float rotationDeg = 0;
+    if (hasGocaObp && gocaRotation != null && gocaRotation != AFPOrientation.AsDefined) {
+      rotationDeg = switch (gocaRotation) {
+        case ori90 -> 90;
+        case ori180 -> 180;
+        case ori270 -> 270;
+        default -> 0;
+      };
+    }
+
+    if (rotationDeg != 0) {
+      double rad = Math.toRadians(rotationDeg);
+      float cos = (float) Math.cos(rad);
+      float sin = (float) Math.sin(rad);
+      currentCanvas.concatMatrix(cos, sin, -sin, cos, gocaXOrigin, gocaYOrigin);
+    } else {
+      currentCanvas.concatMatrix(1, 0, 0, 1, gocaXOrigin, gocaYOrigin);
+    }
+
+    // 2. GDD window scaling & translation
+    if (hasGocaGdd && gocaLeftEdge != gocaRightEdge && gocaTopEdge != gocaBottomEdge) {
+      // If OAPS size is not specified in OBD, fall back to the absolute GPS Window extent
+      double oapsW = hasGocaOapsSize ? gocaOapsWidth : Math.abs(gocaRightEdge - gocaLeftEdge);
+      double oapsH = hasGocaOapsSize ? gocaOapsHeight : Math.abs(gocaBottomEdge - gocaTopEdge);
+
+      double sx = oapsW / (gocaRightEdge - gocaLeftEdge);
+      double sy = oapsH / (gocaBottomEdge - gocaTopEdge);
+      double tx = -sx * gocaLeftEdge;
+      double ty = -sy * gocaTopEdge;
+
+      currentCanvas.concatMatrix((float) sx, 0, 0, (float) sy, (float) tx, (float) ty);
     }
   }
 

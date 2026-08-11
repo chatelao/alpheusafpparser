@@ -37,6 +37,10 @@ public class GDD_GraphicsDataDescriptor extends StructuredField {
     return gddParameters;
   }
 
+  public void setGddParameters(List<GDD_Parameter> gddParameters) {
+    this.gddParameters = gddParameters;
+  }
+
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     int actualLength = length != -1 ? length : sfData.length - offset;
