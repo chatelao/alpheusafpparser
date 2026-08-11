@@ -71,6 +71,95 @@ public class PdfGraphicsState {
   private byte[] processColorValue;
 
   /**
+   * Default constructor.
+   */
+  public PdfGraphicsState() {}
+
+  /**
+   * Copy constructor.
+   */
+  public PdfGraphicsState(PdfGraphicsState other) {
+    this.color = other.color;
+    this.lineWidth = other.lineWidth;
+    this.lineType = other.lineType;
+    this.lineEnd = other.lineEnd;
+    this.lineJoin = other.lineJoin;
+    this.patternSet = other.patternSet;
+    this.patternSymbol = other.patternSymbol;
+    this.markerSet = other.markerSet;
+    this.markerSymbol = other.markerSymbol;
+    this.markerPrecision = other.markerPrecision;
+    this.characterSet = other.characterSet;
+    this.charCellWidth = other.charCellWidth;
+    this.charCellHeight = other.charCellHeight;
+    this.charAngleX = other.charAngleX;
+    this.charAngleY = other.charAngleY;
+    this.charShearDividend = other.charShearDividend;
+    this.charShearDivisor = other.charShearDivisor;
+    this.charDirection = other.charDirection;
+    this.charPrecision = other.charPrecision;
+    this.mixMode = other.mixMode;
+    this.backgroundMixMode = other.backgroundMixMode;
+    this.currentX = other.currentX;
+    this.currentY = other.currentY;
+    this.inArea = other.inArea;
+    this.drawAreaBoundary = other.drawAreaBoundary;
+    this.evenOddRule = other.evenOddRule;
+    this.arcTransformP = other.arcTransformP;
+    this.arcTransformQ = other.arcTransformQ;
+    this.arcTransformR = other.arcTransformR;
+    this.arcTransformS = other.arcTransformS;
+    this.processColorSpace = other.processColorSpace;
+    this.nrOfBitsComponent1 = other.nrOfBitsComponent1;
+    this.nrOfBitsComponent2 = other.nrOfBitsComponent2;
+    this.nrOfBitsComponent3 = other.nrOfBitsComponent3;
+    this.nrOfBitsComponent4 = other.nrOfBitsComponent4;
+    this.processColorValue = other.processColorValue != null ? other.processColorValue.clone() : null;
+  }
+
+  /**
+   * Copies all state values from another graphics state.
+   */
+  public void copyFrom(PdfGraphicsState other) {
+    this.color = other.color;
+    this.lineWidth = other.lineWidth;
+    this.lineType = other.lineType;
+    this.lineEnd = other.lineEnd;
+    this.lineJoin = other.lineJoin;
+    this.patternSet = other.patternSet;
+    this.patternSymbol = other.patternSymbol;
+    this.markerSet = other.markerSet;
+    this.markerSymbol = other.markerSymbol;
+    this.markerPrecision = other.markerPrecision;
+    this.characterSet = other.characterSet;
+    this.charCellWidth = other.charCellWidth;
+    this.charCellHeight = other.charCellHeight;
+    this.charAngleX = other.charAngleX;
+    this.charAngleY = other.charAngleY;
+    this.charShearDividend = other.charShearDividend;
+    this.charShearDivisor = other.charShearDivisor;
+    this.charDirection = other.charDirection;
+    this.charPrecision = other.charPrecision;
+    this.mixMode = other.mixMode;
+    this.backgroundMixMode = other.backgroundMixMode;
+    this.currentX = other.currentX;
+    this.currentY = other.currentY;
+    this.inArea = other.inArea;
+    this.drawAreaBoundary = other.drawAreaBoundary;
+    this.evenOddRule = other.evenOddRule;
+    this.arcTransformP = other.arcTransformP;
+    this.arcTransformQ = other.arcTransformQ;
+    this.arcTransformR = other.arcTransformR;
+    this.arcTransformS = other.arcTransformS;
+    this.processColorSpace = other.processColorSpace;
+    this.nrOfBitsComponent1 = other.nrOfBitsComponent1;
+    this.nrOfBitsComponent2 = other.nrOfBitsComponent2;
+    this.nrOfBitsComponent3 = other.nrOfBitsComponent3;
+    this.nrOfBitsComponent4 = other.nrOfBitsComponent4;
+    this.processColorValue = other.processColorValue != null ? other.processColorValue.clone() : null;
+  }
+
+  /**
    * Resets the graphics state to default values.
    */
   public void reset() {

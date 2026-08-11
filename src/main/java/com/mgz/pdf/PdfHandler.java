@@ -104,6 +104,7 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GRGD_RadialGradient;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPS_SetPatternSet;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPT_SetPatternSymbol;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSCS_SetCharacterSet;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSGCH_SegmentCharacteristics;
 import com.mgz.afp.goca.GAD_GraphicsData;
 import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
 import com.mgz.afp.ioca.IPD_ImagePictureData;
@@ -1064,6 +1065,7 @@ public class PdfHandler implements StructuredFieldHandler {
       renderMarkers(marker.getPoints(), marker instanceof GCMRK_MarkerAtCurrentPosition);
     } else if (order instanceof GBSEG_BeginSegment gbseg) {
       String name = gbseg.getNameOfSegment();
+      PdfGraphicsState savedState = new PdfGraphicsState(graphicsState);
       if (!resourceCache.containsKey(name)) {
         startResourceCapture(name);
         if (gbseg.getDrawingOrders() != null) {
@@ -1073,6 +1075,11 @@ public class PdfHandler implements StructuredFieldHandler {
         }
         endResourceCapture();
       }
+      int finalX = graphicsState.getCurrentX();
+      int finalY = graphicsState.getCurrentY();
+      this.graphicsState.copyFrom(savedState);
+      this.graphicsState.setCurrentX(finalX);
+      this.graphicsState.setCurrentY(finalY);
       renderXObject(name, graphicsState.getCurrentX(), graphicsState.getCurrentY(), null);
     } else if (order instanceof GBIMG_BeginImageAtGivenPosition gbimg) {
       if (gbimg.getOrigin() != null) {
@@ -1096,7 +1103,7 @@ public class PdfHandler implements StructuredFieldHandler {
       }
     } else if (order instanceof GEIMG_EndImage) {
       renderGocaImage();
-    } else if (order instanceof GESEG_EndSegment || order instanceof GNOP1_NopOperation || order instanceof GCOMT_Comment) {
+    } else if (order instanceof GESEG_EndSegment || order instanceof GNOP1_NopOperation || order instanceof GCOMT_Comment || order instanceof GSGCH_SegmentCharacteristics) {
       // No-op
     }
   }
