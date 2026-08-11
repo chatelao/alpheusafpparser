@@ -243,6 +243,9 @@ public class PdfHandler implements StructuredFieldHandler {
   private int gocaRightEdge = 0;
   private int gocaBottomEdge = 0;
   private int gocaTopEdge = 0;
+  private int gocaUnitsPerUnitBaseX = 0;
+  private int gocaUnitsPerUnitBaseY = 0;
+  private int gocaImageResolutionXY = 0;
 
   public PdfHandler(OutputStream os) {
     this(os, new PdfFontRegistry());
@@ -343,6 +346,9 @@ public class PdfHandler implements StructuredFieldHandler {
         gocaOapsWidth = 0;
         gocaOapsHeight = 0;
         hasGocaGdd = false;
+        gocaUnitsPerUnitBaseX = 0;
+        gocaUnitsPerUnitBaseY = 0;
+        gocaImageResolutionXY = 0;
       } else if (sf instanceof BMO_BeginOverlay bmo) {
         startResourceCapture(bmo.getName());
       } else if (sf instanceof BPS_BeginPageSegment bps) {
@@ -684,6 +690,9 @@ public class PdfHandler implements StructuredFieldHandler {
             gocaRightEdge = win.getRightEdgeOfGPSWindow();
             gocaBottomEdge = win.getBottomEdgeOfGPSWindow();
             gocaTopEdge = win.getTopEdgeOfGPSWindow();
+            gocaUnitsPerUnitBaseX = win.getUnitsPerUnitBaseX();
+            gocaUnitsPerUnitBaseY = win.getUnitsPerUnitBaseY();
+            gocaImageResolutionXY = win.getImageResolutionXY();
             hasGocaGdd = true;
           }
         }
@@ -1120,10 +1129,33 @@ public class PdfHandler implements StructuredFieldHandler {
       com.itextpdf.kernel.pdf.xobject.PdfImageXObject imageXObject =
           new com.itextpdf.kernel.pdf.xobject.PdfImageXObject(itextImageData);
 
+      // Determine image dimensions in GPS units dynamically
+      double imgW_gps = gocaImageWidth;
+      double imgH_gps = gocaImageHeight;
+
+      if (hasGocaGdd && gocaImageResolutionXY > 0) {
+        if (gocaUnitsPerUnitBaseX > 0) {
+          imgW_gps = gocaImageWidth * ((double) gocaUnitsPerUnitBaseX / gocaImageResolutionXY);
+        }
+        if (gocaUnitsPerUnitBaseY > 0) {
+          imgH_gps = gocaImageHeight * ((double) gocaUnitsPerUnitBaseY / gocaImageResolutionXY);
+        }
+      }
+
+      // Determine coordinate space direction
+      boolean isGpsYUp = true;
+      if (hasGocaGdd) {
+        if (gocaBottomEdge > gocaTopEdge) {
+          isGpsYUp = false;
+        }
+      } else {
+        isGpsYUp = false;
+      }
+
+      double posY = isGpsYUp ? (gocaImageY - imgH_gps) : gocaImageY;
+
       currentCanvas.saveState();
-      // Position at (x, y-height) because PDF is bottom-up and GOCA Image is top-down from origin
-      currentCanvas.concatMatrix(gocaImageWidth, 0, 0, gocaImageHeight, gocaImageX,
-          gocaImageY - gocaImageHeight);
+      currentCanvas.concatMatrix((float) imgW_gps, 0, 0, (float) imgH_gps, (float) gocaImageX, (float) posY);
       currentCanvas.addXObject(imageXObject);
       currentCanvas.restoreState();
     } catch (Exception e) {
