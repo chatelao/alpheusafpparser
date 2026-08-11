@@ -32,6 +32,9 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GSCP_SetCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPT_SetPatternSymbol;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSPS_SetPatternSet;
 import com.mgz.afp.goca.GAD_DrawingOrder.ColorSpecification;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSCOL_SetColor;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSECOL_SetExtendedColor;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSPCOL_SetProcessColor;
 import com.mgz.afp.modca.BPG_BeginPage;
 import com.mgz.afp.modca.EPG_EndPage;
 import java.io.ByteArrayOutputStream;
@@ -88,6 +91,104 @@ public class PdfGocaGradientTest {
 
     GEAR_EndArea gear = new GEAR_EndArea();
     assertDoesNotThrow(() -> handler.handleDrawingOrder(gear));
+
+    handler.handle(new EPG_EndPage());
+    handler.close();
+  }
+
+  @Test
+  public void testGspcolAndPrecedenceReset() throws Exception {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    PdfHandler handler = new PdfHandler(baos);
+
+    handler.handle(new BPG_BeginPage());
+
+    // 1. Set process color
+    GSPCOL_SetProcessColor gspcol = new GSPCOL_SetProcessColor();
+    gspcol.colorSpace = AFPColorSpace.RGB;
+    gspcol.nrOfBitsComponent1 = (byte) 8;
+    gspcol.nrOfBitsComponent2 = (byte) 8;
+    gspcol.nrOfBitsComponent3 = (byte) 8;
+    gspcol.nrOfBitsComponent4 = (byte) 0;
+    gspcol.colorValue = new byte[]{(byte) 255, 0, 0};
+    handler.handleDrawingOrder(gspcol);
+
+    PdfGraphicsState state = handler.getGraphicsState();
+    assertEquals(AFPColorSpace.RGB, state.getProcessColorSpace());
+    assertEquals((byte) 255, state.getProcessColorValue()[0]);
+
+    // 2. Process GSCOL and verify reset
+    GSCOL_SetColor gscol = new GSCOL_SetColor();
+    gscol.setColor(com.mgz.afp.enums.AFPColorValue.Blue_0x01);
+    handler.handleDrawingOrder(gscol);
+
+    assertEquals(null, state.getProcessColorSpace());
+    assertEquals(null, state.getProcessColorValue());
+
+    // 3. Set process color again
+    handler.handleDrawingOrder(gspcol);
+    assertEquals(AFPColorSpace.RGB, state.getProcessColorSpace());
+
+    // 4. Process GSECOL and verify reset
+    GSECOL_SetExtendedColor gsecol = new GSECOL_SetExtendedColor();
+    gsecol.setColor(com.mgz.afp.enums.AFPColorValue.Green_0x04);
+    handler.handleDrawingOrder(gsecol);
+
+    assertEquals(null, state.getProcessColorSpace());
+    assertEquals(null, state.getProcessColorValue());
+
+    handler.handle(new EPG_EndPage());
+    handler.close();
+  }
+
+  @Test
+  public void testGradientNullSafeness() throws Exception {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    PdfHandler handler = new PdfHandler(baos);
+
+    handler.handle(new BPG_BeginPage());
+
+    // 1. Linear Gradient with null startColorSpec
+    GLGD_LinearGradient glgdNull = new GLGD_LinearGradient();
+    glgdNull.patternSet = 1;
+    glgdNull.patternSymbol = 3;
+    glgdNull.xStart = 0;
+    glgdNull.yStart = 0;
+    glgdNull.xEnd = 100;
+    glgdNull.yEnd = 100;
+    glgdNull.startColorSpec = null;
+    glgdNull.endColorValue = new byte[]{0, 0, 0};
+    handler.handleDrawingOrder(glgdNull);
+
+    // 2. Radial Gradient with null startColorSpec
+    GRGD_RadialGradient grgdNull = new GRGD_RadialGradient();
+    grgdNull.patternSet = 1;
+    grgdNull.patternSymbol = 4;
+    grgdNull.xStart = 0;
+    grgdNull.yStart = 0;
+    grgdNull.xEnd = 100;
+    grgdNull.yEnd = 100;
+    grgdNull.startColorSpec = null;
+    grgdNull.endColorValue = new byte[]{0, 0, 0};
+    handler.handleDrawingOrder(grgdNull);
+
+    // 3. Use Gradients and ensure applying them does not throw NPE
+    GSPS_SetPatternSet gsps = new GSPS_SetPatternSet();
+    gsps.setPatternLocalID((short) 1);
+    handler.handleDrawingOrder(gsps);
+
+    // We can wrap pattern symbol applications inside drawing area/boundary
+    handler.handleDrawingOrder(new GBAR_BeginArea());
+
+    GSPT_SetPatternSymbol gspt3 = new GSPT_SetPatternSymbol();
+    gspt3.setPatternSymbolCodePoint((short) 3);
+    assertDoesNotThrow(() -> handler.handleDrawingOrder(gspt3));
+
+    GSPT_SetPatternSymbol gspt4 = new GSPT_SetPatternSymbol();
+    gspt4.setPatternSymbolCodePoint((short) 4);
+    assertDoesNotThrow(() -> handler.handleDrawingOrder(gspt4));
+
+    handler.handleDrawingOrder(new GEAR_EndArea());
 
     handler.handle(new EPG_EndPage());
     handler.close();
