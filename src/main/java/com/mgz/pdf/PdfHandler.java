@@ -677,8 +677,12 @@ public class PdfHandler implements StructuredFieldHandler {
     ensureCanvasTransformed();
     if (order instanceof GSCOL_SetColor gscol) {
       graphicsState.setColor(gscol.getColor());
+      graphicsState.setProcessColorSpace(null);
+      graphicsState.setProcessColorValue(null);
     } else if (order instanceof GSECOL_SetExtendedColor gsecol) {
       graphicsState.setColor(gsecol.getColor());
+      graphicsState.setProcessColorSpace(null);
+      graphicsState.setProcessColorValue(null);
     } else if (order instanceof GSLW_SetLineWidth gslw) {
       graphicsState.setLineWidth(gslw.getLineWidth());
     } else if (order instanceof GSLT_SetLineType gslt) {
@@ -1410,30 +1414,57 @@ public class PdfHandler implements StructuredFieldHandler {
 
   private void applyGradient(short set, short symbol) {
     GAD_DrawingOrder order = gradientCache.get(set + "_" + symbol);
-    if (order instanceof GLGD_LinearGradient glgd && glgd.startColorSpec != null) {
-      Color c1 = ColorHandler.getExtendedColor(glgd.startColorSpec.colorSpace, glgd.startColorSpec.colorValue);
-      Color c2 = ColorHandler.getExtendedColor(glgd.startColorSpec.colorSpace, glgd.endColorValue);
-      if (c1 != null && c2 != null) {
-        PdfAxialShading shading = new PdfAxialShading(c1.getColorSpace(), glgd.xStart, glgd.yStart, c1.getColorValue(), glgd.xEnd, glgd.yEnd, c2.getColorValue());
-        currentCanvas.setFillColorShading(new PdfPattern.Shading(shading));
+    Color fallbackColor = ColorHandler.getColor(graphicsState.getColor());
+    if (fallbackColor == null) {
+      fallbackColor = DeviceRgb.BLACK;
+    }
+
+    if (order instanceof GLGD_LinearGradient glgd) {
+      Color c1 = null;
+      Color c2 = null;
+      if (glgd.startColorSpec != null) {
+        c1 = ColorHandler.getExtendedColor(glgd.startColorSpec.colorSpace, glgd.startColorSpec.colorValue);
+        c2 = ColorHandler.getExtendedColor(glgd.startColorSpec.colorSpace, glgd.endColorValue);
       }
-    } else if (order instanceof GRGD_RadialGradient grgd && grgd.startColorSpec != null) {
-      Color c1 = ColorHandler.getExtendedColor(grgd.startColorSpec.colorSpace, grgd.startColorSpec.colorValue);
-      Color c2 = ColorHandler.getExtendedColor(grgd.startColorSpec.colorSpace, grgd.endColorValue);
-      if (c1 != null && c2 != null) {
-        float p = graphicsState.getArcTransformP();
-        float r1 = (grgd.mhStart + (grgd.mfrStart / 256.0f)) * p;
-        float r2 = (grgd.mhEnd + (grgd.mfrEnd / 256.0f)) * p;
-        PdfRadialShading shading = new PdfRadialShading(c1.getColorSpace(), grgd.xStart, grgd.yStart, r1, c1.getColorValue(), grgd.xEnd, grgd.yEnd, r2, c2.getColorValue());
-        currentCanvas.setFillColorShading(new PdfPattern.Shading(shading));
+      if (c1 == null) {
+        c1 = fallbackColor;
       }
+      if (c2 == null) {
+        c2 = fallbackColor;
+      }
+      PdfAxialShading shading = new PdfAxialShading(c1.getColorSpace(), glgd.xStart, glgd.yStart, c1.getColorValue(), glgd.xEnd, glgd.yEnd, c2.getColorValue());
+      currentCanvas.setFillColorShading(new PdfPattern.Shading(shading));
+    } else if (order instanceof GRGD_RadialGradient grgd) {
+      Color c1 = null;
+      Color c2 = null;
+      if (grgd.startColorSpec != null) {
+        c1 = ColorHandler.getExtendedColor(grgd.startColorSpec.colorSpace, grgd.startColorSpec.colorValue);
+        c2 = ColorHandler.getExtendedColor(grgd.startColorSpec.colorSpace, grgd.endColorValue);
+      }
+      if (c1 == null) {
+        c1 = fallbackColor;
+      }
+      if (c2 == null) {
+        c2 = fallbackColor;
+      }
+      float p = graphicsState.getArcTransformP();
+      float r1 = (grgd.mhStart + (grgd.mfrStart / 256.0f)) * p;
+      float r2 = (grgd.mhEnd + (grgd.mfrEnd / 256.0f)) * p;
+      PdfRadialShading shading = new PdfRadialShading(c1.getColorSpace(), grgd.xStart, grgd.yStart, r1, c1.getColorValue(), grgd.xEnd, grgd.yEnd, r2, c2.getColorValue());
+      currentCanvas.setFillColorShading(new PdfPattern.Shading(shading));
     }
   }
 
   private void applyGraphicsState() {
     if (currentCanvas != null) {
       ensureCanvasTransformed();
-      Color color = ColorHandler.getColor(graphicsState.getColor());
+      Color color = null;
+      if (graphicsState.getProcessColorSpace() != null) {
+        color = ColorHandler.getExtendedColor(graphicsState.getProcessColorSpace(), graphicsState.getProcessColorValue());
+      }
+      if (color == null) {
+        color = ColorHandler.getColor(graphicsState.getColor());
+      }
       currentCanvas.setStrokeColor(color);
       currentCanvas.setFillColor(color);
 
