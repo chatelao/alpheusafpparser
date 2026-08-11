@@ -7,33 +7,33 @@ This document outlines the phased roadmap for resolving the color handling gaps 
 ## Phased Implementation Strategy
 
 ```
-Phase 1: GOCA Core Process Color & Gradient Robustness (Immediate Priority)
-  ├── 1.1 Support GSPCOL in GOCA Rendering
-  ├── 1.2 Implement GSPCOL Precedence Reset on GSCOL/GSECOL
-  └── 1.3 Add Null-Safe Checks in GLGD and GRGD Gradients
+Phase 1: GOCA Core Process Color & Gradient Robustness (Immediate Priority) ✅
+  ├── 1.1 Support GSPCOL in GOCA Rendering ✅
+  ├── 1.2 Implement GSPCOL Precedence Reset on GSCOL/GSECOL ✅
+  └── 1.3 Add Null-Safe Checks in GLGD and GRGD Gradients ✅
 
-Phase 2: Expanded Color Space Support & Defaults
-  ├── 2.1 Implement Highlight Color Space (0x06)
-  ├── 2.2 Implement YCrCb (0x02) & YCbCr (0x12) Color Spaces
-  └── 2.3 Refactor Device-Default Colors to Resolve Dynamically
+Phase 2: Expanded Color Space Support & Defaults 🚧
+  ├── 2.1 Implement Highlight Color Space (0x06) ✅
+  ├── 2.2 Implement YCrCb (0x02) & YCbCr (0x12) Color Spaces ✅
+  └── 2.3 Refactor Device-Default Colors to Resolve Dynamically ⏳
 
-Phase 3: Bi-level Image Colorization & IM Image Support
-  ├── 3.1 Implement Bi-level Image Colorization via iText Stencil Masks
-  └── 3.2 Add Rendering Hooks and Support for Legacy IM Images
+Phase 3: Bi-level Image Colorization & IM Image Support ⏳
+  ├── 3.1 Implement Bi-level Image Colorization via iText Stencil Masks ⏳
+  └── 3.2 Add Rendering Hooks and Support for Legacy IM Images ⏳
 
-Phase 4: CMOCA (CMR / CAT) Integration & Advanced Color Management
-  ├── 4.1 CAT (Color Attribute Table) Paletted Mapping
-  └── 4.2 CMR (Color Management Resource) ICC Profile Embedding
+Phase 4: CMOCA (CMR / CAT) Integration & Advanced Color Management ⏳
+  ├── 4.1 CAT (Color Attribute Table) Paletted Mapping ⏳
+  └── 4.2 CMR (Color Management Resource) ICC Profile Embedding ⏳
 ```
 
 ---
 
-## Phase 1: GOCA Core Process Color & Gradient Robustness
+## Phase 1: GOCA Core Process Color & Gradient Robustness ✅
 
 ### Goal
 Resolve high-impact bugs in GOCA rendering where process colors are ignored, color precedence is lost, and malformed gradient parameters can cause crashes.
 
-### 1.1 Support GSPCOL in GOCA Rendering
+### 1.1 Support GSPCOL in GOCA Rendering ✅
 *   **Affected Files:** `PdfHandler.java`, `PdfGraphicsState.java`
 *   **Proposed Solution:**
     *   Update `PdfHandler.applyGraphicsState()` to check whether `graphicsState.getProcessColorSpace()` is non-null.
@@ -41,14 +41,14 @@ Resolve high-impact bugs in GOCA rendering where process colors are ignored, col
     *   Apply this resolved color as both the stroke and fill color of `currentCanvas`.
     *   Fall back to standard index-based `ColorHandler.getColor(graphicsState.getColor())` if no process color space is active.
 
-### 1.2 Implement GSPCOL Precedence Reset on GSCOL/GSECOL
+### 1.2 Implement GSPCOL Precedence Reset on GSCOL/GSECOL ✅
 *   **Affected Files:** `PdfHandler.java`
 *   **Proposed Solution:**
     *   In `PdfHandler.handleDrawingOrderInternal()`, locate the handlers for `GSCOL_SetColor` and `GSECOL_SetExtendedColor`.
     *   Ensure that when either command is processed, the active process color properties in the graphics state are reset. Specifically, call `graphicsState.setProcessColorSpace(null)` and clear the raw byte array.
     *   This ensures that any subsequent drawing orders in the same graphics segment correctly respect standard/extended legacy colors.
 
-### 1.3 Add Null-Safe Checks in GLGD and GRGD Gradients
+### 1.3 Add Null-Safe Checks in GLGD and GRGD Gradients ✅
 *   **Affected Files:** `PdfHandler.java`
 *   **Proposed Solution:**
     *   In `PdfHandler.applyGradient()`, intercept the colors resolved via `ColorHandler.getExtendedColor()`.
@@ -61,18 +61,18 @@ Resolve high-impact bugs in GOCA rendering where process colors are ignored, col
 
 ---
 
-## Phase 2: Expanded Color Space Support & Defaults
+## Phase 2: Expanded Color Space Support & Defaults 🚧
 
 ### Goal
 Ensure all architected AFP color spaces map cleanly to PDF equivalents and that default presentation colors are resolved dynamically.
 
-### 2.1 Implement Highlight Color Space (0x06)
+### 2.1 Implement Highlight Color Space (0x06) ✅
 *   **Affected Files:** `ColorHandler.java`
 *   **Proposed Solution:**
     *   In `ColorHandler.getExtendedColor()`, add case handling for `AFPColorSpace.Highlight` (code `0x06`).
     *   Map highlight colors based on standard highlight color rendering properties (such as mapping them to a bright spot color, standard RGB/CMYK tint, or a simulated custom color value).
 
-### 2.2 Implement YCrCb (0x02) & YCbCr (0x12) Color Spaces
+### 2.2 Implement YCrCb (0x02) & YCbCr (0x12) Color Spaces ✅
 *   **Affected Files:** `ColorHandler.java`
 *   **Proposed Solution:**
     *   In `ColorHandler.getExtendedColor()`, implement conversion formulas or color space mappings for `YCbCr` / `YCrCb` to standard RGB/CMYK.

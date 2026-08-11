@@ -91,6 +91,103 @@ public class ColorHandler {
           return new Lab(whitePoint, new float[] {l, a, b});
         }
         break;
+      case Highlight:
+        if (colorValue.length >= 2) {
+          int colorNum = ((colorValue[0] & 0xFF) << 8) | (colorValue[1] & 0xFF);
+          int coverage = 100;
+          if (colorValue.length >= 3) {
+            coverage = colorValue[2] & 0xFF;
+            if (coverage > 100) {
+              coverage = 100;
+            }
+          }
+          int shading = 0;
+          if (colorValue.length >= 4) {
+            shading = colorValue[3] & 0xFF;
+            if (shading > 100) {
+              shading = 100;
+            }
+          }
+
+          // Map highlight color number to a vibrant RGB base color
+          int baseR, baseG, baseB;
+          switch (colorNum) {
+            case 0: // Presentation device default color -> default to black
+              baseR = 0; baseG = 0; baseB = 0;
+              break;
+            case 1: // Red
+              baseR = 255; baseG = 0; baseB = 0;
+              break;
+            case 2: // Pink / Magenta
+              baseR = 255; baseG = 0; baseB = 255;
+              break;
+            case 3: // Green
+              baseR = 0; baseG = 255; baseB = 0;
+              break;
+            case 4: // Yellow
+              baseR = 255; baseG = 255; baseB = 0;
+              break;
+            case 5: // Blue
+              baseR = 0; baseG = 0; baseB = 255;
+              break;
+            case 6: // Orange
+              baseR = 255; baseG = 128; baseB = 0;
+              break;
+            case 7: // Cyan
+              baseR = 0; baseG = 255; baseB = 255;
+              break;
+            default: // Map other numbers to Red as standard fallback
+              baseR = 255; baseG = 0; baseB = 0;
+              break;
+          }
+
+          // Apply percent coverage: adds (100 - coverage)% white
+          float tint = coverage / 100.0f;
+          int r = Math.round(baseR * tint + 255 * (1 - tint));
+          int g = Math.round(baseG * tint + 255 * (1 - tint));
+          int b = Math.round(baseB * tint + 255 * (1 - tint));
+
+          // Apply percent shading: adds shading% black
+          float shade = shading / 100.0f;
+          r = Math.round(r * (1 - shade));
+          g = Math.round(g * (1 - shade));
+          b = Math.round(b * (1 - shade));
+
+          // Clip to valid 0-255 range
+          r = Math.max(0, Math.min(255, r));
+          g = Math.max(0, Math.min(255, g));
+          b = Math.max(0, Math.min(255, b));
+
+          return new DeviceRgb(r, g, b);
+        }
+        break;
+      case YCrCb:
+      case YCbCr:
+        if (colorValue.length >= 3) {
+          double yVal = (colorValue[0] & 0xFF);
+          double cbVal, crVal;
+          if (colorSpace == AFPColorSpace.YCrCb) {
+            crVal = (colorValue[1] & 0xFF);
+            cbVal = (colorValue[2] & 0xFF);
+          } else {
+            cbVal = (colorValue[1] & 0xFF);
+            crVal = (colorValue[2] & 0xFF);
+          }
+
+          double r = yVal + 1.402 * (crVal - 128.0);
+          double g = yVal - 0.344136 * (cbVal - 128.0) - 0.714136 * (crVal - 128.0);
+          double b = yVal + 1.772 * (cbVal - 128.0);
+
+          int rInt = Math.max(0, Math.min(255, (int) Math.round(r)));
+          int gInt = Math.max(0, Math.min(255, (int) Math.round(g)));
+          int bInt = Math.max(0, Math.min(255, (int) Math.round(b)));
+
+          return new DeviceRgb(rInt, gInt, bInt);
+        } else if (colorValue.length > 0) {
+          int yVal = colorValue[0] & 0xFF;
+          return new DeviceRgb(yVal, yVal, yVal);
+        }
+        break;
       default:
         break;
     }
