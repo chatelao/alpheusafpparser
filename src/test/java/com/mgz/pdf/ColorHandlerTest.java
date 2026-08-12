@@ -83,4 +83,73 @@ public class ColorHandlerTest {
     assertEquals(-128.0f, colorValue[1], 0.01f);
     assertEquals(-128.0f, colorValue[2], 0.01f);
   }
+
+  @Test
+  public void testGetExtendedColorHighlight() {
+    // 1. Red (colorNum 1), 100% coverage, 0% shading
+    byte[] highlightRed = new byte[] {0x00, 0x01, 0x64, 0x00};
+    Color color1 = ColorHandler.getExtendedColor(AFPColorSpace.Highlight, highlightRed);
+    assertTrue(color1 instanceof DeviceRgb);
+    assertArrayEquals(new float[] {1.0f, 0.0f, 0.0f}, color1.getColorValue());
+
+    // 2. Yellow (colorNum 4), 100% coverage, 0% shading
+    byte[] highlightYellow = new byte[] {0x00, 0x04, 0x64};
+    Color color2 = ColorHandler.getExtendedColor(AFPColorSpace.Highlight, highlightYellow);
+    assertTrue(color2 instanceof DeviceRgb);
+    assertArrayEquals(new float[] {1.0f, 1.0f, 0.0f}, color2.getColorValue());
+
+    // 3. Red with 50% coverage (should be lighter)
+    byte[] highlightRed50 = new byte[] {0x00, 0x01, 0x32, 0x00};
+    Color color3 = ColorHandler.getExtendedColor(AFPColorSpace.Highlight, highlightRed50);
+    assertTrue(color3 instanceof DeviceRgb);
+    // baseR=255, baseG=0, baseB=0; tint=0.5
+    // R = 255 * 0.5 + 255 * 0.5 = 255
+    // G = 0 * 0.5 + 255 * 0.5 = 128 (rounded from 127.5)
+    // B = 0 * 0.5 + 255 * 0.5 = 128 (rounded from 127.5)
+    assertArrayEquals(new float[] {255/255.0f, 128/255.0f, 128/255.0f}, color3.getColorValue());
+
+    // 4. Red with 100% coverage and 50% shading (should be darker)
+    byte[] highlightRedShaded = new byte[] {0x00, 0x01, 0x64, 0x32};
+    Color color4 = ColorHandler.getExtendedColor(AFPColorSpace.Highlight, highlightRedShaded);
+    assertTrue(color4 instanceof DeviceRgb);
+    // baseR=255, baseG=0, baseB=0; tint=1.0 -> R=255, G=0, B=0
+    // shade=0.5 -> R=128 (rounded from 127.5), G=0, B=0
+    assertArrayEquals(new float[] {128/255.0f, 0.0f, 0.0f}, color4.getColorValue());
+
+    // 5. Check out-of-bound values for coverage/shading are clipped
+    byte[] highlightOOB = new byte[] {0x00, 0x01, (byte) 120, (byte) 150};
+    Color color5 = ColorHandler.getExtendedColor(AFPColorSpace.Highlight, highlightOOB);
+    assertTrue(color5 instanceof DeviceRgb);
+    // coverage=120 -> 100%, shading=150 -> 100% (black)
+    assertArrayEquals(new float[] {0.0f, 0.0f, 0.0f}, color5.getColorValue());
+  }
+
+  @Test
+  public void testGetExtendedColorYCrCb() {
+    // 3 bytes: Y=128, Cr=160, Cb=96
+    byte[] ycrcbData = new byte[] {(byte) 128, (byte) 160, (byte) 96};
+    Color color = ColorHandler.getExtendedColor(AFPColorSpace.YCrCb, ycrcbData);
+    assertTrue(color instanceof DeviceRgb);
+
+    // Y = 128, Cr = 160, Cb = 96
+    // R = 128 + 1.402 * (160 - 128) = 128 + 44.864 = 173 (rounded)
+    // G = 128 - 0.344136 * (96 - 128) - 0.714136 * (160 - 128) = 128 + 11.012 - 22.852 = 116 (rounded)
+    // B = 128 + 1.772 * (96 - 128) = 128 - 56.704 = 71 (rounded)
+    assertArrayEquals(new float[] {173/255.0f, 116/255.0f, 71/255.0f}, color.getColorValue());
+
+    // 1 byte grayscale fallback
+    byte[] grayData = new byte[] {(byte) 100};
+    Color grayColor = ColorHandler.getExtendedColor(AFPColorSpace.YCrCb, grayData);
+    assertTrue(grayColor instanceof DeviceRgb);
+    assertArrayEquals(new float[] {100/255.0f, 100/255.0f, 100/255.0f}, grayColor.getColorValue());
+  }
+
+  @Test
+  public void testGetExtendedColorYCbCr() {
+    // 3 bytes: Y=128, Cb=96, Cr=160 (same physical colors as above test but with inverted Cr/Cb order)
+    byte[] ycbcrData = new byte[] {(byte) 128, (byte) 96, (byte) 160};
+    Color color = ColorHandler.getExtendedColor(AFPColorSpace.YCbCr, ycbcrData);
+    assertTrue(color instanceof DeviceRgb);
+    assertArrayEquals(new float[] {173/255.0f, 116/255.0f, 71/255.0f}, color.getColorValue());
+  }
 }
