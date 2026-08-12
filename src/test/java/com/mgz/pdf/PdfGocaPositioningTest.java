@@ -29,6 +29,9 @@ import com.mgz.afp.goca.GDD_Parameter;
 import com.mgz.afp.goca.GAD_GraphicsData;
 import com.mgz.afp.goca.GAD_DrawingOrder;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSCP_SetCurrentPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSCOL_SetColor;
+import com.mgz.afp.goca.GAD_DrawingOrder.GBSEG_BeginSegment;
+import com.mgz.afp.goca.GAD_DrawingOrder.GSGCH_SegmentCharacteristics;
 import com.mgz.afp.modca.OBD_ObjectAreaDescriptor;
 import com.mgz.afp.modca.OBP_ObjectAreaPosition;
 import com.mgz.afp.modca.BPG_BeginPage;
@@ -151,6 +154,65 @@ public class PdfGocaPositioningTest {
     EPG_EndPage epg = new EPG_EndPage();
     handler.handle(epg);
 
+    assertDoesNotThrow(() -> handler.close());
+  }
+
+  @Test
+  public void testGocaSegmentStateScopingAndGsgch() throws Exception {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    PdfHandler handler = new PdfHandler(baos);
+
+    // 1. Begin Page
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setName("P1");
+    handler.handle(bpg);
+
+    // 2. Begin Graphics Object
+    BGR_BeginGraphicsObject bgr = new BGR_BeginGraphicsObject();
+    handler.handle(bgr);
+
+    // 3. Set outer color to Blue (0x01) and currentX/Y to 10, 20
+    GSCP_SetCurrentPosition gscpOuter = new GSCP_SetCurrentPosition();
+    gscpOuter.setCoordinateX((short) 10);
+    gscpOuter.setCoordinateY((short) 20);
+    handler.handleDrawingOrder(gscpOuter);
+
+    GSCOL_SetColor gscolOuter = new GSCOL_SetColor();
+    gscolOuter.setColor(com.mgz.afp.enums.AFPColorValue.Blue_0x01);
+    handler.handleDrawingOrder(gscolOuter);
+
+    // 4. Create segment with various nested orders (GSGCH, GSCOL red, GSCP 100, 200)
+    GBSEG_BeginSegment gbseg = new GBSEG_BeginSegment();
+    gbseg.setNameOfSegment("SEG1");
+
+    GSGCH_SegmentCharacteristics gsgch = new GSGCH_SegmentCharacteristics();
+    gsgch.setIdentificationCode((short) 0x00);
+    gsgch.setParameters(new byte[]{0x01});
+
+    GSCOL_SetColor gscolInner = new GSCOL_SetColor();
+    gscolInner.setColor(com.mgz.afp.enums.AFPColorValue.Red_0x02);
+
+    GSCP_SetCurrentPosition gscpInner = new GSCP_SetCurrentPosition();
+    gscpInner.setCoordinateX((short) 100);
+    gscpInner.setCoordinateY((short) 200);
+
+    gbseg.setDrawingOrders(List.of(gsgch, gscolInner, gscpInner));
+
+    // Handle segment
+    assertDoesNotThrow(() -> handler.handleDrawingOrder(gbseg));
+
+    // 5. Verify graphics state scoping:
+    // Color should have been restored to Blue_0x01 (isolated)
+    org.junit.jupiter.api.Assertions.assertEquals(com.mgz.afp.enums.AFPColorValue.Blue_0x01, handler.getGraphicsState().getColor());
+    // Cursor position should have propagated to 100, 200 (chained coordinate update)
+    org.junit.jupiter.api.Assertions.assertEquals(100, handler.getGraphicsState().getCurrentX());
+    org.junit.jupiter.api.Assertions.assertEquals(200, handler.getGraphicsState().getCurrentY());
+
+    // 6. End Graphics Object and Page
+    EGR_EndGraphicsObject egr = new EGR_EndGraphicsObject();
+    handler.handle(egr);
+    EPG_EndPage epg = new EPG_EndPage();
+    handler.handle(epg);
     assertDoesNotThrow(() -> handler.close());
   }
 }
