@@ -19,6 +19,10 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.pdf;
 
+import com.itextpdf.kernel.colors.Color;
+import com.itextpdf.kernel.colors.DeviceRgb;
+import com.mgz.afp.enums.AFPColorSpace;
+import com.mgz.afp.enums.AFPColorValue;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.kernel.pdf.xobject.PdfImageXObject;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -124,7 +128,8 @@ public class PdfImageRenderer {
 
       PdfImageXObject imageXObject = getOrCreateImageXObject(data, compression, width, height, state, imageCache);
       if (imageXObject != null) {
-        renderImage(imageXObject, width, height, state.getxOrigin(), state.getyOrigin() - height, canvas);
+        Color bilevelColor = resolveBilevelColor(state);
+        renderImage(imageXObject, width, height, state.getxOrigin(), state.getyOrigin() - height, canvas, bilevelColor);
       }
     } catch (Exception e) {
       System.err.println("Error rendering IOCA image: " + e.getMessage());
@@ -174,7 +179,8 @@ public class PdfImageRenderer {
               try {
                 PdfImageXObject tileXObject = getOrCreateImageXObject(tileData, tileCompression, tileW, tileH, state, imageCache);
                 if (tileXObject != null) {
-                  renderImage(tileXObject, tileW, tileH, state.getxOrigin() + tileX, state.getyOrigin() - tileY - tileH, canvas);
+                  Color bilevelColor = resolveBilevelColor(state);
+                  renderImage(tileXObject, tileW, tileH, state.getxOrigin() + tileX, state.getyOrigin() - tileY - tileH, canvas, bilevelColor);
                 }
               } catch (Exception e) {
                 System.err.println("Error rendering IOCA tile: " + e.getMessage());
@@ -231,6 +237,13 @@ public class PdfImageRenderer {
       }
 
       if (itextImageData != null) {
+        Color bilevelColor = resolveBilevelColor(state);
+        if (bilevelColor != null) {
+          ImageStructure structure = resolveImageStructure(state);
+          if (structure.components() == 1 && structure.bitsPerComponent() == 1) {
+            itextImageData.makeMask();
+          }
+        }
         imageXObject = new PdfImageXObject(itextImageData);
         if (imageCache != null) {
           imageCache.put(cacheKey, imageXObject);
@@ -310,11 +323,59 @@ public class PdfImageRenderer {
 
   private record ImageStructure(int components, int bitsPerComponent) {}
 
-  private static void renderImage(PdfImageXObject imageXObject, int width, int height, int x, int y, PdfCanvas canvas) {
+  private static void renderImage(PdfImageXObject imageXObject, int width, int height, int x, int y, PdfCanvas canvas, Color bilevelColor) {
     // Placement at (x, y) with its own size in AFP units
     canvas.saveState();
+    if (bilevelColor != null) {
+      canvas.setFillColor(bilevelColor);
+    }
     canvas.concatMatrix(width, 0, 0, height, x, y);
     canvas.addXObject(imageXObject);
     canvas.restoreState();
+  }
+
+  private static Color resolveBilevelColor(PdfImageState state) {
+    if (state == null) {
+      return null;
+    }
+
+    // 1. Check if there is an active SetBilevelImageColor or SetExtendedBilevelImageColor in the image segments
+    for (IPD_ImagePictureData ipd : state.getImageSegments()) {
+      if (ipd.getListOfSegments() != null) {
+        for (IPD_Segment segment : ipd.getListOfSegments()) {
+          if (segment instanceof IPD_Segment.SetBilevelImageColor sbic) {
+            try {
+              return ColorHandler.getColor(AFPColorValue.valueOf(sbic.nameColor));
+            } catch (Exception e) {
+              return DeviceRgb.BLACK;
+            }
+          } else if (segment instanceof IPD_Segment.SetExtendedBilevelImageColor sebic) {
+            Color c = ColorHandler.getExtendedColor(sebic.colorSpace, sebic.color);
+            if (c != null) {
+              return c;
+            }
+          }
+        }
+      }
+    }
+
+    // 2. Check if there is an active SetBilevelImageColor or SetExtendedBilevelImageColor in the descriptor's self-defining fields
+    IDD_ImageDataDescriptor descriptor = state.getDescriptor();
+    if (descriptor != null && descriptor.getSelfDefiningFields() != null) {
+      for (IDD_SelfDefiningField sdf : descriptor.getSelfDefiningFields()) {
+        if (sdf instanceof IDD_SelfDefiningField.SetBilevelImageColor sbic) {
+          if (sbic.getColor() != null) {
+            return ColorHandler.getColor(sbic.getColor());
+          }
+        } else if (sdf instanceof IDD_SelfDefiningField.SetExtendedBilevelImageColor sebic) {
+          Color c = ColorHandler.getExtendedColor(sebic.getColorSpace(), sebic.getColorValue());
+          if (c != null) {
+            return c;
+          }
+        }
+      }
+    }
+
+    return null;
   }
 }

@@ -1644,7 +1644,7 @@ public abstract sealed class IPD_Segment implements IAFPDecodeableWriteable {
     public byte colSize2;
     public byte colSize3;
     public byte colSize4;
-    byte[] color;
+    public byte[] color;
 
     @Override
     public void reset() {
