@@ -20,6 +20,9 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.pdf;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.mgz.afp.enums.AFPOrientation;
 import com.mgz.afp.goca.BGR_BeginGraphicsObject;
@@ -45,6 +48,308 @@ import org.junit.jupiter.api.Test;
  * Verifies GOCA Object Area Positioning (OBP) and Graphics Data Descriptor (GDD) scaling.
  */
 public class PdfGocaPositioningTest {
+
+  private String getPdfContentString(ByteArrayOutputStream baos) throws Exception {
+    byte[] pdfBytes = baos.toByteArray();
+    com.itextpdf.kernel.pdf.PdfReader reader = new com.itextpdf.kernel.pdf.PdfReader(new java.io.ByteArrayInputStream(pdfBytes));
+    com.itextpdf.kernel.pdf.PdfDocument pdfDoc = new com.itextpdf.kernel.pdf.PdfDocument(reader);
+    com.itextpdf.kernel.pdf.PdfPage page = pdfDoc.getPage(1);
+    byte[] contentBytes = page.getContentBytes();
+    return new String(contentBytes, java.nio.charset.StandardCharsets.UTF_8);
+  }
+
+  private com.mgz.afp.base.StructuredFieldIntroducer createSfi(com.mgz.afp.enums.SFTypeID typeID) {
+    com.mgz.afp.base.StructuredFieldIntroducer sfi = new com.mgz.afp.base.StructuredFieldIntroducer();
+    sfi.setSFTypeID(typeID);
+    sfi.setFlagByte(java.util.EnumSet.noneOf(com.mgz.afp.enums.SFFlag.class));
+    return sfi;
+  }
+
+  @Test
+  public void testGocaPositioningRotation90() throws Exception {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    PdfHandler handler = new PdfHandler(baos);
+
+    // 1. Begin Page
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.BPG_BeginPage));
+    bpg.setName("P1");
+    handler.handle(bpg);
+
+    // 2. Begin Graphics Object
+    BGR_BeginGraphicsObject bgr = new BGR_BeginGraphicsObject();
+    bgr.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.BGR_BeginGraphicsObject));
+    handler.handle(bgr);
+
+    // 3. Object Area Descriptor
+    OBD_ObjectAreaDescriptor obd = new OBD_ObjectAreaDescriptor();
+    obd.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.OBD_ObjectAreaDescriptor));
+    Triplet.ObjectAreaSize oas = new Triplet.ObjectAreaSize();
+    oas.sizeType_0x02 = 0x02;
+    oas.xSize = 1000;
+    oas.ySize = 1000;
+    obd.addTriplet(oas);
+    handler.handle(obd);
+
+    // 4. Object Area Position with 90 deg rotation
+    OBP_ObjectAreaPosition obp = new OBP_ObjectAreaPosition();
+    obp.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.OBP_ObjectAreaPosition));
+    OBP_ObjectAreaPosition.OBP_RepeatingGroup rg = new OBP_ObjectAreaPosition.OBP_RepeatingGroup();
+    rg.setxOrigin(1440);
+    rg.setyOrigin(2880);
+    rg.setxRotation(AFPOrientation.ori90);
+    obp.setRepeatingGroup(rg);
+    handler.handle(obp);
+
+    // 5. Graphics Data
+    GSCP_SetCurrentPosition gscp = new GSCP_SetCurrentPosition();
+    gscp.setCoordinateX((short) 100);
+    gscp.setCoordinateY((short) 200);
+
+    handler.handle(new GAD_GraphicsData() {
+      @Override
+      public List<GAD_DrawingOrder> getDrawingOrders() {
+        return List.of(gscp);
+      }
+    });
+
+    // 6. End Graphics Object
+    EGR_EndGraphicsObject egr = new EGR_EndGraphicsObject();
+    egr.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.EGR_EndGraphicsObject));
+    handler.handle(egr);
+
+    // 7. End Page
+    EPG_EndPage epg = new EPG_EndPage();
+    epg.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.EPG_EndPage));
+    epg.setName("P1");
+    handler.handle(epg);
+
+    handler.close();
+
+    String contentString = getPdfContentString(baos);
+    assertTrue(contentString.contains("1440 2880 cm"), "Content should contain the OBP origin translation: " + contentString);
+    assertTrue(contentString.contains("1 -1"), "Content should contain rotation coefficients: " + contentString);
+  }
+
+  @Test
+  public void testGocaPositioningRotation180() throws Exception {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    PdfHandler handler = new PdfHandler(baos);
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.BPG_BeginPage));
+    bpg.setName("P1");
+    handler.handle(bpg);
+
+    BGR_BeginGraphicsObject bgr = new BGR_BeginGraphicsObject();
+    bgr.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.BGR_BeginGraphicsObject));
+    handler.handle(bgr);
+
+    OBD_ObjectAreaDescriptor obd = new OBD_ObjectAreaDescriptor();
+    obd.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.OBD_ObjectAreaDescriptor));
+    Triplet.ObjectAreaSize oas = new Triplet.ObjectAreaSize();
+    oas.sizeType_0x02 = 0x02;
+    oas.xSize = 1000;
+    oas.ySize = 1000;
+    obd.addTriplet(oas);
+    handler.handle(obd);
+
+    OBP_ObjectAreaPosition obp = new OBP_ObjectAreaPosition();
+    obp.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.OBP_ObjectAreaPosition));
+    OBP_ObjectAreaPosition.OBP_RepeatingGroup rg = new OBP_ObjectAreaPosition.OBP_RepeatingGroup();
+    rg.setxOrigin(1440);
+    rg.setyOrigin(2880);
+    rg.setxRotation(AFPOrientation.ori180);
+    obp.setRepeatingGroup(rg);
+    handler.handle(obp);
+
+    GSCP_SetCurrentPosition gscp = new GSCP_SetCurrentPosition();
+    gscp.setCoordinateX((short) 100);
+    gscp.setCoordinateY((short) 200);
+
+    handler.handle(new GAD_GraphicsData() {
+      @Override
+      public List<GAD_DrawingOrder> getDrawingOrders() {
+        return List.of(gscp);
+      }
+    });
+
+    EGR_EndGraphicsObject egr = new EGR_EndGraphicsObject();
+    egr.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.EGR_EndGraphicsObject));
+    handler.handle(egr);
+
+    EPG_EndPage epg = new EPG_EndPage();
+    epg.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.EPG_EndPage));
+    epg.setName("P1");
+    handler.handle(epg);
+
+    handler.close();
+
+    String contentString = getPdfContentString(baos);
+    assertTrue(contentString.contains("-1 0 0 -1 1440 2880 cm"), "Content should contain the 180 deg rotated matrix: " + contentString);
+  }
+
+  @Test
+  public void testGocaPositioningRotation270() throws Exception {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    PdfHandler handler = new PdfHandler(baos);
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.BPG_BeginPage));
+    bpg.setName("P1");
+    handler.handle(bpg);
+
+    BGR_BeginGraphicsObject bgr = new BGR_BeginGraphicsObject();
+    bgr.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.BGR_BeginGraphicsObject));
+    handler.handle(bgr);
+
+    OBD_ObjectAreaDescriptor obd = new OBD_ObjectAreaDescriptor();
+    obd.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.OBD_ObjectAreaDescriptor));
+    Triplet.ObjectAreaSize oas = new Triplet.ObjectAreaSize();
+    oas.sizeType_0x02 = 0x02;
+    oas.xSize = 1000;
+    oas.ySize = 1000;
+    obd.addTriplet(oas);
+    handler.handle(obd);
+
+    OBP_ObjectAreaPosition obp = new OBP_ObjectAreaPosition();
+    obp.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.OBP_ObjectAreaPosition));
+    OBP_ObjectAreaPosition.OBP_RepeatingGroup rg = new OBP_ObjectAreaPosition.OBP_RepeatingGroup();
+    rg.setxOrigin(1440);
+    rg.setyOrigin(2880);
+    rg.setxRotation(AFPOrientation.ori270);
+    obp.setRepeatingGroup(rg);
+    handler.handle(obp);
+
+    GSCP_SetCurrentPosition gscp = new GSCP_SetCurrentPosition();
+    gscp.setCoordinateX((short) 100);
+    gscp.setCoordinateY((short) 200);
+
+    handler.handle(new GAD_GraphicsData() {
+      @Override
+      public List<GAD_DrawingOrder> getDrawingOrders() {
+        return List.of(gscp);
+      }
+    });
+
+    EGR_EndGraphicsObject egr = new EGR_EndGraphicsObject();
+    egr.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.EGR_EndGraphicsObject));
+    handler.handle(egr);
+
+    EPG_EndPage epg = new EPG_EndPage();
+    epg.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.EPG_EndPage));
+    epg.setName("P1");
+    handler.handle(epg);
+
+    handler.close();
+
+    String contentString = getPdfContentString(baos);
+    assertTrue(contentString.contains("1440 2880 cm"), "Content should contain the OBP origin translation: " + contentString);
+    assertTrue(contentString.contains("-1 1"), "Content should contain rotation coefficients: " + contentString);
+  }
+
+  @Test
+  public void testGocaGddScalingWithoutOapsSize() throws Exception {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    PdfHandler handler = new PdfHandler(baos);
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.BPG_BeginPage));
+    bpg.setName("P1");
+    handler.handle(bpg);
+
+    BGR_BeginGraphicsObject bgr = new BGR_BeginGraphicsObject();
+    bgr.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.BGR_BeginGraphicsObject));
+    handler.handle(bgr);
+
+    // OBP
+    OBP_ObjectAreaPosition obp = new OBP_ObjectAreaPosition();
+    obp.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.OBP_ObjectAreaPosition));
+    OBP_ObjectAreaPosition.OBP_RepeatingGroup rg = new OBP_ObjectAreaPosition.OBP_RepeatingGroup();
+    rg.setxOrigin(1000);
+    rg.setyOrigin(2000);
+    rg.setxRotation(AFPOrientation.ori0);
+    obp.setRepeatingGroup(rg);
+    handler.handle(obp);
+
+    // GDD but NO OBD (so hasGocaOapsSize is false)
+    GDD_GraphicsDataDescriptor gdd = new GDD_GraphicsDataDescriptor();
+    gdd.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.GDD_GraphicsDataDescriptor));
+    GDD_Parameter.WindowSpecification win = new GDD_Parameter.WindowSpecification();
+    win.setLeftEdgeOfGPSWindow(100);
+    win.setRightEdgeOfGPSWindow(600);
+    win.setBottomEdgeOfGPSWindow(50);
+    win.setTopEdgeOfGPSWindow(550);
+    gdd.setGddParameters(List.of(win));
+    handler.handle(gdd);
+
+    GSCP_SetCurrentPosition gscp = new GSCP_SetCurrentPosition();
+    gscp.setCoordinateX((short) 100);
+    gscp.setCoordinateY((short) 200);
+
+    handler.handle(new GAD_GraphicsData() {
+      @Override
+      public List<GAD_DrawingOrder> getDrawingOrders() {
+        return List.of(gscp);
+      }
+    });
+
+    EGR_EndGraphicsObject egr = new EGR_EndGraphicsObject();
+    egr.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.EGR_EndGraphicsObject));
+    handler.handle(egr);
+
+    EPG_EndPage epg = new EPG_EndPage();
+    epg.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.EPG_EndPage));
+    epg.setName("P1");
+    handler.handle(epg);
+
+    handler.close();
+
+    String contentString = getPdfContentString(baos);
+    assertTrue(contentString.contains("1 0 0 -1 -100 550 cm"), "Content should contain scaling matrix: " + contentString);
+  }
+
+  @Test
+  public void testGocaFallbackBehavior() throws Exception {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    PdfHandler handler = new PdfHandler(baos);
+
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.BPG_BeginPage));
+    bpg.setName("P1");
+    handler.handle(bpg);
+
+    BGR_BeginGraphicsObject bgr = new BGR_BeginGraphicsObject();
+    bgr.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.BGR_BeginGraphicsObject));
+    handler.handle(bgr);
+
+    // No OBD, OBP, or GDD at all
+
+    GSCP_SetCurrentPosition gscp = new GSCP_SetCurrentPosition();
+    gscp.setCoordinateX((short) 100);
+    gscp.setCoordinateY((short) 200);
+
+    handler.handle(new GAD_GraphicsData() {
+      @Override
+      public List<GAD_DrawingOrder> getDrawingOrders() {
+        return List.of(gscp);
+      }
+    });
+
+    EGR_EndGraphicsObject egr = new EGR_EndGraphicsObject();
+    egr.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.EGR_EndGraphicsObject));
+    handler.handle(egr);
+
+    EPG_EndPage epg = new EPG_EndPage();
+    epg.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.EPG_EndPage));
+    epg.setName("P1");
+    handler.handle(epg);
+
+    handler.close();
+
+    String contentString = getPdfContentString(baos);
+    assertTrue(contentString.contains("1 0 0 1 0 0 cm"), "Content should contain fallback translation of (0,0): " + contentString);
+  }
 
   @Test
   public void testGocaPositioningAndScaling() throws Exception {
