@@ -71,7 +71,7 @@ Extend support to segment-level transformations and properties to ensure that re
 ### Phase 5: Verification, Conformance, & Regression Testing ⏳
 Establish rigorous automated validation and visual diff test suites to verify compliant rendering of GOCA vector graphics.
 
-- [ ] **Add Unit Tests for Matrix Computations**:
+- [x] **Add Unit Tests for Matrix Computations**:
   - Write dedicated unit tests targeting the dynamic scale and translation calculations derived from OBP and GDD parameters.
 - [ ] **Create Visual Regression Test Cases**:
   - Introduce complex GOCA test files (including varying OBP offsets, GDD window coordinate specifications, and rotated segments).
