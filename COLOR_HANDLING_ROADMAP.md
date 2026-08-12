@@ -17,8 +17,8 @@ Phase 2: Expanded Color Space Support & Defaults 🚧
   ├── 2.2 Implement YCrCb (0x02) & YCbCr (0x12) Color Spaces ✅
   └── 2.3 Refactor Device-Default Colors to Resolve Dynamically ⏳
 
-Phase 3: Bi-level Image Colorization & IM Image Support ⏳
-  ├── 3.1 Implement Bi-level Image Colorization via iText Stencil Masks ⏳
+Phase 3: Bi-level Image Colorization & IM Image Support 🚧
+  ├── 3.1 Implement Bi-level Image Colorization via iText Stencil Masks ✅
   └── 3.2 Add Rendering Hooks and Support for Legacy IM Images ⏳
 
 Phase 4: CMOCA (CMR / CAT) Integration & Advanced Color Management ⏳
@@ -96,7 +96,7 @@ Ensure all architected AFP color spaces map cleanly to PDF equivalents and that 
 ### Goal
 Implement high-fidelity rendering for bi-level images acting as stencil masks and restore visual content for legacy IM Image objects.
 
-### 3.1 Implement Bi-level Image Colorization via iText Stencil Masks
+### 3.1 Implement Bi-level Image Colorization via iText Stencil Masks ✅
 *   **Affected Files:** `PdfImageRenderer.java`, `PdfHandler.java`
 *   **Proposed Solution:**
     *   When rendering a 1-bit bi-level image, detect if it is configured to act as a stencil mask (often designated by specific structured field attributes or GOCA image properties).

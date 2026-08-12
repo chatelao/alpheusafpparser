@@ -20,13 +20,22 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 package com.mgz.pdf;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.PdfName;
+import com.itextpdf.kernel.pdf.PdfBoolean;
+import com.itextpdf.kernel.pdf.xobject.PdfImageXObject;
+import com.itextpdf.kernel.pdf.xobject.PdfXObject;
 import com.mgz.afp.ioca.IDD_ImageDataDescriptor;
+import com.mgz.afp.ioca.IDD_SelfDefiningField;
 import com.mgz.afp.ioca.IPD_ImagePictureData;
 import com.mgz.afp.ioca.IPD_Segment;
+import com.mgz.afp.enums.AFPColorValue;
+import com.mgz.afp.enums.AFPColorSpace;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -36,6 +45,7 @@ public class PdfImageRendererTest {
 
   static class PdfCanvasStub extends PdfCanvas {
     int xObjectsAdded = 0;
+    PdfXObject lastXObject = null;
 
     public PdfCanvasStub() {
       super(new PdfDocument(new PdfWriter(new ByteArrayOutputStream())).addNewPage());
@@ -44,6 +54,7 @@ public class PdfImageRendererTest {
     @Override
     public PdfCanvas addXObject(com.itextpdf.kernel.pdf.xobject.PdfXObject xObject) {
       xObjectsAdded++;
+      lastXObject = xObject;
       return this;
     }
 
@@ -75,7 +86,7 @@ public class PdfImageRendererTest {
 
     // Image Data Segment with a tiny 1x1 black JPEG (minimal valid JPEG)
     byte[] tinyJpeg = {
-        (byte)0xff, (byte)0xd8, (byte)0xff, (byte)0xdb, (byte)0x00, (byte)0x43, (byte)0x00, (byte)0x08, (byte)0x06, (byte)0x06, (byte)0x07, (byte)0x06, (byte)0x05, (byte)0x08, (byte)0x07, (byte)0x07, (byte)0x07, (byte)0x09, (byte)0x09, (byte)0x08, (byte)0x0a, (byte)0x0c, (byte)0x14, (byte)0x0d, (byte)0x0c, (byte)0x0b, (byte)0x0b, (byte)0x0c, (byte)0x19, (byte)0x12, (byte)0x13, (byte)0x0f, (byte)0x14, (byte)0x1d, (byte)0x1a, (byte)0x1f, (byte)0x1e, (byte)0x1d, (byte)0x1a, (byte)0x1c, (byte)0x1c, (byte)0x20, (byte)0x24, (byte)0x2e, (byte)0x27, (byte)0x20, (byte)0x22, (byte)0x2c, (byte)0x23, (byte)0x1c, (byte)0x1c, (byte)0x28, (byte)0x37, (byte)0x29, (byte)0x2c, (byte)0x30, (byte)0x31, (byte)0x34, (byte)0x34, (byte)0x34, (byte)0x1f, (byte)0x27, (byte)0x39, (byte)0x3d, (byte)0x38, (byte)0x32, (byte)0x3c, (byte)0x2e, (byte)0x33, (byte)0x34, (byte)0x32, (byte)0xff, (byte)0xc0, (byte)0x00, (byte)0x0b, (byte)0x08, (byte)0x00, (byte)0x01, (byte)0x00, (byte)0x01, (byte)0x01, (byte)0x01, (byte)0x11, (byte)0x00, (byte)0xff, (byte)0xc4, (byte)0x00, (byte)0x14, (byte)0x00, (byte)0x01, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x09, (byte)0xff, (byte)0xda, (byte)0x00, (byte)0x08, (byte)0x01, (byte)0x01, (byte)0x00, (byte)0x00, (byte)0x3f, (byte)0x00, (byte)0xaf, (byte)0xff, (byte)0xd9
+        (byte)0xff, (byte)0xd8, (byte)0xff, (byte)0xdb, (byte)0x00, (byte)0x43, (byte)0x00, (byte)0x08, (byte)0x06, (byte)0x06, (byte)0x07, (byte)0x06, (byte)0x05, (byte)0x08, (byte)0x07, (byte)0x07, (byte)0x07, (byte)0x09, (byte)0x09, (byte)0x08, (byte)0x0a, (byte)0x0c, (byte)0x14, (byte)0x0d, (byte)0x0c, (byte)0x0b, (byte)0x0b, (byte)0x0c, (byte)0x19, (byte)0x12, (byte)0x13, (byte)0x0f, (byte)0x14, (byte)0x1d, (byte)0x1a, (byte)0x1f, (byte)0x1e, (byte)0x1d, (byte)0x1a, (byte)0x1c, (byte)0x1c, (byte)0x20, (byte)0x24, (byte)0x2e, (byte)0x27, (byte)0x20, (byte)0x22, (byte)0x2c, (byte)0x23, (byte)0x1c, (byte)0x1c, (byte)0x28, (byte)0x37, (byte)0x29, (byte)0x2c, (byte)0x30, (byte)0x31, (byte)0x34, (byte)0x34, (byte)0x34, (byte)0x1f, (byte)0x27, (byte)0x39, (byte)0x3d, (byte)0x38, (byte)0x32, (byte)0x3c, (byte)0x2e, (byte)0x33, (byte)0x34, (byte)0x32, (byte)0xff, (byte)0xc0, (byte)0x00, (byte)0x0b, (byte)0x08, (byte)0x00, (byte)0x01, (byte)0x00, (byte)0x01, (byte)0x01, (byte)0x01, (byte)0x11, (byte)0x00, (byte)0xff, (byte)0xc4, (byte)0x00, (byte)0x14, (byte)0x00, (byte)0x01, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x09, (byte)0xff, (byte)0xda, (byte)0x00, (byte)0x08, (byte)0x01, (byte)0x01, (byte)0x00, (byte)0x00, (byte)3f, (byte)0x00, (byte)0xaf, (byte)0xff, (byte)0xd9
     };
     IPD_Segment.ImageData imageData = new IPD_Segment.ImageData();
     imageData.setImageData(tinyJpeg);
@@ -88,5 +99,80 @@ public class PdfImageRendererTest {
     PdfImageRenderer.render(state, canvas, null);
 
     assertEquals(1, canvas.xObjectsAdded);
+  }
+
+  @Test
+  public void testBilevelImageColorizationWithSbic() {
+    PdfImageState state = new PdfImageState();
+    IDD_ImageDataDescriptor descriptor = new IDD_ImageDataDescriptor();
+    // 8x1 pixels 1-bit uncompressed image (1 byte payload is enough)
+    descriptor.setWidthOfImageInImagePoints((short) 8);
+    descriptor.setHeightOfImageInImagePoints((short) 1);
+    state.setDescriptor(descriptor);
+
+    IPD_ImagePictureData ipd = new IPD_ImagePictureData();
+    List<IPD_Segment> segments = new ArrayList<>();
+
+    // SetBilevelImageColor segment
+    IPD_Segment.SetBilevelImageColor sbic = new IPD_Segment.SetBilevelImageColor();
+    sbic.nameColor = (short) AFPColorValue.Red_0x02.toByte(); // Red
+    segments.add(sbic);
+
+    // Image Data Segment (1 byte)
+    IPD_Segment.ImageData imageData = new IPD_Segment.ImageData();
+    imageData.setImageData(new byte[] { (byte) 0xAA });
+    segments.add(imageData);
+
+    ipd.setListOfSegments(segments);
+    state.addImageSegment(ipd);
+
+    PdfCanvasStub canvas = new PdfCanvasStub();
+    PdfImageRenderer.render(state, canvas, null);
+
+    assertEquals(1, canvas.xObjectsAdded);
+    assertNotNull(canvas.lastXObject);
+    assertTrue(canvas.lastXObject instanceof PdfImageXObject);
+
+    PdfImageXObject imgXObj = (PdfImageXObject) canvas.lastXObject;
+    PdfBoolean isMask = imgXObj.getPdfObject().getAsBoolean(PdfName.ImageMask);
+    assertNotNull(isMask);
+    assertTrue(isMask.getValue());
+  }
+
+  @Test
+  public void testBilevelImageColorizationWithSebic() {
+    PdfImageState state = new PdfImageState();
+    IDD_ImageDataDescriptor descriptor = new IDD_ImageDataDescriptor();
+    descriptor.setWidthOfImageInImagePoints((short) 8);
+    descriptor.setHeightOfImageInImagePoints((short) 1);
+    state.setDescriptor(descriptor);
+
+    IPD_ImagePictureData ipd = new IPD_ImagePictureData();
+    List<IPD_Segment> segments = new ArrayList<>();
+
+    // SetExtendedBilevelImageColor segment
+    IPD_Segment.SetExtendedBilevelImageColor sebic = new IPD_Segment.SetExtendedBilevelImageColor();
+    sebic.colorSpace = AFPColorSpace.RGB;
+    sebic.color = new byte[] { (byte) 0, (byte) 0, (byte) 255 }; // Blue
+    segments.add(sebic);
+
+    IPD_Segment.ImageData imageData = new IPD_Segment.ImageData();
+    imageData.setImageData(new byte[] { (byte) 0x55 });
+    segments.add(imageData);
+
+    ipd.setListOfSegments(segments);
+    state.addImageSegment(ipd);
+
+    PdfCanvasStub canvas = new PdfCanvasStub();
+    PdfImageRenderer.render(state, canvas, null);
+
+    assertEquals(1, canvas.xObjectsAdded);
+    assertNotNull(canvas.lastXObject);
+    assertTrue(canvas.lastXObject instanceof PdfImageXObject);
+
+    PdfImageXObject imgXObj = (PdfImageXObject) canvas.lastXObject;
+    PdfBoolean isMask = imgXObj.getPdfObject().getAsBoolean(PdfName.ImageMask);
+    assertNotNull(isMask);
+    assertTrue(isMask.getValue());
   }
 }
