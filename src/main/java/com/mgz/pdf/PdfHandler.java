@@ -128,6 +128,12 @@ import com.mgz.afp.modca.EPG_EndPage;
 import com.mgz.afp.modca.EPS_EndPageSegment;
 import com.mgz.afp.modca.ERG_EndResourceGroup;
 import com.mgz.afp.modca.ESG_EndResourceEnvironmentGroup;
+import com.mgz.afp.modca.BII_BeginIMImageObject;
+import com.mgz.afp.modca.EII_EndIMImageObject;
+import com.mgz.afp.modca.IID_IMImageInputDescriptor;
+import com.mgz.afp.modca.ICP_IMImageCellPosition;
+import com.mgz.afp.modca.IRD_IMImageRasterData;
+import com.mgz.afp.modca.IOC_IMImageOutputControl;
 import com.mgz.afp.modca.IPO_IncludePageOverlay;
 import com.mgz.afp.modca.IPS_IncludePageSegment;
 import com.mgz.afp.modca.MCF_MapCodedFont_Format1;
@@ -214,6 +220,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private final PdfGraphicsState graphicsState;
   private final PdfBarcodeState barcodeState;
   private final PdfImageState imageState;
+  private final PdfImImageState imImageState;
   private java.io.ByteArrayOutputStream gocaImageBuffer;
   private int gocaImageWidth;
   private int gocaImageHeight;
@@ -265,6 +272,7 @@ public class PdfHandler implements StructuredFieldHandler {
     this.graphicsState = new PdfGraphicsState();
     this.barcodeState = new PdfBarcodeState();
     this.imageState = new PdfImageState();
+    this.imImageState = new PdfImImageState();
     this.fontMapStack.push(new HashMap<>());
 
     this.document = new Document(pdfDoc);
@@ -306,6 +314,7 @@ public class PdfHandler implements StructuredFieldHandler {
     if (sf instanceof PTX_PresentationTextData
         || sf instanceof GAD_GraphicsData
         || sf instanceof BIM_BeginImageObject
+        || sf instanceof BII_BeginIMImageObject
         || sf instanceof BBC_BeginBarCodeObject
         || sf instanceof BGR_BeginGraphicsObject
         || sf instanceof IPO_IncludePageOverlay
@@ -322,6 +331,7 @@ public class PdfHandler implements StructuredFieldHandler {
           || sf instanceof BMO_BeginOverlay
           || sf instanceof BPS_BeginPageSegment
           || sf instanceof BIM_BeginImageObject
+          || sf instanceof BII_BeginIMImageObject
           || sf instanceof BBC_BeginBarCodeObject
           || sf instanceof BRG_BeginResourceGroup) {
         fontMapStack.push(new HashMap<>(fontMapStack.peek()));
@@ -329,6 +339,8 @@ public class PdfHandler implements StructuredFieldHandler {
 
       if (sf instanceof BIM_BeginImageObject) {
         imageState.startNewImage();
+      } else if (sf instanceof BII_BeginIMImageObject) {
+        imImageState.startNewImImage();
       } else if (sf instanceof BBC_BeginBarCodeObject) {
         barcodeState.startNewBarcode();
       } else if (sf instanceof BGR_BeginGraphicsObject) {
@@ -396,6 +408,7 @@ public class PdfHandler implements StructuredFieldHandler {
           graphicsState.reset();
           barcodeState.reset();
           imageState.reset();
+          imImageState.reset();
           currentCanvas.setFillColor(DeviceRgb.BLACK);
           this.isCanvasTransformed = false;
           this.inGraphicsObject = false;
@@ -417,6 +430,7 @@ public class PdfHandler implements StructuredFieldHandler {
             || begin instanceof BMO_BeginOverlay
             || begin instanceof BPS_BeginPageSegment
             || begin instanceof BIM_BeginImageObject
+            || begin instanceof BII_BeginIMImageObject
             || begin instanceof BBC_BeginBarCodeObject
             || begin instanceof BRG_BeginResourceGroup) {
           if (fontMapStack.size() > 1) { // Never pop the base map
@@ -436,6 +450,12 @@ public class PdfHandler implements StructuredFieldHandler {
             PdfImageRenderer.render(imageState, currentCanvas, imageCache);
           }
           imageState.reset();
+        } else if (begin instanceof BII_BeginIMImageObject) {
+          imImageState.setInImImageObject(false);
+          if (currentCanvas != null) {
+            PdfImageRenderer.renderImImage(imImageState, currentCanvas, imageCache);
+          }
+          imImageState.reset();
         } else if (begin instanceof BBC_BeginBarCodeObject) {
           barcodeState.setInBarcodeObject(false);
           if (currentCanvas != null) {
@@ -659,6 +679,22 @@ public class PdfHandler implements StructuredFieldHandler {
     } else if (sf instanceof IPD_ImagePictureData ipd) {
       if (imageState.isInImageObject()) {
         imageState.addImageSegment(ipd);
+      }
+    } else if (sf instanceof IOC_IMImageOutputControl ioc) {
+      if (imImageState.isInImImageObject()) {
+        imImageState.setOutputControl(ioc);
+      }
+    } else if (sf instanceof IID_IMImageInputDescriptor iid) {
+      if (imImageState.isInImImageObject()) {
+        imImageState.setDescriptor(iid);
+      }
+    } else if (sf instanceof ICP_IMImageCellPosition icp) {
+      if (imImageState.isInImImageObject()) {
+        imImageState.startNewCell(icp);
+      }
+    } else if (sf instanceof IRD_IMImageRasterData ird) {
+      if (imImageState.isInImImageObject() && imImageState.getCurrentCell() != null) {
+        imImageState.getCurrentCell().addRasterData(ird.getData());
       }
     } else if (sf instanceof OBP_ObjectAreaPosition obp) {
       if (imageState.isInImageObject()) {
@@ -1966,6 +2002,7 @@ public class PdfHandler implements StructuredFieldHandler {
       graphicsState.reset();
       barcodeState.reset();
       imageState.reset();
+      imImageState.reset();
       currentCanvas.setFillColor(DeviceRgb.BLACK);
       this.isCanvasTransformed = false;
 

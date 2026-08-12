@@ -17,9 +17,9 @@ Phase 2: Expanded Color Space Support & Defaults 🚧
   ├── 2.2 Implement YCrCb (0x02) & YCbCr (0x12) Color Spaces ✅
   └── 2.3 Refactor Device-Default Colors to Resolve Dynamically ⏳
 
-Phase 3: Bi-level Image Colorization & IM Image Support 🚧
+Phase 3: Bi-level Image Colorization & IM Image Support ✅
   ├── 3.1 Implement Bi-level Image Colorization via iText Stencil Masks ✅
-  └── 3.2 Add Rendering Hooks and Support for Legacy IM Images ⏳
+  └── 3.2 Add Rendering Hooks and Support for Legacy IM Images ✅
 
 Phase 4: CMOCA (CMR / CAT) Integration & Advanced Color Management ⏳
   ├── 4.1 CAT (Color Attribute Table) Paletted Mapping ⏳
