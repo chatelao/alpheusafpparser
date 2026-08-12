@@ -35,6 +35,10 @@ import com.mgz.afp.goca.GAD_DrawingOrder.GSCP_SetCurrentPosition;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSCOL_SetColor;
 import com.mgz.afp.goca.GAD_DrawingOrder.GBSEG_BeginSegment;
 import com.mgz.afp.goca.GAD_DrawingOrder.GSGCH_SegmentCharacteristics;
+import com.mgz.afp.goca.GAD_DrawingOrder.GLINE_LineAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GBOX_BoxAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GCHST_CharacterStringAtGivenPosition;
+import com.mgz.afp.goca.GAD_DrawingOrder.GOCA_Point;
 import com.mgz.afp.modca.OBD_ObjectAreaDescriptor;
 import com.mgz.afp.modca.OBP_ObjectAreaPosition;
 import com.mgz.afp.modca.BPG_BeginPage;
@@ -519,5 +523,71 @@ public class PdfGocaPositioningTest {
     EPG_EndPage epg = new EPG_EndPage();
     handler.handle(epg);
     assertDoesNotThrow(() -> handler.close());
+  }
+
+  @Test
+  public void testMultipleGocaSegmentsWithDuplicateNamesDoNotCollide() throws Exception {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    PdfHandler handler = new PdfHandler(baos);
+
+    // 1. Begin Page
+    BPG_BeginPage bpg = new BPG_BeginPage();
+    bpg.setName("P1");
+    handler.handle(bpg);
+
+    // 2. Begin Graphics Object
+    BGR_BeginGraphicsObject bgr = new BGR_BeginGraphicsObject();
+    handler.handle(bgr);
+
+    // First Segment: name "DUPLICATE", draws a line
+    GBSEG_BeginSegment gbseg1 = new GBSEG_BeginSegment();
+    gbseg1.setNameOfSegment("DUPLICATE");
+    GLINE_LineAtGivenPosition line = new GLINE_LineAtGivenPosition();
+    line.setPoints(List.of(new GOCA_Point((short)10, (short)10), new GOCA_Point((short)100, (short)100)));
+    gbseg1.setDrawingOrders(List.of(line));
+    handler.handleDrawingOrder(gbseg1);
+
+    // Second Segment: SAME name "DUPLICATE", draws a box
+    GBSEG_BeginSegment gbseg2 = new GBSEG_BeginSegment();
+    gbseg2.setNameOfSegment("DUPLICATE");
+    GBOX_BoxAtGivenPosition box = new GBOX_BoxAtGivenPosition();
+    box.setFirstCorner(new GOCA_Point((short)20, (short)20));
+    box.setDiagonalCorner(new GOCA_Point((short)50, (short)50));
+    gbseg2.setDrawingOrders(List.of(box));
+    handler.handleDrawingOrder(gbseg2);
+
+    // Third Segment: null name, draws a character string
+    GBSEG_BeginSegment gbseg3 = new GBSEG_BeginSegment();
+    gbseg3.setNameOfSegment(null);
+    GCHST_CharacterStringAtGivenPosition text = new GCHST_CharacterStringAtGivenPosition();
+    text.setOriginPoint(new GOCA_Point((short)30, (short)30));
+    text.setText("TEST_TEXT");
+    gbseg3.setDrawingOrders(List.of(text));
+    handler.handleDrawingOrder(gbseg3);
+
+    // End Graphics Object and Page
+    EGR_EndGraphicsObject egr = new EGR_EndGraphicsObject();
+    handler.handle(egr);
+    EPG_EndPage epg = new EPG_EndPage();
+    handler.handle(epg);
+    handler.close();
+
+    byte[] pdfBytes = baos.toByteArray();
+    com.itextpdf.kernel.pdf.PdfReader reader = new com.itextpdf.kernel.pdf.PdfReader(new java.io.ByteArrayInputStream(pdfBytes));
+    com.itextpdf.kernel.pdf.PdfDocument pdfDoc = new com.itextpdf.kernel.pdf.PdfDocument(reader);
+    com.itextpdf.kernel.pdf.PdfPage page = pdfDoc.getPage(1);
+    byte[] contentBytes = page.getContentBytes();
+    String contentString = new String(contentBytes, java.nio.charset.StandardCharsets.UTF_8);
+
+    // Verify both different drawing contents are present in the PDF content stream
+    // 10 10 m and 100 100 l for line
+    assertTrue(contentString.contains("10 10 m"), "Should contain line moveTo");
+    assertTrue(contentString.contains("100 100 l"), "Should contain line lineTo");
+    // 20 20 30 30 re ... for box
+    assertTrue(contentString.contains("20 20 30 30 re"), "Should contain box rectangle");
+    // Text string "TEST_TEXT"
+    assertTrue(contentString.contains("TEST_TEXT"), "Should contain character string text");
+
+    pdfDoc.close();
   }
 }
