@@ -221,6 +221,17 @@ public class PdfHandler implements StructuredFieldHandler {
   private final PdfBarcodeState barcodeState;
   private final PdfImageState imageState;
   private final PdfImImageState imImageState;
+  private final ColorContext colorContext = new ColorContext();
+
+  /**
+   * Returns the color context for this handler.
+   *
+   * @return the color context
+   */
+  public ColorContext getColorContext() {
+    return colorContext;
+  }
+
   private java.io.ByteArrayOutputStream gocaImageBuffer;
   private int gocaImageWidth;
   private int gocaImageHeight;
@@ -301,9 +312,11 @@ public class PdfHandler implements StructuredFieldHandler {
       MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
     }
 
+    ColorHandler.setContext(this.colorContext);
     try {
       handleInternal(sf);
     } finally {
+      ColorHandler.clearContext();
       if (MnemonicPerformanceMonitor.isEnabled()) {
         MnemonicPerformanceMonitor.endWrite();
       }
@@ -2024,10 +2037,14 @@ public class PdfHandler implements StructuredFieldHandler {
 
   @Override
   public void close() throws Exception {
-    if (fieldCount.get() > 0 && pdfDoc.getNumberOfPages() == 0) {
-      document.add(new Paragraph("AFP to PDF conversion in progress..."));
+    try {
+      if (fieldCount.get() > 0 && pdfDoc.getNumberOfPages() == 0) {
+        document.add(new Paragraph("AFP to PDF conversion in progress..."));
+      }
+      document.close();
+    } finally {
+      ColorHandler.clearContext();
     }
-    document.close();
   }
 
   /**

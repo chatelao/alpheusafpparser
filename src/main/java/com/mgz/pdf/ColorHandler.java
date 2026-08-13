@@ -32,6 +32,44 @@ import com.mgz.afp.enums.AFPColorValue;
  */
 public class ColorHandler {
 
+  private static final ThreadLocal<ColorContext> contextThreadLocal = ThreadLocal.withInitial(ColorContext::new);
+
+  /**
+   * Returns the current thread-local color context.
+   *
+   * @return the color context
+   */
+  public static ColorContext getContext() {
+    return contextThreadLocal.get();
+  }
+
+  /**
+   * Sets the current thread-local color context.
+   *
+   * @param context the color context to set
+   */
+  public static void setContext(ColorContext context) {
+    if (context == null) {
+      contextThreadLocal.remove();
+    } else {
+      contextThreadLocal.set(context);
+    }
+  }
+
+  /**
+   * Clears the current thread-local color context.
+   */
+  public static void clearContext() {
+    contextThreadLocal.remove();
+  }
+
+  private static boolean isDefaultColor(AFPColorValue afpColor) {
+    return afpColor == AFPColorValue.DeviceDefault_0x00
+        || afpColor == AFPColorValue.DeviceDefault_0xFF00
+        || afpColor == AFPColorValue.Default_0xFF
+        || afpColor == AFPColorValue.Default_0xFFFF;
+  }
+
   /**
    * Converts an {@link AFPColorValue} to an iText {@link Color}.
    *
@@ -41,6 +79,9 @@ public class ColorHandler {
   public static Color getColor(AFPColorValue afpColor) {
     if (afpColor == null) {
       return DeviceRgb.BLACK;
+    }
+    if (isDefaultColor(afpColor)) {
+      return getContext().resolveDefaultColor(afpColor);
     }
     int[] rgb = afpColor.toRgb();
     return new DeviceRgb(rgb[0], rgb[1], rgb[2]);
