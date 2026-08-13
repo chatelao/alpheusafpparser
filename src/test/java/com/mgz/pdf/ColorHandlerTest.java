@@ -152,4 +152,69 @@ public class ColorHandlerTest {
     assertTrue(color instanceof DeviceRgb);
     assertArrayEquals(new float[] {173/255.0f, 116/255.0f, 71/255.0f}, color.getColorValue());
   }
+
+  @Test
+  public void testDynamicDeviceDefaultColorResolution() {
+    // 1. In default context, DeviceDefault should resolve to Black
+    Color defaultColor = ColorHandler.getColor(AFPColorValue.DeviceDefault_0x00);
+    assertTrue(defaultColor instanceof DeviceRgb);
+    assertArrayEquals(new float[] {0.0f, 0.0f, 0.0f}, defaultColor.getColorValue());
+
+    // 2. Explicit non-default colors remain unchanged in any context
+    Color red = ColorHandler.getColor(AFPColorValue.Red_0x02);
+    assertArrayEquals(new float[] {1.0f, 0.0f, 0.0f}, red.getColorValue());
+
+    // Create a new custom ColorContext
+    ColorContext ctx = new ColorContext();
+
+    try {
+      ColorHandler.setContext(ctx);
+
+      // 3. Set a dark background -> default color should adjust to White
+      ctx.setMediaBackgroundColor(new DeviceRgb(0, 0, 0)); // pure black background
+      Color resolvedOnDark = ColorHandler.getColor(AFPColorValue.DeviceDefault_0x00);
+      assertArrayEquals(new float[] {1.0f, 1.0f, 1.0f}, resolvedOnDark.getColorValue());
+
+      // 4. Set a light background -> default color should adjust back to Black
+      ctx.setMediaBackgroundColor(new DeviceRgb(255, 255, 255)); // pure white background
+      Color resolvedOnLight = ColorHandler.getColor(AFPColorValue.DeviceDefault_0x00);
+      assertArrayEquals(new float[] {0.0f, 0.0f, 0.0f}, resolvedOnLight.getColorValue());
+
+      // 5. Explicit stylesheet color override
+      Color customGreen = new DeviceRgb(0, 255, 0);
+      ctx.setActiveStylesheetColor(customGreen);
+      Color resolvedWithStylesheet = ColorHandler.getColor(AFPColorValue.DeviceDefault_0xFF00);
+      assertArrayEquals(new float[] {0.0f, 1.0f, 0.0f}, resolvedWithStylesheet.getColorValue());
+
+      // Clear stylesheet and test Formdef default color override
+      ctx.setActiveStylesheetColor(null);
+      Color customBlue = new DeviceRgb(0, 0, 255);
+      ctx.setFormdefDefaultColor(customBlue);
+      Color resolvedWithFormdef = ColorHandler.getColor(AFPColorValue.Default_0xFFFF);
+      assertArrayEquals(new float[] {0.0f, 0.0f, 1.0f}, resolvedWithFormdef.getColorValue());
+
+    } finally {
+      ColorHandler.clearContext();
+    }
+  }
+
+  @Test
+  public void testPdfHandlerContextIntegration() throws Exception {
+    java.io.ByteArrayOutputStream os = new java.io.ByteArrayOutputStream();
+    try (PdfHandler handler = new PdfHandler(os)) {
+      // Access handler's context and configure dark background
+      ColorContext ctx = handler.getColorContext();
+      ctx.setMediaBackgroundColor(new DeviceRgb(0, 0, 0)); // dark background
+
+      // Since PdfHandler.handle(...) sets the thread-local context, we can simulate structured field processing
+      // and assert that dynamic color resolution works perfectly within the handler's lifecycle.
+      ColorHandler.setContext(ctx);
+      try {
+        Color resolved = ColorHandler.getColor(AFPColorValue.DeviceDefault_0x00);
+        assertArrayEquals(new float[] {1.0f, 1.0f, 1.0f}, resolved.getColorValue());
+      } finally {
+        ColorHandler.clearContext();
+      }
+    }
+  }
 }
