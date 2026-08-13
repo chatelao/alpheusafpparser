@@ -31,6 +31,7 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Performs pixel-perfect verification of PDF output against golden baselines.
@@ -44,14 +45,19 @@ public class PdfPixelPerfectVerificationTest {
   private static final int TOLERANCE = 0;
 
   @ParameterizedTest
-  @ValueSource(strings = {"minimal.afp", "perf_ptx.afp"})
+  @ValueSource(strings = {
+      "minimal.afp",
+      "perf_ptx.afp",
+      "afp-goca-reference-03/Chapter_1.afp",
+      "afp-goca-reference-03/Chapter_4.afp",
+      "afp-goca-reference-03/Chapter_6.afp"
+  })
   public void testPixelPerfectVerification(String afpFileName) throws Exception {
     File inputFile = new File("src/test/resources/afp/" + afpFileName);
-    File outputFile = tempDir.resolve(afpFileName + ".pdf").toFile();
+    File outputFile = tempDir.resolve(afpFileName.replace('/', '_') + ".pdf").toFile();
     File baselineFile = new File("src/test/resources/baselines/pdf/" + afpFileName + ".png");
 
     assertTrue(inputFile.exists(), "Input AFP file should exist: " + inputFile.getAbsolutePath());
-    assertTrue(baselineFile.exists(), "Baseline image should exist: " + baselineFile.getAbsolutePath());
 
     // 1. Convert AFP to PDF
     String[] args = {
@@ -64,6 +70,16 @@ public class PdfPixelPerfectVerificationTest {
 
     // 2. Rasterize PDF
     BufferedImage actualImage = PdfVerificationUtils.rasterize(outputFile, DPI);
+
+    // If the baseline file does not exist, generate it and fail the test to prevent silent passing
+    if (!baselineFile.exists()) {
+        File parentDir = baselineFile.getParentFile();
+        if (parentDir != null) {
+            parentDir.mkdirs();
+        }
+        PdfVerificationUtils.saveImage(actualImage, "png", baselineFile);
+        fail("Baseline image did not exist and was generated on-the-fly. Please review the generated image and commit it: " + baselineFile.getAbsolutePath());
+    }
 
     // 3. Load Baseline
     BufferedImage baselineImage = javax.imageio.ImageIO.read(baselineFile);
