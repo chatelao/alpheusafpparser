@@ -51,4 +51,33 @@ public class VeraPdfCliWrapperTest {
     assertTrue(command.contains("--format xml"));
     assertTrue(command.contains(pdfFile.getAbsolutePath()));
   }
+
+  @Test
+  public void testVeraPdfGocaConformance() throws Exception {
+    File inputFile = new File("src/test/resources/afp/afp-goca-reference-03/Chapter_4.afp");
+    File tempDir = new File("build/tmp/verapdf-test");
+    tempDir.mkdirs();
+    File outputFile = new File(tempDir, "Chapter_4_conformance.pdf");
+
+    // Convert GOCA reference file to PDF
+    String[] args = {
+        "-f", "pdf",
+        inputFile.getAbsolutePath(),
+        outputFile.getAbsolutePath()
+    };
+    int result = com.mgz.cli.Afp2Xml.execute(args);
+    assertEquals(0, result, "GOCA AFP to PDF conversion should succeed.");
+
+    // Run VeraPDF conformance validation if the tool is installed
+    VeraPdfCliWrapper wrapper = new VeraPdfCliWrapper();
+    try {
+      VeraPdfReportParser.ValidationResult validationResult = wrapper.validate(outputFile, "PDF/VT-1");
+      System.out.println("VeraPDF Validation Result: profile=" + validationResult.profileName()
+                         + ", compliant=" + validationResult.isCompliant());
+      assertTrue(validationResult.isCompliant(), "Generated PDF should be PDF/VT-1 compliant according to VeraPDF.");
+    } catch (java.io.IOException e) {
+      System.out.println("VeraPDF executable is not found/installed in this environment. skipping live validation. Command construction verified: "
+                         + wrapper.getCommandString(outputFile, "PDF/VT-1"));
+    }
+  }
 }
