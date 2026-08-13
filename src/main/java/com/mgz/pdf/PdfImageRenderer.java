@@ -37,6 +37,10 @@ import com.mgz.afp.ioca.IPD_Segment.EndTile;
 import com.mgz.afp.ioca.IPD_Segment.ImageData;
 import com.mgz.afp.ioca.IPD_Segment.ImageEncoding;
 import com.mgz.afp.ioca.IPD_Segment.IPD_CompressionAlgorithm;
+import com.mgz.afp.enums.AFPUnitBase;
+import com.mgz.afp.modca.IID_IMImageInputDescriptor;
+import com.mgz.afp.modca.IOC_IMImageOutputControl;
+import com.mgz.afp.modca.ICP_IMImageCellPosition;
 import com.mgz.afp.ioca.IPD_Segment.TilePosition;
 import com.mgz.afp.ioca.IPD_Segment.TileSize;
 import java.io.ByteArrayOutputStream;
@@ -58,6 +62,101 @@ public class PdfImageRenderer {
    * @param canvas the PDF canvas
    * @param imageCache the image cache for optimization
    */
+  /**
+   * Renders the legacy IM image described by the given state onto the canvas.
+   *
+   * @param state  the IM image state
+   * @param canvas the PDF canvas
+   * @param imageCache the image cache for optimization
+   */
+  public static void renderImImage(PdfImImageState state, PdfCanvas canvas, Map<String, PdfImageXObject> imageCache) {
+    if (state == null || canvas == null || state.getDescriptor() == null) {
+      return;
+    }
+
+    IID_IMImageInputDescriptor descriptor = state.getDescriptor();
+    IOC_IMImageOutputControl outputControl = state.getOutputControl();
+
+    int xOrigin = outputControl != null ? outputControl.getxOrigin() : 0;
+    int yOrigin = outputControl != null ? outputControl.getyOrigin() : 0;
+
+    double scaleFactorX = 1.0;
+    double scaleFactorY = 1.0;
+
+    short xUnits = descriptor.getxUnitsPerUnitBase();
+    short yUnits = descriptor.getyUnitsPerUnitBase();
+
+    if (xUnits > 0) {
+      double unitBaseInchesX = (descriptor.getxUnitBase() == AFPUnitBase.Inches10) ? 10.0 : 3.937;
+      scaleFactorX = 1440.0 * unitBaseInchesX / xUnits;
+    }
+    if (yUnits > 0) {
+      double unitBaseInchesY = (descriptor.getyUnitBase() == AFPUnitBase.Inches10) ? 10.0 : 3.937;
+      scaleFactorY = 1440.0 * unitBaseInchesY / yUnits;
+    }
+
+    Color color = null;
+    if (descriptor.getColor() != null) {
+      color = ColorHandler.getColor(descriptor.getColor());
+    } else {
+      color = DeviceRgb.BLACK;
+    }
+
+    for (PdfImImageState.ImCell cell : state.getCells()) {
+      ICP_IMImageCellPosition pos = cell.getPosition();
+      if (pos == null) {
+        continue;
+      }
+
+      int cellW = pos.getxSize();
+      int cellH = pos.getySize();
+
+      if (cellW <= 0 || cellH <= 0) {
+        continue;
+      }
+
+      byte[] rasterData = cell.getRasterData();
+      if (rasterData == null || rasterData.length == 0) {
+        continue;
+      }
+
+      // Calculate placement in presentation space coordinates
+      double cellX = xOrigin + (pos.getxOffset() * scaleFactorX);
+      double cellY = yOrigin + (pos.getyOffset() * scaleFactorY);
+      double cellWPres = cellW * scaleFactorX;
+      double cellHPres = cellH * scaleFactorY;
+
+      // Position bottom-left of the image cell at Y - Height in presentation space to prevent vertical flip in transformed canvas
+      double posY = cellY - cellHPres;
+
+      try {
+        String cacheKey = "IM_" + cellW + "_" + cellH + "_" + java.util.Arrays.hashCode(rasterData);
+        PdfImageXObject imageXObject = (imageCache != null) ? imageCache.get(cacheKey) : null;
+
+        if (imageXObject == null) {
+          com.itextpdf.io.image.ImageData itextImageData = ImageDataFactory.create(
+              cellW, cellH, 1, 1, rasterData, null);
+          itextImageData.makeMask();
+          imageXObject = new PdfImageXObject(itextImageData);
+          if (imageCache != null) {
+            imageCache.put(cacheKey, imageXObject);
+          }
+        }
+
+        canvas.saveState();
+        if (color != null) {
+          canvas.setFillColor(color);
+        }
+        canvas.concatMatrix(cellWPres, 0, 0, cellHPres, cellX, posY);
+        canvas.addXObject(imageXObject);
+        canvas.restoreState();
+
+      } catch (Exception e) {
+        System.err.println("Error rendering IM Image cell: " + e.getMessage());
+      }
+    }
+  }
+
   public static void render(PdfImageState state, PdfCanvas canvas, Map<String, PdfImageXObject> imageCache) {
     if (state == null || canvas == null || state.getDescriptor() == null) {
       return;
