@@ -1064,23 +1064,23 @@ public class PdfHandler implements StructuredFieldHandler {
     } else if (order instanceof GAD_DrawingOrder.DrawingOrder_HasPoints marker && (marker instanceof GMRK_MarkerAtGivenPosition || marker instanceof GCMRK_MarkerAtCurrentPosition)) {
       renderMarkers(marker.getPoints(), marker instanceof GCMRK_MarkerAtCurrentPosition);
     } else if (order instanceof GBSEG_BeginSegment gbseg) {
-      String name = gbseg.getNameOfSegment();
       PdfGraphicsState savedState = new PdfGraphicsState(graphicsState);
-      if (!resourceCache.containsKey(name)) {
-        startResourceCapture(name);
-        if (gbseg.getDrawingOrders() != null) {
-          for (GAD_DrawingOrder subOrder : gbseg.getDrawingOrders()) {
-            handleDrawingOrder(subOrder);
-          }
+      if (currentCanvas != null) {
+        currentCanvas.saveState();
+      }
+      if (gbseg.getDrawingOrders() != null) {
+        for (GAD_DrawingOrder subOrder : gbseg.getDrawingOrders()) {
+          handleDrawingOrder(subOrder);
         }
-        endResourceCapture();
+      }
+      if (currentCanvas != null) {
+        currentCanvas.restoreState();
       }
       int finalX = graphicsState.getCurrentX();
       int finalY = graphicsState.getCurrentY();
       this.graphicsState.copyFrom(savedState);
       this.graphicsState.setCurrentX(finalX);
       this.graphicsState.setCurrentY(finalY);
-      renderXObject(name, graphicsState.getCurrentX(), graphicsState.getCurrentY(), null);
     } else if (order instanceof GBIMG_BeginImageAtGivenPosition gbimg) {
       if (gbimg.getOrigin() != null) {
         graphicsState.setCurrentX(gbimg.getOrigin().xCoordinate());
