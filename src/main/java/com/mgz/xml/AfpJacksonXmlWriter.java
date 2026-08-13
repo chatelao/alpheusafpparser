@@ -4576,6 +4576,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     } else if (order instanceof GAD_DrawingOrder.GCCHST_CharacterStringAtCurrentPosition gcchst) {
       writer.writeStartElement("GCCHST_CharacterStringAtCurrentPosition");
       writeElement(writer, childLevel, "text", gcchst.getText());
+      if (gcchst.getCodePoints() != null) {
+        writeBinaryElement(writer, childLevel, "codePoints", gcchst.getCodePoints());
+      }
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GCHST_CharacterStringAtGivenPosition gchst) {
@@ -4589,6 +4592,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writer.writeEndElement();
       }
       writeElement(writer, childLevel, "text", gchst.getText());
+      if (gchst.getCodePoints() != null) {
+        writeBinaryElement(writer, childLevel, "codePoints", gchst.getCodePoints());
+      }
       writeIndent(writer, level);
       writer.writeEndElement();
     } else if (order instanceof GAD_DrawingOrder.GESEG_EndSegment) {
