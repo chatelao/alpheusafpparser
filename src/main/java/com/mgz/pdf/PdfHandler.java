@@ -1061,8 +1061,8 @@ public class PdfHandler implements StructuredFieldHandler {
         } else {
           currentCanvas.rectangle(x, y, width, height);
         }
-        if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
-          currentCanvas.stroke();
+        if (!graphicsState.isInArea()) {
+          renderClosedPathOutsideArea();
         }
         graphicsState.setCurrentX(gbox.getDiagonalCorner().xCoordinate());
         graphicsState.setCurrentY(gbox.getDiagonalCorner().yCoordinate());
@@ -1081,8 +1081,8 @@ public class PdfHandler implements StructuredFieldHandler {
         } else {
           currentCanvas.rectangle(x, y, width, height);
         }
-        if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
-          currentCanvas.stroke();
+        if (!graphicsState.isInArea()) {
+          renderClosedPathOutsideArea();
         }
         graphicsState.setCurrentX(gcbox.getDiagonalCorner().xCoordinate());
         graphicsState.setCurrentY(gcbox.getDiagonalCorner().yCoordinate());
@@ -1561,9 +1561,31 @@ public class PdfHandler implements StructuredFieldHandler {
       currentCanvas.circle(0, 0, 1);
       currentCanvas.restoreState();
 
-      if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
-        currentCanvas.stroke();
+      if (!graphicsState.isInArea()) {
+        renderClosedPathOutsideArea();
       }
+    }
+  }
+
+  private void renderClosedPathOutsideArea() {
+    if (currentCanvas == null) {
+      return;
+    }
+    short pattern = graphicsState.getPatternSymbol();
+    short patternSet = graphicsState.getPatternSet();
+    boolean noFill = (pattern == 0x0F || pattern == 0x40);
+    boolean hasLine = graphicsState.getLineType() != 8;
+
+    if (!noFill) {
+      applyPattern(patternSet, pattern);
+    }
+
+    if (!noFill && hasLine) {
+      currentCanvas.fillStroke();
+    } else if (!noFill) {
+      currentCanvas.fill();
+    } else if (hasLine) {
+      currentCanvas.stroke();
     }
   }
 
