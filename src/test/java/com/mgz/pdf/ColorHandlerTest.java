@@ -355,4 +355,94 @@ public class ColorHandlerTest {
     assertTrue(ctx.getActiveCmrName() == null);
     assertTrue(ctx.getActiveCmr() == null);
   }
+
+  @Test
+  public void testICMRInvokeCmrIntegration() throws Exception {
+    java.io.ByteArrayOutputStream os = new java.io.ByteArrayOutputStream();
+    try (PdfHandler handler = new PdfHandler(os)) {
+      ColorContext ctx = handler.getColorContext();
+
+      // Create a mock CMR and register it with HAID 42
+      com.mgz.afp.cmoca.CMR_ColorManagementResource cmr = new com.mgz.afp.cmoca.CMR_ColorManagementResource();
+      cmr.setAlias("MyCmr");
+      byte[] rawCmrNameBytes = new byte[146];
+      String archName = "MyArchitectedName";
+      byte[] archBytes = archName.getBytes(java.nio.charset.StandardCharsets.UTF_16BE);
+      System.arraycopy(archBytes, 0, rawCmrNameBytes, 0, Math.min(archBytes.length, rawCmrNameBytes.length));
+      try {
+        java.lang.reflect.Field field = com.mgz.afp.cmoca.CMR_ColorManagementResource.class.getDeclaredField("rawCmrName");
+        field.setAccessible(true);
+        field.set(cmr, rawCmrNameBytes);
+      } catch (Exception e) {}
+
+      ctx.registerCmr(42, cmr);
+
+      // Verify it is registered
+      assertEquals(cmr, ctx.getCmr(42));
+
+      // Construct and process an ICMR_InvokeCMR command
+      com.mgz.afp.ipds.ICMR_InvokeCMR icmr = new com.mgz.afp.ipds.ICMR_InvokeCMR();
+      icmr.setInvocationFlags((byte) 0x00); // Invoke, not reset
+      icmr.addHaid(42);
+
+      handler.handle(icmr);
+
+      // Verify active HAID and active CMR Name are configured
+      assertEquals(1, ctx.getActiveHaids().size());
+      assertEquals(42, ctx.getActiveHaids().get(0).intValue());
+      assertEquals(cmr, ctx.getActiveCmr());
+
+      // Now process reset ICMR command
+      com.mgz.afp.ipds.ICMR_InvokeCMR resetIcmr = new com.mgz.afp.ipds.ICMR_InvokeCMR();
+      resetIcmr.setInvocationFlags((byte) 0x80); // Reset
+
+      handler.handle(resetIcmr);
+
+      // Verify active HAIDs and CMR name are cleared
+      assertTrue(ctx.getActiveHaids().isEmpty());
+      assertTrue(ctx.getActiveCmr() == null);
+    }
+  }
+
+  @Test
+  public void testIccBasedColorSpaceAndFallback() {
+    ColorContext ctx = new ColorContext();
+    ColorHandler.setContext(ctx);
+
+    try {
+      com.mgz.afp.cmoca.CMR_ColorManagementResource cmr = new com.mgz.afp.cmoca.CMR_ColorManagementResource();
+      cmr.setAlias("CmrForIcc");
+
+      // Setup mock invalid ICC profile bytes
+      byte[] invalidIccBytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
+
+      // Construct a Tag X'3015' (ICC Profile Data) and associate with CMR
+      java.util.List<com.mgz.afp.cmoca.CMRTag> tags = new java.util.ArrayList<>();
+      com.mgz.afp.cmoca.CMRTag iccTag = new com.mgz.afp.cmoca.CMRTag(0x3015, 5, invalidIccBytes.length, 0);
+      iccTag.setData(invalidIccBytes);
+      tags.add(iccTag);
+      cmr.setTags(tags);
+
+      // Register CMR and activate it
+      ctx.registerCmr(100, cmr);
+      ctx.setActiveHaids(java.util.List.of(100));
+
+      // Attempt to resolve RGB and CMYK colors
+      // Since ICC data is invalid, it should fall back to standard DeviceRgb and DeviceCmyk gracefully without crashing!
+      byte[] rgbValue = new byte[] { (byte) 255, 0, 0 };
+      Color rgbColor = ColorHandler.getExtendedColor(AFPColorSpace.RGB, rgbValue);
+      assertNotNull(rgbColor);
+      assertTrue(rgbColor instanceof DeviceRgb);
+      assertArrayEquals(new float[] { 1.0f, 0.0f, 0.0f }, rgbColor.getColorValue());
+
+      byte[] cmykValue = new byte[] { (byte) 255, 0, (byte) 255, 0 };
+      Color cmykColor = ColorHandler.getExtendedColor(AFPColorSpace.CMYK, cmykValue);
+      assertNotNull(cmykColor);
+      assertTrue(cmykColor instanceof DeviceCmyk);
+      assertArrayEquals(new float[] { 1.0f, 0.0f, 1.0f, 0.0f }, cmykColor.getColorValue());
+
+    } finally {
+      ColorHandler.clearContext();
+    }
+  }
 }

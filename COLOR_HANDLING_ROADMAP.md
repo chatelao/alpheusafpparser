@@ -21,17 +21,17 @@ Phase 3: Bi-level Image Colorization & IM Image Support ✅
   ├── 3.1 Implement Bi-level Image Colorization via iText Stencil Masks ✅
   └── 3.2 Add Rendering Hooks and Support for Legacy IM Images ✅
 
-Phase 4: CMOCA (CMR / CAT) Integration & Advanced Color Management ⏳
+Phase 4: CMOCA (CMR / CAT) Integration & Advanced Color Management ✅
   ├── 4.1 CAT (Color Attribute Table) Paletted Mapping ✅
   │     ├── 4.1.1 Add CAT / BCA / ECA support to ColorContext: Define structures to capture CAT entries (Local Color ID mapping to RGB/CMYK values) in ColorContext ✅
   │     ├── 4.1.2 Populate CAT entries in PdfHandler: Track active Color Attribute Tables during parsing of BCA, CAT, and ECA structured fields and update ColorContext accordingly ✅
   │     └── 4.1.3 Integrate CAT mapping in ColorHandler: Resolve legacy or indexed StandardOCA colors using the active CAT palette entries from ColorContext before falling back to default OCA palettes ✅
-  └── 4.2 CMR (Color Management Resource) ICC Profile Embedding ⏳
+  └── 4.2 CMR (Color Management Resource) ICC Profile Embedding ✅
         ├── 4.2.1 Extract ICC Profile Data from CMR ✅
         ├── 4.2.2 Create CMR Registry in ColorContext ✅
-        ├── 4.2.3 Support ICMR IPDS Command Mapping ⏳
-        ├── 4.2.4 Construct iText ICC Color Spaces ⏳
-        └── 4.2.5 Graceful Default Fallback ⏳
+        ├── 4.2.3 Support ICMR IPDS Command Mapping ✅
+        ├── 4.2.4 Construct iText ICC Color Spaces ✅
+        └── 4.2.5 Graceful Default Fallback ✅
 ```
 
 ---
@@ -138,7 +138,7 @@ Provide enterprise-grade color fidelity by mapping colors through parsed Color M
     *   When legacy or indexed colors are resolved, check if an active CAT resource overrides standard OCA mappings.
     *   Translate indices to their corresponding RGB, CMYK, or Lab values specified in the CAT.
 
-### 4.2 CMR (Color Management Resource) ICC Profile Embedding ⏳
+### 4.2 CMR (Color Management Resource) ICC Profile Embedding ✅
 *   **Affected Files:** `ColorHandler.java`, `PdfHandler.java`, `com/mgz/afp/cmoca/CMR_ColorManagementResource.java`
 *   **Proposed Solution:**
     *   Integrate parsed Color Management Resources (CMR) with iText 9's color management pipeline across granular sub-steps.
@@ -149,13 +149,13 @@ Provide enterprise-grade color fidelity by mapping colors through parsed Color M
 #### 4.2.2 Create CMR Registry in ColorContext ✅
 *   **Proposed Solution:** Define registry maps and active status tracking fields in `ColorContext` to allow registering, retrieving, and activating parsed `CMR_ColorManagementResource` objects.
 
-#### 4.2.3 Support ICMR IPDS Command Mapping ⏳
+#### 4.2.3 Support ICMR IPDS Command Mapping ✅
 *   **Proposed Solution:** Intercept and parse the `ICMR_InvokeCMR` structured field in `PdfHandler`, associating active HAIDs (Host Assigned ID mappings) to register and activate CMR configurations inside the `ColorContext`.
 
-#### 4.2.4 Construct iText ICC Color Spaces ⏳
+#### 4.2.4 Construct iText ICC Color Spaces ✅
 *   **Proposed Solution:** Resolve invoked CMRs during image or GOCA vector processing, read their ICC profile, and map them to iText 9 ICC-based color spaces (e.g. `IccProfile` or `PdfColorSpace`) to guarantee calibrated device-independent rendering.
 
-#### 4.2.5 Graceful Default Fallback ⏳
+#### 4.2.5 Graceful Default Fallback ✅
 *   **Proposed Solution:** Ensure robust fallback logic. If an ICC profile contains invalid or corrupt data, fall back to standard `DeviceRgb` or `DeviceCmyk` to maintain document-rendering integrity.
 
 ### Testing & Verification
