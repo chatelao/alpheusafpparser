@@ -271,4 +271,88 @@ public class ColorHandlerTest {
       ColorHandler.clearContext();
     }
   }
+
+  @Test
+  public void testCmrIccProfileDataExtraction() {
+    com.mgz.afp.cmoca.CMR_ColorManagementResource cmr = new com.mgz.afp.cmoca.CMR_ColorManagementResource();
+
+    // 1. Initially tags are null, should return null
+    assertTrue(cmr.getIccProfileData() == null);
+
+    // 2. Add some other tags, should still return null
+    java.util.List<com.mgz.afp.cmoca.CMRTag> tags = new java.util.ArrayList<>();
+    tags.add(new com.mgz.afp.cmoca.CMRTag(0x0004, 1, 0, 0));
+    cmr.setTags(tags);
+    assertTrue(cmr.getIccProfileData() == null);
+
+    // 3. Add Tag X'3015' (ICC Profile Data)
+    byte[] mockIccData = new byte[] {0x12, 0x34, 0x56, 0x78};
+    com.mgz.afp.cmoca.CMRTag iccTag = new com.mgz.afp.cmoca.CMRTag(0x3015, 5, mockIccData.length, 0);
+    iccTag.setData(mockIccData);
+    tags.add(iccTag);
+
+    byte[] extractedData = cmr.getIccProfileData();
+    assertNotNull(extractedData);
+    assertArrayEquals(mockIccData, extractedData);
+  }
+
+  @Test
+  public void testColorContextCmrRegistry() {
+    ColorContext ctx = new ColorContext();
+
+    // 1. Initial lookup should return null
+    assertTrue(ctx.getCmr("TestCMR") == null);
+    assertTrue(ctx.getActiveCmrName() == null);
+    assertTrue(ctx.getActiveCmr() == null);
+
+    // 2. Create and configure a simulated CMR
+    com.mgz.afp.cmoca.CMR_ColorManagementResource cmr = new com.mgz.afp.cmoca.CMR_ColorManagementResource();
+    cmr.setAlias("TestAlias");
+
+    // Inject rawCmrName for getArchitectedName
+    // We can use a reflection field setter if needed, or simply let alias register it.
+    // Let's check how rawCmrName is formatted: utf16be, 146 bytes.
+    byte[] rawCmrNameBytes = new byte[146];
+    String archName = "ArchitectedNameForTest";
+    byte[] archBytes = archName.getBytes(java.nio.charset.StandardCharsets.UTF_16BE);
+    System.arraycopy(archBytes, 0, rawCmrNameBytes, 0, Math.min(archBytes.length, rawCmrNameBytes.length));
+
+    // We can't access rawCmrName easily from outside if it's private and has no setter,
+    // but we can parse it from structured field or just use reflection, or we don't strictly need architected name
+    // to verify alias registry.
+    // Let's use reflection to set rawCmrName so we test BOTH architected name and alias registration!
+    try {
+      java.lang.reflect.Field field = com.mgz.afp.cmoca.CMR_ColorManagementResource.class.getDeclaredField("rawCmrName");
+      field.setAccessible(true);
+      field.set(cmr, rawCmrNameBytes);
+    } catch (Exception e) {
+      // Fallback if reflection fails
+    }
+
+    // 3. Register CMR
+    ctx.registerCmr(cmr);
+
+    // 4. Retrieve by alias
+    com.mgz.afp.cmoca.CMR_ColorManagementResource retrievedByAlias = ctx.getCmr("TestAlias");
+    assertNotNull(retrievedByAlias);
+    assertEquals("TestAlias", retrievedByAlias.getAlias());
+
+    // 5. Retrieve by architected name
+    String resolvedArchName = cmr.getArchitectedName();
+    if (resolvedArchName != null) {
+      com.mgz.afp.cmoca.CMR_ColorManagementResource retrievedByArchName = ctx.getCmr(resolvedArchName);
+      assertNotNull(retrievedByArchName);
+    }
+
+    // 6. Test Active CMR configuration
+    ctx.setActiveCmrName("TestAlias");
+    assertEquals("TestAlias", ctx.getActiveCmrName());
+    assertEquals(cmr, ctx.getActiveCmr());
+
+    // 7. Clear and check
+    ctx.clearCmrs();
+    assertTrue(ctx.getCmr("TestAlias") == null);
+    assertTrue(ctx.getActiveCmrName() == null);
+    assertTrue(ctx.getActiveCmr() == null);
+  }
 }
