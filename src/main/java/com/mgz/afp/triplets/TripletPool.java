@@ -84,7 +84,10 @@ public final class TripletPool {
    * @param triplet the instance to release
    */
   public static void release(Triplet triplet) {
-    if (triplet != null && triplet.getTripletID() != null) {
+    if (triplet == null || !triplet.isPooled()) {
+      return;
+    }
+    if (triplet.getTripletID() != null) {
       TripletID tid = triplet.getTripletID();
       Map<TripletID, Deque<Triplet>> l1Map = L1_POOLS.get();
       Deque<Triplet> l1 = l1Map.computeIfAbsent(tid, k -> new ArrayDeque<>(L1_CAPACITY_PER_TYPE));

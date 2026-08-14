@@ -63,13 +63,14 @@ public final class StructuredFieldBaseDataPool {
    * @param sf the instance to release
    */
   public static void release(StructuredFieldBaseData sf) {
-    if (sf != null) {
-      Deque<StructuredFieldBaseData> l1 = L1_POOL.get();
-      if (l1.size() < L1_CAPACITY) {
-        l1.addFirst(sf);
-      } else {
-        L2_POOL.offer(sf);
-      }
+    if (sf == null || !sf.isPooled()) {
+      return;
+    }
+    Deque<StructuredFieldBaseData> l1 = L1_POOL.get();
+    if (l1.size() < L1_CAPACITY) {
+      l1.addFirst(sf);
+    } else {
+      L2_POOL.offer(sf);
     }
   }
 

@@ -366,6 +366,16 @@ public class StructuredFieldIntroducer {
     this.actualConfig = actualConfig;
   }
 
+  protected boolean isPooled = true;
+
+  public boolean isPooled() {
+    return isPooled;
+  }
+
+  public void setPooled(boolean isPooled) {
+    this.isPooled = isPooled;
+  }
+
   /**
    * Resets all fields to their default values for reuse in an object pool.
    */
@@ -380,6 +390,7 @@ public class StructuredFieldIntroducer {
     extenstion = null;
     actualConfig = null;
     fileOffset = 0;
+    isPooled = true;
   }
 
   @Override

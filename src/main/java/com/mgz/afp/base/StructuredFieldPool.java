@@ -79,7 +79,10 @@ public final class StructuredFieldPool {
    * @param type the structured field type ID
    */
   public static void release(StructuredField sf, SFTypeID type) {
-    if (sf != null && type != null) {
+    if (sf == null || !sf.isPooled()) {
+      return;
+    }
+    if (type != null) {
       Map<SFTypeID, Deque<StructuredField>> l1Map = L1_POOLS.get();
       Deque<StructuredField> l1 = l1Map.computeIfAbsent(type, k -> new ArrayDeque<>(L1_CAPACITY_PER_TYPE));
 

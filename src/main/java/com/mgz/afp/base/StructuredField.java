@@ -67,6 +67,16 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
   @JsonIgnore
   protected java.nio.ByteBuffer paddingBuffer;
 
+  protected boolean isPooled = true;
+
+  public boolean isPooled() {
+    return isPooled;
+  }
+
+  public void setPooled(boolean isPooled) {
+    this.isPooled = isPooled;
+  }
+
   /**
    * Resets the structured field to its initial state for reuse in an object pool.
    */
@@ -74,6 +84,7 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
     structuredFieldIntroducer = null;
     padding = null;
     paddingBuffer = null;
+    isPooled = true;
   }
 
   public static void checkDataLength(byte[] sfData, int offset, int length, int minLength) throws AFPParserException {
@@ -100,6 +111,9 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
    * {@link StructuredFieldIntroducer} and triplet references of this structured field will be null.
    */
   public void release() {
+    if (!isPooled) {
+      return;
+    }
     com.mgz.afp.enums.SFTypeID type =
         structuredFieldIntroducer != null ? structuredFieldIntroducer.getSFTypeID() : null;
 
