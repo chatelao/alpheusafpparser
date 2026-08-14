@@ -165,6 +165,37 @@ public class ColorHandler {
       return null;
     }
 
+    // Check if an active CMR exists with ICC Profile data to construct IccBased color space
+    com.mgz.afp.cmoca.CMR_ColorManagementResource activeCmr = getContext().getActiveCmr();
+    if (activeCmr != null) {
+      byte[] iccData = activeCmr.getIccProfileData();
+      if (iccData != null) {
+        try {
+          float[] components = null;
+          if (colorSpace == AFPColorSpace.RGB && colorValue.length >= 3) {
+            components = new float[] {
+              (colorValue[0] & 0xFF) / 255.0f,
+              (colorValue[1] & 0xFF) / 255.0f,
+              (colorValue[2] & 0xFF) / 255.0f
+            };
+          } else if (colorSpace == AFPColorSpace.CMYK && colorValue.length >= 4) {
+            components = new float[] {
+              (colorValue[0] & 0xFF) / 255.0f,
+              (colorValue[1] & 0xFF) / 255.0f,
+              (colorValue[2] & 0xFF) / 255.0f,
+              (colorValue[3] & 0xFF) / 255.0f
+            };
+          }
+          if (components != null) {
+            java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(iccData);
+            return new com.itextpdf.kernel.colors.IccBased(bais, components);
+          }
+        } catch (Exception e) {
+          // Graceful fallback to default DeviceRgb or DeviceCmyk below on any exception
+        }
+      }
+    }
+
     switch (colorSpace) {
       case RGB:
         if (colorValue.length >= 3) {

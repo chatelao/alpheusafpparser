@@ -515,6 +515,23 @@ public class PdfHandler implements StructuredFieldHandler {
         java.util.Map<Integer, Color> entries = ColorHandler.parseCatEntries(cat);
         colorContext.addColorTable(localId, entries);
       }
+    } else if (sf instanceof com.mgz.afp.cmoca.CMR_ColorManagementResource cmr) {
+      colorContext.registerCmr(cmr);
+    } else if (sf instanceof com.mgz.afp.ipds.ICMR_InvokeCMR icmr) {
+      if (icmr.isReset()) {
+        colorContext.clearActiveCmrs();
+      } else {
+        colorContext.setActiveHaids(icmr.getHaids());
+        if (icmr.getHaids() != null && !icmr.getHaids().isEmpty()) {
+          for (Integer haid : icmr.getHaids()) {
+            com.mgz.afp.cmoca.CMR_ColorManagementResource cmr = colorContext.getCmr(haid);
+            if (cmr != null) {
+              colorContext.setActiveCmrName(cmr.getArchitectedName() != null ? cmr.getArchitectedName() : cmr.getAlias());
+              break;
+            }
+          }
+        }
+      }
     } else if (sf instanceof MCA_MapColorAttributeTable mca) {
       if (mca.getRepeatingGroups() != null) {
         for (IRepeatingGroup rg : mca.getRepeatingGroups()) {

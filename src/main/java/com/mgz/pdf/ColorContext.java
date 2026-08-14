@@ -37,6 +37,8 @@ public class ColorContext {
   private Short activeColorTableId = null;
 
   private final java.util.Map<String, com.mgz.afp.cmoca.CMR_ColorManagementResource> registeredCmrs = new java.util.HashMap<>();
+  private final java.util.Map<Integer, com.mgz.afp.cmoca.CMR_ColorManagementResource> haidToCmr = new java.util.HashMap<>();
+  private final java.util.List<Integer> activeHaids = new java.util.ArrayList<>();
   private String activeCmrName = null;
 
   public void registerCmr(com.mgz.afp.cmoca.CMR_ColorManagementResource cmr) {
@@ -52,11 +54,22 @@ public class ColorContext {
     }
   }
 
+  public void registerCmr(int haid, com.mgz.afp.cmoca.CMR_ColorManagementResource cmr) {
+    if (cmr != null) {
+      haidToCmr.put(haid, cmr);
+      registerCmr(cmr);
+    }
+  }
+
   public com.mgz.afp.cmoca.CMR_ColorManagementResource getCmr(String nameOrAlias) {
     if (nameOrAlias == null) {
       return null;
     }
     return registeredCmrs.get(nameOrAlias);
+  }
+
+  public com.mgz.afp.cmoca.CMR_ColorManagementResource getCmr(int haid) {
+    return haidToCmr.get(haid);
   }
 
   public void setActiveCmrName(String activeCmrName) {
@@ -67,12 +80,41 @@ public class ColorContext {
     return activeCmrName;
   }
 
+  public void setActiveHaids(java.util.List<Integer> haids) {
+    this.activeHaids.clear();
+    if (haids != null) {
+      this.activeHaids.addAll(haids);
+    }
+  }
+
+  public java.util.List<Integer> getActiveHaids() {
+    return activeHaids;
+  }
+
   public com.mgz.afp.cmoca.CMR_ColorManagementResource getActiveCmr() {
-    return getCmr(activeCmrName);
+    if (activeCmrName != null) {
+      return getCmr(activeCmrName);
+    }
+    if (!activeHaids.isEmpty()) {
+      for (Integer haid : activeHaids) {
+        com.mgz.afp.cmoca.CMR_ColorManagementResource cmr = getCmr(haid);
+        if (cmr != null) {
+          return cmr;
+        }
+      }
+    }
+    return null;
+  }
+
+  public void clearActiveCmrs() {
+    this.activeCmrName = null;
+    this.activeHaids.clear();
   }
 
   public void clearCmrs() {
     registeredCmrs.clear();
+    haidToCmr.clear();
+    activeHaids.clear();
     activeCmrName = null;
   }
 
