@@ -63,13 +63,14 @@ public final class SfiPool {
    * @param sfi the instance to release
    */
   public static void release(StructuredFieldIntroducer sfi) {
-    if (sfi != null) {
-      Deque<StructuredFieldIntroducer> l1 = L1_POOL.get();
-      if (l1.size() < L1_CAPACITY) {
-        l1.addFirst(sfi);
-      } else {
-        L2_POOL.offer(sfi);
-      }
+    if (sfi == null || !sfi.isPooled()) {
+      return;
+    }
+    Deque<StructuredFieldIntroducer> l1 = L1_POOL.get();
+    if (l1.size() < L1_CAPACITY) {
+      l1.addFirst(sfi);
+    } else {
+      L2_POOL.offer(sfi);
     }
   }
 

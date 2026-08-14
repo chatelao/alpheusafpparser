@@ -3,7 +3,7 @@
 This document outlines the detailed phased implementation plan for developing a high-performance, high-fidelity Java API to load, modify, and write back AFP (MO:DCA) documents within the Alpheus framework, as defined in `AFP_RW_CONCEPT.md` and detailed in `AFP_RW_DESIGN.md`.
 
 ## Status Summary
-- **Phase 1: Base Auto-Recalculation & Builders**: ⏳ Pending
+- **Phase 1: Base Auto-Recalculation & Builders**: ⏳ In Progress (1.1, 1.5 Completed)
 - **Phase 2: Streaming Modification Pipeline**: ⏳ Pending
 - **Phase 3: Structural DOM API**: ⏳ Pending
 
@@ -29,12 +29,12 @@ The Alpheus AFP Read-Write API is designed to bridge the gap between low-overhea
 ## Phase 1: Base Auto-Recalculation & Builders ⏳
 Establish the foundation of the mutation engine by implementing automated length calculations, state tracking, and safe, validated field construction.
 
-### 1.1. Memory and Pooling Lifecycle Integration
-- [ ] **State Flags & Property Additions**:
+### 1.1. Memory and Pooling Lifecycle Integration ✅
+- [x] **State Flags & Property Additions**:
   - Add `boolean isPooled` status flag to `StructuredField` and `Triplet` base classes to track if an object is owned by the global pools.
-- [ ] **Pool Detachment Mechanic**:
+- [x] **Pool Detachment Mechanic**:
   - Implement `setPooled(boolean)` to allow structured fields and triplets to be detached. When a node is detached, it will not be returned to pools when released or garbage collected.
-- [ ] **Safe Release & Recycler Logic**:
+- [x] **Safe Release & Recycler Logic**:
   - Update `release()` across `StructuredFieldPool`, `TripletPool`, and `SfiPool` to act as a safe no-op if `isPooled == false`. This prevents catastrophic double-releases or premature recycling of modified fields.
 
 ### 1.2. Automated Field Length & Flag Adjustments
@@ -60,16 +60,16 @@ Establish the foundation of the mutation engine by implementing automated length
 - [ ] **Fidelity Serialization**:
   - Write back `Undefined` fields byte-for-byte, ensuring third-party or proprietary production metadata is not lost.
 
-### 1.5. Fluent Builders for Core Fields
-- [ ] **AfpFieldBuilder**:
+### 1.5. Fluent Builders for Core Fields ✅
+- [x] **AfpFieldBuilder**:
   - Define the base builder interface `AfpFieldBuilder<T extends StructuredField>`.
-- [ ] **TleBuilder (Tag Logical Element)**:
+- [x] **TleBuilder (Tag Logical Element)**:
   - Implement a fluent builder for `TLE` structured fields.
   - Automatically generate Fully Qualified Name (FQN) triplets for Attribute Name (`0x02`) and optional Attribute Value (`0x02` with type value).
   - Support character encoding validation for attribute values.
-- [ ] **BngBuilder & EngBuilder**:
+- [x] **BngBuilder & EngBuilder**:
   - Implement fluent builders for `BNG` (Begin Named Page Group) and `ENG` (End Named Page Group).
-- [ ] **NopBuilder**:
+- [x] **NopBuilder**:
   - Implement a fluent builder for `NOP` (No Operation) fields.
 
 ---

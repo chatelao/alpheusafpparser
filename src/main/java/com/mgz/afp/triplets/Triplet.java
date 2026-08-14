@@ -52,12 +52,23 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
   @AFPField(isHidden = true)
   TripletID tripletID;
 
+  protected boolean isPooled = true;
+
+  public boolean isPooled() {
+    return isPooled;
+  }
+
+  public void setPooled(boolean isPooled) {
+    this.isPooled = isPooled;
+  }
+
   /**
    * Resets all fields to their default values for reuse in an object pool.
    */
   public void reset() {
     length = 0;
     tripletID = null;
+    isPooled = true;
   }
 
   @Override
