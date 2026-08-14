@@ -217,4 +217,58 @@ public class ColorHandlerTest {
       }
     }
   }
+
+  @Test
+  public void testCatPalettedColorResolution() {
+    ColorContext ctx = new ColorContext();
+    ColorHandler.setContext(ctx);
+
+    try {
+      // 1. Create a CAT structured field
+      com.mgz.afp.modca_L.CAT_ColorAttributeTable cat = new com.mgz.afp.modca_L.CAT_ColorAttributeTable();
+      com.mgz.afp.modca_L.CAT_ColorAttributeTable.CAT_BasePart bp = new com.mgz.afp.modca_L.CAT_ColorAttributeTable.CAT_BasePart();
+      bp.setColorTableLocalID((short) 42);
+      cat.setBasePart(bp);
+
+      // SDP length: 6 bytes. Type: 0x01 (RGB). Start Index: 0x02 (Red). Value: pure blue (0, 0, 255)
+      byte[] sdpData = new byte[] { 6, 0x01, 0x02, 0x00, 0x00, (byte) 0xFF };
+      cat.setOtherData(sdpData);
+
+      // 2. Parse CAT entries using ColorHandler helper
+      java.util.Map<Integer, Color> entries = ColorHandler.parseCatEntries(cat);
+      assertNotNull(entries);
+      assertEquals(1, entries.size());
+
+      Color mappedColor = entries.get(2);
+      assertNotNull(mappedColor);
+      assertTrue(mappedColor instanceof DeviceRgb);
+      assertArrayEquals(new float[] {0.0f, 0.0f, 1.0f}, mappedColor.getColorValue());
+
+      // 3. Register the table in ColorContext and make it active
+      ctx.addColorTable((short) 42, entries);
+      ctx.setActiveColorTableId((short) 42);
+
+      // 4. Resolve the standard color for index 2 (AFPColorValue.Red_0x02)
+      // Since CAT is active and index 2 maps to blue, it must resolve to blue!
+      Color resolvedColor = ColorHandler.getColor(AFPColorValue.Red_0x02);
+      assertNotNull(resolvedColor);
+      assertArrayEquals(new float[] {0.0f, 0.0f, 1.0f}, resolvedColor.getColorValue());
+
+      // 5. Test fallback mechanism when active CAT is null but a table exists
+      ctx.setActiveColorTableId(null);
+      Color resolvedFallback = ColorHandler.getColor(AFPColorValue.Red_0x02);
+      assertNotNull(resolvedFallback);
+      assertArrayEquals(new float[] {0.0f, 0.0f, 1.0f}, resolvedFallback.getColorValue());
+
+      // 6. Test reset/clear
+      ctx.resetColorTables();
+      Color resolvedPostReset = ColorHandler.getColor(AFPColorValue.Red_0x02);
+      assertNotNull(resolvedPostReset);
+      // Back to standard Red
+      assertArrayEquals(new float[] {1.0f, 0.0f, 0.0f}, resolvedPostReset.getColorValue());
+
+    } finally {
+      ColorHandler.clearContext();
+    }
+  }
 }

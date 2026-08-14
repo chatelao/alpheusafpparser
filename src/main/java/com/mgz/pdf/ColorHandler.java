@@ -71,6 +71,68 @@ public class ColorHandler {
   }
 
   /**
+   * Parses the otherData (Self-Defining Parameters) of a CAT structured field
+   * and maps them to iText Color values.
+   *
+   * @param cat the ColorAttributeTable structured field
+   * @return a map of local color index to iText Color
+   */
+  public static java.util.Map<Integer, Color> parseCatEntries(com.mgz.afp.modca_L.CAT_ColorAttributeTable cat) {
+    java.util.Map<Integer, Color> entries = new java.util.HashMap<>();
+    if (cat == null) {
+      return entries;
+    }
+    byte[] otherData = cat.getOtherData();
+    if (otherData == null || otherData.length == 0) {
+      return entries;
+    }
+    int offset = 0;
+    while (offset < otherData.length) {
+      if (offset + 2 > otherData.length) {
+        break;
+      }
+      int sdpLen = otherData[offset] & 0xFF;
+      if (sdpLen < 3 || offset + sdpLen > otherData.length) {
+        break; // Malformed SDP length
+      }
+      int sdpType = otherData[offset + 1] & 0xFF;
+      int startIndex = otherData[offset + 2] & 0xFF;
+
+      int dataOffset = offset + 3;
+      int dataLen = sdpLen - 3;
+
+      if (sdpType == 0x01) { // RGB
+        int entrySize = 3;
+        int numEntries = dataLen / entrySize;
+        for (int i = 0; i < numEntries; i++) {
+          if (dataOffset + i * entrySize + 2 < otherData.length) {
+            int idx = startIndex + i;
+            int r = otherData[dataOffset + i * entrySize] & 0xFF;
+            int g = otherData[dataOffset + i * entrySize + 1] & 0xFF;
+            int b = otherData[dataOffset + i * entrySize + 2] & 0xFF;
+            entries.put(idx, new DeviceRgb(r, g, b));
+          }
+        }
+      } else if (sdpType == 0x02) { // CMYK
+        int entrySize = 4;
+        int numEntries = dataLen / entrySize;
+        for (int i = 0; i < numEntries; i++) {
+          if (dataOffset + i * entrySize + 3 < otherData.length) {
+            int idx = startIndex + i;
+            float c = (otherData[dataOffset + i * entrySize] & 0xFF) / 255.0f;
+            float m = (otherData[dataOffset + i * entrySize + 1] & 0xFF) / 255.0f;
+            float y = (otherData[dataOffset + i * entrySize + 2] & 0xFF) / 255.0f;
+            float k = (otherData[dataOffset + i * entrySize + 3] & 0xFF) / 255.0f;
+            entries.put(idx, new DeviceCmyk(c, m, y, k));
+          }
+        }
+      }
+      offset += sdpLen;
+    }
+    return entries;
+  }
+
+  /**
    * Converts an {@link AFPColorValue} to an iText {@link Color}.
    *
    * @param afpColor the AFP color value
@@ -79,6 +141,10 @@ public class ColorHandler {
   public static Color getColor(AFPColorValue afpColor) {
     if (afpColor == null) {
       return DeviceRgb.BLACK;
+    }
+    Color catColor = getContext().resolveCatColor(afpColor.toByte());
+    if (catColor != null) {
+      return catColor;
     }
     if (isDefaultColor(afpColor)) {
       return getContext().resolveDefaultColor(afpColor);

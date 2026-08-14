@@ -33,6 +33,47 @@ public class ColorContext {
   private Color activeStylesheetColor = null;
   private Color formdefDefaultColor = null;
 
+  private final java.util.Map<Short, java.util.Map<Integer, Color>> colorTables = new java.util.HashMap<>();
+  private Short activeColorTableId = null;
+
+  public void addColorTable(short localId, java.util.Map<Integer, Color> entries) {
+    colorTables.put(localId, entries);
+    if (activeColorTableId == null) {
+      activeColorTableId = localId;
+    }
+  }
+
+  public void setActiveColorTableId(Short activeColorTableId) {
+    this.activeColorTableId = activeColorTableId;
+  }
+
+  public Short getActiveColorTableId() {
+    return activeColorTableId;
+  }
+
+  public Color resolveCatColor(int colorIndex) {
+    if (activeColorTableId != null) {
+      java.util.Map<Integer, Color> table = colorTables.get(activeColorTableId);
+      if (table != null) {
+        return table.get(colorIndex);
+      }
+    }
+    if (!colorTables.isEmpty()) {
+      for (java.util.Map<Integer, Color> table : colorTables.values()) {
+        Color c = table.get(colorIndex);
+        if (c != null) {
+          return c;
+        }
+      }
+    }
+    return null;
+  }
+
+  public void resetColorTables() {
+    colorTables.clear();
+    activeColorTableId = null;
+  }
+
   public Color getDefaultForegroundColor() {
     return defaultForegroundColor;
   }

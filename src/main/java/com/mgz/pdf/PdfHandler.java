@@ -145,6 +145,8 @@ import com.mgz.afp.modca.OBD_ObjectAreaDescriptor;
 import com.mgz.afp.modca.OBP_ObjectAreaPosition;
 import com.mgz.afp.modca.PGD_PageDescriptor;
 import com.mgz.afp.modca.TLE_TagLogicalElement;
+import com.mgz.afp.modca_L.CAT_ColorAttributeTable;
+import com.mgz.afp.modca_L.MCA_MapColorAttributeTable;
 import com.mgz.afp.ptoca.PTD_PresentationTextDataDescriptor_Format1;
 import com.mgz.afp.ptoca.PTD_PresentationTextDataDescriptor_Format2;
 import com.mgz.afp.ptoca.PTX_PresentationTextData;
@@ -505,6 +507,31 @@ public class PdfHandler implements StructuredFieldHandler {
             dpart.put(new PdfName("Property"), property);
           }
           property.put(new PdfName(key), new PdfString(value));
+        }
+      }
+    } else if (sf instanceof CAT_ColorAttributeTable cat) {
+      if (cat.getBasePart() != null) {
+        short localId = cat.getBasePart().getColorTableLocalID();
+        java.util.Map<Integer, Color> entries = ColorHandler.parseCatEntries(cat);
+        colorContext.addColorTable(localId, entries);
+      }
+    } else if (sf instanceof MCA_MapColorAttributeTable mca) {
+      if (mca.getRepeatingGroups() != null) {
+        for (IRepeatingGroup rg : mca.getRepeatingGroups()) {
+          if (rg instanceof MCA_MapColorAttributeTable.MCA_RepeatingGroup mcarg) {
+            if (mcarg.getTriplets() != null) {
+              Short localId = null;
+              for (Triplet t : mcarg.getTriplets()) {
+                if (t instanceof Triplet.ResourceLocalIdentifier rli
+                    && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.ColorAttributeTable) {
+                  localId = rli.getResourceLocalID();
+                }
+              }
+              if (localId != null) {
+                colorContext.setActiveColorTableId(localId);
+              }
+            }
+          }
         }
       }
     } else if (sf instanceof MMO_MapMediumOverlay mmo) {
