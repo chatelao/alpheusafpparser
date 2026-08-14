@@ -1563,15 +1563,27 @@ public class PdfHandler implements StructuredFieldHandler {
       }
     }
 
+    Color color = null;
+    if (graphicsState.getProcessColorSpace() != null) {
+      color = ColorHandler.getExtendedColor(graphicsState.getProcessColorSpace(), graphicsState.getProcessColorValue());
+    }
+    if (color == null) {
+      color = ColorHandler.getColor(graphicsState.getColor());
+    }
+
     if (symbol <= 0 || symbol >= 16 || symbol == 0x0F) {
       // Use current solid color
-      Color color = ColorHandler.getColor(graphicsState.getColor());
       currentCanvas.setFillColor(color);
       return;
     }
 
-    Color color = ColorHandler.getColor(graphicsState.getColor());
-    String key = symbol + "_" + graphicsState.getColor().name();
+    String keyColorPart;
+    if (graphicsState.getProcessColorSpace() != null) {
+      keyColorPart = graphicsState.getProcessColorSpace().name() + "_" + com.mgz.util.UtilCharacterEncoding.bytesToHexString(graphicsState.getProcessColorValue());
+    } else {
+      keyColorPart = graphicsState.getColor().name();
+    }
+    String key = symbol + "_" + keyColorPart;
     PdfPattern.Tiling tiling = patternCache.get(key);
 
     if (tiling == null) {
