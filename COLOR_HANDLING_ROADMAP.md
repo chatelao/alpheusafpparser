@@ -23,7 +23,15 @@ Phase 3: Bi-level Image Colorization & IM Image Support ✅
 
 Phase 4: CMOCA (CMR / CAT) Integration & Advanced Color Management ⏳
   ├── 4.1 CAT (Color Attribute Table) Paletted Mapping ⏳
+  │     ├── 4.1.1 Parse and Decode CAT Self-Defining Parameters (SDPs) ⏳
+  │     ├── 4.1.2 Implement CAT/MCA Resource Registry in ColorContext ⏳
+  │     ├── 4.1.3 Integrate Paletted Color Resolution in ColorHandler ⏳
+  │     └── 4.1.4 Add Unit and Integration Tests for CAT Mapping ⏳
   └── 4.2 CMR (Color Management Resource) ICC Profile Embedding ⏳
+        ├── 4.2.1 Extract Raw ICC Profile Data from CMOCA Resources ⏳
+        ├── 4.2.2 Implement ICC-Based Color Spaces in ColorHandler ⏳
+        ├── 4.2.3 Bind and Track CMR State in ColorContext and PdfHandler ⏳
+        └── 4.2.4 Validate Conformance of ICC Profile Embedding ⏳
 ```
 
 ---
@@ -61,7 +69,7 @@ Resolve high-impact bugs in GOCA rendering where process colors are ignored, col
 
 ---
 
-## Phase 2: Expanded Color Space Support & Defaults 🚧
+## Phase 2: Expanded Color Space Support & Defaults ✅
 
 ### Goal
 Ensure all architected AFP color spaces map cleanly to PDF equivalents and that default presentation colors are resolved dynamically.
@@ -91,7 +99,7 @@ Ensure all architected AFP color spaces map cleanly to PDF equivalents and that 
 
 ---
 
-## Phase 3: Bi-level Image Colorization & IM Image Support
+## Phase 3: Bi-level Image Colorization & IM Image Support ✅
 
 ### Goal
 Implement high-fidelity rendering for bi-level images acting as stencil masks and restore visual content for legacy IM Image objects.
@@ -104,7 +112,7 @@ Implement high-fidelity rendering for bi-level images acting as stencil masks an
     *   Set the image dictionary's `/ImageMask` entry to `true`.
     *   Before rendering the image XObject onto the canvas, apply the current active text, graphics, or structured field color. This ensures the 1-bits are painted in the active color while 0-bits remain transparent.
 
-### 3.2 Add Rendering Hooks and Support for Legacy IM Images
+### 3.2 Add Rendering Hooks and Support for Legacy IM Images ✅
 *   **Affected Files:** `PdfHandler.java`, `com.mgz.afp.parser`
 *   **Proposed Solution:**
     *   Add handling hooks in `PdfHandler` for `BII` (Begin IM Image), `EII` (End IM Image), `IID` (IM Image Input Descriptor), `ICP` (IM Image Cell Position), and `IRD` (IM Image Raster Data).
@@ -118,25 +126,58 @@ Implement high-fidelity rendering for bi-level images acting as stencil masks an
 
 ---
 
-## Phase 4: CMOCA (CMR / CAT) Integration & Advanced Color Management
+## Phase 4: CMOCA (CMR / CAT) Integration & Advanced Color Management ⏳
 
 ### Goal
 Provide enterprise-grade color fidelity by mapping colors through parsed Color Management Resource (CMR) and Color Attribute Table (CAT) definitions.
 
-### 4.1 CAT (Color Attribute Table) Paletted Mapping
-*   **Affected Files:** `ColorHandler.java`, `PdfHandler.java`, `com/mgz/afp/modca_L/CAT_ColorAttributeTable.java`
-*   **Proposed Solution:**
-    *   Maintain a mapping of active Color Attribute Tables parsed from the resource group or document structure.
-    *   When legacy or indexed colors are resolved, check if an active CAT resource overrides standard OCA mappings.
-    *   Translate indices to their corresponding RGB, CMYK, or Lab values specified in the CAT.
+### 4.1 CAT (Color Attribute Table) Paletted Mapping ⏳
 
-### 4.2 CMR (Color Management Resource) ICC Profile Embedding
-*   **Affected Files:** `ColorHandler.java`, `PdfHandler.java`, `com/mgz/afp/cmoca/CMR_ColorManagementResource.java`
+#### 4.1.1 Parse and Decode CAT Self-Defining Parameters (SDPs) ⏳
+*   **Affected Files:** `CAT_ColorAttributeTable.java`
 *   **Proposed Solution:**
-    *   Integrate parsed Color Management Resources (CMR) with iText 9's color management pipeline.
-    *   When CC (Color Conversion) or LK (Link) CMRs are present, load their embedded ICC profiles.
-    *   Map PDF colors (both image and vector) using the extracted ICC profile to guarantee calibrated device-independent color rendering conforming to standard ICC workflows.
+    *   Implement detailed parsing of Self-Defining Parameters (SDPs) inside the `otherData` byte array of `CAT_ColorAttributeTable.java`.
+    *   Extract and decode Color Table Entry SDP blocks to build structured color mapping entries, mapping a 1-byte local color ID to target RGB, CMYK, or CIELAB values.
 
-### Testing & Verification
-*   Add integration tests with complex CMOCA-heavy AFP inputs.
-*   Assert that the output PDF contains correct color space dictionaries (e.g., ICC-based color spaces) rather than generic device color spaces.
+#### 4.1.2 Implement CAT/MCA Resource Registry in ColorContext ⏳
+*   **Affected Files:** `ColorContext.java`, `PdfHandler.java`
+*   **Proposed Solution:**
+    *   Add registry structures in `ColorContext` to store active Color Attribute Tables (CAT) mapped by their Local ID.
+    *   Implement processing of `BCA` (Begin Color Attribute Table) and `ECA` (End Color Attribute Table) brackets in `PdfHandler` to register CAT resources.
+    *   Parse and map `MCA` (Map Color Attribute Table) repeating groups to associate Resource Local IDs with registered CAT resources.
+
+#### 4.1.3 Integrate Paletted Color Resolution in ColorHandler ⏳
+*   **Affected Files:** `ColorHandler.java`
+*   **Proposed Solution:**
+    *   Update `ColorHandler.getColor()` and `ColorHandler.getExtendedColor()` to check the active `ColorContext` for any mapped local color tables.
+    *   If a matching local color table is found, map the input index/local ID to its resolved RGB, CMYK, or CIELAB color instead of using the standard OCA index.
+
+#### 4.1.4 Add Unit and Integration Tests for CAT Mapping ⏳
+*   **Affected Files:** `ColorHandlerTest.java`, new integration tests
+*   **Proposed Solution:**
+    *   Add unit tests in `ColorHandlerTest.java` targeting CAT SDP decoding and paletted color resolution.
+    *   Verify that GOCA vector graphics and PTOCA text using paletted mapping are rendered with the overridden colors in the generated PDF.
+
+### 4.2 CMR (Color Management Resource) ICC Profile Embedding ⏳
+
+#### 4.2.1 Extract Raw ICC Profile Data from CMOCA Resources ⏳
+*   **Affected Files:** `CMR_ColorManagementResource.java`
+*   **Proposed Solution:**
+    *   Add utility methods in `CMR_ColorManagementResource` to extract embedded ICC profiles from Color Conversion (CC) and Link (LK) CMR tags.
+
+#### 4.2.2 Implement ICC-Based Color Spaces in ColorHandler ⏳
+*   **Affected Files:** `ColorHandler.java`
+*   **Proposed Solution:**
+    *   Extend `ColorHandler.getExtendedColor()` to support creating and caching iText `PdfCnf` or `IccBased` color spaces using extracted raw ICC profiles.
+
+#### 4.2.3 Bind and Track CMR State in ColorContext and PdfHandler ⏳
+*   **Affected Files:** `ColorContext.java`, `PdfHandler.java`
+*   **Proposed Solution:**
+    *   Update `PdfHandler` to parse `ICMR_InvokeCMR` (Invoke CMR) commands and track active CMRs inside `ColorContext`.
+    *   Bind active ICC color spaces to drawing elements (such as GOCA graphics and IOCA images) to ensure device-independent color rendering.
+
+#### 4.2.4 Validate Conformance of ICC Profile Embedding ⏳
+*   **Affected Files:** `VeraPdfCliWrapperTest.java`
+*   **Proposed Solution:**
+    *   Verify that generated PDFs contain valid `/ColorSpace` dictionaries with `/ICCBased` streams conforming to the PDF/VT-1 (ISO 16612-2) profile.
+    *   Execute VeraPDF CLI tests to validate compliance and prevent regressions in profile embedding.
