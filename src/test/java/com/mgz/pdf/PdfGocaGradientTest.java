@@ -236,4 +236,48 @@ public class PdfGocaGradientTest {
     handler.handle(new EPG_EndPage());
     handler.close();
   }
+
+  @Test
+  public void testProcessColorAreaFilling() throws Exception {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    PdfHandler handler = new PdfHandler(baos);
+
+    handler.handle(new BPG_BeginPage());
+
+    // 1. Set process color (RGB)
+    GSPCOL_SetProcessColor gspcol = new GSPCOL_SetProcessColor();
+    gspcol.colorSpace = AFPColorSpace.RGB;
+    gspcol.nrOfBitsComponent1 = (byte) 8;
+    gspcol.nrOfBitsComponent2 = (byte) 8;
+    gspcol.nrOfBitsComponent3 = (byte) 8;
+    gspcol.nrOfBitsComponent4 = (byte) 0;
+    gspcol.colorValue = new byte[]{(byte) 100, (byte) 150, (byte) 200};
+    handler.handleDrawingOrder(gspcol);
+
+    // 2. Begin Area
+    GBAR_BeginArea gbar = new GBAR_BeginArea();
+    handler.handleDrawingOrder(gbar);
+
+    // 3. Set Current Position
+    GSCP_SetCurrentPosition gscp = new GSCP_SetCurrentPosition();
+    gscp.setCoordinateX((short) 100);
+    gscp.setCoordinateY((short) 100);
+    handler.handleDrawingOrder(gscp);
+
+    // 4. Draw boundary lines of the area
+    GAD_DrawingOrder.GCLINE_LineAtCurrentPosition gcline = new GAD_DrawingOrder.GCLINE_LineAtCurrentPosition();
+    gcline.setPoints(java.util.List.of(
+        new GAD_DrawingOrder.GOCA_Point((short) 200, (short) 100),
+        new GAD_DrawingOrder.GOCA_Point((short) 200, (short) 200),
+        new GAD_DrawingOrder.GOCA_Point((short) 100, (short) 200)
+    ));
+    handler.handleDrawingOrder(gcline);
+
+    // 5. End Area (triggers applyPattern, which should use the resolved RGB process color)
+    GEAR_EndArea gear = new GEAR_EndArea();
+    assertDoesNotThrow(() -> handler.handleDrawingOrder(gear));
+
+    handler.handle(new EPG_EndPage());
+    handler.close();
+  }
 }
