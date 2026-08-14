@@ -582,4 +582,21 @@ public class CMR_ColorManagementResource extends StructuredField {
     }
     return new String(rawCmrName, Constants.utf16be);
   }
+
+  /**
+   * Returns the raw ICC Profile data, if present under tag X'3015'.
+   *
+   * @return the raw ICC profile bytes, or null if not found.
+   */
+  public byte[] getIccProfileData() {
+    if (tags == null) {
+      return null;
+    }
+    for (CMRTag tag : tags) {
+      if (tag.getTagId() == 0x3015) {
+        return tag.getData();
+      }
+    }
+    return null;
+  }
 }

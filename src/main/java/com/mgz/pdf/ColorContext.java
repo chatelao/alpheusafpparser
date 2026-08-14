@@ -36,6 +36,46 @@ public class ColorContext {
   private final java.util.Map<Short, java.util.Map<Integer, Color>> colorTables = new java.util.HashMap<>();
   private Short activeColorTableId = null;
 
+  private final java.util.Map<String, com.mgz.afp.cmoca.CMR_ColorManagementResource> registeredCmrs = new java.util.HashMap<>();
+  private String activeCmrName = null;
+
+  public void registerCmr(com.mgz.afp.cmoca.CMR_ColorManagementResource cmr) {
+    if (cmr != null) {
+      String name = cmr.getArchitectedName();
+      if (name != null) {
+        registeredCmrs.put(name, cmr);
+      }
+      String alias = cmr.getAlias();
+      if (alias != null && !alias.isEmpty()) {
+        registeredCmrs.put(alias, cmr);
+      }
+    }
+  }
+
+  public com.mgz.afp.cmoca.CMR_ColorManagementResource getCmr(String nameOrAlias) {
+    if (nameOrAlias == null) {
+      return null;
+    }
+    return registeredCmrs.get(nameOrAlias);
+  }
+
+  public void setActiveCmrName(String activeCmrName) {
+    this.activeCmrName = activeCmrName;
+  }
+
+  public String getActiveCmrName() {
+    return activeCmrName;
+  }
+
+  public com.mgz.afp.cmoca.CMR_ColorManagementResource getActiveCmr() {
+    return getCmr(activeCmrName);
+  }
+
+  public void clearCmrs() {
+    registeredCmrs.clear();
+    activeCmrName = null;
+  }
+
   public void addColorTable(short localId, java.util.Map<Integer, Color> entries) {
     colorTables.put(localId, entries);
     if (activeColorTableId == null) {
