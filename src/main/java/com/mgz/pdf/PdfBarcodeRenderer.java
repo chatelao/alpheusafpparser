@@ -1602,6 +1602,7 @@ public class PdfBarcodeRenderer {
 
     canvas.beginText()
         .setFontAndSize(font, fontSize)
+        .setTextRenderingMode(0) // Ensure filled text
         .setTextMatrix(1, 0, 0, -1, textX, textY) // Note: -1 for Y as canvas is flipped
         .showText(content)
         .endText();
