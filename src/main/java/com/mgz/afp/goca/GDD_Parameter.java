@@ -895,6 +895,11 @@ public abstract class GDD_Parameter implements IAFPDecodeableWriteable {
 
   public static class WindowSpecification extends GDD_Parameter {
     static final int PARAMETERTYPE_WINDOWSSPECIFICATION = 0xF6;
+
+    public WindowSpecification() {
+      parameterType = (short) PARAMETERTYPE_WINDOWSSPECIFICATION;
+    }
+
     @AFPField
     WindowSpecification.WindowSpecificationFlag flags;
     @AFPField
@@ -950,8 +955,10 @@ public abstract class GDD_Parameter implements IAFPDecodeableWriteable {
       lengthOfFollowingData = reservedBytesObsolete != null ? (short) (22 + reservedBytesObsolete.length) : 22;
       os.write(parameterType);
       os.write(lengthOfFollowingData);
+      os.write(unitBaseGPS != null ? unitBaseGPS.toByte() : 0);
       os.write(reserved3);
-      os.write(unitBaseGPS.toByte());
+      os.write(geometricParameterFormat);
+      os.write(unitBaseGPS != null ? unitBaseGPS.toByte() : 0);
       os.write(UtilBinaryDecoding.intToByteArray(unitsPerUnitBaseX, 2));
       os.write(UtilBinaryDecoding.intToByteArray(unitsPerUnitBaseY, 2));
       os.write(UtilBinaryDecoding.intToByteArray(imageResolutionXY, 2));
@@ -961,6 +968,8 @@ public abstract class GDD_Parameter implements IAFPDecodeableWriteable {
       os.write(UtilBinaryDecoding.intToByteArray(topEdgeOfGPSWindow, 2));
       if (reservedBytesObsolete != null) {
         os.write(reservedBytesObsolete);
+      } else {
+        os.write(new byte[4]);
       }
     }
 
