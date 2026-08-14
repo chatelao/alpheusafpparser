@@ -22,7 +22,10 @@ Phase 3: Bi-level Image Colorization & IM Image Support ✅
   └── 3.2 Add Rendering Hooks and Support for Legacy IM Images ✅
 
 Phase 4: CMOCA (CMR / CAT) Integration & Advanced Color Management ⏳
-  ├── 4.1 CAT (Color Attribute Table) Paletted Mapping ⏳
+  ├── 4.1 CAT (Color Attribute Table) Paletted Mapping ✅
+  │     ├── 4.1.1 Add CAT / BCA / ECA support to ColorContext: Define structures to capture CAT entries (Local Color ID mapping to RGB/CMYK values) in ColorContext ✅
+  │     ├── 4.1.2 Populate CAT entries in PdfHandler: Track active Color Attribute Tables during parsing of BCA, CAT, and ECA structured fields and update ColorContext accordingly ✅
+  │     └── 4.1.3 Integrate CAT mapping in ColorHandler: Resolve legacy or indexed StandardOCA colors using the active CAT palette entries from ColorContext before falling back to default OCA palettes ✅
   └── 4.2 CMR (Color Management Resource) ICC Profile Embedding ⏳
 ```
 
