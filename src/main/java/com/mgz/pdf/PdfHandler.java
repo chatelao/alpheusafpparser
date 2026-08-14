@@ -1504,6 +1504,7 @@ public class PdfHandler implements StructuredFieldHandler {
 
     currentCanvas.beginText()
         .setFontAndSize(font, fontSize)
+        .setTextRenderingMode(0) // Ensure filled text
         // Matrix: [a b c d e f]
         // Incorporates rotation, Y-flip, and shear.
         .setTextMatrix(directionScale * (cos + shear * sin), directionScale * (sin - shear * cos), sin, -cos, x, y)
@@ -1848,7 +1849,8 @@ public class PdfHandler implements StructuredFieldHandler {
       float sin = (float) Math.sin(rad);
 
       currentCanvas.beginText()
-          .setFontAndSize(font, fontSizeAfp);
+          .setFontAndSize(font, fontSizeAfp)
+          .setTextRenderingMode(0); // Ensure filled text
 
       if (textState.getIntercharacterAdjustment() != 0) {
         currentCanvas.setCharacterSpacing((float) textState.getIntercharacterAdjustment());
@@ -1907,6 +1909,7 @@ public class PdfHandler implements StructuredFieldHandler {
             String ovsText = ovsChar.repeat(count);
             currentCanvas.beginText()
                 .setFontAndSize(font, fontSizeAfp)
+                .setTextRenderingMode(0) // Ensure filled text
                 .setTextMatrix(cos, sin, sin, -cos, (float) afpX, (float) afpY)
                 .showText(ovsText)
                 .endText();
