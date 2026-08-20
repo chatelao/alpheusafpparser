@@ -3,7 +3,7 @@
 This document outlines the detailed phased implementation plan for developing a high-performance, high-fidelity Java API to load, modify, and write back AFP (MO:DCA) documents within the Alpheus framework, as defined in `AFP_RW_CONCEPT.md` and detailed in `AFP_RW_DESIGN.md`.
 
 ## Status Summary
-- **Phase 1: Base Auto-Recalculation & Builders**: ⏳ In Progress (1.1, 1.5 Completed)
+- **Phase 1: Base Auto-Recalculation & Builders**: ⏳ In Progress (1.1, 1.4, 1.5 Completed)
 - **Phase 2: Streaming Modification Pipeline**: ⏳ Pending
 - **Phase 3: Structural DOM API**: ⏳ Pending
 
@@ -54,10 +54,10 @@ Establish the foundation of the mutation engine by implementing automated length
 - [ ] **Repeating Group Recalculation**:
   - For fields containing repeating groups (such as `LFE_LoadFontEquivalence` or `LE_LoadEquivalence`), implement automated count and offset recalculations during serialization.
 
-### 1.4. Raw Vendor/Custom Field Passthrough
-- [ ] **Preservation of Undefined Fields**:
+### 1.4. Raw Vendor/Custom Field Passthrough ✅
+- [x] **Preservation of Undefined Fields**:
   - Ensure any unrecognized structured field mapped to `Undefined` has its raw payload stored intact.
-- [ ] **Fidelity Serialization**:
+- [x] **Fidelity Serialization**:
   - Write back `Undefined` fields byte-for-byte, ensuring third-party or proprietary production metadata is not lost.
 
 ### 1.5. Fluent Builders for Core Fields ✅
