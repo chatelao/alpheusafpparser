@@ -32,6 +32,17 @@ Phase 4: CMOCA (CMR / CAT) Integration & Advanced Color Management ✅
         ├── 4.2.3 Support ICMR IPDS Command Mapping ✅
         ├── 4.2.4 Construct iText ICC Color Spaces ✅
         └── 4.2.5 Graceful Default Fallback ✅
+
+Phase 5: Spot Color, CIELAB & Advanced Color Conformance Verification
+  ├── 5.1 Spot Color & Separation / Named Color Space Support
+  │     ├── 5.1.1 Add Spot Color (Separation) space mapping in ColorHandler for custom named Pantone/Spot colors
+  │     └── 5.1.2 Support tint transforms for Separation colors mapping to Process RGB/CMYK fallbacks
+  ├── 5.2 Extended CIELAB Color Space Mapping & Calibrated White Point Resolution
+  │     ├── 5.2.1 Extend ColorHandler.getExtendedColor CIELAB decoding with custom range/matrix mappings and illuminants (D50, D65)
+  │     └── 5.2.2 Implement iText PdfCieBasedColorSpace.Lab color space construction for CIELAB data
+  └── 5.3 CMOCA / Color Management PDF/VT Conformance & Visual Verification
+        ├── 5.3.1 Create dedicated unit tests in ColorHandlerTest to verify CAT paletted color fallbacks and ICMR ICC profile activation under complex multi-page scenarios
+        └── 5.3.2 Add visual regression and VeraPDF conformance tests for documents containing CAT palettes, CMR ICC profiles, and bi-level stencil colorized images
 ```
 
 ---
@@ -69,7 +80,7 @@ Resolve high-impact bugs in GOCA rendering where process colors are ignored, col
 
 ---
 
-## Phase 2: Expanded Color Space Support & Defaults 🚧
+## Phase 2: Expanded Color Space Support & Defaults ✅
 
 ### Goal
 Ensure all architected AFP color spaces map cleanly to PDF equivalents and that default presentation colors are resolved dynamically.
@@ -99,7 +110,7 @@ Ensure all architected AFP color spaces map cleanly to PDF equivalents and that 
 
 ---
 
-## Phase 3: Bi-level Image Colorization & IM Image Support
+## Phase 3: Bi-level Image Colorization & IM Image Support ✅
 
 ### Goal
 Implement high-fidelity rendering for bi-level images acting as stencil masks and restore visual content for legacy IM Image objects.
@@ -112,7 +123,7 @@ Implement high-fidelity rendering for bi-level images acting as stencil masks an
     *   Set the image dictionary's `/ImageMask` entry to `true`.
     *   Before rendering the image XObject onto the canvas, apply the current active text, graphics, or structured field color. This ensures the 1-bits are painted in the active color while 0-bits remain transparent.
 
-### 3.2 Add Rendering Hooks and Support for Legacy IM Images
+### 3.2 Add Rendering Hooks and Support for Legacy IM Images ✅
 *   **Affected Files:** `PdfHandler.java`, `com.mgz.afp.parser`
 *   **Proposed Solution:**
     *   Add handling hooks in `PdfHandler` for `BII` (Begin IM Image), `EII` (End IM Image), `IID` (IM Image Input Descriptor), `ICP` (IM Image Cell Position), and `IRD` (IM Image Raster Data).
@@ -126,12 +137,12 @@ Implement high-fidelity rendering for bi-level images acting as stencil masks an
 
 ---
 
-## Phase 4: CMOCA (CMR / CAT) Integration & Advanced Color Management
+## Phase 4: CMOCA (CMR / CAT) Integration & Advanced Color Management ✅
 
 ### Goal
 Provide enterprise-grade color fidelity by mapping colors through parsed Color Management Resource (CMR) and Color Attribute Table (CAT) definitions.
 
-### 4.1 CAT (Color Attribute Table) Paletted Mapping
+### 4.1 CAT (Color Attribute Table) Paletted Mapping ✅
 *   **Affected Files:** `ColorHandler.java`, `PdfHandler.java`, `com/mgz/afp/modca_L/CAT_ColorAttributeTable.java`
 *   **Proposed Solution:**
     *   Maintain a mapping of active Color Attribute Tables parsed from the resource group or document structure.
@@ -161,3 +172,28 @@ Provide enterprise-grade color fidelity by mapping colors through parsed Color M
 ### Testing & Verification
 *   Add integration tests with complex CMOCA-heavy AFP inputs.
 *   Assert that the output PDF contains correct color space dictionaries (e.g., ICC-based color spaces) rather than generic device color spaces.
+
+---
+
+## Phase 5: Spot Color, CIELAB & Advanced Color Conformance Verification
+
+### Goal
+Extend color processing to support Spot Colors / Separations, extended CIELAB calibrated white points, and establish systematic test suites for CMOCA and PDF/VT-1 color compliance.
+
+### 5.1 Spot Color & Separation / Named Color Space Support
+*   **Affected Files:** `ColorHandler.java`, `PdfHandler.java`
+*   **Proposed Solution:**
+    *   5.1.1 Add Spot Color (Separation) space mapping in `ColorHandler.java` for custom named Pantone/Spot colors.
+    *   5.1.2 Support tint transforms for Separation colors mapping to Process RGB/CMYK fallbacks.
+
+### 5.2 Extended CIELAB Color Space Mapping & Calibrated White Point Resolution
+*   **Affected Files:** `ColorHandler.java`
+*   **Proposed Solution:**
+    *   5.2.1 Extend `ColorHandler.getExtendedColor` CIELAB decoding with custom range/matrix mappings and illuminants (D50, D65).
+    *   5.2.2 Implement iText `PdfCieBasedColorSpace.Lab` color space construction for CIELAB data.
+
+### 5.3 CMOCA / Color Management PDF/VT Conformance & Visual Verification
+*   **Affected Files:** `ColorHandlerTest.java`, `PdfPixelPerfectVerificationTest.java`, `VeraPdfCliWrapperTest.java`
+*   **Proposed Solution:**
+    *   5.3.1 Create dedicated unit tests in `ColorHandlerTest` to verify CAT paletted color fallbacks and ICMR ICC profile activation under complex multi-page scenarios.
+    *   5.3.2 Add visual regression and VeraPDF conformance tests for documents containing CAT palettes, CMR ICC profiles, and bi-level stencil colorized images.
