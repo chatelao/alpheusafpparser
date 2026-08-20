@@ -230,12 +230,17 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
     this.padding = padding;
     this.paddingBuffer = null;
     if (padding != null && padding.length == 0) {
-      padding = null;
+      this.padding = null;
     }
-    if (padding != null) {
-      structuredFieldIntroducer.setFlag(SFFlag.isPadded);
+    if (this.padding != null) {
+      this.padding[this.padding.length - 1] = (byte) this.padding.length;
+      if (structuredFieldIntroducer != null) {
+        structuredFieldIntroducer.setFlag(SFFlag.isPadded);
+      }
     } else {
-      structuredFieldIntroducer.removeFlag(SFFlag.isPadded);
+      if (structuredFieldIntroducer != null) {
+        structuredFieldIntroducer.removeFlag(SFFlag.isPadded);
+      }
     }
   }
 
@@ -253,9 +258,13 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
       this.paddingBuffer = null;
     }
     if (this.paddingBuffer != null) {
-      structuredFieldIntroducer.setFlag(SFFlag.isPadded);
+      if (structuredFieldIntroducer != null) {
+        structuredFieldIntroducer.setFlag(SFFlag.isPadded);
+      }
     } else {
-      structuredFieldIntroducer.removeFlag(SFFlag.isPadded);
+      if (structuredFieldIntroducer != null) {
+        structuredFieldIntroducer.removeFlag(SFFlag.isPadded);
+      }
     }
   }
 
@@ -276,36 +285,42 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
       return;
     }
 
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    int payloadLen = netPayloadWithoutSFIandPadding != null ? netPayloadWithoutSFIandPadding.length : 0;
+    int padLen = padding != null ? padding.length : (paddingBuffer != null ? paddingBuffer.remaining() : 0);
 
-    baos.write(this.structuredFieldIntroducer.toBytes());
+    if (padding != null && padding.length > 0) {
+      if (structuredFieldIntroducer != null) {
+        structuredFieldIntroducer.setFlag(SFFlag.isPadded);
+      }
+      padding[padding.length - 1] = (byte) padding.length;
+    }
+
+    int totalLen = structuredFieldIntroducer.getLengthOfStructuredFieldIntroducerIncludingExtension() + payloadLen + padLen;
+    structuredFieldIntroducer.setSFLength(totalLen);
+
+    os.write(Constants.AFP_BEGIN_BYTE);
+    structuredFieldIntroducer.write(os);
 
     if (netPayloadWithoutSFIandPadding != null && netPayloadWithoutSFIandPadding.length > 0) {
-      baos.write(netPayloadWithoutSFIandPadding);
+      os.write(netPayloadWithoutSFIandPadding);
     }
 
     if (padding != null) {
-      baos.write(padding);
-    } else if (paddingBuffer != null) {
-      // If we only have paddingBuffer, we still use the legacy path for now if byte[] payload is used.
-      // Ideally we should refactor all to use the zero-copy path.
-      byte[] pad = new byte[paddingBuffer.remaining()];
-      int oldPos = paddingBuffer.position();
-      paddingBuffer.get(pad);
-      paddingBuffer.position(oldPos);
-      baos.write(pad);
+      os.write(padding);
+    } else if (paddingBuffer != null && paddingBuffer.hasRemaining()) {
+      if (paddingBuffer.hasArray()) {
+        os.write(paddingBuffer.array(), paddingBuffer.arrayOffset() + paddingBuffer.position(), paddingBuffer.remaining());
+      } else {
+        byte[] buffer = new byte[Math.min(paddingBuffer.remaining(), 8192)];
+        int oldPos = paddingBuffer.position();
+        while (paddingBuffer.hasRemaining()) {
+          int len = Math.min(paddingBuffer.remaining(), buffer.length);
+          paddingBuffer.get(buffer, 0, len);
+          os.write(buffer, 0, len);
+        }
+        paddingBuffer.position(oldPos);
+      }
     }
-
-    byte[] sfData = baos.toByteArray();
-    byte[] lenBytes = UtilBinaryDecoding.intToByteArray(sfData.length, 2);
-    for (int i = 0; i < lenBytes.length; i++) {
-      sfData[i] = lenBytes[i];
-    }
-    structuredFieldIntroducer.setSFLength(sfData.length);
-
-    os.write(Constants.AFP_BEGIN_BYTE);
-    os.write(sfData);
-
   }
 
   /**
@@ -318,6 +333,14 @@ public abstract class StructuredField implements IAFPDecodeableWriteable {
   protected void writeFullStructuredField(OutputStream os, java.nio.ByteBuffer netPayload) throws IOException {
     int payloadLen = netPayload != null ? netPayload.remaining() : 0;
     int padLen = padding != null ? padding.length : (paddingBuffer != null ? paddingBuffer.remaining() : 0);
+
+    if (padding != null && padding.length > 0) {
+      if (structuredFieldIntroducer != null) {
+        structuredFieldIntroducer.setFlag(SFFlag.isPadded);
+      }
+      padding[padding.length - 1] = (byte) padding.length;
+    }
+
     int totalLen = structuredFieldIntroducer.getLengthOfStructuredFieldIntroducerIncludingExtension() + payloadLen + padLen;
 
     structuredFieldIntroducer.setSFLength(totalLen);

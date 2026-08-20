@@ -302,7 +302,7 @@ public enum SFTypeID {
     return valueOf(sfClass, sfType, sfCategory);
   }
 
-  private static SFTypeID valueOf(int sfClass, int sfType, int sfCategory) {
+  public static SFTypeID valueOf(int sfClass, int sfType, int sfCategory) {
     if (sfClass == 0xD3) {
       SFTypeID type = D3_LOOKUP[((sfType & 0xFF) << 8) | (sfCategory & 0xFF)];
       return type != null ? type : Undefined;
