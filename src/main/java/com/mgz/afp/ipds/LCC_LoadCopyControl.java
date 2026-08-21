@@ -68,6 +68,8 @@ public class LCC_LoadCopyControl extends IPDSCommand implements IHasRepeatingGro
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      int kwLen = keywords != null ? keywords.length : 0;
+      count = (short) (2 + kwLen);
       os.write(count & 0xFF);
       os.write(copies & 0xFF);
       if (keywords != null) {
@@ -136,12 +138,7 @@ public class LCC_LoadCopyControl extends IPDSCommand implements IHasRepeatingGro
     writeIPDSHeader(baos);
     if (repeatingGroups != null) {
       for (IRepeatingGroup irg : repeatingGroups) {
-        LCC_RepeatingGroup rg = (LCC_RepeatingGroup) irg;
-        baos.write(rg.count & 0xFF);
-        baos.write(rg.copies & 0xFF);
-        if (rg.keywords != null) {
-          baos.write(rg.keywords);
-        }
+        irg.writeAFP(baos, config);
       }
     }
     writeFullStructuredField(os, baos.toByteArray());

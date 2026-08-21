@@ -518,6 +518,7 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
 
     @Override
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+      length = 3;
       os.write(UtilBinaryDecoding.shortToByteArray(length, 1));
       os.write(tripletID != null ? tripletID.toByte() : TripletID.MappingOption.toByte());
       os.write(mappingOptionByte);
