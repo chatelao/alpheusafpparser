@@ -27,9 +27,19 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 
+/**
+ * Structured field used to represent unrecognized, vendor-proprietary, or custom MO:DCA fields.
+ * Preserves raw payload bytes intact for high-fidelity write-back serialization.
+ */
 public class Undefined extends StructuredField {
   @AFPField(maxSize = 32759)
   byte[] payload;
+
+  @Override
+  public void reset() {
+    payload = null;
+    super.reset();
+  }
 
   @Override
   public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {

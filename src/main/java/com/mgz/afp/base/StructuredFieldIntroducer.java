@@ -46,6 +46,7 @@ public class StructuredFieldIntroducer {
   int sfLength;
   @AFPField(isEditable = false)
   SFTypeID sfTypeID;
+  private byte[] rawSfTypeID;
   /**
    * FlagByte[5].
    */
@@ -85,7 +86,20 @@ public class StructuredFieldIntroducer {
         throw new AFPParserException("Invalid SF length: " + sfi.sfLength + ". Minimum length is 8.");
       }
 
-      sfi.sfTypeID = SFTypeID.parse(is);
+      int sfClass = is.read();
+      if (sfClass == -1) {
+        throw new AFPParserException("Reached end of stream while parsing SFTypeID class.");
+      }
+      int sfType = is.read();
+      if (sfType == -1) {
+        throw new AFPParserException("Reached end of stream while parsing SFTypeID type.");
+      }
+      int sfCategory = is.read();
+      if (sfCategory == -1) {
+        throw new AFPParserException("Reached end of stream while parsing SFTypeID category.");
+      }
+      sfi.rawSfTypeID = new byte[] {(byte) sfClass, (byte) sfType, (byte) sfCategory};
+      sfi.sfTypeID = SFTypeID.valueOf(sfClass, sfType, sfCategory);
 
       int fb = is.read();
       if (fb == -1) {
@@ -139,7 +153,11 @@ public class StructuredFieldIntroducer {
     if (sfi.sfLength < 8) {
       throw new AFPParserException("Invalid SF length: " + sfi.sfLength + ". Minimum length is 8.");
     }
-    sfi.sfTypeID = SFTypeID.parse(buffer, offset + 2);
+    int sfClass = buffer.get(offset + 2) & 0xFF;
+    int sfType = buffer.get(offset + 3) & 0xFF;
+    int sfCategory = buffer.get(offset + 4) & 0xFF;
+    sfi.rawSfTypeID = new byte[] {(byte) sfClass, (byte) sfType, (byte) sfCategory};
+    sfi.sfTypeID = SFTypeID.valueOf(sfClass, sfType, sfCategory);
     sfi.flagByte = SFFlag.valueOf(buffer.get(offset + 5) & 0xFF);
     sfi.reserved = UtilBinaryDecoding.parseInt(buffer, offset + 6, 2);
 
@@ -176,7 +194,11 @@ public class StructuredFieldIntroducer {
     if (sfi.sfLength < 8) {
       throw new AFPParserException("Invalid SF length: " + sfi.sfLength + ". Minimum length is 8.");
     }
-    sfi.sfTypeID = SFTypeID.parse(buffer);
+    int sfClass = buffer.get() & 0xFF;
+    int sfType = buffer.get() & 0xFF;
+    int sfCategory = buffer.get() & 0xFF;
+    sfi.rawSfTypeID = new byte[] {(byte) sfClass, (byte) sfType, (byte) sfCategory};
+    sfi.sfTypeID = SFTypeID.valueOf(sfClass, sfType, sfCategory);
     sfi.flagByte = SFFlag.valueOf(buffer.get() & 0xFF);
     sfi.reserved = UtilBinaryDecoding.parseInt(buffer, 2);
 
@@ -202,7 +224,11 @@ public class StructuredFieldIntroducer {
     }
 
     b.write(UtilBinaryDecoding.intToByteArray(sfLength, 2));
-    if (sfTypeID != null) {
+    if (sfTypeID != null && sfTypeID != SFTypeID.Undefined) {
+      b.write(sfTypeID.toBytes());
+    } else if (rawSfTypeID != null) {
+      b.write(rawSfTypeID);
+    } else if (sfTypeID != null) {
       b.write(sfTypeID.toBytes());
     } else {
       b.write(new byte[] {0, 0, 0});
@@ -229,7 +255,11 @@ public class StructuredFieldIntroducer {
    */
   public void write(OutputStream os) throws IOException {
     os.write(UtilBinaryDecoding.intToByteArray(sfLength, 2));
-    if (sfTypeID != null) {
+    if (sfTypeID != null && sfTypeID != SFTypeID.Undefined) {
+      sfTypeID.write(os);
+    } else if (rawSfTypeID != null) {
+      os.write(rawSfTypeID);
+    } else if (sfTypeID != null) {
       sfTypeID.write(os);
     } else {
       os.write(new byte[] {0, 0, 0});
@@ -338,6 +368,14 @@ public class StructuredFieldIntroducer {
     this.sfTypeID = sfTypeID;
   }
 
+  public byte[] getRawSfTypeID() {
+    return rawSfTypeID;
+  }
+
+  public void setRawSfTypeID(byte[] rawSfTypeID) {
+    this.rawSfTypeID = rawSfTypeID;
+  }
+
   /**
    * Returns the position in the file where the structured field begins. A structured field begins
    * with the 0x5A byte.
@@ -382,6 +420,7 @@ public class StructuredFieldIntroducer {
   public void reset() {
     sfLength = 0;
     sfTypeID = null;
+    rawSfTypeID = null;
     if (flagByte != null) {
       flagByte.clear();
     }
