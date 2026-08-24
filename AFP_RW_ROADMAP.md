@@ -3,7 +3,7 @@
 This document outlines the detailed phased implementation plan for developing a high-performance, high-fidelity Java API to load, modify, and write back AFP (MO:DCA) documents within the Alpheus framework, as defined in `AFP_RW_CONCEPT.md` and detailed in `AFP_RW_DESIGN.md`.
 
 ## Status Summary
-- **Phase 1: Base Auto-Recalculation & Builders**: ⏳ In Progress (1.1, 1.4, 1.5 Completed)
+- **Phase 1: Base Auto-Recalculation & Builders**: ✅ Completed (1.1 - 1.5 Completed)
 - **Phase 2: Streaming Modification Pipeline**: ⏳ Pending
 - **Phase 3: Structural DOM API**: ⏳ Pending
 
@@ -26,7 +26,7 @@ The Alpheus AFP Read-Write API is designed to bridge the gap between low-overhea
 
 ---
 
-## Phase 1: Base Auto-Recalculation & Builders ⏳
+## Phase 1: Base Auto-Recalculation & Builders ✅
 Establish the foundation of the mutation engine by implementing automated length calculations, state tracking, and safe, validated field construction.
 
 ### 1.1. Memory and Pooling Lifecycle Integration ✅
@@ -37,21 +37,21 @@ Establish the foundation of the mutation engine by implementing automated length
 - [x] **Safe Release & Recycler Logic**:
   - Update `release()` across `StructuredFieldPool`, `TripletPool`, and `SfiPool` to act as a safe no-op if `isPooled == false`. This prevents catastrophic double-releases or premature recycling of modified fields.
 
-### 1.2. Automated Field Length & Flag Adjustments
-- [ ] **Introducer Length Calculation**:
+### 1.2. Automated Field Length & Flag Adjustments ✅
+- [x] **Introducer Length Calculation**:
   - Enhance `writeFullStructuredField` within `StructuredField` to dynamically compute:
     $$\text{SFLength} = \text{Length of Introducer (8 or 12 bytes)} + \text{Length of Net Payload} + \text{Length of Padding}$$
   - Inject this computed value automatically into the first two bytes of the SFI.
-- [ ] **Structured Padding**:
+- [x] **Structured Padding**:
   - Implement automated management of padding bytes when `SFFlag.isPadded` is set.
   - Ensure the final padding byte represents the correct padding block length.
-- [ ] **Dynamic Padding Recalculation**:
+- [x] **Dynamic Padding Recalculation**:
   - Automatically recalculate or strip padding when the underlying field payload length is modified by adding or removing triplets/repeating groups.
 
-### 1.3. Triplet Length & Repeating Group Recalculation
-- [ ] **Recursive Triplet Recalculation**:
+### 1.3. Triplet Length & Repeating Group Recalculation ✅
+- [x] **Recursive Triplet Recalculation**:
   - Ensure fields implementing `IHasTriplets` automatically compute and update the `TripletLength` (first byte) of each child triplet recursively during serialization.
-- [ ] **Repeating Group Recalculation**:
+- [x] **Repeating Group Recalculation**:
   - For fields containing repeating groups (such as `LFE_LoadFontEquivalence` or `LE_LoadEquivalence`), implement automated count and offset recalculations during serialization.
 
 ### 1.4. Raw Vendor/Custom Field Passthrough ✅

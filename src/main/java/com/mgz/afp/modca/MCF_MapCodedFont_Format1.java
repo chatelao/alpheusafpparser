@@ -70,6 +70,10 @@ public class MCF_MapCodedFont_Format1 extends StructuredField {
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
+    if (repeatingGroups != null && !repeatingGroups.isEmpty()) {
+      MCF_RepeatingGroup first = repeatingGroups.get(0);
+      lengthOfRepeatingGroup = (short) (first.getCharacterRotation() != null ? 30 : 28);
+    }
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     baos.write(lengthOfRepeatingGroup);
     baos.write(reserved1_3);

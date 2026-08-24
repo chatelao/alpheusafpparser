@@ -64,12 +64,16 @@ public class RepeatingGroupWithTriplets extends RepeatingGroupBase implements IH
 
   @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
-    super.writeAFP(os, config);
+    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
     if (triplets != null) {
       for (Triplet t : triplets) {
-        t.writeAFP(os, config);
+        t.writeAFP(baos, config);
       }
     }
+    byte[] tripletBytes = baos.toByteArray();
+    repeatingGroupLength = 2 + tripletBytes.length;
+    os.write(com.mgz.util.UtilBinaryDecoding.intToByteArray(repeatingGroupLength, 2));
+    os.write(tripletBytes);
   }
 
   @Override
