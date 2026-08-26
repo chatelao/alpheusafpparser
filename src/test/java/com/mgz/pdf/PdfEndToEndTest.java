@@ -128,8 +128,8 @@ public class PdfEndToEndTest {
           int red = (rgb >> 16) & 0xFF;
           int green = (rgb >> 8) & 0xFF;
           int blue = rgb & 0xFF;
-          // Red pixels should have high red component and low green/blue
-          if (red > 200 && green < 50 && blue < 50) {
+          // Red pixels should have dominant red component (accounting for anti-aliasing)
+          if (red > 150 && red > green + 50 && red > blue + 50) {
             hasRedPixel = true;
             if (x < minX) minX = x;
             if (x > maxX) maxX = x;
