@@ -20,13 +20,16 @@ This document specifies the technical design for converting the Alpheus AFP obje
 
 To facilitate early testing and integration, the `Afp2Xml` CLI utility is extended to support PDF as an output format.
 
-### 2.1. New Command Line Flag
--   **Flag**: `-f, --format <type>`
--   **Supported Types**: `xml` (default), `pdf`.
--   **Behavior**:
-    -   If `pdf` is specified, the CLI uses `PdfHandlerFactory` instead of `XmlHandlerFactory`.
-    -   If the output path is not explicitly provided, the output file extension will be `.pdf` instead of `.xml`.
-    -   Parallel processing (`-P`) and Directory mode (`-d`) are supported for PDF output.
+### 2.1. New Command Line Flags
+-   **Format Flag**: `-f, --format <type>`
+    -   **Supported Types**: `xml` (default), `pdf`.
+    -   **Behavior**:
+        -   If `pdf` is specified, the CLI uses `PdfHandlerFactory` instead of `XmlHandlerFactory`.
+        -   If the output path is not explicitly provided, the output file extension will be `.pdf` instead of `.xml`.
+        -   Parallel processing (`-P`) and Directory mode (`-d`) are supported for PDF output.
+-   **Window Option Flag**: `-w, --window`
+    -   **Behavior**:
+        -   Enables drawing of an address window region overlay (outer 119mm x 64mm window and inner 100mm x 50mm centered window) on generated PDF pages.
 
 ---
 
