@@ -246,6 +246,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private double defaultScaleX = 0.05; // Standard 1/1440 inch units
   private double defaultScaleY = 0.05; // Standard 1/1440 inch units
   private boolean isCanvasTransformed = false;
+  private boolean drawWindow = false;
 
   // GOCA Object State (for Phase 1 and Phase 2)
   private boolean inGraphicsObject = false;
@@ -2116,16 +2117,67 @@ public class PdfHandler implements StructuredFieldHandler {
     return pdfDoc.getNumberOfPages();
   }
 
+  /**
+   * Returns whether window overlay drawing is enabled.
+   *
+   * @return true if window overlay drawing is enabled
+   */
+  public boolean isDrawWindow() {
+    return drawWindow;
+  }
+
+  /**
+   * Enables or disables window overlay drawing on pages.
+   *
+   * @param drawWindow true to enable window overlay drawing
+   */
+  public void setDrawWindow(boolean drawWindow) {
+    this.drawWindow = drawWindow;
+  }
+
   @Override
   public void close() throws Exception {
     try {
       if (fieldCount.get() > 0 && pdfDoc.getNumberOfPages() == 0) {
         document.add(new Paragraph("AFP to PDF conversion in progress..."));
       }
+      if (drawWindow) {
+        for (int i = 1; i <= pdfDoc.getNumberOfPages(); i++) {
+          drawWindowOverlay(pdfDoc.getPage(i));
+        }
+      }
       document.close();
     } finally {
       ColorHandler.clearContext();
     }
+  }
+
+  private void drawWindowOverlay(PdfPage page) {
+    float pageHeight = page.getPageSize().getHeight();
+    double mmToPoints = 72.0 / 25.4;
+
+    // Outer window (119mm x 64mm, 102.5mm from left, 50mm from top)
+    float outerX = (float) (102.5 * mmToPoints);
+    float outerW = (float) (119.0 * mmToPoints);
+    float outerH = (float) (64.0 * mmToPoints);
+    float outerY = (float) (pageHeight - (50.0 + 64.0) * mmToPoints);
+
+    // Inner window (100mm x 50mm, centered inside outer 119x64 window)
+    // Horizontal center offset: (119 - 100) / 2 = 9.5mm -> 102.5 + 9.5 = 112mm from left
+    // Vertical center offset: (64 - 50) / 2 = 7mm -> 50 + 7 = 57mm from top
+    float innerX = (float) (112.0 * mmToPoints);
+    float innerW = (float) (100.0 * mmToPoints);
+    float innerH = (float) (50.0 * mmToPoints);
+    float innerY = (float) (pageHeight - (57.0 + 50.0) * mmToPoints);
+
+    PdfCanvas canvas = new PdfCanvas(page);
+    canvas.saveState();
+    canvas.setStrokeColor(new DeviceRgb(255, 0, 0));
+    canvas.setLineWidth(1.0f);
+    canvas.rectangle(outerX, outerY, outerW, outerH);
+    canvas.rectangle(innerX, innerY, innerW, innerH);
+    canvas.stroke();
+    canvas.restoreState();
   }
 
   /**
