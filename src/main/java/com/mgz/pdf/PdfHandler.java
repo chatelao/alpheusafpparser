@@ -417,6 +417,7 @@ public class PdfHandler implements StructuredFieldHandler {
         }
 
         if (sf instanceof BPG_BeginPage) {
+          finishPageCanvas();
           this.currentPage = pdfDoc.addNewPage();
           this.currentCanvas = new PdfCanvas(currentPage);
           currentPage.put(PdfName.DPart, dpart);
@@ -454,6 +455,9 @@ public class PdfHandler implements StructuredFieldHandler {
           }
         }
 
+        if (begin instanceof BPG_BeginPage) {
+          finishPageCanvas();
+        }
         if (begin instanceof BDT_BeginDocument || begin instanceof BNG_BeginNamedPageGroup || begin instanceof BPG_BeginPage) {
           if (!dpartStack.isEmpty()) {
             dpartStack.pop();
@@ -2043,9 +2047,17 @@ public class PdfHandler implements StructuredFieldHandler {
 
   private void applyTransformation(float heightPoints, double scaleX, double scaleY) {
     if (currentCanvas != null && !isCanvasTransformed) {
+      currentCanvas.saveState();
       AffineTransform at = CoordinateTransformer.getAfpToPdfTransform(heightPoints, scaleX, scaleY);
       currentCanvas.concatMatrix(at);
       this.isCanvasTransformed = true;
+    }
+  }
+
+  private void finishPageCanvas() {
+    if (currentCanvas != null && isCanvasTransformed) {
+      currentCanvas.restoreState();
+      isCanvasTransformed = false;
     }
   }
 
@@ -2138,6 +2150,7 @@ public class PdfHandler implements StructuredFieldHandler {
   @Override
   public void close() throws Exception {
     try {
+      finishPageCanvas();
       if (fieldCount.get() > 0 && pdfDoc.getNumberOfPages() == 0) {
         document.add(new Paragraph("AFP to PDF conversion in progress..."));
       }
