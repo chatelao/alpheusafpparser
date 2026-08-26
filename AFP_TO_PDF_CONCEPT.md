@@ -93,7 +93,7 @@ To maintain O(1) memory footprint and high CPU utilization:
 - [x] Implement MO:DCA `BNG` to PDF `/DPart` recursive mapping. ✅
 - [x] Map `TLE` values to Record-level metadata. ✅
 - [ ] Define `/OutputIntents` (PDF/X compliance) as required by ISO 16612-2. ⏳
-- [x] **CLI Integration**: Add `-f` / `--format` flag to the `Afp2Xml` utility to support PDF output. ✅
+- [x] **CLI Integration**: Add `-f` / `--format` flag and `-w` / `--window` option to the `Afp2Xml` utility to support PDF output and address window region overlays. ✅
 
 ### Phase 2: Resource Management & Optimization ⏳
 - [ ] **Global Resource Manager**: Implement logic to move shared XObjects (Overlays, Page Segments) to the global Page Tree resources. ⏳

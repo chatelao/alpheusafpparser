@@ -20,6 +20,18 @@ To use Alpheus in your project add the following dependency:
       <version>${version}</version>
     </dependency>
 
+## CLI Quick Start
+
+Alpheus includes a command line interface (CLI) tool for converting AFP files to XML or PDF:
+
+```bash
+# Convert AFP to PDF
+java -jar alpheus-afp-parser-cli-<version>.jar -f pdf input.afp output.pdf
+
+# Convert AFP to PDF with address window region overlay
+java -jar alpheus-afp-parser-cli-<version>.jar -f pdf -w input.afp output.pdf
+```
+
 ## Acknowledgements
 
 This project is a continuation of the [Alpheus AFP Parser](https://github.com/afpdev/alpheusafpparser) originally developed by Rudolf Fiala. We gratefully acknowledge his work in creating this comprehensive AFP parsing library.

@@ -26,12 +26,18 @@ You must have Java 21 or higher installed on your system.
 Run the CLI tool using the following command:
 
 ```bash
-java -jar alpheus-afp-parser-cli-<version>.jar [-d|--directory] <input-afp-file/dir> [output-xml-file]
+java -jar alpheus-afp-parser-cli-<version>.jar [-d|--directory] [-f|--format <type>] [-w|--window] [--icc-profile <path>] <input-afp-file/dir> [output-file]
 ```
 
 - **`<input-afp-file/dir>`**: The path to the input AFP file or directory you wish to process.
-- **`[output-xml-file]`**: (Optional) The path where the generated XML output will be saved. If this argument is omitted and you are not in directory mode, the XML content will be printed directly to the standard output (console).
-- **`-d`, `--directory`**: (Optional) Convert all `.afp` files in the specified directory to XML. In this mode, the output files are created in the same directory with `.xml` appended to the original filenames.
+- **`[output-file]`**: (Optional) The path where the generated output will be saved. If omitted and not in directory mode, output is printed to standard output.
+- **`-d`, `--directory`**: (Optional) Convert all `.afp` files in the specified directory.
+- **`-f`, `--format <type>`**: (Optional) Specify output format: `xml` (default) or `pdf`.
+- **`-w`, `--window`**: (Optional) Draw address window region overlay on generated PDF pages (outer 119mm x 64mm window and inner 100mm x 50mm window).
+- **`--icc-profile <path>`**: (Optional) Path to ICC color profile for PDF/X and PDF/VT compliance.
+- **`-i`, `--indent`**: (Optional) Enable XML indentation.
+- **`-p`, `--parallel`**: (Optional) Enable parallel conversion for single files.
+- **`-t`, `--threads <n>`**: (Optional) Number of threads for parallel processing.
 
 ### Examples
 
@@ -41,18 +47,23 @@ java -jar alpheus-afp-parser-cli-<version>.jar [-d|--directory] <input-afp-file/
 java -jar alpheus-afp-parser-cli-<version>.jar my_document.afp
 ```
 
-**Convert an AFP file and save the result to a file:**
+**Convert an AFP file to PDF:**
 
 ```bash
-java -jar alpheus-afp-parser-cli-<version>.jar my_document.afp my_document.xml
+java -jar alpheus-afp-parser-cli-<version>.jar -f pdf my_document.afp my_document.pdf
 ```
 
-**Batch convert all AFP files in a directory:**
+**Convert an AFP file to PDF with window region overlay:**
 
 ```bash
-java -jar alpheus-afp-parser-cli-<version>.jar --directory ./afp_files/
+java -jar alpheus-afp-parser-cli-<version>.jar -f pdf -w my_document.afp my_document_window.pdf
 ```
-In this example, every file ending in `.afp` in `./afp_files/` will be converted to a corresponding `.xml` file (e.g., `doc1.afp` becomes `doc1.afp.xml`).
+
+**Batch convert all AFP files in a directory to PDF:**
+
+```bash
+java -jar alpheus-afp-parser-cli-<version>.jar -f pdf --directory ./afp_files/
+```
 
 ### XML Output Format
 

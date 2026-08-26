@@ -27,7 +27,7 @@ Initialize the core PDF/VT structure and map the MO:DCA document hierarchy using
     - ✅ **Structural Boundary Tracking**: Implement a stack-based mechanism to track nested MO:DCA groups (`BDT`/`EDT`, `BNG`/`ENG`, `BPG`/`EPG`).
     - ✅ **DPart Node Creation**: Create iText 9 `/DPart` objects corresponding to tracked MO:DCA boundaries.
     - ✅ **Page-to-DPart Assignment**: Connect PDF page objects to their respective leaf `/DPart` nodes.
-- ✅ **CLI Integration**: Add `-f` / `--format` flag to `Afp2Xml` to enable PDF output and manual testing. (Standard flags `-p` for parallel and `-P` for PTX debug are supported).
+- ✅ **CLI Integration**: Add `-f` / `--format` flag to `Afp2Xml` to enable PDF output and manual testing, as well as `-w` / `--window` for address window region overlays. (Standard flags `-p` for parallel and `-P` for PTX debug are supported).
 - ✅ **TLE Metadata Mapping**: Map `TLE` (Tag Logical Element) values to record-level metadata within the `/DPart` hierarchy.
     - ✅ **Tag Extraction**: Extract key/value pairs from `TLE` structured fields.
     - ✅ **Metadata Injection**: Write extracted tags to the `/DPart` dictionary as `/Property` entries.
