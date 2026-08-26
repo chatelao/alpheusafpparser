@@ -146,6 +146,10 @@ public class Afp2Xml {
           indent = true;
           formatOptions.put("indent", "true");
         }
+        case "-w", "--window" -> {
+          formatOptions.put("draw-window", "true");
+          formatOptions.put("window", "true");
+        }
         case "--icc-profile" -> {
           if (i + 1 < args.length) {
             iccProfile = args[++i];
@@ -439,7 +443,7 @@ public class Afp2Xml {
     out.println("Usage: java -jar alpheus-afp-parser-cli.jar "
         + "[-d|--directory <dir>] [-x|--xpath <expression>] [-f|--format <type>] [-m|--measure] "
         + "[-p|--parallel] [-c|--charset-opt] [-P|--ptx-debug] [-a|--aggressive-io] "
-        + "[-i|--indent] [--icc-profile <path>] [-t|--threads <n>] <input-afp-file/dir> [output-file]");
+        + "[-i|--indent] [--icc-profile <path>] [-t|--threads <n>] [-w|--window] <input-afp-file/dir> [output-file]");
     out.println("Options:");
     out.println("  -d, --directory <dir>     Convert all .afp files in the specified directory.");
     out.println("                            If a directory is provided as a positional "
@@ -456,6 +460,7 @@ public class Afp2Xml {
     out.println("  --icc-profile <path>      Path to the ICC color profile for PDF/X and PDF/VT compliance.");
     out.println("  -t, --threads <n>         Number of threads for parallel processing.");
     out.println("                            Defaults to the number of available processors.");
+    out.println("  -w, --window              Draw window region overlay on paper.");
     out.println("  -h, --help                Show this help message.");
   }
 

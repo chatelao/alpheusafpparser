@@ -147,4 +147,21 @@ public class CLITest {
         assertTrue(foundXmlHeader, "XML header not found in output");
         assertTrue(foundAfpDocTag, "AFPDocument tag not found in output");
     }
+
+    @Test
+    public void testCLIWindowOptionPdf() throws Exception {
+        File inputFile = new File("src/test/resources/afp/minimal.afp");
+        File outputFile = new File("build/test-window-output.pdf");
+        outputFile.getParentFile().mkdirs();
+
+        if (outputFile.exists()) {
+            outputFile.delete();
+        }
+
+        int result = Afp2Xml.execute(new String[]{"-f", "pdf", "-w", inputFile.getAbsolutePath(), outputFile.getAbsolutePath()});
+
+        assertTrue(result == 0, "CLI execution should succeed with -w option");
+        assertTrue(outputFile.exists(), "Output PDF file should exist");
+        assertTrue(outputFile.length() > 0, "Output PDF file should not be empty");
+    }
 }

@@ -31,11 +31,14 @@ import java.util.Map;
 public class PdfHandlerFactory implements HandlerFactory {
 
   private String iccProfilePath;
+  private boolean drawWindow;
 
   @Override
   public void configure(Map<String, String> options) {
     if (options != null) {
       this.iccProfilePath = options.get("icc-profile");
+      this.drawWindow = "true".equalsIgnoreCase(options.get("draw-window"))
+          || "true".equalsIgnoreCase(options.get("window"));
     }
   }
 
@@ -60,6 +63,7 @@ public class PdfHandlerFactory implements HandlerFactory {
   @Override
   public StructuredFieldHandler createHandler(OutputStream os, boolean fragmentMode) throws Exception {
     PdfHandler handler = new PdfHandler(os, new PdfFontRegistry());
+    handler.setDrawWindow(drawWindow);
     if (iccProfilePath != null) {
       java.io.File iccFile = new java.io.File(iccProfilePath);
       if (iccFile.exists()) {

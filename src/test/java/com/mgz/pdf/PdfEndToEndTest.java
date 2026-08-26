@@ -91,4 +91,49 @@ public class PdfEndToEndTest {
       assertTrue(hasContent, "Rendered image should contain non-white pixels (actual content)");
     }
   }
+
+  @Test
+  public void testAfpToPdfWithWindowOption() throws Exception {
+    File inputFile = new File("src/test/resources/afp/perf_ptx.afp");
+    File outputFile = tempDir.resolve("output_window.pdf").toFile();
+
+    String[] args = {
+        "-f", "pdf",
+        "-w",
+        inputFile.getAbsolutePath(),
+        outputFile.getAbsolutePath()
+    };
+
+    int result = Afp2Xml.execute(args);
+    assertEquals(0, result, "Conversion with -w option should succeed");
+    assertTrue(outputFile.exists(), "Output PDF with window overlay should exist");
+
+    try (PDDocument document = Loader.loadPDF(outputFile)) {
+      assertTrue(document.getNumberOfPages() >= 1, "Should have at least one page");
+
+      PDFRenderer renderer = new PDFRenderer(document);
+      BufferedImage image = renderer.renderImage(0);
+      assertNotNull(image, "Rendered image should not be null");
+
+      // Verify presence of red pixels (window border) in rendered image
+      boolean hasRedPixel = false;
+      for (int x = 0; x < image.getWidth(); x++) {
+        for (int y = 0; y < image.getHeight(); y++) {
+          int rgb = image.getRGB(x, y);
+          int red = (rgb >> 16) & 0xFF;
+          int green = (rgb >> 8) & 0xFF;
+          int blue = rgb & 0xFF;
+          // Red pixels should have high red component and low green/blue
+          if (red > 200 && green < 50 && blue < 50) {
+            hasRedPixel = true;
+            break;
+          }
+        }
+        if (hasRedPixel) {
+          break;
+        }
+      }
+      assertTrue(hasRedPixel, "Rendered PDF image should contain red pixels from window overlay");
+    }
+  }
 }
