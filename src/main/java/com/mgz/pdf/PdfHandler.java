@@ -2262,6 +2262,7 @@ public class PdfHandler implements StructuredFieldHandler {
     canvas.setStrokeColor(new DeviceRgb(255, 0, 0));
     canvas.setLineWidth(1.0f);
     canvas.rectangle(outerX, outerY, outerW, outerH);
+    canvas.stroke();
     canvas.rectangle(innerX, innerY, innerW, innerH);
     canvas.stroke();
     canvas.restoreState();
