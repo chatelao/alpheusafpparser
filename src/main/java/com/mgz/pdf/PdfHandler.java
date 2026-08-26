@@ -247,6 +247,10 @@ public class PdfHandler implements StructuredFieldHandler {
   private double defaultScaleY = 0.05; // Standard 1/1440 inch units
   private boolean isCanvasTransformed = false;
   private boolean drawWindow = false;
+  private double windowLeft = 102.5;
+  private double windowWidth = 119.0;
+  private double windowTop = 50.0;
+  private double windowHeight = 64.0;
 
   // GOCA Object State (for Phase 1 and Phase 2)
   private boolean inGraphicsObject = false;
@@ -2135,6 +2139,78 @@ public class PdfHandler implements StructuredFieldHandler {
     this.drawWindow = drawWindow;
   }
 
+  /**
+   * Returns the window left position in mm.
+   *
+   * @return window left in mm
+   */
+  public double getWindowLeft() {
+    return windowLeft;
+  }
+
+  /**
+   * Sets the window left position in mm.
+   *
+   * @param windowLeft window left in mm
+   */
+  public void setWindowLeft(double windowLeft) {
+    this.windowLeft = windowLeft;
+  }
+
+  /**
+   * Returns the window width in mm.
+   *
+   * @return window width in mm
+   */
+  public double getWindowWidth() {
+    return windowWidth;
+  }
+
+  /**
+   * Sets the window width in mm.
+   *
+   * @param windowWidth window width in mm
+   */
+  public void setWindowWidth(double windowWidth) {
+    this.windowWidth = windowWidth;
+  }
+
+  /**
+   * Returns the window top position in mm.
+   *
+   * @return window top in mm
+   */
+  public double getWindowTop() {
+    return windowTop;
+  }
+
+  /**
+   * Sets the window top position in mm.
+   *
+   * @param windowTop window top in mm
+   */
+  public void setWindowTop(double windowTop) {
+    this.windowTop = windowTop;
+  }
+
+  /**
+   * Returns the window height in mm.
+   *
+   * @return window height in mm
+   */
+  public double getWindowHeight() {
+    return windowHeight;
+  }
+
+  /**
+   * Sets the window height in mm.
+   *
+   * @param windowHeight window height in mm
+   */
+  public void setWindowHeight(double windowHeight) {
+    this.windowHeight = windowHeight;
+  }
+
   @Override
   public void close() throws Exception {
     try {
@@ -2156,19 +2232,17 @@ public class PdfHandler implements StructuredFieldHandler {
     float pageHeight = page.getPageSize().getHeight();
     double mmToPoints = 72.0 / 25.4;
 
-    // Outer window (119mm x 64mm, 102.5mm from left, 50mm from top)
-    float outerX = (float) (102.5 * mmToPoints);
-    float outerW = (float) (119.0 * mmToPoints);
-    float outerH = (float) (64.0 * mmToPoints);
-    float outerY = (float) (pageHeight - (50.0 + 64.0) * mmToPoints);
+    // Outer window (configurable, default: 119mm x 64mm, 102.5mm from left, 50mm from top)
+    float outerX = (float) (windowLeft * mmToPoints);
+    float outerW = (float) (windowWidth * mmToPoints);
+    float outerH = (float) (windowHeight * mmToPoints);
+    float outerY = (float) (pageHeight - (windowTop + windowHeight) * mmToPoints);
 
-    // Inner window (100mm x 50mm, centered inside outer 119x64 window)
-    // Horizontal center offset: (119 - 100) / 2 = 9.5mm -> 102.5 + 9.5 = 112mm from left
-    // Vertical center offset: (64 - 50) / 2 = 7mm -> 50 + 7 = 57mm from top
-    float innerX = (float) (112.0 * mmToPoints);
+    // Inner window (100mm x 50mm, centered inside outer window)
     float innerW = (float) (100.0 * mmToPoints);
     float innerH = (float) (50.0 * mmToPoints);
-    float innerY = (float) (pageHeight - (57.0 + 50.0) * mmToPoints);
+    float innerX = outerX + (outerW - innerW) / 2.0f;
+    float innerY = outerY + (outerH - innerH) / 2.0f;
 
     PdfCanvas canvas = new PdfCanvas(page);
     canvas.saveState();

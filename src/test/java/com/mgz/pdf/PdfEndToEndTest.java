@@ -27,8 +27,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.nio.file.Path;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -134,6 +136,28 @@ public class PdfEndToEndTest {
         }
       }
       assertTrue(hasRedPixel, "Rendered PDF image should contain red pixels from window overlay");
+    }
+  }
+
+  @Test
+  public void testPdfHandlerFactoryConfigurableWindowOptions() throws Exception {
+    PdfHandlerFactory factory = new PdfHandlerFactory();
+    factory.configure(Map.of(
+        "window-left", "25.5",
+        "window-width", "110.0",
+        "window-top", "40.0",
+        "window-height", "60.0"
+    ));
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    try (com.mgz.afp.base.handler.StructuredFieldHandler handler = factory.createHandler(baos, false)) {
+      assertTrue(handler instanceof PdfHandler, "Handler should be instance of PdfHandler");
+      PdfHandler pdfHandler = (PdfHandler) handler;
+      assertTrue(pdfHandler.isDrawWindow(), "drawWindow should be enabled");
+      assertEquals(25.5, pdfHandler.getWindowLeft(), 0.001);
+      assertEquals(110.0, pdfHandler.getWindowWidth(), 0.001);
+      assertEquals(40.0, pdfHandler.getWindowTop(), 0.001);
+      assertEquals(60.0, pdfHandler.getWindowHeight(), 0.001);
     }
   }
 }

@@ -32,13 +32,50 @@ public class PdfHandlerFactory implements HandlerFactory {
 
   private String iccProfilePath;
   private boolean drawWindow;
+  private double windowLeft = 102.5;
+  private double windowWidth = 119.0;
+  private double windowTop = 50.0;
+  private double windowHeight = 64.0;
 
   @Override
   public void configure(Map<String, String> options) {
+    // Reset state to defaults before applying new options
+    this.iccProfilePath = null;
+    this.drawWindow = false;
+    this.windowLeft = 102.5;
+    this.windowWidth = 119.0;
+    this.windowTop = 50.0;
+    this.windowHeight = 64.0;
+
     if (options != null) {
       this.iccProfilePath = options.get("icc-profile");
       this.drawWindow = "true".equalsIgnoreCase(options.get("draw-window"))
-          || "true".equalsIgnoreCase(options.get("window"));
+          || "true".equalsIgnoreCase(options.get("window"))
+          || options.containsKey("window-left")
+          || options.containsKey("window-width")
+          || options.containsKey("window-top")
+          || options.containsKey("window-height");
+
+      if (options.containsKey("window-left")) {
+        try {
+          this.windowLeft = Double.parseDouble(options.get("window-left"));
+        } catch (NumberFormatException ignored) {}
+      }
+      if (options.containsKey("window-width")) {
+        try {
+          this.windowWidth = Double.parseDouble(options.get("window-width"));
+        } catch (NumberFormatException ignored) {}
+      }
+      if (options.containsKey("window-top")) {
+        try {
+          this.windowTop = Double.parseDouble(options.get("window-top"));
+        } catch (NumberFormatException ignored) {}
+      }
+      if (options.containsKey("window-height")) {
+        try {
+          this.windowHeight = Double.parseDouble(options.get("window-height"));
+        } catch (NumberFormatException ignored) {}
+      }
     }
   }
 
@@ -64,6 +101,10 @@ public class PdfHandlerFactory implements HandlerFactory {
   public StructuredFieldHandler createHandler(OutputStream os, boolean fragmentMode) throws Exception {
     PdfHandler handler = new PdfHandler(os, new PdfFontRegistry());
     handler.setDrawWindow(drawWindow);
+    handler.setWindowLeft(windowLeft);
+    handler.setWindowWidth(windowWidth);
+    handler.setWindowTop(windowTop);
+    handler.setWindowHeight(windowHeight);
     if (iccProfilePath != null) {
       java.io.File iccFile = new java.io.File(iccProfilePath);
       if (iccFile.exists()) {
