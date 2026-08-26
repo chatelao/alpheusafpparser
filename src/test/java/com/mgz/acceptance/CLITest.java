@@ -164,4 +164,45 @@ public class CLITest {
         assertTrue(outputFile.exists(), "Output PDF file should exist");
         assertTrue(outputFile.length() > 0, "Output PDF file should not be empty");
     }
+
+    @Test
+    public void testCLIConfigurableWindowOptionsPdf() throws Exception {
+        File inputFile = new File("src/test/resources/afp/minimal.afp");
+        File outputFile = new File("build/test-window-custom-output.pdf");
+        outputFile.getParentFile().mkdirs();
+
+        if (outputFile.exists()) {
+            outputFile.delete();
+        }
+
+        int result = Afp2Xml.execute(new String[]{
+            "-f", "pdf",
+            "-wl", "10.5",
+            "-ww", "120.0",
+            "-wt", "15.0",
+            "-wh", "70.0",
+            inputFile.getAbsolutePath(),
+            outputFile.getAbsolutePath()
+        });
+
+        assertTrue(result == 0, "CLI execution should succeed with configurable window options");
+        assertTrue(outputFile.exists(), "Output PDF file should exist");
+        assertTrue(outputFile.length() > 0, "Output PDF file should not be empty");
+    }
+
+    @Test
+    public void testCLIWindowOptionsInvalidNumeric() throws Exception {
+        File inputFile = new File("src/test/resources/afp/minimal.afp");
+        File outputFile = new File("build/test-window-invalid-output.pdf");
+        outputFile.getParentFile().mkdirs();
+
+        int result = Afp2Xml.execute(new String[]{
+            "-f", "pdf",
+            "-wl", "abc",
+            inputFile.getAbsolutePath(),
+            outputFile.getAbsolutePath()
+        });
+
+        assertTrue(result == 1, "CLI execution should fail when invalid numeric value is passed to window option");
+    }
 }

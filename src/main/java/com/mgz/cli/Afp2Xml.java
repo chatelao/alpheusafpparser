@@ -150,6 +150,70 @@ public class Afp2Xml {
           formatOptions.put("draw-window", "true");
           formatOptions.put("window", "true");
         }
+        case "-wl", "--window-left" -> {
+          if (i + 1 < args.length) {
+            String val = args[++i];
+            try {
+              Double.parseDouble(val);
+            } catch (NumberFormatException e) {
+              System.err.println("Error: --window-left requires a numeric value.");
+              return 1;
+            }
+            formatOptions.put("window-left", val);
+            formatOptions.put("draw-window", "true");
+          } else {
+            System.err.println("Error: --window-left requires a value.");
+            return 1;
+          }
+        }
+        case "-ww", "--window-width" -> {
+          if (i + 1 < args.length) {
+            String val = args[++i];
+            try {
+              Double.parseDouble(val);
+            } catch (NumberFormatException e) {
+              System.err.println("Error: --window-width requires a numeric value.");
+              return 1;
+            }
+            formatOptions.put("window-width", val);
+            formatOptions.put("draw-window", "true");
+          } else {
+            System.err.println("Error: --window-width requires a value.");
+            return 1;
+          }
+        }
+        case "-wt", "--window-top" -> {
+          if (i + 1 < args.length) {
+            String val = args[++i];
+            try {
+              Double.parseDouble(val);
+            } catch (NumberFormatException e) {
+              System.err.println("Error: --window-top requires a numeric value.");
+              return 1;
+            }
+            formatOptions.put("window-top", val);
+            formatOptions.put("draw-window", "true");
+          } else {
+            System.err.println("Error: --window-top requires a value.");
+            return 1;
+          }
+        }
+        case "-wh", "--window-height" -> {
+          if (i + 1 < args.length) {
+            String val = args[++i];
+            try {
+              Double.parseDouble(val);
+            } catch (NumberFormatException e) {
+              System.err.println("Error: --window-height requires a numeric value.");
+              return 1;
+            }
+            formatOptions.put("window-height", val);
+            formatOptions.put("draw-window", "true");
+          } else {
+            System.err.println("Error: --window-height requires a value.");
+            return 1;
+          }
+        }
         case "--icc-profile" -> {
           if (i + 1 < args.length) {
             iccProfile = args[++i];
@@ -443,7 +507,9 @@ public class Afp2Xml {
     out.println("Usage: java -jar alpheus-afp-parser-cli.jar "
         + "[-d|--directory <dir>] [-x|--xpath <expression>] [-f|--format <type>] [-m|--measure] "
         + "[-p|--parallel] [-c|--charset-opt] [-P|--ptx-debug] [-a|--aggressive-io] "
-        + "[-i|--indent] [--icc-profile <path>] [-t|--threads <n>] [-w|--window] <input-afp-file/dir> [output-file]");
+        + "[-i|--indent] [--icc-profile <path>] [-t|--threads <n>] [-w|--window] "
+        + "[-wl|--window-left <mm>] [-ww|--window-width <mm>] [-wt|--window-top <mm>] [-wh|--window-height <mm>] "
+        + "<input-afp-file/dir> [output-file]");
     out.println("Options:");
     out.println("  -d, --directory <dir>     Convert all .afp files in the specified directory.");
     out.println("                            If a directory is provided as a positional "
@@ -461,6 +527,10 @@ public class Afp2Xml {
     out.println("  -t, --threads <n>         Number of threads for parallel processing.");
     out.println("                            Defaults to the number of available processors.");
     out.println("  -w, --window              Draw window region overlay on paper.");
+    out.println("  -wl, --window-left <mm>   Window left position in mm (default: 102.5).");
+    out.println("  -ww, --window-width <mm>  Window width in mm (default: 119.0).");
+    out.println("  -wt, --window-top <mm>   Window top position in mm (default: 50.0).");
+    out.println("  -wh, --window-height <mm> Window height in mm (default: 64.0).");
     out.println("  -h, --help                Show this help message.");
   }
 
