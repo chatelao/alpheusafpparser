@@ -140,6 +140,23 @@ public class PdfEndToEndTest {
   }
 
   @Test
+  public void testPdfHandlerFactoryDefaultWindowOptions() throws Exception {
+    PdfHandlerFactory factory = new PdfHandlerFactory();
+    factory.configure(Map.of("window", "true"));
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    try (com.mgz.afp.base.handler.StructuredFieldHandler handler = factory.createHandler(baos, false)) {
+      assertTrue(handler instanceof PdfHandler, "Handler should be instance of PdfHandler");
+      PdfHandler pdfHandler = (PdfHandler) handler;
+      assertTrue(pdfHandler.isDrawWindow(), "drawWindow should be enabled");
+      assertEquals(97.5, pdfHandler.getWindowLeft(), 0.001);
+      assertEquals(119.0, pdfHandler.getWindowWidth(), 0.001);
+      assertEquals(50.0, pdfHandler.getWindowTop(), 0.001);
+      assertEquals(64.0, pdfHandler.getWindowHeight(), 0.001);
+    }
+  }
+
+  @Test
   public void testPdfHandlerFactoryConfigurableWindowOptions() throws Exception {
     PdfHandlerFactory factory = new PdfHandlerFactory();
     factory.configure(Map.of(
