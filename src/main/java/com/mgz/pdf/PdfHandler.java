@@ -247,9 +247,9 @@ public class PdfHandler implements StructuredFieldHandler {
   private double defaultScaleY = 0.05; // Standard 1/1440 inch units
   private boolean isCanvasTransformed = false;
   private boolean drawWindow = false;
-  private double windowLeft = 97.5;
+  private double windowLeft = 90.5;
   private double windowWidth = 119.0;
-  private double windowTop = 50.0;
+  private double windowTop = 38.0;
   private double windowHeight = 64.0;
 
   // GOCA Object State (for Phase 1 and Phase 2)
@@ -2243,7 +2243,7 @@ public class PdfHandler implements StructuredFieldHandler {
     float pageHeight = page.getPageSize().getHeight();
     double mmToPoints = 72.0 / 25.4;
 
-    // Outer window (configurable, default: 119mm x 64mm, 97.5mm from left, 50mm from top) - Red
+    // Outer window (configurable, default: 119mm x 64mm, 90.5mm from left, 38mm from top) - Red
     float outerX = (float) (windowLeft * mmToPoints);
     float outerW = (float) (windowWidth * mmToPoints);
     float outerH = (float) (windowHeight * mmToPoints);
@@ -2263,19 +2263,23 @@ public class PdfHandler implements StructuredFieldHandler {
 
     PdfCanvas canvas = new PdfCanvas(page);
     canvas.saveState();
-    canvas.setLineWidth(1.0f);
 
-    // Outer Red Box
+    // Outer Red Box (bold)
+    canvas.setLineWidth(2.0f);
     canvas.setStrokeColor(new DeviceRgb(255, 0, 0));
     canvas.rectangle(outerX, outerY, outerW, outerH);
     canvas.stroke();
 
-    // Inner Blue Box (95x40mm)
+    // Inner Blue Box (95x40mm) (dashed)
+    canvas.setLineWidth(1.0f);
+    canvas.setLineDash(new float[]{3, 3}, 0);
     canvas.setStrokeColor(new DeviceRgb(0, 0, 255));
     canvas.rectangle(inner1X, inner1Y, inner1W, inner1H);
     canvas.stroke();
 
     // Inner Green Box (76x26mm)
+    canvas.setLineDash(new float[0], 0);
+    canvas.setLineWidth(1.0f);
     canvas.setStrokeColor(new DeviceRgb(0, 255, 0));
     canvas.rectangle(inner2X, inner2Y, inner2W, inner2H);
     canvas.stroke();
