@@ -2243,23 +2243,30 @@ public class PdfHandler implements StructuredFieldHandler {
     float pageHeight = page.getPageSize().getHeight();
     double mmToPoints = 72.0 / 25.4;
 
-    // Outer window (configurable, default: 119mm x 64mm, 90.5mm from left, 38mm from top) - Red
-    float outerX = (float) (windowLeft * mmToPoints);
+    // Fixed / Reference window: Inner 100x40mm window (Blue)
     float outerW = (float) (windowWidth * mmToPoints);
     float outerH = (float) (windowHeight * mmToPoints);
-    float outerY = (float) (pageHeight - windowTop * mmToPoints - outerH);
+    float baseOuterX = (float) (windowLeft * mmToPoints);
+    float baseOuterY = (float) (pageHeight - windowTop * mmToPoints - outerH);
 
-    // Inner 100x40mm window (9.5mm horizontal margin on both sides from outer red window, shifted 8mm up) - Blue
     float inner1W = outerW - (float) (19.0 * mmToPoints);
     float inner1H = (float) (40.0 * mmToPoints);
-    float inner1X = outerX + (float) (9.5 * mmToPoints);
-    float inner1Y = outerY + (outerH - inner1H) / 2.0f + (float) (8.0 * mmToPoints);
+    float inner1X = baseOuterX + (float) (9.5 * mmToPoints);
+    float inner1Y = baseOuterY + (outerH - inner1H) / 2.0f + (float) (8.0 * mmToPoints);
 
-    // Inner 76x26mm window (centered inside outer window) - Green
+    // Blue window center (reference center for concentric alignment)
+    float centerX = inner1X + inner1W / 2.0f;
+    float centerY = inner1Y + inner1H / 2.0f;
+
+    // Outer window (Red) - aligned concentric around blue box
+    float outerX = centerX - outerW / 2.0f;
+    float outerY = centerY - outerH / 2.0f;
+
+    // Inner 76x26mm window (Green) - aligned concentric inside blue box
     float inner2W = (float) (76.0 * mmToPoints);
     float inner2H = (float) (26.0 * mmToPoints);
-    float inner2X = outerX + (outerW - inner2W) / 2.0f;
-    float inner2Y = outerY + (outerH - inner2H) / 2.0f;
+    float inner2X = centerX - inner2W / 2.0f;
+    float inner2Y = centerY - inner2H / 2.0f;
 
     PdfCanvas canvas = new PdfCanvas(page);
     canvas.saveState();
