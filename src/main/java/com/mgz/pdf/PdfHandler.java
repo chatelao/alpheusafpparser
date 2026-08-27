@@ -2243,31 +2243,52 @@ public class PdfHandler implements StructuredFieldHandler {
     float pageHeight = page.getPageSize().getHeight();
     double mmToPoints = 72.0 / 25.4;
 
+    // First triple (Red / Blue / Green):
     // Middle window: Blue box directly set by window parameters
     float inner1W = (float) (windowWidth * mmToPoints);
     float inner1H = (float) (windowHeight * mmToPoints);
     float inner1X = (float) (windowLeft * mmToPoints);
     float inner1Y = (float) (pageHeight - windowTop * mmToPoints - inner1H);
 
-    // Center of the blue box for concentric alignment of red and green boxes
+    // Center of the window overlay for concentric alignment of all boxes
     float centerX = inner1X + inner1W / 2.0f;
     float centerY = inner1Y + inner1H / 2.0f;
 
-    // Outer window (Red) - 114x64mm default (19mm wider, 24mm taller than blue box), aligned concentric around blue box
+    // Outer window (Red) - 114x64mm default (19mm wider, 24mm taller than blue box), aligned concentric around center
     float outerW = inner1W + (float) (19.0 * mmToPoints);
     float outerH = inner1H + (float) (24.0 * mmToPoints);
     float outerX = centerX - outerW / 2.0f;
     float outerY = centerY - outerH / 2.0f;
 
-    // Inner window (Green) - 76x26mm default (19mm narrower, 14mm shorter than blue box), aligned concentric inside blue box
+    // Inner window (Green) - 76x26mm default (19mm narrower, 14mm shorter than blue box), aligned concentric inside center
     float inner2W = inner1W - (float) (19.0 * mmToPoints);
     float inner2H = inner1H - (float) (14.0 * mmToPoints);
     float inner2X = centerX - inner2W / 2.0f;
     float inner2Y = centerY - inner2H / 2.0f;
 
+    // Second triple (Pink / Mauve / Purple):
+    // Middle window (Mauve) - 100x45mm (instead of 95x40mm)
+    float mauveW = (float) (100.0 * mmToPoints);
+    float mauveH = (float) (45.0 * mmToPoints);
+    float mauveX = centerX - mauveW / 2.0f;
+    float mauveY = centerY - mauveH / 2.0f;
+
+    // Outer window (Pink) - 119x69mm (19mm wider, 24mm taller than mauve box), aligned concentric around center
+    float pinkW = mauveW + (float) (19.0 * mmToPoints);
+    float pinkH = mauveH + (float) (24.0 * mmToPoints);
+    float pinkX = centerX - pinkW / 2.0f;
+    float pinkY = centerY - pinkH / 2.0f;
+
+    // Inner window (Purple) - 81x31mm (19mm narrower, 14mm shorter than mauve box), aligned concentric inside center
+    float purpleW = mauveW - (float) (19.0 * mmToPoints);
+    float purpleH = mauveH - (float) (14.0 * mmToPoints);
+    float purpleX = centerX - purpleW / 2.0f;
+    float purpleY = centerY - purpleH / 2.0f;
+
     PdfCanvas canvas = new PdfCanvas(page);
     canvas.saveState();
 
+    // --- Red / Blue / Green Triple ---
     // Outer Red Box (bold)
     canvas.setLineWidth(2.0f);
     canvas.setStrokeColor(new DeviceRgb(255, 0, 0));
@@ -2286,6 +2307,27 @@ public class PdfHandler implements StructuredFieldHandler {
     canvas.setLineWidth(1.0f);
     canvas.setStrokeColor(new DeviceRgb(0, 255, 0));
     canvas.rectangle(inner2X, inner2Y, inner2W, inner2H);
+    canvas.stroke();
+
+    // --- Pink / Mauve / Purple Triple ---
+    // Outer Pink Box (bold)
+    canvas.setLineWidth(2.0f);
+    canvas.setStrokeColor(new DeviceRgb(255, 192, 203));
+    canvas.rectangle(pinkX, pinkY, pinkW, pinkH);
+    canvas.stroke();
+
+    // Middle Mauve Box (100x45mm) (dashed)
+    canvas.setLineWidth(1.0f);
+    canvas.setLineDash(new float[]{3, 3}, 0);
+    canvas.setStrokeColor(new DeviceRgb(224, 176, 255));
+    canvas.rectangle(mauveX, mauveY, mauveW, mauveH);
+    canvas.stroke();
+
+    // Inner Purple Box (81x31mm)
+    canvas.setLineDash(new float[0], 0);
+    canvas.setLineWidth(1.0f);
+    canvas.setStrokeColor(new DeviceRgb(128, 0, 128));
+    canvas.rectangle(purpleX, purpleY, purpleW, purpleH);
     canvas.stroke();
 
     canvas.restoreState();

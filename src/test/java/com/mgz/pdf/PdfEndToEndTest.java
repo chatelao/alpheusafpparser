@@ -146,12 +146,31 @@ public class PdfEndToEndTest {
       boolean hasInner2TopBorderGreen = isGreenPixelNear(image, expectedInner2LeftPx + 20, expectedInner2TopPx, 5);
       boolean hasInner2LeftBorderGreen = isGreenPixelNear(image, expectedInner2LeftPx, expectedInner2TopPx + 20, 5);
 
+      // Pink outer box (119x69mm): left = 90.5mm, top = 27.5mm
+      int expectedPinkLeftPx = (int) Math.round(90.5 * mmToPx);
+      int expectedPinkTopPx = (int) Math.round(27.5 * mmToPx);
+
+      // Mauve middle box (100x45mm): left = 100.0mm, top = 39.5mm
+      int expectedMauveLeftPx = (int) Math.round(100.0 * mmToPx);
+      int expectedMauveTopPx = (int) Math.round(39.5 * mmToPx);
+
+      // Purple inner box (81x31mm): left = 109.5mm, top = 46.5mm
+      int expectedPurpleLeftPx = (int) Math.round(109.5 * mmToPx);
+      int expectedPurpleTopPx = (int) Math.round(46.5 * mmToPx);
+
+      boolean hasPinkOuterTopBorder = isPinkPixelNear(image, expectedPinkLeftPx + 20, expectedPinkTopPx, 5);
+      boolean hasMauveMiddleTopBorder = isMauvePixelNear(image, expectedMauveLeftPx + 20, expectedMauveTopPx, 5);
+      boolean hasPurpleInnerTopBorder = isPurplePixelNear(image, expectedPurpleLeftPx + 20, expectedPurpleTopPx, 5);
+
       assertTrue(hasOuterTopBorderRed, "Outer window top border should have red pixels at ~30mm top offset");
       assertTrue(hasOuterLeftBorderRed, "Outer window left border should have red pixels at ~93.0mm left position");
       assertTrue(hasInner1TopBorderBlue, "Inner 95x40mm window top border should have blue pixels");
       assertTrue(hasInner1LeftBorderBlue, "Inner 95x40mm window left border should have blue pixels");
       assertTrue(hasInner2TopBorderGreen, "Inner 76x26mm window top border should have green pixels centered in blue window");
       assertTrue(hasInner2LeftBorderGreen, "Inner 76x26mm window left border should have green pixels centered in blue window");
+      assertTrue(hasPinkOuterTopBorder, "Pink outer window border should have pink pixels");
+      assertTrue(hasMauveMiddleTopBorder, "Mauve middle 100x45mm window border should have mauve pixels");
+      assertTrue(hasPurpleInnerTopBorder, "Purple inner window border should have purple pixels");
     }
   }
 
@@ -166,6 +185,63 @@ public class PdfEndToEndTest {
           int green = (rgb >> 8) & 0xFF;
           int blue = rgb & 0xFF;
           if (red > 140 && (red - green) > 25 && (red - blue) > 25) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean isPinkPixelNear(BufferedImage image, int targetX, int targetY, int tolerance) {
+    for (int dx = -tolerance; dx <= tolerance; dx++) {
+      for (int dy = -tolerance; dy <= tolerance; dy++) {
+        int x = targetX + dx;
+        int y = targetY + dy;
+        if (x >= 0 && x < image.getWidth() && y >= 0 && y < image.getHeight()) {
+          int rgb = image.getRGB(x, y);
+          int red = (rgb >> 16) & 0xFF;
+          int green = (rgb >> 8) & 0xFF;
+          int blue = rgb & 0xFF;
+          if (red > 200 && green > 150 && blue > 170) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean isMauvePixelNear(BufferedImage image, int targetX, int targetY, int tolerance) {
+    for (int dx = -tolerance; dx <= tolerance; dx++) {
+      for (int dy = -tolerance; dy <= tolerance; dy++) {
+        int x = targetX + dx;
+        int y = targetY + dy;
+        if (x >= 0 && x < image.getWidth() && y >= 0 && y < image.getHeight()) {
+          int rgb = image.getRGB(x, y);
+          int red = (rgb >> 16) & 0xFF;
+          int green = (rgb >> 8) & 0xFF;
+          int blue = rgb & 0xFF;
+          if (red > 180 && green > 130 && blue > 200) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean isPurplePixelNear(BufferedImage image, int targetX, int targetY, int tolerance) {
+    for (int dx = -tolerance; dx <= tolerance; dx++) {
+      for (int dy = -tolerance; dy <= tolerance; dy++) {
+        int x = targetX + dx;
+        int y = targetY + dy;
+        if (x >= 0 && x < image.getWidth() && y >= 0 && y < image.getHeight()) {
+          int rgb = image.getRGB(x, y);
+          int red = (rgb >> 16) & 0xFF;
+          int green = (rgb >> 8) & 0xFF;
+          int blue = rgb & 0xFF;
+          if (red > 80 && green < 60 && blue > 80) {
             return true;
           }
         }
