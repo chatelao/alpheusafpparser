@@ -247,10 +247,10 @@ public class PdfHandler implements StructuredFieldHandler {
   private double defaultScaleY = 0.05; // Standard 1/1440 inch units
   private boolean isCanvasTransformed = false;
   private boolean drawWindow = false;
-  private double windowLeft = 90.5;
-  private double windowWidth = 114.0;
-  private double windowTop = 38.0;
-  private double windowHeight = 64.0;
+  private double windowLeft = 102.5;
+  private double windowWidth = 95.0;
+  private double windowTop = 42.0;
+  private double windowHeight = 40.0;
 
   // GOCA Object State (for Phase 1 and Phase 2)
   private boolean inGraphicsObject = false;
@@ -2243,30 +2243,25 @@ public class PdfHandler implements StructuredFieldHandler {
     float pageHeight = page.getPageSize().getHeight();
     double mmToPoints = 72.0 / 25.4;
 
-    // Fixed / Reference window: Inner 95x40mm window (Blue)
-    float outerW = (float) (windowWidth * mmToPoints);
-    float outerH = (float) (windowHeight * mmToPoints);
-    float baseOuterX = (float) (windowLeft * mmToPoints);
-    float baseOuterY = (float) (pageHeight - windowTop * mmToPoints - outerH);
+    // Middle window: Blue box directly set by window parameters
+    float inner1W = (float) (windowWidth * mmToPoints);
+    float inner1H = (float) (windowHeight * mmToPoints);
+    float inner1X = (float) (windowLeft * mmToPoints);
+    float inner1Y = (float) (pageHeight - windowTop * mmToPoints - inner1H);
 
-    float inner1W = outerW - (float) (19.0 * mmToPoints);
-    float inner1H = (float) (40.0 * mmToPoints);
-    float inner1Y = baseOuterY + (outerH - inner1H) / 2.0f + (float) (8.0 * mmToPoints);
-
-    // Reference center for concentric alignment (fixed at X=150mm for default windowLeft 90.5)
-    float centerX = baseOuterX + (float) (59.5 * mmToPoints);
+    // Center of the blue box for concentric alignment of red and green boxes
+    float centerX = inner1X + inner1W / 2.0f;
     float centerY = inner1Y + inner1H / 2.0f;
 
-    // Inner Blue Box (95x40mm) - aligned concentric around reference center
-    float inner1X = centerX - inner1W / 2.0f;
-
-    // Outer window (Red) - aligned concentric around blue box
+    // Outer window (Red) - 114x64mm default (19mm wider, 24mm taller than blue box), aligned concentric around blue box
+    float outerW = inner1W + (float) (19.0 * mmToPoints);
+    float outerH = inner1H + (float) (24.0 * mmToPoints);
     float outerX = centerX - outerW / 2.0f;
     float outerY = centerY - outerH / 2.0f;
 
-    // Inner 76x26mm window (Green) - aligned concentric inside blue box
-    float inner2W = (float) (76.0 * mmToPoints);
-    float inner2H = (float) (26.0 * mmToPoints);
+    // Inner window (Green) - 76x26mm default (19mm narrower, 14mm shorter than blue box), aligned concentric inside blue box
+    float inner2W = inner1W - (float) (19.0 * mmToPoints);
+    float inner2H = inner1H - (float) (14.0 * mmToPoints);
     float inner2X = centerX - inner2W / 2.0f;
     float inner2Y = centerY - inner2H / 2.0f;
 

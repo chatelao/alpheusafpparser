@@ -32,20 +32,20 @@ public class PdfHandlerFactory implements HandlerFactory {
 
   private String iccProfilePath;
   private boolean drawWindow;
-  private double windowLeft = 90.5;
-  private double windowWidth = 114.0;
-  private double windowTop = 38.0;
-  private double windowHeight = 64.0;
+  private double windowLeft = 102.5;
+  private double windowWidth = 95.0;
+  private double windowTop = 42.0;
+  private double windowHeight = 40.0;
 
   @Override
   public void configure(Map<String, String> options) {
     // Reset state to defaults before applying new options
     this.iccProfilePath = null;
     this.drawWindow = false;
-    this.windowLeft = 90.5;
-    this.windowWidth = 114.0;
-    this.windowTop = 38.0;
-    this.windowHeight = 64.0;
+    this.windowLeft = 102.5;
+    this.windowWidth = 95.0;
+    this.windowTop = 42.0;
+    this.windowHeight = 40.0;
 
     if (options != null) {
       this.iccProfilePath = options.get("icc-profile");
