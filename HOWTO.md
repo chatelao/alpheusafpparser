@@ -33,7 +33,7 @@ java -jar alpheus-afp-parser-cli-<version>.jar [-d|--directory] [-f|--format <ty
 - **`[output-file]`**: (Optional) The path where the generated output will be saved. If omitted and not in directory mode, output is printed to standard output.
 - **`-d`, `--directory`**: (Optional) Convert all `.afp` files in the specified directory.
 - **`-f`, `--format <type>`**: (Optional) Specify output format: `xml` (default) or `pdf`.
-- **`-w`, `--window`**: (Optional) Draw address window region overlay on generated PDF pages (outer 119mm x 64mm window and inner 100mm x 50mm window).
+- **`-w`, `--window`**: (Optional) Draw address window region overlay on generated PDF pages (outer 119mm x 64mm window and inner 95mm x 40mm window).
 - **`--icc-profile <path>`**: (Optional) Path to ICC color profile for PDF/X and PDF/VT compliance.
 - **`-i`, `--indent`**: (Optional) Enable XML indentation.
 - **`-p`, `--parallel`**: (Optional) Enable parallel conversion for single files.
