@@ -248,7 +248,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private boolean isCanvasTransformed = false;
   private boolean drawWindow = false;
   private double windowLeft = 90.5;
-  private double windowWidth = 119.0;
+  private double windowWidth = 114.0;
   private double windowTop = 38.0;
   private double windowHeight = 64.0;
 
@@ -2243,7 +2243,7 @@ public class PdfHandler implements StructuredFieldHandler {
     float pageHeight = page.getPageSize().getHeight();
     double mmToPoints = 72.0 / 25.4;
 
-    // Fixed / Reference window: Inner 100x40mm window (Blue)
+    // Fixed / Reference window: Inner 95x40mm window (Blue)
     float outerW = (float) (windowWidth * mmToPoints);
     float outerH = (float) (windowHeight * mmToPoints);
     float baseOuterX = (float) (windowLeft * mmToPoints);
@@ -2251,12 +2251,14 @@ public class PdfHandler implements StructuredFieldHandler {
 
     float inner1W = outerW - (float) (19.0 * mmToPoints);
     float inner1H = (float) (40.0 * mmToPoints);
-    float inner1X = baseOuterX + (float) (9.5 * mmToPoints);
     float inner1Y = baseOuterY + (outerH - inner1H) / 2.0f + (float) (8.0 * mmToPoints);
 
-    // Blue window center (reference center for concentric alignment)
-    float centerX = inner1X + inner1W / 2.0f;
+    // Reference center for concentric alignment (fixed at X=150mm for default windowLeft 90.5)
+    float centerX = baseOuterX + (float) (59.5 * mmToPoints);
     float centerY = inner1Y + inner1H / 2.0f;
+
+    // Inner Blue Box (95x40mm) - aligned concentric around reference center
+    float inner1X = centerX - inner1W / 2.0f;
 
     // Outer window (Red) - aligned concentric around blue box
     float outerX = centerX - outerW / 2.0f;
