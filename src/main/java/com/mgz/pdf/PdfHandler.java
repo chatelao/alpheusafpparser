@@ -2245,26 +2245,43 @@ public class PdfHandler implements StructuredFieldHandler {
     float pageHeight = page.getPageSize().getHeight();
     double mmToPoints = 72.0 / 25.4;
 
-    // Outer window (configurable, default: 119mm x 64mm, 97.5mm from left, 50mm from top)
+    // Outer window (configurable, default: 119mm x 64mm, 97.5mm from left, 50mm from top) - Red
     float outerX = (float) (windowLeft * mmToPoints);
     float outerW = (float) (windowWidth * mmToPoints);
     float outerH = (float) (windowHeight * mmToPoints);
     float outerY = (float) (pageHeight - windowTop * mmToPoints - outerH);
 
-    // Inner window (95mm x 40mm, centered inside outer window)
-    float innerW = (float) (95.0 * mmToPoints);
-    float innerH = (float) (40.0 * mmToPoints);
-    float innerX = outerX + (outerW - innerW) / 2.0f;
-    float innerY = outerY + (outerH - innerH) / 2.0f;
+    // Inner 95x40mm window (centered inside outer window) - Blue
+    float inner1W = (float) (95.0 * mmToPoints);
+    float inner1H = (float) (40.0 * mmToPoints);
+    float inner1X = outerX + (outerW - inner1W) / 2.0f;
+    float inner1Y = outerY + (outerH - inner1H) / 2.0f;
+
+    // Inner 76x26mm window (centered inside outer window) - Green
+    float inner2W = (float) (76.0 * mmToPoints);
+    float inner2H = (float) (26.0 * mmToPoints);
+    float inner2X = outerX + (outerW - inner2W) / 2.0f;
+    float inner2Y = outerY + (outerH - inner2H) / 2.0f;
 
     PdfCanvas canvas = new PdfCanvas(page);
     canvas.saveState();
-    canvas.setStrokeColor(new DeviceRgb(255, 0, 0));
     canvas.setLineWidth(1.0f);
+
+    // Outer Red Box
+    canvas.setStrokeColor(new DeviceRgb(255, 0, 0));
     canvas.rectangle(outerX, outerY, outerW, outerH);
     canvas.stroke();
-    canvas.rectangle(innerX, innerY, innerW, innerH);
+
+    // Inner Blue Box (95x40mm)
+    canvas.setStrokeColor(new DeviceRgb(0, 0, 255));
+    canvas.rectangle(inner1X, inner1Y, inner1W, inner1H);
     canvas.stroke();
+
+    // Inner Green Box (76x26mm)
+    canvas.setStrokeColor(new DeviceRgb(0, 255, 0));
+    canvas.rectangle(inner2X, inner2Y, inner2W, inner2H);
+    canvas.stroke();
+
     canvas.restoreState();
   }
 
