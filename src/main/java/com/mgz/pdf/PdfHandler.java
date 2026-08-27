@@ -2253,13 +2253,13 @@ public class PdfHandler implements StructuredFieldHandler {
     float centerX = inner1X + inner1W / 2.0f;
     float centerY = inner1Y + inner1H / 2.0f;
 
-    // Outer window (Red) - 114x64mm default (19mm wider, 24mm taller than blue box), aligned concentric around blue box
+    // Outer window (Red) - 114x54mm default (19mm wider, 14mm taller [7mm top/bottom distance] than blue box), aligned concentric around blue box
     float outerW = inner1W + (float) (19.0 * mmToPoints);
-    float outerH = inner1H + (float) (24.0 * mmToPoints);
+    float outerH = inner1H + (float) (14.0 * mmToPoints);
     float outerX = centerX - outerW / 2.0f;
     float outerY = centerY - outerH / 2.0f;
 
-    // Inner window (Green) - 76x26mm default (19mm narrower, 14mm shorter than blue box), aligned concentric inside blue box
+    // Inner window (Green) - 76x26mm default (19mm narrower, 14mm shorter [7mm top/bottom distance] than blue box), aligned concentric inside blue box
     float inner2W = inner1W - (float) (19.0 * mmToPoints);
     float inner2H = inner1H - (float) (14.0 * mmToPoints);
     float inner2X = centerX - inner2W / 2.0f;

@@ -120,8 +120,8 @@ public class PdfEndToEndTest {
       // Verify presence of red/blue/green pixels and precise position of window borders
       // Default rendering in PDFBox renderImage(0) uses 72 DPI (1 point = 1 pixel).
       // Blue window (95x40mm): left = 102.5mm, top = 42.0mm
-      // Red window (114x64mm): centered around blue box (left = 93.0mm, top = 30.0mm)
-      // Green window (76x26mm): centered inside blue box (left = 112.0mm, top = 49.0mm)
+      // Red window (114x54mm): centered around blue box (left = 93.0mm, top = 35.0mm [7mm above blue top])
+      // Green window (76x26mm): centered inside blue box (left = 112.0mm, top = 49.0mm [7mm below blue top])
       double mmToPx = 72.0 / 25.4;
       int expectedOuterLeftPx = (int) Math.round(93.0 * mmToPx);
 
@@ -131,7 +131,7 @@ public class PdfEndToEndTest {
       int expectedInner1TopPx = (int) Math.round(inner1TopMm * mmToPx);
 
       // Concentric alignment relative to blue box center (150mm, 62mm):
-      double outerTopMm = 30.0;
+      double outerTopMm = 35.0;
       int expectedOuterTopPxNew = (int) Math.round(outerTopMm * mmToPx);
 
       double inner2LeftMm = 112.0;
@@ -246,7 +246,7 @@ public class PdfEndToEndTest {
 
       double mmToPx = 72.0 / 25.4;
       int expectedOuterLeftPx = (int) Math.round(93.0 * mmToPx);
-      int expectedOuterTopPx = (int) Math.round(30.0 * mmToPx);
+      int expectedOuterTopPx = (int) Math.round(35.0 * mmToPx);
 
       // Verify page 1 contains window overlay
       assertTrue(isRedPixelNear(page1Image, expectedOuterLeftPx + 20, expectedOuterTopPx, 5),
