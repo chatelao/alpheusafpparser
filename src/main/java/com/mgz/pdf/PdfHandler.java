@@ -2251,9 +2251,9 @@ public class PdfHandler implements StructuredFieldHandler {
     float outerH = (float) (windowHeight * mmToPoints);
     float outerY = (float) (pageHeight - (windowTop + windowHeight) * mmToPoints);
 
-    // Inner window (100mm x 50mm, centered inside outer window)
-    float innerW = (float) (100.0 * mmToPoints);
-    float innerH = (float) (50.0 * mmToPoints);
+    // Inner window (95mm x 40mm, centered inside outer window)
+    float innerW = (float) (95.0 * mmToPoints);
+    float innerH = (float) (40.0 * mmToPoints);
     float innerX = outerX + (outerW - innerW) / 2.0f;
     float innerY = outerY + (outerH - innerH) / 2.0f;
 

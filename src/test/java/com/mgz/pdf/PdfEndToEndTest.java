@@ -117,26 +117,71 @@ public class PdfEndToEndTest {
       BufferedImage image = renderer.renderImage(0);
       assertNotNull(image, "Rendered image should not be null");
 
-      // Verify presence of red pixels (window border) in rendered image
-      boolean hasRedPixel = false;
-      for (int x = 0; x < image.getWidth(); x++) {
-        for (int y = 0; y < image.getHeight(); y++) {
+      // Verify presence of red pixels and precise position of window borders
+      // Default rendering in PDFBox renderImage(0) uses 72 DPI (1 point = 1 pixel).
+      // Outer window: left = 97.5mm, top = 50.0mm, width = 119.0mm, height = 64.0mm
+      // Inner window: width = 95.0mm, height = 40.0mm, centered in outer window
+      double mmToPx = 72.0 / 25.4;
+      int expectedOuterLeftPx = (int) Math.round(97.5 * mmToPx);
+      int expectedOuterTopPx = (int) Math.round(50.0 * mmToPx);
+      int expectedOuterRightPx = (int) Math.round((97.5 + 119.0) * mmToPx);
+      int expectedOuterBottomPx = (int) Math.round((50.0 + 64.0) * mmToPx);
+
+      double innerLeftMm = 97.5 + (119.0 - 95.0) / 2.0; // 109.5mm
+      double innerTopMm = 50.0 + (64.0 - 40.0) / 2.0;   // 62.0mm
+      int expectedInnerLeftPx = (int) Math.round(innerLeftMm * mmToPx);
+      int expectedInnerTopPx = (int) Math.round(innerTopMm * mmToPx);
+
+      // Print debug info if failed
+      int checkX = expectedOuterLeftPx + 20;
+      int checkY = expectedOuterTopPx;
+      boolean hasOuterTopBorderRed = isRedPixelNear(image, checkX, checkY, 5);
+      boolean hasOuterLeftBorderRed = isRedPixelNear(image, expectedOuterLeftPx, expectedOuterTopPx + 20, 5);
+      boolean hasInnerTopBorderRed = isRedPixelNear(image, expectedInnerLeftPx + 20, expectedInnerTopPx, 5);
+      boolean hasInnerLeftBorderRed = isRedPixelNear(image, expectedInnerLeftPx, expectedInnerTopPx + 20, 5);
+
+      if (!hasOuterTopBorderRed) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("Failed outer top border check at x=%d, y=%d (mmToPx=%.4f). Sample pixels nearby:\n", checkX, checkY, mmToPx));
+        for (int dy = -5; dy <= 5; dy++) {
+          for (int dx = -5; dx <= 5; dx++) {
+            int px = checkX + dx;
+            int py = checkY + dy;
+            if (px >= 0 && px < image.getWidth() && py >= 0 && py < image.getHeight()) {
+              int rgb = image.getRGB(px, py);
+              sb.append(String.format("[%d,%d: R=%d G=%d B=%d] ", dx, dy, (rgb>>16)&0xFF, (rgb>>8)&0xFF, rgb&0xFF));
+            }
+          }
+          sb.append("\n");
+        }
+        System.err.println(sb.toString());
+      }
+
+      assertTrue(hasOuterTopBorderRed, "Outer window top border should have red pixels at ~50mm top offset");
+      assertTrue(hasOuterLeftBorderRed, "Outer window left border should have red pixels at ~97.5mm left position");
+      assertTrue(hasInnerTopBorderRed, "Inner 95x40mm window top border should have red pixels centered in outer window");
+      assertTrue(hasInnerLeftBorderRed, "Inner 95x40mm window left border should have red pixels centered in outer window");
+    }
+  }
+
+  private boolean isRedPixelNear(BufferedImage image, int targetX, int targetY, int tolerance) {
+    for (int dx = -tolerance; dx <= tolerance; dx++) {
+      for (int dy = -tolerance; dy <= tolerance; dy++) {
+        int x = targetX + dx;
+        int y = targetY + dy;
+        if (x >= 0 && x < image.getWidth() && y >= 0 && y < image.getHeight()) {
           int rgb = image.getRGB(x, y);
           int red = (rgb >> 16) & 0xFF;
           int green = (rgb >> 8) & 0xFF;
           int blue = rgb & 0xFF;
-          // Red pixels should have high red component relative to green/blue
-          if (red > 180 && (red - green) > 50 && (red - blue) > 50) {
-            hasRedPixel = true;
-            break;
+          // Red window lines in PDFBox rendering under antialiasing or varying headless font/color profiles
+          if (red > 140 && (red - green) > 25 && (red - blue) > 25) {
+            return true;
           }
         }
-        if (hasRedPixel) {
-          break;
-        }
       }
-      assertTrue(hasRedPixel, "Rendered PDF image should contain red pixels from window overlay");
     }
+    return false;
   }
 
   @Test

@@ -29,7 +29,7 @@ To facilitate early testing and integration, the `Afp2Xml` CLI utility is extend
         -   Parallel processing (`-P`) and Directory mode (`-d`) are supported for PDF output.
 -   **Window Option Flag**: `-w, --window`
     -   **Behavior**:
-        -   Enables drawing of an address window region overlay (outer 119mm x 64mm window and inner 100mm x 50mm centered window) on generated PDF pages.
+        -   Enables drawing of an address window region overlay (outer 119mm x 64mm window and inner 95mm x 40mm centered window) on generated PDF pages.
 
 ---
 
