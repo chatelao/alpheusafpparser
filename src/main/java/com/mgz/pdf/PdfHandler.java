@@ -247,7 +247,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private double defaultScaleY = 0.05; // Standard 1/1440 inch units
   private boolean isCanvasTransformed = false;
   private boolean drawWindow = false;
-  private double windowLeft = 102.5;
+  private double windowLeft = 97.5;
   private double windowWidth = 119.0;
   private double windowTop = 50.0;
   private double windowHeight = 64.0;
@@ -2245,17 +2245,17 @@ public class PdfHandler implements StructuredFieldHandler {
     float pageHeight = page.getPageSize().getHeight();
     double mmToPoints = 72.0 / 25.4;
 
-    // Inner window (100mm x 50mm, top edge at windowTop mm from top of page)
-    float innerW = (float) (100.0 * mmToPoints);
-    float innerH = (float) (50.0 * mmToPoints);
-    float innerY = (float) (pageHeight - (windowTop + 50.0) * mmToPoints);
-
-    // Outer window (configurable, default: 119mm x 64mm, centered around inner window)
+    // Outer window (configurable, default: 119mm x 64mm, 97.5mm from left, 50mm from top)
     float outerX = (float) (windowLeft * mmToPoints);
     float outerW = (float) (windowWidth * mmToPoints);
     float outerH = (float) (windowHeight * mmToPoints);
-    float outerY = innerY - (outerH - innerH) / 2.0f;
+    float outerY = (float) (pageHeight - (windowTop + windowHeight) * mmToPoints);
+
+    // Inner window (100mm x 50mm, centered inside outer window)
+    float innerW = (float) (100.0 * mmToPoints);
+    float innerH = (float) (50.0 * mmToPoints);
     float innerX = outerX + (outerW - innerW) / 2.0f;
+    float innerY = outerY + (outerH - innerH) / 2.0f;
 
     PdfCanvas canvas = new PdfCanvas(page);
     canvas.saveState();

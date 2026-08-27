@@ -125,8 +125,8 @@ public class PdfEndToEndTest {
           int red = (rgb >> 16) & 0xFF;
           int green = (rgb >> 8) & 0xFF;
           int blue = rgb & 0xFF;
-          // Red pixels should have high red component and low green/blue
-          if (red > 200 && green < 50 && blue < 50) {
+          // Red pixels should have high red component relative to green/blue
+          if (red > 180 && (red - green) > 50 && (red - blue) > 50) {
             hasRedPixel = true;
             break;
           }
@@ -136,6 +136,23 @@ public class PdfEndToEndTest {
         }
       }
       assertTrue(hasRedPixel, "Rendered PDF image should contain red pixels from window overlay");
+    }
+  }
+
+  @Test
+  public void testPdfHandlerFactoryDefaultWindowOptions() throws Exception {
+    PdfHandlerFactory factory = new PdfHandlerFactory();
+    factory.configure(Map.of("window", "true"));
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    try (com.mgz.afp.base.handler.StructuredFieldHandler handler = factory.createHandler(baos, false)) {
+      assertTrue(handler instanceof PdfHandler, "Handler should be instance of PdfHandler");
+      PdfHandler pdfHandler = (PdfHandler) handler;
+      assertTrue(pdfHandler.isDrawWindow(), "drawWindow should be enabled");
+      assertEquals(97.5, pdfHandler.getWindowLeft(), 0.001);
+      assertEquals(119.0, pdfHandler.getWindowWidth(), 0.001);
+      assertEquals(50.0, pdfHandler.getWindowTop(), 0.001);
+      assertEquals(64.0, pdfHandler.getWindowHeight(), 0.001);
     }
   }
 

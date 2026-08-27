@@ -527,7 +527,7 @@ public class Afp2Xml {
     out.println("  -t, --threads <n>         Number of threads for parallel processing.");
     out.println("                            Defaults to the number of available processors.");
     out.println("  -w, --window              Draw window region overlay on paper.");
-    out.println("  -wl, --window-left <mm>   Window left position in mm (default: 102.5).");
+    out.println("  -wl, --window-left <mm>   Window left position in mm (default: 97.5).");
     out.println("  -ww, --window-width <mm>  Window width in mm (default: 119.0).");
     out.println("  -wt, --window-top <mm>   Window top position in mm (default: 50.0).");
     out.println("  -wh, --window-height <mm> Window height in mm (default: 64.0).");
