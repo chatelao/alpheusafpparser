@@ -119,14 +119,13 @@ public class PdfEndToEndTest {
 
       // Verify presence of red/blue/green pixels and precise position of window borders
       // Default rendering in PDFBox renderImage(0) uses 72 DPI (1 point = 1 pixel).
-      // Outer window: left = 90.5mm, top = 38.0mm, width = 119.0mm, height = 64.0mm
-      // Inner blue window (100x40mm): 9.5mm horizontal margin from outer window, shifted 8mm up
-      // Inner 76x26mm window: centered in outer window
+      // Red window: left = 93.0mm, top = 38.0mm, width = 114.0mm, height = 64.0mm
+      // Blue window (95x40mm): centered at X=150mm (left = 102.5mm)
+      // Green window (76x26mm): centered at X=150mm (left = 112.0mm)
       double mmToPx = 72.0 / 25.4;
-      int expectedOuterLeftPx = (int) Math.round(90.5 * mmToPx);
-      int expectedOuterTopPx = (int) Math.round(38.0 * mmToPx);
+      int expectedOuterLeftPx = (int) Math.round(93.0 * mmToPx);
 
-      double inner1LeftMm = 90.5 + 9.5; // 100.0mm
+      double inner1LeftMm = 150.0 - 95.0 / 2.0; // 102.5mm
       double inner1TopMm = 38.0 + (64.0 - 40.0) / 2.0 - 8.0;   // 42.0mm
       int expectedInner1LeftPx = (int) Math.round(inner1LeftMm * mmToPx);
       int expectedInner1TopPx = (int) Math.round(inner1TopMm * mmToPx);
@@ -148,9 +147,9 @@ public class PdfEndToEndTest {
       boolean hasInner2LeftBorderGreen = isGreenPixelNear(image, expectedInner2LeftPx, expectedInner2TopPx + 20, 5);
 
       assertTrue(hasOuterTopBorderRed, "Outer window top border should have red pixels at ~30mm top offset");
-      assertTrue(hasOuterLeftBorderRed, "Outer window left border should have red pixels at ~90.5mm left position");
-      assertTrue(hasInner1TopBorderBlue, "Inner 100x40mm window top border should have blue pixels");
-      assertTrue(hasInner1LeftBorderBlue, "Inner 100x40mm window left border should have blue pixels");
+      assertTrue(hasOuterLeftBorderRed, "Outer window left border should have red pixels at ~93.0mm left position");
+      assertTrue(hasInner1TopBorderBlue, "Inner 95x40mm window top border should have blue pixels");
+      assertTrue(hasInner1LeftBorderBlue, "Inner 95x40mm window left border should have blue pixels");
       assertTrue(hasInner2TopBorderGreen, "Inner 76x26mm window top border should have green pixels centered in blue window");
       assertTrue(hasInner2LeftBorderGreen, "Inner 76x26mm window left border should have green pixels centered in blue window");
     }
@@ -246,7 +245,7 @@ public class PdfEndToEndTest {
       BufferedImage page2Image = renderer.renderImage(1);
 
       double mmToPx = 72.0 / 25.4;
-      int expectedOuterLeftPx = (int) Math.round(90.5 * mmToPx);
+      int expectedOuterLeftPx = (int) Math.round(93.0 * mmToPx);
       int expectedOuterTopPx = (int) Math.round(30.0 * mmToPx);
 
       // Verify page 1 contains window overlay
@@ -277,7 +276,7 @@ public class PdfEndToEndTest {
       PdfHandler pdfHandler = (PdfHandler) handler;
       assertTrue(pdfHandler.isDrawWindow(), "drawWindow should be enabled");
       assertEquals(90.5, pdfHandler.getWindowLeft(), 0.001);
-      assertEquals(119.0, pdfHandler.getWindowWidth(), 0.001);
+      assertEquals(114.0, pdfHandler.getWindowWidth(), 0.001);
       assertEquals(38.0, pdfHandler.getWindowTop(), 0.001);
       assertEquals(64.0, pdfHandler.getWindowHeight(), 0.001);
     }
