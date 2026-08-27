@@ -2245,17 +2245,17 @@ public class PdfHandler implements StructuredFieldHandler {
     float pageHeight = page.getPageSize().getHeight();
     double mmToPoints = 72.0 / 25.4;
 
-    // Outer window (configurable, default: 119mm x 64mm, 97.5mm from left, 50mm from top)
+    // Inner window (100mm x 50mm, top edge at windowTop mm from top of page)
+    float innerW = (float) (100.0 * mmToPoints);
+    float innerH = (float) (50.0 * mmToPoints);
+    float innerY = (float) (pageHeight - (windowTop + 50.0) * mmToPoints);
+
+    // Outer window (configurable, default: 119mm x 64mm, centered around inner window)
     float outerX = (float) (windowLeft * mmToPoints);
     float outerW = (float) (windowWidth * mmToPoints);
     float outerH = (float) (windowHeight * mmToPoints);
-    float outerY = (float) (pageHeight - (windowTop + windowHeight) * mmToPoints);
-
-    // Inner window (100mm x 50mm, centered inside outer window)
-    float innerW = (float) (100.0 * mmToPoints);
-    float innerH = (float) (50.0 * mmToPoints);
+    float outerY = innerY - (outerH - innerH) / 2.0f;
     float innerX = outerX + (outerW - innerW) / 2.0f;
-    float innerY = outerY + (outerH - innerH) / 2.0f;
 
     PdfCanvas canvas = new PdfCanvas(page);
     canvas.saveState();
