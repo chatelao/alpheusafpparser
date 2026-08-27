@@ -120,14 +120,14 @@ public class PdfEndToEndTest {
       // Verify presence of red/blue/green pixels and precise position of window borders
       // Default rendering in PDFBox renderImage(0) uses 72 DPI (1 point = 1 pixel).
       // Outer window: left = 90.5mm, top = 38.0mm, width = 119.0mm, height = 64.0mm
-      // Inner 95x40mm window: centered in outer window
+      // Inner blue window (100x40mm): 9.5mm horizontal margin from outer window, shifted 8mm up
       // Inner 76x26mm window: centered in outer window
       double mmToPx = 72.0 / 25.4;
       int expectedOuterLeftPx = (int) Math.round(90.5 * mmToPx);
       int expectedOuterTopPx = (int) Math.round(38.0 * mmToPx);
 
-      double inner1LeftMm = 90.5 + (119.0 - 95.0) / 2.0; // 102.5mm
-      double inner1TopMm = 38.0 + (64.0 - 40.0) / 2.0;   // 50.0mm
+      double inner1LeftMm = 90.5 + 9.5; // 100.0mm
+      double inner1TopMm = 38.0 + (64.0 - 40.0) / 2.0 - 8.0;   // 42.0mm
       int expectedInner1LeftPx = (int) Math.round(inner1LeftMm * mmToPx);
       int expectedInner1TopPx = (int) Math.round(inner1TopMm * mmToPx);
 
