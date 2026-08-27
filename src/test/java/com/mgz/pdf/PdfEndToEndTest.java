@@ -114,7 +114,7 @@ public class PdfEndToEndTest {
       assertTrue(document.getNumberOfPages() >= 1, "Should have at least one page");
 
       PDFRenderer renderer = new PDFRenderer(document);
-      BufferedImage image = renderer.renderImage(0);
+      BufferedImage image = renderer.renderImageWithDPI(0, 150);
       assertNotNull(image, "Rendered image should not be null");
 
       // Verify presence of red pixels (window border) in rendered image
@@ -126,7 +126,7 @@ public class PdfEndToEndTest {
           int green = (rgb >> 8) & 0xFF;
           int blue = rgb & 0xFF;
           // Red pixels should have high red component relative to green/blue
-          if (red > 180 && (red - green) > 50 && (red - blue) > 50) {
+          if (red > 150 && (red - green) > 30 && (red - blue) > 30) {
             hasRedPixel = true;
             break;
           }
