@@ -210,6 +210,59 @@ public class PdfEndToEndTest {
   }
 
   @Test
+  public void testWindowOverlayOnlyOnFirstPageMultiPage() throws Exception {
+    File outputFile = tempDir.resolve("output_multipage_window.pdf").toFile();
+
+    try (java.io.FileOutputStream fos = new java.io.FileOutputStream(outputFile);
+         PdfHandler handler = new PdfHandler(fos)) {
+      handler.setDrawWindow(true);
+
+      com.mgz.afp.modca.BPG_BeginPage bpg1 = new com.mgz.afp.modca.BPG_BeginPage();
+      bpg1.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.BPG_BeginPage));
+      handler.handle(bpg1);
+
+      com.mgz.afp.modca.EPG_EndPage epg1 = new com.mgz.afp.modca.EPG_EndPage();
+      epg1.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.EPG_EndPage));
+      handler.handle(epg1);
+
+      com.mgz.afp.modca.BPG_BeginPage bpg2 = new com.mgz.afp.modca.BPG_BeginPage();
+      bpg2.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.BPG_BeginPage));
+      handler.handle(bpg2);
+
+      com.mgz.afp.modca.EPG_EndPage epg2 = new com.mgz.afp.modca.EPG_EndPage();
+      epg2.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.EPG_EndPage));
+      handler.handle(epg2);
+    }
+
+    try (PDDocument document = Loader.loadPDF(outputFile)) {
+      assertEquals(2, document.getNumberOfPages(), "PDF should contain 2 pages");
+
+      PDFRenderer renderer = new PDFRenderer(document);
+      BufferedImage page1Image = renderer.renderImage(0);
+      BufferedImage page2Image = renderer.renderImage(1);
+
+      double mmToPx = 72.0 / 25.4;
+      int expectedOuterLeftPx = (int) Math.round(97.5 * mmToPx);
+      int expectedOuterTopPx = (int) Math.round(50.0 * mmToPx);
+
+      // Verify page 1 contains window overlay
+      assertTrue(isRedPixelNear(page1Image, expectedOuterLeftPx + 20, expectedOuterTopPx, 5),
+          "Page 1 should contain red window overlay pixels");
+
+      // Verify page 2 does NOT contain window overlay
+      org.junit.jupiter.api.Assertions.assertFalse(isRedPixelNear(page2Image, expectedOuterLeftPx + 20, expectedOuterTopPx, 5),
+          "Page 2 should NOT contain red window overlay pixels");
+    }
+  }
+
+  private com.mgz.afp.base.StructuredFieldIntroducer createSfi(com.mgz.afp.enums.SFTypeID typeID) {
+    com.mgz.afp.base.StructuredFieldIntroducer sfi = new com.mgz.afp.base.StructuredFieldIntroducer();
+    sfi.setSFTypeID(typeID);
+    sfi.setFlagByte(java.util.EnumSet.noneOf(com.mgz.afp.enums.SFFlag.class));
+    return sfi;
+  }
+
+  @Test
   public void testPdfHandlerFactoryDefaultWindowOptions() throws Exception {
     PdfHandlerFactory factory = new PdfHandlerFactory();
     factory.configure(Map.of("window", "true"));

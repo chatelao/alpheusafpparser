@@ -2230,10 +2230,8 @@ public class PdfHandler implements StructuredFieldHandler {
       if (fieldCount.get() > 0 && pdfDoc.getNumberOfPages() == 0) {
         document.add(new Paragraph("AFP to PDF conversion in progress..."));
       }
-      if (drawWindow) {
-        for (int i = 1; i <= pdfDoc.getNumberOfPages(); i++) {
-          drawWindowOverlay(pdfDoc.getPage(i));
-        }
+      if (drawWindow && pdfDoc.getNumberOfPages() > 0) {
+        drawWindowOverlay(pdfDoc.getPage(1));
       }
       document.close();
     } finally {
