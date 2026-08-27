@@ -119,23 +119,23 @@ public class PdfEndToEndTest {
 
       // Verify presence of red/blue/green pixels and precise position of window borders
       // Default rendering in PDFBox renderImage(0) uses 72 DPI (1 point = 1 pixel).
-      // Red window: left = 93.0mm, top = 38.0mm, width = 114.0mm, height = 64.0mm
-      // Blue window (95x40mm): centered at X=150mm (left = 102.5mm)
-      // Green window (76x26mm): centered at X=150mm (left = 112.0mm)
+      // Blue window (95x40mm): left = 102.5mm, top = 42.0mm
+      // Red window (114x64mm): centered around blue box (left = 93.0mm, top = 30.0mm)
+      // Green window (76x26mm): centered inside blue box (left = 112.0mm, top = 49.0mm)
       double mmToPx = 72.0 / 25.4;
       int expectedOuterLeftPx = (int) Math.round(93.0 * mmToPx);
 
-      double inner1LeftMm = 150.0 - 95.0 / 2.0; // 102.5mm
-      double inner1TopMm = 38.0 + (64.0 - 40.0) / 2.0 - 8.0;   // 42.0mm
+      double inner1LeftMm = 102.5;
+      double inner1TopMm = 42.0;
       int expectedInner1LeftPx = (int) Math.round(inner1LeftMm * mmToPx);
       int expectedInner1TopPx = (int) Math.round(inner1TopMm * mmToPx);
 
       // Concentric alignment relative to blue box center (150mm, 62mm):
-      double outerTopMm = 62.0 - 64.0 / 2.0; // 30.0mm
+      double outerTopMm = 30.0;
       int expectedOuterTopPxNew = (int) Math.round(outerTopMm * mmToPx);
 
-      double inner2LeftMm = 150.0 - 76.0 / 2.0; // 112.0mm
-      double inner2TopMm = 62.0 - 26.0 / 2.0;   // 49.0mm
+      double inner2LeftMm = 112.0;
+      double inner2TopMm = 49.0;
       int expectedInner2LeftPx = (int) Math.round(inner2LeftMm * mmToPx);
       int expectedInner2TopPx = (int) Math.round(inner2TopMm * mmToPx);
 
@@ -275,10 +275,10 @@ public class PdfEndToEndTest {
       assertTrue(handler instanceof PdfHandler, "Handler should be instance of PdfHandler");
       PdfHandler pdfHandler = (PdfHandler) handler;
       assertTrue(pdfHandler.isDrawWindow(), "drawWindow should be enabled");
-      assertEquals(90.5, pdfHandler.getWindowLeft(), 0.001);
-      assertEquals(114.0, pdfHandler.getWindowWidth(), 0.001);
-      assertEquals(38.0, pdfHandler.getWindowTop(), 0.001);
-      assertEquals(64.0, pdfHandler.getWindowHeight(), 0.001);
+      assertEquals(102.5, pdfHandler.getWindowLeft(), 0.001);
+      assertEquals(95.0, pdfHandler.getWindowWidth(), 0.001);
+      assertEquals(42.0, pdfHandler.getWindowTop(), 0.001);
+      assertEquals(40.0, pdfHandler.getWindowHeight(), 0.001);
     }
   }
 
