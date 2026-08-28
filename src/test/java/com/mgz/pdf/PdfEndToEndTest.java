@@ -146,17 +146,17 @@ public class PdfEndToEndTest {
       boolean hasInner2TopBorderGreen = isGreenPixelNear(image, expectedInner2LeftPx + 20, expectedInner2TopPx, 5);
       boolean hasInner2LeftBorderGreen = isGreenPixelNear(image, expectedInner2LeftPx, expectedInner2TopPx + 20, 5);
 
-      // Pink outer box (119x59mm): left = 96.0mm, top = 30.5mm (shifted 5.5mm right, 2.0mm up)
+      // Pink outer box (119x72mm): left = 96.0mm, top = 24.0mm (shifted 5.5mm right, 2.0mm up; 13.5mm above Mauve top)
       int expectedPinkLeftPx = (int) Math.round(96.0 * mmToPx);
-      int expectedPinkTopPx = (int) Math.round(30.5 * mmToPx);
+      int expectedPinkTopPx = (int) Math.round(24.0 * mmToPx);
 
       // Mauve middle box (100x45mm): left = 105.5mm, top = 37.5mm (shifted 5.5mm right, 2.0mm up)
       int expectedMauveLeftPx = (int) Math.round(105.5 * mmToPx);
       int expectedMauveTopPx = (int) Math.round(37.5 * mmToPx);
 
-      // Purple inner box (81x31mm): left = 115.0mm, top = 44.5mm (shifted 5.5mm right, 2.0mm up)
+      // Purple inner box (81x18mm): left = 115.0mm, top = 51.0mm (shifted 5.5mm right, 2.0mm up; 13.5mm below Mauve top)
       int expectedPurpleLeftPx = (int) Math.round(115.0 * mmToPx);
-      int expectedPurpleTopPx = (int) Math.round(44.5 * mmToPx);
+      int expectedPurpleTopPx = (int) Math.round(51.0 * mmToPx);
 
       boolean hasPinkOuterTopBorder = isPinkPixelNear(image, expectedPinkLeftPx + 20, expectedPinkTopPx, 5);
       boolean hasMauveMiddleTopBorder = isMauvePixelNear(image, expectedMauveLeftPx + 20, expectedMauveTopPx, 5);
