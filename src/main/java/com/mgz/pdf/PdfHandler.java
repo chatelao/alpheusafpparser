@@ -2266,24 +2266,28 @@ public class PdfHandler implements StructuredFieldHandler {
     float inner2X = centerX - inner2W / 2.0f;
     float inner2Y = centerY - inner2H / 2.0f;
 
+    // Center for second triple (Pink / Mauve / Purple) - shifted 5.5mm right and 2mm up
+    float center2X = centerX + (float) (5.5 * mmToPoints);
+    float center2Y = centerY + (float) (2.0 * mmToPoints);
+
     // Second triple (Pink / Mauve / Purple):
     // Middle window (Mauve) - 100x45mm (instead of 95x40mm)
     float mauveW = (float) (100.0 * mmToPoints);
     float mauveH = (float) (45.0 * mmToPoints);
-    float mauveX = centerX - mauveW / 2.0f;
-    float mauveY = centerY - mauveH / 2.0f;
+    float mauveX = center2X - mauveW / 2.0f;
+    float mauveY = center2Y - mauveH / 2.0f;
 
-    // Outer window (Pink) - 119x59mm (19mm wider, 14mm taller than mauve box), aligned concentric around center
+    // Outer window (Pink) - 119x59mm (19mm wider, 14mm taller than mauve box), aligned concentric around center2
     float pinkW = mauveW + (float) (19.0 * mmToPoints);
     float pinkH = mauveH + (float) (14.0 * mmToPoints);
-    float pinkX = centerX - pinkW / 2.0f;
-    float pinkY = centerY - pinkH / 2.0f;
+    float pinkX = center2X - pinkW / 2.0f;
+    float pinkY = center2Y - pinkH / 2.0f;
 
-    // Inner window (Purple) - 81x31mm (19mm narrower, 14mm shorter than mauve box), aligned concentric inside center
+    // Inner window (Purple) - 81x31mm (19mm narrower, 14mm shorter than mauve box), aligned concentric inside center2
     float purpleW = mauveW - (float) (19.0 * mmToPoints);
     float purpleH = mauveH - (float) (14.0 * mmToPoints);
-    float purpleX = centerX - purpleW / 2.0f;
-    float purpleY = centerY - purpleH / 2.0f;
+    float purpleX = center2X - purpleW / 2.0f;
+    float purpleY = center2Y - purpleH / 2.0f;
 
     PdfCanvas canvas = new PdfCanvas(page);
     canvas.saveState();
