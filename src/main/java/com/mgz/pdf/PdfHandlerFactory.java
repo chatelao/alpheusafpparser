@@ -36,6 +36,8 @@ public class PdfHandlerFactory implements HandlerFactory {
   private double windowWidth = 95.0;
   private double windowTop = 42.0;
   private double windowHeight = 40.0;
+  private boolean drawLeftOverlay;
+  private double leftOverlayWidth = 2.0;
 
   @Override
   public void configure(Map<String, String> options) {
@@ -46,6 +48,8 @@ public class PdfHandlerFactory implements HandlerFactory {
     this.windowWidth = 95.0;
     this.windowTop = 42.0;
     this.windowHeight = 40.0;
+    this.drawLeftOverlay = false;
+    this.leftOverlayWidth = 2.0;
 
     if (options != null) {
       this.iccProfilePath = options.get("icc-profile");
@@ -74,6 +78,17 @@ public class PdfHandlerFactory implements HandlerFactory {
       if (options.containsKey("window-height")) {
         try {
           this.windowHeight = Double.parseDouble(options.get("window-height"));
+        } catch (NumberFormatException ignored) {}
+      }
+
+      this.drawLeftOverlay = "true".equalsIgnoreCase(options.get("draw-left-overlay"))
+          || "true".equalsIgnoreCase(options.get("left-overlay"))
+          || "true".equalsIgnoreCase(options.get("overlay"))
+          || options.containsKey("left-overlay-width");
+
+      if (options.containsKey("left-overlay-width")) {
+        try {
+          this.leftOverlayWidth = Double.parseDouble(options.get("left-overlay-width"));
         } catch (NumberFormatException ignored) {}
       }
     }
@@ -105,6 +120,8 @@ public class PdfHandlerFactory implements HandlerFactory {
     handler.setWindowWidth(windowWidth);
     handler.setWindowTop(windowTop);
     handler.setWindowHeight(windowHeight);
+    handler.setDrawLeftOverlay(drawLeftOverlay);
+    handler.setLeftOverlayWidth(leftOverlayWidth);
     if (iccProfilePath != null) {
       java.io.File iccFile = new java.io.File(iccProfilePath);
       if (iccFile.exists()) {
