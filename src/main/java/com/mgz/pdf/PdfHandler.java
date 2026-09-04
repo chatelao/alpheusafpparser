@@ -251,6 +251,8 @@ public class PdfHandler implements StructuredFieldHandler {
   private double windowWidth = 95.0;
   private double windowTop = 42.0;
   private double windowHeight = 40.0;
+  private boolean drawLeftOverlay = false;
+  private double leftOverlayWidth = 2.0;
 
   // GOCA Object State (for Phase 1 and Phase 2)
   private boolean inGraphicsObject = false;
@@ -2134,6 +2136,42 @@ public class PdfHandler implements StructuredFieldHandler {
   }
 
   /**
+   * Returns whether left overlay strip drawing is enabled.
+   *
+   * @return true if left overlay strip drawing is enabled
+   */
+  public boolean isDrawLeftOverlay() {
+    return drawLeftOverlay;
+  }
+
+  /**
+   * Enables or disables left overlay strip drawing on pages.
+   *
+   * @param drawLeftOverlay true to enable left overlay strip drawing
+   */
+  public void setDrawLeftOverlay(boolean drawLeftOverlay) {
+    this.drawLeftOverlay = drawLeftOverlay;
+  }
+
+  /**
+   * Returns the left overlay strip width in mm.
+   *
+   * @return left overlay width in mm
+   */
+  public double getLeftOverlayWidth() {
+    return leftOverlayWidth;
+  }
+
+  /**
+   * Sets the left overlay strip width in mm.
+   *
+   * @param leftOverlayWidth left overlay width in mm
+   */
+  public void setLeftOverlayWidth(double leftOverlayWidth) {
+    this.leftOverlayWidth = leftOverlayWidth;
+  }
+
+  /**
    * Returns whether window overlay drawing is enabled.
    *
    * @return true if window overlay drawing is enabled
@@ -2230,13 +2268,34 @@ public class PdfHandler implements StructuredFieldHandler {
       if (fieldCount.get() > 0 && pdfDoc.getNumberOfPages() == 0) {
         document.add(new Paragraph("AFP to PDF conversion in progress..."));
       }
-      if (drawWindow && pdfDoc.getNumberOfPages() > 0) {
-        drawWindowOverlay(pdfDoc.getPage(1));
+      if (pdfDoc.getNumberOfPages() > 0) {
+        if (drawLeftOverlay) {
+          for (int i = 1; i <= pdfDoc.getNumberOfPages(); i++) {
+            drawLeftOverlayStrip(pdfDoc.getPage(i));
+          }
+        }
+        if (drawWindow) {
+          drawWindowOverlay(pdfDoc.getPage(1));
+        }
       }
       document.close();
     } finally {
       ColorHandler.clearContext();
     }
+  }
+
+  private void drawLeftOverlayStrip(PdfPage page) {
+    float pageHeight = page.getPageSize().getHeight();
+    double mmToPoints = 72.0 / 25.4;
+    float stripWidthPoints = (float) (leftOverlayWidth * mmToPoints);
+
+    PdfCanvas canvas = new PdfCanvas(page);
+    canvas.saveState();
+    // Light Blue (#ADD8E6 -> RGB 173, 216, 230)
+    canvas.setFillColor(new DeviceRgb(173, 216, 230));
+    canvas.rectangle(0, 0, stripWidthPoints, pageHeight);
+    canvas.fill();
+    canvas.restoreState();
   }
 
   private void drawWindowOverlay(PdfPage page) {

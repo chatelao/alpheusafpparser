@@ -205,4 +205,38 @@ public class CLITest {
 
         assertTrue(result == 1, "CLI execution should fail when invalid numeric value is passed to window option");
     }
+
+    @Test
+    public void testCLILeftOverlayOptionPdf() throws Exception {
+        File inputFile = new File("src/test/resources/afp/minimal.afp");
+        File outputFile = new File("build/test-overlay-output.pdf");
+        outputFile.getParentFile().mkdirs();
+
+        if (outputFile.exists()) {
+            outputFile.delete();
+        }
+
+        int result = Afp2Xml.execute(new String[]{"-f", "pdf", "-o", inputFile.getAbsolutePath(), outputFile.getAbsolutePath()});
+
+        assertTrue(result == 0, "CLI execution should succeed with -o option");
+        assertTrue(outputFile.exists(), "Output PDF file should exist");
+        assertTrue(outputFile.length() > 0, "Output PDF file should not be empty");
+    }
+
+    @Test
+    public void testCLILeftOverlayOptionCustomWidthPdf() throws Exception {
+        File inputFile = new File("src/test/resources/afp/minimal.afp");
+        File outputFile = new File("build/test-overlay-custom-output.pdf");
+        outputFile.getParentFile().mkdirs();
+
+        if (outputFile.exists()) {
+            outputFile.delete();
+        }
+
+        int result = Afp2Xml.execute(new String[]{"-f", "pdf", "--overlay", "5.0", inputFile.getAbsolutePath(), outputFile.getAbsolutePath()});
+
+        assertTrue(result == 0, "CLI execution should succeed with --overlay 5.0 option");
+        assertTrue(outputFile.exists(), "Output PDF file should exist");
+        assertTrue(outputFile.length() > 0, "Output PDF file should not be empty");
+    }
 }

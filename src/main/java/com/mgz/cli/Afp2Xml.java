@@ -146,6 +146,20 @@ public class Afp2Xml {
           indent = true;
           formatOptions.put("indent", "true");
         }
+        case "-o", "--overlay" -> {
+          formatOptions.put("draw-left-overlay", "true");
+          formatOptions.put("left-overlay", "true");
+          if (i + 1 < args.length && !args[i + 1].startsWith("-")) {
+            String val = args[i + 1];
+            try {
+              Double.parseDouble(val);
+              formatOptions.put("left-overlay-width", val);
+              i++;
+            } catch (NumberFormatException e) {
+              // Not a number; keep default left-overlay-width
+            }
+          }
+        }
         case "-w", "--window" -> {
           formatOptions.put("draw-window", "true");
           formatOptions.put("window", "true");
@@ -507,7 +521,7 @@ public class Afp2Xml {
     out.println("Usage: java -jar alpheus-afp-parser-cli.jar "
         + "[-d|--directory <dir>] [-x|--xpath <expression>] [-f|--format <type>] [-m|--measure] "
         + "[-p|--parallel] [-c|--charset-opt] [-P|--ptx-debug] [-a|--aggressive-io] "
-        + "[-i|--indent] [--icc-profile <path>] [-t|--threads <n>] [-w|--window] "
+        + "[-i|--indent] [--icc-profile <path>] [-t|--threads <n>] [-o|--overlay [mm]] [-w|--window] "
         + "[-wl|--window-left <mm>] [-ww|--window-width <mm>] [-wt|--window-top <mm>] [-wh|--window-height <mm>] "
         + "<input-afp-file/dir> [output-file]");
     out.println("Options:");
@@ -526,6 +540,7 @@ public class Afp2Xml {
     out.println("  --icc-profile <path>      Path to the ICC color profile for PDF/X and PDF/VT compliance.");
     out.println("  -t, --threads <n>         Number of threads for parallel processing.");
     out.println("                            Defaults to the number of available processors.");
+    out.println("  -o, --overlay [mm]        Draw light-blue overlay strip on left margin (default: 2.0 mm).");
     out.println("  -w, --window              Draw window region overlay on paper.");
     out.println("  -wl, --window-left <mm>   Window left position in mm (default: 102.5).");
     out.println("  -ww, --window-width <mm>  Window width in mm (default: 95.0).");

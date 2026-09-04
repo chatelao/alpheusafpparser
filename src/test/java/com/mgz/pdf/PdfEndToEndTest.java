@@ -379,4 +379,86 @@ public class PdfEndToEndTest {
       assertEquals(60.0, pdfHandler.getWindowHeight(), 0.001);
     }
   }
+
+  @Test
+  public void testAfpToPdfWithLeftOverlayOption() throws Exception {
+    File inputFile = new File("src/test/resources/afp/perf_ptx.afp");
+    File outputFile = tempDir.resolve("output_overlay.pdf").toFile();
+
+    String[] args = {
+        "-f", "pdf",
+        "-o", "3.0",
+        inputFile.getAbsolutePath(),
+        outputFile.getAbsolutePath()
+    };
+
+    int result = Afp2Xml.execute(args);
+    assertEquals(0, result, "Conversion with -o 3.0 option should succeed");
+    assertTrue(outputFile.exists(), "Output PDF with left overlay should exist");
+
+    try (PDDocument document = Loader.loadPDF(outputFile)) {
+      assertTrue(document.getNumberOfPages() >= 1, "Should have at least one page");
+
+      PDFRenderer renderer = new PDFRenderer(document);
+      BufferedImage image = renderer.renderImage(0);
+      assertNotNull(image, "Rendered image should not be null");
+
+      // Verify light blue pixel near left margin
+      // 3.0mm * (72/25.4) ~ 8.5 pixels. Check at x = 4, y = 100.
+      double mmToPx = 72.0 / 25.4;
+      int testX = (int) Math.round(1.5 * mmToPx);
+      int testY = 100;
+
+      boolean hasLightBlue = isLightBluePixelNear(image, testX, testY, 3);
+      assertTrue(hasLightBlue, "Left overlay strip should have light blue pixels near left edge");
+    }
+  }
+
+  private boolean isLightBluePixelNear(BufferedImage image, int targetX, int targetY, int tolerance) {
+    for (int dx = -tolerance; dx <= tolerance; dx++) {
+      for (int dy = -tolerance; dy <= tolerance; dy++) {
+        int x = targetX + dx;
+        int y = targetY + dy;
+        if (x >= 0 && x < image.getWidth() && y >= 0 && y < image.getHeight()) {
+          int rgb = image.getRGB(x, y);
+          int red = (rgb >> 16) & 0xFF;
+          int green = (rgb >> 8) & 0xFF;
+          int blue = rgb & 0xFF;
+          // Light Blue: RGB (173, 216, 230)
+          if (red > 150 && green > 190 && blue > 210) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  @Test
+  public void testPdfHandlerFactoryDefaultLeftOverlayOptions() throws Exception {
+    PdfHandlerFactory factory = new PdfHandlerFactory();
+    factory.configure(Map.of("overlay", "true"));
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    try (com.mgz.afp.base.handler.StructuredFieldHandler handler = factory.createHandler(baos, false)) {
+      assertTrue(handler instanceof PdfHandler, "Handler should be instance of PdfHandler");
+      PdfHandler pdfHandler = (PdfHandler) handler;
+      assertTrue(pdfHandler.isDrawLeftOverlay(), "drawLeftOverlay should be enabled");
+      assertEquals(2.0, pdfHandler.getLeftOverlayWidth(), 0.001);
+    }
+  }
+
+  @Test
+  public void testPdfHandlerFactoryCustomLeftOverlayOptions() throws Exception {
+    PdfHandlerFactory factory = new PdfHandlerFactory();
+    factory.configure(Map.of("left-overlay-width", "5.5"));
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    try (com.mgz.afp.base.handler.StructuredFieldHandler handler = factory.createHandler(baos, false)) {
+      assertTrue(handler instanceof PdfHandler, "Handler should be instance of PdfHandler");
+      PdfHandler pdfHandler = (PdfHandler) handler;
+      assertTrue(pdfHandler.isDrawLeftOverlay(), "drawLeftOverlay should be enabled");
+      assertEquals(5.5, pdfHandler.getLeftOverlayWidth(), 0.001);
+    }
+  }
 }
