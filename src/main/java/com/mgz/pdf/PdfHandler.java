@@ -253,6 +253,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private double windowHeight = 40.0;
   private boolean drawLeftOverlay = false;
   private double leftOverlayWidth = 2.0;
+  private boolean drawSwissPostLines = false;
 
   // GOCA Object State (for Phase 1 and Phase 2)
   private boolean inGraphicsObject = false;
@@ -2261,6 +2262,24 @@ public class PdfHandler implements StructuredFieldHandler {
     this.windowHeight = windowHeight;
   }
 
+  /**
+   * Returns whether Swiss Post yellow lines drawing is enabled.
+   *
+   * @return true if Swiss Post yellow lines drawing is enabled
+   */
+  public boolean isDrawSwissPostLines() {
+    return drawSwissPostLines;
+  }
+
+  /**
+   * Enables or disables Swiss Post yellow lines drawing on the first page.
+   *
+   * @param drawSwissPostLines true to enable Swiss Post yellow lines drawing
+   */
+  public void setDrawSwissPostLines(boolean drawSwissPostLines) {
+    this.drawSwissPostLines = drawSwissPostLines;
+  }
+
   @Override
   public void close() throws Exception {
     try {
@@ -2276,6 +2295,9 @@ public class PdfHandler implements StructuredFieldHandler {
         }
         if (drawWindow) {
           drawWindowOverlay(pdfDoc.getPage(1));
+        }
+        if (drawSwissPostLines) {
+          drawSwissPostYellowLines(pdfDoc.getPage(1));
         }
       }
       document.close();
@@ -2418,6 +2440,35 @@ public class PdfHandler implements StructuredFieldHandler {
     canvas.setLineWidth(1.0f);
     canvas.setStrokeColor(new DeviceRgb(128, 0, 128));
     canvas.rectangle(purpleX, purpleY, purpleW, purpleH);
+    canvas.stroke();
+
+    canvas.restoreState();
+  }
+
+  private void drawSwissPostYellowLines(PdfPage page) {
+    float pageWidth = page.getPageSize().getWidth();
+    float pageHeight = page.getPageSize().getHeight();
+    double mmToPoints = 72.0 / 25.4;
+
+    PdfCanvas canvas = new PdfCanvas(page);
+    canvas.saveState();
+
+    // Swiss Post Yellow (#FFCC00 -> RGB 255, 204, 0)
+    canvas.setStrokeColor(new DeviceRgb(255, 204, 0));
+    canvas.setLineWidth(1.0f);
+    // Dash-dot-dot line pattern
+    canvas.setLineDash(new float[]{6, 2, 1, 2, 1, 2}, 0);
+
+    // Horizontal dash-dot-dot line 59mm from top border
+    float yHoriz = pageHeight - (float) (59.0 * mmToPoints);
+    canvas.moveTo(0, yHoriz);
+    canvas.lineTo(pageWidth, yHoriz);
+    canvas.stroke();
+
+    // Vertical dash-dot-dot line 34mm from right border
+    float xVert = pageWidth - (float) (34.0 * mmToPoints);
+    canvas.moveTo(xVert, 0);
+    canvas.lineTo(xVert, pageHeight);
     canvas.stroke();
 
     canvas.restoreState();

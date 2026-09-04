@@ -38,6 +38,7 @@ public class PdfHandlerFactory implements HandlerFactory {
   private double windowHeight = 40.0;
   private boolean drawLeftOverlay;
   private double leftOverlayWidth = 2.0;
+  private boolean drawSwissPostLines;
 
   @Override
   public void configure(Map<String, String> options) {
@@ -50,6 +51,7 @@ public class PdfHandlerFactory implements HandlerFactory {
     this.windowHeight = 40.0;
     this.drawLeftOverlay = false;
     this.leftOverlayWidth = 2.0;
+    this.drawSwissPostLines = false;
 
     if (options != null) {
       this.iccProfilePath = options.get("icc-profile");
@@ -91,6 +93,11 @@ public class PdfHandlerFactory implements HandlerFactory {
           this.leftOverlayWidth = Double.parseDouble(options.get("left-overlay-width"));
         } catch (NumberFormatException ignored) {}
       }
+
+      this.drawSwissPostLines = "true".equalsIgnoreCase(options.get("draw-swiss-post-lines"))
+          || "true".equalsIgnoreCase(options.get("swiss-post-lines"))
+          || "true".equalsIgnoreCase(options.get("swiss-post-yellow"))
+          || "true".equalsIgnoreCase(options.get("swiss-post"));
     }
   }
 
@@ -122,6 +129,7 @@ public class PdfHandlerFactory implements HandlerFactory {
     handler.setWindowHeight(windowHeight);
     handler.setDrawLeftOverlay(drawLeftOverlay);
     handler.setLeftOverlayWidth(leftOverlayWidth);
+    handler.setDrawSwissPostLines(drawSwissPostLines);
     if (iccProfilePath != null) {
       java.io.File iccFile = new java.io.File(iccProfilePath);
       if (iccFile.exists()) {
