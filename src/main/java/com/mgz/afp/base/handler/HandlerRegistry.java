@@ -31,15 +31,15 @@ import java.util.Set;
  */
 public final class HandlerRegistry {
 
-  private static final Map<String, HandlerFactory> FACTORIES;
+  private static final Map<String, Class<? extends HandlerFactory>> FACTORY_CLASSES;
 
   static {
-    Map<String, HandlerFactory> map = new HashMap<>();
+    Map<String, Class<? extends HandlerFactory>> map = new HashMap<>();
     ServiceLoader<HandlerFactory> loader = ServiceLoader.load(HandlerFactory.class);
     for (HandlerFactory factory : loader) {
-      map.put(factory.getFormatName().toLowerCase(), factory);
+      map.put(factory.getFormatName().toLowerCase(), factory.getClass());
     }
-    FACTORIES = Collections.unmodifiableMap(map);
+    FACTORY_CLASSES = Collections.unmodifiableMap(map);
   }
 
   private HandlerRegistry() {
@@ -47,16 +47,24 @@ public final class HandlerRegistry {
   }
 
   /**
-   * Returns the factory for the specified format.
+   * Returns a new factory instance for the specified format.
    *
    * @param format the format name (case-insensitive)
-   * @return the factory, or null if not found
+   * @return a new factory instance, or null if not found
    */
   public static HandlerFactory getFactory(String format) {
     if (format == null) {
       return null;
     }
-    return FACTORIES.get(format.toLowerCase());
+    Class<? extends HandlerFactory> clazz = FACTORY_CLASSES.get(format.toLowerCase());
+    if (clazz == null) {
+      return null;
+    }
+    try {
+      return clazz.getDeclaredConstructor().newInstance();
+    } catch (Exception e) {
+      throw new RuntimeException("Failed to instantiate HandlerFactory for format: " + format, e);
+    }
   }
 
   /**
@@ -65,6 +73,6 @@ public final class HandlerRegistry {
    * @return the registered formats
    */
   public static Set<String> getRegisteredFormats() {
-    return FACTORIES.keySet();
+    return FACTORY_CLASSES.keySet();
   }
 }
