@@ -239,4 +239,21 @@ public class CLITest {
         assertTrue(outputFile.exists(), "Output PDF file should exist");
         assertTrue(outputFile.length() > 0, "Output PDF file should not be empty");
     }
+
+    @Test
+    public void testCLISwissPostOptionPdf() throws Exception {
+        File inputFile = new File("src/test/resources/afp/minimal.afp");
+        File outputFile = new File("build/test-swiss-post-output.pdf");
+        outputFile.getParentFile().mkdirs();
+
+        if (outputFile.exists()) {
+            outputFile.delete();
+        }
+
+        int result = Afp2Xml.execute(new String[]{"-f", "pdf", "-sp", inputFile.getAbsolutePath(), outputFile.getAbsolutePath()});
+
+        assertTrue(result == 0, "CLI execution should succeed with -sp option");
+        assertTrue(outputFile.exists(), "Output PDF file should exist");
+        assertTrue(outputFile.length() > 0, "Output PDF file should not be empty");
+    }
 }

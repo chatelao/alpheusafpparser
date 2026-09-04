@@ -461,4 +461,87 @@ public class PdfEndToEndTest {
       assertEquals(5.5, pdfHandler.getLeftOverlayWidth(), 0.001);
     }
   }
+
+  @Test
+  public void testSwissPostYellowLinesFirstPageOnly() throws Exception {
+    File outputFile = tempDir.resolve("output_multipage_swisspost.pdf").toFile();
+
+    try (java.io.FileOutputStream fos = new java.io.FileOutputStream(outputFile);
+         PdfHandler handler = new PdfHandler(fos)) {
+      handler.setDrawSwissPostLines(true);
+
+      com.mgz.afp.modca.BPG_BeginPage bpg1 = new com.mgz.afp.modca.BPG_BeginPage();
+      bpg1.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.BPG_BeginPage));
+      handler.handle(bpg1);
+
+      com.mgz.afp.modca.EPG_EndPage epg1 = new com.mgz.afp.modca.EPG_EndPage();
+      epg1.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.EPG_EndPage));
+      handler.handle(epg1);
+
+      com.mgz.afp.modca.BPG_BeginPage bpg2 = new com.mgz.afp.modca.BPG_BeginPage();
+      bpg2.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.BPG_BeginPage));
+      handler.handle(bpg2);
+
+      com.mgz.afp.modca.EPG_EndPage epg2 = new com.mgz.afp.modca.EPG_EndPage();
+      epg2.setStructuredFieldIntroducer(createSfi(com.mgz.afp.enums.SFTypeID.EPG_EndPage));
+      handler.handle(epg2);
+    }
+
+    try (PDDocument document = Loader.loadPDF(outputFile)) {
+      assertEquals(2, document.getNumberOfPages(), "PDF should contain 2 pages");
+
+      PDFRenderer renderer = new PDFRenderer(document);
+      BufferedImage page1Image = renderer.renderImage(0);
+      BufferedImage page2Image = renderer.renderImage(1);
+
+      double mmToPx = 72.0 / 25.4;
+      int horizontalYPx = (int) Math.round(59.0 * mmToPx);
+      int verticalXPx = (int) Math.round((page1Image.getWidth() / mmToPx - 34.0) * mmToPx);
+
+      // Verify page 1 contains Swiss Post yellow horizontal and vertical line pixels
+      assertTrue(isSwissPostYellowPixelNear(page1Image, page1Image.getWidth() / 2, horizontalYPx, 8),
+          "Page 1 should contain Swiss Post yellow horizontal line pixels at 59mm from top");
+      assertTrue(isSwissPostYellowPixelNear(page1Image, verticalXPx, page1Image.getHeight() / 2, 8),
+          "Page 1 should contain Swiss Post yellow vertical line pixels at 34mm from right");
+
+      // Verify page 2 does NOT contain Swiss Post yellow line pixels
+      org.junit.jupiter.api.Assertions.assertFalse(isSwissPostYellowPixelNear(page2Image, page2Image.getWidth() / 2, horizontalYPx, 8),
+          "Page 2 should NOT contain Swiss Post yellow horizontal line pixels");
+      org.junit.jupiter.api.Assertions.assertFalse(isSwissPostYellowPixelNear(page2Image, verticalXPx, page2Image.getHeight() / 2, 8),
+          "Page 2 should NOT contain Swiss Post yellow vertical line pixels");
+    }
+  }
+
+  private boolean isSwissPostYellowPixelNear(BufferedImage image, int targetX, int targetY, int tolerance) {
+    for (int dx = -tolerance; dx <= tolerance; dx++) {
+      for (int dy = -tolerance; dy <= tolerance; dy++) {
+        int x = targetX + dx;
+        int y = targetY + dy;
+        if (x >= 0 && x < image.getWidth() && y >= 0 && y < image.getHeight()) {
+          int rgb = image.getRGB(x, y);
+          int red = (rgb >> 16) & 0xFF;
+          int green = (rgb >> 8) & 0xFF;
+          int blue = rgb & 0xFF;
+          // Swiss Post Yellow: RGB (255, 204, 0)
+          if (red > 200 && green > 150 && blue < 80) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  @Test
+  public void testPdfHandlerFactorySwissPostOptions() throws Exception {
+    PdfHandlerFactory factory = new PdfHandlerFactory();
+    factory.configure(Map.of("swiss-post", "true"));
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    try (com.mgz.afp.base.handler.StructuredFieldHandler handler = factory.createHandler(baos, false)) {
+      assertTrue(handler instanceof PdfHandler, "Handler should be instance of PdfHandler");
+      PdfHandler pdfHandler = (PdfHandler) handler;
+      assertTrue(pdfHandler.isDrawSwissPostLines(), "drawSwissPostLines should be enabled");
+    }
+  }
 }

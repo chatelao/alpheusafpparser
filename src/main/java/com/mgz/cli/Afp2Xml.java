@@ -119,6 +119,10 @@ public class Afp2Xml {
             return 1;
           }
         }
+        case "-sp", "--swiss-post", "--swiss-post-yellow", "--swiss-post-lines" -> {
+          formatOptions.put("draw-swiss-post-lines", "true");
+          formatOptions.put("swiss-post", "true");
+        }
         case "-f", "--format" -> {
           if (i + 1 < args.length) {
             format = args[++i].toLowerCase();
@@ -523,6 +527,7 @@ public class Afp2Xml {
         + "[-p|--parallel] [-c|--charset-opt] [-P|--ptx-debug] [-a|--aggressive-io] "
         + "[-i|--indent] [--icc-profile <path>] [-t|--threads <n>] [-o|--overlay [mm]] [-w|--window] "
         + "[-wl|--window-left <mm>] [-ww|--window-width <mm>] [-wt|--window-top <mm>] [-wh|--window-height <mm>] "
+        + "[-sp|--swiss-post] "
         + "<input-afp-file/dir> [output-file]");
     out.println("Options:");
     out.println("  -d, --directory <dir>     Convert all .afp files in the specified directory.");
@@ -546,6 +551,7 @@ public class Afp2Xml {
     out.println("  -ww, --window-width <mm>  Window width in mm (default: 95.0).");
     out.println("  -wt, --window-top <mm>   Window top position in mm (default: 42.0).");
     out.println("  -wh, --window-height <mm> Window height in mm (default: 40.0).");
+    out.println("  -sp, --swiss-post         Draw Swiss Post yellow lines (59mm top, 34mm right) on first page.");
     out.println("  -h, --help                Show this help message.");
   }
 
