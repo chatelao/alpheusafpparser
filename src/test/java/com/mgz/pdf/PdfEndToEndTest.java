@@ -411,7 +411,34 @@ public class PdfEndToEndTest {
 
       boolean hasLightBlue = isLightBluePixelNear(image, testX, testY, 3);
       assertTrue(hasLightBlue, "Left overlay strip should have light blue pixels near left edge");
+
+      // Verify orange DataMatrix code at 60mm from top, 19mm from right border
+      int dmCenterX = (int) Math.round(image.getWidth() - (19.0 + 6.0) * mmToPx);
+      int dmCenterY = (int) Math.round((60.0 + 6.0) * mmToPx);
+
+      boolean hasOrange = isOrangePixelNear(image, dmCenterX, dmCenterY, 15);
+      assertTrue(hasOrange, "Overlay should render orange DataMatrix code at 60mm top, 19mm right");
     }
+  }
+
+  private boolean isOrangePixelNear(BufferedImage image, int targetX, int targetY, int tolerance) {
+    for (int dx = -tolerance; dx <= tolerance; dx++) {
+      for (int dy = -tolerance; dy <= tolerance; dy++) {
+        int x = targetX + dx;
+        int y = targetY + dy;
+        if (x >= 0 && x < image.getWidth() && y >= 0 && y < image.getHeight()) {
+          int rgb = image.getRGB(x, y);
+          int red = (rgb >> 16) & 0xFF;
+          int green = (rgb >> 8) & 0xFF;
+          int blue = rgb & 0xFF;
+          // Orange: RGB (255, 140, 0)
+          if (red > 200 && green > 100 && green < 180 && blue < 50) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 
   private boolean isLightBluePixelNear(BufferedImage image, int targetX, int targetY, int tolerance) {
