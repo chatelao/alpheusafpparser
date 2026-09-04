@@ -2285,6 +2285,7 @@ public class PdfHandler implements StructuredFieldHandler {
   }
 
   private void drawLeftOverlayStrip(PdfPage page) {
+    float pageWidth = page.getPageSize().getWidth();
     float pageHeight = page.getPageSize().getHeight();
     double mmToPoints = 72.0 / 25.4;
     float stripWidthPoints = (float) (leftOverlayWidth * mmToPoints);
@@ -2295,6 +2296,32 @@ public class PdfHandler implements StructuredFieldHandler {
     canvas.setFillColor(new DeviceRgb(173, 216, 230));
     canvas.rectangle(0, 0, stripWidthPoints, pageHeight);
     canvas.fill();
+
+    // Draw random orange DataMatrix code 12x12mm - 60mm from top, 19mm from right border
+    try {
+      float dmWidthPoints = (float) (12.0 * mmToPoints);
+      float dmHeightPoints = (float) (12.0 * mmToPoints);
+      float dmX = (float) (pageWidth - (19.0 * mmToPoints) - dmWidthPoints);
+      float dmY = (float) (pageHeight - (60.0 * mmToPoints) - dmHeightPoints);
+
+      String randomContent = java.util.UUID.randomUUID().toString();
+      com.itextpdf.barcodes.BarcodeDataMatrix dm = new com.itextpdf.barcodes.BarcodeDataMatrix(randomContent);
+      com.itextpdf.kernel.colors.Color orangeColor = new DeviceRgb(255, 140, 0); // Orange
+      com.itextpdf.kernel.pdf.xobject.PdfFormXObject xObject = dm.createFormXObject(orangeColor, pdfDoc);
+
+      if (xObject != null && xObject.getWidth() > 0 && xObject.getHeight() > 0) {
+        float scaleX = dmWidthPoints / xObject.getWidth();
+        float scaleY = dmHeightPoints / xObject.getHeight();
+
+        canvas.saveState();
+        canvas.concatMatrix(scaleX, 0, 0, scaleY, dmX, dmY);
+        canvas.addXObject(xObject);
+        canvas.restoreState();
+      }
+    } catch (Exception e) {
+      System.err.println("Error drawing DataMatrix code on overlay: " + e.getMessage());
+    }
+
     canvas.restoreState();
   }
 
