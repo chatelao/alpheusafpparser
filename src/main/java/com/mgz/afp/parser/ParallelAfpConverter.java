@@ -92,10 +92,11 @@ public class ParallelAfpConverter {
     }
 
     AFPScanner scanner = (buffer != null) ? new AFPScanner(buffer) : new AFPScanner(asyncChannel);
-    List<Long> pageOffsets = scanner.findPageBoundariesParallel();
+    AFPScanner.ScanIndex scanIndex = scanner.scanIndexParallel(numThreads);
+    long[] pageOffsets = scanIndex.pageOffsets();
 
     long fileSize = (buffer != null) ? buffer.limit() : asyncChannel.size();
-    long firstPageOffset = pageOffsets.isEmpty() ? fileSize : pageOffsets.get(0);
+    long firstPageOffset = (pageOffsets.length == 0) ? fileSize : pageOffsets[0];
 
     OrderedResultCollector collector;
     if (out instanceof FileOutputStream fos) {
@@ -109,7 +110,7 @@ public class ParallelAfpConverter {
     try (StructuredFieldHandler masterHandler = handlerFactory.createHandler(out, false)) {
       long maxBatchBytes = (buffer == null && asyncChannel != null) ? MAX_ASYNC_BATCH_BYTES : 0L;
       processPreambleAndPages(
-          firstPageOffset, pageOffsets, fileSize, collector, masterHandler, maxBatchBytes);
+          firstPageOffset, scanIndex, fileSize, collector, masterHandler, maxBatchBytes);
     } finally {
       if (asyncChannel != null) {
         config.closeAsyncFileChannel();
@@ -119,15 +120,23 @@ public class ParallelAfpConverter {
 
   private void processPreambleAndPages(
       long firstPageOffset,
-      List<Long> pageOffsets,
+      AFPScanner.ScanIndex scanIndex,
       long fileSize,
       OrderedResultCollector collector,
       StructuredFieldHandler masterHandler,
       long maxBatchBytes)
       throws Exception {
+    long[] sfOffsets = scanIndex.sfOffsets();
+    long[] pageOffsets = scanIndex.pageOffsets();
+    int[] pageSfIndices = scanIndex.pageSfIndices();
+
     // 1. Parse and write Preamble sequentially
     if (firstPageOffset > 0) {
       AFPParser preambleParser = new AFPParser(config);
+      int preambleEndSfIdx = (pageSfIndices.length > 0) ? pageSfIndices[0] : sfOffsets.length;
+      if (sfOffsets.length > 0 && config.getByteBuffer() != null) {
+        preambleParser.setPreScannedSfOffsets(sfOffsets, 0, preambleEndSfIdx, 0L);
+      }
       while (preambleParser.getCountReadByte() < firstPageOffset) {
         StructuredField sf = preambleParser.parseNextSF();
         if (sf == null) {
@@ -140,7 +149,7 @@ public class ParallelAfpConverter {
       masterHandler.flush();
     }
 
-    if (pageOffsets.isEmpty()) {
+    if (pageOffsets.length == 0) {
       return;
     }
 
@@ -151,13 +160,22 @@ public class ParallelAfpConverter {
     // 2. Parallel Coarse Page-Batch Processing
     ExecutorService executor = Executors.newFixedThreadPool(Math.min(numThreads, batches.size()));
     try {
-      List<Future<Void>> futures = new ArrayList<>(batches.size());
-      for (PageBatch batch : batches) {
+      int batchCount = batches.size();
+      List<Future<Void>> futures = new ArrayList<>(batchCount);
+      for (int i = 0; i < batchCount; i++) {
+        PageBatch batch = batches.get(i);
+        int startSfIdx = pageSfIndices[batch.startPageIndex()];
+        int endSfIdx = (i + 1 < batchCount)
+            ? pageSfIndices[batches.get(i + 1).startPageIndex()]
+            : sfOffsets.length;
         futures.add(
             executor.submit(
                 new PageBatchTask(
                     config.clone(),
                     batch,
+                    sfOffsets,
+                    startSfIdx,
+                    endSfIdx,
                     preamblePageCount,
                     collector,
                     handlerFactory)));
@@ -180,7 +198,19 @@ public class ParallelAfpConverter {
    */
   static List<PageBatch> createPageBatches(
       List<Long> pageOffsets, long fileSize, int numThreads, long maxBatchBytes) {
-    int pageCount = pageOffsets.size();
+    if (pageOffsets == null || pageOffsets.isEmpty()) {
+      return new ArrayList<>();
+    }
+    long[] arr = new long[pageOffsets.size()];
+    for (int i = 0; i < arr.length; i++) {
+      arr[i] = pageOffsets.get(i);
+    }
+    return createPageBatches(arr, fileSize, numThreads, maxBatchBytes);
+  }
+
+  static List<PageBatch> createPageBatches(
+      long[] pageOffsets, long fileSize, int numThreads, long maxBatchBytes) {
+    int pageCount = pageOffsets.length;
     List<PageBatch> batches = new ArrayList<>();
     if (pageCount == 0) {
       return batches;
@@ -191,7 +221,7 @@ public class ParallelAfpConverter {
     int i = 0;
     while (i < pageCount) {
       int startPageIdx = i;
-      long startOffset = pageOffsets.get(startPageIdx);
+      long startOffset = pageOffsets[startPageIdx];
       int remainingPages = pageCount - startPageIdx;
       int remainingBatches = Math.max(1, targetBatches - batchSeq);
       long remainingBytes = Math.max(1L, fileSize - startOffset);
@@ -207,19 +237,19 @@ public class ParallelAfpConverter {
 
       int endPageIdx = startPageIdx + 1;
       while (endPageIdx < pageCount && (endPageIdx - startPageIdx) < maxPagesInBatch) {
-        long currentBytes = pageOffsets.get(endPageIdx) - startOffset;
+        long currentBytes = pageOffsets[endPageIdx] - startOffset;
         if (currentBytes >= desiredBatchBytes) {
           break;
         }
         long nextEndOffset =
-            (endPageIdx + 1 < pageCount) ? pageOffsets.get(endPageIdx + 1) : fileSize;
+            (endPageIdx + 1 < pageCount) ? pageOffsets[endPageIdx + 1] : fileSize;
         if (maxBatchBytes > 0 && (nextEndOffset - startOffset) > maxBatchBytes) {
           break;
         }
         endPageIdx++;
       }
 
-      long endOffset = (endPageIdx < pageCount) ? pageOffsets.get(endPageIdx) : fileSize;
+      long endOffset = (endPageIdx < pageCount) ? pageOffsets[endPageIdx] : fileSize;
       batches.add(new PageBatch(batchSeq++, startPageIdx, startOffset, endOffset));
       i = endPageIdx;
     }
@@ -230,6 +260,9 @@ public class ParallelAfpConverter {
 
     private final AFPParserConfiguration taskConfig;
     private final PageBatch batch;
+    private final long[] sfOffsets;
+    private final int startSfIdx;
+    private final int endSfIdx;
     private final int preamblePageCount;
     private final OrderedResultCollector collector;
     private final HandlerFactory handlerFactory;
@@ -237,11 +270,17 @@ public class ParallelAfpConverter {
     PageBatchTask(
         AFPParserConfiguration config,
         PageBatch batch,
+        long[] sfOffsets,
+        int startSfIdx,
+        int endSfIdx,
         int preamblePageCount,
         OrderedResultCollector collector,
         HandlerFactory handlerFactory) {
       this.taskConfig = config;
       this.batch = batch;
+      this.sfOffsets = sfOffsets;
+      this.startSfIdx = startSfIdx;
+      this.endSfIdx = endSfIdx;
       this.preamblePageCount = preamblePageCount;
       this.collector = collector;
       this.handlerFactory = handlerFactory;
@@ -278,7 +317,10 @@ public class ParallelAfpConverter {
         }
 
         AFPParser parser = new AFPParser(taskConfig);
-        if (!isBatchSlice && taskConfig.getByteBuffer() != null) {
+        if (sfOffsets.length > startSfIdx && taskConfig.getByteBuffer() != null) {
+          long baseOffset = isBatchSlice ? startOffset : 0L;
+          parser.setPreScannedSfOffsets(sfOffsets, startSfIdx, endSfIdx, baseOffset);
+        } else if (!isBatchSlice && taskConfig.getByteBuffer() != null) {
           parser.setNrOfBytesRead(startOffset);
         }
         long parseLimit = isBatchSlice ? (endOffset - startOffset) : endOffset;

@@ -82,6 +82,33 @@ public class PTX_PresentationTextData extends StructuredField {
   }
 
   @Override
+  public void decodeAFP(java.nio.ByteBuffer buffer, int offset, int length,
+      AFPParserConfiguration config) throws AFPParserException {
+    long startTime = config.isPtxDebug() ? System.nanoTime() : 0;
+    int actualLength = length != -1 ? length : buffer.limit() - offset;
+    if (actualLength > 0) {
+      byte[] payload = new byte[actualLength];
+      if (buffer.hasArray()) {
+        System.arraycopy(buffer.array(), buffer.arrayOffset() + offset, payload, 0, actualLength);
+      } else {
+        buffer.get(offset, payload, 0, actualLength);
+      }
+      originalPayload = payload;
+      controlSequences = PTOCAControlSequenceParser.parseControlSequences(
+          payload, 0, actualLength, config);
+    } else {
+      originalPayload = null;
+      controlSequences = null;
+    }
+
+    if (config.isPtxDebug()) {
+      long duration = System.nanoTime() - startTime;
+      com.mgz.util.PTXPerformanceMonitor.recordPtxParse(duration, actualLength,
+          controlSequences != null ? controlSequences.size() : 0);
+    }
+  }
+
+  @Override
   public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
     if (controlSequences != null) {
       boolean ptxDebug = config.isPtxDebug() || com.mgz.util.PTXPerformanceMonitor.isEnabled();

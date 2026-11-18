@@ -24,9 +24,7 @@ import com.mgz.afp.enums.SFFlag;
 import com.mgz.afp.enums.SFTypeID;
 import com.mgz.afp.exceptions.AFPParserException;
 import com.mgz.afp.parser.AFPParserConfiguration;
-import com.mgz.util.UtilBinaryDecoding;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -47,11 +45,13 @@ public class StructuredFieldIntroducer {
   @AFPField(isEditable = false)
   SFTypeID sfTypeID;
   private byte[] rawSfTypeID;
+  private int packedRawTypeID = -1;
   /**
    * FlagByte[5].
    */
   @AFPField
   EnumSet<SFFlag> flagByte;
+  private int rawFlagByte = -1;
   /**
    * The reserved[6,7] (should be zero; usually used as SF counter[6,7]).
    */
@@ -81,33 +81,38 @@ public class StructuredFieldIntroducer {
     StructuredFieldIntroducer sfi = SfiPool.acquire();
 
     try {
-      sfi.sfLength = UtilBinaryDecoding.parseInt(is, 2);
+      byte[] hdr = new byte[8];
+      int totalRead = 0;
+      while (totalRead < 8) {
+        int r = is.read(hdr, totalRead, 8 - totalRead);
+        if (r == -1) {
+          break;
+        }
+        totalRead += r;
+      }
+      if (totalRead < 2) {
+        throw new AFPParserException("Failed to decode SFI header.");
+      }
+
+      sfi.sfLength = ((hdr[0] & 0xFF) << 8) | (hdr[1] & 0xFF);
       if (sfi.sfLength < 8) {
         throw new AFPParserException("Invalid SF length: " + sfi.sfLength + ". Minimum length is 8.");
       }
+      if (totalRead < 8) {
+        throw new AFPParserException("Reached end of stream while parsing SFI header.");
+      }
 
-      int sfClass = is.read();
-      if (sfClass == -1) {
-        throw new AFPParserException("Reached end of stream while parsing SFTypeID class.");
-      }
-      int sfType = is.read();
-      if (sfType == -1) {
-        throw new AFPParserException("Reached end of stream while parsing SFTypeID type.");
-      }
-      int sfCategory = is.read();
-      if (sfCategory == -1) {
-        throw new AFPParserException("Reached end of stream while parsing SFTypeID category.");
-      }
-      sfi.rawSfTypeID = new byte[] {(byte) sfClass, (byte) sfType, (byte) sfCategory};
+      int sfClass = hdr[2] & 0xFF;
+      int sfType = hdr[3] & 0xFF;
+      int sfCategory = hdr[4] & 0xFF;
+      sfi.packedRawTypeID = (sfClass << 16) | (sfType << 8) | sfCategory;
+      sfi.rawSfTypeID = null;
       sfi.sfTypeID = SFTypeID.valueOf(sfClass, sfType, sfCategory);
 
-      int fb = is.read();
-      if (fb == -1) {
-        throw new AFPParserException("Reached end of stream while parsing SF flag byte.");
-      }
-      sfi.flagByte = SFFlag.valueOf(fb);
+      sfi.rawFlagByte = hdr[5] & 0xE8;
+      sfi.flagByte = null;
 
-      sfi.reserved = UtilBinaryDecoding.parseInt(is, 2);
+      sfi.reserved = ((hdr[6] & 0xFF) << 8) | (hdr[7] & 0xFF);
     } catch (IOException ioex) {
       throw new AFPParserException("Failed to decode SFI header.", ioex);
     }
@@ -122,9 +127,17 @@ public class StructuredFieldIntroducer {
         if (sfi.extenstionLength < 1) {
           throw new AFPParserException("Invalid SF extension length: " + sfi.extenstionLength);
         }
-        sfi.extenstion = new byte[sfi.extenstionLength - 1];
-        int read = is.read(sfi.extenstion, 0, sfi.extenstionLength - 1);
-        if (sfi.extenstionLength - 1 > 0 && read < sfi.extenstionLength - 1) {
+        int extDataLen = sfi.extenstionLength - 1;
+        sfi.extenstion = new byte[extDataLen];
+        int totalExtRead = 0;
+        while (totalExtRead < extDataLen) {
+          int read = is.read(sfi.extenstion, totalExtRead, extDataLen - totalExtRead);
+          if (read == -1) {
+            break;
+          }
+          totalExtRead += read;
+        }
+        if (totalExtRead < extDataLen) {
           throw new AFPParserException("Failed to read SFI extension data.");
         }
       }
@@ -144,34 +157,42 @@ public class StructuredFieldIntroducer {
    * @throws AFPParserException if parsing fails
    */
   public static StructuredFieldIntroducer parse(ByteBuffer buffer, int offset) throws AFPParserException {
-    if (offset + 8 > buffer.limit()) {
+    if (offset < 0 || offset + 8 > buffer.limit()) {
       throw new AFPParserException("Not enough bytes for SF introducer at offset 0x" + Integer.toHexString(offset));
     }
     StructuredFieldIntroducer sfi = SfiPool.acquire();
 
-    sfi.sfLength = UtilBinaryDecoding.parseInt(buffer, offset, 2);
+    sfi.sfLength = ((buffer.get(offset) & 0xFF) << 8) | (buffer.get(offset + 1) & 0xFF);
     if (sfi.sfLength < 8) {
       throw new AFPParserException("Invalid SF length: " + sfi.sfLength + ". Minimum length is 8.");
     }
     int sfClass = buffer.get(offset + 2) & 0xFF;
     int sfType = buffer.get(offset + 3) & 0xFF;
     int sfCategory = buffer.get(offset + 4) & 0xFF;
-    sfi.rawSfTypeID = new byte[] {(byte) sfClass, (byte) sfType, (byte) sfCategory};
+    sfi.packedRawTypeID = (sfClass << 16) | (sfType << 8) | sfCategory;
+    sfi.rawSfTypeID = null;
     sfi.sfTypeID = SFTypeID.valueOf(sfClass, sfType, sfCategory);
-    sfi.flagByte = SFFlag.valueOf(buffer.get(offset + 5) & 0xFF);
-    sfi.reserved = UtilBinaryDecoding.parseInt(buffer, offset + 6, 2);
+    sfi.rawFlagByte = buffer.get(offset + 5) & 0xE8;
+    sfi.flagByte = null;
+    sfi.reserved = ((buffer.get(offset + 6) & 0xFF) << 8) | (buffer.get(offset + 7) & 0xFF);
 
     if (sfi.isFlagSet(SFFlag.hasExtension)) {
+      if (offset + 9 > buffer.limit()) {
+        throw new AFPParserException("Reached end of buffer while parsing SF extension length.");
+      }
       int extLen = buffer.get(offset + 8) & 0xFF;
       sfi.extenstionLength = (short) extLen;
       if (sfi.extenstionLength < 1) {
         throw new AFPParserException("Invalid SF extension length: " + sfi.extenstionLength);
       }
-      sfi.extenstion = new byte[sfi.extenstionLength - 1];
-      int oldPos = buffer.position();
-      buffer.position(offset + 9);
-      buffer.get(sfi.extenstion);
-      buffer.position(oldPos);
+      int extDataLen = sfi.extenstionLength - 1;
+      if (offset + 9 + extDataLen > buffer.limit()) {
+        throw new AFPParserException("Failed to read SFI extension data.");
+      }
+      sfi.extenstion = new byte[extDataLen];
+      if (extDataLen > 0) {
+        buffer.get(offset + 9, sfi.extenstion, 0, extDataLen);
+      }
     }
 
     return sfi;
@@ -190,61 +211,55 @@ public class StructuredFieldIntroducer {
     }
     StructuredFieldIntroducer sfi = SfiPool.acquire();
 
-    sfi.sfLength = UtilBinaryDecoding.parseInt(buffer, 2);
+    sfi.sfLength = ((buffer.get() & 0xFF) << 8) | (buffer.get() & 0xFF);
     if (sfi.sfLength < 8) {
       throw new AFPParserException("Invalid SF length: " + sfi.sfLength + ". Minimum length is 8.");
     }
     int sfClass = buffer.get() & 0xFF;
     int sfType = buffer.get() & 0xFF;
     int sfCategory = buffer.get() & 0xFF;
-    sfi.rawSfTypeID = new byte[] {(byte) sfClass, (byte) sfType, (byte) sfCategory};
+    sfi.packedRawTypeID = (sfClass << 16) | (sfType << 8) | sfCategory;
+    sfi.rawSfTypeID = null;
     sfi.sfTypeID = SFTypeID.valueOf(sfClass, sfType, sfCategory);
-    sfi.flagByte = SFFlag.valueOf(buffer.get() & 0xFF);
-    sfi.reserved = UtilBinaryDecoding.parseInt(buffer, 2);
+    sfi.rawFlagByte = buffer.get() & 0xE8;
+    sfi.flagByte = null;
+    sfi.reserved = ((buffer.get() & 0xFF) << 8) | (buffer.get() & 0xFF);
 
     if (sfi.isFlagSet(SFFlag.hasExtension)) {
+      if (!buffer.hasRemaining()) {
+        throw new AFPParserException("Reached end of buffer while parsing SF extension length.");
+      }
       int extLen = buffer.get() & 0xFF;
       sfi.extenstionLength = (short) extLen;
       if (sfi.extenstionLength < 1) {
         throw new AFPParserException("Invalid SF extension length: " + sfi.extenstionLength);
       }
-      sfi.extenstion = new byte[sfi.extenstionLength - 1];
-      buffer.get(sfi.extenstion);
+      int extDataLen = sfi.extenstionLength - 1;
+      if (buffer.remaining() < extDataLen) {
+        throw new AFPParserException("Failed to read SFI extension data.");
+      }
+      sfi.extenstion = new byte[extDataLen];
+      if (extDataLen > 0) {
+        buffer.get(sfi.extenstion);
+      }
     }
 
     return sfi;
   }
 
   public byte[] toBytes() throws IOException {
-    ByteArrayOutputStream b;
-    if (flagByte == null || !flagByte.contains(SFFlag.hasExtension)) {
-      b = new ByteArrayOutputStream(8);
-    } else {
-      b = new ByteArrayOutputStream(8 + extenstionLength);
+    int fbByte = resolveFlagByte();
+    boolean hasExt = (fbByte & 0x80) != 0;
+    int totalLen = hasExt ? 8 + extenstionLength : 8;
+    byte[] out = new byte[totalLen];
+    writeHeaderToArray(out, fbByte);
+    if (hasExt) {
+      out[8] = (byte) (extenstionLength & 0xFF);
+      if (extenstion != null) {
+        System.arraycopy(extenstion, 0, out, 9, Math.min(extenstion.length, totalLen - 9));
+      }
     }
-
-    b.write(UtilBinaryDecoding.intToByteArray(sfLength, 2));
-    if (sfTypeID != null && sfTypeID != SFTypeID.Undefined) {
-      b.write(sfTypeID.toBytes());
-    } else if (rawSfTypeID != null) {
-      b.write(rawSfTypeID);
-    } else if (sfTypeID != null) {
-      b.write(sfTypeID.toBytes());
-    } else {
-      b.write(new byte[] {0, 0, 0});
-    }
-    if (flagByte != null) {
-      b.write(SFFlag.toByte(flagByte));
-    } else {
-      b.write(0);
-    }
-    b.write(UtilBinaryDecoding.intToByteArray(reserved, 2));
-    if (flagByte != null && flagByte.contains(SFFlag.hasExtension)) {
-      b.write(UtilBinaryDecoding.shortToByteArray(extenstionLength, 1));
-      b.write(extenstion);
-    }
-
-    return b.toByteArray();
+    return out;
   }
 
   /**
@@ -254,28 +269,61 @@ public class StructuredFieldIntroducer {
    * @throws IOException if writing fails
    */
   public void write(OutputStream os) throws IOException {
-    os.write(UtilBinaryDecoding.intToByteArray(sfLength, 2));
-    if (sfTypeID != null && sfTypeID != SFTypeID.Undefined) {
-      sfTypeID.write(os);
-    } else if (rawSfTypeID != null) {
-      os.write(rawSfTypeID);
-    } else if (sfTypeID != null) {
-      sfTypeID.write(os);
-    } else {
-      os.write(new byte[] {0, 0, 0});
-    }
-    if (flagByte != null) {
-      os.write(SFFlag.toByte(flagByte));
-    } else {
-      os.write(0);
-    }
-    os.write(UtilBinaryDecoding.intToByteArray(reserved, 2));
-    if (flagByte != null && flagByte.contains(SFFlag.hasExtension)) {
+    int fbByte = resolveFlagByte();
+    byte[] hdr = new byte[8];
+    writeHeaderToArray(hdr, fbByte);
+    os.write(hdr);
+    if ((fbByte & 0x80) != 0) {
       os.write(extenstionLength & 0xFF);
       if (extenstion != null) {
         os.write(extenstion);
       }
     }
+  }
+
+  private int resolveFlagByte() {
+    if (flagByte != null) {
+      return SFFlag.toByte(flagByte);
+    }
+    return rawFlagByte >= 0 ? rawFlagByte : 0;
+  }
+
+  private void writeHeaderToArray(byte[] hdr, int fbByte) {
+    hdr[0] = (byte) ((sfLength >>> 8) & 0xFF);
+    hdr[1] = (byte) (sfLength & 0xFF);
+    if (sfTypeID != null && sfTypeID != SFTypeID.Undefined) {
+      hdr[2] = (byte) sfTypeID.getSfClass().toByte();
+      hdr[3] = (byte) sfTypeID.getSfType().toByte();
+      hdr[4] = (byte) sfTypeID.getSfCategory().toByte();
+    } else if (rawSfTypeID != null && rawSfTypeID.length >= 3) {
+      hdr[2] = rawSfTypeID[0];
+      hdr[3] = rawSfTypeID[1];
+      hdr[4] = rawSfTypeID[2];
+    } else if (packedRawTypeID >= 0) {
+      hdr[2] = (byte) ((packedRawTypeID >>> 16) & 0xFF);
+      hdr[3] = (byte) ((packedRawTypeID >>> 8) & 0xFF);
+      hdr[4] = (byte) (packedRawTypeID & 0xFF);
+    } else if (sfTypeID != null) {
+      hdr[2] = (byte) sfTypeID.getSfClass().toByte();
+      hdr[3] = (byte) sfTypeID.getSfType().toByte();
+      hdr[4] = (byte) sfTypeID.getSfCategory().toByte();
+    } else {
+      hdr[2] = 0;
+      hdr[3] = 0;
+      hdr[4] = 0;
+    }
+    hdr[5] = (byte) (fbByte & 0xFF);
+    hdr[6] = (byte) ((reserved >>> 8) & 0xFF);
+    hdr[7] = (byte) (reserved & 0xFF);
+  }
+
+  private static int flagMask(SFFlag flag) {
+    return switch (flag) {
+      case hasExtension -> 0x80;
+      case isEncrypted -> 0x40;
+      case isSegmented -> 0x20;
+      case isPadded -> 0x08;
+    };
   }
 
   public int getLengthOfStructuredFieldIntroducerIncludingExtension() {
@@ -316,15 +364,10 @@ public class StructuredFieldIntroducer {
     }
     extenstion = sfiExtensionData;
     if (sfiExtensionData != null) {
-      if (flagByte == null) {
-        flagByte = EnumSet.noneOf(SFFlag.class);
-      }
-      flagByte.add(SFFlag.hasExtension);
+      setFlag(SFFlag.hasExtension);
       extenstionLength = (short) (sfiExtensionData.length + 1);
     } else {
-      if (flagByte != null) {
-        flagByte.remove(SFFlag.hasExtension);
-      }
+      removeFlag(SFFlag.hasExtension);
       extenstionLength = (short) 0;
     }
   }
@@ -338,25 +381,36 @@ public class StructuredFieldIntroducer {
   }
 
   public boolean isFlagSet(SFFlag flag) {
-    if (this.flagByte == null) {
+    if (flag == null) {
       return false;
-    } else {
+    }
+    if (this.flagByte != null) {
       return flagByte.contains(flag);
     }
+    return rawFlagByte >= 0 && (rawFlagByte & flagMask(flag)) != 0;
   }
 
   public void setFlag(SFFlag flag) {
-    if (this.flagByte == null) {
-      flagByte = EnumSet.noneOf(SFFlag.class);
+    if (flag == null) {
+      return;
     }
-    flagByte.add(flag);
+    if (this.flagByte != null) {
+      flagByte.add(flag);
+    } else if (rawFlagByte >= 0) {
+      rawFlagByte |= flagMask(flag);
+    } else {
+      rawFlagByte = flagMask(flag);
+    }
   }
 
   public void removeFlag(SFFlag flag) {
-    if (flagByte == null) {
+    if (flag == null) {
       return;
-    } else {
+    }
+    if (flagByte != null) {
       flagByte.remove(flag);
+    } else if (rawFlagByte >= 0) {
+      rawFlagByte &= ~flagMask(flag);
     }
   }
 
@@ -369,11 +423,19 @@ public class StructuredFieldIntroducer {
   }
 
   public byte[] getRawSfTypeID() {
+    if (rawSfTypeID == null && packedRawTypeID >= 0) {
+      rawSfTypeID = new byte[] {
+          (byte) ((packedRawTypeID >>> 16) & 0xFF),
+          (byte) ((packedRawTypeID >>> 8) & 0xFF),
+          (byte) (packedRawTypeID & 0xFF)
+      };
+    }
     return rawSfTypeID;
   }
 
   public void setRawSfTypeID(byte[] rawSfTypeID) {
     this.rawSfTypeID = rawSfTypeID;
+    this.packedRawTypeID = -1;
   }
 
   /**
@@ -389,11 +451,16 @@ public class StructuredFieldIntroducer {
   }
 
   public EnumSet<SFFlag> getFlagByte() {
+    if (flagByte == null && rawFlagByte >= 0) {
+      flagByte = SFFlag.valueOf(rawFlagByte);
+      rawFlagByte = -1;
+    }
     return flagByte;
   }
 
   public void setFlagByte(EnumSet<SFFlag> flagByte) {
     this.flagByte = flagByte;
+    this.rawFlagByte = -1;
   }
 
   public AFPParserConfiguration getActualConfig() {
@@ -421,9 +488,9 @@ public class StructuredFieldIntroducer {
     sfLength = 0;
     sfTypeID = null;
     rawSfTypeID = null;
-    if (flagByte != null) {
-      flagByte.clear();
-    }
+    packedRawTypeID = -1;
+    flagByte = null;
+    rawFlagByte = -1;
     reserved = 0x0000;
     extenstionLength = 0;
     extenstion = null;

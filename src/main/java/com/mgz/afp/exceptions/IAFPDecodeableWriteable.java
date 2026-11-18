@@ -57,10 +57,11 @@ public interface IAFPDecodeableWriteable {
   public default void decodeAFP(ByteBuffer buffer, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
     int actualLength = length != -1 ? length : buffer.limit() - offset;
     byte[] data = new byte[actualLength];
-    int oldPos = buffer.position();
-    buffer.position(offset);
-    buffer.get(data);
-    buffer.position(oldPos);
+    if (buffer.hasArray()) {
+      System.arraycopy(buffer.array(), buffer.arrayOffset() + offset, data, 0, actualLength);
+    } else {
+      buffer.get(offset, data, 0, actualLength);
+    }
     decodeAFP(data, 0, -1, config);
   }
 

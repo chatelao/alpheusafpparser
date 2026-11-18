@@ -249,6 +249,10 @@ public class AFPParser {
   long nrOfBytesRead;
   long nrOfSFBuilt;
   long nrOfErrSFBuilt;
+  private long[] preScannedSfOffsets;
+  private int preScannedSfCursor;
+  private int preScannedSfEnd;
+  private long preScannedBaseOffset;
 
   /**
    * Constructor.
@@ -260,6 +264,23 @@ public class AFPParser {
     nrOfSFBuilt = 0;
     nrOfErrSFBuilt = 0;
     parserConf = parserConfiguration;
+  }
+
+  /**
+   * Configures a pre-scanned array of structured field start offsets for fast indexed parsing
+   * from a {@link java.nio.ByteBuffer}.
+   *
+   * @param sfOffsets array of absolute file offsets of structured fields
+   * @param startIndex inclusive index into {@code sfOffsets} to begin parsing
+   * @param endIndex exclusive index into {@code sfOffsets} to stop indexed parsing
+   * @param baseOffset base file offset corresponding to byte 0 of the configured {@link java.nio.ByteBuffer}
+   */
+  public void setPreScannedSfOffsets(
+      long[] sfOffsets, int startIndex, int endIndex, long baseOffset) {
+    this.preScannedSfOffsets = sfOffsets;
+    this.preScannedSfCursor = Math.max(0, startIndex);
+    this.preScannedSfEnd = (sfOffsets != null) ? Math.min(sfOffsets.length, endIndex) : 0;
+    this.preScannedBaseOffset = baseOffset;
   }
 
   /**
@@ -404,11 +425,28 @@ public class AFPParser {
     StructuredFieldErrornouslyBuilt errSf = null;
     var buffer = parserConf.getByteBuffer();
 
-    int pos = (int) nrOfBytesRead;
+    int pos;
     int limit = buffer.limit();
-
-    while (pos < limit && (buffer.get(pos) & 0xFF) != 0x5A) {
-      pos++;
+    if (preScannedSfOffsets != null && preScannedSfCursor < preScannedSfEnd) {
+      long candidate = preScannedSfOffsets[preScannedSfCursor++] - preScannedBaseOffset;
+      if (candidate < 0 || candidate >= limit) {
+        nrOfBytesRead = limit;
+        return null;
+      }
+      pos = (int) candidate;
+    } else {
+      pos = (int) nrOfBytesRead;
+      if (buffer.hasArray()) {
+        byte[] arr = buffer.array();
+        int base = buffer.arrayOffset();
+        while (pos < limit && (arr[base + pos] & 0xFF) != 0x5A) {
+          pos++;
+        }
+      } else {
+        while (pos < limit && (buffer.get(pos) & 0xFF) != 0x5A) {
+          pos++;
+        }
+      }
     }
 
     if (pos >= limit) {
@@ -430,10 +468,7 @@ public class AFPParser {
         int lenToCapture = Math.min(8, buffer.limit() - sfiStart);
         if (lenToCapture > 0) {
           byte[] rawSfi = new byte[lenToCapture];
-          int oldPos = buffer.position();
-          buffer.position(sfiStart);
-          buffer.get(rawSfi);
-          buffer.position(oldPos);
+          buffer.get(sfiStart, rawSfi, 0, lenToCapture);
           errSf.setRawIntroducer(rawSfi);
         }
         throw e;
@@ -461,16 +496,10 @@ public class AFPParser {
       errSf.setCausingException(e);
       if (sfi != null) {
         int len = sfi.getSFLength();
-        int oldPos = buffer.position();
-        try {
-          if (pos + 1 + len <= buffer.limit()) {
-            byte[] data = new byte[len];
-            buffer.position(pos + 1);
-            buffer.get(data);
-            errSf.setData(data);
-          }
-        } finally {
-          buffer.position(oldPos);
+        if (pos + 1 + len <= buffer.limit()) {
+          byte[] data = new byte[len];
+          buffer.get(pos + 1, data, 0, len);
+          errSf.setData(data);
         }
         nrOfBytesRead = pos + 1 + len;
       }
