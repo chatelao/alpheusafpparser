@@ -19,6 +19,7 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.xml;
 
+import com.ctc.wstx.api.WstxOutputProperties;
 import com.ctc.wstx.stax.WstxInputFactory;
 import com.ctc.wstx.stax.WstxOutputFactory;
 import javax.xml.stream.XMLInputFactory;
@@ -41,6 +42,7 @@ public class JacksonXmlMapperProvider {
 
   private static final WstxInputFactory INPUT_FACTORY = new WstxInputFactory();
   private static final WstxOutputFactory OUTPUT_FACTORY = new WstxOutputFactory();
+  private static final WstxOutputFactory FRAGMENT_OUTPUT_FACTORY = new WstxOutputFactory();
 
   private static final XmlMapper XML_MAPPER;
   private static final XmlMapper FRAGMENT_MAPPER;
@@ -52,15 +54,10 @@ public class JacksonXmlMapperProvider {
   private static final ConcurrentHashMap<Class<?>, ObjectWriter> FRAGMENT_INDENT_WRITER_CACHE = new ConcurrentHashMap<>();
 
   static {
-    OUTPUT_FACTORY.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, false);
-    try {
-      OUTPUT_FACTORY.setProperty("com.ctc.wstx.addSpaceAfterEmptyElem", false);
-      OUTPUT_FACTORY.setProperty("com.ctc.wstx.useDoubleQuotesInXmlDecl", true);
-      OUTPUT_FACTORY.setProperty("com.ctc.wstx.outputBufferSize", 65536);
-      OUTPUT_FACTORY.setProperty("org.codehaus.stax2.validation.checkStructure", false);
-    } catch (Exception e) {
-      // Ignore
-    }
+    configureCommonOutputProperties(OUTPUT_FACTORY);
+    configureCommonOutputProperties(FRAGMENT_OUTPUT_FACTORY);
+    FRAGMENT_OUTPUT_FACTORY.setProperty(WstxOutputProperties.P_OUTPUT_VALIDATE_STRUCTURE, Boolean.FALSE);
+    FRAGMENT_OUTPUT_FACTORY.setProperty(WstxOutputProperties.P_AUTOMATIC_END_ELEMENTS, Boolean.FALSE);
 
     XML_MAPPER = XmlMapper.builder(new XmlFactory(INPUT_FACTORY, OUTPUT_FACTORY))
         .nameForTextElement("text")
@@ -77,6 +74,17 @@ public class JacksonXmlMapperProvider {
     FRAGMENT_MAPPER.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, false);
     // Avoid "Trying to output second root" in fragment mode
     FRAGMENT_MAPPER.configure(SerializationFeature.WRITE_SINGLE_ELEM_ARRAYS_UNWRAPPED, true);
+  }
+
+  private static void configureCommonOutputProperties(WstxOutputFactory factory) {
+    factory.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, false);
+    try {
+      factory.setProperty(WstxOutputProperties.P_ADD_SPACE_AFTER_EMPTY_ELEM, false);
+      factory.setProperty(WstxOutputProperties.P_USE_DOUBLE_QUOTES_IN_XML_DECL, true);
+      factory.setProperty("com.ctc.wstx.outputBufferSize", 65536);
+    } catch (Exception e) {
+      // Ignore
+    }
   }
 
   /**
@@ -128,6 +136,15 @@ public class JacksonXmlMapperProvider {
    */
   public static XMLOutputFactory getOutputFactory() {
     return OUTPUT_FACTORY;
+  }
+
+  /**
+   * Returns an XML output factory configured for headless fragment streaming (structure checks disabled).
+   *
+   * @return the fragment XMLOutputFactory
+   */
+  public static XMLOutputFactory getFragmentOutputFactory() {
+    return FRAGMENT_OUTPUT_FACTORY;
   }
 
   /**

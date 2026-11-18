@@ -48,17 +48,51 @@ public class AfpXmlStreamWriter extends SanitizingXMLStreamWriter {
     this.woodstoxOs = findWoodstoxOutputStream(delegate);
   }
 
+  private static final ClassValue<WoodstoxStreamFields> WOODSTOX_FIELDS =
+      new ClassValue<>() {
+        @Override
+        protected WoodstoxStreamFields computeValue(Class<?> type) {
+          Field writerField = findField(type, "mWriter");
+          if (writerField != null) {
+            writerField.setAccessible(true);
+          }
+          return new WoodstoxStreamFields(writerField);
+        }
+      };
+
+  private static final class WoodstoxStreamFields {
+    final Field mWriterField;
+    volatile Field mUnderlyingStreamField;
+    volatile Class<?> mWriterClass;
+
+    WoodstoxStreamFields(Field mWriterField) {
+      this.mWriterField = mWriterField;
+    }
+
+    Field getUnderlyingStreamField(Object mWriter) {
+      Class<?> cls = mWriter.getClass();
+      if (cls == mWriterClass) {
+        return mUnderlyingStreamField;
+      }
+      Field f = findField(cls, "mUnderlyingStream");
+      if (f != null) {
+        f.setAccessible(true);
+      }
+      mUnderlyingStreamField = f;
+      mWriterClass = cls;
+      return f;
+    }
+  }
+
   private static OutputStream findWoodstoxOutputStream(XMLStreamWriter2 sw) {
     try {
       // Woodstox hierarchy: RepairingNsStreamWriter -> (mWriter) BufferingXmlWriter -> (mUnderlyingStream) OutputStream
-      Field mWriterField = findField(sw.getClass(), "mWriter");
-      if (mWriterField != null) {
-        mWriterField.setAccessible(true);
-        Object mWriter = mWriterField.get(sw);
+      WoodstoxStreamFields fields = WOODSTOX_FIELDS.get(sw.getClass());
+      if (fields.mWriterField != null) {
+        Object mWriter = fields.mWriterField.get(sw);
         if (mWriter != null) {
-          Field mUnderlyingStreamField = findField(mWriter.getClass(), "mUnderlyingStream");
+          Field mUnderlyingStreamField = fields.getUnderlyingStreamField(mWriter);
           if (mUnderlyingStreamField != null) {
-            mUnderlyingStreamField.setAccessible(true);
             Object os = mUnderlyingStreamField.get(mWriter);
             if (os instanceof OutputStream) {
               return (OutputStream) os;

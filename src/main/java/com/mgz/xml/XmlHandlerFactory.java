@@ -95,10 +95,28 @@ public class XmlHandlerFactory implements HandlerFactory {
       return data;
     }
 
-    int startIdx = -1;
     int len = data.remaining();
+    if (len < START_TAG.length) {
+      return data;
+    }
     int pos = data.position();
 
+    // Fast O(1) prefix check: headless fragment writers emit no <AfpFragments> wrapper.
+    boolean startsWithWrapper = true;
+    for (int j = 0; j < START_TAG.length; j++) {
+      if (data.get(pos + j) != START_TAG[j]) {
+        startsWithWrapper = false;
+        break;
+      }
+    }
+    if (!startsWithWrapper) {
+      // Check in case whitespace preceded wrapper, only if first char isn't '<'
+      if (data.get(pos) == '<') {
+        return data;
+      }
+    }
+
+    int startIdx = -1;
     // Search for start tag
     for (int i = 0; i <= len - START_TAG.length; i++) {
       boolean match = true;

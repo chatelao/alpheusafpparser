@@ -270,7 +270,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     this.fragmentMapper = JacksonXmlMapperProvider.getFragmentMapper();
 
     if (this.xpathExpression == null) {
-      XMLOutputFactory xof = JacksonXmlMapperProvider.getOutputFactory();
+      XMLOutputFactory xof = fragmentMode
+          ? JacksonXmlMapperProvider.getFragmentOutputFactory()
+          : JacksonXmlMapperProvider.getOutputFactory();
       XMLStreamWriter2 rawXsw = (XMLStreamWriter2) xof.createXMLStreamWriter(cos, "UTF-8");
       this.baseXsw = new AfpXmlStreamWriter(rawXsw, cos);
       this.xsw = MnemonicPerformanceMonitor.isEnabled() ? new MnemonicXMLStreamWriter(this.baseXsw) : this.baseXsw;
@@ -281,9 +283,6 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         this.xsw.writeStartElement("AFPDocument");
         this.xsw.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
         writeNewline();
-      } else {
-        // In fragment mode, we need a root element for StAX validation and to avoid "Trying to output second root"
-        this.xsw.writeStartElement("AfpFragments");
       }
     } else {
       this.xsw = null;
@@ -6050,17 +6049,15 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
 
     int initialCapacity = (int) SFSizeEstimator.estimateXmlSize(sf);
-    String xml;
-    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream(initialCapacity);
+    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream(initialCapacity + 32);
+    baos.write("<AFPDocument>".getBytes(StandardCharsets.UTF_8));
     try (AfpJacksonXmlWriter tempWriter = new AfpJacksonXmlWriter(baos, null, true)) {
       tempWriter.handle(sf);
     }
-    xml = baos.toString(StandardCharsets.UTF_8);
-
-    xml = xml.replace("<AfpFragments>", "<AFPDocument>").replace("</AfpFragments>", "</AFPDocument>");
+    baos.write("</AFPDocument>".getBytes(StandardCharsets.UTF_8));
 
     Document doc = cachedDocumentBuilder.parse(
-        new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        new ByteArrayInputStream(baos.toByteArray()));
 
     if (cachedXpath == null) {
       cachedXpath = XPF.newXPath();
@@ -6093,8 +6090,6 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         xsw.writeEndElement();
         writeNewline();
         xsw.writeEndDocument();
-      } else {
-        xsw.writeEndElement();
       }
       xsw.flush();
       // Always close the writer to ensure that internal buffers are recycled by the factory.

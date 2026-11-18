@@ -169,8 +169,10 @@ public class ParallelAfpConverter {
 
     @Override
     public Void call() throws Exception {
-      int initialCapacity = (int) handlerFactory.estimateOutputSize(endOffset - startOffset);
-      java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream(initialCapacity);
+      long estimated = handlerFactory.estimateOutputSize(endOffset - startOffset);
+      int initialCapacity = (int) Math.max(1024L, Math.min(4L * 1024 * 1024, estimated));
+      com.mgz.util.ExposedByteArrayOutputStream baos =
+          new com.mgz.util.ExposedByteArrayOutputStream(initialCapacity);
       try {
         if (taskConfig.getByteBuffer() == null && taskConfig.getAsyncFileChannel() != null) {
           int pageSize = (int) (endOffset - startOffset);
@@ -205,7 +207,7 @@ public class ParallelAfpConverter {
         PTXPerformanceMonitor.merge();
       }
 
-      ByteBuffer fullData = ByteBuffer.wrap(baos.toByteArray());
+      ByteBuffer fullData = baos.toByteBuffer();
       ByteBuffer stripped = handlerFactory.stripFragmentWrapper(fullData);
       collector.put(sequence, stripped);
       return null;
