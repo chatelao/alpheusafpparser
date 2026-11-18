@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Orchestrates ordered output from multiple concurrent streams.
@@ -37,19 +39,23 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 2. Streams are written in the order they were registered.
  * 3. Future streams are buffered until the current stream is completed.
  *
- * <p>This addresses the memory bottleneck when converting multiple files to a single
- * output stream (like stdout), reducing memory pressure from O(FileSize) to
- * O(PageSize * Threads).
+ * <p>Uses lock-splitting drain-owner handoff so concurrent producers are never stalled by slow
+ * sink I/O.
  */
 public class OrderedOutputOrchestrator {
 
+  private static final long DEFAULT_MAX_BUFFER_SIZE = 64L * 1024 * 1024; // 64MB
+
   private final OutputStream out;
   private final GatheringByteChannel channel;
+  private final ReentrantLock queueLock = new ReentrantLock();
+  private final Condition spaceAvailable = queueLock.newCondition();
   private final Map<Integer, StreamBuffer> streams = new TreeMap<>();
   private int activeStreamId = 0;
   private final AtomicInteger streamCounter = new AtomicInteger(0);
   private long totalBufferedSize = 0;
-  private final long maxBufferSize = 64 * 1024 * 1024; // 64MB
+  private final long maxBufferSize;
+  private boolean draining = false;
 
   /**
    * Constructs an OrderedOutputOrchestrator.
@@ -57,7 +63,7 @@ public class OrderedOutputOrchestrator {
    * @param out the shared output stream to write to
    */
   public OrderedOutputOrchestrator(OutputStream out) {
-    this(out, null);
+    this(out, null, DEFAULT_MAX_BUFFER_SIZE);
   }
 
   /**
@@ -67,8 +73,21 @@ public class OrderedOutputOrchestrator {
    * @param channel the channel to use for vectorized writes (can be null)
    */
   public OrderedOutputOrchestrator(OutputStream out, GatheringByteChannel channel) {
+    this(out, channel, DEFAULT_MAX_BUFFER_SIZE);
+  }
+
+  /**
+   * Constructs an OrderedOutputOrchestrator with an explicit buffer limit.
+   *
+   * @param out the shared output stream to write to
+   * @param channel the channel to use for vectorized writes (can be null)
+   * @param maxBufferSize maximum buffered bytes across out-of-order fragments before backpressure
+   */
+  public OrderedOutputOrchestrator(
+      OutputStream out, GatheringByteChannel channel, long maxBufferSize) {
     this.out = out;
     this.channel = channel;
+    this.maxBufferSize = maxBufferSize;
   }
 
   /**
@@ -88,7 +107,7 @@ public class OrderedOutputOrchestrator {
    * @param data the fragment data
    * @throws IOException if writing to the underlying output stream fails
    */
-  public synchronized void put(int streamId, int sequence, byte[] data) throws IOException {
+  public void put(int streamId, int sequence, byte[] data) throws IOException {
     put(streamId, sequence, ByteBuffer.wrap(data));
   }
 
@@ -100,29 +119,52 @@ public class OrderedOutputOrchestrator {
    * @param data the fragment data
    * @throws IOException if writing to the underlying output stream fails
    */
-  public synchronized void put(int streamId, int sequence, ByteBuffer data) throws IOException {
+  public void put(int streamId, int sequence, ByteBuffer data) throws IOException {
     int len = data.remaining();
-    while (totalBufferedSize + len > maxBufferSize && !isNext(streamId, sequence)) {
-      try {
-        wait();
-      } catch (InterruptedException e) {
-        Thread.currentThread().interrupt();
-        throw new IOException("Interrupted while waiting for buffer space", e);
+    boolean becameDrainer = false;
+
+    queueLock.lock();
+    try {
+      while (totalBufferedSize + len > maxBufferSize && !isNextLocked(streamId, sequence)) {
+        try {
+          spaceAvailable.await();
+        } catch (InterruptedException e) {
+          Thread.currentThread().interrupt();
+          throw new IOException("Interrupted while waiting for buffer space", e);
+        }
       }
+
+      StreamBuffer stream = streams.computeIfAbsent(streamId, id -> new StreamBuffer());
+      stream.put(sequence, data);
+      totalBufferedSize += len;
+
+      if (!draining && hasReadyWorkLocked()) {
+        draining = true;
+        becameDrainer = true;
+      }
+    } finally {
+      queueLock.unlock();
     }
 
-    StreamBuffer stream = streams.computeIfAbsent(streamId, id -> new StreamBuffer());
-    stream.put(sequence, data);
-    totalBufferedSize += len;
-    flushReady();
+    if (becameDrainer) {
+      drainReadyLoop();
+    }
   }
 
-  private boolean isNext(int streamId, int sequence) {
+  private boolean isNextLocked(int streamId, int sequence) {
     if (streamId != activeStreamId) {
       return false;
     }
     StreamBuffer stream = streams.get(streamId);
     return (stream == null) ? sequence == 0 : sequence == stream.nextSequence;
+  }
+
+  private boolean hasReadyWorkLocked() {
+    StreamBuffer active = streams.get(activeStreamId);
+    if (active == null) {
+      return false;
+    }
+    return active.hasReady() || (active.isFinished() && !active.hasBufferedFragments());
   }
 
   /**
@@ -131,10 +173,23 @@ public class OrderedOutputOrchestrator {
    * @param streamId the ID of the stream to finish
    * @throws IOException if writing to the underlying output stream fails
    */
-  public synchronized void finishStream(int streamId) throws IOException {
-    StreamBuffer stream = streams.computeIfAbsent(streamId, id -> new StreamBuffer());
-    stream.setFinished();
-    flushReady();
+  public void finishStream(int streamId) throws IOException {
+    boolean becameDrainer = false;
+    queueLock.lock();
+    try {
+      StreamBuffer stream = streams.computeIfAbsent(streamId, id -> new StreamBuffer());
+      stream.setFinished();
+      if (!draining && hasReadyWorkLocked()) {
+        draining = true;
+        becameDrainer = true;
+      }
+    } finally {
+      queueLock.unlock();
+    }
+
+    if (becameDrainer) {
+      drainReadyLoop();
+    }
   }
 
   /**
@@ -147,60 +202,81 @@ public class OrderedOutputOrchestrator {
     return new OrchestratedOutputStream(streamId);
   }
 
-  private void flushReady() throws IOException {
-    List<ByteBuffer> readyFragments = new ArrayList<>();
-    while (streams.containsKey(activeStreamId)) {
-      StreamBuffer stream = streams.get(activeStreamId);
+  private void drainReadyLoop() throws IOException {
+    try {
+      while (true) {
+        List<ByteBuffer> readyFragments = null;
+        queueLock.lock();
+        try {
+          while (streams.containsKey(activeStreamId)) {
+            StreamBuffer stream = streams.get(activeStreamId);
 
-      // Collect any ready fragments for the current active stream
-      while (stream.hasReady()) {
-        ByteBuffer fragment = stream.popNext();
-        if (fragment != null && fragment.hasRemaining()) {
-          readyFragments.add(fragment);
-          totalBufferedSize -= fragment.remaining();
-        }
-      }
+            while (stream.hasReady()) {
+              ByteBuffer fragment = stream.popNext();
+              if (fragment != null && fragment.hasRemaining()) {
+                if (readyFragments == null) {
+                  readyFragments = new ArrayList<>();
+                }
+                readyFragments.add(fragment);
+                totalBufferedSize -= fragment.remaining();
+              }
+            }
 
-      if (stream.isFinished() && !stream.hasBufferedFragments()) {
-        // Stream is fully consumed and marked as finished
-        streams.remove(activeStreamId);
-        activeStreamId++;
-      } else {
-        // Active stream is either not yet finished or waiting for its next sequential fragment.
-        // We cannot proceed to the next stream yet to preserve overall order.
-        break;
-      }
-    }
-
-    if (!readyFragments.isEmpty()) {
-      try {
-        if (channel != null) {
-          ByteBuffer[] srcs = readyFragments.toArray(new ByteBuffer[0]);
-          long totalBytes = 0;
-          for (ByteBuffer b : srcs) {
-            totalBytes += b.remaining();
-          }
-          long written = 0;
-          while (written < totalBytes) {
-            written += channel.write(srcs);
-          }
-        } else {
-          for (ByteBuffer fragment : readyFragments) {
-            int fragmentLen = fragment.remaining();
-            if (fragment.hasArray()) {
-              out.write(fragment.array(), fragment.arrayOffset() + fragment.position(), fragmentLen);
+            if (stream.isFinished() && !stream.hasBufferedFragments()) {
+              streams.remove(activeStreamId);
+              activeStreamId++;
             } else {
-              byte[] temp = new byte[fragmentLen];
-              fragment.get(temp);
-              out.write(temp);
+              break;
             }
           }
-          out.flush();
+
+          if (readyFragments == null || readyFragments.isEmpty()) {
+            draining = false;
+            spaceAvailable.signalAll();
+            return;
+          }
+          spaceAvailable.signalAll();
+        } finally {
+          queueLock.unlock();
         }
-      } finally {
-        // No pooling needed
+
+        writeReadyFragments(readyFragments);
       }
-      notifyAll();
+    } catch (Throwable t) {
+      queueLock.lock();
+      try {
+        draining = false;
+        spaceAvailable.signalAll();
+      } finally {
+        queueLock.unlock();
+      }
+      throw t;
+    }
+  }
+
+  private void writeReadyFragments(List<ByteBuffer> readyFragments) throws IOException {
+    if (channel != null) {
+      ByteBuffer[] srcs = readyFragments.toArray(new ByteBuffer[0]);
+      long totalBytes = 0;
+      for (ByteBuffer b : srcs) {
+        totalBytes += b.remaining();
+      }
+      long written = 0;
+      while (written < totalBytes) {
+        written += channel.write(srcs);
+      }
+    } else {
+      for (ByteBuffer fragment : readyFragments) {
+        int fragmentLen = fragment.remaining();
+        if (fragment.hasArray()) {
+          out.write(fragment.array(), fragment.arrayOffset() + fragment.position(), fragmentLen);
+        } else {
+          byte[] temp = new byte[fragmentLen];
+          fragment.get(temp);
+          out.write(temp);
+        }
+      }
+      out.flush();
     }
   }
 
