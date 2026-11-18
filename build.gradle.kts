@@ -41,11 +41,9 @@ dependencies {
     implementation("com.itextpdf:layout:9.0.0")
     implementation("com.itextpdf:barcodes:9.0.0")
     runtimeOnly("org.slf4j:slf4j-simple:2.0.16")
-    testImplementation("junit:junit:4.12")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
     testImplementation("org.apache.pdfbox:pdfbox:3.0.7")
     testImplementation("com.code-intelligence:jazzer-junit:0.30.0")
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.10.0")
 
     checkstyleConfig("com.puppycrawl.tools:checkstyle:13.4.2") {
         isTransitive = false
@@ -73,7 +71,7 @@ publishing {
             artifact(javadocJar.get())
             pom {
                 name.set("Alpheus AFP Parser")
-                description.set("Alpheus AFP Parser is a library and parser for the IBM Advanced Function Presentation (AFP) document/print stream format. Alpheus covers all AFP specifications: MO:DCA, BCOCA, CMOCA, FOCA, GOCA, IOCA, and PTOCA. It is a complete implementation. Every Structured Field, Repeating Group, and Triplet is fully implemented as Java class. Alpheus AFP Parser was written from scratch and has no external dependencies. This project is a continuation of the original Alpheus AFP Parser (https://github.com/afpdev/alpheusafpparser) by Rudolf Fiala. Copyright 2015-2026 Rudolf Fiala")
+                description.set("Alpheus AFP Parser is a library and parser for the IBM Advanced Function Presentation (AFP) document/print stream format. Alpheus covers all AFP specifications: MO:DCA, BCOCA, CMOCA, FOCA, GOCA, IOCA, and PTOCA. Every Structured Field, Repeating Group, and Triplet is implemented as a Java class, with XML and PDF export support. This project is a continuation of the original Alpheus AFP Parser (https://github.com/afpdev/alpheusafpparser) by Rudolf Fiala. Copyright 2015-2026 Rudolf Fiala")
                 url.set("https://github.com/chatelao/alpheusafpparser")
                 inceptionYear.set("2015")
                 licenses {
