@@ -157,6 +157,7 @@ tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJ
     archiveBaseName.set("alpheus-afp-parser-cli")
     archiveClassifier.set("")
     archiveVersion.set(version.toString())
+    exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA", "META-INF/INDEX.LIST", "module-info.class")
     manifest {
         attributes("Main-Class" to "com.mgz.cli.Afp2Xml")
     }
