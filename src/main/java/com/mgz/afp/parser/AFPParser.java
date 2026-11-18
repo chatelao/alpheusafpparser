@@ -364,45 +364,9 @@ public class AFPParser {
       }
 
       int lenOfGrossPayload = sfi.getSFLength() - sfi.getLengthOfStructuredFieldIntroducerIncludingExtension();
-      byte[] grossPayload = new byte[lenOfGrossPayload];
-      byte[] sfData;
-      byte[] padding;
-
-      // Determine payload.
+      byte[] grossPayload = readGrossPayload(is, lenOfGrossPayload);
       if (lenOfGrossPayload > 0) {
-
-        int read = 0;
-        while (read < lenOfGrossPayload) {
-          int len = is.read(grossPayload, read, lenOfGrossPayload - read);
-          if (len == -1) {
-            throw new AFPParserException("Reached end of file before end of structured field.");
-          } else {
-            read += len;
-          }
-        }
-
-        // Determine net payload.
-        if (sfi.isFlagSet(SFFlag.isPadded)) {
-          int lenOfPadding = grossPayload[grossPayload.length - 1];
-          if (lenOfPadding == 0) {
-            lenOfPadding = UtilBinaryDecoding.parseInt(grossPayload, grossPayload.length - 3, 2);
-          }
-
-          int lenOfSFData = lenOfGrossPayload - lenOfPadding;
-
-          sfData = new byte[lenOfSFData];
-          padding = new byte[lenOfPadding];
-
-          System.arraycopy(grossPayload, 0, sfData, 0, lenOfSFData);
-          System.arraycopy(grossPayload, lenOfSFData, padding, 0, lenOfPadding);
-
-        } else {
-          sfData = grossPayload;
-          padding = null;
-        }
-
-        sf.setPadding(padding);
-        sf.decodeAFP(sfData, 0, -1, conf);
+        decodeGrossPayload(sf, sfi, grossPayload, conf, false);
       }
 
     } catch (IOException ioex) {
@@ -463,7 +427,6 @@ public class AFPParser {
         errSf = new StructuredFieldErrornouslyBuilt();
         errSf.setFileOffset(pos);
         errSf.setCausingException(e);
-        // Try to capture raw SFI if possible
         int lenToCapture = Math.min(8, buffer.limit() - sfiStart);
         if (lenToCapture > 0) {
           byte[] rawSfi = new byte[lenToCapture];
@@ -476,45 +439,14 @@ public class AFPParser {
         throw e;
       }
 
-      StructuredField sf;
-      if (parserConf.isParseToStructuredFieldsBaseData) {
-        sf = StructuredFieldBaseDataPool.acquire();
-        sf.setStructuredFieldIntroducer(sfi);
-      } else {
-        sf = createSFInstance(sfi);
-      }
-
+      StructuredField sf = instantiateSF(sfi);
       int lenOfGrossPayload = sfi.getSFLength() - sfi.getLengthOfStructuredFieldIntroducerIncludingExtension();
       int payloadStart = sfiStart + sfi.getLengthOfStructuredFieldIntroducerIncludingExtension();
 
-      boolean mustDecode = isMustDecode(sf);
-
-      if (parserConf.isBuildShallow() && !mustDecode) {
-        var actualConf = parserConf.clone();
-        actualConf.setInputStream(null);
-        sfi.setActualConfig(actualConf);
-      } else {
-        if (lenOfGrossPayload > 0) {
-          byte[] padding = null;
-          int lenOfSFData = lenOfGrossPayload;
-
-          if (sfi.isFlagSet(SFFlag.isPadded)) {
-            int lenOfPadding = buffer.get(payloadStart + lenOfGrossPayload - 1) & 0xFF;
-            if (lenOfPadding == 0) {
-              lenOfPadding = UtilBinaryDecoding.parseInt(buffer, payloadStart + lenOfGrossPayload - 3, 2);
-            }
-            lenOfSFData = lenOfGrossPayload - lenOfPadding;
-            sf.setPadding(buffer.slice(payloadStart + lenOfSFData, lenOfPadding).asReadOnlyBuffer());
-          } else {
-            sf.setPadding((byte[]) null);
-          }
-          MnemonicPerformanceMonitor.startParse(sf);
-          try {
-            sf.decodeAFP(buffer, payloadStart, lenOfSFData, parserConf);
-          } finally {
-            MnemonicPerformanceMonitor.endParse();
-          }
-        }
+      if (parserConf.isBuildShallow() && !isMustDecode(sf)) {
+        configureShallowSF(sfi);
+      } else if (lenOfGrossPayload > 0) {
+        decodeBufferPayload(sf, sfi, buffer, payloadStart, lenOfGrossPayload);
       }
 
       handleStatePreservation(sf);
@@ -524,12 +456,7 @@ public class AFPParser {
 
     } catch (Throwable e) {
       if (errSf == null) {
-        errSf = new StructuredFieldErrornouslyBuilt();
-        errSf.setStructuredFieldIntroducer(sfi != null ? sfi : new StructuredFieldIntroducer());
-        errSf.setFileOffset(pos);
-        if (sfi != null) {
-          errSf.setTypeId(sfi.getSFTypeID());
-        }
+        errSf = buildErroneousSF(sfi != null ? sfi : new StructuredFieldIntroducer(), pos);
       }
       errSf.setCausingException(e);
       if (sfi != null) {
@@ -550,8 +477,8 @@ public class AFPParser {
       nrOfSFBuilt++;
       nrOfErrSFBuilt++;
       if (parserConf.isEscalateParsingErrors()) {
-        if (e instanceof AFPParserException) {
-          throw (AFPParserException) e;
+        if (e instanceof AFPParserException afpEx) {
+          throw afpEx;
         }
         throw new AFPParserException("Error parsing SF from buffer", e);
       }
@@ -566,8 +493,6 @@ public class AFPParser {
       var is = parserConf.getInputStream();
 
       int tmp;
-      byte[] sfData;
-      byte[] padding;
       do {
         tmp = is.read();
         if (tmp != -1) {
@@ -575,157 +500,186 @@ public class AFPParser {
         }
       } while (tmp != 0x5A && tmp != -1); // Move to the begin of next SF, or EOF.
 
-      if (tmp != -1) {
-        try {
-          sfi = StructuredFieldIntroducer.parse(is);
-        } catch (Throwable e) {
-          if (errSf == null) {
-            errSf = new StructuredFieldErrornouslyBuilt();
-            errSf.setStructuredFieldIntroducer(new StructuredFieldIntroducer());
-            errSf.setFileOffset(nrOfBytesRead - 1);
-          }
-          if (e instanceof AFPParserException) {
-            ((AFPParserException) e).setErrornouslyBuiltStructuredField(errSf);
-            try {
-              error((AFPParserException) e);
-            } catch (AFPParserException ex) {
-              if (parserConf.isEscalateParsingErrors()) {
-                throw ex;
-              }
-            }
-          } else {
-            AFPParserException afpex = new AFPParserException("An exception occured when parsing structured field introducer at file index position 0x" + Long.toHexString(nrOfBytesRead) + ".", e);
-            afpex.setErrornouslyBuiltStructuredField(errSf);
-            try {
-              error(afpex);
-            } catch (AFPParserException ex) {
-              if (parserConf.isEscalateParsingErrors()) {
-                throw ex;
-              }
-            }
-          }
-          return errSf;
-        }
-        sfi.setFileOffset(nrOfBytesRead - 1);
-
-        StructuredField sf;
-        if (parserConf.isParseToStructuredFieldsBaseData) {
-          sf = StructuredFieldBaseDataPool.acquire();
-          sf.setStructuredFieldIntroducer(sfi);
-        } else {
-          sf = createSFInstance(sfi);
-        }
-
-        var lenOfGrossPayload = sfi.getSFLength() - sfi.getLengthOfStructuredFieldIntroducerIncludingExtension();
-
-        boolean mustDecode = isMustDecode(sf);
-
-        if (parserConf.isBuildShallow() && !mustDecode) {
-          var actualConf = parserConf.clone();
-          actualConf.setInputStream(null);
-          sfi.setActualConfig(actualConf);
-          if (is.skip(lenOfGrossPayload) < lenOfGrossPayload) {
-            throw new AFPParserException("Failed to skip payload while building shallow objects.");
-          }
-
-        } else {
-
-          var grossPayload = new byte[lenOfGrossPayload];
-
-          try {
-            // Determine payload.
-            if (lenOfGrossPayload > 0) {
-
-              var read = 0;
-              while (read < lenOfGrossPayload) {
-                var len = is.read(grossPayload, read, lenOfGrossPayload - read);
-                if (len == -1) {
-                  throw new AFPParserException("Reached end of file before end of structured field.");
-                } else {
-                  read += len;
-                }
-              }
-
-              // Determine net payload.
-              if (sfi.isFlagSet(SFFlag.isPadded)) {
-                int lenOfPadding = grossPayload[grossPayload.length - 1] & 0xFF;
-                if (lenOfPadding == 0) {
-                  lenOfPadding = UtilBinaryDecoding.parseInt(grossPayload, grossPayload.length - 3, 2);
-                }
-
-                var lenOfSFData = lenOfGrossPayload - lenOfPadding;
-
-                sfData = new byte[lenOfSFData];
-                padding = new byte[lenOfPadding];
-
-                System.arraycopy(grossPayload, 0, sfData, 0, lenOfSFData);
-                System.arraycopy(grossPayload, lenOfSFData, padding, 0, lenOfPadding);
-
-              } else {
-                sfData = grossPayload;
-                padding = null;
-              }
-
-              sf.setPadding(padding);
-              MnemonicPerformanceMonitor.startParse(sf);
-              try {
-                sf.decodeAFP(sfData, 0, -1, parserConf);
-              } finally {
-                MnemonicPerformanceMonitor.endParse();
-              }
-            }
-          } catch (Throwable th) {
-            sf = errSf = new StructuredFieldErrornouslyBuilt();
-            errSf.setCausingException(th);
-            errSf.setStructuredFieldIntroducer(sfi);
-            errSf.setFileOffset(sfi.getFileOffset());
-            errSf.setTypeId(sfi.getSFTypeID());
-            errSf.setData(grossPayload);
-            if (parserConf.isEscalateParsingErrors()) {
-              throw th;
-            }
-          }
-
-        }
-        if (sf != null) {
-          handleStatePreservation(sf);
-          nrOfBytesRead += sf.getStructuredFieldIntroducer().getSFLength();
-          nrOfSFBuilt++;
-        }
-
-        return sf;
-
-      } else {
+      if (tmp == -1) {
         return null;
       }
 
-    } catch (Throwable e) {
-
-      if (errSf == null) {
-        errSf = new StructuredFieldErrornouslyBuilt();
-        errSf.setStructuredFieldIntroducer(sfi);
-        if (sfi != null) {
-          errSf.setFileOffset(sfi.getFileOffset());
-          errSf.setTypeId(sfi.getSFTypeID());
+      try {
+        sfi = StructuredFieldIntroducer.parse(is);
+      } catch (Throwable e) {
+        errSf = buildErroneousSF(new StructuredFieldIntroducer(), nrOfBytesRead - 1);
+        AFPParserException afpex = toAFPParserException(
+            e, "An exception occured when parsing structured field introducer at file index position 0x"
+                + Long.toHexString(nrOfBytesRead) + ".", errSf);
+        try {
+          error(afpex);
+        } catch (AFPParserException ex) {
+          if (parserConf.isEscalateParsingErrors()) {
+            throw ex;
+          }
         }
+        return errSf;
+      }
+      sfi.setFileOffset(nrOfBytesRead - 1);
+
+      StructuredField sf = instantiateSF(sfi);
+      var lenOfGrossPayload = sfi.getSFLength() - sfi.getLengthOfStructuredFieldIntroducerIncludingExtension();
+
+      if (parserConf.isBuildShallow() && !isMustDecode(sf)) {
+        configureShallowSF(sfi);
+        if (is.skip(lenOfGrossPayload) < lenOfGrossPayload) {
+          throw new AFPParserException("Failed to skip payload while building shallow objects.");
+        }
+      } else {
+        byte[] grossPayload = new byte[lenOfGrossPayload];
+        try {
+          if (lenOfGrossPayload > 0) {
+            grossPayload = readGrossPayload(is, lenOfGrossPayload);
+            decodeGrossPayload(sf, sfi, grossPayload, parserConf, true);
+          }
+        } catch (Throwable th) {
+          sf = errSf = buildErroneousSF(sfi, sfi.getFileOffset());
+          errSf.setCausingException(th);
+          errSf.setData(grossPayload);
+          if (parserConf.isEscalateParsingErrors()) {
+            throw th;
+          }
+        }
+      }
+
+      if (sf != null) {
+        handleStatePreservation(sf);
+        nrOfBytesRead += sf.getStructuredFieldIntroducer().getSFLength();
+        nrOfSFBuilt++;
+      }
+
+      return sf;
+
+    } catch (Throwable e) {
+      if (errSf == null) {
+        errSf = buildErroneousSF(sfi, sfi != null ? sfi.getFileOffset() : 0);
       }
 
       nrOfBytesRead += errSf.getStructuredFieldIntroducer().getSFLength();
       nrOfSFBuilt++;
       nrOfErrSFBuilt++;
 
-      // Call error() which may or may not re-throw the given exception
-      if (e instanceof AFPParserException) {
-        ((AFPParserException) e).setErrornouslyBuiltStructuredField(errSf);
-        error((AFPParserException) e);
-      } else {
-        AFPParserException afpex = new AFPParserException("An exception occured when parsing structured field at file index position 0x" + Long.toHexString(nrOfBytesRead) + ".", e);
-        afpex.setErrornouslyBuiltStructuredField(errSf);
-        error(afpex);
-      }
+      error(toAFPParserException(
+          e, "An exception occured when parsing structured field at file index position 0x"
+              + Long.toHexString(nrOfBytesRead) + ".", errSf));
 
       return errSf;
     }
+  }
+
+  private StructuredField instantiateSF(StructuredFieldIntroducer sfi) {
+    if (parserConf.isParseToStructuredFieldsBaseData) {
+      StructuredField sf = StructuredFieldBaseDataPool.acquire();
+      sf.setStructuredFieldIntroducer(sfi);
+      return sf;
+    }
+    return createSFInstance(sfi);
+  }
+
+  private void configureShallowSF(StructuredFieldIntroducer sfi) {
+    var actualConf = parserConf.clone();
+    actualConf.setInputStream(null);
+    sfi.setActualConfig(actualConf);
+  }
+
+  private void decodeBufferPayload(
+      StructuredField sf,
+      StructuredFieldIntroducer sfi,
+      java.nio.ByteBuffer buffer,
+      int payloadStart,
+      int lenOfGrossPayload) throws AFPParserException {
+    int lenOfSFData = lenOfGrossPayload;
+    if (sfi.isFlagSet(SFFlag.isPadded)) {
+      int lenOfPadding = buffer.get(payloadStart + lenOfGrossPayload - 1) & 0xFF;
+      if (lenOfPadding == 0) {
+        lenOfPadding = UtilBinaryDecoding.parseInt(buffer, payloadStart + lenOfGrossPayload - 3, 2);
+      }
+      lenOfSFData = lenOfGrossPayload - lenOfPadding;
+      sf.setPadding(buffer.slice(payloadStart + lenOfSFData, lenOfPadding).asReadOnlyBuffer());
+    } else {
+      sf.setPadding((byte[]) null);
+    }
+    MnemonicPerformanceMonitor.startParse(sf);
+    try {
+      sf.decodeAFP(buffer, payloadStart, lenOfSFData, parserConf);
+    } finally {
+      MnemonicPerformanceMonitor.endParse();
+    }
+  }
+
+  private static byte[] readGrossPayload(InputStream is, int lenOfGrossPayload)
+      throws IOException, AFPParserException {
+    byte[] grossPayload = new byte[lenOfGrossPayload];
+    int read = 0;
+    while (read < lenOfGrossPayload) {
+      int len = is.read(grossPayload, read, lenOfGrossPayload - read);
+      if (len == -1) {
+        throw new AFPParserException("Reached end of file before end of structured field.");
+      }
+      read += len;
+    }
+    return grossPayload;
+  }
+
+  private static void decodeGrossPayload(
+      StructuredField sf,
+      StructuredFieldIntroducer sfi,
+      byte[] grossPayload,
+      AFPParserConfiguration conf,
+      boolean monitorPerformance) throws AFPParserException {
+    int lenOfGrossPayload = grossPayload.length;
+    byte[] sfData;
+    byte[] padding;
+    if (sfi.isFlagSet(SFFlag.isPadded)) {
+      int lenOfPadding = grossPayload[lenOfGrossPayload - 1] & 0xFF;
+      if (lenOfPadding == 0) {
+        lenOfPadding = UtilBinaryDecoding.parseInt(grossPayload, lenOfGrossPayload - 3, 2);
+      }
+      int lenOfSFData = lenOfGrossPayload - lenOfPadding;
+      sfData = new byte[lenOfSFData];
+      padding = new byte[lenOfPadding];
+      System.arraycopy(grossPayload, 0, sfData, 0, lenOfSFData);
+      System.arraycopy(grossPayload, lenOfSFData, padding, 0, lenOfPadding);
+    } else {
+      sfData = grossPayload;
+      padding = null;
+    }
+    sf.setPadding(padding);
+    if (monitorPerformance) {
+      MnemonicPerformanceMonitor.startParse(sf);
+      try {
+        sf.decodeAFP(sfData, 0, -1, conf);
+      } finally {
+        MnemonicPerformanceMonitor.endParse();
+      }
+    } else {
+      sf.decodeAFP(sfData, 0, -1, conf);
+    }
+  }
+
+  private static StructuredFieldErrornouslyBuilt buildErroneousSF(
+      StructuredFieldIntroducer sfi, long fileOffset) {
+    StructuredFieldErrornouslyBuilt errSf = new StructuredFieldErrornouslyBuilt();
+    errSf.setStructuredFieldIntroducer(sfi);
+    errSf.setFileOffset(fileOffset);
+    if (sfi != null && sfi.getSFTypeID() != null) {
+      errSf.setTypeId(sfi.getSFTypeID());
+    }
+    return errSf;
+  }
+
+  private static AFPParserException toAFPParserException(
+      Throwable e, String defaultMessage, StructuredFieldErrornouslyBuilt errSf) {
+    AFPParserException afpex = (e instanceof AFPParserException existing)
+        ? existing
+        : new AFPParserException(defaultMessage, e);
+    afpex.setErrornouslyBuiltStructuredField(errSf);
+    return afpex;
   }
 
   private boolean isMustDecode(StructuredField sf) {
@@ -762,80 +716,57 @@ public class AFPParser {
   }
 
   private void handleMCF1(MCF_MapCodedFont_Format1 mcf1) {
-    if (mcf1.getRepeatingGroups() == null) {
+    var repeatingGroups = mcf1.getRepeatingGroups();
+    if (repeatingGroups == null) {
       return;
     }
-    mcf1.getRepeatingGroups().stream()
-        .filter(rg -> rg.getCodePageName() != null)
-        .forEach(rg -> {
-          var cs = UtilCharacterEncoding.getCharsetFromCodePageName(rg.getCodePageName());
-          if (cs != null) {
-            parserConf.addCodedFontCharsetMapping(rg.getCodedFontLocalID(), cs);
-          }
-        });
+    for (var rg : repeatingGroups) {
+      if (rg.getCodePageName() != null) {
+        var cs = UtilCharacterEncoding.getCharsetFromCodePageName(rg.getCodePageName());
+        if (cs != null) {
+          parserConf.addCodedFontCharsetMapping(rg.getCodedFontLocalID(), cs);
+        }
+      }
+    }
   }
 
   private void handleMCF2(MCF_MapCodedFont_Format2 mcf2) {
-    if (mcf2.getRepeatingGroups() == null) {
-      return;
-    }
-    mcf2.getRepeatingGroups().stream()
-        .filter(IHasTriplets.class::isInstance)
-        .map(IHasTriplets.class::cast)
-        .forEach(rg -> {
-          List<Triplet> triplets = rg.getTriplets();
-          Short lid = null;
-          java.nio.charset.Charset cs = null;
-          if (triplets != null) {
-            for (Triplet t : triplets) {
-              if (t instanceof Triplet.ResourceLocalIdentifier rli) {
-                if (rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
-                  lid = rli.getResourceLocalID();
-                }
-              } else if (t instanceof Triplet.FullyQualifiedName fqn) {
-                if (fqn.getType() == Triplet.GlobalID_Use.CodePageNameReference) {
-                  cs = UtilCharacterEncoding.getCharsetFromCodePageName(fqn.getNameAsString());
-                }
-              }
-            }
-          }
-          if (lid != null && cs != null) {
-            parserConf.addCodedFontCharsetMapping(lid, cs);
-          }
-        });
+    extractTripletCharsetMappings(mcf2.getRepeatingGroups(), false);
   }
 
   private void handleMDR(MDR_MapDataResource mdr) {
-    if (mdr.getRepeatingGroups() == null) {
+    extractTripletCharsetMappings(mdr.getRepeatingGroups(), true);
+  }
+
+  private void extractTripletCharsetMappings(
+      List<? extends IRepeatingGroup> repeatingGroups, boolean updateDefaultCharset) {
+    if (repeatingGroups == null) {
       return;
     }
-    mdr.getRepeatingGroups().stream()
-        .filter(IHasTriplets.class::isInstance)
-        .map(IHasTriplets.class::cast)
-        .forEach(rg -> {
-          List<Triplet> triplets = rg.getTriplets();
-          Short lid = null;
-          java.nio.charset.Charset cs = null;
-          if (triplets != null) {
-            for (Triplet t : triplets) {
-              if (t instanceof Triplet.ResourceLocalIdentifier rli) {
-                if (rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
-                  lid = rli.getResourceLocalID();
-                }
-              } else if (t instanceof Triplet.FullyQualifiedName fqn) {
-                if (fqn.getType() == Triplet.GlobalID_Use.CodePageNameReference) {
-                  cs = UtilCharacterEncoding.getCharsetFromCodePageName(fqn.getNameAsString());
-                  if (cs != null) {
-                    parserConf.setAfpCharSet(cs);
-                  }
-                }
+    for (IRepeatingGroup rg : repeatingGroups) {
+      if (rg instanceof IHasTriplets hasTriplets) {
+        List<Triplet> triplets = hasTriplets.getTriplets();
+        Short lid = null;
+        java.nio.charset.Charset cs = null;
+        if (triplets != null) {
+          for (Triplet t : triplets) {
+            if (t instanceof Triplet.ResourceLocalIdentifier rli
+                && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
+              lid = rli.getResourceLocalID();
+            } else if (t instanceof Triplet.FullyQualifiedName fqn
+                && fqn.getType() == Triplet.GlobalID_Use.CodePageNameReference) {
+              cs = UtilCharacterEncoding.getCharsetFromCodePageName(fqn.getNameAsString());
+              if (updateDefaultCharset && cs != null) {
+                parserConf.setAfpCharSet(cs);
               }
             }
           }
-          if (lid != null && cs != null) {
-            parserConf.addCodedFontCharsetMapping(lid, cs);
-          }
-        });
+        }
+        if (lid != null && cs != null) {
+          parserConf.addCodedFontCharsetMapping(lid, cs);
+        }
+      }
+    }
   }
 
   /**
