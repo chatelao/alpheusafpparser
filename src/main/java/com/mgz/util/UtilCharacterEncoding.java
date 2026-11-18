@@ -25,6 +25,9 @@ import com.mgz.afp.parser.AFPParserConfiguration;
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 /**
@@ -307,6 +310,74 @@ public class UtilCharacterEncoding {
     return result;
   }
 
+  private static final char[] NOT_SBCS_LUT = new char[0];
+  private static final ConcurrentHashMap<String, char[]> DECODER_LUT_CACHE =
+      new ConcurrentHashMap<>();
+
+  static {
+    DECODER_LUT_CACHE.put("IBM500", EBCDIC_CP500_TO_UTF8);
+    DECODER_LUT_CACHE.put("Cp500", EBCDIC_CP500_TO_UTF8);
+    DECODER_LUT_CACHE.put("IBM273", EBCDIC_CP273_TO_UTF8);
+    DECODER_LUT_CACHE.put("Cp273", EBCDIC_CP273_TO_UTF8);
+    DECODER_LUT_CACHE.put("IBM01141", EBCDIC_CP1141_TO_UTF8);
+    DECODER_LUT_CACHE.put("Cp1141", EBCDIC_CP1141_TO_UTF8);
+  }
+
+  private static char[] getDecoderLut(Charset charset) {
+    if (charset == null) {
+      return EBCDIC_CP500_TO_UTF8;
+    }
+    String name = charset.name();
+    char[] cached = DECODER_LUT_CACHE.get(name);
+    if (cached != null) {
+      return cached == NOT_SBCS_LUT ? null : cached;
+    }
+    char[] built = buildDecoderLutIfStatelessSbcs(charset);
+    char[] existing = DECODER_LUT_CACHE.putIfAbsent(name, built);
+    char[] resolved = (existing != null) ? existing : built;
+    return resolved == NOT_SBCS_LUT ? null : resolved;
+  }
+
+  private static char[] buildDecoderLutIfStatelessSbcs(Charset charset) {
+    if (!charset.canEncode()) {
+      return NOT_SBCS_LUT;
+    }
+    CharsetDecoder decoder = charset.newDecoder();
+    CharsetEncoder encoder = charset.newEncoder();
+    if (decoder.isAutoDetecting()
+        || decoder.maxCharsPerByte() != 1.0f
+        || encoder.maxBytesPerChar() != 1.0f) {
+      return NOT_SBCS_LUT;
+    }
+    char[] lut = new char[256];
+    byte[] input = new byte[1];
+    for (int i = 0; i < 256; i++) {
+      input[0] = (byte) i;
+      String s = new String(input, charset);
+      if (s.length() != 1 || Character.isSurrogate(s.charAt(0))) {
+        return NOT_SBCS_LUT;
+      }
+      lut[i] = s.charAt(0);
+    }
+    return lut;
+  }
+
+  private static String decodeWithLut(byte[] data, int offset, int length, char[] lut) {
+    char[] out = new char[length];
+    for (int i = 0; i < length; i++) {
+      out[i] = lut[data[offset + i] & 0xFF];
+    }
+    return new String(out);
+  }
+
+  private static String decodeWithLut(ByteBuffer buffer, int offset, int length, char[] lut) {
+    char[] out = new char[length];
+    for (int i = 0; i < length; i++) {
+      out[i] = lut[buffer.get(offset + i) & 0xFF];
+    }
+    return new String(out);
+  }
+
   /**
    * Decodes EBCDIC data from a byte array.
    *
@@ -322,17 +393,15 @@ public class UtilCharacterEncoding {
     if (actualLength <= 0) {
       return "";
     }
-    if (config != null && config.isUseCharsetOptimizations()) {
-      String charsetName = config.getAfpCharSet().name();
-      if ("IBM500".equals(charsetName) || "Cp500".equals(charsetName)) {
-        return decodeCp500(sfData, offset, actualLength);
-      } else if ("IBM273".equals(charsetName) || "Cp273".equals(charsetName)) {
-        return decodeCp273(sfData, offset, actualLength);
-      } else if ("IBM01141".equals(charsetName) || "Cp1141".equals(charsetName)) {
-        return decodeCp1141(sfData, offset, actualLength);
-      }
+    Charset charset =
+        (config != null && config.getAfpCharSet() != null)
+            ? config.getAfpCharSet()
+            : Constants.cpIBM500;
+    char[] lut = getDecoderLut(charset);
+    if (lut != null) {
+      return decodeWithLut(sfData, offset, actualLength, lut);
     }
-    return new String(sfData, offset, actualLength, config.getAfpCharSet());
+    return new String(sfData, offset, actualLength, charset);
   }
 
   /**
@@ -350,15 +419,17 @@ public class UtilCharacterEncoding {
     if (actualLength <= 0) {
       return "";
     }
-    if (config != null && config.isUseCharsetOptimizations()) {
-      String charsetName = config.getAfpCharSet().name();
-      if ("IBM500".equals(charsetName) || "Cp500".equals(charsetName)) {
-        return decodeCp500(buffer, offset, actualLength);
-      } else if ("IBM273".equals(charsetName) || "Cp273".equals(charsetName)) {
-        return decodeCp273(buffer, offset, actualLength);
-      } else if ("IBM01141".equals(charsetName) || "Cp1141".equals(charsetName)) {
-        return decodeCp1141(buffer, offset, actualLength);
+    Charset charset =
+        (config != null && config.getAfpCharSet() != null)
+            ? config.getAfpCharSet()
+            : Constants.cpIBM500;
+    char[] lut = getDecoderLut(charset);
+    if (lut != null) {
+      if (buffer.hasArray()) {
+        return decodeWithLut(
+            buffer.array(), buffer.arrayOffset() + offset, actualLength, lut);
       }
+      return decodeWithLut(buffer, offset, actualLength, lut);
     }
 
     byte[] data = new byte[actualLength];
@@ -366,7 +437,7 @@ public class UtilCharacterEncoding {
     buffer.position(offset);
     buffer.get(data);
     buffer.position(oldPos);
-    return new String(data, config.getAfpCharSet());
+    return new String(data, charset);
   }
 
   /**
@@ -378,11 +449,7 @@ public class UtilCharacterEncoding {
    * @return the decoded string
    */
   public static String decodeCp500(byte[] data, int offset, int length) {
-    char[] out = new char[length];
-    for (int i = 0; i < length; i++) {
-      out[i] = EBCDIC_CP500_TO_UTF8[data[offset + i] & 0xFF];
-    }
-    return new String(out);
+    return decodeWithLut(data, offset, length, EBCDIC_CP500_TO_UTF8);
   }
 
   /**
@@ -394,11 +461,7 @@ public class UtilCharacterEncoding {
    * @return the decoded string
    */
   public static String decodeCp1141(byte[] data, int offset, int length) {
-    char[] out = new char[length];
-    for (int i = 0; i < length; i++) {
-      out[i] = EBCDIC_CP1141_TO_UTF8[data[offset + i] & 0xFF];
-    }
-    return new String(out);
+    return decodeWithLut(data, offset, length, EBCDIC_CP1141_TO_UTF8);
   }
 
   /**
@@ -410,11 +473,7 @@ public class UtilCharacterEncoding {
    * @return the decoded string
    */
   public static String decodeCp1141(ByteBuffer buffer, int offset, int length) {
-    char[] out = new char[length];
-    for (int i = 0; i < length; i++) {
-      out[i] = EBCDIC_CP1141_TO_UTF8[buffer.get(offset + i) & 0xFF];
-    }
-    return new String(out);
+    return decodeWithLut(buffer, offset, length, EBCDIC_CP1141_TO_UTF8);
   }
 
   /**
@@ -426,11 +485,7 @@ public class UtilCharacterEncoding {
    * @return the decoded string
    */
   public static String decodeCp500(ByteBuffer buffer, int offset, int length) {
-    char[] out = new char[length];
-    for (int i = 0; i < length; i++) {
-      out[i] = EBCDIC_CP500_TO_UTF8[buffer.get(offset + i) & 0xFF];
-    }
-    return new String(out);
+    return decodeWithLut(buffer, offset, length, EBCDIC_CP500_TO_UTF8);
   }
 
   /**
@@ -442,11 +497,7 @@ public class UtilCharacterEncoding {
    * @return the decoded string
    */
   public static String decodeCp273(byte[] data, int offset, int length) {
-    char[] out = new char[length];
-    for (int i = 0; i < length; i++) {
-      out[i] = EBCDIC_CP273_TO_UTF8[data[offset + i] & 0xFF];
-    }
-    return new String(out);
+    return decodeWithLut(data, offset, length, EBCDIC_CP273_TO_UTF8);
   }
 
   /**
@@ -458,11 +509,7 @@ public class UtilCharacterEncoding {
    * @return the decoded string
    */
   public static String decodeCp273(ByteBuffer buffer, int offset, int length) {
-    char[] out = new char[length];
-    for (int i = 0; i < length; i++) {
-      out[i] = EBCDIC_CP273_TO_UTF8[buffer.get(offset + i) & 0xFF];
-    }
-    return new String(out);
+    return decodeWithLut(buffer, offset, length, EBCDIC_CP273_TO_UTF8);
   }
 
   /**
@@ -553,13 +600,9 @@ public class UtilCharacterEncoding {
       charset = Constants.cpIBM500;
     }
 
-    String charsetName = charset.name();
-    if ("IBM500".equals(charsetName) || "Cp500".equals(charsetName)) {
-      return isHumanReadableCp500(data, offset, length);
-    } else if ("IBM273".equals(charsetName) || "Cp273".equals(charsetName)) {
-      return isHumanReadableCp273(data, offset, length);
-    } else if ("IBM01141".equals(charsetName) || "Cp1141".equals(charsetName)) {
-      return isHumanReadableCp1141(data, offset, length);
+    char[] lut = getDecoderLut(charset);
+    if (lut != null) {
+      return isHumanReadableWithLut(data, offset, length, lut);
     }
 
     String decoded = new String(data, offset, length, charset);
@@ -629,13 +672,13 @@ public class UtilCharacterEncoding {
       charset = Constants.cpIBM500;
     }
 
-    String charsetName = charset.name();
-    if ("IBM500".equals(charsetName) || "Cp500".equals(charsetName)) {
-      return isHumanReadableCp500(buffer, offset, actualLength);
-    } else if ("IBM273".equals(charsetName) || "Cp273".equals(charsetName)) {
-      return isHumanReadableCp273(buffer, offset, actualLength);
-    } else if ("IBM01141".equals(charsetName) || "Cp1141".equals(charsetName)) {
-      return isHumanReadableCp1141(buffer, offset, actualLength);
+    char[] lut = getDecoderLut(charset);
+    if (lut != null) {
+      if (buffer.hasArray()) {
+        return isHumanReadableWithLut(
+            buffer.array(), buffer.arrayOffset() + offset, actualLength, lut);
+      }
+      return isHumanReadableWithLut(buffer, offset, actualLength, lut);
     }
 
     byte[] data = new byte[actualLength];
@@ -655,10 +698,10 @@ public class UtilCharacterEncoding {
     return (double) printableCount / decoded.length() >= 0.9;
   }
 
-  private static boolean isHumanReadableCp500(byte[] data, int offset, int length) {
+  private static boolean isHumanReadableWithLut(byte[] data, int offset, int length, char[] lut) {
     int printableCount = 0;
     for (int i = 0; i < length; i++) {
-      char c = EBCDIC_CP500_TO_UTF8[data[offset + i] & 0xFF];
+      char c = lut[data[offset + i] & 0xFF];
       if (!Character.isISOControl(c) || c == '\n' || c == '\r' || c == '\t' || c == '\u0085') {
         printableCount++;
       }
@@ -666,54 +709,11 @@ public class UtilCharacterEncoding {
     return (double) printableCount / length >= 0.9;
   }
 
-  private static boolean isHumanReadableCp500(ByteBuffer buffer, int offset, int length) {
+  private static boolean isHumanReadableWithLut(
+      ByteBuffer buffer, int offset, int length, char[] lut) {
     int printableCount = 0;
     for (int i = 0; i < length; i++) {
-      char c = EBCDIC_CP500_TO_UTF8[buffer.get(offset + i) & 0xFF];
-      if (!Character.isISOControl(c) || c == '\n' || c == '\r' || c == '\t' || c == '\u0085') {
-        printableCount++;
-      }
-    }
-    return (double) printableCount / length >= 0.9;
-  }
-
-  private static boolean isHumanReadableCp1141(byte[] data, int offset, int length) {
-    int printableCount = 0;
-    for (int i = 0; i < length; i++) {
-      char c = EBCDIC_CP1141_TO_UTF8[data[offset + i] & 0xFF];
-      if (!Character.isISOControl(c) || c == '\n' || c == '\r' || c == '\t' || c == '\u0085') {
-        printableCount++;
-      }
-    }
-    return (double) printableCount / length >= 0.9;
-  }
-
-  private static boolean isHumanReadableCp1141(ByteBuffer buffer, int offset, int length) {
-    int printableCount = 0;
-    for (int i = 0; i < length; i++) {
-      char c = EBCDIC_CP1141_TO_UTF8[buffer.get(offset + i) & 0xFF];
-      if (!Character.isISOControl(c) || c == '\n' || c == '\r' || c == '\t' || c == '\u0085') {
-        printableCount++;
-      }
-    }
-    return (double) printableCount / length >= 0.9;
-  }
-
-  private static boolean isHumanReadableCp273(byte[] data, int offset, int length) {
-    int printableCount = 0;
-    for (int i = 0; i < length; i++) {
-      char c = EBCDIC_CP273_TO_UTF8[data[offset + i] & 0xFF];
-      if (!Character.isISOControl(c) || c == '\n' || c == '\r' || c == '\t' || c == '\u0085') {
-        printableCount++;
-      }
-    }
-    return (double) printableCount / length >= 0.9;
-  }
-
-  private static boolean isHumanReadableCp273(ByteBuffer buffer, int offset, int length) {
-    int printableCount = 0;
-    for (int i = 0; i < length; i++) {
-      char c = EBCDIC_CP273_TO_UTF8[buffer.get(offset + i) & 0xFF];
+      char c = lut[buffer.get(offset + i) & 0xFF];
       if (!Character.isISOControl(c) || c == '\n' || c == '\r' || c == '\t' || c == '\u0085') {
         printableCount++;
       }
