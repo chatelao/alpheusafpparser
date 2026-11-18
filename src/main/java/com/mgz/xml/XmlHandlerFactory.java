@@ -23,9 +23,9 @@ import com.mgz.afp.base.handler.HandlerFactory;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.util.SFSizeEstimator;
 import java.io.OutputStream;
-import java.util.Map;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 /**
  * Concrete implementation of {@link HandlerFactory} for XML output using Jackson.
@@ -85,7 +85,8 @@ public class XmlHandlerFactory implements HandlerFactory {
   }
 
   @Override
-  public StructuredFieldHandler createHandler(OutputStream os, boolean fragmentMode) throws Exception {
+  public StructuredFieldHandler createHandler(OutputStream os, boolean fragmentMode)
+      throws Exception {
     return new AfpJacksonXmlWriter(os, xpathExpression, fragmentMode, indent);
   }
 

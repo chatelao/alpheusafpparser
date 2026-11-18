@@ -43,6 +43,22 @@ public interface StructuredFieldHandler extends AutoCloseable {
   default void flush() throws Exception {}
 
   /**
+   * Returns the current 1-based page number tracked by this handler, if applicable.
+   *
+   * @return the current page number
+   */
+  default int getCurrentPageNumber() {
+    return 0;
+  }
+
+  /**
+   * Sets the starting page number offset (number of pages already processed prior to this handler).
+   *
+   * @param pageNumber the prior page count
+   */
+  default void setCurrentPageNumber(int pageNumber) {}
+
+  /**
    * Closes the handler and releases any resources.
    *
    * @throws Exception if closing fails

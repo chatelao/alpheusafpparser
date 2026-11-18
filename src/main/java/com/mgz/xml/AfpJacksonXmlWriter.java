@@ -207,6 +207,17 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     return baseFragmentGenerator;
   }
 
+  @Override
+  public int getCurrentPageNumber() {
+    return currentPageNumber;
+  }
+
+  @Override
+  public void setCurrentPageNumber(int pageNumber) {
+    this.currentPageNumber = pageNumber;
+    this.pageIncrementedByStarter = false;
+  }
+
   private javax.xml.parsers.DocumentBuilder cachedDocumentBuilder;
   private javax.xml.xpath.XPath cachedXpath;
   private javax.xml.transform.Transformer cachedTransformer;
