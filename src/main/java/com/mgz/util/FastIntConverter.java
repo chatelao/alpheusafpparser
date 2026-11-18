@@ -101,49 +101,6 @@ public class FastIntConverter {
   }
 
   /**
-   * Converts an integer to UTF-8 bytes and writes them into the provided buffer.
-   *
-   * @param value the integer value
-   * @param buffer the target buffer
-   * @param offset the start offset
-   * @return the number of bytes written
-   */
-  public static int intToUtf8(int value, byte[] buffer, int offset) {
-    if (value >= 0 && value < 100) {
-      byte[] small = SMALL_INTS[value];
-      System.arraycopy(small, 0, buffer, offset, small.length);
-      return small.length;
-    }
-    if (value == Integer.MIN_VALUE) {
-      System.arraycopy(MIN_VALUE_BYTES, 0, buffer, offset, MIN_VALUE_BYTES.length);
-      return MIN_VALUE_BYTES.length;
-    }
-
-    int pos = offset;
-    if (value < 0) {
-      buffer[pos++] = '-';
-      value = -value;
-    }
-
-    int start = pos;
-    do {
-      buffer[pos++] = (byte) ('0' + (value % 10));
-      value /= 10;
-    } while (value > 0);
-
-    int end = pos - 1;
-    int written = pos - offset;
-    while (start < end) {
-      byte tmp = buffer[start];
-      buffer[start] = buffer[end];
-      buffer[end] = tmp;
-      start++;
-      end--;
-    }
-    return written;
-  }
-
-  /**
    * Converts a long to UTF-8 bytes and writes them into the provided buffer.
    *
    * @param value the long value
