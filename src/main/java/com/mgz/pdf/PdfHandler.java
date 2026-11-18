@@ -346,27 +346,382 @@ public class PdfHandler implements StructuredFieldHandler {
     }
 
     if (sf.isBeginSF()) {
-      structureStack.push(sf);
+      handleBeginField(sf);
+      return;
+    }
+    if (sf.isEndSF()) {
+      handleEndField();
+      return;
+    }
 
-      if (sf instanceof BDT_BeginDocument
-          || sf instanceof BNG_BeginNamedPageGroup
-          || sf instanceof BPG_BeginPage
-          || sf instanceof BMO_BeginOverlay
-          || sf instanceof BPS_BeginPageSegment
-          || sf instanceof BIM_BeginImageObject
-          || sf instanceof BII_BeginIMImageObject
-          || sf instanceof BBC_BeginBarCodeObject
-          || sf instanceof BRG_BeginResourceGroup) {
-        fontMapStack.push(new HashMap<>(fontMapStack.peek()));
+    switch (sf) {
+      case TLE_TagLogicalElement tle -> {
+        if (!dpartStack.isEmpty()) {
+          PdfDictionary dpart = dpartStack.peek();
+          String key = null;
+          String value = null;
+          if (tle.getTriplets() != null) {
+            for (Triplet triplet : tle.getTriplets()) {
+              if (triplet instanceof Triplet.FullyQualifiedName fqn && fqn.getType() == Triplet.GlobalID_Use.AttributeGID) {
+                key = fqn.getNameAsString();
+              } else if (triplet instanceof Triplet.AttributeValue av) {
+                value = av.getAttributeValue();
+              }
+            }
+          }
+          if (key != null && value != null) {
+            PdfDictionary property = dpart.getAsDictionary(new PdfName("Property"));
+            if (property == null) {
+              property = new PdfDictionary();
+              property.makeIndirect(pdfDoc);
+              dpart.put(new PdfName("Property"), property);
+            }
+            property.put(new PdfName(key), new PdfString(value));
+          }
+        }
       }
+      case CAT_ColorAttributeTable cat -> {
+        if (cat.getBasePart() != null) {
+          short localId = cat.getBasePart().getColorTableLocalID();
+          java.util.Map<Integer, Color> entries = ColorHandler.parseCatEntries(cat);
+          colorContext.addColorTable(localId, entries);
+        }
+      }
+      case com.mgz.afp.cmoca.CMR_ColorManagementResource cmr -> {
+        colorContext.registerCmr(cmr);
+      }
+      case com.mgz.afp.ipds.ICMR_InvokeCMR icmr -> {
+        if (icmr.isReset()) {
+          colorContext.clearActiveCmrs();
+        } else {
+          colorContext.setActiveHaids(icmr.getHaids());
+          if (icmr.getHaids() != null && !icmr.getHaids().isEmpty()) {
+            for (Integer haid : icmr.getHaids()) {
+              com.mgz.afp.cmoca.CMR_ColorManagementResource cmr = colorContext.getCmr(haid);
+              if (cmr != null) {
+                colorContext.setActiveCmrName(cmr.getArchitectedName() != null ? cmr.getArchitectedName() : cmr.getAlias());
+                break;
+              }
+            }
+          }
+        }
+      }
+      case MCA_MapColorAttributeTable mca -> {
+        if (mca.getRepeatingGroups() != null) {
+          for (IRepeatingGroup rg : mca.getRepeatingGroups()) {
+            if (rg instanceof MCA_MapColorAttributeTable.MCA_RepeatingGroup mcarg) {
+              if (mcarg.getTriplets() != null) {
+                Short localId = null;
+                for (Triplet t : mcarg.getTriplets()) {
+                  if (t instanceof Triplet.ResourceLocalIdentifier rli
+                      && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.ColorAttributeTable) {
+                    localId = rli.getResourceLocalID();
+                  }
+                }
+                if (localId != null) {
+                  colorContext.setActiveColorTableId(localId);
+                }
+              }
+            }
+          }
+        }
+      }
+      case MMO_MapMediumOverlay mmo -> {
+        if (mmo.getRepeatingGroups() != null) {
+          for (IRepeatingGroup rg : mmo.getRepeatingGroups()) {
+            if (rg instanceof MMO_MapMediumOverlay.MMO_RepeatingGroup mmorg) {
+              mmoResources.add(mmorg.getNameOfMediumOverlay());
+            }
+          }
+        }
+      }
+      case MPS_MapPageSegment mps -> {
+        if (mps.getRepeatingGroups() != null) {
+          for (IRepeatingGroup rg : mps.getRepeatingGroups()) {
+            if (rg instanceof MPS_MapPageSegment.MPS_RepeatingGroup mpsrg) {
+              mpsResources.add(mpsrg.getNameOfPageSegment());
+            }
+          }
+        }
+      }
+      case MCF_MapCodedFont_Format1 mcf1 -> {
+        if (mcf1.getRepeatingGroups() != null) {
+          Map<Short, FontResource> currentFontMap = fontMapStack.peek();
+          for (MCF_MapCodedFont_Format1.MCF_RepeatingGroup rg : mcf1.getRepeatingGroups()) {
+            float size = PdfFontRegistry.extractSizeFromName(rg.getCodedFontName());
+            if (size == 10.0f && rg.getFontCharacterSetName() != null) {
+              size = PdfFontRegistry.extractSizeFromName(rg.getFontCharacterSetName());
+            }
+            currentFontMap.put(rg.getCodedFontLocalID(), new FontResource(rg.getCodedFontName(), size, false, false));
+          }
+        }
+      }
+      case MCF_MapCodedFont_Format2 mcf2 -> {
+        if (mcf2.getRepeatingGroups() != null) {
+          for (IRepeatingGroup irg : mcf2.getRepeatingGroups()) {
+            if (irg instanceof MCF_MapCodedFont_Format2.MCF_RepeatingGroup rg && rg.getTriplets() != null) {
+              Short lid = null;
+              String name = null;
+              float size = -1.0f;
+              boolean bold = false;
+              boolean italic = false;
+              for (Triplet t : rg.getTriplets()) {
+                if (t instanceof Triplet.ResourceLocalIdentifier rli
+                    && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
+                  lid = rli.getResourceLocalID();
+                } else if (t instanceof Triplet.FullyQualifiedName fqn) {
+                  if (fqn.getType() == Triplet.GlobalID_Use.CodedFontNameReference) {
+                    name = fqn.getNameAsString();
+                  } else if (fqn.getType() == Triplet.GlobalID_Use.FontCharacterSetNameReference && name == null) {
+                    name = fqn.getNameAsString();
+                  }
+                } else if (t instanceof Triplet.FontDescriptorSpecification fds) {
+                  if (fds.fontHeight > 0) {
+                    // Font Height in Triplet X'1F' is in 1/1440 inch units (1/20 points)
+                    size = fds.fontHeight * 0.05f;
+                  }
+                  if (fds.fontWeigthClass != null && fds.fontWeigthClass.ordinal() >= Triplet.FontDescriptorSpecification.FDS_FontWeigthClass.Bold.ordinal()) {
+                    bold = true;
+                  }
+                  if (fds.fontDsFlags != null && fds.fontDsFlags.contains(Triplet.FontDescriptorSpecification.FDS_FontDsFlag.ItalicCharacters)) {
+                    italic = true;
+                  }
+                }
+              }
+              if (size <= 0 && name != null) {
+                size = PdfFontRegistry.extractSizeFromName(name);
+              }
+              if (size <= 0) {
+                size = 10.0f;
+              }
+              if (lid != null && name != null) {
+                fontMapStack.peek().put(lid, new FontResource(name, size, bold, italic));
+              }
+            }
+          }
+        }
+      }
+      case MDR_MapDataResource mdr -> {
+        if (mdr.getRepeatingGroups() != null) {
+          for (IRepeatingGroup irg : mdr.getRepeatingGroups()) {
+            if (irg instanceof MDR_MapDataResource.MDR_RepeatingGroup rg && rg.getTriplets() != null) {
+              Short lid = null;
+              String name = null;
+              float size = -1.0f;
+              boolean bold = false;
+              boolean italic = false;
+              for (Triplet t : rg.getTriplets()) {
+                if (t instanceof Triplet.ResourceLocalIdentifier rli
+                    && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
+                  lid = rli.getResourceLocalID();
+                } else if (t instanceof Triplet.FullyQualifiedName fqn) {
+                  if (fqn.getType() == Triplet.GlobalID_Use.CodedFontNameReference
+                      || fqn.getType() == Triplet.GlobalID_Use.DataObjectExternalResourceReference) {
+                    name = fqn.getNameAsString();
+                  } else if (fqn.getType() == Triplet.GlobalID_Use.FontCharacterSetNameReference && name == null) {
+                    name = fqn.getNameAsString();
+                  }
+                } else if (t instanceof Triplet.DataObjectFontDescriptor dofd) {
+                  if (dofd.specifiedVerticalFontSize > 0) {
+                    // Font Size in Triplet X'43' is in 1/1440 inch units (1/20 points)
+                    size = dofd.specifiedVerticalFontSize * 0.05f;
+                  }
+                } else if (t instanceof Triplet.FontDescriptorSpecification fds) {
+                  if (fds.fontWeigthClass != null && fds.fontWeigthClass.ordinal() >= Triplet.FontDescriptorSpecification.FDS_FontWeigthClass.Bold.ordinal()) {
+                    bold = true;
+                  }
+                  if (fds.fontDsFlags != null && fds.fontDsFlags.contains(Triplet.FontDescriptorSpecification.FDS_FontDsFlag.ItalicCharacters)) {
+                    italic = true;
+                  }
+                }
+              }
+              if (size <= 0 && name != null) {
+                size = PdfFontRegistry.extractSizeFromName(name);
+              }
+              if (size <= 0) {
+                size = 10.0f;
+              }
+              if (lid != null && name != null) {
+                fontMapStack.peek().put(lid, new FontResource(name, size, bold, italic));
+              }
+            }
+          }
+        }
+      }
+      case PTD_PresentationTextDataDescriptor_Format1 ptd -> {
+        this.defaultScaleX = CoordinateTransformer.getScaleFactor(ptd.getxUnitBase(), ptd.getxUnitsPerUnitBase());
+        this.defaultScaleY = CoordinateTransformer.getScaleFactor(ptd.getyUnitBase(), ptd.getyUnitsPerUnitBase());
+      }
+      case PTD_PresentationTextDataDescriptor_Format2 ptd -> {
+        this.defaultScaleX = CoordinateTransformer.getScaleFactor(ptd.getxUnitBase(), ptd.getxUnitsPerUnitBase());
+        this.defaultScaleY = CoordinateTransformer.getScaleFactor(ptd.getyUnitBase(), ptd.getyUnitsPerUnitBase());
+      }
+      case PGD_PageDescriptor pgd -> {
+        double scaleX = CoordinateTransformer.getScaleFactor(pgd.getxUnitBase(), pgd.getxUnitsPerUnitBase());
+        double scaleY = CoordinateTransformer.getScaleFactor(pgd.getyUnitBase(), pgd.getyUnitsPerUnitBase());
+        float widthPoints = (float) (pgd.getxSize() * scaleX);
+        float heightPoints = (float) (pgd.getySize() * scaleY);
 
-      if (sf instanceof BIM_BeginImageObject) {
-        imageState.startNewImage();
-      } else if (sf instanceof BII_BeginIMImageObject) {
-        imImageState.startNewImImage();
-      } else if (sf instanceof BBC_BeginBarCodeObject) {
-        barcodeState.startNewBarcode();
-      } else if (sf instanceof BGR_BeginGraphicsObject) {
+        this.defaultPageWidth = widthPoints;
+        this.defaultPageHeight = heightPoints;
+        this.defaultScaleX = scaleX;
+        this.defaultScaleY = scaleY;
+
+        if (currentPage != null) {
+          currentPage.setMediaBox(new com.itextpdf.kernel.geom.Rectangle(widthPoints, heightPoints));
+          ensureCanvasTransformed();
+        }
+      }
+      case PTX_PresentationTextData ptx -> {
+        if (ptx.getControlSequences() != null) {
+          for (PTOCAControlSequence cs : ptx.getControlSequences()) {
+            handleControlSequence(cs);
+          }
+        }
+      }
+      case GAD_GraphicsData gad -> {
+        if (inGraphicsObject && !isGocaTransformApplied) {
+          applyGocaTransform();
+          isGocaTransformApplied = true;
+        }
+        if (gad.getDrawingOrders() != null) {
+          for (GAD_DrawingOrder order : gad.getDrawingOrders()) {
+            if (order != null) {
+              handleDrawingOrder(order);
+            }
+          }
+        }
+      }
+      case BDD_BarCodeDataDescriptor bdd -> {
+        barcodeState.setBarcodeType(bdd.getBarcodeType());
+        barcodeState.setBarcodeModifier(bdd.getBarcodeModifier());
+        barcodeState.setFontLocalIDForHRI(bdd.getFontLocalIDForHRI());
+        barcodeState.setHriFont(resolveFont(bdd.getFontLocalIDForHRI()));
+        barcodeState.setColor(bdd.getColor());
+        barcodeState.setModuleWidthInMils(bdd.getModuleWidthInMils());
+        barcodeState.setElementHeight(bdd.getElementHeight());
+        barcodeState.setHeightMultiplier(bdd.getHeightMultiplier());
+        barcodeState.setWideToNarrowRatio(bdd.getWideToNarrowRatio());
+        barcodeState.setUnitBase(bdd.getUnitBase());
+        barcodeState.setUnitsPerUnitBaseX(bdd.getUnitsPerUnitBaseX());
+        barcodeState.setUnitsPerUnitBaseY(bdd.getUnitsPerUnitBaseY());
+      }
+      case BDA_BarCodeData bda -> {
+        if (barcodeState.isInBarcodeObject()) {
+          barcodeState.addBarcodeData(bda);
+        }
+      }
+      case EBC_EndBarCodeObject ignored -> {
+        // EBC is handled via structureStack.pop() in isEndSF() block,
+        // but if there are multiple BDAs outside of a BBC/EBC (rare but possible),
+        // or if EBC is used to trigger rendering without a BBC.
+        // For now, BBC/EBC structure is the primary trigger.
+      }
+      case IDD_ImageDataDescriptor idd -> {
+        if (imageState.isInImageObject()) {
+          imageState.setDescriptor(idd);
+        }
+      }
+      case IPD_ImagePictureData ipd -> {
+        if (imageState.isInImageObject()) {
+          imageState.addImageSegment(ipd);
+        }
+      }
+      case IOC_IMImageOutputControl ioc -> {
+        if (imImageState.isInImImageObject()) {
+          imImageState.setOutputControl(ioc);
+        }
+      }
+      case IID_IMImageInputDescriptor iid -> {
+        if (imImageState.isInImImageObject()) {
+          imImageState.setDescriptor(iid);
+        }
+      }
+      case ICP_IMImageCellPosition icp -> {
+        if (imImageState.isInImImageObject()) {
+          imImageState.startNewCell(icp);
+        }
+      }
+      case IRD_IMImageRasterData ird -> {
+        if (imImageState.isInImImageObject() && imImageState.getCurrentCell() != null) {
+          imImageState.getCurrentCell().addRasterData(ird.getData());
+        }
+      }
+      case OBP_ObjectAreaPosition obp -> {
+        if (imageState.isInImageObject()) {
+          imageState.setxOrigin(obp.getRepeatingGroup().getxOrigin());
+          imageState.setyOrigin(obp.getRepeatingGroup().getyOrigin());
+        } else if (barcodeState.isInBarcodeObject()) {
+          barcodeState.setxOrigin(obp.getRepeatingGroup().getxOrigin());
+          barcodeState.setyOrigin(obp.getRepeatingGroup().getyOrigin());
+        } else if (inGraphicsObject) {
+          gocaXOrigin = obp.getRepeatingGroup().getxOrigin();
+          gocaYOrigin = obp.getRepeatingGroup().getyOrigin();
+          gocaRotation = obp.getRepeatingGroup().getxRotation();
+          hasGocaObp = true;
+        }
+      }
+      case OBD_ObjectAreaDescriptor obd -> {
+        if (inGraphicsObject && obd.getTriplets() != null) {
+          for (com.mgz.afp.triplets.Triplet t : obd.getTriplets()) {
+            if (t instanceof com.mgz.afp.triplets.Triplet.ObjectAreaSize oas) {
+              gocaOapsWidth = oas.xSize;
+              gocaOapsHeight = oas.ySize;
+              hasGocaOapsSize = true;
+            }
+          }
+        }
+      }
+      case GDD_GraphicsDataDescriptor gdd -> {
+        if (inGraphicsObject && gdd.getGddParameters() != null) {
+          for (GDD_Parameter param : gdd.getGddParameters()) {
+            if (param instanceof GDD_Parameter.WindowSpecification win) {
+              gocaLeftEdge = win.getLeftEdgeOfGPSWindow();
+              gocaRightEdge = win.getRightEdgeOfGPSWindow();
+              gocaBottomEdge = win.getBottomEdgeOfGPSWindow();
+              gocaTopEdge = win.getTopEdgeOfGPSWindow();
+              gocaUnitsPerUnitBaseX = win.getUnitsPerUnitBaseX();
+              gocaUnitsPerUnitBaseY = win.getUnitsPerUnitBaseY();
+              gocaImageResolutionXY = win.getImageResolutionXY();
+              hasGocaGdd = true;
+            }
+          }
+        }
+      }
+      case IPO_IncludePageOverlay ipo -> {
+        renderXObject(ipo.getOverlayName(), ipo.getxOrigin(), ipo.getyOrigin(), ipo.getxRotation());
+      }
+      case IPS_IncludePageSegment ips -> {
+        renderXObject(ips.getPageSegmentName(), ips.getxOrigin(), ips.getyOrigin(), null);
+      }
+      default -> {
+      }
+    }
+  }
+
+  private static boolean isFontScopeField(StructuredField sf) {
+    return sf instanceof BDT_BeginDocument
+        || sf instanceof BNG_BeginNamedPageGroup
+        || sf instanceof BPG_BeginPage
+        || sf instanceof BMO_BeginOverlay
+        || sf instanceof BPS_BeginPageSegment
+        || sf instanceof BIM_BeginImageObject
+        || sf instanceof BII_BeginIMImageObject
+        || sf instanceof BBC_BeginBarCodeObject
+        || sf instanceof BRG_BeginResourceGroup;
+  }
+
+  private void handleBeginField(StructuredField sf) throws Exception {
+    structureStack.push(sf);
+    if (isFontScopeField(sf)) {
+      fontMapStack.push(new HashMap<>(fontMapStack.peek()));
+    }
+
+    switch (sf) {
+      case BIM_BeginImageObject ignored -> imageState.startNewImage();
+      case BII_BeginIMImageObject ignored -> imImageState.startNewImImage();
+      case BBC_BeginBarCodeObject ignored -> barcodeState.startNewBarcode();
+      case BGR_BeginGraphicsObject ignored -> {
         ensurePageExists();
         ensureCanvasTransformed();
         if (currentCanvas != null) {
@@ -385,428 +740,120 @@ public class PdfHandler implements StructuredFieldHandler {
         gocaUnitsPerUnitBaseX = 0;
         gocaUnitsPerUnitBaseY = 0;
         gocaImageResolutionXY = 0;
-      } else if (sf instanceof BMO_BeginOverlay bmo) {
-        startResourceCapture(bmo.getName());
-      } else if (sf instanceof BPS_BeginPageSegment bps) {
-        startResourceCapture(bps.getName());
-      } else if (sf instanceof BDT_BeginDocument || sf instanceof BNG_BeginNamedPageGroup || sf instanceof BPG_BeginPage) {
-        PdfDictionary dpart = new PdfDictionary();
-        dpart.makeIndirect(pdfDoc);
-        dpart.put(PdfName.Type, PdfName.DPart);
+      }
+      case BMO_BeginOverlay bmo -> startResourceCapture(bmo.getName());
+      case BPS_BeginPageSegment bps -> startResourceCapture(bps.getName());
+      case BDT_BeginDocument bdt -> pushDpartForScope(bdt.getName(), false);
+      case BNG_BeginNamedPageGroup bng -> pushDpartForScope(bng.getName(), false);
+      case BPG_BeginPage bpg -> pushDpartForScope(bpg.getName(), true);
+      default -> {
+      }
+    }
+  }
 
-        PdfDictionary parent = dpartStack.isEmpty() ? dpartRoot.getAsDictionary(new PdfName("DTree")) : dpartStack.peek();
-        dpart.put(PdfName.Parent, parent);
+  private void pushDpartForScope(String name, boolean isPage) throws Exception {
+    PdfDictionary dpart = new PdfDictionary();
+    dpart.makeIndirect(pdfDoc);
+    dpart.put(PdfName.Type, PdfName.DPart);
 
-        PdfArray dparts = parent.getAsArray(new PdfName("DParts"));
-        if (dparts == null) {
-          dparts = new PdfArray();
-          dparts.makeIndirect(pdfDoc);
-          parent.put(new PdfName("DParts"), dparts);
-        }
-        dparts.add(dpart);
-        dpartStack.push(dpart);
+    PdfDictionary parent = dpartStack.isEmpty() ? dpartRoot.getAsDictionary(new PdfName("DTree")) : dpartStack.peek();
+    dpart.put(PdfName.Parent, parent);
 
-        // Map MO:DCA name to DPart metadata if available
-        String name = null;
-        if (sf instanceof BDT_BeginDocument bdt) {
-          name = bdt.getName();
-        } else if (sf instanceof BNG_BeginNamedPageGroup bng) {
-          name = bng.getName();
-        } else if (sf instanceof BPG_BeginPage bpg) {
-          name = bpg.getName();
-        }
+    PdfArray dparts = parent.getAsArray(new PdfName("DParts"));
+    if (dparts == null) {
+      dparts = new PdfArray();
+      dparts.makeIndirect(pdfDoc);
+      parent.put(new PdfName("DParts"), dparts);
+    }
+    dparts.add(dpart);
+    dpartStack.push(dpart);
 
-        if (name != null && !name.trim().isEmpty()) {
-          PdfDictionary property = new PdfDictionary();
-          property.makeIndirect(pdfDoc);
-          dpart.put(new PdfName("Property"), property);
-          property.put(new PdfName("GroupName"), new PdfString(name.trim()));
-        }
+    if (name != null && !name.trim().isEmpty()) {
+      PdfDictionary property = new PdfDictionary();
+      property.makeIndirect(pdfDoc);
+      dpart.put(new PdfName("Property"), property);
+      property.put(new PdfName("GroupName"), new PdfString(name.trim()));
+    }
 
-        if (sf instanceof BPG_BeginPage) {
-          finishPageCanvas();
-          this.currentPage = pdfDoc.addNewPage();
-          this.currentCanvas = new PdfCanvas(currentPage);
-          currentPage.put(PdfName.DPart, dpart);
-          textState.reset();
-          graphicsState.reset();
-          barcodeState.reset();
-          imageState.reset();
-          imImageState.reset();
-          currentCanvas.setFillColor(DeviceRgb.BLACK);
-          this.isCanvasTransformed = false;
-          this.inGraphicsObject = false;
-          this.isGocaTransformApplied = false;
+    if (isPage) {
+      finishPageCanvas();
+      this.currentPage = pdfDoc.addNewPage();
+      this.currentCanvas = new PdfCanvas(currentPage);
+      currentPage.put(PdfName.DPart, dpart);
+      textState.reset();
+      graphicsState.reset();
+      barcodeState.reset();
+      imageState.reset();
+      imImageState.reset();
+      currentCanvas.setFillColor(DeviceRgb.BLACK);
+      this.isCanvasTransformed = false;
+      this.inGraphicsObject = false;
+      this.isGocaTransformApplied = false;
 
-          // Apply default page size if defined (from PGD)
-          if (defaultPageWidth > 0 && defaultPageHeight > 0) {
-            currentPage.setMediaBox(new com.itextpdf.kernel.geom.Rectangle(defaultPageWidth, defaultPageHeight));
-          }
-        }
+      if (defaultPageWidth > 0 && defaultPageHeight > 0) {
+        currentPage.setMediaBox(new com.itextpdf.kernel.geom.Rectangle(defaultPageWidth, defaultPageHeight));
       }
-    } else if (sf.isEndSF()) {
-      if (!structureStack.isEmpty()) {
-        StructuredField begin = structureStack.pop();
+    }
+  }
 
-        if (begin instanceof BDT_BeginDocument
-            || begin instanceof BNG_BeginNamedPageGroup
-            || begin instanceof BPG_BeginPage
-            || begin instanceof BMO_BeginOverlay
-            || begin instanceof BPS_BeginPageSegment
-            || begin instanceof BIM_BeginImageObject
-            || begin instanceof BII_BeginIMImageObject
-            || begin instanceof BBC_BeginBarCodeObject
-            || begin instanceof BRG_BeginResourceGroup) {
-          if (fontMapStack.size() > 1) { // Never pop the base map
-            fontMapStack.pop();
-          }
-        }
+  private void handleEndField() throws Exception {
+    if (structureStack.isEmpty()) {
+      return;
+    }
+    StructuredField begin = structureStack.pop();
+    if (isFontScopeField(begin) && fontMapStack.size() > 1) {
+      fontMapStack.pop();
+    }
 
-        if (begin instanceof BPG_BeginPage) {
-          finishPageCanvas();
-        }
-        if (begin instanceof BDT_BeginDocument || begin instanceof BNG_BeginNamedPageGroup || begin instanceof BPG_BeginPage) {
-          if (!dpartStack.isEmpty()) {
-            dpartStack.pop();
-          }
-        } else if (begin instanceof BMO_BeginOverlay || begin instanceof BPS_BeginPageSegment) {
-          endResourceCapture();
-        } else if (begin instanceof BIM_BeginImageObject) {
-          imageState.setInImageObject(false);
-          if (currentCanvas != null) {
-            PdfImageRenderer.render(imageState, currentCanvas, imageCache);
-          }
-          imageState.reset();
-        } else if (begin instanceof BII_BeginIMImageObject) {
-          imImageState.setInImImageObject(false);
-          if (currentCanvas != null) {
-            PdfImageRenderer.renderImImage(imImageState, currentCanvas, imageCache);
-          }
-          imImageState.reset();
-        } else if (begin instanceof BBC_BeginBarCodeObject) {
-          barcodeState.setInBarcodeObject(false);
-          if (currentCanvas != null) {
-            PdfBarcodeRenderer.render(barcodeState, currentCanvas);
-          }
-          barcodeState.reset();
-        } else if (begin instanceof BGR_BeginGraphicsObject) {
-          if (currentCanvas != null && inGraphicsObject) {
-            currentCanvas.restoreState();
-          }
-          inGraphicsObject = false;
-          isGocaTransformApplied = false;
+    switch (begin) {
+      case BPG_BeginPage ignored -> {
+        finishPageCanvas();
+        if (!dpartStack.isEmpty()) {
+          dpartStack.pop();
         }
       }
-    } else if (sf instanceof TLE_TagLogicalElement tle) {
-      if (!dpartStack.isEmpty()) {
-        PdfDictionary dpart = dpartStack.peek();
-        String key = null;
-        String value = null;
-        if (tle.getTriplets() != null) {
-          for (Triplet triplet : tle.getTriplets()) {
-            if (triplet instanceof Triplet.FullyQualifiedName fqn && fqn.getType() == Triplet.GlobalID_Use.AttributeGID) {
-              key = fqn.getNameAsString();
-            } else if (triplet instanceof Triplet.AttributeValue av) {
-              value = av.getAttributeValue();
-            }
-          }
-        }
-        if (key != null && value != null) {
-          PdfDictionary property = dpart.getAsDictionary(new PdfName("Property"));
-          if (property == null) {
-            property = new PdfDictionary();
-            property.makeIndirect(pdfDoc);
-            dpart.put(new PdfName("Property"), property);
-          }
-          property.put(new PdfName(key), new PdfString(value));
+      case BDT_BeginDocument ignored -> {
+        if (!dpartStack.isEmpty()) {
+          dpartStack.pop();
         }
       }
-    } else if (sf instanceof CAT_ColorAttributeTable cat) {
-      if (cat.getBasePart() != null) {
-        short localId = cat.getBasePart().getColorTableLocalID();
-        java.util.Map<Integer, Color> entries = ColorHandler.parseCatEntries(cat);
-        colorContext.addColorTable(localId, entries);
-      }
-    } else if (sf instanceof com.mgz.afp.cmoca.CMR_ColorManagementResource cmr) {
-      colorContext.registerCmr(cmr);
-    } else if (sf instanceof com.mgz.afp.ipds.ICMR_InvokeCMR icmr) {
-      if (icmr.isReset()) {
-        colorContext.clearActiveCmrs();
-      } else {
-        colorContext.setActiveHaids(icmr.getHaids());
-        if (icmr.getHaids() != null && !icmr.getHaids().isEmpty()) {
-          for (Integer haid : icmr.getHaids()) {
-            com.mgz.afp.cmoca.CMR_ColorManagementResource cmr = colorContext.getCmr(haid);
-            if (cmr != null) {
-              colorContext.setActiveCmrName(cmr.getArchitectedName() != null ? cmr.getArchitectedName() : cmr.getAlias());
-              break;
-            }
-          }
+      case BNG_BeginNamedPageGroup ignored -> {
+        if (!dpartStack.isEmpty()) {
+          dpartStack.pop();
         }
       }
-    } else if (sf instanceof MCA_MapColorAttributeTable mca) {
-      if (mca.getRepeatingGroups() != null) {
-        for (IRepeatingGroup rg : mca.getRepeatingGroups()) {
-          if (rg instanceof MCA_MapColorAttributeTable.MCA_RepeatingGroup mcarg) {
-            if (mcarg.getTriplets() != null) {
-              Short localId = null;
-              for (Triplet t : mcarg.getTriplets()) {
-                if (t instanceof Triplet.ResourceLocalIdentifier rli
-                    && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.ColorAttributeTable) {
-                  localId = rli.getResourceLocalID();
-                }
-              }
-              if (localId != null) {
-                colorContext.setActiveColorTableId(localId);
-              }
-            }
-          }
+      case BMO_BeginOverlay ignored -> endResourceCapture();
+      case BPS_BeginPageSegment ignored -> endResourceCapture();
+      case BIM_BeginImageObject ignored -> {
+        imageState.setInImageObject(false);
+        if (currentCanvas != null) {
+          PdfImageRenderer.render(imageState, currentCanvas, imageCache);
         }
+        imageState.reset();
       }
-    } else if (sf instanceof MMO_MapMediumOverlay mmo) {
-      if (mmo.getRepeatingGroups() != null) {
-        for (IRepeatingGroup rg : mmo.getRepeatingGroups()) {
-          if (rg instanceof MMO_MapMediumOverlay.MMO_RepeatingGroup mmorg) {
-            mmoResources.add(mmorg.getNameOfMediumOverlay());
-          }
+      case BII_BeginIMImageObject ignored -> {
+        imImageState.setInImImageObject(false);
+        if (currentCanvas != null) {
+          PdfImageRenderer.renderImImage(imImageState, currentCanvas, imageCache);
         }
+        imImageState.reset();
       }
-    } else if (sf instanceof MPS_MapPageSegment mps) {
-      if (mps.getRepeatingGroups() != null) {
-        for (IRepeatingGroup rg : mps.getRepeatingGroups()) {
-          if (rg instanceof MPS_MapPageSegment.MPS_RepeatingGroup mpsrg) {
-            mpsResources.add(mpsrg.getNameOfPageSegment());
-          }
+      case BBC_BeginBarCodeObject ignored -> {
+        barcodeState.setInBarcodeObject(false);
+        if (currentCanvas != null) {
+          PdfBarcodeRenderer.render(barcodeState, currentCanvas);
         }
+        barcodeState.reset();
       }
-    } else if (sf instanceof MCF_MapCodedFont_Format1 mcf1) {
-      if (mcf1.getRepeatingGroups() != null) {
-        Map<Short, FontResource> currentFontMap = fontMapStack.peek();
-        for (MCF_MapCodedFont_Format1.MCF_RepeatingGroup rg : mcf1.getRepeatingGroups()) {
-          float size = PdfFontRegistry.extractSizeFromName(rg.getCodedFontName());
-          if (size == 10.0f && rg.getFontCharacterSetName() != null) {
-            size = PdfFontRegistry.extractSizeFromName(rg.getFontCharacterSetName());
-          }
-          currentFontMap.put(rg.getCodedFontLocalID(), new FontResource(rg.getCodedFontName(), size, false, false));
+      case BGR_BeginGraphicsObject ignored -> {
+        if (currentCanvas != null && inGraphicsObject) {
+          currentCanvas.restoreState();
         }
+        inGraphicsObject = false;
+        isGocaTransformApplied = false;
       }
-    } else if (sf instanceof MCF_MapCodedFont_Format2 mcf2) {
-      if (mcf2.getRepeatingGroups() != null) {
-        for (IRepeatingGroup irg : mcf2.getRepeatingGroups()) {
-          if (irg instanceof MCF_MapCodedFont_Format2.MCF_RepeatingGroup rg && rg.getTriplets() != null) {
-            Short lid = null;
-            String name = null;
-            float size = -1.0f;
-            boolean bold = false;
-            boolean italic = false;
-            for (Triplet t : rg.getTriplets()) {
-              if (t instanceof Triplet.ResourceLocalIdentifier rli
-                  && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
-                lid = rli.getResourceLocalID();
-              } else if (t instanceof Triplet.FullyQualifiedName fqn) {
-                if (fqn.getType() == Triplet.GlobalID_Use.CodedFontNameReference) {
-                  name = fqn.getNameAsString();
-                } else if (fqn.getType() == Triplet.GlobalID_Use.FontCharacterSetNameReference && name == null) {
-                  name = fqn.getNameAsString();
-                }
-              } else if (t instanceof Triplet.FontDescriptorSpecification fds) {
-                if (fds.fontHeight > 0) {
-                  // Font Height in Triplet X'1F' is in 1/1440 inch units (1/20 points)
-                  size = fds.fontHeight * 0.05f;
-                }
-                if (fds.fontWeigthClass != null && fds.fontWeigthClass.ordinal() >= Triplet.FontDescriptorSpecification.FDS_FontWeigthClass.Bold.ordinal()) {
-                  bold = true;
-                }
-                if (fds.fontDsFlags != null && fds.fontDsFlags.contains(Triplet.FontDescriptorSpecification.FDS_FontDsFlag.ItalicCharacters)) {
-                  italic = true;
-                }
-              }
-            }
-            if (size <= 0 && name != null) {
-              size = PdfFontRegistry.extractSizeFromName(name);
-            }
-            if (size <= 0) {
-              size = 10.0f;
-            }
-            if (lid != null && name != null) {
-              fontMapStack.peek().put(lid, new FontResource(name, size, bold, italic));
-            }
-          }
-        }
+      default -> {
       }
-    } else if (sf instanceof MDR_MapDataResource mdr) {
-      if (mdr.getRepeatingGroups() != null) {
-        for (IRepeatingGroup irg : mdr.getRepeatingGroups()) {
-          if (irg instanceof MDR_MapDataResource.MDR_RepeatingGroup rg && rg.getTriplets() != null) {
-            Short lid = null;
-            String name = null;
-            float size = -1.0f;
-            boolean bold = false;
-            boolean italic = false;
-            for (Triplet t : rg.getTriplets()) {
-              if (t instanceof Triplet.ResourceLocalIdentifier rli
-                  && rli.getResourceType() == Triplet.ResourceLocalIdentifier.RLI_ResourceType.CodedFont) {
-                lid = rli.getResourceLocalID();
-              } else if (t instanceof Triplet.FullyQualifiedName fqn) {
-                if (fqn.getType() == Triplet.GlobalID_Use.CodedFontNameReference
-                    || fqn.getType() == Triplet.GlobalID_Use.DataObjectExternalResourceReference) {
-                  name = fqn.getNameAsString();
-                } else if (fqn.getType() == Triplet.GlobalID_Use.FontCharacterSetNameReference && name == null) {
-                  name = fqn.getNameAsString();
-                }
-              } else if (t instanceof Triplet.DataObjectFontDescriptor dofd) {
-                if (dofd.specifiedVerticalFontSize > 0) {
-                  // Font Size in Triplet X'43' is in 1/1440 inch units (1/20 points)
-                  size = dofd.specifiedVerticalFontSize * 0.05f;
-                }
-              } else if (t instanceof Triplet.FontDescriptorSpecification fds) {
-                if (fds.fontWeigthClass != null && fds.fontWeigthClass.ordinal() >= Triplet.FontDescriptorSpecification.FDS_FontWeigthClass.Bold.ordinal()) {
-                  bold = true;
-                }
-                if (fds.fontDsFlags != null && fds.fontDsFlags.contains(Triplet.FontDescriptorSpecification.FDS_FontDsFlag.ItalicCharacters)) {
-                  italic = true;
-                }
-              }
-            }
-            if (size <= 0 && name != null) {
-              size = PdfFontRegistry.extractSizeFromName(name);
-            }
-            if (size <= 0) {
-              size = 10.0f;
-            }
-            if (lid != null && name != null) {
-              fontMapStack.peek().put(lid, new FontResource(name, size, bold, italic));
-            }
-          }
-        }
-      }
-    } else if (sf instanceof PTD_PresentationTextDataDescriptor_Format1 ptd) {
-      this.defaultScaleX = CoordinateTransformer.getScaleFactor(ptd.getxUnitBase(), ptd.getxUnitsPerUnitBase());
-      this.defaultScaleY = CoordinateTransformer.getScaleFactor(ptd.getyUnitBase(), ptd.getyUnitsPerUnitBase());
-    } else if (sf instanceof PTD_PresentationTextDataDescriptor_Format2 ptd) {
-      this.defaultScaleX = CoordinateTransformer.getScaleFactor(ptd.getxUnitBase(), ptd.getxUnitsPerUnitBase());
-      this.defaultScaleY = CoordinateTransformer.getScaleFactor(ptd.getyUnitBase(), ptd.getyUnitsPerUnitBase());
-    } else if (sf instanceof PGD_PageDescriptor pgd) {
-      double scaleX = CoordinateTransformer.getScaleFactor(pgd.getxUnitBase(), pgd.getxUnitsPerUnitBase());
-      double scaleY = CoordinateTransformer.getScaleFactor(pgd.getyUnitBase(), pgd.getyUnitsPerUnitBase());
-      float widthPoints = (float) (pgd.getxSize() * scaleX);
-      float heightPoints = (float) (pgd.getySize() * scaleY);
-
-      this.defaultPageWidth = widthPoints;
-      this.defaultPageHeight = heightPoints;
-      this.defaultScaleX = scaleX;
-      this.defaultScaleY = scaleY;
-
-      if (currentPage != null) {
-        currentPage.setMediaBox(new com.itextpdf.kernel.geom.Rectangle(widthPoints, heightPoints));
-        ensureCanvasTransformed();
-      }
-    } else if (sf instanceof PTX_PresentationTextData ptx) {
-      if (ptx.getControlSequences() != null) {
-        for (PTOCAControlSequence cs : ptx.getControlSequences()) {
-          handleControlSequence(cs);
-        }
-      }
-    } else if (sf instanceof GAD_GraphicsData gad) {
-      if (inGraphicsObject && !isGocaTransformApplied) {
-        applyGocaTransform();
-        isGocaTransformApplied = true;
-      }
-      if (gad.getDrawingOrders() != null) {
-        for (GAD_DrawingOrder order : gad.getDrawingOrders()) {
-          if (order != null) {
-            handleDrawingOrder(order);
-          }
-        }
-      }
-    } else if (sf instanceof BDD_BarCodeDataDescriptor bdd) {
-      barcodeState.setBarcodeType(bdd.getBarcodeType());
-      barcodeState.setBarcodeModifier(bdd.getBarcodeModifier());
-      barcodeState.setFontLocalIDForHRI(bdd.getFontLocalIDForHRI());
-      barcodeState.setHriFont(resolveFont(bdd.getFontLocalIDForHRI()));
-      barcodeState.setColor(bdd.getColor());
-      barcodeState.setModuleWidthInMils(bdd.getModuleWidthInMils());
-      barcodeState.setElementHeight(bdd.getElementHeight());
-      barcodeState.setHeightMultiplier(bdd.getHeightMultiplier());
-      barcodeState.setWideToNarrowRatio(bdd.getWideToNarrowRatio());
-      barcodeState.setUnitBase(bdd.getUnitBase());
-      barcodeState.setUnitsPerUnitBaseX(bdd.getUnitsPerUnitBaseX());
-      barcodeState.setUnitsPerUnitBaseY(bdd.getUnitsPerUnitBaseY());
-    } else if (sf instanceof BDA_BarCodeData bda) {
-      if (barcodeState.isInBarcodeObject()) {
-        barcodeState.addBarcodeData(bda);
-      }
-    } else if (sf instanceof EBC_EndBarCodeObject) {
-      // EBC is handled via structureStack.pop() in isEndSF() block,
-      // but if there are multiple BDAs outside of a BBC/EBC (rare but possible),
-      // or if EBC is used to trigger rendering without a BBC.
-      // For now, BBC/EBC structure is the primary trigger.
-    } else if (sf instanceof IDD_ImageDataDescriptor idd) {
-      if (imageState.isInImageObject()) {
-        imageState.setDescriptor(idd);
-      }
-    } else if (sf instanceof IPD_ImagePictureData ipd) {
-      if (imageState.isInImageObject()) {
-        imageState.addImageSegment(ipd);
-      }
-    } else if (sf instanceof IOC_IMImageOutputControl ioc) {
-      if (imImageState.isInImImageObject()) {
-        imImageState.setOutputControl(ioc);
-      }
-    } else if (sf instanceof IID_IMImageInputDescriptor iid) {
-      if (imImageState.isInImImageObject()) {
-        imImageState.setDescriptor(iid);
-      }
-    } else if (sf instanceof ICP_IMImageCellPosition icp) {
-      if (imImageState.isInImImageObject()) {
-        imImageState.startNewCell(icp);
-      }
-    } else if (sf instanceof IRD_IMImageRasterData ird) {
-      if (imImageState.isInImImageObject() && imImageState.getCurrentCell() != null) {
-        imImageState.getCurrentCell().addRasterData(ird.getData());
-      }
-    } else if (sf instanceof OBP_ObjectAreaPosition obp) {
-      if (imageState.isInImageObject()) {
-        imageState.setxOrigin(obp.getRepeatingGroup().getxOrigin());
-        imageState.setyOrigin(obp.getRepeatingGroup().getyOrigin());
-      } else if (barcodeState.isInBarcodeObject()) {
-        barcodeState.setxOrigin(obp.getRepeatingGroup().getxOrigin());
-        barcodeState.setyOrigin(obp.getRepeatingGroup().getyOrigin());
-      } else if (inGraphicsObject) {
-        gocaXOrigin = obp.getRepeatingGroup().getxOrigin();
-        gocaYOrigin = obp.getRepeatingGroup().getyOrigin();
-        gocaRotation = obp.getRepeatingGroup().getxRotation();
-        hasGocaObp = true;
-      }
-    } else if (sf instanceof OBD_ObjectAreaDescriptor obd) {
-      if (inGraphicsObject && obd.getTriplets() != null) {
-        for (com.mgz.afp.triplets.Triplet t : obd.getTriplets()) {
-          if (t instanceof com.mgz.afp.triplets.Triplet.ObjectAreaSize oas) {
-            gocaOapsWidth = oas.xSize;
-            gocaOapsHeight = oas.ySize;
-            hasGocaOapsSize = true;
-          }
-        }
-      }
-    } else if (sf instanceof GDD_GraphicsDataDescriptor gdd) {
-      if (inGraphicsObject && gdd.getGddParameters() != null) {
-        for (GDD_Parameter param : gdd.getGddParameters()) {
-          if (param instanceof GDD_Parameter.WindowSpecification win) {
-            gocaLeftEdge = win.getLeftEdgeOfGPSWindow();
-            gocaRightEdge = win.getRightEdgeOfGPSWindow();
-            gocaBottomEdge = win.getBottomEdgeOfGPSWindow();
-            gocaTopEdge = win.getTopEdgeOfGPSWindow();
-            gocaUnitsPerUnitBaseX = win.getUnitsPerUnitBaseX();
-            gocaUnitsPerUnitBaseY = win.getUnitsPerUnitBaseY();
-            gocaImageResolutionXY = win.getImageResolutionXY();
-            hasGocaGdd = true;
-          }
-        }
-      }
-    } else if (sf instanceof IPO_IncludePageOverlay ipo) {
-      renderXObject(ipo.getOverlayName(), ipo.getxOrigin(), ipo.getyOrigin(), ipo.getxRotation());
-    } else if (sf instanceof IPS_IncludePageSegment ips) {
-      renderXObject(ips.getPageSegmentName(), ips.getxOrigin(), ips.getyOrigin(), null);
     }
   }
 
@@ -866,350 +913,404 @@ public class PdfHandler implements StructuredFieldHandler {
 
   private void handleDrawingOrderInternal(GAD_DrawingOrder order) {
     ensureCanvasTransformed();
-    if (order instanceof GSCOL_SetColor gscol) {
-      graphicsState.setColor(gscol.getColor());
-      graphicsState.setProcessColorSpace(null);
-      graphicsState.setProcessColorValue(null);
-    } else if (order instanceof GSECOL_SetExtendedColor gsecol) {
-      graphicsState.setColor(gsecol.getColor());
-      graphicsState.setProcessColorSpace(null);
-      graphicsState.setProcessColorValue(null);
-    } else if (order instanceof GSLW_SetLineWidth gslw) {
-      graphicsState.setLineWidth(gslw.getLineWidth());
-    } else if (order instanceof GSLT_SetLineType gslt) {
-      graphicsState.setLineType(gslt.getLineType());
-    } else if (order instanceof GSLE_SetLineEnd gsle) {
-      graphicsState.setLineEnd(gsle.getLineEnd());
-    } else if (order instanceof GSLJ_SetLineJoin gslj) {
-      graphicsState.setLineJoin(gslj.getLineJoin());
-    } else if (order instanceof GSMX_SetMix gsmx) {
-      graphicsState.setMixMode(gsmx.getMixMode());
-    } else if (order instanceof GSBMX_SetBackgroundMix gsbmx) {
-      graphicsState.setBackgroundMixMode(gsbmx.getMixMode());
-    } else if (order instanceof GSPS_SetPatternSet gsps) {
-      graphicsState.setPatternSet(gsps.getPatternLocalID());
-    } else if (order instanceof GSPT_SetPatternSymbol gspt) {
-      graphicsState.setPatternSymbol(gspt.getPatternSymbolCodePoint());
-    } else if (order instanceof GSCS_SetCharacterSet gscs) {
-      graphicsState.setCharacterSet(gscs.getCharacterSetLocalID());
-    } else if (order instanceof GSMS_SetMarkerSet gsms) {
-      graphicsState.setMarkerSet(gsms.getMarkerSetLocalID());
-    } else if (order instanceof GSMT_SetMarkerSymbol gsmt) {
-      graphicsState.setMarkerSymbol(gsmt.getMarkerSymbolCodePoint());
-    } else if (order instanceof GSMP_SetMarkerPrecision gsmp) {
-      graphicsState.setMarkerPrecision(gsmp.getMarkerPrecision());
-    } else if (order instanceof GSAP_SetArcParameters gsap) {
-      graphicsState.setArcTransformP(gsap.getArcTransformP());
-      graphicsState.setArcTransformQ(gsap.getArcTransformQ());
-      graphicsState.setArcTransformR(gsap.getArcTransformR());
-      graphicsState.setArcTransformS(gsap.getArcTransformS());
-    } else if (order instanceof GAD_DrawingOrder.GSCC_SetCharacterCell gscc) {
-      float width = gscc.getWidthOfCharacterCellIntegerPart() + (gscc.getWidthOfCharacterCellFractionalPart() != null ? gscc.getWidthOfCharacterCellFractionalPart() / 65536.0f : 0.0f);
-      float height = gscc.getHeightOfCharacterCellIntegerPart() + (gscc.getHeightOfCharacterCellFractionalPart() != null ? gscc.getHeightOfCharacterCellFractionalPart() / 65536.0f : 0.0f);
-      graphicsState.setCharCellWidth(width);
-      graphicsState.setCharCellHeight(height);
-    } else if (order instanceof GAD_DrawingOrder.GSCA_SetCharacterAngle gsca) {
-      if (gsca.getAnglePoint() != null) {
-        graphicsState.setCharAngleX(gsca.getAnglePoint().xCoordinate());
-        graphicsState.setCharAngleY(gsca.getAnglePoint().yCoordinate());
+    switch (order) {
+      case GSCOL_SetColor gscol -> {
+        graphicsState.setColor(gscol.getColor());
+        graphicsState.setProcessColorSpace(null);
+        graphicsState.setProcessColorValue(null);
       }
-    } else if (order instanceof GAD_DrawingOrder.GSCH_SetCharacterShear gsch) {
-      graphicsState.setCharShearDividend(gsch.getDividendOfShearRatio());
-      graphicsState.setCharShearDivisor(gsch.getDivisorOfShearRatio());
-    } else if (order instanceof GAD_DrawingOrder.GSCD_SetCharacterDirection gscd) {
-      graphicsState.setCharDirection(gscd.getCharacterDirection());
-    } else if (order instanceof GAD_DrawingOrder.GSCR_SetCharacterPrecision gscr) {
-      graphicsState.setCharPrecision(gscr.getCharacterPrecision());
-    } else if (order instanceof GSFLW_SetFractionLineWidth gsflw) {
-      graphicsState.setLineWidth(gsflw.getIntegralMultiplier() + (gsflw.getFractionalMultiplier() / 256.0f));
-    } else if (order instanceof GSPCOL_SetProcessColor gspcol) {
-      graphicsState.setProcessColorSpace(gspcol.getColorSpace());
-      graphicsState.setNrOfBitsComponent1(gspcol.getNrOfBitsComponent1());
-      graphicsState.setNrOfBitsComponent2(gspcol.getNrOfBitsComponent2());
-      graphicsState.setNrOfBitsComponent3(gspcol.getNrOfBitsComponent3());
-      graphicsState.setNrOfBitsComponent4(gspcol.getNrOfBitsComponent4());
-      graphicsState.setProcessColorValue(gspcol.getColorValue());
-    } else if (order instanceof GSCP_SetCurrentPosition gscp) {
-      graphicsState.setCurrentX(gscp.getCoordinateX());
-      graphicsState.setCurrentY(gscp.getCoordinateY());
-    } else if (order instanceof GBAR_BeginArea gbar) {
-      graphicsState.setInArea(true);
-      // Bit 1 (0x40): BOUNDARY indicator. B'1' = Draw boundary lines.
-      graphicsState.setDrawAreaBoundary((gbar.getInternalFlags() & 0x40) != 0);
-      // Bit 2 (0x20): INSIDE indicator. B'0' = Alternate (Even-Odd), B'1' = Nonzero Winding.
-      graphicsState.setEvenOddRule((gbar.getInternalFlags() & 0x20) == 0);
-    } else if (order instanceof GAD_DrawingOrder.GBCP_BeginCustomPattern gbcp) {
-      float width = Math.abs(gbcp.xRightWindow - gbcp.xLeftWindow);
-      float height = Math.abs(gbcp.yTopWindow - gbcp.yBottomWindow);
-      if (width <= 0) width = 100;
-      if (height <= 0) height = 100;
-
-      PdfPattern.Tiling tiling = new PdfPattern.Tiling(new com.itextpdf.kernel.geom.Rectangle(width, height));
-      String key = "CUSTOM_" + gbcp.patternSet + "_" + gbcp.patternSymbol;
-      patternCache.put(key, tiling);
-
-      if (currentCanvas != null) {
-        canvasStack.push(currentCanvas);
+      case GSECOL_SetExtendedColor gsecol -> {
+        graphicsState.setColor(gsecol.getColor());
+        graphicsState.setProcessColorSpace(null);
+        graphicsState.setProcessColorValue(null);
       }
-      this.currentCanvas = new PdfCanvas((PdfStream) tiling.getPdfObject(), tiling.getResources(), pdfDoc);
-      // We don't apply the global flip here because custom patterns are often defined in their own space
-    } else if (order instanceof GAD_DrawingOrder.GECP_EndCustomPattern) {
-      if (!canvasStack.isEmpty()) {
-        this.currentCanvas = canvasStack.pop();
+      case GSLW_SetLineWidth gslw -> {
+        graphicsState.setLineWidth(gslw.getLineWidth());
       }
-    } else if (order instanceof GEAR_EndArea) {
-      if (currentCanvas != null && graphicsState.isInArea()) {
-        currentCanvas.closePath();
-        short pattern = graphicsState.getPatternSymbol();
-        short patternSet = graphicsState.getPatternSet();
-        // X'0F' and X'40' are No Fill. X'00' is default (usually solid X'10').
-        boolean noFill = (pattern == 0x0F || pattern == 0x40);
-
-        if (!noFill) {
-          applyPattern(patternSet, pattern);
-        }
-
-        if (graphicsState.isDrawAreaBoundary()) {
-          if (noFill) {
-            currentCanvas.stroke();
-          } else if (graphicsState.isEvenOddRule()) {
-            currentCanvas.eoFillStroke();
-          } else {
-            currentCanvas.fillStroke();
-          }
-        } else if (!noFill) {
-          if (graphicsState.isEvenOddRule()) {
-            currentCanvas.eoFill();
-          } else {
-            currentCanvas.fill();
-          }
+      case GSLT_SetLineType gslt -> {
+        graphicsState.setLineType(gslt.getLineType());
+      }
+      case GSLE_SetLineEnd gsle -> {
+        graphicsState.setLineEnd(gsle.getLineEnd());
+      }
+      case GSLJ_SetLineJoin gslj -> {
+        graphicsState.setLineJoin(gslj.getLineJoin());
+      }
+      case GSMX_SetMix gsmx -> {
+        graphicsState.setMixMode(gsmx.getMixMode());
+      }
+      case GSBMX_SetBackgroundMix gsbmx -> {
+        graphicsState.setBackgroundMixMode(gsbmx.getMixMode());
+      }
+      case GSPS_SetPatternSet gsps -> {
+        graphicsState.setPatternSet(gsps.getPatternLocalID());
+      }
+      case GSPT_SetPatternSymbol gspt -> {
+        graphicsState.setPatternSymbol(gspt.getPatternSymbolCodePoint());
+      }
+      case GSCS_SetCharacterSet gscs -> {
+        graphicsState.setCharacterSet(gscs.getCharacterSetLocalID());
+      }
+      case GSMS_SetMarkerSet gsms -> {
+        graphicsState.setMarkerSet(gsms.getMarkerSetLocalID());
+      }
+      case GSMT_SetMarkerSymbol gsmt -> {
+        graphicsState.setMarkerSymbol(gsmt.getMarkerSymbolCodePoint());
+      }
+      case GSMP_SetMarkerPrecision gsmp -> {
+        graphicsState.setMarkerPrecision(gsmp.getMarkerPrecision());
+      }
+      case GSAP_SetArcParameters gsap -> {
+        graphicsState.setArcTransformP(gsap.getArcTransformP());
+        graphicsState.setArcTransformQ(gsap.getArcTransformQ());
+        graphicsState.setArcTransformR(gsap.getArcTransformR());
+        graphicsState.setArcTransformS(gsap.getArcTransformS());
+      }
+      case GAD_DrawingOrder.GSCC_SetCharacterCell gscc -> {
+        float width = gscc.getWidthOfCharacterCellIntegerPart() + (gscc.getWidthOfCharacterCellFractionalPart() != null ? gscc.getWidthOfCharacterCellFractionalPart() / 65536.0f : 0.0f);
+        float height = gscc.getHeightOfCharacterCellIntegerPart() + (gscc.getHeightOfCharacterCellFractionalPart() != null ? gscc.getHeightOfCharacterCellFractionalPart() / 65536.0f : 0.0f);
+        graphicsState.setCharCellWidth(width);
+        graphicsState.setCharCellHeight(height);
+      }
+      case GAD_DrawingOrder.GSCA_SetCharacterAngle gsca -> {
+        if (gsca.getAnglePoint() != null) {
+          graphicsState.setCharAngleX(gsca.getAnglePoint().xCoordinate());
+          graphicsState.setCharAngleY(gsca.getAnglePoint().yCoordinate());
         }
       }
-      graphicsState.setInArea(false);
-    } else if (order instanceof GAD_DrawingOrder.DrawingOrder_HasPoints line && (line instanceof GLINE_LineAtGivenPosition || line instanceof GCLINE_LineAtCurrentPosition)) {
-      if (currentCanvas != null && line.getPoints() != null) {
-        applyGraphicsState();
-        if (line instanceof GLINE_LineAtGivenPosition) {
-          boolean first = true;
-          for (GAD_DrawingOrder.GOCA_Point p : line.getPoints()) {
-            if (p != null) {
-              if (first) {
-                currentCanvas.moveTo(p.xCoordinate(), p.yCoordinate());
-                first = false;
-              } else {
-                currentCanvas.lineTo(p.xCoordinate(), p.yCoordinate());
+      case GAD_DrawingOrder.GSCH_SetCharacterShear gsch -> {
+        graphicsState.setCharShearDividend(gsch.getDividendOfShearRatio());
+        graphicsState.setCharShearDivisor(gsch.getDivisorOfShearRatio());
+      }
+      case GAD_DrawingOrder.GSCD_SetCharacterDirection gscd -> {
+        graphicsState.setCharDirection(gscd.getCharacterDirection());
+      }
+      case GAD_DrawingOrder.GSCR_SetCharacterPrecision gscr -> {
+        graphicsState.setCharPrecision(gscr.getCharacterPrecision());
+      }
+      case GSFLW_SetFractionLineWidth gsflw -> {
+        graphicsState.setLineWidth(gsflw.getIntegralMultiplier() + (gsflw.getFractionalMultiplier() / 256.0f));
+      }
+      case GSPCOL_SetProcessColor gspcol -> {
+        graphicsState.setProcessColorSpace(gspcol.getColorSpace());
+        graphicsState.setNrOfBitsComponent1(gspcol.getNrOfBitsComponent1());
+        graphicsState.setNrOfBitsComponent2(gspcol.getNrOfBitsComponent2());
+        graphicsState.setNrOfBitsComponent3(gspcol.getNrOfBitsComponent3());
+        graphicsState.setNrOfBitsComponent4(gspcol.getNrOfBitsComponent4());
+        graphicsState.setProcessColorValue(gspcol.getColorValue());
+      }
+      case GSCP_SetCurrentPosition gscp -> {
+        graphicsState.setCurrentX(gscp.getCoordinateX());
+        graphicsState.setCurrentY(gscp.getCoordinateY());
+      }
+      case GBAR_BeginArea gbar -> {
+        graphicsState.setInArea(true);
+        // Bit 1 (0x40): BOUNDARY indicator. B'1' = Draw boundary lines.
+        graphicsState.setDrawAreaBoundary((gbar.getInternalFlags() & 0x40) != 0);
+        // Bit 2 (0x20): INSIDE indicator. B'0' = Alternate (Even-Odd), B'1' = Nonzero Winding.
+        graphicsState.setEvenOddRule((gbar.getInternalFlags() & 0x20) == 0);
+      }
+      case GAD_DrawingOrder.GBCP_BeginCustomPattern gbcp -> {
+        float width = Math.abs(gbcp.xRightWindow - gbcp.xLeftWindow);
+        float height = Math.abs(gbcp.yTopWindow - gbcp.yBottomWindow);
+        if (width <= 0) width = 100;
+        if (height <= 0) height = 100;
+
+        PdfPattern.Tiling tiling = new PdfPattern.Tiling(new com.itextpdf.kernel.geom.Rectangle(width, height));
+        String key = "CUSTOM_" + gbcp.patternSet + "_" + gbcp.patternSymbol;
+        patternCache.put(key, tiling);
+
+        if (currentCanvas != null) {
+          canvasStack.push(currentCanvas);
+        }
+        this.currentCanvas = new PdfCanvas((PdfStream) tiling.getPdfObject(), tiling.getResources(), pdfDoc);
+        // We don't apply the global flip here because custom patterns are often defined in their own space
+      }
+      case GAD_DrawingOrder.GECP_EndCustomPattern ignored -> {
+        if (!canvasStack.isEmpty()) {
+          this.currentCanvas = canvasStack.pop();
+        }
+      }
+      case GEAR_EndArea ignored -> {
+        if (currentCanvas != null && graphicsState.isInArea()) {
+          currentCanvas.closePath();
+          short pattern = graphicsState.getPatternSymbol();
+          short patternSet = graphicsState.getPatternSet();
+          // X'0F' and X'40' are No Fill. X'00' is default (usually solid X'10').
+          boolean noFill = (pattern == 0x0F || pattern == 0x40);
+
+          if (!noFill) {
+            applyPattern(patternSet, pattern);
+          }
+
+          if (graphicsState.isDrawAreaBoundary()) {
+            if (noFill) {
+              currentCanvas.stroke();
+            } else if (graphicsState.isEvenOddRule()) {
+              currentCanvas.eoFillStroke();
+            } else {
+              currentCanvas.fillStroke();
+            }
+          } else if (!noFill) {
+            if (graphicsState.isEvenOddRule()) {
+              currentCanvas.eoFill();
+            } else {
+              currentCanvas.fill();
+            }
+          }
+        }
+        graphicsState.setInArea(false);
+      }
+      case GAD_DrawingOrder.DrawingOrder_HasPoints line when (line instanceof GLINE_LineAtGivenPosition || line instanceof GCLINE_LineAtCurrentPosition) -> {
+        if (currentCanvas != null && line.getPoints() != null) {
+          applyGraphicsState();
+          if (line instanceof GLINE_LineAtGivenPosition) {
+            boolean first = true;
+            for (GAD_DrawingOrder.GOCA_Point p : line.getPoints()) {
+              if (p != null) {
+                if (first) {
+                  currentCanvas.moveTo(p.xCoordinate(), p.yCoordinate());
+                  first = false;
+                } else {
+                  currentCanvas.lineTo(p.xCoordinate(), p.yCoordinate());
+                }
+                graphicsState.setCurrentX(p.xCoordinate());
+                graphicsState.setCurrentY(p.yCoordinate());
               }
-              graphicsState.setCurrentX(p.xCoordinate());
-              graphicsState.setCurrentY(p.yCoordinate());
+            }
+          } else {
+            currentCanvas.moveTo(graphicsState.getCurrentX(), graphicsState.getCurrentY());
+            for (GAD_DrawingOrder.GOCA_Point p : line.getPoints()) {
+              if (p != null) {
+                currentCanvas.lineTo(p.xCoordinate(), p.yCoordinate());
+                graphicsState.setCurrentX(p.xCoordinate());
+                graphicsState.setCurrentY(p.yCoordinate());
+              }
             }
           }
-        } else {
+          if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
+            currentCanvas.stroke();
+          }
+        }
+      }
+      case GRLINE_RelativeLineAtGivenPosition grline -> {
+        if (currentCanvas != null && grline.startPoint != null) {
+          applyGraphicsState();
+          int curX = grline.startPoint.xCoordinate();
+          int curY = grline.startPoint.yCoordinate();
+          currentCanvas.moveTo(curX, curY);
+          if (grline.relativeOffsets != null) {
+            for (GAD_DrawingOrder.GOCA_RelativePoint rp : grline.relativeOffsets) {
+              if (rp != null) {
+                curX += rp.xOffset();
+                curY += rp.yOffset();
+                currentCanvas.lineTo(curX, curY);
+              }
+            }
+          }
+          graphicsState.setCurrentX(curX);
+          graphicsState.setCurrentY(curY);
+          if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
+            currentCanvas.stroke();
+          }
+        }
+      }
+      case GCRLINE_RelativeLineAtCurrentPosition gcrline -> {
+        if (currentCanvas != null) {
+          applyGraphicsState();
+          int curX = graphicsState.getCurrentX();
+          int curY = graphicsState.getCurrentY();
+          currentCanvas.moveTo(curX, curY);
+          if (gcrline.relativeOffsets != null) {
+            for (GAD_DrawingOrder.GOCA_RelativePoint rp : gcrline.relativeOffsets) {
+              if (rp != null) {
+                curX += rp.xOffset();
+                curY += rp.yOffset();
+                currentCanvas.lineTo(curX, curY);
+              }
+            }
+          }
+          graphicsState.setCurrentX(curX);
+          graphicsState.setCurrentY(curY);
+          if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
+            currentCanvas.stroke();
+          }
+        }
+      }
+      case GBOX_BoxAtGivenPosition gbox -> {
+        if (currentCanvas != null && gbox.getFirstCorner() != null && gbox.getDiagonalCorner() != null) {
+          applyGraphicsState();
+          float x = Math.min(gbox.getFirstCorner().xCoordinate(), gbox.getDiagonalCorner().xCoordinate());
+          float y = Math.min(gbox.getFirstCorner().yCoordinate(), gbox.getDiagonalCorner().yCoordinate());
+          float width = Math.abs(gbox.getFirstCorner().xCoordinate() - gbox.getDiagonalCorner().xCoordinate());
+          float height = Math.abs(gbox.getFirstCorner().yCoordinate() - gbox.getDiagonalCorner().yCoordinate());
+          float rx = gbox.getxAxisLengthForRoundCorner() != null ? gbox.getxAxisLengthForRoundCorner() : 0;
+          float ry = gbox.getyAxisLengthForRoundCorner() != null ? gbox.getyAxisLengthForRoundCorner() : rx;
+          if (rx > 0 || ry > 0) {
+            currentCanvas.roundRectangle(x, y, width, height, Math.max(rx, ry));
+          } else {
+            currentCanvas.rectangle(x, y, width, height);
+          }
+          if (!graphicsState.isInArea()) {
+            renderClosedPathOutsideArea();
+          }
+          graphicsState.setCurrentX(gbox.getDiagonalCorner().xCoordinate());
+          graphicsState.setCurrentY(gbox.getDiagonalCorner().yCoordinate());
+        }
+      }
+      case GCBOX_BoxAtCurrentPosition gcbox -> {
+        if (currentCanvas != null && gcbox.getDiagonalCorner() != null) {
+          applyGraphicsState();
+          float x = Math.min(graphicsState.getCurrentX(), gcbox.getDiagonalCorner().xCoordinate());
+          float y = Math.min(graphicsState.getCurrentY(), gcbox.getDiagonalCorner().yCoordinate());
+          float width = Math.abs(graphicsState.getCurrentX() - gcbox.getDiagonalCorner().xCoordinate());
+          float height = Math.abs(graphicsState.getCurrentY() - gcbox.getDiagonalCorner().yCoordinate());
+          float rx = gcbox.getxAxisLengthForRoundCorner() != null ? gcbox.getxAxisLengthForRoundCorner() : 0;
+          float ry = gcbox.getyAxisLengthForRoundCorner() != null ? gcbox.getyAxisLengthForRoundCorner() : rx;
+          if (rx > 0 || ry > 0) {
+            currentCanvas.roundRectangle(x, y, width, height, Math.max(rx, ry));
+          } else {
+            currentCanvas.rectangle(x, y, width, height);
+          }
+          if (!graphicsState.isInArea()) {
+            renderClosedPathOutsideArea();
+          }
+          graphicsState.setCurrentX(gcbox.getDiagonalCorner().xCoordinate());
+          graphicsState.setCurrentY(gcbox.getDiagonalCorner().yCoordinate());
+        }
+      }
+      case GFARC_FullArcAtGivenPosition gfarc -> {
+        if (gfarc.getArcCenter() != null) {
+          renderFullArc(gfarc.getArcCenter().xCoordinate(), gfarc.getArcCenter().yCoordinate(),
+              gfarc.getMultiplierIntegerPortion(), gfarc.getMultiplierFractionalPortion());
+        }
+      }
+      case GCFARC_FullArcAtCurrentPosition gcfarc -> {
+        renderFullArc(graphicsState.getCurrentX(), graphicsState.getCurrentY(),
+            gcfarc.getMultiplierIntegerPortion(), gcfarc.getMultiplierFractionalPortion());
+      }
+      case GPARC_PartialArcAtGivenPosition gparc -> {
+        if (gparc.getLineStartPoint() != null && gparc.getArcCenter() != null) {
+          renderPartialArc(gparc.getLineStartPoint().xCoordinate(), gparc.getLineStartPoint().yCoordinate(),
+              gparc.getArcCenter().xCoordinate(), gparc.getArcCenter().yCoordinate(),
+              gparc.getMultiplierIntegerPortion(), gparc.getMultiplierFractionalPortion(),
+              gparc.getStartAngle(), gparc.getSweepAngle());
+        }
+      }
+      case GCPARC_PartialArcAtCurrentPosition gcparc -> {
+        if (gcparc.getArcCenter() != null) {
+          renderPartialArc(graphicsState.getCurrentX(), graphicsState.getCurrentY(),
+              gcparc.getArcCenter().xCoordinate(), gcparc.getArcCenter().yCoordinate(),
+              gcparc.getMultiplierIntegerPortion(), gcparc.getMultiplierFractionalPortion(),
+              gcparc.getStartAngle(), gcparc.getSweepAngle());
+        }
+      }
+      case GFLT_FilletAtGivenPosition gflt -> {
+        renderFillet(gflt.getPoints(), false);
+      }
+      case GCFLT_FilletAtCurrentPosition gcflt -> {
+        renderFillet(gcflt.getPoints(), true);
+      }
+      case GCCBEZ_CubicBezierCurveAtCurrentPosition gccbez -> {
+        if (currentCanvas != null && gccbez.getPoints() != null) {
+          applyGraphicsState();
           currentCanvas.moveTo(graphicsState.getCurrentX(), graphicsState.getCurrentY());
-          for (GAD_DrawingOrder.GOCA_Point p : line.getPoints()) {
-            if (p != null) {
-              currentCanvas.lineTo(p.xCoordinate(), p.yCoordinate());
-              graphicsState.setCurrentX(p.xCoordinate());
-              graphicsState.setCurrentY(p.yCoordinate());
-            }
+          List<GAD_DrawingOrder.GOCA_Point> points = gccbez.getPoints();
+          for (int i = 0; i < points.size() - 2; i += 3) {
+            GAD_DrawingOrder.GOCA_Point p1 = points.get(i);
+            GAD_DrawingOrder.GOCA_Point p2 = points.get(i + 1);
+            GAD_DrawingOrder.GOCA_Point p3 = points.get(i + 2);
+            currentCanvas.curveTo(p1.xCoordinate(), p1.yCoordinate(), p2.xCoordinate(), p2.yCoordinate(), p3.xCoordinate(), p3.yCoordinate());
+            graphicsState.setCurrentX(p3.xCoordinate());
+            graphicsState.setCurrentY(p3.yCoordinate());
+          }
+          if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
+            currentCanvas.stroke();
           }
         }
-        if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
-          currentCanvas.stroke();
-        }
       }
-    } else if (order instanceof GRLINE_RelativeLineAtGivenPosition grline) {
-      if (currentCanvas != null && grline.startPoint != null) {
-        applyGraphicsState();
-        int curX = grline.startPoint.xCoordinate();
-        int curY = grline.startPoint.yCoordinate();
-        currentCanvas.moveTo(curX, curY);
-        if (grline.relativeOffsets != null) {
-          for (GAD_DrawingOrder.GOCA_RelativePoint rp : grline.relativeOffsets) {
-            if (rp != null) {
-              curX += rp.xOffset();
-              curY += rp.yOffset();
-              currentCanvas.lineTo(curX, curY);
-            }
+      case GCBEZ_CubicBezierCurveAtGivenPosition gcbez -> {
+        if (currentCanvas != null && gcbez.getPoints() != null && gcbez.getPoints().size() >= 4) {
+          applyGraphicsState();
+          List<GAD_DrawingOrder.GOCA_Point> points = gcbez.getPoints();
+          GAD_DrawingOrder.GOCA_Point start = points.get(0);
+          currentCanvas.moveTo(start.xCoordinate(), start.yCoordinate());
+          for (int i = 1; i < points.size() - 2; i += 3) {
+            GAD_DrawingOrder.GOCA_Point p1 = points.get(i);
+            GAD_DrawingOrder.GOCA_Point p2 = points.get(i + 1);
+            GAD_DrawingOrder.GOCA_Point p3 = points.get(i + 2);
+            currentCanvas.curveTo(p1.xCoordinate(), p1.yCoordinate(), p2.xCoordinate(), p2.yCoordinate(), p3.xCoordinate(), p3.yCoordinate());
+            graphicsState.setCurrentX(p3.xCoordinate());
+            graphicsState.setCurrentY(p3.yCoordinate());
+          }
+          if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
+            currentCanvas.stroke();
           }
         }
-        graphicsState.setCurrentX(curX);
-        graphicsState.setCurrentY(curY);
-        if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
-          currentCanvas.stroke();
+      }
+      case GCHST_CharacterStringAtGivenPosition gchst -> {
+        if (gchst.getOriginPoint() != null) {
+          renderGocaText(gchst.getText(), gchst.getOriginPoint().xCoordinate(), gchst.getOriginPoint().yCoordinate());
         }
       }
-    } else if (order instanceof GCRLINE_RelativeLineAtCurrentPosition gcrline) {
-      if (currentCanvas != null) {
-        applyGraphicsState();
-        int curX = graphicsState.getCurrentX();
-        int curY = graphicsState.getCurrentY();
-        currentCanvas.moveTo(curX, curY);
-        if (gcrline.relativeOffsets != null) {
-          for (GAD_DrawingOrder.GOCA_RelativePoint rp : gcrline.relativeOffsets) {
-            if (rp != null) {
-              curX += rp.xOffset();
-              curY += rp.yOffset();
-              currentCanvas.lineTo(curX, curY);
-            }
+      case GCCHST_CharacterStringAtCurrentPosition gcchst -> {
+        renderGocaText(gcchst.getText(), graphicsState.getCurrentX(), graphicsState.getCurrentY());
+      }
+      case GMRK_MarkerAtGivenPosition marker -> {
+        renderMarkers(marker.getPoints(), false);
+      }
+      case GCMRK_MarkerAtCurrentPosition marker -> {
+        renderMarkers(marker.getPoints(), true);
+      }
+      case GBSEG_BeginSegment gbseg -> {
+        PdfGraphicsState savedState = new PdfGraphicsState(graphicsState);
+        if (currentCanvas != null) {
+          currentCanvas.saveState();
+        }
+        if (gbseg.getDrawingOrders() != null) {
+          for (GAD_DrawingOrder subOrder : gbseg.getDrawingOrders()) {
+            handleDrawingOrder(subOrder);
           }
         }
-        graphicsState.setCurrentX(curX);
-        graphicsState.setCurrentY(curY);
-        if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
-          currentCanvas.stroke();
+        if (currentCanvas != null) {
+          currentCanvas.restoreState();
+        }
+        int finalX = graphicsState.getCurrentX();
+        int finalY = graphicsState.getCurrentY();
+        this.graphicsState.copyFrom(savedState);
+        this.graphicsState.setCurrentX(finalX);
+        this.graphicsState.setCurrentY(finalY);
+      }
+      case GBIMG_BeginImageAtGivenPosition gbimg -> {
+        if (gbimg.getOrigin() != null) {
+          graphicsState.setCurrentX(gbimg.getOrigin().xCoordinate());
+          graphicsState.setCurrentY(gbimg.getOrigin().yCoordinate());
+        }
+        startGocaImage(gbimg.getWidthOfImageInImagePoints(), gbimg.getHeightOfImageInImagePoints());
+      }
+      case GCBIMG_BeginImageAtCurrentPosition gcbimg -> {
+        startGocaImage(gcbimg.getWidthOfImageInImagePoints(), gcbimg.getHeightOfImageInImagePoints());
+      }
+      case GLGD_LinearGradient glgd -> {
+        gradientCache.put(glgd.patternSet + "_" + glgd.patternSymbol, glgd);
+      }
+      case GRGD_RadialGradient grgd -> {
+        gradientCache.put(grgd.patternSet + "_" + grgd.patternSymbol, grgd);
+      }
+      case GIMD_ImageData gimd -> {
+        if (gocaImageBuffer != null && gimd.getImageData() != null) {
+          try {
+            gocaImageBuffer.write(gimd.getImageData());
+          } catch (java.io.IOException e) {
+            // Should not happen with ByteArrayOutputStream
+          }
         }
       }
-    } else if (order instanceof GBOX_BoxAtGivenPosition gbox) {
-      if (currentCanvas != null && gbox.getFirstCorner() != null && gbox.getDiagonalCorner() != null) {
-        applyGraphicsState();
-        float x = Math.min(gbox.getFirstCorner().xCoordinate(), gbox.getDiagonalCorner().xCoordinate());
-        float y = Math.min(gbox.getFirstCorner().yCoordinate(), gbox.getDiagonalCorner().yCoordinate());
-        float width = Math.abs(gbox.getFirstCorner().xCoordinate() - gbox.getDiagonalCorner().xCoordinate());
-        float height = Math.abs(gbox.getFirstCorner().yCoordinate() - gbox.getDiagonalCorner().yCoordinate());
-        float rx = gbox.getxAxisLengthForRoundCorner() != null ? gbox.getxAxisLengthForRoundCorner() : 0;
-        float ry = gbox.getyAxisLengthForRoundCorner() != null ? gbox.getyAxisLengthForRoundCorner() : rx;
-        if (rx > 0 || ry > 0) {
-          currentCanvas.roundRectangle(x, y, width, height, Math.max(rx, ry));
-        } else {
-          currentCanvas.rectangle(x, y, width, height);
-        }
-        if (!graphicsState.isInArea()) {
-          renderClosedPathOutsideArea();
-        }
-        graphicsState.setCurrentX(gbox.getDiagonalCorner().xCoordinate());
-        graphicsState.setCurrentY(gbox.getDiagonalCorner().yCoordinate());
+      case GEIMG_EndImage ignored -> {
+        renderGocaImage();
       }
-    } else if (order instanceof GCBOX_BoxAtCurrentPosition gcbox) {
-      if (currentCanvas != null && gcbox.getDiagonalCorner() != null) {
-        applyGraphicsState();
-        float x = Math.min(graphicsState.getCurrentX(), gcbox.getDiagonalCorner().xCoordinate());
-        float y = Math.min(graphicsState.getCurrentY(), gcbox.getDiagonalCorner().yCoordinate());
-        float width = Math.abs(graphicsState.getCurrentX() - gcbox.getDiagonalCorner().xCoordinate());
-        float height = Math.abs(graphicsState.getCurrentY() - gcbox.getDiagonalCorner().yCoordinate());
-        float rx = gcbox.getxAxisLengthForRoundCorner() != null ? gcbox.getxAxisLengthForRoundCorner() : 0;
-        float ry = gcbox.getyAxisLengthForRoundCorner() != null ? gcbox.getyAxisLengthForRoundCorner() : rx;
-        if (rx > 0 || ry > 0) {
-          currentCanvas.roundRectangle(x, y, width, height, Math.max(rx, ry));
-        } else {
-          currentCanvas.rectangle(x, y, width, height);
-        }
-        if (!graphicsState.isInArea()) {
-          renderClosedPathOutsideArea();
-        }
-        graphicsState.setCurrentX(gcbox.getDiagonalCorner().xCoordinate());
-        graphicsState.setCurrentY(gcbox.getDiagonalCorner().yCoordinate());
+      default -> {
       }
-    } else if (order instanceof GFARC_FullArcAtGivenPosition gfarc) {
-      if (gfarc.getArcCenter() != null) {
-        renderFullArc(gfarc.getArcCenter().xCoordinate(), gfarc.getArcCenter().yCoordinate(),
-            gfarc.getMultiplierIntegerPortion(), gfarc.getMultiplierFractionalPortion());
-      }
-    } else if (order instanceof GCFARC_FullArcAtCurrentPosition gcfarc) {
-      renderFullArc(graphicsState.getCurrentX(), graphicsState.getCurrentY(),
-          gcfarc.getMultiplierIntegerPortion(), gcfarc.getMultiplierFractionalPortion());
-    } else if (order instanceof GPARC_PartialArcAtGivenPosition gparc) {
-      if (gparc.getLineStartPoint() != null && gparc.getArcCenter() != null) {
-        renderPartialArc(gparc.getLineStartPoint().xCoordinate(), gparc.getLineStartPoint().yCoordinate(),
-            gparc.getArcCenter().xCoordinate(), gparc.getArcCenter().yCoordinate(),
-            gparc.getMultiplierIntegerPortion(), gparc.getMultiplierFractionalPortion(),
-            gparc.getStartAngle(), gparc.getSweepAngle());
-      }
-    } else if (order instanceof GCPARC_PartialArcAtCurrentPosition gcparc) {
-      if (gcparc.getArcCenter() != null) {
-        renderPartialArc(graphicsState.getCurrentX(), graphicsState.getCurrentY(),
-            gcparc.getArcCenter().xCoordinate(), gcparc.getArcCenter().yCoordinate(),
-            gcparc.getMultiplierIntegerPortion(), gcparc.getMultiplierFractionalPortion(),
-            gcparc.getStartAngle(), gcparc.getSweepAngle());
-      }
-    } else if (order instanceof GFLT_FilletAtGivenPosition gflt) {
-      renderFillet(gflt.getPoints(), false);
-    } else if (order instanceof GCFLT_FilletAtCurrentPosition gcflt) {
-      renderFillet(gcflt.getPoints(), true);
-    } else if (order instanceof GCCBEZ_CubicBezierCurveAtCurrentPosition gccbez) {
-      if (currentCanvas != null && gccbez.getPoints() != null) {
-        applyGraphicsState();
-        currentCanvas.moveTo(graphicsState.getCurrentX(), graphicsState.getCurrentY());
-        List<GAD_DrawingOrder.GOCA_Point> points = gccbez.getPoints();
-        for (int i = 0; i < points.size() - 2; i += 3) {
-          GAD_DrawingOrder.GOCA_Point p1 = points.get(i);
-          GAD_DrawingOrder.GOCA_Point p2 = points.get(i + 1);
-          GAD_DrawingOrder.GOCA_Point p3 = points.get(i + 2);
-          currentCanvas.curveTo(p1.xCoordinate(), p1.yCoordinate(), p2.xCoordinate(), p2.yCoordinate(), p3.xCoordinate(), p3.yCoordinate());
-          graphicsState.setCurrentX(p3.xCoordinate());
-          graphicsState.setCurrentY(p3.yCoordinate());
-        }
-        if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
-          currentCanvas.stroke();
-        }
-      }
-    } else if (order instanceof GCBEZ_CubicBezierCurveAtGivenPosition gcbez) {
-      if (currentCanvas != null && gcbez.getPoints() != null && gcbez.getPoints().size() >= 4) {
-        applyGraphicsState();
-        List<GAD_DrawingOrder.GOCA_Point> points = gcbez.getPoints();
-        GAD_DrawingOrder.GOCA_Point start = points.get(0);
-        currentCanvas.moveTo(start.xCoordinate(), start.yCoordinate());
-        for (int i = 1; i < points.size() - 2; i += 3) {
-          GAD_DrawingOrder.GOCA_Point p1 = points.get(i);
-          GAD_DrawingOrder.GOCA_Point p2 = points.get(i + 1);
-          GAD_DrawingOrder.GOCA_Point p3 = points.get(i + 2);
-          currentCanvas.curveTo(p1.xCoordinate(), p1.yCoordinate(), p2.xCoordinate(), p2.yCoordinate(), p3.xCoordinate(), p3.yCoordinate());
-          graphicsState.setCurrentX(p3.xCoordinate());
-          graphicsState.setCurrentY(p3.yCoordinate());
-        }
-        if (!graphicsState.isInArea() && graphicsState.getLineType() != 8) {
-          currentCanvas.stroke();
-        }
-      }
-    } else if (order instanceof GCHST_CharacterStringAtGivenPosition gchst) {
-      if (gchst.getOriginPoint() != null) {
-        renderGocaText(gchst.getText(), gchst.getOriginPoint().xCoordinate(), gchst.getOriginPoint().yCoordinate());
-      }
-    } else if (order instanceof GCCHST_CharacterStringAtCurrentPosition gcchst) {
-      renderGocaText(gcchst.getText(), graphicsState.getCurrentX(), graphicsState.getCurrentY());
-    } else if (order instanceof GAD_DrawingOrder.DrawingOrder_HasPoints marker && (marker instanceof GMRK_MarkerAtGivenPosition || marker instanceof GCMRK_MarkerAtCurrentPosition)) {
-      renderMarkers(marker.getPoints(), marker instanceof GCMRK_MarkerAtCurrentPosition);
-    } else if (order instanceof GBSEG_BeginSegment gbseg) {
-      PdfGraphicsState savedState = new PdfGraphicsState(graphicsState);
-      if (currentCanvas != null) {
-        currentCanvas.saveState();
-      }
-      if (gbseg.getDrawingOrders() != null) {
-        for (GAD_DrawingOrder subOrder : gbseg.getDrawingOrders()) {
-          handleDrawingOrder(subOrder);
-        }
-      }
-      if (currentCanvas != null) {
-        currentCanvas.restoreState();
-      }
-      int finalX = graphicsState.getCurrentX();
-      int finalY = graphicsState.getCurrentY();
-      this.graphicsState.copyFrom(savedState);
-      this.graphicsState.setCurrentX(finalX);
-      this.graphicsState.setCurrentY(finalY);
-    } else if (order instanceof GBIMG_BeginImageAtGivenPosition gbimg) {
-      if (gbimg.getOrigin() != null) {
-        graphicsState.setCurrentX(gbimg.getOrigin().xCoordinate());
-        graphicsState.setCurrentY(gbimg.getOrigin().yCoordinate());
-      }
-      startGocaImage(gbimg.getWidthOfImageInImagePoints(), gbimg.getHeightOfImageInImagePoints());
-    } else if (order instanceof GCBIMG_BeginImageAtCurrentPosition gcbimg) {
-      startGocaImage(gcbimg.getWidthOfImageInImagePoints(), gcbimg.getHeightOfImageInImagePoints());
-    } else if (order instanceof GLGD_LinearGradient glgd) {
-      gradientCache.put(glgd.patternSet + "_" + glgd.patternSymbol, glgd);
-    } else if (order instanceof GRGD_RadialGradient grgd) {
-      gradientCache.put(grgd.patternSet + "_" + grgd.patternSymbol, grgd);
-    } else if (order instanceof GIMD_ImageData gimd) {
-      if (gocaImageBuffer != null && gimd.getImageData() != null) {
-        try {
-          gocaImageBuffer.write(gimd.getImageData());
-        } catch (java.io.IOException e) {
-          // Should not happen with ByteArrayOutputStream
-        }
-      }
-    } else if (order instanceof GEIMG_EndImage) {
-      renderGocaImage();
-    } else if (order instanceof GESEG_EndSegment || order instanceof GNOP1_NopOperation || order instanceof GCOMT_Comment || order instanceof GSGCH_SegmentCharacteristics) {
-      // No-op
     }
   }
 
@@ -1760,94 +1861,122 @@ public class PdfHandler implements StructuredFieldHandler {
   }
 
   private void handleControlSequence(PTOCAControlSequence cs) {
-    if (cs instanceof AMI_AbsoluteMoveInline ami) {
-      textState.setInlinePos(ami.getDisplacement());
-    } else if (cs instanceof RMI_RelativeMoveInline rmi) {
-      textState.setInlinePos(textState.getInlinePos() + rmi.getIncrement());
-    } else if (cs instanceof AMB_AbsoluteMoveBaseline amb) {
-      textState.setBaselinePos(amb.getDisplacement());
-      textState.setHasEstablishedBaseline(false);
-    } else if (cs instanceof RMB_RelativeMoveBaseline rmb) {
-      textState.setBaselinePos(textState.getBaselinePos() + rmb.getIncrement());
-      textState.setHasEstablishedBaseline(false);
-    } else if (cs instanceof STO_SetTextOrientation sto) {
-      textState.setIOrientation(sto.getxOrientation());
-      textState.setBOrientation(sto.getyOrientation());
-    } else if (cs instanceof SCFL_SetCodedFontLocal scfl) {
-      textState.setFontLid(scfl.getCodedFontLocalID());
-    } else if (cs instanceof STC_SetTextColor stc) {
-      textState.setTextColor(stc.getForegroundColor());
-      if (currentCanvas != null) {
-        currentCanvas.setFillColor(ColorHandler.getColor(stc.getForegroundColor()));
+    switch (cs) {
+      case AMI_AbsoluteMoveInline ami -> {
+        textState.setInlinePos(ami.getDisplacement());
       }
-    } else if (cs instanceof SEC_SetExtendedTextColor sec) {
-      textState.setExtendedColorSpace(sec.getColorSpace());
-      textState.setExtendedColorValue(sec.getColorValue());
-      if (currentCanvas != null) {
-        Color color = ColorHandler.getExtendedColor(sec.getColorSpace(), sec.getColorValue());
-        if (color != null) {
-          currentCanvas.setFillColor(color);
+      case RMI_RelativeMoveInline rmi -> {
+        textState.setInlinePos(textState.getInlinePos() + rmi.getIncrement());
+      }
+      case AMB_AbsoluteMoveBaseline amb -> {
+        textState.setBaselinePos(amb.getDisplacement());
+        textState.setHasEstablishedBaseline(false);
+      }
+      case RMB_RelativeMoveBaseline rmb -> {
+        textState.setBaselinePos(textState.getBaselinePos() + rmb.getIncrement());
+        textState.setHasEstablishedBaseline(false);
+      }
+      case STO_SetTextOrientation sto -> {
+        textState.setIOrientation(sto.getxOrientation());
+        textState.setBOrientation(sto.getyOrientation());
+      }
+      case SCFL_SetCodedFontLocal scfl -> {
+        textState.setFontLid(scfl.getCodedFontLocalID());
+      }
+      case STC_SetTextColor stc -> {
+        textState.setTextColor(stc.getForegroundColor());
+        if (currentCanvas != null) {
+          currentCanvas.setFillColor(ColorHandler.getColor(stc.getForegroundColor()));
         }
       }
-    } else if (cs instanceof SIA_SetIntercharacterAdjustment sia) {
-      short adjustment = sia.getAdjustment();
-      if (sia.getDirection() == SIA_SetIntercharacterAdjustment.SIA_Direction.NegativeIDirection) {
-        adjustment = (short) -adjustment;
-      }
-      textState.setIntercharacterAdjustment(adjustment);
-    } else if (cs instanceof SVI_SetVariableSpaceCharacterIncrement svi) {
-      textState.setVariableSpaceIncrement(svi.getIncrement());
-    } else if (cs instanceof SIM_SetInlineMargin sim) {
-      textState.setInlineMargin(sim.getDisplacement());
-    } else if (cs instanceof SBI_SetBaselineIncrement sbi) {
-      textState.setBaselineIncrement(sbi.getIncrement());
-    } else if (cs instanceof BLN_BeginLine) {
-      textState.setInlinePos(textState.getInlineMargin());
-      textState.setBaselinePos(textState.getBaselinePos() + textState.getBaselineIncrement());
-      textState.setHasEstablishedBaseline(false);
-    } else if (cs instanceof TBM_TemporaryBaselineMove tbm) {
-      if (tbm.getDirection() == TBM_TemporaryBaselineMove.TBM_Direction.MoveAwayFromIAxis
-          || tbm.getDirection() == TBM_TemporaryBaselineMove.TBM_Direction.MoveTowardIAxis) {
-        if (!textState.isHasEstablishedBaseline()) {
-          textState.setEstablishedBaselinePos(textState.getBaselinePos());
-          textState.setHasEstablishedBaseline(true);
-        }
-        int increment = (tbm.getTemporaryBaselineIncrement() != null)
-            ? tbm.getTemporaryBaselineIncrement() : textState.getBaselineIncrement();
-        if (tbm.getDirection() == TBM_TemporaryBaselineMove.TBM_Direction.MoveAwayFromIAxis) {
-          textState.setBaselinePos(textState.getBaselinePos() + increment);
-        } else {
-          textState.setBaselinePos(textState.getBaselinePos() - increment);
-        }
-      } else if (tbm.getDirection() == TBM_TemporaryBaselineMove.TBM_Direction.ReturnToEstablishedBaseline) {
-        if (textState.isHasEstablishedBaseline()) {
-          textState.setBaselinePos(textState.getEstablishedBaselinePos());
-          textState.setHasEstablishedBaseline(false);
+      case SEC_SetExtendedTextColor sec -> {
+        textState.setExtendedColorSpace(sec.getColorSpace());
+        textState.setExtendedColorValue(sec.getColorValue());
+        if (currentCanvas != null) {
+          Color color = ColorHandler.getExtendedColor(sec.getColorSpace(), sec.getColorValue());
+          if (color != null) {
+            currentCanvas.setFillColor(color);
+          }
         }
       }
-    } else if (cs instanceof DIR_DrawIaxisRule dir) {
-      renderRule(dir.getLength(), dir.getWidth() != null ? dir.getWidth() : 20, true);
-    } else if (cs instanceof DBR_DrawBaxisRule dbr) {
-      renderRule(dbr.getLength(), dbr.getWidth() != null ? dbr.getWidth() : 20, false);
-    } else if (cs instanceof BSU_BeginSuppression bsu) {
-      textState.beginSuppression(bsu.getSuppressionID());
-    } else if (cs instanceof ESU_EndSuppression esu) {
-      textState.endSuppression(esu.getSuppressionID());
-    } else if (cs instanceof RPS_RepeatString rps) {
-      handleRepeatString(rps);
-    } else if (cs instanceof OVS_Overstrike ovs) {
-      textState.setOverstrikeMode(ovs.getBypassFlag());
-      textState.setOverstrikeCharacter(ovs.getText());
-    } else if (cs instanceof USC_Underscore usc) {
-      textState.setUnderscoreMode(usc.getBypassFlag());
-    } else if (cs instanceof TRN_TransparentData trn) {
-      renderText(trn.getTransparentData());
-    } else if (cs instanceof GraphicCharacters gc) {
-      renderText(gc.getText());
-    } else if (cs instanceof UCT_UnicodeComplexText uct) {
-      renderText(uct.getText());
-    } else if (cs instanceof NOP_NoOperation) {
-      // No-op
+      case SIA_SetIntercharacterAdjustment sia -> {
+        short adjustment = sia.getAdjustment();
+        if (sia.getDirection() == SIA_SetIntercharacterAdjustment.SIA_Direction.NegativeIDirection) {
+          adjustment = (short) -adjustment;
+        }
+        textState.setIntercharacterAdjustment(adjustment);
+      }
+      case SVI_SetVariableSpaceCharacterIncrement svi -> {
+        textState.setVariableSpaceIncrement(svi.getIncrement());
+      }
+      case SIM_SetInlineMargin sim -> {
+        textState.setInlineMargin(sim.getDisplacement());
+      }
+      case SBI_SetBaselineIncrement sbi -> {
+        textState.setBaselineIncrement(sbi.getIncrement());
+      }
+      case BLN_BeginLine ignored -> {
+        textState.setInlinePos(textState.getInlineMargin());
+        textState.setBaselinePos(textState.getBaselinePos() + textState.getBaselineIncrement());
+        textState.setHasEstablishedBaseline(false);
+      }
+      case TBM_TemporaryBaselineMove tbm -> {
+        if (tbm.getDirection() == TBM_TemporaryBaselineMove.TBM_Direction.MoveAwayFromIAxis
+            || tbm.getDirection() == TBM_TemporaryBaselineMove.TBM_Direction.MoveTowardIAxis) {
+          if (!textState.isHasEstablishedBaseline()) {
+            textState.setEstablishedBaselinePos(textState.getBaselinePos());
+            textState.setHasEstablishedBaseline(true);
+          }
+          int increment = (tbm.getTemporaryBaselineIncrement() != null)
+              ? tbm.getTemporaryBaselineIncrement() : textState.getBaselineIncrement();
+          if (tbm.getDirection() == TBM_TemporaryBaselineMove.TBM_Direction.MoveAwayFromIAxis) {
+            textState.setBaselinePos(textState.getBaselinePos() + increment);
+          } else {
+            textState.setBaselinePos(textState.getBaselinePos() - increment);
+          }
+        } else if (tbm.getDirection() == TBM_TemporaryBaselineMove.TBM_Direction.ReturnToEstablishedBaseline) {
+          if (textState.isHasEstablishedBaseline()) {
+            textState.setBaselinePos(textState.getEstablishedBaselinePos());
+            textState.setHasEstablishedBaseline(false);
+          }
+        }
+      }
+      case DIR_DrawIaxisRule dir -> {
+        renderRule(dir.getLength(), dir.getWidth() != null ? dir.getWidth() : 20, true);
+      }
+      case DBR_DrawBaxisRule dbr -> {
+        renderRule(dbr.getLength(), dbr.getWidth() != null ? dbr.getWidth() : 20, false);
+      }
+      case BSU_BeginSuppression bsu -> {
+        textState.beginSuppression(bsu.getSuppressionID());
+      }
+      case ESU_EndSuppression esu -> {
+        textState.endSuppression(esu.getSuppressionID());
+      }
+      case RPS_RepeatString rps -> {
+        handleRepeatString(rps);
+      }
+      case OVS_Overstrike ovs -> {
+        textState.setOverstrikeMode(ovs.getBypassFlag());
+        textState.setOverstrikeCharacter(ovs.getText());
+      }
+      case USC_Underscore usc -> {
+        textState.setUnderscoreMode(usc.getBypassFlag());
+      }
+      case TRN_TransparentData trn -> {
+        renderText(trn.getTransparentData());
+      }
+      case GraphicCharacters gc -> {
+        renderText(gc.getText());
+      }
+      case UCT_UnicodeComplexText uct -> {
+        renderText(uct.getText());
+      }
+      case NOP_NoOperation ignored -> {
+        // No-op
+      }
+      default -> {
+      }
     }
   }
 
