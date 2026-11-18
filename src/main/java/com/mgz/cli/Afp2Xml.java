@@ -169,66 +169,22 @@ public class Afp2Xml {
           formatOptions.put("window", "true");
         }
         case "-wl", "--window-left" -> {
-          if (i + 1 < args.length) {
-            String val = args[++i];
-            try {
-              Double.parseDouble(val);
-            } catch (NumberFormatException e) {
-              System.err.println("Error: --window-left requires a numeric value.");
-              return 1;
-            }
-            formatOptions.put("window-left", val);
-            formatOptions.put("draw-window", "true");
-          } else {
-            System.err.println("Error: --window-left requires a value.");
+          if (!parseWindowOption(args, ++i, "--window-left", "window-left", formatOptions)) {
             return 1;
           }
         }
         case "-ww", "--window-width" -> {
-          if (i + 1 < args.length) {
-            String val = args[++i];
-            try {
-              Double.parseDouble(val);
-            } catch (NumberFormatException e) {
-              System.err.println("Error: --window-width requires a numeric value.");
-              return 1;
-            }
-            formatOptions.put("window-width", val);
-            formatOptions.put("draw-window", "true");
-          } else {
-            System.err.println("Error: --window-width requires a value.");
+          if (!parseWindowOption(args, ++i, "--window-width", "window-width", formatOptions)) {
             return 1;
           }
         }
         case "-wt", "--window-top" -> {
-          if (i + 1 < args.length) {
-            String val = args[++i];
-            try {
-              Double.parseDouble(val);
-            } catch (NumberFormatException e) {
-              System.err.println("Error: --window-top requires a numeric value.");
-              return 1;
-            }
-            formatOptions.put("window-top", val);
-            formatOptions.put("draw-window", "true");
-          } else {
-            System.err.println("Error: --window-top requires a value.");
+          if (!parseWindowOption(args, ++i, "--window-top", "window-top", formatOptions)) {
             return 1;
           }
         }
         case "-wh", "--window-height" -> {
-          if (i + 1 < args.length) {
-            String val = args[++i];
-            try {
-              Double.parseDouble(val);
-            } catch (NumberFormatException e) {
-              System.err.println("Error: --window-height requires a numeric value.");
-              return 1;
-            }
-            formatOptions.put("window-height", val);
-            formatOptions.put("draw-window", "true");
-          } else {
-            System.err.println("Error: --window-height requires a value.");
+          if (!parseWindowOption(args, ++i, "--window-height", "window-height", formatOptions)) {
             return 1;
           }
         }
@@ -387,24 +343,7 @@ public class Afp2Xml {
                     os.flush();
                   }
                 } else {
-                  long estimatedSize = finalAggressiveIo ? handlerFactory.estimateOutputSize(f.length()) : 0;
-                  if (finalAggressiveIo && estimatedSize >= MMAP_THRESHOLD) {
-                    try (RandomAccessFile raf = new RandomAccessFile(outputFile, "rw")) {
-                      raf.setLength(estimatedSize);
-                      FileChannelMappedBufferProvider provider = new FileChannelMappedBufferProvider(raf.getChannel());
-                      int segmentSize = (int) Math.min(estimatedSize, 1024L * 1024 * 1024); // 1GB segments
-                      long finalSize = 0;
-                      try (var os = new SegmentedMappedBufferOutputStream(provider, segmentSize)) {
-                        convertToXml(f, os, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
-                        os.flush();
-                        finalSize = os.getGlobalPosition();
-                      }
-                      raf.getChannel().truncate(finalSize);
-                    }
-                    System.out.println("Export successful (MMap): " + outputFile.getPath());
-                  } else {
-                    writeWithFileOutputStream(f, outputFile, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt, finalAggressiveIo);
-                  }
+                  writeToOutputFile(f, outputFile, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt, finalAggressiveIo);
                 }
               } catch (Exception e) {
                 var msg = e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName();
@@ -436,48 +375,7 @@ public class Afp2Xml {
           }
         } else {
           var outputFilePath = outputPath != null ? outputPath : inputPath + extension;
-          var outputFile = new File(outputFilePath);
-
-          long estimatedSize = aggressiveIo ? handlerFactory.estimateOutputSize(input.length()) : 0;
-          if (aggressiveIo && estimatedSize >= MMAP_THRESHOLD) {
-            // Use MMap for single-file mode if aggressive IO is on and file is large
-            try (RandomAccessFile raf = new RandomAccessFile(outputFile, "rw")) {
-              raf.setLength(estimatedSize);
-              FileChannelMappedBufferProvider provider = new FileChannelMappedBufferProvider(raf.getChannel());
-              int segmentSize = (int) Math.min(estimatedSize, 1024L * 1024 * 1024); // 1GB segments
-              long finalSize = 0;
-              try (var os = new SegmentedMappedBufferOutputStream(provider, segmentSize)) {
-                convertToXml(input, os, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
-                os.flush();
-                finalSize = os.getGlobalPosition();
-              }
-              raf.getChannel().truncate(finalSize);
-            }
-            System.out.println("Export successful (MMap): " + outputFile.getPath());
-            return 0;
-          }
-
-          try (var fos = new FileOutputStream(outputFile)) {
-            if (aggressiveIo) {
-              if (estimatedSize > 0) {
-                fos.getChannel().position(estimatedSize - 1);
-                fos.write(0);
-                fos.getChannel().position(0);
-              }
-            }
-            if (parallel) {
-              convertToXml(input, fos, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
-            } else {
-              try (OutputStream os = new BufferedOutputStream(new NonClosingOutputStream(fos))) {
-                convertToXml(input, os, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
-                os.flush();
-              }
-            }
-            if (aggressiveIo) {
-              fos.getChannel().truncate(fos.getChannel().position());
-            }
-          }
-          System.out.println("Export successful: " + outputFile.getPath());
+          writeToOutputFile(input, new File(outputFilePath), handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations, aggressiveIo);
         }
         return 0;
       }
@@ -590,6 +488,48 @@ public class Afp2Xml {
       }
     } finally {
       parser.quitParsing();
+    }
+  }
+
+  private static boolean parseWindowOption(String[] args, int valueIndex, String optionName,
+      String optionKey, java.util.Map<String, String> formatOptions) {
+    if (valueIndex >= args.length) {
+      System.err.println("Error: " + optionName + " requires a value.");
+      return false;
+    }
+    String val = args[valueIndex];
+    try {
+      Double.parseDouble(val);
+    } catch (NumberFormatException e) {
+      System.err.println("Error: " + optionName + " requires a numeric value.");
+      return false;
+    }
+    formatOptions.put(optionKey, val);
+    formatOptions.put("draw-window", "true");
+    return true;
+  }
+
+  private static void writeToOutputFile(File inputFile, File outputFile, HandlerFactory handlerFactory,
+      boolean ptxDebug, boolean parallel, int threads, boolean useCharsetOptimizations, boolean aggressiveIo)
+      throws Exception {
+    long estimatedSize = aggressiveIo ? handlerFactory.estimateOutputSize(inputFile.length()) : 0;
+    if (aggressiveIo && estimatedSize >= MMAP_THRESHOLD) {
+      try (RandomAccessFile raf = new RandomAccessFile(outputFile, "rw")) {
+        raf.setLength(estimatedSize);
+        FileChannelMappedBufferProvider provider = new FileChannelMappedBufferProvider(raf.getChannel());
+        int segmentSize = (int) Math.min(estimatedSize, 1024L * 1024 * 1024); // 1GB segments
+        long finalSize;
+        try (var os = new SegmentedMappedBufferOutputStream(provider, segmentSize)) {
+          convertToXml(inputFile, os, handlerFactory, ptxDebug, parallel, threads, useCharsetOptimizations);
+          os.flush();
+          finalSize = os.getGlobalPosition();
+        }
+        raf.getChannel().truncate(finalSize);
+      }
+      System.out.println("Export successful (MMap): " + outputFile.getPath());
+    } else {
+      writeWithFileOutputStream(inputFile, outputFile, handlerFactory, ptxDebug, parallel, threads,
+          useCharsetOptimizations, aggressiveIo);
     }
   }
 }
