@@ -99,7 +99,8 @@ gradle-app.setting
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
 
-# Benchmark outputs
+# Benchmark and test outputs
+test_output/
 test_output_bench_large/
 test_output_bench_10x10/
 
