@@ -297,7 +297,6 @@ public class PdfHandler implements StructuredFieldHandler {
     this.fontMapStack.push(new HashMap<>());
 
     this.document = new Document(pdfDoc);
-    this.document.setFontProvider(fontRegistry.getFontProvider());
     // Initialize DPartRoot for PDF/VT compliance (ISO 16612-2)
     this.dpartRoot = new PdfDictionary();
     dpartRoot.put(PdfName.Type, new PdfName("DPartRoot"));
@@ -2414,7 +2413,11 @@ public class PdfHandler implements StructuredFieldHandler {
     try {
       finishPageCanvas();
       if (fieldCount.get() > 0 && pdfDoc.getNumberOfPages() == 0) {
-        document.add(new Paragraph("AFP to PDF conversion in progress..."));
+        Paragraph placeholder = new Paragraph("AFP to PDF conversion in progress...");
+        if (fontRegistry.getDefaultFont() != null) {
+          placeholder.setFont(fontRegistry.getDefaultFont());
+        }
+        document.add(placeholder);
       }
       if (pdfDoc.getNumberOfPages() > 0) {
         if (drawLeftOverlay) {

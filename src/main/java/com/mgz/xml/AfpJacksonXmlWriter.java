@@ -197,6 +197,13 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
   private int baselineIncrement = 0;
 
   public ToXmlGenerator getBaseFragmentGenerator() {
+    if (baseFragmentGenerator == null && baseXsw != null) {
+      try {
+        baseFragmentGenerator = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(baseXsw);
+      } catch (java.io.IOException e) {
+        throw new java.io.UncheckedIOException("Failed to create base Jackson XML fragment generator", e);
+      }
+    }
     return baseFragmentGenerator;
   }
 
@@ -283,11 +290,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       this.baseXsw = null;
     }
 
-    if (this.baseXsw != null) {
-      this.baseFragmentGenerator = (ToXmlGenerator) fragmentMapper.getFactory().createGenerator(baseXsw);
-    } else {
-      this.baseFragmentGenerator = null;
-    }
+    this.baseFragmentGenerator = null;
   }
 
   @Override
@@ -359,7 +362,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
       MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
     }
-    JacksonXmlMapperProvider.getCachedWriter(sf.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, sf);
+    JacksonXmlMapperProvider.getCachedWriter(sf.getClass(), true, indentEnabled).writeValue(getBaseFragmentGenerator(), sf);
     if (MnemonicPerformanceMonitor.isEnabled()) {
       MnemonicPerformanceMonitor.endWrite();
     }
@@ -2590,7 +2593,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
           baseXsw.writeEndElement();
         } else {
           // Fallback for non-triplet RGs if needed, though most Map Fields use RepeatingGroupWithTriplets
-          JacksonXmlMapperProvider.getCachedWriter(rg.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, rg);
+          JacksonXmlMapperProvider.getCachedWriter(rg.getClass(), true, indentEnabled).writeValue(getBaseFragmentGenerator(), rg);
         }
       }
       writeIndent(baseXsw, level);
@@ -3495,7 +3498,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writer.writeEndElement();
       }
       default -> {
-        JacksonXmlMapperProvider.getCachedWriter(triplet.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, triplet);
+        JacksonXmlMapperProvider.getCachedWriter(triplet.getClass(), true, indentEnabled).writeValue(getBaseFragmentGenerator(), triplet);
       }
     }
   }
@@ -4129,7 +4132,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
           String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(simpleName);
           MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
         }
-        JacksonXmlMapperProvider.getCachedWriter(cs.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, cs);
+        JacksonXmlMapperProvider.getCachedWriter(cs.getClass(), true, indentEnabled).writeValue(getBaseFragmentGenerator(), cs);
         if (MnemonicPerformanceMonitor.isEnabled()) {
           MnemonicPerformanceMonitor.endWrite();
         }
@@ -4881,7 +4884,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writer.writeEndElement();
       }
       default -> {
-        JacksonXmlMapperProvider.getCachedWriter(order.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, order);
+        JacksonXmlMapperProvider.getCachedWriter(order.getClass(), true, indentEnabled).writeValue(getBaseFragmentGenerator(), order);
       }
     }
   }
@@ -5276,7 +5279,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writer.writeEndElement();
       }
       default -> {
-        JacksonXmlMapperProvider.getCachedWriter(segment.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, segment);
+        JacksonXmlMapperProvider.getCachedWriter(segment.getClass(), true, indentEnabled).writeValue(getBaseFragmentGenerator(), segment);
       }
     }
   }
@@ -5416,7 +5419,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writeIndent(writer, level);
       writer.writeEndElement();
     } else {
-      JacksonXmlMapperProvider.getCachedWriter(sdf.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, sdf);
+      JacksonXmlMapperProvider.getCachedWriter(sdf.getClass(), true, indentEnabled).writeValue(getBaseFragmentGenerator(), sdf);
     }
   }
 
@@ -5888,7 +5891,7 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         writer.writeEndElement();
       }
       default -> {
-        JacksonXmlMapperProvider.getCachedWriter(param.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, param);
+        JacksonXmlMapperProvider.getCachedWriter(param.getClass(), true, indentEnabled).writeValue(getBaseFragmentGenerator(), param);
       }
     }
   }

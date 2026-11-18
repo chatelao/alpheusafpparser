@@ -31,6 +31,7 @@ import java.util.Map;
 public class PdfHandlerFactory implements HandlerFactory {
 
   private String iccProfilePath;
+  private volatile byte[] iccProfileBytes;
   private boolean drawWindow;
   private double windowLeft = 102.5;
   private double windowWidth = 95.0;
@@ -44,6 +45,7 @@ public class PdfHandlerFactory implements HandlerFactory {
   public void configure(Map<String, String> options) {
     // Reset state to defaults before applying new options
     this.iccProfilePath = null;
+    this.iccProfileBytes = null;
     this.drawWindow = false;
     this.windowLeft = 102.5;
     this.windowWidth = 95.0;
@@ -55,6 +57,16 @@ public class PdfHandlerFactory implements HandlerFactory {
 
     if (options != null) {
       this.iccProfilePath = options.get("icc-profile");
+      if (this.iccProfilePath != null) {
+        java.nio.file.Path iccPath = java.nio.file.Path.of(this.iccProfilePath);
+        if (java.nio.file.Files.exists(iccPath)) {
+          try {
+            this.iccProfileBytes = java.nio.file.Files.readAllBytes(iccPath);
+          } catch (java.io.IOException ignored) {
+            this.iccProfileBytes = null;
+          }
+        }
+      }
       this.drawWindow = "true".equalsIgnoreCase(options.get("draw-window"))
           || "true".equalsIgnoreCase(options.get("window"))
           || options.containsKey("window-left")
@@ -130,12 +142,17 @@ public class PdfHandlerFactory implements HandlerFactory {
     handler.setDrawLeftOverlay(drawLeftOverlay);
     handler.setLeftOverlayWidth(leftOverlayWidth);
     handler.setDrawSwissPostLines(drawSwissPostLines);
-    if (iccProfilePath != null) {
-      java.io.File iccFile = new java.io.File(iccProfilePath);
-      if (iccFile.exists()) {
-        try (java.io.InputStream is = new java.io.FileInputStream(iccFile)) {
-          handler.setOutputIntent("Custom", "", "http://www.color.org", "Custom ICC Profile", is);
-        }
+    byte[] profileBytes = this.iccProfileBytes;
+    if (profileBytes == null && iccProfilePath != null) {
+      java.nio.file.Path iccPath = java.nio.file.Path.of(iccProfilePath);
+      if (java.nio.file.Files.exists(iccPath)) {
+        profileBytes = java.nio.file.Files.readAllBytes(iccPath);
+        this.iccProfileBytes = profileBytes;
+      }
+    }
+    if (profileBytes != null) {
+      try (java.io.InputStream is = new java.io.ByteArrayInputStream(profileBytes)) {
+        handler.setOutputIntent("Custom", "", "http://www.color.org", "Custom ICC Profile", is);
       }
     }
     return handler;

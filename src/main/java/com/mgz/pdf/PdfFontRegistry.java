@@ -19,6 +19,8 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.pdf;
 
+import com.itextpdf.io.font.FontProgram;
+import com.itextpdf.io.font.FontProgramFactory;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
@@ -32,24 +34,38 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class PdfFontRegistry {
 
+  private static final Map<String, FontProgram> STANDARD_FONT_PROGRAMS = new ConcurrentHashMap<>();
+
   private final Map<String, PdfFont> afpNameCache = new ConcurrentHashMap<>();
   private final Map<String, PdfFont> standardFontCache = new ConcurrentHashMap<>();
-  private final FontProvider fontProvider;
-  private final FontSet fontSet;
+  private FontProvider fontProvider;
+  private FontSet fontSet;
   private PdfFont defaultFont;
 
   public PdfFontRegistry() {
-    this.fontSet = new FontSet();
-    this.fontProvider = new FontProvider(fontSet);
-    // Add standard fonts to the provider to support basic resolution
-    this.fontProvider.addStandardPdfFonts();
+    this.defaultFont = createStandardPdfFont(StandardFonts.HELVETICA, null);
+  }
 
+  private static FontProgram getOrLoadFontProgram(String standardFontName) throws Exception {
+    FontProgram cached = STANDARD_FONT_PROGRAMS.get(standardFontName);
+    if (cached != null) {
+      return cached;
+    }
+    FontProgram loaded = FontProgramFactory.createFont(standardFontName);
+    FontProgram existing = STANDARD_FONT_PROGRAMS.putIfAbsent(standardFontName, loaded);
+    return existing != null ? existing : loaded;
+  }
+
+  private static PdfFont createStandardPdfFont(
+      String standardFontName, PdfFontFactory.EmbeddingStrategy embeddingStrategy) {
     try {
-      // PDF/A and PDF/X require fonts to be embedded.
-      // StandardFonts are usually not embedded by default in iText.
-      this.defaultFont = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+      FontProgram program = getOrLoadFontProgram(standardFontName);
+      if (embeddingStrategy != null) {
+        return PdfFontFactory.createFont(program, null, embeddingStrategy);
+      }
+      return PdfFontFactory.createFont(program);
     } catch (Exception e) {
-      // Should not happen with StandardFonts
+      return null;
     }
   }
 
@@ -197,19 +213,10 @@ public class PdfFontRegistry {
     if (standardFontName != null) {
       final String finalStandardFontName = standardFontName;
       return standardFontCache.computeIfAbsent(finalStandardFontName, k -> {
-        try {
-          // For PDF/VT and PDF/X-4 compliance, we should ideally embed fonts.
-          // iText 9 createFont with StandardFonts usually creates a non-embedded font.
-          // Passing embedding = true and subset = true for compliance.
-          return PdfFontFactory.createFont(finalStandardFontName, null, PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED);
-        } catch (Exception e) {
-          // Fallback
-          try {
-            return PdfFontFactory.createFont(finalStandardFontName);
-          } catch (Exception ex) {
-            return null;
-          }
-        }
+        // For PDF/VT and PDF/X-4 compliance, we should ideally embed fonts.
+        PdfFont font = createStandardPdfFont(
+            finalStandardFontName, PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED);
+        return font != null ? font : createStandardPdfFont(finalStandardFontName, null);
       });
     }
 
@@ -317,20 +324,27 @@ public class PdfFontRegistry {
   }
 
   /**
-   * Returns the font provider.
+   * Returns the font provider, lazily initializing it on first access.
    *
    * @return the font provider
    */
-  public FontProvider getFontProvider() {
+  public synchronized FontProvider getFontProvider() {
+    if (this.fontProvider == null) {
+      this.fontProvider = new FontProvider();
+      this.fontProvider.addStandardPdfFonts();
+    }
     return fontProvider;
   }
 
   /**
-   * Returns the font set.
+   * Returns the font set, lazily initializing the font provider on first access.
    *
    * @return the font set
    */
-  public FontSet getFontSet() {
+  public synchronized FontSet getFontSet() {
+    if (this.fontSet == null) {
+      this.fontSet = getFontProvider().getFontSet();
+    }
     return fontSet;
   }
 
