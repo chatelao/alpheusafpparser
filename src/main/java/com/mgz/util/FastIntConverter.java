@@ -21,17 +21,19 @@ package com.mgz.util;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * High-performance integer to UTF-8 byte conversion that avoids String allocations.
  */
 public class FastIntConverter {
-  private static final byte[] MIN_VALUE_BYTES = "-2147483648".getBytes();
+  private static final byte[] MIN_VALUE_BYTES = "-2147483648".getBytes(StandardCharsets.US_ASCII);
+  private static final byte[] MIN_LONG_BYTES = "-9223372036854775808".getBytes(StandardCharsets.US_ASCII);
   private static final byte[][] SMALL_INTS = new byte[100][];
 
   static {
     for (int i = 0; i < 100; i++) {
-      SMALL_INTS[i] = Integer.toString(i).getBytes();
+      SMALL_INTS[i] = Integer.toString(i).getBytes(StandardCharsets.US_ASCII);
     }
   }
 
@@ -81,7 +83,7 @@ public class FastIntConverter {
       return;
     }
     if (value == Long.MIN_VALUE) {
-      os.write("-9223372036854775808".getBytes());
+      os.write(MIN_LONG_BYTES);
       return;
     }
 
@@ -115,9 +117,8 @@ public class FastIntConverter {
       return small.length;
     }
     if (value == Long.MIN_VALUE) {
-      byte[] minBytes = "-9223372036854775808".getBytes();
-      System.arraycopy(minBytes, 0, buffer, offset, minBytes.length);
-      return minBytes.length;
+      System.arraycopy(MIN_LONG_BYTES, 0, buffer, offset, MIN_LONG_BYTES.length);
+      return MIN_LONG_BYTES.length;
     }
 
     int pos = offset;
