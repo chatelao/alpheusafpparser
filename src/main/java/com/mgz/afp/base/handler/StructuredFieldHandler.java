@@ -59,6 +59,52 @@ public interface StructuredFieldHandler extends AutoCloseable {
   default void setCurrentPageNumber(int pageNumber) {}
 
   /**
+   * Returns whether the handler still needs the first page processed sequentially to capture
+   * document-wide descriptor defaults (e.g., PGD/PTD) before parallel batches begin.
+   *
+   * @return true if first-page sequential initialization is needed
+   */
+  default boolean needsFirstPageForBatchState() {
+    return false;
+  }
+
+  /**
+   * Exports a thread-safe snapshot of preamble state for parallel worker handlers.
+   *
+   * @return an opaque preamble state snapshot, or null if not applicable
+   */
+  default Object exportBatchState() {
+    return null;
+  }
+
+  /**
+   * Imports a preamble state snapshot into a parallel worker handler before processing batch fields.
+   *
+   * @param state the opaque preamble state snapshot exported by the master handler
+   */
+  default void importBatchState(Object state) {}
+
+  /**
+   * Exports optional metadata collected by a closed worker handler to be merged into master.
+   *
+   * @return opaque batch metadata, or null if none
+   */
+  default Object exportBatchMetadata() {
+    return null;
+  }
+
+  /**
+   * Merges a completed binary batch result and its metadata into this master handler in order.
+   *
+   * @param batchData the serialized binary output of the batch handler
+   * @param batchMetadata the metadata exported by the batch handler, or null
+   * @throws Exception if merging fails
+   */
+  default void mergeBatch(java.nio.ByteBuffer batchData, Object batchMetadata) throws Exception {
+    throw new UnsupportedOperationException("Binary batch merge is not supported by this handler.");
+  }
+
+  /**
    * Closes the handler and releases any resources.
    *
    * @throws Exception if closing fails

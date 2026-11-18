@@ -237,4 +237,45 @@ public class ColorContext {
 
     return defaultForegroundColor != null ? defaultForegroundColor : DeviceRgb.BLACK;
   }
+
+  /**
+   * Returns a deep copy of this {@link ColorContext} suitable for isolated parallel worker threads.
+   *
+   * @return a deep copy of this context
+   */
+  public ColorContext copy() {
+    ColorContext copy = new ColorContext();
+    copy.copyFrom(this);
+    return copy;
+  }
+
+  /**
+   * Replaces this context's state with a deep copy of {@code other}.
+   *
+   * @param other the source context to copy from
+   */
+  public void copyFrom(ColorContext other) {
+    if (other == null) {
+      return;
+    }
+    this.defaultForegroundColor = other.defaultForegroundColor;
+    this.defaultBackgroundColor = other.defaultBackgroundColor;
+    this.mediaBackgroundColor = other.mediaBackgroundColor;
+    this.activeStylesheetColor = other.activeStylesheetColor;
+    this.formdefDefaultColor = other.formdefDefaultColor;
+
+    this.colorTables.clear();
+    for (java.util.Map.Entry<Short, java.util.Map<Integer, Color>> entry : other.colorTables.entrySet()) {
+      this.colorTables.put(entry.getKey(), new java.util.HashMap<>(entry.getValue()));
+    }
+    this.activeColorTableId = other.activeColorTableId;
+
+    this.registeredCmrs.clear();
+    this.registeredCmrs.putAll(other.registeredCmrs);
+    this.haidToCmr.clear();
+    this.haidToCmr.putAll(other.haidToCmr);
+    this.activeHaids.clear();
+    this.activeHaids.addAll(other.activeHaids);
+    this.activeCmrName = other.activeCmrName;
+  }
 }

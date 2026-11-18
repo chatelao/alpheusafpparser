@@ -115,7 +115,12 @@ public class PdfHandlerFactory implements HandlerFactory {
 
   @Override
   public boolean isParallelSupported() {
-    return false;
+    return true;
+  }
+
+  @Override
+  public boolean isBinaryDocumentMerge() {
+    return true;
   }
 
   @Override
@@ -127,32 +132,34 @@ public class PdfHandlerFactory implements HandlerFactory {
    * Creates a new {@link PdfHandler}.
    *
    * @param os           the output stream
-   * @param fragmentMode currently unsupported and ignored for PDF output
+   * @param fragmentMode true when creating an isolated page-batch worker handler for parallel merge
    * @return a new PdfHandler
    * @throws Exception if creation fails
    */
   @Override
   public StructuredFieldHandler createHandler(OutputStream os, boolean fragmentMode) throws Exception {
-    PdfHandler handler = new PdfHandler(os, new PdfFontRegistry());
-    handler.setDrawWindow(drawWindow);
-    handler.setWindowLeft(windowLeft);
-    handler.setWindowWidth(windowWidth);
-    handler.setWindowTop(windowTop);
-    handler.setWindowHeight(windowHeight);
-    handler.setDrawLeftOverlay(drawLeftOverlay);
-    handler.setLeftOverlayWidth(leftOverlayWidth);
-    handler.setDrawSwissPostLines(drawSwissPostLines);
-    byte[] profileBytes = this.iccProfileBytes;
-    if (profileBytes == null && iccProfilePath != null) {
-      java.nio.file.Path iccPath = java.nio.file.Path.of(iccProfilePath);
-      if (java.nio.file.Files.exists(iccPath)) {
-        profileBytes = java.nio.file.Files.readAllBytes(iccPath);
-        this.iccProfileBytes = profileBytes;
+    PdfHandler handler = new PdfHandler(os, new PdfFontRegistry(), fragmentMode);
+    if (!fragmentMode) {
+      handler.setDrawWindow(drawWindow);
+      handler.setWindowLeft(windowLeft);
+      handler.setWindowWidth(windowWidth);
+      handler.setWindowTop(windowTop);
+      handler.setWindowHeight(windowHeight);
+      handler.setDrawLeftOverlay(drawLeftOverlay);
+      handler.setLeftOverlayWidth(leftOverlayWidth);
+      handler.setDrawSwissPostLines(drawSwissPostLines);
+      byte[] profileBytes = this.iccProfileBytes;
+      if (profileBytes == null && iccProfilePath != null) {
+        java.nio.file.Path iccPath = java.nio.file.Path.of(iccProfilePath);
+        if (java.nio.file.Files.exists(iccPath)) {
+          profileBytes = java.nio.file.Files.readAllBytes(iccPath);
+          this.iccProfileBytes = profileBytes;
+        }
       }
-    }
-    if (profileBytes != null) {
-      try (java.io.InputStream is = new java.io.ByteArrayInputStream(profileBytes)) {
-        handler.setOutputIntent("Custom", "", "http://www.color.org", "Custom ICC Profile", is);
+      if (profileBytes != null) {
+        try (java.io.InputStream is = new java.io.ByteArrayInputStream(profileBytes)) {
+          handler.setOutputIntent("Custom", "", "http://www.color.org", "Custom ICC Profile", is);
+        }
       }
     }
     return handler;

@@ -47,6 +47,16 @@ public interface HandlerFactory {
   }
 
   /**
+   * Returns true if parallel conversion produces independent binary documents per page batch
+   * that must be merged by the master handler rather than concatenated as raw byte fragments.
+   *
+   * @return true for binary document merge (e.g., PDF), false for byte-stream concatenation (e.g., XML)
+   */
+  default boolean isBinaryDocumentMerge() {
+    return false;
+  }
+
+  /**
    * Returns the default file extension for the output format (e.g., ".xml", ".pdf").
    *
    * @param options the configuration options that might affect the extension

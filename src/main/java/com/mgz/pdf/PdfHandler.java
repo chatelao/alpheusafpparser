@@ -33,8 +33,10 @@ import com.itextpdf.kernel.pdf.PdfName;
 import com.itextpdf.kernel.pdf.PdfStream;
 import com.itextpdf.kernel.pdf.PdfOutputIntent;
 import com.itextpdf.kernel.pdf.PdfPage;
+import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfString;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.WriterProperties;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.kernel.pdf.colorspace.PdfPattern;
 import com.itextpdf.kernel.pdf.colorspace.shading.PdfAxialShading;
@@ -178,7 +180,9 @@ import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.TRN_TransparentDat
 import com.mgz.afp.ptoca.controlSequence.PTOCAControlSequence.UCT_UnicodeComplexText;
 import com.mgz.afp.triplets.Triplet;
 import com.mgz.util.MnemonicPerformanceMonitor;
+import java.io.ByteArrayInputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -201,6 +205,39 @@ public class PdfHandler implements StructuredFieldHandler {
    */
   public record FontResource(String name, float size, boolean bold, boolean italic) {}
 
+  private enum DPartEventType {
+    BEGIN_DOC,
+    BEGIN_GROUP,
+    BEGIN_PAGE,
+    IMPLICIT_PAGE,
+    TLE,
+    END_PAGE,
+    END_GROUP,
+    END_DOC
+  }
+
+  private record DPartEvent(DPartEventType type, String key, String value) {}
+
+  private record PdfBatchState(
+      float defaultPageWidth,
+      float defaultPageHeight,
+      double defaultScaleX,
+      double defaultScaleY,
+      List<Map<Short, FontResource>> fontMapStackTopToBottom,
+      List<StructuredField> structureMarkersTopToBottom,
+      Set<String> mmoResources,
+      Set<String> mpsResources,
+      ColorContext colorContext,
+      Map<String, GAD_DrawingOrder> gradientCache,
+      Set<Short> enabledSuppressionIDs) {}
+
+  private record PdfBatchMetadata(
+      List<DPartEvent> events,
+      float defaultPageWidth,
+      float defaultPageHeight,
+      double defaultScaleX,
+      double defaultScaleY) {}
+
   private final AtomicLong fieldCount = new AtomicLong(0);
   private final Deque<StructuredField> structureStack = new ArrayDeque<>();
   private final Deque<PdfDictionary> dpartStack = new ArrayDeque<>();
@@ -215,6 +252,8 @@ public class PdfHandler implements StructuredFieldHandler {
   private final Deque<Boolean> canvasTransformedStack = new ArrayDeque<>();
   private final Set<Short> enabledSuppressionIDs = new HashSet<>();
   private final PdfFontRegistry fontRegistry;
+  private final boolean fragmentMode;
+  private final List<DPartEvent> dpartEvents;
   private final PdfDocument pdfDoc;
   private final Document document;
   private final PdfDictionary dpartRoot;
@@ -277,7 +316,7 @@ public class PdfHandler implements StructuredFieldHandler {
   private int gocaImageResolutionXY = 0;
 
   public PdfHandler(OutputStream os) {
-    this(os, new PdfFontRegistry());
+    this(os, new PdfFontRegistry(), false);
   }
 
   /**
@@ -287,8 +326,24 @@ public class PdfHandler implements StructuredFieldHandler {
    * @param fontRegistry the font registry to use
    */
   public PdfHandler(OutputStream os, PdfFontRegistry fontRegistry) {
+    this(os, fontRegistry, false);
+  }
+
+  /**
+   * Constructs a PdfHandler with an injected font registry and optional fragment mode.
+   *
+   * @param os the output stream
+   * @param fontRegistry the font registry to use
+   * @param fragmentMode true when creating an isolated page-batch worker handler
+   */
+  public PdfHandler(OutputStream os, PdfFontRegistry fontRegistry, boolean fragmentMode) {
     this.fontRegistry = fontRegistry;
-    this.pdfDoc = new PdfDocument(new PdfWriter(os));
+    this.fragmentMode = fragmentMode;
+    this.dpartEvents = fragmentMode ? new ArrayList<>() : null;
+    PdfWriter writer = fragmentMode
+        ? new PdfWriter(os)
+        : new PdfWriter(os, new WriterProperties().useSmartMode());
+    this.pdfDoc = new PdfDocument(writer);
     this.textState = new PdfTextState();
     this.graphicsState = new PdfGraphicsState();
     this.barcodeState = new PdfBarcodeState();
@@ -296,19 +351,24 @@ public class PdfHandler implements StructuredFieldHandler {
     this.imImageState = new PdfImImageState();
     this.fontMapStack.push(new HashMap<>());
 
-    this.document = new Document(pdfDoc);
-    // Initialize DPartRoot for PDF/VT compliance (ISO 16612-2)
-    this.dpartRoot = new PdfDictionary();
-    dpartRoot.put(PdfName.Type, new PdfName("DPartRoot"));
-    pdfDoc.getCatalog().put(new PdfName("DPartRoot"), dpartRoot);
+    if (!fragmentMode) {
+      this.document = new Document(pdfDoc);
+      // Initialize DPartRoot for PDF/VT compliance (ISO 16612-2)
+      this.dpartRoot = new PdfDictionary();
+      dpartRoot.put(PdfName.Type, new PdfName("DPartRoot"));
+      pdfDoc.getCatalog().put(new PdfName("DPartRoot"), dpartRoot);
 
-    // Initialize DTree root node
-    PdfDictionary dtreeRoot = new PdfDictionary();
-    dtreeRoot.put(PdfName.Type, new PdfName("DPart"));
-    dpartRoot.put(new PdfName("DTree"), dtreeRoot);
+      // Initialize DTree root node
+      PdfDictionary dtreeRoot = new PdfDictionary();
+      dtreeRoot.put(PdfName.Type, new PdfName("DPart"));
+      dpartRoot.put(new PdfName("DTree"), dtreeRoot);
 
-    // Initialize OutputIntents array for PDF/X and PDF/VT compliance
-    pdfDoc.getCatalog().put(PdfName.OutputIntents, new PdfArray());
+      // Initialize OutputIntents array for PDF/X and PDF/VT compliance
+      pdfDoc.getCatalog().put(PdfName.OutputIntents, new PdfArray());
+    } else {
+      this.document = null;
+      this.dpartRoot = null;
+    }
   }
 
   @Override
@@ -349,33 +409,29 @@ public class PdfHandler implements StructuredFieldHandler {
       return;
     }
     if (sf.isEndSF()) {
-      handleEndField();
+      handleEndField(sf);
       return;
     }
 
     switch (sf) {
       case TLE_TagLogicalElement tle -> {
-        if (!dpartStack.isEmpty()) {
-          PdfDictionary dpart = dpartStack.peek();
-          String key = null;
-          String value = null;
-          if (tle.getTriplets() != null) {
-            for (Triplet triplet : tle.getTriplets()) {
-              if (triplet instanceof Triplet.FullyQualifiedName fqn && fqn.getType() == Triplet.GlobalID_Use.AttributeGID) {
-                key = fqn.getNameAsString();
-              } else if (triplet instanceof Triplet.AttributeValue av) {
-                value = av.getAttributeValue();
-              }
+        String key = null;
+        String value = null;
+        if (tle.getTriplets() != null) {
+          for (Triplet triplet : tle.getTriplets()) {
+            if (triplet instanceof Triplet.FullyQualifiedName fqn
+                && fqn.getType() == Triplet.GlobalID_Use.AttributeGID) {
+              key = fqn.getNameAsString();
+            } else if (triplet instanceof Triplet.AttributeValue av) {
+              value = av.getAttributeValue();
             }
           }
-          if (key != null && value != null) {
-            PdfDictionary property = dpart.getAsDictionary(new PdfName("Property"));
-            if (property == null) {
-              property = new PdfDictionary();
-              property.makeIndirect(pdfDoc);
-              dpart.put(new PdfName("Property"), property);
-            }
-            property.put(new PdfName(key), new PdfString(value));
+        }
+        if (key != null && value != null) {
+          if (fragmentMode) {
+            dpartEvents.add(new DPartEvent(DPartEventType.TLE, key, value));
+          } else {
+            applyTleProperty(key, value);
           }
         }
       }
@@ -742,20 +798,41 @@ public class PdfHandler implements StructuredFieldHandler {
       }
       case BMO_BeginOverlay bmo -> startResourceCapture(bmo.getName());
       case BPS_BeginPageSegment bps -> startResourceCapture(bps.getName());
-      case BDT_BeginDocument bdt -> pushDpartForScope(bdt.getName(), false);
-      case BNG_BeginNamedPageGroup bng -> pushDpartForScope(bng.getName(), false);
-      case BPG_BeginPage bpg -> pushDpartForScope(bpg.getName(), true);
+      case BDT_BeginDocument bdt -> {
+        if (fragmentMode) {
+          dpartEvents.add(new DPartEvent(DPartEventType.BEGIN_DOC, bdt.getName(), null));
+        } else {
+          createDpartNode(bdt.getName());
+        }
+      }
+      case BNG_BeginNamedPageGroup bng -> {
+        if (fragmentMode) {
+          dpartEvents.add(new DPartEvent(DPartEventType.BEGIN_GROUP, bng.getName(), null));
+        } else {
+          createDpartNode(bng.getName());
+        }
+      }
+      case BPG_BeginPage bpg -> {
+        if (fragmentMode) {
+          dpartEvents.add(new DPartEvent(DPartEventType.BEGIN_PAGE, bpg.getName(), null));
+          startNewPage(null);
+        } else {
+          PdfDictionary dpart = createDpartNode(bpg.getName());
+          startNewPage(dpart);
+        }
+      }
       default -> {
       }
     }
   }
 
-  private void pushDpartForScope(String name, boolean isPage) throws Exception {
+  private PdfDictionary createDpartNode(String name) {
     PdfDictionary dpart = new PdfDictionary();
     dpart.makeIndirect(pdfDoc);
     dpart.put(PdfName.Type, PdfName.DPart);
 
-    PdfDictionary parent = dpartStack.isEmpty() ? dpartRoot.getAsDictionary(new PdfName("DTree")) : dpartStack.peek();
+    PdfDictionary parent =
+        dpartStack.isEmpty() ? dpartRoot.getAsDictionary(new PdfName("DTree")) : dpartStack.peek();
     dpart.put(PdfName.Parent, parent);
 
     PdfArray dparts = parent.getAsArray(new PdfName("DParts"));
@@ -773,29 +850,70 @@ public class PdfHandler implements StructuredFieldHandler {
       dpart.put(new PdfName("Property"), property);
       property.put(new PdfName("GroupName"), new PdfString(name.trim()));
     }
+    return dpart;
+  }
 
-    if (isPage) {
-      finishPageCanvas();
-      this.currentPage = pdfDoc.addNewPage();
-      this.currentCanvas = new PdfCanvas(currentPage);
+  private void applyTleProperty(String key, String value) {
+    if (key == null || value == null || dpartStack.isEmpty()) {
+      return;
+    }
+    PdfDictionary dpart = dpartStack.peek();
+    PdfDictionary property = dpart.getAsDictionary(new PdfName("Property"));
+    if (property == null) {
+      property = new PdfDictionary();
+      property.makeIndirect(pdfDoc);
+      dpart.put(new PdfName("Property"), property);
+    }
+    property.put(new PdfName(key), new PdfString(value));
+  }
+
+  private void startNewPage(PdfDictionary dpart) {
+    finishPageCanvas();
+    this.currentPage = pdfDoc.addNewPage();
+    this.currentCanvas = new PdfCanvas(currentPage);
+    if (dpart != null) {
       currentPage.put(PdfName.DPart, dpart);
-      textState.reset();
-      graphicsState.reset();
-      barcodeState.reset();
-      imageState.reset();
-      imImageState.reset();
-      currentCanvas.setFillColor(DeviceRgb.BLACK);
-      this.isCanvasTransformed = false;
-      this.inGraphicsObject = false;
-      this.isGocaTransformApplied = false;
+    }
+    textState.reset();
+    graphicsState.reset();
+    barcodeState.reset();
+    imageState.reset();
+    imImageState.reset();
+    currentCanvas.setFillColor(DeviceRgb.BLACK);
+    this.isCanvasTransformed = false;
+    this.inGraphicsObject = false;
+    this.isGocaTransformApplied = false;
 
-      if (defaultPageWidth > 0 && defaultPageHeight > 0) {
-        currentPage.setMediaBox(new com.itextpdf.kernel.geom.Rectangle(defaultPageWidth, defaultPageHeight));
-      }
+    if (defaultPageWidth > 0 && defaultPageHeight > 0) {
+      currentPage.setMediaBox(
+          new com.itextpdf.kernel.geom.Rectangle(defaultPageWidth, defaultPageHeight));
     }
   }
 
-  private void handleEndField() throws Exception {
+  private void handleEndField(StructuredField endSf) throws Exception {
+    if (fragmentMode) {
+      if (endSf instanceof ENG_EndNamedPageGroup) {
+        if (!structureStack.isEmpty() && structureStack.peek() instanceof BNG_BeginNamedPageGroup) {
+          structureStack.pop();
+          if (fontMapStack.size() > 1) {
+            fontMapStack.pop();
+          }
+        }
+        dpartEvents.add(new DPartEvent(DPartEventType.END_GROUP, null, null));
+        return;
+      }
+      if (endSf instanceof EDT_EndDocument) {
+        if (!structureStack.isEmpty() && structureStack.peek() instanceof BDT_BeginDocument) {
+          structureStack.pop();
+          if (fontMapStack.size() > 1) {
+            fontMapStack.pop();
+          }
+        }
+        dpartEvents.add(new DPartEvent(DPartEventType.END_DOC, null, null));
+        return;
+      }
+    }
+
     if (structureStack.isEmpty()) {
       return;
     }
@@ -807,17 +925,23 @@ public class PdfHandler implements StructuredFieldHandler {
     switch (begin) {
       case BPG_BeginPage ignored -> {
         finishPageCanvas();
-        if (!dpartStack.isEmpty()) {
+        if (fragmentMode) {
+          dpartEvents.add(new DPartEvent(DPartEventType.END_PAGE, null, null));
+        } else if (!dpartStack.isEmpty()) {
           dpartStack.pop();
         }
       }
       case BDT_BeginDocument ignored -> {
-        if (!dpartStack.isEmpty()) {
+        if (fragmentMode) {
+          dpartEvents.add(new DPartEvent(DPartEventType.END_DOC, null, null));
+        } else if (!dpartStack.isEmpty()) {
           dpartStack.pop();
         }
       }
       case BNG_BeginNamedPageGroup ignored -> {
-        if (!dpartStack.isEmpty()) {
+        if (fragmentMode) {
+          dpartEvents.add(new DPartEvent(DPartEventType.END_GROUP, null, null));
+        } else if (!dpartStack.isEmpty()) {
           dpartStack.pop();
         }
       }
@@ -2237,21 +2361,11 @@ public class PdfHandler implements StructuredFieldHandler {
   }
 
   private void ensurePageExists() {
-    if (pdfDoc.getNumberOfPages() == 0) {
-      this.currentPage = pdfDoc.addNewPage();
-      this.currentCanvas = new PdfCanvas(currentPage);
-      textState.reset();
-      graphicsState.reset();
-      barcodeState.reset();
-      imageState.reset();
-      imImageState.reset();
-      currentCanvas.setFillColor(DeviceRgb.BLACK);
-      this.isCanvasTransformed = false;
-
-      // Apply default page size if defined (from PGD)
-      if (defaultPageWidth > 0 && defaultPageHeight > 0) {
-        currentPage.setMediaBox(new com.itextpdf.kernel.geom.Rectangle(defaultPageWidth, defaultPageHeight));
+    if (currentCanvas == null && pdfDoc.getNumberOfPages() == 0) {
+      if (fragmentMode) {
+        dpartEvents.add(new DPartEvent(DPartEventType.IMPLICIT_PAGE, null, null));
       }
+      startNewPage(null);
     }
   }
 
@@ -2409,9 +2523,168 @@ public class PdfHandler implements StructuredFieldHandler {
   }
 
   @Override
+  public boolean needsFirstPageForBatchState() {
+    return defaultPageWidth < 0 || defaultPageHeight < 0;
+  }
+
+  @Override
+  public Object exportBatchState() {
+    List<Map<Short, FontResource>> fontFrames = new ArrayList<>(fontMapStack.size());
+    for (Map<Short, FontResource> frame : fontMapStack) {
+      fontFrames.add(new HashMap<>(frame));
+    }
+
+    List<StructuredField> markers = new ArrayList<>(structureStack.size());
+    for (StructuredField sf : structureStack) {
+      markers.add(createStructureMarker(sf));
+    }
+
+    return new PdfBatchState(
+        defaultPageWidth,
+        defaultPageHeight,
+        defaultScaleX,
+        defaultScaleY,
+        fontFrames,
+        markers,
+        new HashSet<>(mmoResources),
+        new HashSet<>(mpsResources),
+        colorContext.copy(),
+        new HashMap<>(gradientCache),
+        new HashSet<>(enabledSuppressionIDs));
+  }
+
+  @Override
+  public void importBatchState(Object state) {
+    if (!(state instanceof PdfBatchState batchState)) {
+      return;
+    }
+    this.defaultPageWidth = batchState.defaultPageWidth();
+    this.defaultPageHeight = batchState.defaultPageHeight();
+    this.defaultScaleX = batchState.defaultScaleX();
+    this.defaultScaleY = batchState.defaultScaleY();
+
+    this.fontMapStack.clear();
+    List<Map<Short, FontResource>> frames = batchState.fontMapStackTopToBottom();
+    for (int i = frames.size() - 1; i >= 0; i--) {
+      this.fontMapStack.push(new HashMap<>(frames.get(i)));
+    }
+    if (this.fontMapStack.isEmpty()) {
+      this.fontMapStack.push(new HashMap<>());
+    }
+
+    this.structureStack.clear();
+    List<StructuredField> markers = batchState.structureMarkersTopToBottom();
+    for (int i = markers.size() - 1; i >= 0; i--) {
+      this.structureStack.push(createStructureMarker(markers.get(i)));
+    }
+
+    this.mmoResources.clear();
+    this.mmoResources.addAll(batchState.mmoResources());
+    this.mpsResources.clear();
+    this.mpsResources.addAll(batchState.mpsResources());
+    this.colorContext.copyFrom(batchState.colorContext());
+    this.gradientCache.clear();
+    this.gradientCache.putAll(batchState.gradientCache());
+    this.enabledSuppressionIDs.clear();
+    this.enabledSuppressionIDs.addAll(batchState.enabledSuppressionIDs());
+  }
+
+  @Override
+  public Object exportBatchMetadata() {
+    if (!fragmentMode) {
+      return null;
+    }
+    return new PdfBatchMetadata(
+        new ArrayList<>(dpartEvents),
+        defaultPageWidth,
+        defaultPageHeight,
+        defaultScaleX,
+        defaultScaleY);
+  }
+
+  @Override
+  public void mergeBatch(ByteBuffer batchData, Object batchMetadata) throws Exception {
+    if (batchData == null || !batchData.hasRemaining()) {
+      return;
+    }
+    byte[] bytes;
+    int offset;
+    int length = batchData.remaining();
+    if (batchData.hasArray()) {
+      bytes = batchData.array();
+      offset = batchData.arrayOffset() + batchData.position();
+    } else {
+      bytes = new byte[length];
+      batchData.duplicate().get(bytes);
+      offset = 0;
+    }
+
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes, offset, length);
+        PdfReader reader = new PdfReader(bais);
+        PdfDocument srcDoc = new PdfDocument(reader)) {
+      int srcPageCount = srcDoc.getNumberOfPages();
+      List<PdfPage> copiedPages = (srcPageCount > 0)
+          ? srcDoc.copyPagesTo(1, srcPageCount, this.pdfDoc)
+          : Collections.emptyList();
+
+      if (batchMetadata instanceof PdfBatchMetadata meta) {
+        if (meta.defaultPageWidth() > 0 && meta.defaultPageHeight() > 0) {
+          this.defaultPageWidth = meta.defaultPageWidth();
+          this.defaultPageHeight = meta.defaultPageHeight();
+          this.defaultScaleX = meta.defaultScaleX();
+          this.defaultScaleY = meta.defaultScaleY();
+        }
+        int pageIdx = 0;
+        for (DPartEvent event : meta.events()) {
+          switch (event.type()) {
+            case BEGIN_DOC, BEGIN_GROUP -> createDpartNode(event.key());
+            case BEGIN_PAGE -> {
+              PdfDictionary pageDpart = createDpartNode(event.key());
+              if (pageIdx < copiedPages.size()) {
+                copiedPages.get(pageIdx++).put(PdfName.DPart, pageDpart);
+              }
+            }
+            case IMPLICIT_PAGE -> {
+              if (pageIdx < copiedPages.size()) {
+                pageIdx++;
+              }
+            }
+            case TLE -> applyTleProperty(event.key(), event.value());
+            case END_PAGE, END_GROUP, END_DOC -> {
+              if (!dpartStack.isEmpty()) {
+                dpartStack.pop();
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  private static StructuredField createStructureMarker(StructuredField sf) {
+    return switch (sf) {
+      case BDT_BeginDocument ignored -> new BDT_BeginDocument();
+      case BNG_BeginNamedPageGroup ignored -> new BNG_BeginNamedPageGroup();
+      case BPG_BeginPage ignored -> new BPG_BeginPage();
+      case BMO_BeginOverlay ignored -> new BMO_BeginOverlay();
+      case BPS_BeginPageSegment ignored -> new BPS_BeginPageSegment();
+      case BIM_BeginImageObject ignored -> new BIM_BeginImageObject();
+      case BII_BeginIMImageObject ignored -> new BII_BeginIMImageObject();
+      case BBC_BeginBarCodeObject ignored -> new BBC_BeginBarCodeObject();
+      case BRG_BeginResourceGroup ignored -> new BRG_BeginResourceGroup();
+      case BSG_BeginResourceEnvironmentGroup ignored -> new BSG_BeginResourceEnvironmentGroup();
+      default -> new com.mgz.afp.base.Undefined();
+    };
+  }
+
+  @Override
   public void close() throws Exception {
     try {
       finishPageCanvas();
+      if (fragmentMode) {
+        pdfDoc.close();
+        return;
+      }
       if (fieldCount.get() > 0 && pdfDoc.getNumberOfPages() == 0) {
         Paragraph placeholder = new Paragraph("AFP to PDF conversion in progress...");
         if (fontRegistry.getDefaultFont() != null) {
