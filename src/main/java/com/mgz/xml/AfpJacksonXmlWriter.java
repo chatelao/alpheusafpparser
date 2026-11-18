@@ -337,382 +337,259 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       writePureIndent(level);
     }
 
-    if (sf instanceof NOP_NoOperation nop) {
-      writeNopDirectly(nop, level);
-    } else if (sf instanceof TLE_TagLogicalElement tle) {
-      writeTleDirectly(tle, level);
-    } else if (sf instanceof BAG_BeginActiveEnvironmentGroup bag) {
-      writeBagDirectly(bag, level);
-    } else if (sf instanceof BCF_BeginCodedFont bcf) {
-      writeNameAndTripletsDirectly(bcf, "BCF_BeginCodedFont", level);
-    } else if (sf instanceof BCP_BeginCodePage bcp) {
-      writeNameAndTripletsDirectly(bcp, "BCP_BeginCodePage", level);
-    } else if (sf instanceof BFN_BeginFont bfn) {
-      writeNameAndTripletsDirectly(bfn, "BFN_BeginFont", level);
-    } else if (sf instanceof BFM_BeginFormMap bfm) {
-      writeNameAndTripletsDirectly(bfm, "BFM_BeginFormMap", level);
-    } else if (sf instanceof BII_BeginIMImageObject bii) {
-      writeNameAndTripletsDirectly(bii, "BII_BeginIMImageObject", level);
-    } else if (sf instanceof BMM_BeginMediumMap bmm) {
-      writeNameAndTripletsDirectly(bmm, "BMM_BeginMediumMap", level);
-    } else if (sf instanceof BPF_BeginPrintFile bpf) {
-      writeNameAndTripletsDirectly(bpf, "BPF_BeginPrintFile", level);
-    } else if (sf instanceof BRS_BeginResource brs) {
-      writeNameDirectly(brs, "BRS_BeginResource", level);
-    } else if (sf instanceof BDG_BeginDocumentEnvironmentGroup bdg) {
-      writeNameAndTripletsDirectly(bdg, "BDG_BeginDocumentEnvironmentGroup", level);
-    } else if (sf instanceof BFG_BeginFormEnvironmentGroup bfg) {
-      writeNameAndTripletsDirectly(bfg, "BFG_BeginFormEnvironmentGroup", level);
-    } else if (sf instanceof BOG_BeginObjectEnvironmentGroup bog) {
-      writeNameAndTripletsDirectly(bog, "BOG_BeginObjectEnvironmentGroup", level);
-    } else if (sf instanceof BSG_BeginResourceEnvironmentGroup bsg) {
-      writeNameAndTripletsDirectly(bsg, "BSG_BeginResourceEnvironmentGroup", level);
-    } else if (sf instanceof EAG_EndActiveEnvironmentGroup eag) {
-      writeNameDirectly(eag, "EAG_EndActiveEnvironmentGroup", level);
-    } else if (sf instanceof ECF_EndCodedFont ecf) {
-      writeNameAndTripletsDirectly(ecf, "ECF_EndCodedFont", level);
-    } else if (sf instanceof ECP_EndCodePage ecp) {
-      writeNameAndTripletsDirectly(ecp, "ECP_EndCodePage", level);
-    } else if (sf instanceof EFN_EndFont efn) {
-      writeNameAndTripletsDirectly(efn, "EFN_EndFont", level);
-    } else if (sf instanceof EFM_EndFormMap efm) {
-      writeNameDirectly(efm, "EFM_EndFormMap", level);
-    } else if (sf instanceof EII_EndIMImageObject eii) {
-      writeNameDirectly(eii, "EII_EndIMImageObject", level);
-    } else if (sf instanceof EMM_EndMediumMap emm) {
-      writeNameDirectly(emm, "EMM_EndMediumMap", level);
-    } else if (sf instanceof EPF_EndPrintFile epf) {
-      writeNameAndTripletsDirectly(epf, "EPF_EndPrintFile", level);
-    } else if (sf instanceof ERS_EndResource ers) {
-      writeNameDirectly(ers, "ERS_EndResource", level);
-    } else if (sf instanceof EDG_EndDocumentEnvironmentGroup edg) {
-      writeNameDirectly(edg, "EDG_EndDocumentEnvironmentGroup", level);
-    } else if (sf instanceof EFG_EndFormEnvironmentGroup efg) {
-      writeNameDirectly(efg, "EFG_EndFormEnvironmentGroup", level);
-    } else if (sf instanceof EOG_EndObjectEnvironmentGroup eog) {
-      writeNameDirectly(eog, "EOG_EndObjectEnvironmentGroup", level);
-    } else if (sf instanceof ESG_EndResourceEnvironmentGroup esg) {
-      writeNameDirectly(esg, "ESG_EndResourceEnvironmentGroup", level);
-    } else if (sf instanceof IOB_IncludeObject iob) {
-      writeIobDirectly(iob, level);
-    } else if (sf instanceof PTX_PresentationTextData ptx) {
+    if (sf instanceof PTX_PresentationTextData ptx) {
       writePtxDirectly(ptx, level);
-    } else if (sf instanceof MCF_MapCodedFont_Format1 mcf) {
-      writeMcf1Directly(mcf, level);
-    } else if (sf instanceof MCF_MapCodedFont_Format2 mcf) {
-      writeMcfDirectly(mcf, level);
-    } else if (sf instanceof MCC_MediumCopyCount mcc) {
-      writeMccDirectly(mcc, level);
-    } else if (sf instanceof CFC_CodedFontControl cfc) {
-      writeCfcDirectly(cfc, level);
-    } else if (sf instanceof CFI_CodedFontIndex cfi) {
-      writeCfiDirectly(cfi, level);
-    } else if (sf instanceof CPC_CodePageControl cpc) {
-      writeCpcDirectly(cpc, level);
-    } else if (sf instanceof CPD_CodePageDescriptor cpd) {
-      writeCpdDirectly(cpd, level);
-    } else if (sf instanceof CPI_CodePageIndex cpi) {
-      writeCpiDirectly(cpi, level);
-    } else if (sf instanceof FND_FontDescriptor fnd) {
-      writeFndDirectly(fnd, level);
-    } else if (sf instanceof FNG_FontPatterns fng) {
-      writeFngDirectly(fng, level);
-    } else if (sf instanceof FNI_FontIndex fni) {
-      writeFniDirectly(fni, level);
-    } else if (sf instanceof FNM_FontPatternsMap fnm) {
-      writeFnmDirectly(fnm, level);
-    } else if (sf instanceof FNN_FontNameMap fnn) {
-      writeFnnDirectly(fnn, level);
-    } else if (sf instanceof FNO_FontOrientation fno) {
-      writeFnoDirectly(fno, level);
-    } else if (sf instanceof FNP_FontPosition fnp) {
-      writeFnpDirectly(fnp, level);
-    } else if (sf instanceof FNC_FontControl fnc) {
-      writeFncDirectly(fnc, level);
-    } else if (sf instanceof LND_LineDescriptor lnd) {
-      writeLndDirectly(lnd, level);
-    } else if (sf instanceof LNC_LineDescriptorCount lnc) {
-      writeLncDirectly(lnc, level);
-    } else if (sf instanceof CCP_ConditionalProcessingControl ccp) {
-      writeCcpDirectly(ccp, level);
-    } else if (sf instanceof RCD_RecordDescriptor rcd) {
-      writeRcdDirectly(rcd, level);
-    } else if (sf instanceof XMD_XMLDescriptor xmd) {
-      writeXmdDirectly(xmd, level);
-    } else if (sf instanceof BPT_BeginPresentationTextObject bpt) {
-      writeNameAndTripletsDirectly(bpt, "BPT_BeginPresentationTextObject", level);
-    } else if (sf instanceof EPT_EndPresentationTextObject ept) {
-      writeNameAndTripletsDirectly(ept, "EPT_EndPresentationTextObject", level);
-    } else if (sf instanceof PTD_PresentationTextDataDescriptor_Format1 ptd) {
-      writePtdFormat1Directly(ptd, level);
-    } else if (sf instanceof PTD_PresentationTextDataDescriptor_Format2 ptd) {
-      writePtdFormat2Directly(ptd, level);
-    } else if (sf instanceof GAD_GraphicsData gad) {
-      writeGadDirectly(gad, level);
-    } else if (sf instanceof IPD_ImagePictureData ipd) {
-      writeIpdDirectly(ipd, level);
-    } else if (sf instanceof OBD_ObjectAreaDescriptor obd) {
-      writeObdDirectly(obd, level);
-    } else if (sf instanceof OBP_ObjectAreaPosition obp) {
-      writeObpDirectly(obp, level);
-    } else if (sf instanceof IDD_ImageDataDescriptor idd) {
-      writeIddDirectly(idd, level);
-    } else if (sf instanceof MIO_MapImageObject mio) {
-      writeMioDirectly(mio, level);
-    } else if (sf instanceof MCD_MapContainerData mcd) {
-      writeMcdDirectly(mcd, level);
-    } else if (sf instanceof MDR_MapDataResource mdr) {
-      writeMdrDirectly(mdr, level);
-    } else if (sf instanceof MSU_MapSuppression msu) {
-      writeMsuDirectly(msu, level);
-    } else if (sf instanceof MMC_MediumModificationControl mmc) {
-      writeMmcDirectly(mmc, level);
-    } else if (sf instanceof MGO_MapGraphicsObject mgo) {
-      writeMgoDirectly(mgo, level);
-    } else if (sf instanceof MPO_MapPageOverlay mpo) {
-      writeMpoDirectly(mpo, level);
-    } else if (sf instanceof MBC_MapBarCodeObject mbc) {
-      writeMbcDirectly(mbc, level);
-    } else if (sf instanceof MMD_MapMediaDestination mmd) {
-      writeMmdDirectly(mmd, level);
-    } else if (sf instanceof MMO_MapMediumOverlay mmo) {
-      writeMmoDirectly(mmo, level);
-    } else if (sf instanceof MMT_MapMediaType mmt) {
-      writeMmtDirectly(mmt, level);
-    } else if (sf instanceof MPG_MapPage mpg) {
-      writeMpgDirectly(mpg, level);
-    } else if (sf instanceof MPS_MapPageSegment mps) {
-      writeMpsDirectly(mps, level);
-    } else if (sf instanceof MPT_MapPresentationText mpt) {
-      writeMptDirectly(mpt, level);
-    } else if (sf instanceof com.mgz.afp.modca.BDT_BeginDocument bdt) {
-      writeBdtDirectly(bdt, level);
-    } else if (sf instanceof OCD_ObjectContainerData ocd) {
-      writeOcdDirectly(ocd, level);
-    } else if (sf instanceof BDI_BeginDocumentIndex bdi) {
-      writeNameAndTripletsDirectly(bdi, "BDI_BeginDocumentIndex", level);
-    } else if (sf instanceof BMO_BeginOverlay bmo) {
-      resetPtocaState();
-      writeNameAndTripletsDirectly(bmo, "BMO_BeginOverlay", level);
-    } else if (sf instanceof BPS_BeginPageSegment bps) {
-      resetPtocaState();
-      writeNameAndTripletsDirectly(bps, "BPS_BeginPageSegment", level);
-    } else if (sf instanceof BRG_BeginResourceGroup brg) {
-      writeNameAndTripletsDirectly(brg, "BRG_BeginResourceGroup", level);
-    } else if (sf instanceof com.mgz.afp.modca.BNG_BeginNamedPageGroup bng) {
-      writeNameAndTripletsDirectly(bng, "BNG_BeginNamedPageGroup", level);
-    } else if (sf instanceof com.mgz.afp.modca.BPG_BeginPage bpg) {
-      currentPageNumber++;
-      pageIncrementedByStarter = true;
-      resetPtocaState();
-      writeNameAndTripletsDirectly(bpg, "BPG_BeginPage", level);
-    } else if (sf instanceof com.mgz.afp.ipds.BO_BeginOverlay bo) {
-      writeBoDirectly(bo, level);
-    } else if (sf instanceof com.mgz.afp.ipds.DO_DeactivateOverlay doDeact) {
-      writeDoDirectly(doDeact, level);
-    } else if (sf instanceof com.mgz.afp.ipds.IO_IncludeOverlay io) {
-      writeIoDirectly(io, level);
-    } else if (sf instanceof com.mgz.afp.ipds.BPS_BeginPageSegment bps) {
-      writeBpsIpdsDirectly(bps, level);
-    } else if (sf instanceof com.mgz.afp.ipds.DPS_DeactivatePageSegment dps) {
-      writeDpsIpdsDirectly(dps, level);
-    } else if (sf instanceof com.mgz.afp.ipds.IPS_IncludePageSegment ips) {
-      writeIpsIpdsDirectly(ips, level);
-    } else if (sf instanceof com.mgz.afp.ipds.WMC_WriteMetadataControl wmc) {
-      writeWmcIpdsDirectly(wmc, level);
-    } else if (sf instanceof com.mgz.afp.ipds.WM_WriteMetadata wm) {
-      writeWmIpdsDirectly(wm, level);
-    } else if (sf instanceof com.mgz.afp.ipds.WIC_WriteImageControl wic) {
-      writeWicIpdsDirectly(wic, level);
-    } else if (sf instanceof com.mgz.afp.ipds.WI_WriteImage wi) {
-      writeWiIpdsDirectly(wi, level);
-    } else if (sf instanceof com.mgz.afp.ipds.WIC2_WriteImageControl2 wic2) {
-      writeWic2IpdsDirectly(wic2, level);
-    } else if (sf instanceof com.mgz.afp.ipds.WI2_WriteImage2 wi2) {
-      writeWi2IpdsDirectly(wi2, level);
-    } else if (sf instanceof com.mgz.afp.ipds.WOCC_WriteObjectContainerControl wocc) {
-      writeWoccIpdsDirectly(wocc, level);
-    } else if (sf instanceof com.mgz.afp.ipds.WOC_WriteObjectContainer woc) {
-      writeWocIpdsDirectly(woc, level);
-    } else if (sf instanceof com.mgz.afp.ipds.WBCC_WriteBarCodeControl wbcc) {
-      writeWbccIpdsDirectly(wbcc, level);
-    } else if (sf instanceof com.mgz.afp.ipds.WBC_WriteBarCode wbc) {
-      writeWbcIpdsDirectly(wbc, level);
-    } else if (sf instanceof com.mgz.afp.ipds.WGC_WriteGraphicsControl wgc) {
-      writeWgcIpdsDirectly(wgc, level);
-    } else if (sf instanceof com.mgz.afp.ipds.WG_WriteGraphics wg) {
-      writeWgIpdsDirectly(wg, level);
-    } else if (sf instanceof com.mgz.afp.ipds.MID_ManageIPDSDialog mid) {
-      writeMidDirectly(mid, level);
-    } else if (sf instanceof com.mgz.afp.ipds.BP_BeginPage bp) {
-      currentPageNumber++;
-      pageIncrementedByStarter = true;
-      resetPtocaState();
-      writeBpDirectly(bp, level);
-    } else if (sf instanceof com.mgz.afp.ipds.EP_EndPage ep) {
-      pageIncrementedByStarter = false;
-      writeEpDirectly(ep, level);
-    } else if (sf instanceof com.mgz.afp.ipds.SHS_SetHomeState shs) {
-      resetPtocaState();
-      writeShsDirectly(shs, level);
-    } else if (sf instanceof com.mgz.afp.ipds.END_End end) {
-      writeEndDirectly(end, level);
-    } else if (sf instanceof com.mgz.afp.ipds.STM_SenseTypeAndModel stm) {
-      writeStmDirectly(stm, level);
-    } else if (sf instanceof com.mgz.afp.ipds.LFC_LoadFontControl lfc) {
-      writeLfcDirectly(lfc, level);
-    } else if (sf instanceof com.mgz.afp.ipds.LFI_LoadFontIndex lfi) {
-      writeLfiDirectly(lfi, level);
-    } else if (sf instanceof com.mgz.afp.ipds.LFCSC_LoadFontCharacterSetControl lfcsc) {
-      writeLfcscDirectly(lfcsc, level);
-    } else if (sf instanceof com.mgz.afp.ipds.LCPC_LoadCodePageControl lcpc) {
-      writeLcpcDirectly(lcpc, level);
-    } else if (sf instanceof com.mgz.afp.ipds.LF_LoadFont lf) {
-      writeLfIpdsDirectly(lf, level);
-    } else if (sf instanceof com.mgz.afp.ipds.LCP_LoadCodePage lcp) {
-      writeLcpDirectly(lcp, level);
-    } else if (sf instanceof com.mgz.afp.ipds.LSS_LoadSymbolSet lss) {
-      writeLssDirectly(lss, level);
-    } else if (sf instanceof com.mgz.afp.ipds.ISP_IncludeSavedPage isp) {
-      writeIspDirectly(isp, level);
-    } else if (sf instanceof com.mgz.afp.ipds.ICMR_InvokeCMR icmr) {
-      writeIcmrDirectly(icmr, level);
-    } else if (sf instanceof com.mgz.afp.ipds.LPP_LogicalPagePosition lpp) {
-      writeLppDirectly(lpp, level);
-    } else if (sf instanceof com.mgz.afp.ipds.LPD_LogicalPageDescriptor lpd) {
-      writeLpdDirectly(lpd, level);
-    } else if (sf instanceof com.mgz.afp.ipds.LCC_LoadCopyControl lcc) {
-      writeLccDirectly(lcc, level);
-    } else if (sf instanceof com.mgz.afp.ipds.LFE_LoadFontEquivalence lfe) {
-      writeLfeDirectly(lfe, level);
-    } else if (sf instanceof com.mgz.afp.ipds.PFC_PresentationFidelityControl pfc) {
-      writePfcIpdsDirectly(pfc, level);
-    } else if (sf instanceof com.mgz.afp.ipds.LE_LoadEquivalence le) {
-      writeLeDirectly(le, level);
-    } else if (sf instanceof com.mgz.afp.ipds.WT_WriteText wt) {
-      writeWtDirectly(wt, level);
-    } else if (sf instanceof com.mgz.afp.ipds.DF_DeactivateFont df) {
-      writeDfDirectly(df, level);
-    } else if (sf instanceof com.mgz.afp.ipds.DUA_DefineUserArea dua) {
-      writeDuaDirectly(dua, level);
-    } else if (sf instanceof com.mgz.afp.ipds.AFO_ApplyFinishingOperations afo) {
-      writeAfoDirectly(afo, level);
-    } else if (sf instanceof com.mgz.afp.ipds.ASN_ActivateSetupName asn) {
-      writeAsnDirectly(asn, level);
-    } else if (sf instanceof com.mgz.afp.ipds.SPE_SetPresentationEnvironment spe) {
-      writeSpeDirectly(spe, level);
-    } else if (sf instanceof com.mgz.afp.ipds.NOP_NoOperation nop) {
-      writeNopIpdsDirectly(nop, level);
-    } else if (sf instanceof BGR_BeginGraphicsObject bgr) {
-      writeNameAndTripletsDirectly(bgr, "BGR_BeginGraphicsObject", level);
-    } else if (sf instanceof EGR_EndGraphicsObject egr) {
-      writeNameAndTripletsDirectly(egr, "EGR_EndGraphicsObject", level);
-    } else if (sf instanceof GDD_GraphicsDataDescriptor gdd) {
-      writeGddDirectly(gdd, level);
-    } else if (sf instanceof CDD_ContainerDataDescriptor cdd) {
-      writeCddDirectly(cdd, level);
-    } else if (sf instanceof CTC_ComposedTextControl ctc) {
-      writeCtcDirectly(ctc, level);
-    } else if (sf instanceof FGD_FormEnvironmentGroupDescriptor fgd) {
-      writeFgdDirectly(fgd, level);
-    } else if (sf instanceof PPO_PreprocessPresentationObject ppo) {
-      writePpoDirectly(ppo, level);
-    } else if (sf instanceof EDI_EndDocumentIndex edi) {
-      writeNameDirectly(edi, "EDI_EndDocumentIndex", level);
-    } else if (sf instanceof EMO_EndOverlay emo) {
-      writeNameAndTripletsDirectly(emo, "EMO_EndOverlay", level);
-    } else if (sf instanceof EPS_EndPageSegment eps) {
-      writeNameDirectly(eps, "EPS_EndPageSegment", level);
-    } else if (sf instanceof ERG_EndResourceGroup erg) {
-      writeNameAndTripletsDirectly(erg, "ERG_EndResourceGroup", level);
-    } else if (sf instanceof com.mgz.afp.modca.EDT_EndDocument edt) {
-      writeNameAndTripletsDirectly(edt, "EDT_EndDocument", level);
-    } else if (sf instanceof com.mgz.afp.modca.ENG_EndNamedPageGroup eng) {
-      writeNameAndTripletsDirectly(eng, "ENG_EndNamedPageGroup", level);
-    } else if (sf instanceof com.mgz.afp.modca.EPG_EndPage epg) {
-      pageIncrementedByStarter = false;
-      writeNameAndTripletsDirectly(epg, "EPG_EndPage", level);
-    } else if (sf instanceof com.mgz.afp.modca.IEL_IndexElement iel) {
-      writeTripletsAndTextDirectly(iel, "IEL_IndexElement", level);
-    } else if (sf instanceof LLE_LinkLogicalElement lle) {
-      writeLleDirectly(lle, level);
-    } else if (sf instanceof com.mgz.afp.modca.IPG_IncludePage ipg) {
-      currentPageNumber++;
-      pageIncrementedByStarter = true;
-      writeIpgDirectly(ipg, level);
-    } else if (sf instanceof com.mgz.afp.modca.PGD_PageDescriptor pgd) {
-      if (!pageIncrementedByStarter) {
-        currentPageNumber++;
-      }
-      pageIncrementedByStarter = false;
-      writePgdDirectly(pgd, level);
-    } else if (sf instanceof PGP_PagePosition_Format1 pgp) {
-      writePgpFormat1Directly(pgp, level);
-    } else if (sf instanceof PGP_PagePosition_Format2 pgp) {
-      writePgpFormat2Directly(pgp, level);
-    } else if (sf instanceof com.mgz.afp.modca.MDD_MediumDescriptor mdd) {
-      writeMddDirectly(mdd, level);
-    } else if (sf instanceof com.mgz.afp.modca.IMM_InvokeMediumMap imm) {
-      writeNameAndTripletsDirectly(imm, "IMM_InvokeMediumMap", level);
-    } else if (sf instanceof com.mgz.afp.modca.BOC_BeginObjectContainer boc) {
-      writeNameAndTripletsDirectly(boc, "BOC_BeginObjectContainer", level);
-    } else if (sf instanceof com.mgz.afp.modca.EOC_EndObjectContainer eoc) {
-      writeNameDirectly(eoc, "EOC_EndObjectContainer", level);
-    } else if (sf instanceof com.mgz.afp.modca.BIM_BeginImageObject bim) {
-      writeNameAndTripletsDirectly(bim, "BIM_BeginImageObject", level);
-    } else if (sf instanceof com.mgz.afp.modca.EIM_EndImageObject eim) {
-      writeNameDirectly(eim, "EIM_EndImageObject", level);
-    } else if (sf instanceof com.mgz.afp.modca.PMC_PageModificationControl pmc) {
-      writeTripletsAndTextDirectly(pmc, "PMC_PageModificationControl", level);
-    } else if (sf instanceof com.mgz.afp.modca.PEC_PresentationEnvironmentControl pec) {
-      writeTripletsAndTextDirectly(pec, "PEC_PresentationEnvironmentControl", level);
-    } else if (sf instanceof com.mgz.afp.modca.IPS_IncludePageSegment ips) {
-      writeIpsDirectly(ips, level);
-    } else if (sf instanceof com.mgz.afp.modca.IPO_IncludePageOverlay ipo) {
-      writeIpoDirectly(ipo, level);
-    } else if (sf instanceof com.mgz.afp.modca.MFC_MediumFinishingControl mfc) {
-      writeTripletsAndTextDirectly(mfc, "MFC_MediumFinishingControl", level);
-    } else if (sf instanceof com.mgz.afp.modca.PFC_PresentationFidelityControl pfc) {
-      writeTripletsAndTextDirectly(pfc, "PFC_PresentationFidelityControl", level);
-    } else if (sf instanceof BBC_BeginBarCodeObject bbc) {
-      writeBbcDirectly(bbc, level);
-    } else if (sf instanceof EBC_EndBarCodeObject ebc) {
-      writeEbcDirectly(ebc, level);
-    } else if (sf instanceof BDD_BarCodeDataDescriptor bdd) {
-      writeBddDirectly(bdd, level);
-    } else if (sf instanceof BDA_BarCodeData bda) {
-      writeBdaDirectly(bda, level);
-    } else if (sf instanceof IID_IMImageInputDescriptor iid) {
-      writeIidDirectly(iid, level);
-    } else if (sf instanceof ICP_IMImageCellPosition icp) {
-      writeIcpDirectly(icp, level);
-    } else if (sf instanceof IRD_IMImageRasterData ird) {
-      writeIrdDirectly(ird, level);
-    } else if (sf instanceof IOC_IMImageOutputControl ioc) {
-      writeIocDirectly(ioc, level);
-    } else if (sf instanceof BCA_BeginColorAttributeTable bca) {
-      writeNameAndTripletsDirectly(bca, "BCA_BeginColorAttributeTable", level);
-    } else if (sf instanceof ECA_EndColorAttributeTable eca) {
-      writeNameAndTripletsDirectly(eca, "ECA_EndColorAttributeTable", level);
-    } else if (sf instanceof CAT_ColorAttributeTable cat) {
-      writeCatDirectly(cat, level);
-    } else if (sf instanceof MCA_MapColorAttributeTable mca) {
-      writeMcaDirectly(mca, level);
     } else {
-      if (MnemonicPerformanceMonitor.isEnabled()) {
-        String rootName = MnemonicPerformanceMonitor.getSimpleName(sf.getClass());
-        String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
-        MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
-      }
-      JacksonXmlMapperProvider.getCachedWriter(sf.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, sf);
-      if (MnemonicPerformanceMonitor.isEnabled()) {
-        MnemonicPerformanceMonitor.endWrite();
+      SfWriter writer = SF_WRITERS.get(sf.getClass());
+      if (writer != null) {
+        writer.write(this, sf, level);
+      } else {
+        writeWithJacksonFallback(sf);
       }
     }
 
     if (!fragmentMode) {
       writeNewline();
     }
+  }
+
+  private void writeWithJacksonFallback(StructuredField sf) throws Exception {
+    if (MnemonicPerformanceMonitor.isEnabled()) {
+      String rootName = MnemonicPerformanceMonitor.getSimpleName(sf.getClass());
+      String mnemonic = MnemonicPerformanceMonitor.extractMnemonicFromString(rootName);
+      MnemonicPerformanceMonitor.startWriteWithMnemonic(mnemonic);
+    }
+    JacksonXmlMapperProvider.getCachedWriter(sf.getClass(), true, indentEnabled).writeValue(baseFragmentGenerator, sf);
+    if (MnemonicPerformanceMonitor.isEnabled()) {
+      MnemonicPerformanceMonitor.endWrite();
+    }
+  }
+
+  @FunctionalInterface
+  private interface SfWriter {
+    void write(AfpJacksonXmlWriter writer, StructuredField sf, int level) throws Exception;
+  }
+
+  private static final java.util.IdentityHashMap<Class<? extends StructuredField>, SfWriter> SF_WRITERS = createSfWriters();
+
+  private static java.util.IdentityHashMap<Class<? extends StructuredField>, SfWriter> createSfWriters() {
+    var map = new java.util.IdentityHashMap<Class<? extends StructuredField>, SfWriter>(256);
+    map.put(NOP_NoOperation.class, (w, sf, level) -> w.writeNopDirectly((NOP_NoOperation) sf, level));
+    map.put(TLE_TagLogicalElement.class, (w, sf, level) -> w.writeTleDirectly((TLE_TagLogicalElement) sf, level));
+    map.put(BAG_BeginActiveEnvironmentGroup.class, (w, sf, level) -> w.writeBagDirectly((BAG_BeginActiveEnvironmentGroup) sf, level));
+    map.put(BCF_BeginCodedFont.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((BCF_BeginCodedFont) sf, "BCF_BeginCodedFont", level));
+    map.put(BCP_BeginCodePage.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((BCP_BeginCodePage) sf, "BCP_BeginCodePage", level));
+    map.put(BFN_BeginFont.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((BFN_BeginFont) sf, "BFN_BeginFont", level));
+    map.put(BFM_BeginFormMap.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((BFM_BeginFormMap) sf, "BFM_BeginFormMap", level));
+    map.put(BII_BeginIMImageObject.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((BII_BeginIMImageObject) sf, "BII_BeginIMImageObject", level));
+    map.put(BMM_BeginMediumMap.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((BMM_BeginMediumMap) sf, "BMM_BeginMediumMap", level));
+    map.put(BPF_BeginPrintFile.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((BPF_BeginPrintFile) sf, "BPF_BeginPrintFile", level));
+    map.put(BRS_BeginResource.class, (w, sf, level) -> w.writeNameDirectly((BRS_BeginResource) sf, "BRS_BeginResource", level));
+    map.put(BDG_BeginDocumentEnvironmentGroup.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((BDG_BeginDocumentEnvironmentGroup) sf, "BDG_BeginDocumentEnvironmentGroup", level));
+    map.put(BFG_BeginFormEnvironmentGroup.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((BFG_BeginFormEnvironmentGroup) sf, "BFG_BeginFormEnvironmentGroup", level));
+    map.put(BOG_BeginObjectEnvironmentGroup.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((BOG_BeginObjectEnvironmentGroup) sf, "BOG_BeginObjectEnvironmentGroup", level));
+    map.put(BSG_BeginResourceEnvironmentGroup.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((BSG_BeginResourceEnvironmentGroup) sf, "BSG_BeginResourceEnvironmentGroup", level));
+    map.put(EAG_EndActiveEnvironmentGroup.class, (w, sf, level) -> w.writeNameDirectly((EAG_EndActiveEnvironmentGroup) sf, "EAG_EndActiveEnvironmentGroup", level));
+    map.put(ECF_EndCodedFont.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((ECF_EndCodedFont) sf, "ECF_EndCodedFont", level));
+    map.put(ECP_EndCodePage.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((ECP_EndCodePage) sf, "ECP_EndCodePage", level));
+    map.put(EFN_EndFont.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((EFN_EndFont) sf, "EFN_EndFont", level));
+    map.put(EFM_EndFormMap.class, (w, sf, level) -> w.writeNameDirectly((EFM_EndFormMap) sf, "EFM_EndFormMap", level));
+    map.put(EII_EndIMImageObject.class, (w, sf, level) -> w.writeNameDirectly((EII_EndIMImageObject) sf, "EII_EndIMImageObject", level));
+    map.put(EMM_EndMediumMap.class, (w, sf, level) -> w.writeNameDirectly((EMM_EndMediumMap) sf, "EMM_EndMediumMap", level));
+    map.put(EPF_EndPrintFile.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((EPF_EndPrintFile) sf, "EPF_EndPrintFile", level));
+    map.put(ERS_EndResource.class, (w, sf, level) -> w.writeNameDirectly((ERS_EndResource) sf, "ERS_EndResource", level));
+    map.put(EDG_EndDocumentEnvironmentGroup.class, (w, sf, level) -> w.writeNameDirectly((EDG_EndDocumentEnvironmentGroup) sf, "EDG_EndDocumentEnvironmentGroup", level));
+    map.put(EFG_EndFormEnvironmentGroup.class, (w, sf, level) -> w.writeNameDirectly((EFG_EndFormEnvironmentGroup) sf, "EFG_EndFormEnvironmentGroup", level));
+    map.put(EOG_EndObjectEnvironmentGroup.class, (w, sf, level) -> w.writeNameDirectly((EOG_EndObjectEnvironmentGroup) sf, "EOG_EndObjectEnvironmentGroup", level));
+    map.put(ESG_EndResourceEnvironmentGroup.class, (w, sf, level) -> w.writeNameDirectly((ESG_EndResourceEnvironmentGroup) sf, "ESG_EndResourceEnvironmentGroup", level));
+    map.put(IOB_IncludeObject.class, (w, sf, level) -> w.writeIobDirectly((IOB_IncludeObject) sf, level));
+    map.put(MCF_MapCodedFont_Format1.class, (w, sf, level) -> w.writeMcf1Directly((MCF_MapCodedFont_Format1) sf, level));
+    map.put(MCF_MapCodedFont_Format2.class, (w, sf, level) -> w.writeMcfDirectly((MCF_MapCodedFont_Format2) sf, level));
+    map.put(MCC_MediumCopyCount.class, (w, sf, level) -> w.writeMccDirectly((MCC_MediumCopyCount) sf, level));
+    map.put(CFC_CodedFontControl.class, (w, sf, level) -> w.writeCfcDirectly((CFC_CodedFontControl) sf, level));
+    map.put(CFI_CodedFontIndex.class, (w, sf, level) -> w.writeCfiDirectly((CFI_CodedFontIndex) sf, level));
+    map.put(CPC_CodePageControl.class, (w, sf, level) -> w.writeCpcDirectly((CPC_CodePageControl) sf, level));
+    map.put(CPD_CodePageDescriptor.class, (w, sf, level) -> w.writeCpdDirectly((CPD_CodePageDescriptor) sf, level));
+    map.put(CPI_CodePageIndex.class, (w, sf, level) -> w.writeCpiDirectly((CPI_CodePageIndex) sf, level));
+    map.put(FND_FontDescriptor.class, (w, sf, level) -> w.writeFndDirectly((FND_FontDescriptor) sf, level));
+    map.put(FNG_FontPatterns.class, (w, sf, level) -> w.writeFngDirectly((FNG_FontPatterns) sf, level));
+    map.put(FNI_FontIndex.class, (w, sf, level) -> w.writeFniDirectly((FNI_FontIndex) sf, level));
+    map.put(FNM_FontPatternsMap.class, (w, sf, level) -> w.writeFnmDirectly((FNM_FontPatternsMap) sf, level));
+    map.put(FNN_FontNameMap.class, (w, sf, level) -> w.writeFnnDirectly((FNN_FontNameMap) sf, level));
+    map.put(FNO_FontOrientation.class, (w, sf, level) -> w.writeFnoDirectly((FNO_FontOrientation) sf, level));
+    map.put(FNP_FontPosition.class, (w, sf, level) -> w.writeFnpDirectly((FNP_FontPosition) sf, level));
+    map.put(FNC_FontControl.class, (w, sf, level) -> w.writeFncDirectly((FNC_FontControl) sf, level));
+    map.put(LND_LineDescriptor.class, (w, sf, level) -> w.writeLndDirectly((LND_LineDescriptor) sf, level));
+    map.put(LNC_LineDescriptorCount.class, (w, sf, level) -> w.writeLncDirectly((LNC_LineDescriptorCount) sf, level));
+    map.put(CCP_ConditionalProcessingControl.class, (w, sf, level) -> w.writeCcpDirectly((CCP_ConditionalProcessingControl) sf, level));
+    map.put(RCD_RecordDescriptor.class, (w, sf, level) -> w.writeRcdDirectly((RCD_RecordDescriptor) sf, level));
+    map.put(XMD_XMLDescriptor.class, (w, sf, level) -> w.writeXmdDirectly((XMD_XMLDescriptor) sf, level));
+    map.put(BPT_BeginPresentationTextObject.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((BPT_BeginPresentationTextObject) sf, "BPT_BeginPresentationTextObject", level));
+    map.put(EPT_EndPresentationTextObject.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((EPT_EndPresentationTextObject) sf, "EPT_EndPresentationTextObject", level));
+    map.put(PTD_PresentationTextDataDescriptor_Format1.class, (w, sf, level) -> w.writePtdFormat1Directly((PTD_PresentationTextDataDescriptor_Format1) sf, level));
+    map.put(PTD_PresentationTextDataDescriptor_Format2.class, (w, sf, level) -> w.writePtdFormat2Directly((PTD_PresentationTextDataDescriptor_Format2) sf, level));
+    map.put(GAD_GraphicsData.class, (w, sf, level) -> w.writeGadDirectly((GAD_GraphicsData) sf, level));
+    map.put(IPD_ImagePictureData.class, (w, sf, level) -> w.writeIpdDirectly((IPD_ImagePictureData) sf, level));
+    map.put(OBD_ObjectAreaDescriptor.class, (w, sf, level) -> w.writeObdDirectly((OBD_ObjectAreaDescriptor) sf, level));
+    map.put(OBP_ObjectAreaPosition.class, (w, sf, level) -> w.writeObpDirectly((OBP_ObjectAreaPosition) sf, level));
+    map.put(IDD_ImageDataDescriptor.class, (w, sf, level) -> w.writeIddDirectly((IDD_ImageDataDescriptor) sf, level));
+    map.put(MIO_MapImageObject.class, (w, sf, level) -> w.writeMioDirectly((MIO_MapImageObject) sf, level));
+    map.put(MCD_MapContainerData.class, (w, sf, level) -> w.writeMcdDirectly((MCD_MapContainerData) sf, level));
+    map.put(MDR_MapDataResource.class, (w, sf, level) -> w.writeMdrDirectly((MDR_MapDataResource) sf, level));
+    map.put(MSU_MapSuppression.class, (w, sf, level) -> w.writeMsuDirectly((MSU_MapSuppression) sf, level));
+    map.put(MMC_MediumModificationControl.class, (w, sf, level) -> w.writeMmcDirectly((MMC_MediumModificationControl) sf, level));
+    map.put(MGO_MapGraphicsObject.class, (w, sf, level) -> w.writeMgoDirectly((MGO_MapGraphicsObject) sf, level));
+    map.put(MPO_MapPageOverlay.class, (w, sf, level) -> w.writeMpoDirectly((MPO_MapPageOverlay) sf, level));
+    map.put(MBC_MapBarCodeObject.class, (w, sf, level) -> w.writeMbcDirectly((MBC_MapBarCodeObject) sf, level));
+    map.put(MMD_MapMediaDestination.class, (w, sf, level) -> w.writeMmdDirectly((MMD_MapMediaDestination) sf, level));
+    map.put(MMO_MapMediumOverlay.class, (w, sf, level) -> w.writeMmoDirectly((MMO_MapMediumOverlay) sf, level));
+    map.put(MMT_MapMediaType.class, (w, sf, level) -> w.writeMmtDirectly((MMT_MapMediaType) sf, level));
+    map.put(MPG_MapPage.class, (w, sf, level) -> w.writeMpgDirectly((MPG_MapPage) sf, level));
+    map.put(MPS_MapPageSegment.class, (w, sf, level) -> w.writeMpsDirectly((MPS_MapPageSegment) sf, level));
+    map.put(MPT_MapPresentationText.class, (w, sf, level) -> w.writeMptDirectly((MPT_MapPresentationText) sf, level));
+    map.put(com.mgz.afp.modca.BDT_BeginDocument.class, (w, sf, level) -> w.writeBdtDirectly((com.mgz.afp.modca.BDT_BeginDocument) sf, level));
+    map.put(OCD_ObjectContainerData.class, (w, sf, level) -> w.writeOcdDirectly((OCD_ObjectContainerData) sf, level));
+    map.put(BDI_BeginDocumentIndex.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((BDI_BeginDocumentIndex) sf, "BDI_BeginDocumentIndex", level));
+    map.put(BMO_BeginOverlay.class, (w, sf, level) -> {
+      BMO_BeginOverlay bmo = (BMO_BeginOverlay) sf;
+      w.resetPtocaState();
+      w.writeNameAndTripletsDirectly(bmo, "BMO_BeginOverlay", level);
+    });
+    map.put(BPS_BeginPageSegment.class, (w, sf, level) -> {
+      BPS_BeginPageSegment bps = (BPS_BeginPageSegment) sf;
+      w.resetPtocaState();
+      w.writeNameAndTripletsDirectly(bps, "BPS_BeginPageSegment", level);
+    });
+    map.put(BRG_BeginResourceGroup.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((BRG_BeginResourceGroup) sf, "BRG_BeginResourceGroup", level));
+    map.put(com.mgz.afp.modca.BNG_BeginNamedPageGroup.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((com.mgz.afp.modca.BNG_BeginNamedPageGroup) sf, "BNG_BeginNamedPageGroup", level));
+    map.put(com.mgz.afp.modca.BPG_BeginPage.class, (w, sf, level) -> {
+      com.mgz.afp.modca.BPG_BeginPage bpg = (com.mgz.afp.modca.BPG_BeginPage) sf;
+      w.currentPageNumber++;
+      w.pageIncrementedByStarter = true;
+      w.resetPtocaState();
+      w.writeNameAndTripletsDirectly(bpg, "BPG_BeginPage", level);
+    });
+    map.put(com.mgz.afp.ipds.BO_BeginOverlay.class, (w, sf, level) -> w.writeBoDirectly((com.mgz.afp.ipds.BO_BeginOverlay) sf, level));
+    map.put(com.mgz.afp.ipds.DO_DeactivateOverlay.class, (w, sf, level) -> w.writeDoDirectly((com.mgz.afp.ipds.DO_DeactivateOverlay) sf, level));
+    map.put(com.mgz.afp.ipds.IO_IncludeOverlay.class, (w, sf, level) -> w.writeIoDirectly((com.mgz.afp.ipds.IO_IncludeOverlay) sf, level));
+    map.put(com.mgz.afp.ipds.BPS_BeginPageSegment.class, (w, sf, level) -> w.writeBpsIpdsDirectly((com.mgz.afp.ipds.BPS_BeginPageSegment) sf, level));
+    map.put(com.mgz.afp.ipds.DPS_DeactivatePageSegment.class, (w, sf, level) -> w.writeDpsIpdsDirectly((com.mgz.afp.ipds.DPS_DeactivatePageSegment) sf, level));
+    map.put(com.mgz.afp.ipds.IPS_IncludePageSegment.class, (w, sf, level) -> w.writeIpsIpdsDirectly((com.mgz.afp.ipds.IPS_IncludePageSegment) sf, level));
+    map.put(com.mgz.afp.ipds.WMC_WriteMetadataControl.class, (w, sf, level) -> w.writeWmcIpdsDirectly((com.mgz.afp.ipds.WMC_WriteMetadataControl) sf, level));
+    map.put(com.mgz.afp.ipds.WM_WriteMetadata.class, (w, sf, level) -> w.writeWmIpdsDirectly((com.mgz.afp.ipds.WM_WriteMetadata) sf, level));
+    map.put(com.mgz.afp.ipds.WIC_WriteImageControl.class, (w, sf, level) -> w.writeWicIpdsDirectly((com.mgz.afp.ipds.WIC_WriteImageControl) sf, level));
+    map.put(com.mgz.afp.ipds.WI_WriteImage.class, (w, sf, level) -> w.writeWiIpdsDirectly((com.mgz.afp.ipds.WI_WriteImage) sf, level));
+    map.put(com.mgz.afp.ipds.WIC2_WriteImageControl2.class, (w, sf, level) -> w.writeWic2IpdsDirectly((com.mgz.afp.ipds.WIC2_WriteImageControl2) sf, level));
+    map.put(com.mgz.afp.ipds.WI2_WriteImage2.class, (w, sf, level) -> w.writeWi2IpdsDirectly((com.mgz.afp.ipds.WI2_WriteImage2) sf, level));
+    map.put(com.mgz.afp.ipds.WOCC_WriteObjectContainerControl.class, (w, sf, level) -> w.writeWoccIpdsDirectly((com.mgz.afp.ipds.WOCC_WriteObjectContainerControl) sf, level));
+    map.put(com.mgz.afp.ipds.WOC_WriteObjectContainer.class, (w, sf, level) -> w.writeWocIpdsDirectly((com.mgz.afp.ipds.WOC_WriteObjectContainer) sf, level));
+    map.put(com.mgz.afp.ipds.WBCC_WriteBarCodeControl.class, (w, sf, level) -> w.writeWbccIpdsDirectly((com.mgz.afp.ipds.WBCC_WriteBarCodeControl) sf, level));
+    map.put(com.mgz.afp.ipds.WBC_WriteBarCode.class, (w, sf, level) -> w.writeWbcIpdsDirectly((com.mgz.afp.ipds.WBC_WriteBarCode) sf, level));
+    map.put(com.mgz.afp.ipds.WGC_WriteGraphicsControl.class, (w, sf, level) -> w.writeWgcIpdsDirectly((com.mgz.afp.ipds.WGC_WriteGraphicsControl) sf, level));
+    map.put(com.mgz.afp.ipds.WG_WriteGraphics.class, (w, sf, level) -> w.writeWgIpdsDirectly((com.mgz.afp.ipds.WG_WriteGraphics) sf, level));
+    map.put(com.mgz.afp.ipds.MID_ManageIPDSDialog.class, (w, sf, level) -> w.writeMidDirectly((com.mgz.afp.ipds.MID_ManageIPDSDialog) sf, level));
+    map.put(com.mgz.afp.ipds.BP_BeginPage.class, (w, sf, level) -> {
+      com.mgz.afp.ipds.BP_BeginPage bp = (com.mgz.afp.ipds.BP_BeginPage) sf;
+      w.currentPageNumber++;
+      w.pageIncrementedByStarter = true;
+      w.resetPtocaState();
+      w.writeBpDirectly(bp, level);
+    });
+    map.put(com.mgz.afp.ipds.EP_EndPage.class, (w, sf, level) -> {
+      com.mgz.afp.ipds.EP_EndPage ep = (com.mgz.afp.ipds.EP_EndPage) sf;
+      w.pageIncrementedByStarter = false;
+      w.writeEpDirectly(ep, level);
+    });
+    map.put(com.mgz.afp.ipds.SHS_SetHomeState.class, (w, sf, level) -> {
+      com.mgz.afp.ipds.SHS_SetHomeState shs = (com.mgz.afp.ipds.SHS_SetHomeState) sf;
+      w.resetPtocaState();
+      w.writeShsDirectly(shs, level);
+    });
+    map.put(com.mgz.afp.ipds.END_End.class, (w, sf, level) -> w.writeEndDirectly((com.mgz.afp.ipds.END_End) sf, level));
+    map.put(com.mgz.afp.ipds.STM_SenseTypeAndModel.class, (w, sf, level) -> w.writeStmDirectly((com.mgz.afp.ipds.STM_SenseTypeAndModel) sf, level));
+    map.put(com.mgz.afp.ipds.LFC_LoadFontControl.class, (w, sf, level) -> w.writeLfcDirectly((com.mgz.afp.ipds.LFC_LoadFontControl) sf, level));
+    map.put(com.mgz.afp.ipds.LFI_LoadFontIndex.class, (w, sf, level) -> w.writeLfiDirectly((com.mgz.afp.ipds.LFI_LoadFontIndex) sf, level));
+    map.put(com.mgz.afp.ipds.LFCSC_LoadFontCharacterSetControl.class, (w, sf, level) -> w.writeLfcscDirectly((com.mgz.afp.ipds.LFCSC_LoadFontCharacterSetControl) sf, level));
+    map.put(com.mgz.afp.ipds.LCPC_LoadCodePageControl.class, (w, sf, level) -> w.writeLcpcDirectly((com.mgz.afp.ipds.LCPC_LoadCodePageControl) sf, level));
+    map.put(com.mgz.afp.ipds.LF_LoadFont.class, (w, sf, level) -> w.writeLfIpdsDirectly((com.mgz.afp.ipds.LF_LoadFont) sf, level));
+    map.put(com.mgz.afp.ipds.LCP_LoadCodePage.class, (w, sf, level) -> w.writeLcpDirectly((com.mgz.afp.ipds.LCP_LoadCodePage) sf, level));
+    map.put(com.mgz.afp.ipds.LSS_LoadSymbolSet.class, (w, sf, level) -> w.writeLssDirectly((com.mgz.afp.ipds.LSS_LoadSymbolSet) sf, level));
+    map.put(com.mgz.afp.ipds.ISP_IncludeSavedPage.class, (w, sf, level) -> w.writeIspDirectly((com.mgz.afp.ipds.ISP_IncludeSavedPage) sf, level));
+    map.put(com.mgz.afp.ipds.ICMR_InvokeCMR.class, (w, sf, level) -> w.writeIcmrDirectly((com.mgz.afp.ipds.ICMR_InvokeCMR) sf, level));
+    map.put(com.mgz.afp.ipds.LPP_LogicalPagePosition.class, (w, sf, level) -> w.writeLppDirectly((com.mgz.afp.ipds.LPP_LogicalPagePosition) sf, level));
+    map.put(com.mgz.afp.ipds.LPD_LogicalPageDescriptor.class, (w, sf, level) -> w.writeLpdDirectly((com.mgz.afp.ipds.LPD_LogicalPageDescriptor) sf, level));
+    map.put(com.mgz.afp.ipds.LCC_LoadCopyControl.class, (w, sf, level) -> w.writeLccDirectly((com.mgz.afp.ipds.LCC_LoadCopyControl) sf, level));
+    map.put(com.mgz.afp.ipds.LFE_LoadFontEquivalence.class, (w, sf, level) -> w.writeLfeDirectly((com.mgz.afp.ipds.LFE_LoadFontEquivalence) sf, level));
+    map.put(com.mgz.afp.ipds.PFC_PresentationFidelityControl.class, (w, sf, level) -> w.writePfcIpdsDirectly((com.mgz.afp.ipds.PFC_PresentationFidelityControl) sf, level));
+    map.put(com.mgz.afp.ipds.LE_LoadEquivalence.class, (w, sf, level) -> w.writeLeDirectly((com.mgz.afp.ipds.LE_LoadEquivalence) sf, level));
+    map.put(com.mgz.afp.ipds.WT_WriteText.class, (w, sf, level) -> w.writeWtDirectly((com.mgz.afp.ipds.WT_WriteText) sf, level));
+    map.put(com.mgz.afp.ipds.DF_DeactivateFont.class, (w, sf, level) -> w.writeDfDirectly((com.mgz.afp.ipds.DF_DeactivateFont) sf, level));
+    map.put(com.mgz.afp.ipds.DUA_DefineUserArea.class, (w, sf, level) -> w.writeDuaDirectly((com.mgz.afp.ipds.DUA_DefineUserArea) sf, level));
+    map.put(com.mgz.afp.ipds.AFO_ApplyFinishingOperations.class, (w, sf, level) -> w.writeAfoDirectly((com.mgz.afp.ipds.AFO_ApplyFinishingOperations) sf, level));
+    map.put(com.mgz.afp.ipds.ASN_ActivateSetupName.class, (w, sf, level) -> w.writeAsnDirectly((com.mgz.afp.ipds.ASN_ActivateSetupName) sf, level));
+    map.put(com.mgz.afp.ipds.SPE_SetPresentationEnvironment.class, (w, sf, level) -> w.writeSpeDirectly((com.mgz.afp.ipds.SPE_SetPresentationEnvironment) sf, level));
+    map.put(com.mgz.afp.ipds.NOP_NoOperation.class, (w, sf, level) -> w.writeNopIpdsDirectly((com.mgz.afp.ipds.NOP_NoOperation) sf, level));
+    map.put(BGR_BeginGraphicsObject.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((BGR_BeginGraphicsObject) sf, "BGR_BeginGraphicsObject", level));
+    map.put(EGR_EndGraphicsObject.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((EGR_EndGraphicsObject) sf, "EGR_EndGraphicsObject", level));
+    map.put(GDD_GraphicsDataDescriptor.class, (w, sf, level) -> w.writeGddDirectly((GDD_GraphicsDataDescriptor) sf, level));
+    map.put(CDD_ContainerDataDescriptor.class, (w, sf, level) -> w.writeCddDirectly((CDD_ContainerDataDescriptor) sf, level));
+    map.put(CTC_ComposedTextControl.class, (w, sf, level) -> w.writeCtcDirectly((CTC_ComposedTextControl) sf, level));
+    map.put(FGD_FormEnvironmentGroupDescriptor.class, (w, sf, level) -> w.writeFgdDirectly((FGD_FormEnvironmentGroupDescriptor) sf, level));
+    map.put(PPO_PreprocessPresentationObject.class, (w, sf, level) -> w.writePpoDirectly((PPO_PreprocessPresentationObject) sf, level));
+    map.put(EDI_EndDocumentIndex.class, (w, sf, level) -> w.writeNameDirectly((EDI_EndDocumentIndex) sf, "EDI_EndDocumentIndex", level));
+    map.put(EMO_EndOverlay.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((EMO_EndOverlay) sf, "EMO_EndOverlay", level));
+    map.put(EPS_EndPageSegment.class, (w, sf, level) -> w.writeNameDirectly((EPS_EndPageSegment) sf, "EPS_EndPageSegment", level));
+    map.put(ERG_EndResourceGroup.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((ERG_EndResourceGroup) sf, "ERG_EndResourceGroup", level));
+    map.put(com.mgz.afp.modca.EDT_EndDocument.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((com.mgz.afp.modca.EDT_EndDocument) sf, "EDT_EndDocument", level));
+    map.put(com.mgz.afp.modca.ENG_EndNamedPageGroup.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((com.mgz.afp.modca.ENG_EndNamedPageGroup) sf, "ENG_EndNamedPageGroup", level));
+    map.put(com.mgz.afp.modca.EPG_EndPage.class, (w, sf, level) -> {
+      com.mgz.afp.modca.EPG_EndPage epg = (com.mgz.afp.modca.EPG_EndPage) sf;
+      w.pageIncrementedByStarter = false;
+      w.writeNameAndTripletsDirectly(epg, "EPG_EndPage", level);
+    });
+    map.put(com.mgz.afp.modca.IEL_IndexElement.class, (w, sf, level) -> w.writeTripletsAndTextDirectly((com.mgz.afp.modca.IEL_IndexElement) sf, "IEL_IndexElement", level));
+    map.put(LLE_LinkLogicalElement.class, (w, sf, level) -> w.writeLleDirectly((LLE_LinkLogicalElement) sf, level));
+    map.put(com.mgz.afp.modca.IPG_IncludePage.class, (w, sf, level) -> {
+      com.mgz.afp.modca.IPG_IncludePage ipg = (com.mgz.afp.modca.IPG_IncludePage) sf;
+      w.currentPageNumber++;
+      w.pageIncrementedByStarter = true;
+      w.writeIpgDirectly(ipg, level);
+    });
+    map.put(com.mgz.afp.modca.PGD_PageDescriptor.class, (w, sf, level) -> {
+      com.mgz.afp.modca.PGD_PageDescriptor pgd = (com.mgz.afp.modca.PGD_PageDescriptor) sf;
+      if (!w.pageIncrementedByStarter) {
+        w.currentPageNumber++;
+      }
+      w.pageIncrementedByStarter = false;
+      w.writePgdDirectly(pgd, level);
+    });
+    map.put(PGP_PagePosition_Format1.class, (w, sf, level) -> w.writePgpFormat1Directly((PGP_PagePosition_Format1) sf, level));
+    map.put(PGP_PagePosition_Format2.class, (w, sf, level) -> w.writePgpFormat2Directly((PGP_PagePosition_Format2) sf, level));
+    map.put(com.mgz.afp.modca.MDD_MediumDescriptor.class, (w, sf, level) -> w.writeMddDirectly((com.mgz.afp.modca.MDD_MediumDescriptor) sf, level));
+    map.put(com.mgz.afp.modca.IMM_InvokeMediumMap.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((com.mgz.afp.modca.IMM_InvokeMediumMap) sf, "IMM_InvokeMediumMap", level));
+    map.put(com.mgz.afp.modca.BOC_BeginObjectContainer.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((com.mgz.afp.modca.BOC_BeginObjectContainer) sf, "BOC_BeginObjectContainer", level));
+    map.put(com.mgz.afp.modca.EOC_EndObjectContainer.class, (w, sf, level) -> w.writeNameDirectly((com.mgz.afp.modca.EOC_EndObjectContainer) sf, "EOC_EndObjectContainer", level));
+    map.put(com.mgz.afp.modca.BIM_BeginImageObject.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((com.mgz.afp.modca.BIM_BeginImageObject) sf, "BIM_BeginImageObject", level));
+    map.put(com.mgz.afp.modca.EIM_EndImageObject.class, (w, sf, level) -> w.writeNameDirectly((com.mgz.afp.modca.EIM_EndImageObject) sf, "EIM_EndImageObject", level));
+    map.put(com.mgz.afp.modca.PMC_PageModificationControl.class, (w, sf, level) -> w.writeTripletsAndTextDirectly((com.mgz.afp.modca.PMC_PageModificationControl) sf, "PMC_PageModificationControl", level));
+    map.put(com.mgz.afp.modca.PEC_PresentationEnvironmentControl.class, (w, sf, level) -> w.writeTripletsAndTextDirectly((com.mgz.afp.modca.PEC_PresentationEnvironmentControl) sf, "PEC_PresentationEnvironmentControl", level));
+    map.put(com.mgz.afp.modca.IPS_IncludePageSegment.class, (w, sf, level) -> w.writeIpsDirectly((com.mgz.afp.modca.IPS_IncludePageSegment) sf, level));
+    map.put(com.mgz.afp.modca.IPO_IncludePageOverlay.class, (w, sf, level) -> w.writeIpoDirectly((com.mgz.afp.modca.IPO_IncludePageOverlay) sf, level));
+    map.put(com.mgz.afp.modca.MFC_MediumFinishingControl.class, (w, sf, level) -> w.writeTripletsAndTextDirectly((com.mgz.afp.modca.MFC_MediumFinishingControl) sf, "MFC_MediumFinishingControl", level));
+    map.put(com.mgz.afp.modca.PFC_PresentationFidelityControl.class, (w, sf, level) -> w.writeTripletsAndTextDirectly((com.mgz.afp.modca.PFC_PresentationFidelityControl) sf, "PFC_PresentationFidelityControl", level));
+    map.put(BBC_BeginBarCodeObject.class, (w, sf, level) -> w.writeBbcDirectly((BBC_BeginBarCodeObject) sf, level));
+    map.put(EBC_EndBarCodeObject.class, (w, sf, level) -> w.writeEbcDirectly((EBC_EndBarCodeObject) sf, level));
+    map.put(BDD_BarCodeDataDescriptor.class, (w, sf, level) -> w.writeBddDirectly((BDD_BarCodeDataDescriptor) sf, level));
+    map.put(BDA_BarCodeData.class, (w, sf, level) -> w.writeBdaDirectly((BDA_BarCodeData) sf, level));
+    map.put(IID_IMImageInputDescriptor.class, (w, sf, level) -> w.writeIidDirectly((IID_IMImageInputDescriptor) sf, level));
+    map.put(ICP_IMImageCellPosition.class, (w, sf, level) -> w.writeIcpDirectly((ICP_IMImageCellPosition) sf, level));
+    map.put(IRD_IMImageRasterData.class, (w, sf, level) -> w.writeIrdDirectly((IRD_IMImageRasterData) sf, level));
+    map.put(IOC_IMImageOutputControl.class, (w, sf, level) -> w.writeIocDirectly((IOC_IMImageOutputControl) sf, level));
+    map.put(BCA_BeginColorAttributeTable.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((BCA_BeginColorAttributeTable) sf, "BCA_BeginColorAttributeTable", level));
+    map.put(ECA_EndColorAttributeTable.class, (w, sf, level) -> w.writeNameAndTripletsDirectly((ECA_EndColorAttributeTable) sf, "ECA_EndColorAttributeTable", level));
+    map.put(CAT_ColorAttributeTable.class, (w, sf, level) -> w.writeCatDirectly((CAT_ColorAttributeTable) sf, level));
+    map.put(MCA_MapColorAttributeTable.class, (w, sf, level) -> w.writeMcaDirectly((MCA_MapColorAttributeTable) sf, level));
+    return map;
   }
 
   private void writeNopDirectly(NOP_NoOperation nop, int level) throws Exception {
