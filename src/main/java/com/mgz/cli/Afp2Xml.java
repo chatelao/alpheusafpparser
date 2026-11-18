@@ -24,6 +24,7 @@ import com.mgz.afp.base.handler.HandlerFactory;
 import com.mgz.afp.base.handler.StructuredFieldHandler;
 import com.mgz.afp.parser.AFPParser;
 import com.mgz.afp.parser.AFPParserConfiguration;
+import com.mgz.util.MMapUtil;
 import com.mgz.util.MnemonicPerformanceMonitor;
 import com.mgz.util.NonClosingOutputStream;
 import com.mgz.util.FileChannelMappedBufferProvider;
@@ -37,11 +38,13 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.Channels;
 import java.nio.channels.GatheringByteChannel;
 import java.nio.channels.WritableByteChannel;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -55,6 +58,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class Afp2Xml {
   private static final long MMAP_THRESHOLD = 5 * 1024 * 1024; // 5MB
+  private static final int DIRECT_READ_THRESHOLD = 64 * 1024; // 64KB
+  private static final int OUTPUT_BUFFER_SIZE = 64 * 1024; // 64KB
+  private static final ThreadLocal<ByteBuffer> THREAD_LOCAL_READ_BUFFER =
+      ThreadLocal.withInitial(() -> ByteBuffer.allocateDirect(DIRECT_READ_THRESHOLD));
 
   private Afp2Xml() {
     // Utility class
@@ -280,14 +287,21 @@ public class Afp2Xml {
           return 0;
         }
 
-        // Sort files to ensure deterministic output order in stdout mode
-        Arrays.sort(files, Comparator.comparing(File::getName));
+        final boolean stdoutMode = "-".equals(outputPath);
+        if (stdoutMode) {
+          // Deterministic alphabetical order when multiplexing to stdout
+          Arrays.sort(files, Comparator.comparing(File::getName));
+        } else {
+          // Longest Processing Time first to avoid tail-latency stragglers
+          Arrays.sort(files, Comparator.comparingLong(File::length).reversed()
+              .thenComparing(File::getName));
+        }
 
         if (threadCount <= 0) {
           threadCount = Runtime.getRuntime().availableProcessors();
         }
 
-        if (!"-".equals(outputPath)) {
+        if (!stdoutMode) {
           System.out.println("Processing " + files.length + " files using " + threadCount + " threads...");
         } else {
           System.err.println("Processing " + files.length + " files using " + threadCount + " threads...");
@@ -297,7 +311,7 @@ public class Afp2Xml {
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
 
         final OrderedOutputOrchestrator orchestrator;
-        if ("-".equals(outputPath)) {
+        if (stdoutMode) {
           OutputStream nonClosingStdout = new NonClosingOutputStream(System.out);
           WritableByteChannel stdoutChannel = Channels.newChannel(nonClosingStdout);
           if (stdoutChannel instanceof GatheringByteChannel gbc) {
@@ -314,9 +328,12 @@ public class Afp2Xml {
           final boolean finalParallel = parallel;
           final boolean finalAggressiveIo = aggressiveIo;
           final boolean finalCharsetOpt = useCharsetOptimizations;
+          final boolean finalMeasure = measure;
+          final boolean finalPtxDebug = ptxDebug;
+          final boolean quietSuccess = files.length > 1;
+          final int fileCount = files.length;
 
           for (var f : files) {
-            final boolean finalPtxDebug = ptxDebug;
             final String finalOutputPath = outputPath;
             final int streamId = (orchestrator != null) ? orchestrator.registerStream() : -1;
 
@@ -329,21 +346,22 @@ public class Afp2Xml {
                 outputFile = new File(f.getParentFile(), outputFileName);
               }
 
-              // Distribute threads: if we have more cores than files, allow internal parallelism
-              int threadsPerFile = 0;
-              boolean useInternalParallel = finalParallel;
-              if (finalParallel) {
-                threadsPerFile = Math.max(1, totalThreads / files.length);
-              }
+              // Avoid nested thread pool oversubscription when outer pool is already saturated
+              boolean useInternalParallel = finalParallel && fileCount < totalThreads;
+              int threadsPerFile = useInternalParallel ? Math.max(1, totalThreads / fileCount) : 0;
 
               try {
                 if ("-".equals(finalOutputPath)) {
-                  try (OutputStream os = new BufferedOutputStream(orchestrator.createStreamOutputStream(streamId))) {
-                    convertToXml(f, os, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt);
+                  try (OutputStream os = new BufferedOutputStream(
+                      orchestrator.createStreamOutputStream(streamId), OUTPUT_BUFFER_SIZE)) {
+                    convertToXml(f, os, handlerFactory, finalPtxDebug, useInternalParallel,
+                        threadsPerFile, finalCharsetOpt);
                     os.flush();
                   }
                 } else {
-                  writeToOutputFile(f, outputFile, handlerFactory, finalPtxDebug, useInternalParallel, threadsPerFile, finalCharsetOpt, finalAggressiveIo);
+                  writeToOutputFile(f, outputFile, handlerFactory, finalPtxDebug,
+                      useInternalParallel, threadsPerFile, finalCharsetOpt, finalAggressiveIo,
+                      quietSuccess);
                 }
               } catch (Exception e) {
                 var msg = e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName();
@@ -353,8 +371,12 @@ public class Afp2Xml {
                 }
                 hasErrors.set(true);
               } finally {
-                MnemonicPerformanceMonitor.merge();
-                com.mgz.util.PTXPerformanceMonitor.merge();
+                if (finalMeasure) {
+                  MnemonicPerformanceMonitor.merge();
+                }
+                if (finalPtxDebug) {
+                  com.mgz.util.PTXPerformanceMonitor.merge();
+                }
               }
             });
           }
@@ -365,17 +387,21 @@ public class Afp2Xml {
             hasErrors.set(true);
           }
         }
+        if (!stdoutMode && files.length > 1) {
+          System.out.println("Processed " + files.length + " files.");
+        }
         return hasErrors.get() ? 1 : 0;
       } else {
         if ("-".equals(outputPath)) {
           OutputStream nonClosingStdout = new NonClosingOutputStream(System.out);
-          try (OutputStream os = new BufferedOutputStream(nonClosingStdout)) {
+          try (OutputStream os = new BufferedOutputStream(nonClosingStdout, OUTPUT_BUFFER_SIZE)) {
             convertToXml(input, os, handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations);
             os.flush();
           }
         } else {
           var outputFilePath = outputPath != null ? outputPath : inputPath + extension;
-          writeToOutputFile(input, new File(outputFilePath), handlerFactory, ptxDebug, parallel, threadCount, useCharsetOptimizations, aggressiveIo);
+          writeToOutputFile(input, new File(outputFilePath), handlerFactory, ptxDebug, parallel,
+              threadCount, useCharsetOptimizations, aggressiveIo, false);
         }
         return 0;
       }
@@ -394,7 +420,8 @@ public class Afp2Xml {
   }
 
   private static void writeWithFileOutputStream(File f, File outputFile, HandlerFactory handlerFactory,
-      boolean ptxDebug, boolean parallel, int threadsPerFile, boolean charsetOpt, boolean aggressiveIo) throws Exception {
+      boolean ptxDebug, boolean parallel, int threadsPerFile, boolean charsetOpt, boolean aggressiveIo,
+      boolean quietSuccess) throws Exception {
     try (var fos = new FileOutputStream(outputFile)) {
       if (aggressiveIo) {
         long estimatedSize = handlerFactory.estimateOutputSize(f.length());
@@ -407,7 +434,7 @@ public class Afp2Xml {
       if (parallel) {
         convertToXml(f, fos, handlerFactory, ptxDebug, parallel, threadsPerFile, charsetOpt);
       } else {
-        try (OutputStream os = new BufferedOutputStream(new NonClosingOutputStream(fos))) {
+        try (OutputStream os = new BufferedOutputStream(new NonClosingOutputStream(fos), OUTPUT_BUFFER_SIZE)) {
           convertToXml(f, os, handlerFactory, ptxDebug, parallel, threadsPerFile, charsetOpt);
           os.flush();
         }
@@ -416,7 +443,9 @@ public class Afp2Xml {
         fos.getChannel().truncate(fos.getChannel().position());
       }
     }
-    System.out.println("Export successful: " + outputFile.getPath());
+    if (!quietSuccess) {
+      System.out.println("Export successful: " + outputFile.getPath());
+    }
   }
 
   private static void printUsage(PrintStream out) {
@@ -461,33 +490,64 @@ public class Afp2Xml {
     config.setPtxDebug(ptxDebug);
     config.setUseCharsetOptimizations(useCharsetOptimizations);
 
-    if (parallel) {
-      var converter = new com.mgz.afp.parser.ParallelAfpConverter(config, threadCount, handlerFactory);
-      converter.convert(os);
-      return;
-    }
-
-    var parser = new AFPParser(config);
+    MappedByteBuffer mappedBuffer = null;
     try {
-      try (StructuredFieldHandler handler = handlerFactory.createHandler(os, false)) {
-        StructuredField sf;
-        while ((sf = parser.parseNextSF()) != null) {
-          if (sf instanceof com.mgz.afp.base.StructuredFieldErrornouslyBuilt errSf) {
-            synchronized (System.err) {
-              System.err.println("[" + Thread.currentThread().getName() + "] Error parsing file "
-                  + inputFile.getName() + ": " + errSf.getErrorMessage());
+      long fileSize = inputFile.length();
+      if (fileSize == 0) {
+        config.setByteBuffer(ByteBuffer.allocate(0));
+      } else if (!parallel && fileSize <= DIRECT_READ_THRESHOLD) {
+        ByteBuffer directBuf = THREAD_LOCAL_READ_BUFFER.get();
+        directBuf.clear();
+        directBuf.limit((int) fileSize);
+        try (FileChannel fc = FileChannel.open(inputFile.toPath(), StandardOpenOption.READ)) {
+          while (directBuf.hasRemaining()) {
+            if (fc.read(directBuf) == -1) {
+              break;
             }
           }
-          handler.handle(sf);
-          sf.release();
         }
+        directBuf.flip();
+        config.setByteBuffer(directBuf);
+      } else if (fileSize <= Integer.MAX_VALUE) {
+        try (FileChannel fc = FileChannel.open(inputFile.toPath(), StandardOpenOption.READ)) {
+          mappedBuffer = fc.map(FileChannel.MapMode.READ_ONLY, 0, fileSize);
+        }
+        config.setByteBuffer(mappedBuffer);
       }
-      if (parser.getNrOfSFBuiltWithErrors() > 0) {
-        throw new Exception("Failed to process " + parser.getNrOfSFBuiltWithErrors()
-            + " structured fields correctly.");
+
+      if (parallel) {
+        var converter = new com.mgz.afp.parser.ParallelAfpConverter(config, threadCount, handlerFactory);
+        converter.convert(os);
+        return;
+      }
+
+      var parser = new AFPParser(config);
+      try {
+        try (StructuredFieldHandler handler = handlerFactory.createHandler(os, false)) {
+          StructuredField sf;
+          while ((sf = parser.parseNextSF()) != null) {
+            if (sf instanceof com.mgz.afp.base.StructuredFieldErrornouslyBuilt errSf) {
+              synchronized (System.err) {
+                System.err.println("[" + Thread.currentThread().getName() + "] Error parsing file "
+                    + inputFile.getName() + ": " + errSf.getErrorMessage());
+              }
+            }
+            handler.handle(sf);
+            sf.release();
+          }
+        }
+        if (parser.getNrOfSFBuiltWithErrors() > 0) {
+          throw new Exception("Failed to process " + parser.getNrOfSFBuiltWithErrors()
+              + " structured fields correctly.");
+        }
+      } finally {
+        parser.quitParsing();
       }
     } finally {
-      parser.quitParsing();
+      if (mappedBuffer != null) {
+        config.setByteBuffer(null);
+        MMapUtil.unmap(mappedBuffer);
+      }
     }
   }
 
@@ -510,7 +570,8 @@ public class Afp2Xml {
   }
 
   private static void writeToOutputFile(File inputFile, File outputFile, HandlerFactory handlerFactory,
-      boolean ptxDebug, boolean parallel, int threads, boolean useCharsetOptimizations, boolean aggressiveIo)
+      boolean ptxDebug, boolean parallel, int threads, boolean useCharsetOptimizations, boolean aggressiveIo,
+      boolean quietSuccess)
       throws Exception {
     long estimatedSize = aggressiveIo ? handlerFactory.estimateOutputSize(inputFile.length()) : 0;
     if (aggressiveIo && estimatedSize >= MMAP_THRESHOLD) {
@@ -526,10 +587,12 @@ public class Afp2Xml {
         }
         raf.getChannel().truncate(finalSize);
       }
-      System.out.println("Export successful (MMap): " + outputFile.getPath());
+      if (!quietSuccess) {
+        System.out.println("Export successful (MMap): " + outputFile.getPath());
+      }
     } else {
       writeWithFileOutputStream(inputFile, outputFile, handlerFactory, ptxDebug, parallel, threads,
-          useCharsetOptimizations, aggressiveIo);
+          useCharsetOptimizations, aggressiveIo, quietSuccess);
     }
   }
 }
