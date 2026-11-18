@@ -19,12 +19,12 @@ along with Alpheus AFP Parser.  If not, see <http://www.gnu.org/licenses/>
 
 package com.mgz.util;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 /**
  * Utility for explicitly unmapping {@link MappedByteBuffer}s.
@@ -33,6 +33,26 @@ import java.security.PrivilegedAction;
  * and to prevent virtual address space exhaustion.
  */
 public final class MMapUtil {
+
+  private static final Object UNSAFE;
+  private static final MethodHandle INVOKE_CLEANER;
+
+  static {
+    Object unsafe = null;
+    MethodHandle invokeCleaner = null;
+    try {
+      Class<?> unsafeClass = Class.forName("sun.misc.Unsafe");
+      Field unsafeField = unsafeClass.getDeclaredField("theUnsafe");
+      unsafeField.setAccessible(true);
+      unsafe = unsafeField.get(null);
+      invokeCleaner = MethodHandles.publicLookup().findVirtual(
+          unsafeClass, "invokeCleaner", MethodType.methodType(void.class, ByteBuffer.class));
+    } catch (Throwable t) {
+      // Fallback: let GC handle unmapping
+    }
+    UNSAFE = unsafe;
+    INVOKE_CLEANER = invokeCleaner;
+  }
 
   private MMapUtil() {
     // Utility class
@@ -46,43 +66,14 @@ public final class MMapUtil {
    * @param buffer the buffer to unmap
    */
   public static void unmap(ByteBuffer buffer) {
-    if (buffer == null || !buffer.isDirect()) {
+    if (buffer == null || !buffer.isDirect() || UNSAFE == null || INVOKE_CLEANER == null) {
       return;
     }
 
     try {
-      AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
-        try {
-          unmapInternal(buffer);
-        } catch (Exception e) {
-          // Ignore, we tried our best
-        }
-        return null;
-      });
-    } catch (Exception e) {
+      INVOKE_CLEANER.invoke(UNSAFE, buffer);
+    } catch (Throwable t) {
       // Fallback: just let GC handle it
-    }
-  }
-
-  private static void unmapInternal(ByteBuffer buffer) throws Exception {
-    // Standard approach for Java 9+
-    try {
-      Class<?> unsafeClass = Class.forName("sun.misc.Unsafe");
-      Field unsafeField = unsafeClass.getDeclaredField("theUnsafe");
-      unsafeField.setAccessible(true);
-      Object unsafe = unsafeField.get(null);
-      Method invokeCleanerMethod = unsafeClass.getMethod("invokeCleaner", ByteBuffer.class);
-      invokeCleanerMethod.invoke(unsafe, buffer);
-    } catch (Exception e) {
-      // Fallback for Java 8
-      Method cleanerMethod = buffer.getClass().getMethod("cleaner");
-      cleanerMethod.setAccessible(true);
-      Object cleaner = cleanerMethod.invoke(buffer);
-      if (cleaner != null) {
-        Method cleanMethod = cleaner.getClass().getMethod("clean");
-        cleanMethod.setAccessible(true);
-        cleanMethod.invoke(cleaner);
-      }
     }
   }
 }
