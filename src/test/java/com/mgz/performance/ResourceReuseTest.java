@@ -72,7 +72,11 @@ public class ResourceReuseTest {
         PdfHandler handler1 = (PdfHandler) factory.createHandler(new ByteArrayOutputStream(), false);
         PdfHandler handler2 = (PdfHandler) factory.createHandler(new ByteArrayOutputStream(), false);
 
-        assertSame(handler1.getFontRegistry(), handler2.getFontRegistry(), "PDF font registries should be reused");
+        assertNotSame(handler1.getFontRegistry(), handler2.getFontRegistry(),
+            "Each PDF handler should have an isolated PdfFontRegistry for thread safety");
+        assertSame(handler1.getFontRegistry().getDefaultFont().getFontProgram(),
+            handler2.getFontRegistry().getDefaultFont().getFontProgram(),
+            "Cached standard FontProgram should be shared across PDF font registries");
 
         handler1.close();
         handler2.close();
@@ -138,6 +142,8 @@ public class ResourceReuseTest {
         PTOCAControlSequence cs1 = ControlSequencePool.acquire(type);
         if (cs1 == null) {
             cs1 = new PTOCAControlSequence.AMI_AbsoluteMoveInline();
+        }
+        if (cs1.getCsi() == null) {
             cs1.setCsi(new PTOCAControlSequence.ControlSequenceIntroducer());
             cs1.getCsi().setControlSequenceFunctionType(type);
         }

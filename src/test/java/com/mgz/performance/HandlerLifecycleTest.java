@@ -116,7 +116,8 @@ public class HandlerLifecycleTest {
         ParallelAfpConverter converter = new ParallelAfpConverter(config, 1, new MockHandlerFactory());
         converter.convert(new ByteArrayOutputStream());
 
-        int expected = 1 + 10;
+        // Coarse batching uses min(pageCount, numThreads * 4) = 4 batches plus 1 preamble handler.
+        int expected = 1 + 4;
         assertEquals(expected, createdCount.get(), "Unexpected number of handlers created (sequential)");
         assertEquals(expected, closedCount.get(), "Not all handlers were closed (sequential)");
     }
