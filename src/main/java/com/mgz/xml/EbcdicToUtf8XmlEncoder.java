@@ -177,6 +177,45 @@ public class EbcdicToUtf8XmlEncoder {
     }
   }
 
+  /**
+   * Encodes EBCDIC data into the thread-local scratch buffer if it is a stateless single-byte
+   * charset and guaranteed to fit within {@link #BATCH_BUFFER_SIZE}.
+   *
+   * @return the number of UTF-8 bytes written into {@link #getScratchBuffer()}, or {@code -1} if
+   *     the caller should fall back to {@link #encodeAndWrite}.
+   */
+  public static int encodeToScratch(byte[] data, int offset, int len, Charset charset) {
+    if (data == null || len <= 0 || len > BATCH_BUFFER_SIZE / 6) {
+      return -1;
+    }
+    EncodedTable table = resolveTable(charset);
+    if (table == null) {
+      return -1;
+    }
+    byte[] out = BATCH_BUFFER.get();
+    int outPos = 0;
+    final byte[] fast = table.fastSingleByte;
+    final byte[][] entries = table.entries;
+    final int end = offset + len;
+    for (int i = offset; i < end; i++) {
+      int idx = data[i] & 0xFF;
+      byte single = fast[idx];
+      if (single != 0) {
+        out[outPos++] = single;
+      } else {
+        byte[] multi = entries[idx];
+        int multiLen = multi.length;
+        System.arraycopy(multi, 0, out, outPos, multiLen);
+        outPos += multiLen;
+      }
+    }
+    return outPos;
+  }
+
+  public static byte[] getScratchBuffer() {
+    return BATCH_BUFFER.get();
+  }
+
   private static EncodedTable resolveTable(Charset charset) {
     if (charset == null) {
       return CP500_TABLE;

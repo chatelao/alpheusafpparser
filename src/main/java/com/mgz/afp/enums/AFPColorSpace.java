@@ -50,13 +50,14 @@ public enum AFPColorSpace {
    * @return the corresponding AFPColorSpace, or null if not found
    */
   public static AFPColorSpace valueOf(byte code) {
-    int unsignedCode = code & 0xFF;
-    for (AFPColorSpace cs : values()) {
-      if (cs.code == unsignedCode) {
-        return cs;
-      }
-    }
-    return null;
+    return switch (code & 0xFF) {
+      case 0x01 -> RGB;
+      case 0x04 -> CMYK;
+      case 0x06 -> Highlight;
+      case 0x08 -> CIELAB;
+      case 0x40 -> StandardOCA;
+      default -> null;
+    };
   }
 
   /**

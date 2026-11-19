@@ -292,9 +292,17 @@ public class Afp2Xml {
           // Deterministic alphabetical order when multiplexing to stdout
           Arrays.sort(files, Comparator.comparing(File::getName));
         } else {
-          // Longest Processing Time first to avoid tail-latency stragglers
-          Arrays.sort(files, Comparator.comparingLong(File::length).reversed()
-              .thenComparing(File::getName));
+          // Longest Processing Time first to avoid tail-latency stragglers (pre-fetch length once)
+          record SizedFile(File file, long length) {}
+          SizedFile[] sized = new SizedFile[files.length];
+          for (int i = 0; i < files.length; i++) {
+            sized[i] = new SizedFile(files[i], files[i].length());
+          }
+          Arrays.sort(sized, Comparator.comparingLong(SizedFile::length).reversed()
+              .thenComparing(sf -> sf.file().getName()));
+          for (int i = 0; i < files.length; i++) {
+            files[i] = sized[i].file();
+          }
         }
 
         if (threadCount <= 0) {

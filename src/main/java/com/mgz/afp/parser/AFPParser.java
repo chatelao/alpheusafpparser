@@ -560,7 +560,7 @@ public class AFPParser {
           throw new AFPParserException("Failed to skip payload while building shallow objects.");
         }
       } else {
-        byte[] grossPayload = new byte[lenOfGrossPayload];
+        byte[] grossPayload = null;
         try {
           if (lenOfGrossPayload > 0) {
             grossPayload = readGrossPayload(is, lenOfGrossPayload);

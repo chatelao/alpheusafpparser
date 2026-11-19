@@ -38,12 +38,14 @@ public enum AFPOrientation {
   }
 
   public static AFPOrientation valueOf(int orientationCode) {
-    for (AFPOrientation ori : values()) {
-      if (ori.code == orientationCode) {
-        return ori;
-      }
-    }
-    return null;
+    return switch (orientationCode) {
+      case 0x0000 -> ori0;
+      case 0x2D00 -> ori90;
+      case 0x5A00 -> ori180;
+      case 0x8700 -> ori270;
+      case 0xFFFF -> AsDefined;
+      default -> null;
+    };
   }
 
   public byte[] toBytes() {

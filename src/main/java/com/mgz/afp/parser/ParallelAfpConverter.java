@@ -165,8 +165,10 @@ public class ParallelAfpConverter {
       return;
     }
 
-    // Single-page files do not benefit from multi-document PDF splitting and merging.
-    if (pageOffsets.length == 1) {
+    // Small/medium PDFs do not benefit from multi-document PDF splitting and sequential PdfMerger.
+    if (numThreads <= 1
+        || pageOffsets.length < 200
+        || (fileSize - firstPageOffset) < 2L * 1024 * 1024) {
       parseSequentialRangeAndTrackResources(
           pageOffsets[0], fileSize, pageSfIndices[0], sfOffsets.length,
           sfOffsets, masterHandler, resourceSpans);
@@ -207,7 +209,7 @@ public class ParallelAfpConverter {
     Object batchState = masterHandler.exportBatchState();
     int preamblePageCount = masterHandler.getCurrentPageNumber();
     List<PageBatch> batches = createPageBatches(
-        pageOffsets, batchStartPageIdx, fileSize, numThreads, MAX_BINARY_BATCH_BYTES);
+        pageOffsets, batchStartPageIdx, fileSize, numThreads, MAX_BINARY_BATCH_BYTES, 1);
 
     ExecutorService executor = Executors.newFixedThreadPool(Math.min(numThreads, batches.size()));
     try {
@@ -424,6 +426,17 @@ public class ParallelAfpConverter {
 
   static List<PageBatch> createPageBatches(
       long[] pageOffsets, int fromPageIndex, long fileSize, int numThreads, long maxBatchBytes) {
+    return createPageBatches(
+        pageOffsets, fromPageIndex, fileSize, numThreads, maxBatchBytes, BATCH_MULTIPLIER);
+  }
+
+  static List<PageBatch> createPageBatches(
+      long[] pageOffsets,
+      int fromPageIndex,
+      long fileSize,
+      int numThreads,
+      long maxBatchBytes,
+      int batchMultiplier) {
     int pageCount = pageOffsets.length;
     List<PageBatch> batches = new ArrayList<>();
     if (pageCount == 0 || fromPageIndex >= pageCount) {
@@ -431,7 +444,7 @@ public class ParallelAfpConverter {
     }
 
     int targetBatches =
-        Math.min(pageCount - fromPageIndex, Math.max(1, numThreads) * BATCH_MULTIPLIER);
+        Math.min(pageCount - fromPageIndex, Math.max(1, numThreads) * Math.max(1, batchMultiplier));
     int batchSeq = 0;
     int i = Math.max(0, fromPageIndex);
     while (i < pageCount) {

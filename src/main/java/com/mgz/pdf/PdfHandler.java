@@ -238,7 +238,7 @@ public class PdfHandler implements StructuredFieldHandler {
       double defaultScaleX,
       double defaultScaleY) {}
 
-  private final AtomicLong fieldCount = new AtomicLong(0);
+  private long fieldCount = 0;
   private final Deque<StructuredField> structureStack = new ArrayDeque<>();
   private final Deque<PdfDictionary> dpartStack = new ArrayDeque<>();
   private final Deque<PdfCanvas> canvasStack = new ArrayDeque<>();
@@ -255,7 +255,6 @@ public class PdfHandler implements StructuredFieldHandler {
   private final boolean fragmentMode;
   private final List<DPartEvent> dpartEvents;
   private final PdfDocument pdfDoc;
-  private final Document document;
   private final PdfDictionary dpartRoot;
   private final PdfTextState textState;
   private final PdfGraphicsState graphicsState;
@@ -352,7 +351,6 @@ public class PdfHandler implements StructuredFieldHandler {
     this.fontMapStack.push(new HashMap<>());
 
     if (!fragmentMode) {
-      this.document = new Document(pdfDoc);
       // Initialize DPartRoot for PDF/VT compliance (ISO 16612-2)
       this.dpartRoot = new PdfDictionary();
       dpartRoot.put(PdfName.Type, new PdfName("DPartRoot"));
@@ -366,14 +364,13 @@ public class PdfHandler implements StructuredFieldHandler {
       // Initialize OutputIntents array for PDF/X and PDF/VT compliance
       pdfDoc.getCatalog().put(PdfName.OutputIntents, new PdfArray());
     } else {
-      this.document = null;
       this.dpartRoot = null;
     }
   }
 
   @Override
   public void handle(StructuredField sf) throws Exception {
-    fieldCount.incrementAndGet();
+    fieldCount++;
 
     if (MnemonicPerformanceMonitor.isEnabled()) {
       String rootName = MnemonicPerformanceMonitor.getSimpleName(sf.getClass());
@@ -2685,27 +2682,30 @@ public class PdfHandler implements StructuredFieldHandler {
         pdfDoc.close();
         return;
       }
-      if (fieldCount.get() > 0 && pdfDoc.getNumberOfPages() == 0) {
+      if (fieldCount > 0 && pdfDoc.getNumberOfPages() == 0) {
         Paragraph placeholder = new Paragraph("AFP to PDF conversion in progress...");
         if (fontRegistry.getDefaultFont() != null) {
           placeholder.setFont(fontRegistry.getDefaultFont());
         }
-        document.add(placeholder);
-      }
-      if (pdfDoc.getNumberOfPages() > 0) {
-        if (drawLeftOverlay) {
-          for (int i = 1; i <= pdfDoc.getNumberOfPages(); i++) {
-            drawLeftOverlayStrip(pdfDoc.getPage(i));
+        try (Document doc = new Document(pdfDoc)) {
+          doc.add(placeholder);
+        }
+      } else {
+        if (pdfDoc.getNumberOfPages() > 0) {
+          if (drawLeftOverlay) {
+            for (int i = 1; i <= pdfDoc.getNumberOfPages(); i++) {
+              drawLeftOverlayStrip(pdfDoc.getPage(i));
+            }
+          }
+          if (drawWindow) {
+            drawWindowOverlay(pdfDoc.getPage(1));
+          }
+          if (drawSwissPostLines) {
+            drawSwissPostYellowLines(pdfDoc.getPage(1));
           }
         }
-        if (drawWindow) {
-          drawWindowOverlay(pdfDoc.getPage(1));
-        }
-        if (drawSwissPostLines) {
-          drawSwissPostYellowLines(pdfDoc.getPage(1));
-        }
+        pdfDoc.close();
       }
-      document.close();
     } finally {
       ColorHandler.clearContext();
     }
@@ -2949,7 +2949,7 @@ public class PdfHandler implements StructuredFieldHandler {
    * @return the field count
    */
   public long getFieldCount() {
-    return fieldCount.get();
+    return fieldCount;
   }
 
   /**

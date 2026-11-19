@@ -273,7 +273,14 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     this.os = os;
 
     this.indentEnabled = indent;
-    this.cos = new com.mgz.util.CountingOutputStream(new NonClosingOutputStream(os));
+    OutputStream flushSuppressedOs = new com.mgz.util.NonClosingOutputStream(os) {
+      @Override
+      public void flush() throws java.io.IOException {
+        // Woodstox calls flush() when switching between StAX and direct EBCDIC/raw-byte writes;
+        // do not propagate to the underlying BufferedOutputStream/FileOutputStream on every TRN.
+      }
+    };
+    this.cos = new com.mgz.util.CountingOutputStream(flushSuppressedOs);
     this.xpathExpression = (xpathExpression == null || xpathExpression.isBlank()) ? null : xpathExpression;
     this.fragmentMode = fragmentMode;
     this.mapper = JacksonXmlMapperProvider.getMapper();
@@ -310,6 +317,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
     }
     if (xsw != null) {
       xsw.flush();
+    }
+    if (os != null) {
+      os.flush();
     }
   }
 
@@ -3673,15 +3683,34 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
         baseXsw.writeIntAttribute(null, null, "x", getAfpX());
         baseXsw.writeIntAttribute(null, null, "y", getAfpY());
         if (trn.getEncoding() != null && trn.getTransparentDataEBCDIC() != null) {
-          writeIndent(baseXsw, childLevel);
-          baseXsw.writeRawBytes(XmlTagTemplates.TRN_DATA_START, 0, XmlTagTemplates.TRN_DATA_START.length);
-          baseXsw.writeEbcdic(trn.getTransparentDataEBCDIC(), 0, trn.getTransparentDataEBCDIC().length, trn.getEncoding());
-          baseXsw.writeRawBytes(XmlTagTemplates.TRN_DATA_END, 0, XmlTagTemplates.TRN_DATA_END.length);
+          byte[] ebcdic = trn.getTransparentDataEBCDIC();
+          long encStart = com.mgz.util.PTXPerformanceMonitor.isInPtx() ? System.nanoTime() : 0;
+          int encodedLen = EbcdicToUtf8XmlEncoder.encodeToScratch(ebcdic, 0, ebcdic.length, trn.getEncoding());
+          if (encStart > 0 && encodedLen >= 0) {
+            com.mgz.util.PTXPerformanceMonitor.recordPtxEncoding(System.nanoTime() - encStart);
+          }
+          if (encodedLen >= 0) {
+            byte[] encoded = EbcdicToUtf8XmlEncoder.getScratchBuffer();
+            writeIndent(baseXsw, childLevel);
+            baseXsw.writeRawBytes(XmlTagTemplates.TRN_DATA_START, 0, XmlTagTemplates.TRN_DATA_START.length);
+            baseXsw.writeRawBytes(encoded, 0, encodedLen);
+            baseXsw.writeRawBytes(XmlTagTemplates.TRN_DATA_END, 0, XmlTagTemplates.TRN_DATA_END.length);
 
-          writeIndent(baseXsw, childLevel);
-          baseXsw.writeRawBytes(XmlTagTemplates.TEXT_START, 0, XmlTagTemplates.TEXT_START.length);
-          baseXsw.writeEbcdic(trn.getTransparentDataEBCDIC(), 0, trn.getTransparentDataEBCDIC().length, trn.getEncoding());
-          baseXsw.writeRawBytes(XmlTagTemplates.TEXT_END, 0, XmlTagTemplates.TEXT_END.length);
+            writeIndent(baseXsw, childLevel);
+            baseXsw.writeRawBytes(XmlTagTemplates.TEXT_START, 0, XmlTagTemplates.TEXT_START.length);
+            baseXsw.writeRawBytes(encoded, 0, encodedLen);
+            baseXsw.writeRawBytes(XmlTagTemplates.TEXT_END, 0, XmlTagTemplates.TEXT_END.length);
+          } else {
+            writeIndent(baseXsw, childLevel);
+            baseXsw.writeRawBytes(XmlTagTemplates.TRN_DATA_START, 0, XmlTagTemplates.TRN_DATA_START.length);
+            baseXsw.writeEbcdic(ebcdic, 0, ebcdic.length, trn.getEncoding());
+            baseXsw.writeRawBytes(XmlTagTemplates.TRN_DATA_END, 0, XmlTagTemplates.TRN_DATA_END.length);
+
+            writeIndent(baseXsw, childLevel);
+            baseXsw.writeRawBytes(XmlTagTemplates.TEXT_START, 0, XmlTagTemplates.TEXT_START.length);
+            baseXsw.writeEbcdic(ebcdic, 0, ebcdic.length, trn.getEncoding());
+            baseXsw.writeRawBytes(XmlTagTemplates.TEXT_END, 0, XmlTagTemplates.TEXT_END.length);
+          }
         } else {
           writeElement(baseXsw, childLevel, "transparentData", trn.getTransparentData());
           if (trn.getText() != null) {
@@ -6105,6 +6134,9 @@ public class AfpJacksonXmlWriter implements StructuredFieldHandler {
       xsw.flush();
       // Always close the writer to ensure that internal buffers are recycled by the factory.
       xsw.close();
+    }
+    if (os != null) {
+      os.flush();
     }
   }
 

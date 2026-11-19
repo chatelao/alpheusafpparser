@@ -48,6 +48,9 @@ public class PTX_PresentationTextData extends StructuredField {
     return controlSequences;
   }
 
+  private static final ThreadLocal<byte[]> SCRATCH_BUFFER =
+      ThreadLocal.withInitial(() -> new byte[8192]);
+
   volatile byte[] originalPayload;
   volatile Throwable controlSequenceException;
 
@@ -64,13 +67,11 @@ public class PTX_PresentationTextData extends StructuredField {
       AFPParserConfiguration config) throws AFPParserException {
     long startTime = config.isPtxDebug() ? System.nanoTime() : 0;
     int actualLength = getActualLength(sfData, offset, length);
+    originalPayload = null;
     if (actualLength > 0) {
-      originalPayload = new byte[actualLength];
-      System.arraycopy(sfData, offset, originalPayload, 0, actualLength);
       controlSequences = PTOCAControlSequenceParser.parseControlSequences(
           sfData, offset, actualLength, config);
     } else {
-      originalPayload = null;
       controlSequences = null;
     }
 
@@ -86,18 +87,24 @@ public class PTX_PresentationTextData extends StructuredField {
       AFPParserConfiguration config) throws AFPParserException {
     long startTime = config.isPtxDebug() ? System.nanoTime() : 0;
     int actualLength = length != -1 ? length : buffer.limit() - offset;
+    originalPayload = null;
     if (actualLength > 0) {
-      byte[] payload = new byte[actualLength];
       if (buffer.hasArray()) {
-        System.arraycopy(buffer.array(), buffer.arrayOffset() + offset, payload, 0, actualLength);
+        controlSequences = PTOCAControlSequenceParser.parseControlSequences(
+            buffer.array(), buffer.arrayOffset() + offset, actualLength, config);
       } else {
+        byte[] payload = SCRATCH_BUFFER.get();
+        if (payload.length < actualLength) {
+          payload = new byte[actualLength];
+          if (actualLength <= 65536) {
+            SCRATCH_BUFFER.set(payload);
+          }
+        }
         buffer.get(offset, payload, 0, actualLength);
+        controlSequences = PTOCAControlSequenceParser.parseControlSequences(
+            payload, 0, actualLength, config);
       }
-      originalPayload = payload;
-      controlSequences = PTOCAControlSequenceParser.parseControlSequences(
-          payload, 0, actualLength, config);
     } else {
-      originalPayload = null;
       controlSequences = null;
     }
 

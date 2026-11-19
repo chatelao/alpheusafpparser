@@ -153,17 +153,31 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
 
     int typeCode;
 
+    private static final ControlSequenceFunctionType[] BY_CODE =
+        new ControlSequenceFunctionType[256];
+
+    static {
+      java.util.Arrays.fill(BY_CODE, Undefined);
+      for (ControlSequenceFunctionType csft : values()) {
+        if (csft == Undefined) {
+          continue;
+        }
+        int code = csft.typeCode;
+        if (code >= 0 && code < 256) {
+          BY_CODE[code] = csft;
+        }
+        if (code + 1 >= 0 && code + 1 < 256) {
+          BY_CODE[code + 1] = csft;
+        }
+      }
+    }
+
     ControlSequenceFunctionType(int typeCode) {
       this.typeCode = typeCode;
     }
 
     public static ControlSequenceFunctionType valueOf(short typeCode) throws AFPParserException {
-      for (ControlSequenceFunctionType csft : values()) {
-        if (csft.typeCode == typeCode || csft.typeCode == (typeCode - 1)) {
-          return csft;
-        }
-      }
-      return Undefined;
+      return (typeCode >= 0 && typeCode < 256) ? BY_CODE[typeCode] : Undefined;
     }
 
     public int toByte(boolean isChained) {
@@ -1439,22 +1453,22 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
 
     @JacksonXmlProperty(localName = "text")
     public String getText() {
-      if (transparentData == null || transparentData.isEmpty()) {
+      String td = getTransparentData();
+      if (td == null || td.isEmpty()) {
         return null;
       }
-      return transparentData;
+      return td;
     }
 
     @Override
     public void decodeAFP(byte[] sfData, int offset, int length, AFPParserConfiguration config) throws AFPParserException {
       encoding = config.getAfpCharSet();
       int actualLength = StructuredField.getActualLength(sfData, offset, length);
+      transparentData = null;
       if (actualLength > 0) {
-        transparentData = UtilCharacterEncoding.decodeEbcdic(sfData, offset, length, config);
         transparentDataEBCDIC = new byte[actualLength];
         System.arraycopy(sfData, offset, transparentDataEBCDIC, 0, actualLength);
       } else {
-        transparentData = null;
         transparentDataEBCDIC = null;
       }
     }
@@ -1467,13 +1481,20 @@ public abstract sealed class PTOCAControlSequence implements IAFPDecodeableWrite
     public void writeAFP(OutputStream os, AFPParserConfiguration config) throws IOException {
       if (isUseEBCDICData && transparentDataEBCDIC != null) {
         os.write(transparentDataEBCDIC);
-      } else if (transparentData != null) {
-        os.write(transparentData.getBytes(config.getAfpCharSet()));
+      } else {
+        String td = getTransparentData();
+        if (td != null) {
+          os.write(td.getBytes(config.getAfpCharSet()));
+        }
       }
     }
 
     @JsonIgnore
     public String getTransparentData() {
+      if (transparentData == null && transparentDataEBCDIC != null) {
+        transparentData = UtilCharacterEncoding.decodeEbcdic(
+            transparentDataEBCDIC, 0, transparentDataEBCDIC.length, encoding);
+      }
       return transparentData;
     }
 

@@ -48,12 +48,12 @@ public enum AFPUnitBase {
    * @return the corresponding {@link AFPUnitBase}, or null if unknown
    */
   public static AFPUnitBase valueOf(byte unitBaseCode) {
-    for (AFPUnitBase ub : values()) {
-      if (ub.code == unitBaseCode) {
-        return ub;
-      }
-    }
-    return null;
+    return switch (unitBaseCode) {
+      case 0x00 -> Inches10;
+      case 0x01 -> Centimeter10;
+      case 0x02 -> Logical_ResolutionRatio;
+      default -> null;
+    };
   }
 
   /**

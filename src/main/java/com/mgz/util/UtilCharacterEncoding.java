@@ -389,19 +389,24 @@ public class UtilCharacterEncoding {
    */
   public static String decodeEbcdic(
       byte[] sfData, int offset, int length, AFPParserConfiguration config) {
-    int actualLength = StructuredField.getActualLength(sfData, offset, length);
-    if (actualLength <= 0) {
-      return "";
-    }
     Charset charset =
         (config != null && config.getAfpCharSet() != null)
             ? config.getAfpCharSet()
             : Constants.cpIBM500;
-    char[] lut = getDecoderLut(charset);
+    return decodeEbcdic(sfData, offset, length, charset);
+  }
+
+  public static String decodeEbcdic(byte[] sfData, int offset, int length, Charset charset) {
+    int actualLength = StructuredField.getActualLength(sfData, offset, length);
+    if (actualLength <= 0) {
+      return "";
+    }
+    Charset effectiveCharset = charset != null ? charset : Constants.cpIBM500;
+    char[] lut = getDecoderLut(effectiveCharset);
     if (lut != null) {
       return decodeWithLut(sfData, offset, actualLength, lut);
     }
-    return new String(sfData, offset, actualLength, charset);
+    return new String(sfData, offset, actualLength, effectiveCharset);
   }
 
   /**

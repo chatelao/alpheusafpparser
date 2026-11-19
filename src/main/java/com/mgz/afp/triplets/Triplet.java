@@ -183,15 +183,24 @@ public abstract sealed class Triplet implements IAFPDecodeableWriteable {
     TripletExtender(0xFF);
     int code;
 
+    private static final TripletID[] BY_CODE = new TripletID[256];
+
+    static {
+      for (TripletID id : values()) {
+        if (id.code >= 0 && id.code < 256) {
+          BY_CODE[id.code] = id;
+        }
+      }
+    }
+
     TripletID(int code) {
       this.code = code;
     }
 
     public static TripletID valueOf(short codeByte) throws AFPParserException {
-      for (TripletID id : values()) {
-        if (id.code == codeByte) {
-          return id;
-        }
+      TripletID id = (codeByte >= 0 && codeByte < 256) ? BY_CODE[codeByte] : null;
+      if (id != null) {
+        return id;
       }
       throw new AFPParserException(TripletID.class.getSimpleName() + ": the ID 0x" + Integer.toHexString(codeByte) + " is undefined.");
     }
