@@ -99,7 +99,14 @@ public class StructuredFieldIntroducer {
         throw new AFPParserException("Invalid SF length: " + sfi.sfLength + ". Minimum length is 8.");
       }
       if (totalRead < 8) {
-        throw new AFPParserException("Reached end of stream while parsing SFI header.");
+        String msg = switch (totalRead) {
+          case 2 -> "Reached end of stream while parsing SFTypeID class.";
+          case 3 -> "Reached end of stream while parsing SFTypeID type.";
+          case 4 -> "Reached end of stream while parsing SFTypeID category.";
+          case 5 -> "Reached end of stream while parsing SF flag byte.";
+          default -> "Reached end of stream while parsing SFI header.";
+        };
+        throw new AFPParserException(msg);
       }
 
       int sfClass = hdr[2] & 0xFF;
